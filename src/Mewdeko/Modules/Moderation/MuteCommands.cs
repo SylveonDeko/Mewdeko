@@ -27,11 +27,11 @@ public partial class Moderation
             return false;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
@@ -52,7 +52,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(0)]
         public async Task Stfu(IUser user, StoopidTime? time = null)
         {
@@ -79,7 +79,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task UnmuteAll([Remainder] string? reason = null)
         {
@@ -160,7 +160,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers)]
         public async Task Unstfu(IUser user)
         {
@@ -170,7 +170,7 @@ public partial class Moderation
             await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
 #pragma warning disable 108,114
         public async Task MuteRole([Remainder] IRole? role = null)
@@ -195,7 +195,7 @@ public partial class Moderation
             await ReplyConfirmLocalizedAsync("mute_role_set").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(0)]
         public async Task Mute(IGuildUser target, [Remainder] string reason = "")
         {
@@ -215,11 +215,11 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(2)]
         public async Task Mute(IGuildUser user, StoopidTime time, string reason = "") => await Mute(time, user, reason);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(1)]
         public async Task Mute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
@@ -241,7 +241,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
         public async Task Unmute(IGuildUser user, [Remainder] string reason = "")
         {
@@ -257,7 +257,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task ChatMute(IGuildUser user, [Remainder] string reason = "")
         {
@@ -277,7 +277,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task ChatUnmute(IGuildUser user, [Remainder] string reason = "")
         {
@@ -294,7 +294,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task VoiceMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
@@ -315,7 +315,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), Priority(1)]
         public async Task ChatMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
@@ -337,7 +337,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task VoiceMute(IGuildUser user, [Remainder] string reason = "")
         {
@@ -356,7 +356,7 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers)]
         public async Task VoiceUnmute(IGuildUser user, [Remainder] string reason = "")
         {

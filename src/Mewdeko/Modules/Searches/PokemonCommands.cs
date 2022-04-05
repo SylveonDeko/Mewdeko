@@ -16,7 +16,7 @@ public partial class Searches
     {
         private readonly PokeApiClient _pokeClient = new();
 
-        [MewdekoCommand]
+        [Cmd, Aliases]
         public async Task Pokemon([Remainder] string name)
         {
             var isShiny = false;

@@ -16,7 +16,7 @@ public partial class Administration
     [Group]
     public class ProtectionCommands : MewdekoSubmodule<ProtectionService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt()
         {
@@ -29,7 +29,7 @@ public partial class Administration
             await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Alt");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
             [Remainder] StoopidTime? punishTime = null)
@@ -46,7 +46,7 @@ public partial class Administration
             await ctx.OkAsync();
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Remainder] IRole role)
         {
@@ -60,7 +60,7 @@ public partial class Administration
             await ctx.OkAsync();
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public Task AntiRaid()
         {
@@ -69,13 +69,13 @@ public partial class Administration
             return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public Task AntiRaid(int userThreshold, int seconds,
             PunishmentAction action, [Remainder] StoopidTime punishTime) =>
             InternalAntiRaid(userThreshold, seconds, action, punishTime);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
         public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => InternalAntiRaid(userThreshold, seconds, action);
 
@@ -118,7 +118,7 @@ public partial class Administration
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public Task AntiSpam()
         {
@@ -127,7 +127,7 @@ public partial class Administration
             return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
         {
@@ -137,11 +137,11 @@ public partial class Administration
             return InternalAntiSpam(messageCount, action, null, role);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) => InternalAntiSpam(messageCount, action, punishTime);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
         public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
 
@@ -166,7 +166,7 @@ public partial class Administration
                 $"{ctx.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AntispamIgnore()
         {
@@ -182,7 +182,7 @@ public partial class Administration
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AntiList()
         {
             var (spam, raid, alt) = Service.GetAntiStats(ctx.Guild.Id);

@@ -21,7 +21,7 @@ public partial class Administration
             Disable
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task LogServer(PermissionAction action)
         {
@@ -32,7 +32,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogServer(ITextChannel channel, PermissionAction action)
         {
@@ -44,7 +44,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task LogIgnore()
         {
@@ -60,7 +60,7 @@ public partial class Administration
                     Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogIgnore(ITextChannel channel)
         {
@@ -74,7 +74,7 @@ public partial class Administration
                     Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
         public async Task LogIgnore(IVoiceChannel channel)
         {
@@ -88,7 +88,7 @@ public partial class Administration
                     Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task LogEvents()
         {
@@ -126,7 +126,7 @@ public partial class Administration
                 _ => null
             };
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Log(LogType type)
         {
@@ -138,7 +138,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_stop", Format.Bold(type.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task Log(LogType type, ITextChannel channel)
         {

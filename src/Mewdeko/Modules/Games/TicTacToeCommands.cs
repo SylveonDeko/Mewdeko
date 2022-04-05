@@ -19,7 +19,7 @@ public partial class Games
 
         public TicTacToeCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(TicTacToe.Options))]
         public async Task TicTacToe(params string[] args)
         {

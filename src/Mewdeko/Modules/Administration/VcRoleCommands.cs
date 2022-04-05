@@ -13,7 +13,7 @@ public partial class Administration
     [Group]
     public class VcRoleCommands : MewdekoSubmodule<VcRoleService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRoleRm(ulong vcId)
         {
@@ -24,7 +24,7 @@ public partial class Administration
                 await ReplyErrorLocalizedAsync("vcrole_not_found").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole(SocketGuildChannel vchan, [Remainder] IRole? role = null)
         {
@@ -50,7 +50,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole([Remainder] IRole? role = null)
         {
@@ -77,7 +77,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task VcRoleList()
         {
             var guild = (SocketGuild) ctx.Guild;

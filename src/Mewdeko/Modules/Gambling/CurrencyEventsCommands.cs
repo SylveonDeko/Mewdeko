@@ -24,7 +24,7 @@ public partial class Gambling
         {
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptionsAttribute(typeof(EventOptions)), OwnerOnly]
         public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
         {

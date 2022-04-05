@@ -10,18 +10,15 @@ namespace Mewdeko.Modules.Permissions;
 
 public partial class Permissions
 {
-    [Group]
-    public class GlobalPermissionCommands : MewdekoSubmodule
+    [Group, OwnerOnly]
+    public class GlobalPermissionCommands : MewdekoSubmodule<GlobalPermissionService>
     {
-        private readonly GlobalPermissionService _service;
 
-        public GlobalPermissionCommands(GlobalPermissionService service) => _service = service;
-
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public async Task GlobalPermList()
         {
-            var blockedModule = _service.BlockedModules;
-            var blockedCommands = _service.BlockedCommands;
+            var blockedModule = Service.BlockedModules;
+            var blockedCommands = Service.BlockedCommands;
             if (!blockedModule.Any() && !blockedCommands.Any())
             {
                 await ReplyErrorLocalizedAsync("lgp_none").ConfigureAwait(false);
@@ -33,24 +30,31 @@ public partial class Permissions
             if (blockedModule.Any())
                 embed.AddField(efb => efb
                     .WithName(GetText("blocked_modules"))
-                    .WithValue(string.Join("\n", _service.BlockedModules))
+                    .WithValue(string.Join("\n", Service.BlockedModules))
                     .WithIsInline(false));
 
             if (blockedCommands.Any())
                 embed.AddField(efb => efb
                     .WithName(GetText("blocked_commands"))
-                    .WithValue(string.Join("\n", _service.BlockedCommands))
+                    .WithValue(string.Join("\n", Service.BlockedCommands))
                     .WithIsInline(false));
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        
+        [Cmd, Aliases]
+        public async Task ResetGlobalPerms()
+        {
+            await Service.Reset();
+            await ReplyConfirmLocalizedAsync("global_perms_reset").ConfigureAwait(false);
+        }
+        
+        [Cmd, Aliases]
         public async Task GlobalModule(ModuleOrCrInfo module)
         {
             var moduleName = module.Name.ToLowerInvariant();
 
-            var added = _service.ToggleModule(moduleName);
+            var added = Service.ToggleModule(moduleName);
 
             if (added)
             {
@@ -61,11 +65,11 @@ public partial class Permissions
             await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public async Task GlobalCommand(CommandOrCrInfo cmd)
         {
             var commandName = cmd.Name.ToLowerInvariant();
-            var added = _service.ToggleCommand(commandName);
+            var added = Service.ToggleCommand(commandName);
 
             if (added)
             {

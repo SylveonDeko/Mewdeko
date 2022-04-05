@@ -15,7 +15,7 @@ public partial class Moderation
     {
         private static readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Purge(string? parameter = null)
         {
@@ -32,7 +32,7 @@ public partial class Moderation
         }
 
         // Purge x
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
         public async Task Purge(int count, string? parameter = null, string? input = null)
         {
@@ -113,12 +113,12 @@ public partial class Moderation
         }
 
         //Purge @user [x]
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
         public Task Purge(IGuildUser user, int count = 100, string? parameter = null) => Purge(user.Id, count, parameter);
 
         //Purge userid [x]
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
         public async Task Purge(ulong userId, int count = 100, string? parameter = null)
         {

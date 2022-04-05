@@ -14,7 +14,7 @@ public partial class Searches
 
         public ActionCommands(NekosBestApi nekosBestApi) => _nekosBestApi = nekosBestApi;
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Shoot(string toShow)
         {
             var shootarray = new List<string>
@@ -44,7 +44,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description]
+        [Cmd, Aliases]
         public async Task Hug([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Hug();
@@ -53,7 +53,7 @@ public partial class Searches
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Kiss([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Kiss();
@@ -61,7 +61,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Pat([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Pat();
@@ -69,7 +69,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Tickle([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Tickle();
@@ -77,7 +77,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Slap([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Slap();
@@ -85,7 +85,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Cuddle([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Cuddle();
@@ -93,7 +93,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Poke([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Poke();
@@ -101,7 +101,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Feed([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Feed();
@@ -109,7 +109,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Baka([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Baka();
@@ -117,7 +117,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Bite([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Bite();
@@ -125,7 +125,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Blush([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Blush();
@@ -133,7 +133,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Bored([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Bored();
@@ -141,7 +141,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Cry([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Cry();
@@ -149,7 +149,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Dance([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Dance();
@@ -157,7 +157,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Facepalm([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Facepalm();
@@ -165,7 +165,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Happy([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Happy();
@@ -173,7 +173,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task HighFive([Remainder] string toShow)
         {
             var req = await _nekosBestApi.ActionsApi.Highfive();
@@ -181,7 +181,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Laugh([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Laugh();
@@ -189,7 +189,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Pout([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Pout();
@@ -197,7 +197,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Shrug([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Shrug();
@@ -205,7 +205,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Sleep([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Sleep();
@@ -213,7 +213,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Smile([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Smile();
@@ -221,7 +221,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Smug([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Smug();
@@ -229,7 +229,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Stare([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Stare();
@@ -237,7 +237,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Think([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Think();
@@ -245,7 +245,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task ThumbsUp([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Thumbsup();
@@ -253,7 +253,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Wave([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Wave();
@@ -261,7 +261,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Wink([Remainder] string toShow = null)
         {
             var req = await _nekosBestApi.ActionsApi.Wink();

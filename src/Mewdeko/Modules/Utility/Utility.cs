@@ -43,7 +43,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         _tracker = tracker;
     }
 
-    [MewdekoCommand, Usage, Description, Alias]
+    [Cmd, Aliases]
     public async Task EmoteList([Remainder] string? emotetype = null)
     {
         var emotes = emotetype switch
@@ -107,7 +107,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     //
     // }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
@@ -119,7 +119,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task TestSite(string url)
     {
         using var client = new HttpClient();
@@ -133,7 +133,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendConfirmAsync("Sites ok m8");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task ReactChannel(ITextChannel? chan = null)
     {
         var e = Service.GetReactChans(ctx.Guild.Id);
@@ -167,7 +167,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
     public async Task SnipeSet(string yesnt)
     {
@@ -176,7 +176,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Snipe()
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -213,7 +213,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(int amount = 5)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -261,7 +261,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(int amount = 5)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -309,7 +309,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Snipe(IUser user1)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -342,7 +342,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task VCheck([Remainder] string? url = null)
     {
         if (string.IsNullOrWhiteSpace(url))
@@ -361,7 +361,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -395,7 +395,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan, IUser user1)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -432,7 +432,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
     public async Task PreviewLinks(string yesnt)
     {
@@ -449,7 +449,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipe()
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -490,7 +490,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(IUser user1)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -531,7 +531,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -572,7 +572,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan, IUser user1)
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -614,7 +614,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task WhosPlaying([Remainder] string? game)
     {
         game = game?.Trim().ToUpperInvariant();
@@ -644,13 +644,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 .ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Vote() =>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                        .WithDescription(
                                                            "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRole([Remainder] IRole role)
     {
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -685,7 +685,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRoles(IRole role, IRole role2)
     {
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -718,7 +718,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UserId([Remainder] IGuildUser? target = null)
     {
         var usr = target ?? ctx.User;
@@ -726,22 +726,22 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             Format.Code(usr.Id.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleId([Remainder] IRole role) =>
         await ReplyConfirmLocalizedAsync("roleid", "🆔", Format.Bold(role.ToString()),
             Format.Code(role.Id.ToString())).ConfigureAwait(false);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task ChannelId() =>
         await ReplyConfirmLocalizedAsync("channelid", "🆔", Format.Code(ctx.Channel.Id.ToString()))
             .ConfigureAwait(false);
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ServerId() =>
         await ReplyConfirmLocalizedAsync("serverid", "🆔", Format.Code(ctx.Guild.Id.ToString()))
             .ConfigureAwait(false);
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Roles(IGuildUser? target, int page = 1)
     {
         var channel = (ITextChannel)ctx.Channel;
@@ -775,10 +775,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public Task Roles(int page = 1) => Roles(null, page);
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChannelTopic([Remainder] ITextChannel? channel = null)
     {
         channel ??= (ITextChannel)ctx.Channel;
@@ -790,7 +790,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendConfirmAsync(GetText("channel_topic"), topic).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Stats()
     {
         var user = await _client.Rest.GetUserAsync(280835732728184843);
@@ -813,7 +813,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                  .ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
@@ -827,7 +827,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
 
-    [MewdekoCommand, Usage, Description, Aliases, Ratelimit(30)]
+    [Cmd, Ratelimit(30)]
     public async Task Ping()
     {
         await _sem.WaitAsync(5000).ConfigureAwait(false);
@@ -849,7 +849,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Roll([Remainder] string roll)
     {
         var result = new RollResult();
@@ -891,7 +891,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
 
     }
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task OwoIfy([Remainder] string input)
         => await ctx.Channel.SendMessageAsync(OWOServices.OWOIfy(input).SanitizeMentions(true));
 }

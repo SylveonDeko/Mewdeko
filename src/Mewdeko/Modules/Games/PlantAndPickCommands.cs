@@ -26,7 +26,7 @@ public partial class Games
             _logService = logService;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Pick(string? pass = null)
         {
             if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
@@ -52,7 +52,7 @@ public partial class Games
                 }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Plant(int amount = 1, string? pass = null)
         {
             if (amount < 1)
@@ -75,8 +75,7 @@ public partial class Games
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
 #if GLOBAL_Mewdeko
             [OwnerOnly]
 #endif
@@ -89,7 +88,7 @@ public partial class Games
                 await ReplyConfirmLocalizedAsync("curgen_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), OwnerOnly]
         public async Task GenCurList()
         {

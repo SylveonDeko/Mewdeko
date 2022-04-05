@@ -19,13 +19,13 @@ public partial class Games
 
         public HangmanCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangmanlist() =>
             await ctx.Channel
                      .SendConfirmAsync(
                          $"{Format.Code(GetText("hangman_types", Prefix))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
         {
             Hangman hm;
@@ -123,7 +123,7 @@ public partial class Games
                 $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task HangmanStop()
         {
             if (Service.HangmanGames.TryRemove(ctx.Channel.Id, out var removed))

@@ -23,7 +23,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         _client = client;
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
+    [Cmd, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -95,7 +95,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Guild.DownloadUsersAsync();
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
+    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -113,7 +113,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             $"Your current Afk Mention Message will delete after {Service.GetAfkDel(ctx.Guild.Id)}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
+    [Cmd, Aliases, Priority(1)]
     public async Task AfkDel(int num)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -136,7 +136,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
+    [Cmd, Aliases, Priority(0)]
     public async Task TimedAfk(StoopidTime time, [Remainder] string message)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -159,7 +159,7 @@ public class Afk : MewdekoModuleBase<AfkService>
                 $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CustomAfkMessage([Remainder] string embedCode)
     {
         if (embedCode == "-")
@@ -172,7 +172,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated afk message!");
     }
 
-    [Priority(0), MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases, Priority(0)]
     public async Task GetActiveAfks()
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -206,7 +206,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [Priority(0), MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -224,7 +224,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
-    [Priority(0), MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, Aliases, Priority(0),  UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -262,7 +262,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -282,7 +282,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(string ehm)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -314,7 +314,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(int ehm)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -339,7 +339,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -357,7 +357,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -401,7 +401,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -456,7 +456,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -487,7 +487,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"AFK Message for {users} users has been disabled!");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task AfkRemove(IGuildUser user)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")

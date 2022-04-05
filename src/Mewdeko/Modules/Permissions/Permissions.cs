@@ -25,14 +25,22 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
-
+    
     public Permissions(DbService db, InteractiveService inter)
     {
         _interactivity = inter;
         _db = db;
+    }   
+    
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
+    public async Task ResetPerms()
+    {
+        await Service.Reset(ctx.Guild.Id).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction? action = null)
     {
         await using (var uow = _db.GetDbContext())
@@ -50,7 +58,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             await ReplyConfirmLocalizedAsync("verbose_false").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), Priority(0)]
     public async Task PermRole([Remainder] IRole? role = null)
     {
@@ -80,7 +88,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
     {
@@ -95,7 +103,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ListPerms()
     {
         IList<Permissionv2> perms;
@@ -127,7 +135,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RemovePerm(int index)
     {
         index -= 1;
@@ -157,7 +165,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task MovePerm(int from, int to)
     {
         from -= 1;
@@ -208,7 +216,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         await ReplyErrorLocalizedAsync("perm_out_of_range").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -231,7 +239,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 GetText("of_command")).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -253,7 +261,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 GetText("of_module")).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -278,7 +286,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(user.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -302,7 +310,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(user.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IRole role)
     {
         if (role == role.Guild.EveryoneRole)
@@ -330,7 +338,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(role.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IRole role)
     {
         if (role == role.Guild.EveryoneRole)
@@ -358,7 +366,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(role.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -383,7 +391,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -407,7 +415,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -427,7 +435,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -452,7 +460,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -476,7 +484,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllCatMdls(PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -496,7 +504,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(chnl.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
     {
         if (role == role.Guild.EveryoneRole)
@@ -519,7 +527,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(role.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
@@ -539,7 +547,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 Format.Code(user.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllSrvrMdls(PermissionAction action)
     {
         var newPerm = new Permissionv2

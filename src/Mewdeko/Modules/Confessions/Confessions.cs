@@ -15,7 +15,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     public Confessions(Mewdeko bot) 
         => _bot = bot;
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
+    [Cmd, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
     public async Task Confess(ulong serverId, string? confession = null)
     {
         var gc = _bot.GetGuildConfig(serverId);
@@ -48,7 +48,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         }
     }
 
-    [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -69,7 +69,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         await ctx.Channel.SendConfirmAsync($"Set {channel.Mention} as the Confession Channel!");
     }
 
-    [MewdekoCommand, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -90,7 +90,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         await ctx.Channel.SendErrorAsync($"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***");
     }
 
-    [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -107,7 +107,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         }
     }
     
-    [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");

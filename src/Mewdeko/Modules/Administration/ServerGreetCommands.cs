@@ -16,7 +16,7 @@ public partial class Administration
 
         public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
         
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
         {
@@ -31,14 +31,14 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greetdel_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
         public Task BoostMsg()
         {
             var boostMessage = Service.GetBoostMessage(ctx.Guild.Id);
             return ReplyConfirmLocalizedAsync("boostmsg_cur", boostMessage.SanitizeMentions());
         }
 
-        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
         public async Task Boost()
         {
             var enabled = await Service.SetBoost(ctx.Guild.Id, ctx.Channel.Id);
@@ -49,7 +49,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("boost_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostDel(int timer = 30)
         {
             if (timer is < 0 or > 600)
@@ -66,7 +66,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("boostdel_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostMsg([Remainder] string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -83,7 +83,7 @@ public partial class Administration
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task Greet()
         {
@@ -95,7 +95,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greet_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetHook(ITextChannel? chan, string? name, string? image = null,
             string? text = null)
@@ -162,7 +162,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task LeaveHook(ITextChannel? chan, string? name, string? image = null,
             string? text = null)
@@ -229,15 +229,15 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetHook(string text) => await GreetHook(null, null, null, text);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task LeaveHook(string text) => await LeaveHook(null, null, null, text);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public Task GreetMsg()
         {
@@ -245,7 +245,7 @@ public partial class Administration
             return ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg.SanitizeMentions());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetMsg([Remainder] string text)
         {
@@ -262,7 +262,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDm()
         {
@@ -274,7 +274,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greetdm_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public Task GreetDmMsg()
         {
@@ -282,7 +282,7 @@ public partial class Administration
             return ReplyConfirmLocalizedAsync("greetdmmsg_cur", dmGreetMsg.SanitizeMentions());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDmMsg([Remainder] string? text = null)
         {
@@ -299,7 +299,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{Prefix}greetdm`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task Bye()
         {
@@ -311,7 +311,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("bye_off").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public Task ByeMsg()
         {
@@ -319,7 +319,7 @@ public partial class Administration
             return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg.SanitizeMentions());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task ByeMsg([Remainder] string text)
         {
@@ -336,7 +336,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task ByeDel(int timer = 30)
         {
@@ -349,7 +349,7 @@ public partial class Administration
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task ByeTest([Remainder] IGuildUser? user = null)
         {
@@ -360,7 +360,7 @@ public partial class Administration
             if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task BoostTest([Remainder] IGuildUser? user = null)
         {
@@ -371,7 +371,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("boostmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetTest([Remainder] IGuildUser? user = null)
         {
@@ -383,7 +383,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetDmTest([Remainder] IGuildUser? user = null)
         {

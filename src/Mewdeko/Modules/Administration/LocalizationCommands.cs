@@ -45,7 +45,7 @@ public partial class Administration
                 {"uk-UA", "Українська, Україна"}
             };
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LanguageSet(string name)
         {
@@ -72,14 +72,14 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task LanguageSetDefault()
         {
             var cul = Localization.DefaultCultureInfo;
             await ReplyConfirmLocalizedAsync("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases, OwnerOnly]
         public async Task LanguageSetDefault(string name)
         {
             try
@@ -105,7 +105,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task LanguagesList() =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .WithTitle(GetText("lang_list"))

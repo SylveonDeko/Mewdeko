@@ -17,7 +17,7 @@ public partial class Suggestions
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -31,7 +31,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MinSuggestionLength(int length)
         {
             if (length >= 2048)
@@ -44,7 +44,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync($"Minimum length set to {length} characters!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MaxSuggestionLength(int length)
         {
             if (length <= 0)
@@ -57,7 +57,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync($"Max length set to {length} characters!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AcceptMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -71,7 +71,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated accpeted suggestion message!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ImplementMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -85,21 +85,21 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
         }
 
-        // [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        // [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         // public async Task SuggestThreads(bool enabled)
         // {
         //     await Service.SetSuggestThreads(ctx.Guild, enabled);
         //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads to `{enabled}`");
         // }
         //
-        // [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        // [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         // public async Task SuggestThreadsType(SuggestThreadType type)
         // {
         //     await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
         //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
         // }
         
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -113,7 +113,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated denied suggestion message!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ConsiderMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -127,7 +127,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestMotes([Remainder] string? _ = null)
         {
             if (_ == null)
