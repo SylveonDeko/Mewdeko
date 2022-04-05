@@ -71,74 +71,63 @@ public class CommandHandler : INService
     
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public static async Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
+    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
     {
-        if (!result.IsSuccess)
+        _ = Task.Run(async () =>
         {
-            await ctx.Interaction.SendEphemeralErrorAsync(
-                $"Command failed for the following reason:\n{result.ErrorReason}");
-            Log.Warning("Slash Command Errored\n\t" +
-                        "User: {0}\n\t" +
-                        "Server: {1}\n\t" +
-                        "Channel: {2}\n\t" +
-                        "Message: {3}\n\t" +
-                        "Error: {4}",
+            if (!result.IsSuccess)
+            {
+                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}");
+                Log.Warning("Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
+                    $"{ctx.User} [{ctx.User.Id}]", // {0}
+                    ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                    ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                    info.MethodName, result.ErrorReason);
+                return;
+            }
+
+            var chan = ctx.Channel as ITextChannel;
+            Log.Information("Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Module: {3}\n\t" + "Command: {4}",
                 $"{ctx.User} [{ctx.User.Id}]", // {0}
-                ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
-                ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
-                info.MethodName,
-                result.ErrorReason);
-            return;
-        }
-        var chan = ctx.Channel as ITextChannel;
-        Log.Information(
-            "Slash Command Executed"
-            + "\n\t"
-            + "User: {0}\n\t"
-            + "Server: {1}\n\t"
-            + "Channel: {2}\n\t"
-            + "Module: {3}\n\t"
-            + "Command: {4}", $"{ctx.User} [{ctx.User.Id}]", // {0}
-            chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
-            chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
-            info.Module.SlashGroupName, info.MethodName); // {3}
+                chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
+                chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
+                info.Module.SlashGroupName, info.MethodName); // {3}
+        });
+        return Task.CompletedTask;
     }
-    private static async Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
+    private static Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
-        if (!result.IsSuccess)
+        _ = Task.Run(async () =>
         {
-            await ctx.Interaction.SendEphemeralErrorAsync(
-                $"Command failed for the following reason:\n{result.ErrorReason}");
-            Log.Warning("Slash Command Errored\n\t" +
-                        "User: {0}\n\t" +
-                        "Server: {1}\n\t" +
-                        "Channel: {2}\n\t" +
-                        "Message: {3}\n\t" +
-                        "Error: {4}",
+            if (!result.IsSuccess)
+            {
+                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}");
+                Log.Warning("Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
+                    $"{ctx.User} [{ctx.User.Id}]", // {0}
+                    ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                    ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                    slashInfo.MethodName, result.ErrorReason);
+                return;
+            }
+
+            var chan = ctx.Channel as ITextChannel;
+            Log.Information("Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Module: {3}\n\t" + "Command: {4}",
                 $"{ctx.User} [{ctx.User.Id}]", // {0}
-                ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
-                ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
-                slashInfo.MethodName,
-                result.ErrorReason);
-            return;
-        }
-        var chan = ctx.Channel as ITextChannel;
-            Log.Information(
-                "Slash Command Executed"
-                + "\n\t"
-                + "User: {0}\n\t"
-                + "Server: {1}\n\t"
-                + "Channel: {2}\n\t"
-                + "Module: {3}\n\t"
-                + "Command: {4}", $"{ctx.User} [{ctx.User.Id}]", // {0}
                 chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
+        });
+        return Task.CompletedTask;
     }
-    private async Task TryRunInteraction(SocketInteraction interaction) 
+    private Task TryRunInteraction(SocketInteraction interaction)
     {
-        var ctx = new SocketInteractionContext(_client, interaction);
-        await InteractionService.ExecuteCommandAsync(ctx, _services);
+        
+        _ = Task.Run(async () =>
+        {
+            var ctx = new SocketInteractionContext(_client, interaction);
+            await InteractionService.ExecuteCommandAsync(ctx, _services);
+        });
+        return Task.CompletedTask;
     }
 
     public string GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
