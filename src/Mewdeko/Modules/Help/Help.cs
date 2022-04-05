@@ -69,7 +69,7 @@ public class Help : MewdekoModuleBase<HelpService>
     }
 
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
     {
         var cmds = _cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
@@ -96,7 +96,7 @@ public class Help : MewdekoModuleBase<HelpService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Modules()
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
@@ -104,12 +104,12 @@ public class Help : MewdekoModuleBase<HelpService>
         await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
             "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
 
-    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(CommandsOptions))]
+    [Cmd, Aliases, MewdekoOptions(typeof(CommandsOptions))]
     public async Task Commands([Remainder] string? module = null)
     {
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
@@ -195,7 +195,7 @@ public class Help : MewdekoModuleBase<HelpService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
+    [Cmd, Aliases, Priority(0)]
     public async Task H([Remainder] string fail)
     {
         var prefixless =
@@ -209,7 +209,7 @@ public class Help : MewdekoModuleBase<HelpService>
         await ReplyErrorLocalizedAsync("command_not_found").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
+    [Cmd, Aliases, Priority(1)]
     public async Task H([Remainder] CommandInfo? com = null)
     {
         var channel = ctx.Channel;
@@ -224,7 +224,7 @@ public class Help : MewdekoModuleBase<HelpService>
         await channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+    [Cmd, Aliases, OwnerOnly]
     public async Task GenCmdList([Remainder] string? path = null)
     {
         _ = ctx.Channel.TriggerTypingAsync();
@@ -293,7 +293,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
 }
 
