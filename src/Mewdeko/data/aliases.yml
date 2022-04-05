@@ -8,6 +8,10 @@ invite:
   - invite
 testsite:
   - testsite
+movesong:
+  - movesong
+  - ms
+  - move
 reactchannel:
   - reactchannel
 xpsetting:
@@ -1086,7 +1090,6 @@ volume:
 join:
   - join
   - j
-  - move
   - mv
 songremove:
   - songremove
@@ -1757,9 +1760,6 @@ nsfwtoggle:
   - nsfwtgl
 economy:
   - economy
-roll:
-  - roll
-  - rl
 owoify:
   - owoify
   - owo

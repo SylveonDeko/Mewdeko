@@ -104,7 +104,7 @@ public class Help : MewdekoModuleBase<HelpService>
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
         embed.AddField("Getting Started", "https://mewdeko.tech/getting-started");
-        embed.WithColor(Mewdeko.OkColor);
+        embed.WithOkColor();
         embed.WithDescription(
             $"\nDo `{Prefix}help command` to see a description of a command you need more info on!" + 
             $"\nDo `{Prefix}cmds category` to see the commands in that module.");
@@ -115,9 +115,17 @@ public class Help : MewdekoModuleBase<HelpService>
         }
         embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-        
-        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.Builder.Build());
-        await Service.AddUser(ctx.Message, DateTime.UtcNow);
+
+        try
+        {
+            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
     }
     
     [MewdekoCommand, Usage, Description, Aliases]

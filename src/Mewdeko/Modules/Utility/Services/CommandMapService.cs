@@ -6,6 +6,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using System;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -52,7 +53,7 @@ public class CommandMapService : IInputTransformer, INService
                 {
                     string newInput;
                     if (input.StartsWith($"{k} ", StringComparison.InvariantCultureIgnoreCase))
-                        newInput = maps[k] + input.Substring(k.Length, input.Length - k.Length);
+                        newInput = string.Concat(maps[k], input.AsSpan(k.Length, input.Length - k.Length));
                     else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
                         newInput = maps[k];
                     else

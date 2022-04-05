@@ -20,6 +20,17 @@ public class GuildConfig : DbEntity
     public bool StarboardRemoveOnReactionsClear = false;
     public bool StarboardRemoveOnBelowThreshold = true;
     
+    public bool SuggestionThreads = false;
+    public int SuggestionThreadType = 0;
+    public bool ArchiveOnDeny = false;
+    public bool ArchiveOnAccept = false;
+    public bool ArchiveOnConsider = false;
+    public bool ArchiveOnImplement = false;
+    public string SuggestButtonMessage = "-";
+    public string SuggestButtonName = "-";
+    public string SuggestButtonEmote = "-";
+    public int ButtonRepostThreshold = 5;
+    public int SuggestCommandsType = 0; 
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;

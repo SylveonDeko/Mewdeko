@@ -453,15 +453,21 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await Context.Channel.TriggerTypingAsync();
 
         var socketGuild = (SocketGuild) ctx.Guild;
-        var allUsers = new List<UserXpStats>();
+        List<UserXpStats> allUsers;
         if (opts.Clean)
         {
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
-            allUsers = Service.GetTopUserXps(ctx.Guild.Id, 1000)
+            allUsers = Service.GetTopUserXps(ctx.Guild.Id)
                 .Where(user => socketGuild.GetUser(user.UserId) is not null)
                 .ToList();
+        }
+        else
+        {
+            await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
+            allUsers = Service.GetTopUserXps(ctx.Guild.Id).ToList();
         }
 
         var paginator = new LazyPaginatorBuilder()

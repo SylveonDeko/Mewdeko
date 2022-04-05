@@ -379,16 +379,15 @@ public class StarboardService : INService, IReadyExecutor
 
     }
 
-    private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message,
-        Cacheable<IMessageChannel, ulong> channel,
-        SocketReaction reaction) =>
+    private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
+    {
         _ = Task.Run(async () =>
         {
 
             if (!reaction.User.IsSpecified
-                || reaction.User.Value.IsBot 
-                || !channel.HasValue 
-                || channel.Value is not ITextChannel textChannel 
+                || reaction.User.Value.IsBot
+                || !channel.HasValue
+                || channel.Value is not ITextChannel textChannel
                 || GetStarCount(textChannel.GuildId) == 0)
                 return;
             IUserMessage newMessage;
@@ -399,15 +398,15 @@ public class StarboardService : INService, IReadyExecutor
             var star = GetStar(textChannel.GuildId).ToIEmote();
             if (star.Name == null)
                 return;
-        
+
             if (!Equals(reaction.Emote, star))
                 return;
-        
+
             var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
-        
+
             if (starboardChannelSetting == 0)
                 return;
-        
+
             var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
 
             if (starboardChannel == null)
@@ -424,11 +423,12 @@ public class StarboardService : INService, IReadyExecutor
                 if (!checkedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
                     return;
             }
+
             var botPerms = gUser.GetPermissions(starboardChannel);
-        
+
             if (!botPerms.Has(ChannelPermission.SendMessages))
                 return;
-        
+
             string content;
             string imageurl;
             switch (newMessage.Author.IsBot)
@@ -437,7 +437,9 @@ public class StarboardService : INService, IReadyExecutor
                     return;
                 case true:
                     content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
-                    imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                    imageurl = newMessage.Attachments.Any()
+                        ? newMessage.Attachments.FirstOrDefault().ProxyUrl
+                        : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
                     break;
                 default:
                     content = newMessage.Content;
@@ -476,10 +478,8 @@ public class StarboardService : INService, IReadyExecutor
                     if (post is not null)
                     {
                         var post2 = post as IUserMessage;
-                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                    .WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                    .WithFooter(message.Id.ToString())
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
@@ -499,14 +499,13 @@ public class StarboardService : INService, IReadyExecutor
                             {
                                 await tryGetOldPost.DeleteAsync();
                             }
-                            catch 
+                            catch
                             {
                                 // ignored
                             }
-                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                    .WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                    .WithFooter(message.Id.ToString())
+
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
@@ -522,10 +521,9 @@ public class StarboardService : INService, IReadyExecutor
                     if (tryGetOldPost is not null)
                     {
                         var toModify = tryGetOldPost as IUserMessage;
-                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                    .WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                    .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
 
@@ -537,20 +535,20 @@ public class StarboardService : INService, IReadyExecutor
                     }
                     else
                     {
-                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                    .WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                    .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync(
-                            $"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
                         await AddStarboardPost(message.Id, msg1.Id);
                     }
                 }
             }
         });
+        return Task.CompletedTask;
+    }
 
     private async Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {

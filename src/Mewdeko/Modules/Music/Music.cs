@@ -79,6 +79,18 @@ public class Music : MewdekoModuleBase<MusicService>
     }
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    public async Task MoveSong(int index, int newIndex)
+    {
+        if (await Service.MoveSong(ctx.Guild.Id, index, newIndex))
+        {
+            await ctx.Channel.SendConfirmAsync($"Sucessfully moved track {index} to {newIndex}!");
+        }
+        else
+        {
+            await ctx.Channel.SendErrorAsync("That track was not found.");
+        }
+    }
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Playlists()
     {
         var plists = Service.GetPlaylists(ctx.User);

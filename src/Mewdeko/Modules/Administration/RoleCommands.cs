@@ -65,7 +65,7 @@ public partial class Administration
                     if (role.Position > Extensions.Extensions.GetRoles(((IGuildUser) ctx.User)).Select(r => r.Position).Max()
                         && ctx.User.Id != ctx.Guild.OwnerId)
                         return null;
-                    var emote = Extensions.Extensions.ToIEmote(x.Last());
+                    var emote = x.Last().ToIEmote();
                     return new {role, emote};
                 })
                 .Where(x => x != null);
@@ -116,6 +116,10 @@ public partial class Administration
         [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) => InternalReactionRoles(true, messageId, input);
+        
+        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
+         BotPerm(GuildPermission.ManageRoles), Priority(1)]
+        public Task ReactionRoles(Exclude _, ulong messageId, params string[] input) => InternalReactionRoles(true, messageId, input);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]

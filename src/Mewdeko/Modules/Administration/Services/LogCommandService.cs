@@ -472,7 +472,7 @@ public class LogCommandService : INService
 
     private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {

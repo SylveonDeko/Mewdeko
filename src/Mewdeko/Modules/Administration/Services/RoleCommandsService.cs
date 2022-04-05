@@ -124,18 +124,19 @@ public class RoleCommandsService : INService
         {
             try
             {
+                
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)
                     return;
-
+            
                 if (chan.Value is not SocketGuildChannel gch)
                     return;
 
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
-
-                var conf = confs.FirstOrDefault(x => x.MessageId == msg.Id);
+                var message = await msg.GetOrDownloadAsync();
+                var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
 
                 if (conf == null)
                     return;

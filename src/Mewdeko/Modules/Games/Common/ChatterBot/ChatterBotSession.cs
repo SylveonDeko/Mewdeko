@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot;
 
 public class ChatterBotSession : IChatterBotSession
 {
-    private readonly int _botId = 6;
+    private const int BOT_ID = 6;
 
     private readonly string _chatterBotId;
     private readonly IHttpClientFactory _httpFactory;
@@ -21,7 +21,7 @@ public class ChatterBotSession : IChatterBotSession
     private static MewdekoRandom Rng { get; } = new();
 
     private string ApiEndpoint =>
-        $"http://api.program-o.com/v2/chatbot/?bot_id={_botId}&say={{0}}&convo_id=Mewdeko_{_chatterBotId}&format=json";
+        $"https://api.program-o.com/v2/chatbot/?bot_id={BOT_ID}&say={{0}}&convo_id=Mewdeko_{_chatterBotId}&format=json";
 
     public async Task<string> Think(string message)
     {
