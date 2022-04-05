@@ -67,7 +67,8 @@ public class Help : MewdekoModuleBase<HelpService>
         return (plainText, eb);
 
     }
-    
+
+
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task SearchCommand(string commandname)
     {
@@ -98,36 +99,11 @@ public class Help : MewdekoModuleBase<HelpService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Modules()
     {
-        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
-        var count = 0;
-        var embed = new EmbedBuilder();
-        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
-            .WithName("Mewdeko Help Menu"));
-        embed.AddField("Getting Started", "https://mewdeko.tech/getting-started");
-        embed.WithOkColor();
-        embed.WithDescription(
-            $"\nDo `{Prefix}help command` to see a description of a command you need more info on!" + 
-            $"\nDo `{Prefix}cmds category` to see the commands in that module.");
-        foreach (var i in modules.Batch(modules.Count()/2))
-        {
-            embed.AddField(count == 0 ? "Categories" : "_ _", string.Join("\n", i.Select(x => $"> {Format.Bold(x.Name)}")), true);
-            count++;
-        }
-        embed.AddField(" Links",
-            "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-
-        try
-        {
-            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
         await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
+        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
-    
+
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
@@ -266,7 +242,7 @@ public class Help : MewdekoModuleBase<HelpService>
                     {
                         com.Module.GetTopLevelModule();
                         List<string> optHelpStr = null!;
-                        var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(attribute =>
+                        var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(attribute =>
                             attribute is MewdekoOptionsAttribute))?.OptionType;
                         if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
 
@@ -298,7 +274,7 @@ public class Help : MewdekoModuleBase<HelpService>
         // if all env vars are set, upload the unindented file (to save space) there
         if (!(serviceUrl is null || accessKey is null || secretAcccessKey is null))
         {
-            var config = new AmazonS3Config {ServiceURL = serviceUrl};
+            var config = new AmazonS3Config { ServiceURL = serviceUrl };
             using var client = new AmazonS3Client(accessKey, secretAcccessKey, config);
             await client.PutObjectAsync(new PutObjectRequest
             {
