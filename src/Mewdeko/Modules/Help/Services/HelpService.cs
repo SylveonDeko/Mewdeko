@@ -7,9 +7,11 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using MoreLinq;
 using System.Threading;
 
 namespace Mewdeko.Modules.Help.Services;
@@ -25,7 +27,9 @@ public class HelpService : ILateExecutor, INService
     private readonly BlacklistService _blacklistService;
     private readonly IBotStrings _strings;
     private readonly CommandService _cmds;
-    
+    private readonly GlobalPermissionService _perms;
+    private readonly PermissionService _nPerms;
+
     public HelpService(
         CommandHandler ch,
         IBotStrings strings,
@@ -33,31 +37,84 @@ public class HelpService : ILateExecutor, INService
         BotConfigService bss,
         DiscordSocketClient client,
         Mewdeko bot,
-        BlacklistService blacklistService, CommandService cmds)
+        BlacklistService blacklistService,
+        CommandService cmds,
+        GlobalPermissionService perms,
+        PermissionService nPerms)
     {
+        _dpos = dpos;
+        _strings = strings;
         _client = client;
         _bot = bot;
         _blacklistService = blacklistService;
         _cmds = cmds;
-        _ch = ch;
-        _strings = strings;
-        _dpos = dpos;
         _bss = bss;
+        _ch = ch;
         _client.MessageReceived += HandlePing;
         _client.JoinedGuild += HandleJoin;
+        _perms = perms;
+        _nPerms = nPerms;
         _ = ClearHelp();
     }
 
-    public ComponentBuilder GetHelpSelect(IGuild? guild)
+    public ComponentBuilder GetHelpSelect(IGuild? guild, bool descriptions = true)
     {
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var compBuilder = new ComponentBuilder();
         var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
         foreach (var i in modules)
         {
             selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
-        return new ComponentBuilder().WithSelectMenu(selMenu);
+
+        compBuilder.WithSelectMenu(selMenu);
+        compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions}");
+        return compBuilder;
     }
+
+    public EmbedBuilder GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
+    {
+        EmbedBuilder embed = new();
+        embed.WithTitle("Mewdeko Help");
+        embed.WithOkColor();
+        embed.WithDescription(
+            $"\nDo `{_ch.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
+            $"\nDo `{_ch.GetPrefix(guild)}cmds category` to see the commands in that module." +
+            "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
+            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
+        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var count = 0;
+        if (description)
+        {
+            foreach (var mod in modules)
+            {
+                embed.AddField($"{CheckEnabled(guild?.Id, channel, user, mod.Name)}{mod.Name}", $">>> {GetModuleDescription(mod.Name, guild)}", true);
+            }
+        }
+        else
+        {
+            foreach (var i in modules.Batch(modules.Count() / 2))
+            {
+                embed.AddField(count == 0 ? "Categories" : "_ _", string.Join("\n", i.Select(x => $"> {CheckEnabled(guild?.Id, channel, user, x.Name)} {Format.Bold(x.Name)}")), true);
+                count++;
+            }
+        }
+
+        return embed;
+    }
+
+    public string CheckEnabled(ulong? guildId, IMessageChannel channel, IUser user, string moduleName)
+    {
+        if (guildId is null)
+            return "✅";
+        var pc = _nPerms.GetCacheFor(guildId.Value);
+        if (!pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _)) return "❌";
+        return _perms.BlockedModules.Contains(moduleName.ToLower()) ? "❌" : "✅";
+    }
+
+
+    public string GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
+
     public record UMsg
     {
         public IUserMessage Msg { get; set; }
@@ -70,14 +127,14 @@ public class HelpService : ILateExecutor, INService
         if (tocheck is not null)
         {
             UsrMsg.Remove(tocheck);
-            UsrMsg.Add(new UMsg{Msg = msg, Time = time});
+            UsrMsg.Add(new UMsg { Msg = msg, Time = time });
             return Task.CompletedTask;
         }
-        UsrMsg.Add(new UMsg{Msg = msg, Time = time});
+        UsrMsg.Add(new UMsg { Msg = msg, Time = time });
         return Task.CompletedTask;
     }
 
-    public IUserMessage GetUserMessage(IUser user) => 
+    public IUserMessage GetUserMessage(IUser user) =>
         UsrMsg.FirstOrDefault(x => x.Msg.Author == user)?.Msg ?? null;
 
     public static async Task ClearHelp()

@@ -75,8 +75,8 @@ public class Mewdeko
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
     public List<GuildConfig> CachedGuildConfigs { get; private set; } = new();
-    
-    
+
+
     public static Color OkColor { get; set; }
     public static Color ErrorColor { get; set; }
 
@@ -173,7 +173,7 @@ public class Mewdeko
             s.AddSingleton<RemoteGrpcCoordinator>()
                 .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
                 .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
-        
+
         s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
                                   .AddClasses(classes => classes.AssignableToAny(
                                       // services
@@ -224,18 +224,18 @@ public class Mewdeko
         var toReturn = new List<object>();
         foreach (var ft in filteredTypes)
         {
-            var x = (TypeReader) Activator.CreateInstance(ft, Client, CommandService);
+            var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
             var baseType = ft.BaseType;
             var typeArgs = baseType?.GetGenericArguments();
             if (typeArgs != null) CommandService.AddTypeReader(typeArgs[0], x);
             toReturn.Add(x);
         }
-        
+
         CommandService.AddTypeReaders<IEmote>(
             new TryParseTypeReader<Emote>(Emote.TryParse),
             new TryParseTypeReader<Emoji>(Emoji.TryParse));
-        
-        
+
+
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
 
         return toReturn;
@@ -248,7 +248,7 @@ public class Mewdeko
 
         Task SetClientReady()
         {
-            var _ = Task.Run( () =>
+            var _ = Task.Run(() =>
             {
                 clientReady.TrySetResult(true);
             });
@@ -279,6 +279,10 @@ public class Mewdeko
         Client.JoinedGuild += Client_JoinedGuild;
         Client.LeftGuild += Client_LeftGuild;
         Log.Information("Shard {0} logged in.", Client.ShardId);
+
+#if !DEBUG
+        Client.Log -= Client_Log;
+#endif
     }
 
     private Task Client_LeftGuild(SocketGuild arg)
@@ -431,7 +435,7 @@ public class Mewdeko
         {
             try
             {
-                var obj = new {Name = default(string), Activity = ActivityType.Playing};
+                var obj = new { Name = default(string), Activity = ActivityType.Playing };
                 obj = JsonConvert.DeserializeAnonymousType(game, obj);
                 await Client.SetGameAsync(obj.Name, type: obj.Activity).ConfigureAwait(false);
             }
@@ -446,7 +450,7 @@ public class Mewdeko
         {
             try
             {
-                var obj = new {Name = "", Url = ""};
+                var obj = new { Name = "", Url = "" };
                 obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
                 await Client.SetGameAsync(obj?.Name, obj!.Url, ActivityType.Streaming).ConfigureAwait(false);
             }
@@ -459,7 +463,7 @@ public class Mewdeko
 
     public async Task SetGameAsync(string game, ActivityType type)
     {
-        var obj = new {Name = game, Activity = type};
+        var obj = new { Name = game, Activity = type };
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj));
     }
