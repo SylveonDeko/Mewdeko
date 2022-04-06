@@ -14,7 +14,6 @@ using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
-using MoreLinq;
 using Newtonsoft.Json;
 using Swan;
 using System.IO;
@@ -100,7 +99,7 @@ public class Help : MewdekoModuleBase<HelpService>
     public async Task Modules()
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
+        await Service.AddUser(ctx.Message, DateTime.UtcNow);
         await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
 

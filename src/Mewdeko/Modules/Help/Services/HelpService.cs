@@ -88,7 +88,7 @@ public class HelpService : ILateExecutor, INService
         {
             foreach (var mod in modules)
             {
-                embed.AddField($"{CheckEnabled(guild?.Id, channel, user, mod.Name)}{mod.Name}", $">>> {GetModuleDescription(mod.Name, guild)}", true);
+                embed.AddField($"{CheckEnabled(guild?.Id, channel, user, mod.Name)} {mod.Name}", $">>> {GetModuleDescription(mod.Name, guild)}", true);
             }
         }
         else
@@ -108,8 +108,8 @@ public class HelpService : ILateExecutor, INService
         if (guildId is null)
             return "✅";
         var pc = _nPerms.GetCacheFor(guildId.Value);
-        if (!pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _)) return "❌";
-        return _perms.BlockedModules.Contains(moduleName.ToLower()) ? "❌" : "✅";
+        if (_perms.BlockedModules.Contains(moduleName.ToLower())) return "🌐❌";
+        return !pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _) ? "❌" : "✅";
     }
 
 
@@ -121,7 +121,7 @@ public class HelpService : ILateExecutor, INService
         public DateTime Time { get; set; }
     }
 
-    public static Task AddUser(IUserMessage msg, DateTime time)
+    public Task AddUser(IUserMessage msg, DateTime time)
     {
         var tocheck = UsrMsg.FirstOrDefault(x => x.Msg == msg);
         if (tocheck is not null)
