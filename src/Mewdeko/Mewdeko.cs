@@ -67,7 +67,7 @@ public class Mewdeko
         CommandService = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
-            DefaultRunMode = RunMode.Async
+            DefaultRunMode = RunMode.Async,
         });
     }
 
@@ -188,9 +188,6 @@ public class Mewdeko
 
 
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
-
-        s.AddSingleton<IReadyExecutor>(x => x.GetService<OwnerOnlyService>());
-        s.AddSingleton<IReadyExecutor>(x => x.GetService<ChatTriggersService>());
         //initialize Services
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
@@ -237,7 +234,6 @@ public class Mewdeko
 
 
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
-
         return toReturn;
     }
 
