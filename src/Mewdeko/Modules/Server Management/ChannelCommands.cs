@@ -208,7 +208,7 @@ public partial class ServerManagement
             }
         }
 
-        [Cmd, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndTxtChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -226,7 +226,7 @@ public partial class ServerManagement
         }
 
 
-        [Cmd, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndVcChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -243,7 +243,7 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
-        [Cmd, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatVcChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -260,7 +260,7 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
-        [Cmd, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();

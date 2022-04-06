@@ -28,7 +28,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         Off
     }
     
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetAdd ([Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -45,7 +45,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         }
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove (int id)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
@@ -59,7 +59,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         await ctx.Channel.SendConfirmAsync("MultiGreet removed!");
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove ([Remainder]ITextChannel channel)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
@@ -113,7 +113,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetType(MultiGreetTypes types)
     {
         switch (types)
@@ -189,7 +189,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         }
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetMessage(int id, [Remainder]string? message = null)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
@@ -231,7 +231,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         await ctx.Channel.SendConfirmAsync($"MultiGreet Message for MultiGreet #{id} set!");
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetList()
     {
         var greets = Service.GetGreets(ctx.Guild.Id);

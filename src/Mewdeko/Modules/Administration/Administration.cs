@@ -63,7 +63,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .ConfigureAwait(false);
     }
     
-    [Cmd, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]
     public async Task SetNick([Remainder] string? newNick = null)
     {
         if (string.IsNullOrWhiteSpace(newNick))
@@ -73,7 +73,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
     }
-    [Cmd, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
         await ctx.Guild.DownloadUsersAsync();
@@ -141,7 +141,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await message.ModifyAsync(x => x.Embed = eb.Build());
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.KickMembers)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.KickMembers)]
     public async Task KickUnder(StoopidTime time, string? option = null)
     {
         await ctx.Guild.DownloadUsersAsync();

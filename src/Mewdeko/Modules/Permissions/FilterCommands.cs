@@ -28,7 +28,7 @@ public partial class Permissions
             _db = db;
         }
 
-        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task AutoBanWord(string word)
         {
             if (Service.Blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
@@ -43,7 +43,7 @@ public partial class Permissions
             }
         }
 
-        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task AutoBanWordList()
         {
             var words = Service.Blacklist.Where(x => x.GuildId == ctx.Guild.Id);
@@ -74,7 +74,7 @@ public partial class Permissions
             }
         }
 
-        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task FWarn(string yesnt)
         {
             await Service.SetFwarn(ctx.Guild, yesnt[..1].ToLower());
@@ -90,7 +90,7 @@ public partial class Permissions
             }
         }
 
-        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task InvWarn(string yesnt)
         {
             await Service.InvWarn(ctx.Guild, yesnt[..1].ToLower());
