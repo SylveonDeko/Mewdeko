@@ -22,7 +22,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 
     public RoleGreets(InteractiveService interactivity) => _interactivity = interactivity;
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetAdd (IRole role, [Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -39,7 +39,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         }
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetRemove (int id)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
@@ -53,7 +53,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         await ctx.Channel.SendConfirmAsync("RoleGreet removed!");
     }
     
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetRemove ([Remainder]IRole role)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).Where(x => x.RoleId == role.Id);
@@ -107,7 +107,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
@@ -119,7 +119,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         await Service.ChangeRgGb(greet, enabled);
         await ctx.Channel.SendConfirmAsync($"RoleGreet {num} GreetBots set to {enabled}");
     }
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
@@ -175,7 +175,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         }
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetMessage(int id, [Remainder]string? message = null)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
@@ -217,7 +217,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         await ctx.Channel.SendConfirmAsync($"RoleGreet Message for RoleGreet #{id} set!");
     }
 
-    [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetList()
     {
         var greets = Service.GetListGreets(ctx.Guild.Id);
