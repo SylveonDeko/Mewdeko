@@ -564,9 +564,9 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban([Remainder] string user)
         {
-            var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
+            var bans = await ctx.Guild.GetBansAsync().FlattenAsync().ConfigureAwait(false);
 
-            var bun = bans.FirstOrDefault(x => x.User.ToString().ToLowerInvariant() == user.ToLowerInvariant());
+            var bun = bans.FirstOrDefault(x => string.Equals(x.User.ToString(), user, StringComparison.InvariantCultureIgnoreCase));
 
             if (bun == null)
             {
@@ -581,7 +581,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban(ulong userId)
         {
-            var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
+            var bans = await ctx.Guild.GetBansAsync().FlattenAsync().ConfigureAwait(false);
 
             var bun = bans.FirstOrDefault(x => x.User.Id == userId);
 
