@@ -15,7 +15,7 @@ using SummaryAttribute = Discord.Interactions.SummaryAttribute;
 
 namespace Mewdeko.Modules.Help;
 
-[Group("help", "gelp")]
+[Group("help", "Help Commands, what else is there to say?")]
 public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 {
     private readonly InteractiveService _interactivity;
@@ -35,27 +35,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _cmds = cmds;
     }
 
-    [SlashCommand("modules", "Shows help on how to use the bot"), BlacklistCheck]
+    [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
     public async Task Modules()
     {
-        var embed = new EmbedBuilder();
-        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
-            .WithName("Mewdeko Help Menu"));
-        embed.WithColor(Mewdeko.OkColor);
-        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
-                                                 .WithName("Mewdeko Help Menu"));
-        embed.WithColor(Mewdeko.OkColor);
-        embed.WithDescription(
-            $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk");
-        embed.AddField("**Categories**",
-            $">  `{Prefix}cmds Administration`\n>  `{Prefix}cmds Moderation`\n>  `{Prefix}cmds Utility`\n>  `{Prefix}cmds Suggestions`\n>  `{Prefix}cmds Server Management`\n>  `{Prefix}cmds Permissions`\n>  `{Prefix}cmds Xp`\n>  `{Prefix}cmds Afk`\n>  `{Prefix}cmds Confessions`\n>  `{Prefix}cmds Starboard`",
-            true);
-        embed.AddField("_ _",
-            $">  `{Prefix}cmds Nsfw`\n>  `{Prefix}cmds Music`\n>  `{Prefix}cmds Gambling`\n>  `{Prefix}cmds Searches`\n>  `{Prefix}cmds Games`\n>  `{Prefix}cmds Help`\n>  `{Prefix}cmds ChatTriggers`\n>  `{Prefix}cmds Giveaways`\n>  `{Prefix}cmds MultiGreet`\n> `{Prefix}cmds Highlights`",
-            true);
-        embed.AddField(" Links",
-            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-        await ctx.Interaction.RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
+        await RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
 
     [ComponentInteraction("helpselect", true), BlacklistCheck]
@@ -64,7 +48,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         var currentmsg = Service.GetUserMessage(ctx.User);
         if (currentmsg is null)
         {
-            await ctx.Interaction.SendEphemeralErrorAsync("Please run the help command again to use this!");
+            await ctx.Interaction.SendEphemeralErrorAsync("Please run the text help command to use this!");
             return;
         }
         var module = selected.FirstOrDefault();
