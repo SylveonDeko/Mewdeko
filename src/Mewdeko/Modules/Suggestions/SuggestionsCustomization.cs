@@ -9,11 +9,12 @@ namespace Mewdeko.Modules.Suggestions;
 
 public partial class Suggestions
 {
-    // public enum SuggestThreadType
-    // {
-    //     Public = 0,
-    //     Private = 1
-    // }
+    public enum SuggestThreadType
+    {
+        None = 0,
+        Public = 1,
+        Private = 2
+    }
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
