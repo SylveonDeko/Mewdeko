@@ -22,6 +22,7 @@
     "aar_role_removed": "Users will no longer receive {0} role when they join this server.",
     "expr_import_no_input": "Invalid input. No valid file upload or input text found.",
     "expr_import_invalid_data": "Unable to parse the file. Make sure it's a valid .yml file",
+    "expr_import_success": "Successfully parsed the chat trigger file.",
     "aabr_none": "Bots will receive regular roles when they join.",
     "aabr_roles": "The following roles are applied to bots that join this server: {0}",
     "aabr_role_removed": "Bots will no longer receive {0} role when they join this server.",
@@ -1107,5 +1108,8 @@
     "roll_fail_dice_sides": "Dice must have between 0 and {0} sides.",
     "roll_fail_no_dice": "You must have at least 1 die",
     "roll_fail_too_large": "I dropped a few dice... try rolling a smaller value.",
-    "roll_fail_invalid_string": "Roll input must be a collection of dice in format `<count>D<sides>`, for example `1d10` would roll a ten sided die"
+    "roll_fail_invalid_string": "Roll input must be a collection of dice in format `<count>D<sides>`, for example `1d10` would roll a ten sided die",
+    "trigger_add_invalid": "Chat Triggers must have non-whitesapce content in both the name key and message.",
+    "ctr_testing_emotes": "Almost done, I just need to make sure the emotes are all valid.",
+    "emote_reader_none_found": "No emotes found, make sure your emotes are seperated by a comma, like `❤️,😸`."
 }
