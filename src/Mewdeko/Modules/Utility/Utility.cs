@@ -133,7 +133,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendConfirmAsync("Sites ok m8");
     }
 
-    [Cmd, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task ReactChannel(ITextChannel? chan = null)
     {
         var e = Service.GetReactChans(ctx.Guild.Id);

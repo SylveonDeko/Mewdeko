@@ -357,7 +357,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [Cmd, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -401,7 +401,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [Cmd, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")

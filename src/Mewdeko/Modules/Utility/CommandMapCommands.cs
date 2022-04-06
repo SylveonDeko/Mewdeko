@@ -36,7 +36,7 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
         }
 
-        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string? mapping = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
