@@ -143,6 +143,16 @@ public static class Extensions
             ? maybeEmote
             : new Emoji(emojiStr);
 
+    public static bool TryToIEmote(this string emojiStr, out IEmote value)
+    {
+        value = Emote.TryParse(emojiStr, out var emoteValue)
+            ? emoteValue
+            : Emoji.TryParse(emojiStr, out var emojiValue)
+                ? emojiValue
+                : null;
+        return value is not null;
+    }
+
     // https://github.com/SixLabors/Samples/blob/master/ImageSharp/AvatarWithRoundedCorner/Program.cs
     public static void ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
     {
