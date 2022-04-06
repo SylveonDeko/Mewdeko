@@ -33,7 +33,7 @@ public class GreetSettingsService : INService
         _bss = bss;
 
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
-            db.GetDbContext().GuildConfigs.All()
+            _bot.CachedGuildConfigs
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));
 
         _client.UserJoined += UserJoined;
@@ -42,27 +42,24 @@ public class GreetSettingsService : INService
         bot.JoinedGuild += Bot_JoinedGuild;
         _client.LeftGuild += Client_LeftGuild;
 
-        _client.MessageReceived += ClientOnGuildMemberUpdated;
+        _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
     }
 
 
     public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
     public bool GroupGreets => _bss.Data.GroupGreets;
 
-    private async Task TriggerBoostMessage(GuildConfig conf, SocketGuildUser user, ITextChannel? chan = null)
+    private async Task TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
     {
-        var channel = chan switch
-        {
-            null => user.Guild.GetTextChannel(conf.BoostMessageChannelId),
-            not null => chan
-        };
-        if (channel is null)
+        var chan = user.Guild.GetTextChannel(conf.BoostMessageChannelId);
+
+        if (chan is null)
                 return;
 
         if (string.IsNullOrWhiteSpace(conf.BoostMessage))
             return;
         var rep = new ReplacementBuilder()
-                  .WithDefault(user, channel, user.Guild, _client)
+                  .WithDefault(user, chan, user.Guild, _client)
                   .Build();
         if (SmartEmbed.TryParse(rep.Replace(conf.BoostMessage), out var embed, out var plainText))
         {
@@ -81,7 +78,7 @@ public class GreetSettingsService : INService
             var msg = rep.Replace(conf.BoostMessage);
             try
             {
-                var toDelete = await channel.SendMessageAsync(msg);
+                var toDelete = await chan.SendMessageAsync(msg);
 
                 if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
@@ -92,22 +89,24 @@ public class GreetSettingsService : INService
         }
     }
 
-    private async Task ClientOnGuildMemberUpdated(SocketMessage msg)
+    private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> optOldUser, SocketGuildUser newUser)
     {
-        if (msg.Channel is not SocketGuildChannel chan) return;
-        // if user is a new booster
-        // or boosted again the same server
-        if (msg.Type is not MessageType.UserPremiumGuildSubscription and
-            not MessageType.UserPremiumGuildSubscriptionTier1 and
-            not MessageType.UserPremiumGuildSubscriptionTier2 and
-            not MessageType.UserPremiumGuildSubscriptionTier3) return;
-        var uow = _db.GetDbContext();
-        var conf = uow.ForGuildId(chan.Guild.Id, set => set);
-        if (!conf.SendBoostMessage) return;
+        _ = Task.Run(async () =>
+        {
+            // if user is a new booster
+            // or boosted again the same server
+            if ((optOldUser.Value is not { PremiumSince: null } || newUser is not { PremiumSince: not null })
+                && (optOldUser.Value?.PremiumSince is not { } oldDate || newUser.PremiumSince is not { } newDate || newDate <= oldDate)) return;
+            var conf = GetOrAddSettingsForGuild(newUser.Guild.Id);
+            if (!conf.SendBoostMessage)
+                return;
 
-        await TriggerBoostMessage(conf, msg.Author as SocketGuildUser);
-
+            await TriggerBoostMessage(conf, newUser);
+        });
+        return Task.CompletedTask;
     }
+
+
 
     private Task Client_LeftGuild(SocketGuild arg)
     {
@@ -153,17 +152,17 @@ public class GreetSettingsService : INService
         return Task.CompletedTask;
     }
 
-    public bool SetBoostMessage(ulong guildId, ref string message)
+    public bool SetBoostMessage(ulong guildId, string message)
     {
         message = message?.SanitizeMentions();
 
         using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.BoostMessage = message;
-
+        
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
-
+        _bot.UpdateGuildConfig(guildId, conf);
         uow.SaveChanges();
         return conf.SendBoostMessage;
     }
@@ -176,18 +175,15 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.BoostMessageDeleteAfter = timer;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
     }
 
-    public string GetBoostMessage(ulong gid)
-    {
-        using var uow = _db.GetDbContext();
-        return uow.ForGuildId(gid, set => set).BoostMessage;
-    }
+    public string GetBoostMessage(ulong gid) 
+        => _bot.GetGuildConfig(gid).BoostMessage;
 
     public async Task<bool> SetBoost(ulong guildId, ulong channelId, bool? value = null)
     {
@@ -195,7 +191,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         var enabled = conf.SendBoostMessage = value ?? !conf.SendBoostMessage;
         conf.BoostMessageChannelId = channelId;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -532,10 +528,10 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.SendChannelGreetMessage = value ?? !conf.SendChannelGreetMessage;
         conf.GreetMessageChannelId = channelId;
-
+        
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
-
+        
         await uow.SaveChangesAsync();
 
         return enabled;
@@ -547,13 +543,13 @@ public class GreetSettingsService : INService
 
         if (string.IsNullOrWhiteSpace(message))
             throw new ArgumentNullException(nameof(message));
-
+        
         bool greetMsgEnabled;
         using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.ChannelGreetMessageText = message;
         greetMsgEnabled = conf.SendChannelGreetMessage;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -568,7 +564,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -589,7 +585,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         conf.DmGreetMessageText = message;
         greetMsgEnabled = conf.SendDmGreetMessage;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -605,7 +601,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.SendChannelByeMessage = value ?? !conf.SendChannelByeMessage;
         conf.ByeMessageChannelId = channelId;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -626,7 +622,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         conf.ChannelByeMessageText = message;
         byeMsgEnabled = conf.SendChannelByeMessage;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -643,7 +639,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.AutoDeleteByeMessagesTimer = timer;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -658,7 +654,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(id, set => set);
         conf.AutoDeleteGreetMessagesTimer = timer;
-
+        _bot.UpdateGuildConfig(id, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(id, toAdd, (_, _) => toAdd);
 
@@ -711,8 +707,9 @@ public class GreetSettingsService : INService
     }
     public async Task BoostTest(ITextChannel channel, IGuildUser user)
     {
-        var conf = _db.GetDbContext().ForGuildId(user.GuildId);
-        await TriggerBoostMessage(conf, user as SocketGuildUser, channel);
+        var conf = GetOrAddSettingsForGuild(user.GuildId);
+        conf.BoostMessageChannelId = channel.Id;
+        await TriggerBoostMessage(conf, user as SocketGuildUser);
     }
 
     public Task<bool> GreetDmTest(IDMChannel channel, IGuildUser user)
@@ -758,6 +755,10 @@ public class GreetSettings
             SendChannelGreetMessage = g.SendChannelGreetMessage,
             ChannelGreetMessageText = g.ChannelGreetMessageText,
             SendChannelByeMessage = g.SendChannelByeMessage,
-            ChannelByeMessageText = g.ChannelByeMessageText
+            ChannelByeMessageText = g.ChannelByeMessageText,
+            BoostMessage = g.BoostMessage,
+            BoostMessageChannelId = g.BoostMessageChannelId,
+            BoostMessageDeleteAfter = g.BoostMessageDeleteAfter,
+            SendBoostMessage = g.SendBoostMessage
         };
 }
