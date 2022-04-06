@@ -75,7 +75,7 @@ public partial class Administration
                 return;
             }
 
-            var sendBoostEnabled = Service.SetBoostMessage(ctx.Guild.Id, ref text);
+            var sendBoostEnabled = Service.SetBoostMessage(ctx.Guild.Id, text);
 
             await ReplyConfirmLocalizedAsync("boostmsg_new").ConfigureAwait(false);
             if (!sendBoostEnabled)

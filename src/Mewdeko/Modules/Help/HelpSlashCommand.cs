@@ -16,6 +16,7 @@ namespace Mewdeko.Modules.Help;
 public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 {
     private readonly InteractiveService _interactivity;
+    private readonly InteractionService _interactionService;
     private readonly IServiceProvider _serviceProvider;
     private readonly GlobalPermissionService _permissionService;
     private readonly CommandService _cmds;
@@ -24,12 +25,14 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         GlobalPermissionService permissionService,
         InteractiveService interactivity,
         IServiceProvider serviceProvider,
-        CommandService cmds)
+        CommandService cmds,
+        InteractionService interactionService)
     {
         _permissionService = permissionService;
         _interactivity = interactivity;
         _serviceProvider = serviceProvider;
         _cmds = cmds;
+        _interactionService = interactionService;
     }
 
     [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
