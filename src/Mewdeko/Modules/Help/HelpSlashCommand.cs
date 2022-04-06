@@ -6,16 +6,13 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Autocompleters;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
-using GroupAttribute = Discord.Interactions.GroupAttribute;
-using SummaryAttribute = Discord.Interactions.SummaryAttribute;
 
 namespace Mewdeko.Modules.Help;
 
-[Group("help", "Help Commands, what else is there to say?")]
+[Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
 public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 {
     private readonly InteractiveService _interactivity;
@@ -40,6 +37,15 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
         await RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        try
+        {
+            var message = await ctx.Channel.GetMessagesAsync().FlattenAsync();
+            await Service.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow);
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     [ComponentInteraction("helpselect", true), BlacklistCheck]
@@ -147,7 +153,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [SlashCommand("search", "get information on a specific command")]
     public async Task Test
     (
-        [Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
+        [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
     )
     {
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
