@@ -180,10 +180,4 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 
         await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpSelect(ctx.Guild, !description).Build(); });
     }
-
-    [SlashCommand("test", "test")]
-    public async Task Test(string s)
-    {
-        await ctx.Interaction.RespondAsync(s);
-    }
 }
