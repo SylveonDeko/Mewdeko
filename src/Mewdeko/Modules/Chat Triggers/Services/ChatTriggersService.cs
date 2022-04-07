@@ -115,7 +115,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public int Priority => -1;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
-    
+
 
     public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {
@@ -160,7 +160,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             IUserMessage sentMsg = null;
-            if (!cr.NoRespond) 
+            if (!cr.NoRespond)
                 sentMsg = await cr.Send(msg, _client, false).ConfigureAwait(false);
 
             var reactions = cr.GetReactions();
@@ -274,7 +274,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         lock (_gcrWriteLock)
         {
-            var globalItems = 
+            var globalItems =
                 uow.ChatTriggers
                 .AsNoTracking()
                 .Where(x => x.GuildId == null || x.GuildId == 0)
@@ -391,7 +391,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private void UpdateInternal(ulong? maybeGuildId, Database.Models.ChatTriggers cr)
     {
         if (maybeGuildId is { } guildId)
-            newGuildReactions.AddOrUpdate(guildId, new[] {cr},
+            newGuildReactions.AddOrUpdate(guildId, new[] { cr },
                 (_, old) =>
                 {
                     var newArray = old.ToArray();
@@ -417,7 +417,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         if (maybeGuildId is { } guildId)
             newGuildReactions.AddOrUpdate(guildId,
-                new[] {cr},
+                new[] { cr },
                 (_, old) => old.With(cr));
         else
             return _pubSub.Pub(_gcrAddedKey, cr);
@@ -597,7 +597,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private async Task OnJoinedGuild(GuildConfig gc)
     {
         await using var uow = _db.GetDbContext();
-        var crs = await 
+        var crs = await
             uow
             .ChatTriggers
             .AsNoTracking()
@@ -606,7 +606,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         newGuildReactions[gc.GuildId] = crs;
     }
-    
+
 
     public async Task<Database.Models.ChatTriggers> AddAsync(ulong? guildId, string key, string message)
     {
