@@ -235,19 +235,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         foreach (var (trigger, value) in data)
         {
             await uow.ChatTriggers.AddRangeAsync(value
-                                                             .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
-                                                             .Select(ct => new Database.Models.ChatTriggers
-                                                             {
-                                                                 GuildId = guildId,
-                                                                 Response = ct.Res,
-                                                                 Reactions = ct.React?.JoinWith("@@@"),
-                                                                 Trigger = trigger,
-                                                                 AllowTarget = ct.At,
-                                                                 ContainsAnywhere = ct.Ca,
-                                                                 DmResponse = ct.Dm,
-                                                                 AutoDeleteTrigger = ct.Ad,
-                                                                 NoRespond = ct.Nr
-                                                             }));
+                                                            .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
+                                                            .Select(ct => new Database.Models.ChatTriggers
+                                                            {
+                                                                GuildId = guildId,
+                                                                Response = ct.Res,
+                                                                Reactions = ct.React?.JoinWith("@@@"),
+                                                                Trigger = trigger,
+                                                                AllowTarget = ct.At,
+                                                                ContainsAnywhere = ct.Ca,
+                                                                DmResponse = ct.Dm,
+                                                                AutoDeleteTrigger = ct.Ad,
+                                                                NoRespond = ct.Nr,
+                                                                IsRegex = ct.Rgx
+                                                            }));
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
