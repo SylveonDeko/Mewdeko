@@ -12,10 +12,10 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
-using System.Text.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using Embed = Mewdeko.Common.Embed;
 
@@ -55,7 +55,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         if (!emotes.Any())
         {
-            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false);;
+            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false); ;
             return;
         }
 
@@ -123,9 +123,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task TestSite(string url)
     {
         using var client = new HttpClient();
-        var response = await client.GetAsync(url).ConfigureAwait(false);;
+        var response = await client.GetAsync(url).ConfigureAwait(false); ;
 
-        await response.Content.ReadAsStringAsync().ConfigureAwait(false);;
+        await response.Content.ReadAsStringAsync().ConfigureAwait(false); ;
         var statusCode = response.StatusCode;
         if (statusCode.ToString() == "Forbidden")
             await ctx.Channel.SendErrorAsync("Sites down m8").ConfigureAwait(false);
@@ -173,7 +173,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         await Service.SnipeSet(ctx.Guild, yesnt).ConfigureAwait(false);
         var t = Service.GetSnipeSet(ctx.Guild.Id);
-        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);;
+        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false); ;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -192,7 +192,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendErrorAsync("There is nothing to snipe here!").ConfigureAwait(false);
             return;
         }
-        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);;
+        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false); ;
 
         var em = new EmbedBuilder
         {
@@ -793,7 +793,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Stats()
     {
-        var user = await _client.Rest.GetUserAsync(280835732728184843);
+        var user = await _client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
         await ctx.Channel.EmbedAsync(
                      new EmbedBuilder().WithOkColor()
                                        .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BOT_VERSION}")

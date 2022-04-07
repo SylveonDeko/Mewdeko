@@ -291,7 +291,7 @@ public class Mewdeko
         {
             try
             {
-                var chan = await Client.Rest.GetChannelAsync(892789588739891250);
+                var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false);
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
                 if (arg.Name is not null)
                 {
@@ -324,7 +324,7 @@ public class Mewdeko
 
             CachedGuildConfigs.Add(gc);
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
-            var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
+            var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId) as RestTextChannel;
             var eb = new EmbedBuilder();
             eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
             eb.AddField("Server ID", arg.Id);
@@ -379,8 +379,8 @@ public class Mewdeko
             await interactionService.RegisterCommandsGloballyAsync();
 #endif
 #if DEBUG
-        if (GetCurrentGuildIds().Contains(900378009188565022))
-            await interactionService.RegisterCommandsToGuildAsync(900378009188565022);
+        if (GetCurrentGuildIds().Contains(Credentials.DebugGuildId))
+            await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
 #endif
 
         // start handling messages received in commandhandler
@@ -391,7 +391,7 @@ public class Mewdeko
         _ = Task.Run(ExecuteReadySubscriptions);
         Log.Information("Shard {ShardId} ready", Client.ShardId);
     }
-    
+
     private Task ExecuteReadySubscriptions()
     {
         var readyExecutors = Services.GetServices<IReadyExecutor>();
