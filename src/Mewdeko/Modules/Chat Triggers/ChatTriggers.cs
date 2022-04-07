@@ -133,7 +133,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("custom_reactions"))
+            return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("chat_triggers"))
                                                     .WithDescription(string.Join("\n",
                                                         chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20)
                                                                        .Take(20).Select(cr =>
@@ -152,7 +152,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -271,7 +271,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await Service.SetCrReactions(ctx.Guild?.Id, id, succ);
 
 
-        await ReplyConfirmLocalizedAsync("crr_set", Format.Bold(id.ToString()),
+        await ReplyConfirmLocalizedAsync("ctr_set", Format.Bold(id.ToString()),
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
     }
 
