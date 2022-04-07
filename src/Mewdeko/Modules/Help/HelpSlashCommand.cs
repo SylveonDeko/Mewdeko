@@ -154,7 +154,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     }
 
     [SlashCommand("search", "get information on a specific command")]
-    public async Task Test
+    public async Task Search
     (
         [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
     )
