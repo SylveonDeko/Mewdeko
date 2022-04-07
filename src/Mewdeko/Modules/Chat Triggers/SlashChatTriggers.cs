@@ -115,8 +115,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
     {
-        int id = int.Parse(sId);
-        bool rgx = bool.Parse(sRgx);
+        var id = int.Parse(sId);
+        var rgx = bool.Parse(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Message) || id < 0)
             return;
 
