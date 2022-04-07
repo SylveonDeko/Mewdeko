@@ -3808,5 +3808,5 @@ addchattriggerregex:
     Bot Owner only and adds a new global Chat Trigger. Guide here:
     https://mewdeko.tech/chattriggers
   args:
-    - (\d{3,})cat you have lots of cats 
-    - \dcat you haven a reasonable number of cats
+    - \d{3,}cats you have lots of cats
+    - \dcats you haven a reasonable number of cats
