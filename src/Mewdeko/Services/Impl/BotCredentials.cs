@@ -113,10 +113,10 @@ public class BotCredentials : IBotCredentials
             TwitchClientId = data[nameof(TwitchClientId)];
             if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
 
-            DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 900378009188565022;
+            DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 843489716674494475;
             GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 892789588739891250;
             ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
-            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 942825117820530709;
+            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
         }
         catch (Exception ex)
         {
@@ -178,12 +178,14 @@ public class BotCredentials : IBotCredentials
     {
         public ulong[] OwnerIds { get; set; } =
         {
-            280835732728184843
+            280835732728184843,
+            786375627892064257
         };
 
         public ulong[] OfficialMods { get; set; } =
         {
-            280835732728184843
+            280835732728184843,
+            786375627892064257
         };
 
         public string SoundCloudClientId { get; set; } = "";
@@ -218,7 +220,7 @@ public class BotCredentials : IBotCredentials
         public string TimezoneDbApiKey { get; set; }
         public string CoinmarketcapApiKey { get; set; }
 
-        public ulong DebugGuildId { get; set; } = 900378009188565022;
+        public ulong DebugGuildId { get; set; } = 843489716674494475;
         public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
         public ulong ConfessionReportChannelId { get; set; } = 942825117820530709;
         public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
