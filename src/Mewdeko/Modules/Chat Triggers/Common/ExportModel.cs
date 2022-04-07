@@ -10,7 +10,8 @@ public class ExportedTriggers
     public bool Ca { get; set; }
     public bool Rtt { get; set; }
     public bool Nr { get; set; }
-    
+    public bool Rgx { get; set; }
+
     public static ExportedTriggers FromModel(Database.Models.ChatTriggers ct) =>
         new()
         {
@@ -19,10 +20,11 @@ public class ExportedTriggers
             At = ct.AllowTarget,
             Ca = ct.ContainsAnywhere,
             Dm = ct.DmResponse,
+            Rgx = ct.IsRegex,
             React = string.IsNullOrWhiteSpace(ct.Reactions)
                 ? null
                 : ct.GetReactions(),
             Rtt = ct.ReactToTrigger,
-            Nr = ct.NoRespond
+            Nr = ct.NoRespond,
         };
 }
