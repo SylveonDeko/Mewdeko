@@ -12,6 +12,6 @@ public class ChatTriggerModal : IModal
     public string Key { get; set; }
 
     [InputLabel("Message")]
-    [ModalTextInput("message", TextInputStyle.Paragraph, "The key to message to respond with", maxLength: 2000)]
+    [ModalTextInput("message", TextInputStyle.Paragraph, "The key to message to respond with")]
     public string Message { get; set; }
 }
