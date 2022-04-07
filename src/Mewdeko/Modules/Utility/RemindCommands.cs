@@ -126,7 +126,7 @@ public partial class Utility
                 {
                     rem = rems[pageIndex];
                     uow.Reminders.Remove(rem);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 
@@ -162,7 +162,7 @@ public partial class Utility
             await using (var uow = _db.GetDbContext())
             {
                 uow.Reminders.Add(rem);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             var gTime = ctx.Guild == null

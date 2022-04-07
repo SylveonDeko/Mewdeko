@@ -68,7 +68,7 @@ public class RemindService : INService
         uow.Set<Reminder>()
             .RemoveRange(reminders);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)

@@ -27,7 +27,7 @@ public class GlobalBanService : INService
         };
         var uow = _db.GetDbContext();
         uow.GlobalBans.Add(toadd);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public Database.Models.GlobalBans[] GetAllGlobals()

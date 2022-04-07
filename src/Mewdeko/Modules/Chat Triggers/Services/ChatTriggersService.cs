@@ -249,7 +249,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                                              }));
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         await TriggerReloadChatTriggers();
         return true;
     }
@@ -375,7 +375,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         cr.Reactions = string.Empty;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task UpdateInternalAsync(ulong? maybeGuildId, Database.Models.ChatTriggers cr)
@@ -476,7 +476,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             cr.Reactions = string.Join("@@@", emojis);
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         await UpdateInternalAsync(guildId, cr);
@@ -502,7 +502,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 _ => newVal
             };
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         await UpdateInternalAsync(ct.GuildId, ct);
@@ -624,7 +624,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await using (var uow = _db.GetDbContext())
         {
             uow.ChatTriggers.Add(cr);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         await AddInternalAsync(guildId, cr);
@@ -651,7 +651,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
             cr.AllowTarget = true;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         await UpdateInternalAsync(guildId, cr);
 
         return cr;
@@ -669,7 +669,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if ((toDelete.IsGlobal() && guildId == null) || guildId == toDelete.GuildId)
         {
             uow.ChatTriggers.Remove(toDelete);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             await DeleteInternalAsync(guildId, id);
             return toDelete;
         }

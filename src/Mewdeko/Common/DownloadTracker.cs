@@ -16,7 +16,7 @@ public class DownloadTracker : INService
     /// <returns>Task representing download state</returns>
     public async Task EnsureUsersDownloadedAsync(IGuild guild)
     {
-        await _downloadUsersSemaphore.WaitAsync();
+        await _downloadUsersSemaphore.WaitAsync().ConfigureAwait(false);
         try
         {
             var now = DateTime.UtcNow;
@@ -29,7 +29,7 @@ public class DownloadTracker : INService
 
             // means that this entry was just added - download the users
             if (added == now)
-                await guild.DownloadUsersAsync();
+                await guild.DownloadUsersAsync().ConfigureAwait(false);;
         }
         finally
         {

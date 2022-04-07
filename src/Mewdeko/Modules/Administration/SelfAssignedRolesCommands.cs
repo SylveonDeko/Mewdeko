@@ -94,11 +94,11 @@ public partial class Administration
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var rolesStr = new StringBuilder();
                 var roleGroups = roles
                     .OrderBy(x => x.Model.Group)

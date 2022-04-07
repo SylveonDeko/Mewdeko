@@ -44,7 +44,7 @@ public class ChatterBotService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 

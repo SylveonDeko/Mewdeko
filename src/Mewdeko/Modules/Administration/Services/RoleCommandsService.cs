@@ -33,7 +33,7 @@ public class RoleCommandsService : INService
         {
             try
             {
-                await msg.DownloadAsync();
+                await msg.DownloadAsync().ConfigureAwait(false);
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)

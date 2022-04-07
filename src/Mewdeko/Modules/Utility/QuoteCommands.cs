@@ -190,7 +190,7 @@ public partial class Utility
                     Keyword = keyword,
                     Text = text
                 });
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
@@ -214,7 +214,7 @@ public partial class Utility
                 else
                 {
                     uow.Quotes.Remove(q);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     success = true;
                     response = GetText("quote_deleted", id);
                 }
@@ -239,7 +239,7 @@ public partial class Utility
             {
                 uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeAllMentions()))

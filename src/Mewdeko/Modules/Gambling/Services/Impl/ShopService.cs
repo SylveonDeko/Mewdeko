@@ -27,7 +27,7 @@ public class ShopService : IShopService
             return false;
 
         entries[index].Price = newPrice;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -45,7 +45,7 @@ public class ShopService : IShopService
             return false;
 
         entries[index].Name = newName.TrimTo(100);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -65,7 +65,7 @@ public class ShopService : IShopService
         entries[index1].Index = index2;
         entries[index2].Index = index1;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -86,7 +86,7 @@ public class ShopService : IShopService
         entries.RemoveAt(fromIndex);
         entries.Insert(toIndex, entry);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 

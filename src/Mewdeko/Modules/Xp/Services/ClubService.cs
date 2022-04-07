@@ -120,7 +120,7 @@ public class ClubService : INService
             return false;
 
         club.ImageUrl = url.ToString();
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }

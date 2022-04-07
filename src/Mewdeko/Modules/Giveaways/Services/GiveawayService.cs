@@ -63,7 +63,7 @@ public class GiveawayService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -90,7 +90,7 @@ public class GiveawayService : INService, IReadyExecutor
             };
             uow.Giveaways.Remove(i);
             uow.Giveaways.Add(toupdate);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 
@@ -159,7 +159,7 @@ public class GiveawayService : INService, IReadyExecutor
         await using (var uow = _db.GetDbContext())
         {
             uow.Giveaways.Add(rem);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         if (interaction is not null)
@@ -206,7 +206,7 @@ public class GiveawayService : INService, IReadyExecutor
             await ch.ModifyAsync(x => x.Embed = eb.Build());
             r.Ended = 1;
             uow.Giveaways.Update(r);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -262,7 +262,7 @@ public class GiveawayService : INService, IReadyExecutor
                         .Build());
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
             else
             {
@@ -318,7 +318,7 @@ public class GiveawayService : INService, IReadyExecutor
                 }
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }
@@ -353,7 +353,7 @@ public class GiveawayService : INService, IReadyExecutor
             await ch.ModifyAsync(x => x.Embed = eb.Build());
             r.Ended = 1;
             uow.Giveaways.Update(r);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             return;
             
             
@@ -368,7 +368,7 @@ public class GiveawayService : INService, IReadyExecutor
             await ch.ModifyAsync(x => x.Embed = eb.Build());
             r.Ended = 1;
             uow.Giveaways.Update(r);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -424,7 +424,7 @@ public class GiveawayService : INService, IReadyExecutor
                                              .Build());
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
             else
             {
@@ -481,7 +481,7 @@ public class GiveawayService : INService, IReadyExecutor
                 }
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }

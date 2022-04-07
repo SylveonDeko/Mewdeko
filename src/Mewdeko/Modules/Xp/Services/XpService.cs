@@ -222,7 +222,7 @@ public class XpService : INService, IUnloadableService
                         }
                     }
 
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                 }
 
                 await Task.WhenAll(toNotify.Select(async x =>
@@ -377,7 +377,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var user = uow.UserXpStats.GetOrCreateUser(guildId, userId);
         user.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public XpNotificationLocation GetNotificationType(ulong userId, ulong guildId)
@@ -398,7 +398,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var du = uow.GetOrCreateUser(user);
         du.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task Client_OnGuildAvailable(SocketGuild guild)
@@ -576,7 +576,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         XpTxtRates.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
@@ -586,7 +586,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         XpTxtTimeouts.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
@@ -596,7 +596,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         XpVoiceRates.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
@@ -606,7 +606,7 @@ public class XpService : INService, IUnloadableService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
@@ -643,7 +643,7 @@ public class XpService : INService, IUnloadableService
             globalRank = uow.DiscordUser.GetUserGlobalRank(user.Id);
             guildRank = uow.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
             stats = uow.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return new FullUserStats(du, stats, new LevelStats(totalXp), new LevelStats(stats.Xp + stats.AwardedXp),

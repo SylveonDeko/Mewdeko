@@ -72,7 +72,7 @@ public class MessageRepeaterService : INService
         var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
         if (toDelete != null)
            uow .Set<Repeater>().Remove(toDelete);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public void SetRepeaterLastMessage(int repeaterId, ulong lastMsgId)

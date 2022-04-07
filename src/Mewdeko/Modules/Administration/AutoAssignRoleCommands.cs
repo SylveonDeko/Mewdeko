@@ -23,17 +23,17 @@ public partial class Administration
             // the user can't aar the role which is higher or equal to his highest role
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
             {
-                await ReplyErrorLocalizedAsync("hierarchy");
+                await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
                 return;
             }
 
-            var roles = await Service.ToggleAarAsync(ctx.Guild.Id, role.Id);
+            var roles = await Service.ToggleAarAsync(ctx.Guild.Id, role.Id).ConfigureAwait(false);
             if (roles.Count == 0)
-                await ReplyConfirmLocalizedAsync("aar_disabled");
+                await ReplyConfirmLocalizedAsync("aar_disabled").ConfigureAwait(false);
             else if (roles.Contains(role.Id))
-                await AutoAssignRole();
+                await AutoAssignRole().ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("aar_role_removed", Format.Bold(role.Mention));
+                await ReplyConfirmLocalizedAsync("aar_role_removed", Format.Bold(role.Mention)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -42,7 +42,7 @@ public partial class Administration
         {
             if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles).Any())
             {
-                await ReplyConfirmLocalizedAsync("aar_none");
+                await ReplyConfirmLocalizedAsync("aar_none").ConfigureAwait(false);
                 return;
             }
 
@@ -50,10 +50,10 @@ public partial class Administration
                 .ToList();
 
             if (existing.Count != roles.Count)
-                await Service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
+                await Service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id)).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("aar_roles",
-                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}");
+                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -67,17 +67,17 @@ public partial class Administration
             // the user can't aar the role which is higher or equal to his highest role
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
             {
-                await ReplyErrorLocalizedAsync("hierarchy");
+                await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
                 return;
             }
 
-            var roles = await Service.ToggleAabrAsync(ctx.Guild.Id, role.Id);
+            var roles = await Service.ToggleAabrAsync(ctx.Guild.Id, role.Id).ConfigureAwait(false);
             if (roles.Count == 0)
                 await ReplyConfirmLocalizedAsync("aabr_disabled");
             else if (roles.Contains(role.Id))
-                await AutoAssignBotRole();
+                await AutoAssignBotRole().ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("aabr_role_removed", Format.Bold(role.Mention));
+                await ReplyConfirmLocalizedAsync("aabr_role_removed", Format.Bold(role.Mention)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -94,10 +94,10 @@ public partial class Administration
                 .ToList();
 
             if (existing.Count != roles.Count)
-                await Service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
+                await Service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id)).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("aabr_roles",
-                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}");
+                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}").ConfigureAwait(false);
         }
     }
 }

@@ -233,7 +233,7 @@ public class MultiGreetService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -256,7 +256,7 @@ public class MultiGreetService : INService
         await using var uow = _db.GetDbContext();
         greet.Message = code;
         uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task ChangeMgDelete(MultiGreet greet, int howlong)
@@ -264,7 +264,7 @@ public class MultiGreetService : INService
         await using var uow = _db.GetDbContext();
         greet.DeleteTime = howlong;
         uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
@@ -272,7 +272,7 @@ public class MultiGreetService : INService
         await using var uow = _db.GetDbContext();
         greet.GreetBots = enabled;
         uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
@@ -280,20 +280,20 @@ public class MultiGreetService : INService
         await using var uow = _db.GetDbContext();
         greet.WebhookUrl = webhookurl;
         uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
         await using var uow =  _db.GetDbContext();
         uow.MultiGreets.Remove(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
         await using var uow =  _db.GetDbContext();
         uow.MultiGreets.RemoveRange(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
 }

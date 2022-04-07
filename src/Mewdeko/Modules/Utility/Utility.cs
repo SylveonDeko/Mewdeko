@@ -55,7 +55,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         if (!emotes.Any())
         {
-            await ctx.Channel.SendErrorAsync("No emotes found!");
+            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false);;
             return;
         }
 
@@ -68,11 +68,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
-            TimeSpan.FromMinutes(60));
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             var titleText = emotetype switch
             {
                 "animated" => $"{emotes.Length} Animated Emotes",
@@ -116,21 +116,21 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
             .WithOkColor();
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
     public async Task TestSite(string url)
     {
         using var client = new HttpClient();
-        var response = await client.GetAsync(url);
+        var response = await client.GetAsync(url).ConfigureAwait(false);;
 
-        await response.Content.ReadAsStringAsync();
+        await response.Content.ReadAsStringAsync().ConfigureAwait(false);;
         var statusCode = response.StatusCode;
         if (statusCode.ToString() == "Forbidden")
-            await ctx.Channel.SendErrorAsync("Sites down m8");
+            await ctx.Channel.SendErrorAsync("Sites down m8").ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("Sites ok m8");
+            await ctx.Channel.SendConfirmAsync("Sites ok m8").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -140,28 +140,28 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         if (chan == null)
         {
             if (e == 0) return;
-            await Service.SetReactChan(ctx.Guild, 0);
-            await ctx.Channel.SendConfirmAsync("React Channel Disabled!");
+            await Service.SetReactChan(ctx.Guild, 0).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("React Channel Disabled!").ConfigureAwait(false);
         }
         else
         {
             if (e == 0)
             {
-                await Service.SetReactChan(ctx.Guild, chan.Id);
-                await ctx.Channel.SendConfirmAsync($"Your React Channel has been set to {chan.Mention}!");
+                await Service.SetReactChan(ctx.Guild, chan.Id).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Your React Channel has been set to {chan.Mention}!").ConfigureAwait(false);
             }
             else
             {
-                var chan2 = await ctx.Guild.GetTextChannelAsync(e);
+                var chan2 = await ctx.Guild.GetTextChannelAsync(e).ConfigureAwait(false);
                 if (e == chan.Id)
                 {
-                    await ctx.Channel.SendErrorAsync("This is already your React Channel!");
+                    await ctx.Channel.SendErrorAsync("This is already your React Channel!").ConfigureAwait(false);
                 }
                 else
                 {
-                    await Service.SetReactChan(ctx.Guild, chan.Id);
+                    await Service.SetReactChan(ctx.Guild, chan.Id).ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync(
-                        $"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!");
+                        $"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!").ConfigureAwait(false);
                 }
             }
         }
@@ -171,9 +171,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
      RequireContext(ContextType.Guild)]
     public async Task SnipeSet(string yesnt)
     {
-        await Service.SnipeSet(ctx.Guild, yesnt);
+        await Service.SnipeSet(ctx.Guild, yesnt).ConfigureAwait(false);
         var t = Service.GetSnipeSet(ctx.Guild.Id);
-        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled");
+        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -181,18 +181,18 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix).ConfigureAwait(false);
             return;
         }
 
-        await Service.GetSnipes(ctx.Guild.Id);
-        var msg = (await Service.GetSnipes(ctx.Guild.Id)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false);
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
         if (msg is null)
         {
-            await ctx.Channel.SendErrorAsync("There is nothing to snipe here!");
+            await ctx.Channel.SendErrorAsync("There is nothing to snipe here!").ConfigureAwait(false);
             return;
         }
-        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
+        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);;
 
         var em = new EmbedBuilder
         {
@@ -210,7 +210,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -218,16 +218,16 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix).ConfigureAwait(false);
             return;
         }
 
-        var msgs = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
+        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (!snipeStores.Any())
             {
-                await ReplyErrorLocalizedAsync("no_snipes");
+                await ReplyErrorLocalizedAsync("no_snipes").ConfigureAwait(false);
                 return;
             }
 
@@ -241,13 +241,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                TimeSpan.FromMinutes(60));
+                TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 var msg1 = msg.Skip(page).FirstOrDefault();
-                var user = await ctx.Channel.GetUserAsync(msg1.UserId) ??
-                           await _client.Rest.GetUserAsync(msg1.UserId);
+                var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false) ??
+                           await _client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
                 return new PageBuilder()
                     .WithOkColor()
@@ -266,11 +266,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix).ConfigureAwait(false);
             return;
         }
 
-        var msgs = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
+        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (!snipeStores.Any())
@@ -318,7 +318,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msg = (await Service.GetSnipes(ctx.Guild.Id))
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                          .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
         if (msg is null)
         {
@@ -347,17 +347,17 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (string.IsNullOrWhiteSpace(url))
         {
-            await ctx.Channel.SendErrorAsync("You didn't specify a url");
+            await ctx.Channel.SendErrorAsync("You didn't specify a url").ConfigureAwait(false);
         }
         else
         {
-            var result = await UtilityService.UrlChecker(url);
+            var result = await UtilityService.UrlChecker(url).ConfigureAwait(false);
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(result.Permalink);
             eb.AddField("Virus Positives", result.Positives, true);
             eb.AddField("Number of scans", result.Total, true);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
 
@@ -366,11 +366,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix).ConfigureAwait(false);
             return;
         }
 
-        var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
                                                          .LastOrDefault(x => x.ChannelId == chan.Id);
         if (msg == null)
         {
@@ -378,7 +378,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
+        var user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
         var em = new EmbedBuilder
         {
@@ -392,7 +392,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -400,11 +400,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix).ConfigureAwait(false);
             return;
         }
 
-        var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
                                                          .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
         {
             if (msg == null)
@@ -459,7 +459,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         {
-            var msg = (await Service.GetSnipes(ctx.Guild.Id))
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                       .Where(x => x.Edited == 1)
                       .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
             if (msg == null)
@@ -500,7 +500,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         {
-            var msg = (await Service.GetSnipes(ctx.Guild.Id))
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                       .Where(x => x.Edited == 1)
                       .LastOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
             if (msg == null)
@@ -541,7 +541,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         {
-            var msg = (await Service.GetSnipes(ctx.Guild.Id))
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                       .Where(x => x.Edited == 1)
                       .LastOrDefault(x => x.ChannelId == chan.Id);
             if (msg == null)
@@ -582,7 +582,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         {
-            var msg = (await Service.GetSnipes(ctx.Guild.Id))
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                       .Where(x => x.Edited == 1)
                       .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
             if (msg == null)
