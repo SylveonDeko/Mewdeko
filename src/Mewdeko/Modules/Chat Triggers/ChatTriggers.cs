@@ -83,7 +83,25 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
             return;
 
-        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message);
+        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, false);
+
+        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            .WithTitle(GetText("new_chat_trig"))
+            .WithDescription($"#{cr.Id}")
+            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(key))
+            .AddField(efb =>
+                efb.WithName(GetText("response"))
+                    .WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
+        ).ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task AddChatTriggerRegex(string key, [Remainder] string message)
+    {
+        if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
+            return;
+
+        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, true);
 
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
             .WithTitle(GetText("new_chat_trig"))
@@ -101,7 +119,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(message) || id < 0)
             return;
 
-        var cr = await Service.EditAsync(ctx.Guild?.Id, id, message).ConfigureAwait(false);
+        var cr = await Service.EditAsync(ctx.Guild?.Id, id, message, null).ConfigureAwait(false);
         if (cr != null)
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("edited_chat_trig"))
@@ -128,7 +146,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                         .WithDefaultEmotes()
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false); ;
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -176,7 +194,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false); ;
 
             async Task<PageBuilder> PageFactory(int page)
             {
