@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -234,19 +235,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         foreach (var (trigger, value) in data)
         {
             await uow.ChatTriggers.AddRangeAsync(value
-                                                             .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
-                                                             .Select(ct => new Database.Models.ChatTriggers
-                                                             {
-                                                                 GuildId = guildId,
-                                                                 Response = ct.Res,
-                                                                 Reactions = ct.React?.JoinWith("@@@"),
-                                                                 Trigger = trigger,
-                                                                 AllowTarget = ct.At,
-                                                                 ContainsAnywhere = ct.Ca,
-                                                                 DmResponse = ct.Dm,
-                                                                 AutoDeleteTrigger = ct.Ad,
-                                                                 NoRespond = ct.Nr
-                                                             }));
+                                                            .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
+                                                            .Select(ct => new Database.Models.ChatTriggers
+                                                            {
+                                                                GuildId = guildId,
+                                                                Response = ct.Res,
+                                                                Reactions = ct.React?.JoinWith("@@@"),
+                                                                Trigger = trigger,
+                                                                AllowTarget = ct.At,
+                                                                ContainsAnywhere = ct.Ca,
+                                                                DmResponse = ct.Dm,
+                                                                AutoDeleteTrigger = ct.Ad,
+                                                                NoRespond = ct.Nr,
+                                                                IsRegex = ct.Rgx
+                                                            }));
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -322,6 +324,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             var cr = crs[i];
             var trigger = cr.Trigger;
+            if (cr.IsRegex)
+            {
+                if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromSeconds(1)))
+                    result.Add(cr);
+                continue;
+            }
+
             if (content.Length > trigger.Length)
             {
                 // if input is greater than the trigger, it can only work if:
@@ -608,14 +617,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     }
 
 
-    public async Task<Database.Models.ChatTriggers> AddAsync(ulong? guildId, string key, string message)
+    public async Task<Database.Models.ChatTriggers> AddAsync(ulong? guildId, string key, string message, bool regex)
     {
         key = key.ToLowerInvariant();
         var cr = new Database.Models.ChatTriggers
         {
             GuildId = guildId,
             Trigger = key,
-            Response = message
+            Response = message,
+            IsRegex = regex
         };
 
         if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
@@ -627,18 +637,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        await AddInternalAsync(guildId, cr);
+        await AddInternalAsync(guildId, cr).ConfigureAwait(false);
 
         return cr;
     }
 
-    public async Task<Database.Models.ChatTriggers> EditAsync(ulong? guildId, int id, string message)
+    public async Task<Database.Models.ChatTriggers> EditAsync(ulong? guildId, int id, string message, bool? regex)
     {
         await using var uow = _db.GetDbContext();
         var cr = uow.ChatTriggers.GetById(id);
 
         if (cr == null || cr.GuildId != guildId)
             return null;
+
+        cr.IsRegex = regex ?? cr.IsRegex;
 
         // disable allowtarget if message had target, but it was removed from it
         if (!message.Contains("%target%", StringComparison.OrdinalIgnoreCase)
