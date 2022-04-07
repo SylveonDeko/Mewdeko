@@ -3809,4 +3809,4 @@ addchattriggerregex:
     https://mewdeko.tech/chattriggers
   args:
     - \d{3,}cats you have lots of cats
-    - \dcats you haven a reasonable number of cats
+    - \dcats you have a reasonable number of cats
