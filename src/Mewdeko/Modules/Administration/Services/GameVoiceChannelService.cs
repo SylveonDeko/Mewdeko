@@ -37,7 +37,7 @@ public class GameVoiceChannelService : INService
                     && after.Activities != null
                     && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
                     //trigger gvc
-                    await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name);
+                    await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ public class GameVoiceChannelService : INService
                     string.IsNullOrWhiteSpace(game))
                     return;
 
-                await TriggerGvc(gUser, game);
+                await TriggerGvc(gUser, game).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

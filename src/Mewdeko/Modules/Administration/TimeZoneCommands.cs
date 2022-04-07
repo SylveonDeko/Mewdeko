@@ -50,11 +50,11 @@ public partial class Administration
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithColor(Mewdeko.OkColor)
                                                         .WithTitle(GetText("timezones_available"))
                                                         .WithDescription(string.Join("\n",

@@ -278,7 +278,7 @@ public class PlantPickService : INService
                     // give the picked currency to the user
                     await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
                 }
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             try
@@ -374,6 +374,6 @@ public class PlantPickService : INService
             UserId = uid,
             MessageId = mid
         });
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 }

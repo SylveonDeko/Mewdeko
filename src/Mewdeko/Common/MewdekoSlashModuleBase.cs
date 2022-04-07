@@ -41,19 +41,19 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync(text);
+        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false);;
     }
 
     public async Task ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);;
     }
 
     public async Task ConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendConfirmAsync(text);
+        await ctx.Interaction.SendConfirmAsync(text).ConfigureAwait(false);;
     }
 
     public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
@@ -63,7 +63,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     }
 
     public async Task<bool> PromptUserConfirmAsync(string text, ulong uid) =>
-        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid);
+        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid).ConfigureAwait(false);
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {

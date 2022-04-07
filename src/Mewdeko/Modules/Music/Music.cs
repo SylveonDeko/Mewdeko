@@ -107,7 +107,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         .WithDefaultCanceledPage()
                         .WithDefaultEmotes()
                         .Build();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -162,7 +162,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(plist.Songs.Count() / 15)
                                                           .WithDefaultCanceledPage().WithDefaultEmotes().Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -185,7 +185,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 {
                     await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Remove(plist1);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync("Playlist deleted.");
                 }
 
@@ -213,7 +213,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     };
                     await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Add(toadd);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync(
                         $"Successfully created playlist with name `{playlistOrSongName}`!");
                 }
@@ -398,7 +398,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         };
                         await using var uow = _db.GetDbContext();
                         uow.MusicPlaylists.Update(toupdate);
-                        await uow.SaveChangesAsync();
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
                         await msg.DeleteAsync();
                         await ctx.Channel.SendConfirmAsync(
                             $"Added {advancedLavaTracks.FirstOrDefault()?.Title} to {plists6.Name}.");
@@ -445,7 +445,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                 };
                                 await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
-                                await uow.SaveChangesAsync();
+                                await uow.SaveChangesAsync().ConfigureAwait(false);
                                 await msg.DeleteAsync();
                                 await ctx.Channel.SendConfirmAsync($"Added {toadd.Count()} tracks to {plists7.Name}.");
                             }
@@ -506,7 +506,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                 };
                                 await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
-                                await uow.SaveChangesAsync();
+                                await uow.SaveChangesAsync().ConfigureAwait(false);
                                 await msg.DeleteAsync();
                                 await ctx.Channel.SendConfirmAsync($"Added {track.Title} to {plists6.Name}.");
                             }
@@ -1125,7 +1125,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {

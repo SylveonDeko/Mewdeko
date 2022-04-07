@@ -199,7 +199,7 @@ public class ReplacementBuilder
         _reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username)));
         _reps.TryAdd("%user.banner%",
             () => string.Join(" ",
-                users.Select(async user => (await _client.Rest.GetUserAsync(user.Id)).GetBannerUrl(size: 2048))));
+                users.Select(async user => (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048))));
         _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%user.avatar%",
             () => string.Join(" ", users.Select(user => UserExtensions.RealAvatarUrl(user).ToString())));

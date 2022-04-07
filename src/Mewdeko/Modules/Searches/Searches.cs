@@ -376,7 +376,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(duckDuckGoImageResults.Length)
                                                           .WithDefaultEmotes().Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -396,7 +396,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                       .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                       .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
                                                       .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -590,7 +590,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     .WithDefaultEmotes()
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -661,7 +661,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {

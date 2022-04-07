@@ -186,7 +186,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             .WithDefaultEmotes()
             .Build();
         await ctx.Interaction.DeleteOriginalResponseAsync();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
         
         async Task<PageBuilder> PageFactory(int page)
         {

@@ -69,7 +69,7 @@ public class PollRunner
         await using var uow = _db.GetDbContext();
         var trackedPoll = uow.Poll.GetById(Poll.Id);
         trackedPoll.Votes.Add(voteObj);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return (true, Poll.PollType);
     }

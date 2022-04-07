@@ -36,7 +36,7 @@ public class UserPunishService2 : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MiniWarnlogChannelId = channel.Id;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -71,7 +71,7 @@ public class UserPunishService2 : INService
 
             uow.Warnings2.Add(warn2);
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         var p = ps.FirstOrDefault(x => x.Count == warnings);
@@ -208,7 +208,7 @@ WHERE GuildId={guildId}
                 break;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task WarnExpireAsync(ulong guildId, int days, bool delete)
@@ -219,7 +219,7 @@ WHERE GuildId={guildId}
 
             config.WarnExpireHours = days * 24;
             config.WarnExpireAction = delete ? WarnExpireAction.Delete : WarnExpireAction.Clear;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             // no need to check for warn expires
             if (config.WarnExpireHours == 0)
@@ -249,7 +249,7 @@ WHERE GuildId={guildId}
             await uow.Warnings2.ForgiveAll(guildId, userId, moderator);
         else
             toReturn = uow.Warnings2.Forgive(guildId, userId, moderator, index - 1);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return toReturn;
     }

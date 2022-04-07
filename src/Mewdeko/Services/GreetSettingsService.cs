@@ -179,7 +179,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public string GetBoostMessage(ulong gid) 
@@ -195,7 +195,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return enabled;
     }
@@ -206,7 +206,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.GreetHook = url;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -215,7 +215,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.LeaveHook = url;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -513,7 +513,7 @@ public class GreetSettingsService : INService
         conf.SendChannelGreetMessage = settings.SendChannelGreetMessage;
         conf.SendChannelByeMessage = settings.SendChannelByeMessage;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
@@ -532,7 +532,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
         
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return enabled;
     }
@@ -568,7 +568,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return enabled;
     }
@@ -605,7 +605,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return enabled;
     }
@@ -643,7 +643,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task SetGreetDel(ulong id, int timer)
@@ -658,7 +658,7 @@ public class GreetSettingsService : INService
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(id, toAdd, (_, _) => toAdd);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     #region Get Enabled Status

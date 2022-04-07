@@ -75,14 +75,13 @@ public class ProtectionService : INService
     {
         while (true)
         {
-            var item = await _punishUserQueue.Reader.ReadAsync();
+            var item = await _punishUserQueue.Reader.ReadAsync().ConfigureAwait(false);
 
             var muteTime = item.MuteTime;
             var gu = item.User;
             try
             {
-                await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser,
-                    item.Action, muteTime, item.RoleId, $"{item.Type} Protection");
+                await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser, item.Action, muteTime, item.RoleId, $"{item.Type} Protection").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -90,7 +89,7 @@ public class ProtectionService : INService
             }
             finally
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
         }
     }
@@ -101,7 +100,7 @@ public class ProtectionService : INService
         {
             TryStopAntiRaid(guild.Id);
             TryStopAntiSpam(guild.Id);
-            await TryStopAntiAlt(guild.Id);
+            await TryStopAntiAlt(guild.Id).ConfigureAwait(false);
         });
         return Task.CompletedTask;
     }
@@ -165,7 +164,7 @@ public class ProtectionService : INService
                             ProtectionType.Alting,
                             alts.ActionDurationMinutes,
                             alts.RoleId,
-                            user);
+                            user).ConfigureAwait(false);
 
                         return;
                     }
@@ -262,7 +261,7 @@ public class ProtectionService : INService
                 User = gu,
                 MuteTime = muteTime,
                 RoleId = roleId
-            });
+            }).ConfigureAwait(false);
 
         _ = OnAntiProtectionTriggered(action, pt, gus);
     }
@@ -296,7 +295,7 @@ public class ProtectionService : INService
         var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
         gc.AntiRaidSetting = stats.AntiRaidSettings;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return stats;
     }
@@ -377,7 +376,7 @@ public class ProtectionService : INService
             gc.AntiSpamSetting = stats.AntiSpamSettings;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return stats;
     }
@@ -414,7 +413,7 @@ public class ProtectionService : INService
             added = false;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return added;
     }
 
@@ -451,7 +450,7 @@ public class ProtectionService : INService
             RoleId = roleId
         };
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _antiAltGuilds[guildId] = new AntiAltStats(gc.AntiAltSetting);
     }
 
@@ -463,7 +462,7 @@ public class ProtectionService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = null;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 }

@@ -269,7 +269,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -429,7 +429,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -478,7 +478,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {

@@ -178,7 +178,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 {
                     await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Remove(plist1);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     await ctx.Interaction.SendConfirmFollowupAsync("Playlist deleted.");
                 }
 
@@ -205,7 +205,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     };
                     await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Add(toadd);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     await ctx.Interaction.SendConfirmFollowupAsync(
                         $"Successfully created playlist with name `{playlistOrSongName}`!");
                 }
@@ -389,7 +389,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         };
                         await using var uow = _db.GetDbContext();
                         uow.MusicPlaylists.Update(toupdate);
-                        await uow.SaveChangesAsync();
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
                         await msg.DeleteAsync();
                         await ctx.Interaction.SendConfirmFollowupAsync(
                             $"Added {advancedLavaTracks.FirstOrDefault()?.Title} to {plists6.Name}.");
@@ -436,7 +436,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                 };
                                 await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
-                                await uow.SaveChangesAsync();
+                                await uow.SaveChangesAsync().ConfigureAwait(false);
                                 await msg.DeleteAsync();
                                 await ctx.Interaction.SendConfirmFollowupAsync($"Added {toadd.Count()} tracks to {plists7.Name}.");
                             }
@@ -497,7 +497,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                 };
                                 await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
-                                await uow.SaveChangesAsync();
+                                await uow.SaveChangesAsync().ConfigureAwait(false);
                                 await msg.DeleteAsync();
                                 await ctx.Interaction.SendConfirmFollowupAsync($"Added {track.Title} to {plists6.Name}.");
                             }

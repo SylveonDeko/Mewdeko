@@ -21,7 +21,7 @@ public class ActivityService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildid, set => set);
         gc.GameMasterRole = role;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guildid, gc);
     }
 }

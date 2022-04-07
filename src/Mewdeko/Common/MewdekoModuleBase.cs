@@ -62,7 +62,7 @@ public abstract class MewdekoModule : ModuleBase
     }
 
     public async Task<bool> PromptUserConfirmAsync(string message, ulong userid) 
-        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid); 
+        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid).ConfigureAwait(false);
     
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
@@ -122,21 +122,21 @@ public abstract class MewdekoModule : ModuleBase
                 {
                     if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId)
                     {
-                        await c.DeferAsync();
+                        await c.DeferAsync().ConfigureAwait(false);
                         return Task.CompletedTask;
                     }
 
                     if (c.Data.CustomId == "yes")
                     {
-                        await c.DeferAsync();
+                        await c.DeferAsync().ConfigureAwait(false);
                         userInputTask.TrySetResult("Yes");
                         return Task.CompletedTask;
                     }
 
-                    await c.DeferAsync();
+                    await c.DeferAsync().ConfigureAwait(false);
                     userInputTask.TrySetResult(c.Data.CustomId);
                     return Task.CompletedTask;
-                });
+                }).ConfigureAwait(false);
         }
     }
 
@@ -164,7 +164,7 @@ public abstract class MewdekoModule : ModuleBase
                 userInputTask.TrySetResult(arg.Content);
                 try
                 {
-                    await arg.DeleteAsync();
+                    await arg.DeleteAsync().ConfigureAwait(false);
                 }
                 catch
                 {
@@ -177,7 +177,7 @@ public abstract class MewdekoModule : ModuleBase
     {
         var eb = new EmbedBuilder().WithOkColor().WithDescription(message);
         var component = new ComponentBuilder().WithButton("Cancel", "cancel", ButtonStyle.Danger).Build();
-        var msg = await chan.SendMessageAsync(embed: eb.Build(), components: component);
+        var msg = await chan.SendMessageAsync(embed: eb.Build(), components: component).ConfigureAwait(false);
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient) ctx.Client;
         try

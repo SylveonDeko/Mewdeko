@@ -53,7 +53,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         if (sg.OwnerId == gu.Id ||
             gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
         {
-            await ReplyErrorLocalizedAsync("insuf_perms_i");
+            await ReplyErrorLocalizedAsync("insuf_perms_i").ConfigureAwait(false);
             return;
         }
 
@@ -76,7 +76,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
-        await ctx.Guild.DownloadUsersAsync();
+        await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
         IEnumerable<IUser> users;
         if (option is not null && option.ToLower() == "-accage" && time1 is not null)
             users = ((SocketGuild) ctx.Guild).Users.Where(c =>
@@ -90,7 +90,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         if (!users.Any())
         {
-            await ctx.Channel.SendErrorAsync("No users at or under that server join age!");
+            await ctx.Channel.SendErrorAsync("No users at or under that server join age!").ConfigureAwait(false);
             return;
         }
 
@@ -104,7 +104,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -122,11 +122,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .WithDescription(
                 $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
         if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-        var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+        var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..").ConfigureAwait(false);
         foreach (var i in users)
             try
             {
-                await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.");
+                await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.").ConfigureAwait(false);
                 banned++;
             }
             catch
@@ -138,19 +138,19 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .WithDescription(
                 $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
             .WithOkColor();
-        await message.ModifyAsync(x => x.Embed = eb.Build());
+        await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.KickMembers)]
     public async Task KickUnder(StoopidTime time, string? option = null)
     {
-        await ctx.Guild.DownloadUsersAsync();
+        await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
         var users = ((SocketGuild) ctx.Guild).Users.Where(c =>
             c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
         var guildUsers = users as SocketGuildUser[] ?? users.ToArray();
         if (!guildUsers.Any())
         {
-            await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+            await ctx.Channel.SendErrorAsync("No users at or under that account age!").ConfigureAwait(false);
             return;
         }
 
@@ -164,7 +164,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -181,11 +181,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var embed = new EmbedBuilder().WithErrorColor()
             .WithDescription($"Are you sure you want to kick {guildUsers.Length} users that joined under that time?");
         if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-        var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..");
+        var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..").ConfigureAwait(false);
         foreach (var i in guildUsers)
             try
             {
-                await i.KickAsync($"{ctx.User}|| Kicking users under specified join time.");
+                await i.KickAsync($"{ctx.User}|| Kicking users under specified join time.").ConfigureAwait(false);
                 banned++;
             }
             catch
@@ -197,7 +197,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .WithDescription(
                 $"Kicked {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.")
             .WithOkColor();
-        await message.ModifyAsync(x => x.Embed = eb.Build());
+        await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
 
 
@@ -206,11 +206,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         if (e == "no")
         {
-            var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
+            var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true).ConfigureAwait(false);
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No users to prune, if you meant to prune users inyour member role please set it with {Prefix}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                    $"No users to prune, if you meant to prune users inyour member role please set it with {Prefix}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
                 return;
             }
 
@@ -219,31 +219,31 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 Description = $"Are you sure you want to prune {toprune} Members?",
                 Color = Mewdeko.OkColor
             };
-            if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
+            if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
                 await ctx.Channel.SendConfirmAsync(
-                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
             }
             else
             {
-                var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
-                await ctx.Guild.PruneUsersAsync(time.Time.Days);
+                var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...").ConfigureAwait(false);
+                await ctx.Guild.PruneUsersAsync(time.Time.Days).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
                     Color = Mewdeko.OkColor
                 };
-                await msg.ModifyAsync(x => x.Embed = ebi.Build());
+                await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
             }
         }
         else
         {
             ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
             var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)});
+                includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)}).ConfigureAwait(false);
             if (toprune == 0)
             {
-                await ctx.Channel.SendErrorAsync("No users to prune.");
+                await ctx.Channel.SendErrorAsync("No users to prune.").ConfigureAwait(false);
                 return;
             }
 
@@ -252,21 +252,21 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 Description = $"Are you sure you want to prune {toprune} Members?",
                 Color = Mewdeko.OkColor
             };
-            if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
+            if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
-                await ctx.Channel.SendConfirmAsync("Canceled prune.");
+                await ctx.Channel.SendConfirmAsync("Canceled prune.").ConfigureAwait(false);
             }
             else
             {
                 var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
                 await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                    includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)});
+                    includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)}).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
                     Color = Mewdeko.OkColor
                 };
-                await msg.ModifyAsync(x => x.Embed = ebi.Build());
+                await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
             }
         }
     }
@@ -277,35 +277,35 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var rol = Service.GetMemberRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
         {
-            await Service.MemberRoleSet(ctx.Guild, role.Id);
-            await ctx.Channel.SendConfirmAsync($"Member role has been set to {role.Mention}");
+            await Service.MemberRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Member role has been set to {role.Mention}").ConfigureAwait(false);
         }
 
         if (rol != 0 && role != null && rol == role.Id)
         {
-            await ctx.Channel.SendErrorAsync("This is already your Member role!");
+            await ctx.Channel.SendErrorAsync("This is already your Member role!").ConfigureAwait(false);
             return;
         }
 
         if (rol is 0 && role == null)
         {
-            await ctx.Channel.SendErrorAsync("No Member role set!");
+            await ctx.Channel.SendErrorAsync("No Member role set!").ConfigureAwait(false);
             return;
         }
 
         if (rol != 0 && role is null)
         {
             var r = ctx.Guild.GetRole(rol);
-            await ctx.Channel.SendConfirmAsync($"Your current Member role is {r.Mention}");
+            await ctx.Channel.SendConfirmAsync($"Your current Member role is {r.Mention}").ConfigureAwait(false);
             return;
         }
 
         if (role != null && rol is not 0)
         {
             var oldrole = ctx.Guild.GetRole(rol);
-            await Service.MemberRoleSet(ctx.Guild, role.Id);
+            await Service.MemberRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}");
+                $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}").ConfigureAwait(false);
         }
     }
 
@@ -315,35 +315,35 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var rol = Service.GetStaffRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
         {
-            await Service.StaffRoleSet(ctx.Guild, role.Id);
-            await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}");
+            await Service.StaffRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}").ConfigureAwait(false);
         }
 
         if (rol != 0 && role != null && rol == role.Id)
         {
-            await ctx.Channel.SendErrorAsync("This is already your staff role!");
+            await ctx.Channel.SendErrorAsync("This is already your staff role!").ConfigureAwait(false);
             return;
         }
 
         if (rol is 0 && role == null)
         {
-            await ctx.Channel.SendErrorAsync("No staff role set!");
+            await ctx.Channel.SendErrorAsync("No staff role set!").ConfigureAwait(false);
             return;
         }
 
         if (rol != 0 && role is null)
         {
             var r = ctx.Guild.GetRole(rol);
-            await ctx.Channel.SendConfirmAsync($"Your current staff role is {r.Mention}");
+            await ctx.Channel.SendConfirmAsync($"Your current staff role is {r.Mention}").ConfigureAwait(false);
             return;
         }
 
         if (role != null && rol is not 0)
         {
             var oldrole = ctx.Guild.GetRole(rol);
-            await Service.StaffRoleSet(ctx.Guild, role.Id);
+            await Service.StaffRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
+                $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}").ConfigureAwait(false);
         }
     }
 
@@ -353,12 +353,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var r = Service.GetStaffRole(ctx.Guild.Id);
         if (r == 0)
         {
-            await ctx.Channel.SendErrorAsync("No staff role set!");
+            await ctx.Channel.SendErrorAsync("No staff role set!").ConfigureAwait(false);
         }
         else
         {
-            await Service.StaffRoleSet(ctx.Guild, 0);
-            await ctx.Channel.SendConfirmAsync("Staff role disabled!");
+            await Service.StaffRoleSet(ctx.Guild, 0).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Staff role disabled!").ConfigureAwait(false);
         }
     }
 
@@ -541,7 +541,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel) ctx.Channel, messageId, time);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) => await InternalMessageAction(channel, messageId, time);
+    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) => await InternalMessageAction(channel, messageId, time).ConfigureAwait(false);
 
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {
@@ -585,6 +585,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             return;
         }
 
-        await ctx.OkAsync();
+        await ctx.OkAsync().ConfigureAwait(false);
     }
 }

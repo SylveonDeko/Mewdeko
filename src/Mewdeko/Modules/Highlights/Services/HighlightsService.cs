@@ -167,7 +167,7 @@ public class HighlightsService : INService, IReadyExecutor
         var toadd = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
         await using var uow = _db.GetDbContext();
         uow.Highlights.Add(toadd);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights>();
         current.Add(toadd);
         await _cache.AddHighlightToCache(guildId, current);
@@ -188,7 +188,7 @@ public class HighlightsService : INService, IReadyExecutor
                 IgnoredUsers = "0"
             };
             uow.HighlightSettings.Add(toadd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
@@ -196,7 +196,7 @@ public class HighlightsService : INService, IReadyExecutor
 
         toupdate.HighlightsOn = enabled;
         uow.HighlightSettings.Update(toupdate);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
@@ -220,7 +220,7 @@ public class HighlightsService : INService, IReadyExecutor
             toedit1.Add(channelId);
             toadd.IgnoredChannels = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
@@ -236,7 +236,7 @@ public class HighlightsService : INService, IReadyExecutor
             toedit.Add(channelId);
         toupdate.IgnoredChannels = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
@@ -262,7 +262,7 @@ public class HighlightsService : INService, IReadyExecutor
             toedit1.Add(userToIgnore);
             toadd.IgnoredUsers = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
@@ -278,7 +278,7 @@ public class HighlightsService : INService, IReadyExecutor
             toedit.Add(userToIgnore);
         toupdate.IgnoredUsers = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
@@ -289,7 +289,7 @@ public class HighlightsService : INService, IReadyExecutor
     {
         await using var uow = _db.GetDbContext();
         uow.Highlights.Remove(toremove);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightsForGuild(toremove.GuildId) ?? new List<Database.Models.Highlights>();
         if (current.Any())
         {

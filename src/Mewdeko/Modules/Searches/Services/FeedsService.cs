@@ -334,7 +334,7 @@ public class FeedsService : INService
         });
         toupdate.Message = message;
         uow.Update(toupdate);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _subs.AddOrUpdate(toupdate.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
         {
             old.Add(toupdate);

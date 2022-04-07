@@ -118,7 +118,7 @@ public class StreamRoleService : INService, IUnloadableService
                 }
             }
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             UpdateCache(guild.Id, streamRoleSettings);
         }
 
@@ -142,7 +142,7 @@ public class StreamRoleService : INService, IUnloadableService
 
             streamRoleSettings.Keyword = keyword;
             UpdateCache(guild.Id, streamRoleSettings);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         await RescanUsers(guild).ConfigureAwait(false);
@@ -191,7 +191,7 @@ public class StreamRoleService : INService, IUnloadableService
             streamRoleSettings.FromRoleId = fromRole.Id;
 
             setting = streamRoleSettings;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         UpdateCache(fromRole.Guild.Id, setting);
@@ -208,7 +208,7 @@ public class StreamRoleService : INService, IUnloadableService
             streamRoleSettings.Enabled = false;
             streamRoleSettings.AddRoleId = 0;
             streamRoleSettings.FromRoleId = 0;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         if (_guildSettings.TryRemove(guild.Id, out _) && cleanup)

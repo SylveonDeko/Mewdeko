@@ -48,7 +48,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             action ??= new PermissionAction(!config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -81,7 +81,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -96,7 +96,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = null;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -119,7 +119,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithMaxPageIndex(perms.Count / 10)
             .WithDefaultEmotes()
             .Build();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -151,7 +151,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
                 uow.Remove(p);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
                 Service.UpdateCache(config);
             }
 
@@ -198,7 +198,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
                     permsCol.RemoveAt(from);
                     permsCol.Insert(to, fromPerm);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     Service.UpdateCache(config);
                 }
 

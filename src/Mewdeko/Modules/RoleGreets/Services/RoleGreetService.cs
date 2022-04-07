@@ -175,7 +175,7 @@ public class RoleGreetService : INService
         var uow = _db.GetDbContext();
         greet.Message = code;
         uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
@@ -183,7 +183,7 @@ public class RoleGreetService : INService
         var uow = _db.GetDbContext();
         greet.Disabled = disabled;
         uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task ChangeRgDelete(RoleGreet greet, int howlong)
@@ -191,14 +191,14 @@ public class RoleGreetService : INService
         var uow = _db.GetDbContext();
         greet.DeleteTime = howlong;
         uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
         var uow = _db.GetDbContext();
         greet.WebhookUrl = webhookurl;
         uow.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
@@ -206,20 +206,20 @@ public class RoleGreetService : INService
         var uow = _db.GetDbContext();
         greet.GreetBots = enabled;
         uow.Update(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
     {
         var uow =  _db.GetDbContext();
         uow.RoleGreets.Remove(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
         var uow =  _db.GetDbContext();
         uow.RoleGreets.RemoveRange(greet);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
 }

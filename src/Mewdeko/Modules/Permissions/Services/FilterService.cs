@@ -182,7 +182,7 @@ public class FilterService : IEarlyBehavior, INService
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             _bot.UpdateGuildConfig(guild.Id, gc);
         }
     }
@@ -206,7 +206,7 @@ public class FilterService : IEarlyBehavior, INService
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             _bot.UpdateGuildConfig(guild.Id, gc);
         }
     }

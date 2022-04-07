@@ -60,7 +60,7 @@ public class CurrencyService : ICurrencyService
             // i have to prevent same user changing more than once as it will cause db error
             if (userIdHashSet.Add(idArray[i]))
                 InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public Task<bool> RemoveAsync(ulong userId, string reason, long amount, bool gamble = false) => InternalRemoveAsync(userId, null, null, null, reason, amount, gamble);
@@ -108,7 +108,7 @@ public class CurrencyService : ICurrencyService
 
         await using var uow = _db.GetDbContext();
         InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private async Task<bool> InternalRemoveAsync(ulong userId, string userName, string userDiscrim, string avatar,
@@ -121,7 +121,7 @@ public class CurrencyService : ICurrencyService
         bool result;
         await using var uow = _db.GetDbContext();
         result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return result;
     }
