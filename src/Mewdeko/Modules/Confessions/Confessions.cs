@@ -15,7 +15,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     public Confessions(Mewdeko bot) 
         => _bot = bot;
 
-    [Cmd, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
+    [Cmd, Aliases, RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string? confession = null)
     {
         var gc = _bot.GetGuildConfig(serverId);
