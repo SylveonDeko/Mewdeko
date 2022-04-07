@@ -18,7 +18,7 @@ public class StatsService : IStatsService
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
     public const string BOT_VERSION = "5.06";
-    
+
 
     private readonly DateTime _started;
 
@@ -34,13 +34,13 @@ public class StatsService : IStatsService
         _ = PostToTopGg();
         _ = PostToStatcord(coord, client, cmdServ);
     }
-    
+
     public string Library => $"Discord.Net {DllVersionChecker.GetDllVersion()} ";
 
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
-    
-    
+
+
 
     private TimeSpan GetUptime() => DateTime.UtcNow - _started;
 
@@ -52,24 +52,24 @@ public class StatsService : IStatsService
 
     public async Task PostToStatcord(ICoordinator coord, DiscordSocketClient socketClient, CommandService cmdServ)
     {
-       if(string.IsNullOrWhiteSpace(Creds.StatcordKey))
-        return;
-       var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
-       while (await timer.WaitForNextTickAsync())
-       {
-           using var content = new StringContent(
-               $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
-           using var client = new HttpClient();
-           content.Headers.Clear();
-           content.Headers.Add("Content-Type", "application/json");
-           await client.PostAsync("https://api.statcord.com/beta/stats", content);
-       }
+        if (string.IsNullOrWhiteSpace(Creds.StatcordKey))
+            return;
+        var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
+        while (await timer.WaitForNextTickAsync())
+        {
+            using var content = new StringContent(
+                $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
+            using var client = new HttpClient();
+            content.Headers.Clear();
+            content.Headers.Add("Content-Type", "application/json");
+            await client.PostAsync("https://api.statcord.com/beta/stats", content);
+        }
     }
     public async Task PostToTopGg()
     {
-        if (Client.ShardId != 0) 
+        if (Client.ShardId != 0)
             return;
-        
+
         if (Client.CurrentUser.Id != 752236274261426212)
             return;
         var timer = new PeriodicTimer(TimeSpan.FromMinutes(10));
@@ -77,7 +77,7 @@ public class StatsService : IStatsService
         {
             try
             {
-                
+
                 using var http = Factory.CreateClient();
                 using var content = new FormUrlEncodedContent(
                     new Dictionary<string, string>
