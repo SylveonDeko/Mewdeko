@@ -5,6 +5,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.ChatterBot;
+using Mewdeko.Modules.Permissions.Services;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Net.Http;
@@ -15,6 +16,7 @@ public class ChatterBotService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmd;
+    private readonly BlacklistService _blacklistService;
     private readonly IBotCredentials _creds;
     private readonly Mewdeko _bot;
     private readonly DbService _db;
@@ -23,9 +25,11 @@ public class ChatterBotService : INService
 
     public ChatterBotService(DiscordSocketClient client,
         Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
-        IBotCredentials creds, DbService db)
+        IBotCredentials creds, DbService db,
+        BlacklistService blacklistService)
     {
         _db = db;
+        _blacklistService = blacklistService;
         _client = client;
         _bot = bot;
         _cmd = cmd;
@@ -62,6 +66,9 @@ public class ChatterBotService : INService
             {
                 if (msg is not IUserMessage usrMsg)
                     return;
+                
+                
+                
                 IChatterBotSession cbs;
                 string message;
                 try
@@ -110,6 +117,19 @@ public class ChatterBotService : INService
             return null;
         if (GetCleverbotChannel(channel.Guild.Id) != channel.Id)
             return null;
+
+        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(channel.Guild.Id))
+        {
+            channel.SendErrorAsync("This server is blacklisted. Please join using the button below for an explanation or to appeal.");
+            return null;
+        }
+
+        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
+        {
+
+            (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
+            return null;
+        }
         if (!CleverbotUsers.TryGetValue(msg.Author.Id, out var lazyCleverbot))
         {
             CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));

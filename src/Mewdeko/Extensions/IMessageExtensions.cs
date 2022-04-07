@@ -1,5 +1,6 @@
 using Discord;
 using Mewdeko.Common;
+using PokeApiNet;
 using Image = Mewdeko.Common.Image;
 
 namespace Mewdeko.Extensions;
@@ -8,6 +9,13 @@ public static class MessageExtensions
 {
     public static string GetJumpLink(this IMessage message)
         => $"https://discord.com/channels/{(message.Channel is ITextChannel channel ? channel.GuildId : "@me")}/{message.Channel.Id}/{message.Id}";
+
+    public static void ReplyError(this IUserMessage message, string content)
+    {
+        var eb = new EmbedBuilder().WithErrorColor().WithDescription(content);
+        var builder = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "discord.gg/mewdeko");
+        message.ReplyAsync(embed: eb.Build(), components: builder.Build());
+    }
 
     // public static SerializedEmbed GetJsonSource(this IMessage message)
     // {
