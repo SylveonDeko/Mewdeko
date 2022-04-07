@@ -3801,3 +3801,12 @@ owoify:
   args:
     - cats are super duper cute
     - snuggles
+addchattriggerregex:
+  desc: >-
+    Add a Chat Trigger with a regex trigger and a response. Running this command in
+    server requires the Administration permission. Running this command in DM is
+    Bot Owner only and adds a new global Chat Trigger. Guide here:
+    https://mewdeko.tech/chattriggers
+  args:
+    - \d{3,}cats you have lots of cats
+    - \dcats you have a reasonable number of cats
