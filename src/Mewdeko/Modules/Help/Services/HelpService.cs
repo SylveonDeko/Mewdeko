@@ -161,20 +161,23 @@ public class HelpService : ILateExecutor, INService
     }
 
 
-    private async Task HandlePing(SocketMessage msg)
+    private Task HandlePing(SocketMessage msg)
     {
-        if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>")
-            if (msg.Channel is ITextChannel chan)
-            {
-                var eb = new EmbedBuilder();
-                eb.WithOkColor();
-                eb.WithDescription(
-                    $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
-                eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
-                eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username)
-                                                      .WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
-                await chan.SendMessageAsync(embed: eb.Build());
-            }
+        _ = Task.Run(async () =>
+        {
+            if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>")
+                if (msg.Channel is ITextChannel chan)
+                {
+                    var eb = new EmbedBuilder();
+                    eb.WithOkColor();
+                    eb.WithDescription(
+                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                    eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
+                    eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
+                    await chan.SendMessageAsync(embed: eb.Build());
+                }
+        });
+        return Task.CompletedTask;
     }
 
     public Task HandleJoin(SocketGuild guild)
