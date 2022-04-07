@@ -67,21 +67,22 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     // respond with a modal to support multiline responces.
     [SlashCommand("add", "Add new chat trigger."),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task AddChatTrigger()
-        => await RespondWithModalAsync<ChatTriggerModal>("chat_trigger_add").ConfigureAwait(false);
+    public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
+        => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
 
-    [ModalInteraction("chat_trigger_add", true),
+    [ModalInteraction("chat_trigger_add:*", true),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task AddChatTriggerModal(ChatTriggerModal modal)
+    public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
     {
+        var rgx = bool.Parse(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Key) || string.IsNullOrWhiteSpace(modal.Message))
         {
             await RespondAsync("trigger_add_invalid").ConfigureAwait(false);
             return;
         }
 
-        var cr = await Service.AddAsync(ctx.Guild?.Id, modal.Key, modal.Message);
+        var cr = await Service.AddAsync(ctx.Guild?.Id, modal.Key, modal.Message, rgx).ConfigureAwait(false);
 
         await RespondAsync(embed: new EmbedBuilder().WithOkColor()
             .WithTitle(GetText("new_chat_trig"))
@@ -97,11 +98,12 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task EditChatTrigger
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
+        [Summary("regex", "Should the trigger use regex.")] bool regex = false
     )
     {
         var trigger = Service.GetChatTriggers(ctx.Guild.Id, id);
-        await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id}", null, x =>
+        await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null, x =>
             {
                 x.Title = "Chat trigger edit";
                 x.UpdateTextInputValue("key", trigger.Trigger);
@@ -109,15 +111,16 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             }).ConfigureAwait(false);
     }
 
-    [ModalInteraction("chat_trigger_edit:*", true),
+    [ModalInteraction("chat_trigger_edit:*,*", true),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task EditChatTriggerModal(string sId, ChatTriggerModal modal)
+    public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
     {
         int id = int.Parse(sId);
+        bool rgx = bool.Parse(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Message) || id < 0)
             return;
 
-        var cr = await Service.EditAsync(ctx.Guild?.Id, id, modal.Message).ConfigureAwait(false);
+        var cr = await Service.EditAsync(ctx.Guild?.Id, id, modal.Message, rgx).ConfigureAwait(false);
         if (cr != null)
             await RespondAsync(embed: new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("edited_chat_trig"))
@@ -131,7 +134,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await RespondAsync(GetText("edit_fail")).ConfigureAwait(false);
     }
 
-    [SlashCommand("list", "List chat triggers.."),
+    [SlashCommand("list", "List chat triggers."),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task ListChatTriggers()
     {
