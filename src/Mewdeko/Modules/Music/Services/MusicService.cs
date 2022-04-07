@@ -70,7 +70,7 @@ public class MusicService : INService
                 Songs = mpl.Songs
             };
             uow.MusicPlaylists.Update(toupdate1);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
         public Task Enqueue(
             ulong guildId,
@@ -399,7 +399,7 @@ public class MusicService : INService
 
             await using var uow = _db.GetDbContext();
             var toReturn = _settings[guildId] = await uow.MusicPlayerSettings.ForGuildAsync(guildId);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             return toReturn;
         }
@@ -412,7 +412,7 @@ public class MusicService : INService
             await using var uow = _db.GetDbContext();
             var ms = await uow.MusicPlayerSettings.ForGuildAsync(guildId);
             action(ms, state);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             _settings[guildId] = ms;
         }
     }

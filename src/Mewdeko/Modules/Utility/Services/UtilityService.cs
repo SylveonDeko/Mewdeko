@@ -45,7 +45,7 @@ public class UtilityService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ReactChannel = yesnt;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -66,7 +66,7 @@ public class UtilityService : INService
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             _bot.UpdateGuildConfig(guild.Id, gc);
         }
     }
@@ -80,7 +80,7 @@ public class UtilityService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = yesno;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SnipeSetBool(IGuild guild, bool enabled)
@@ -88,7 +88,7 @@ public class UtilityService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 

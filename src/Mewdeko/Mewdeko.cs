@@ -124,7 +124,7 @@ public class Mewdeko
             CachedGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToList();
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             gs2.Stop();
-            Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}.");
+            Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
         }
 
         var s = new ServiceCollection()
@@ -201,6 +201,8 @@ public class Mewdeko
 
     private IEnumerable<object> LoadTypeReaders(Assembly assembly)
     {
+        var sw = new Stopwatch();
+        sw.Start();
         var interactionService = Services.GetService<InteractionService>();
         Type[] allTypes;
         try
@@ -234,6 +236,8 @@ public class Mewdeko
 
 
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
+        sw.Stop();
+        Log.Information($"TypeReaders loaded in {sw.Elapsed.TotalSeconds:F2}s");
         return toReturn;
     }
 

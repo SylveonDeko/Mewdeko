@@ -65,7 +65,7 @@ public partial class Permissions
                     localSet.Add(cc);
                 }
 
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (secs == 0)

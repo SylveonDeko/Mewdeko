@@ -27,17 +27,17 @@ public partial class Administration
         {
             if (perms is null || perms.Length == 0)
             {
-                await Service.RemoveOverride(ctx.Guild.Id, cmd.Name);
-                await ReplyConfirmLocalizedAsync("perm_override_reset");
+                await Service.RemoveOverride(ctx.Guild.Id, cmd.Name).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("perm_override_reset").ConfigureAwait(false);
                 return;
             }
 
             var aggregatePerms = perms.Aggregate((acc, seed) => seed | acc);
-            await Service.AddOverride(Context.Guild.Id, cmd.Name, aggregatePerms);
+            await Service.AddOverride(Context.Guild.Id, cmd.Name, aggregatePerms).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("perm_override",
                 Format.Bold(aggregatePerms.ToString()),
-                Format.Code(cmd.Name));
+                Format.Code(cmd.Name)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -46,13 +46,13 @@ public partial class Administration
         {
             var result = await PromptUserConfirmAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id);
+                .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id).ConfigureAwait(false);
 
             if (!result)
                 return;
-            await Service.ClearAllOverrides(Context.Guild.Id);
+            await Service.ClearAllOverrides(Context.Guild.Id).ConfigureAwait(false);
 
-            await ReplyConfirmLocalizedAsync("perm_override_all");
+            await ReplyConfirmLocalizedAsync("perm_override_all").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -60,7 +60,7 @@ public partial class Administration
         public async Task DiscordPermOverrideList()
         {
 
-            var overrides = await Service.GetAllOverrides(Context.Guild.Id);
+            var overrides = await Service.GetAllOverrides(Context.Guild.Id).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -69,11 +69,11 @@ public partial class Administration
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var thisPageOverrides = overrides
                     .Skip(9 * page)
                     .Take(9)

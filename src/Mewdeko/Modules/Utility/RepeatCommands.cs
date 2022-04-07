@@ -104,7 +104,7 @@ public partial class Utility
                     uow.Remove(item);
                 }
 
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
@@ -138,7 +138,7 @@ public partial class Utility
 
                 var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
                 if (item != null) item.NoRedundant = newValue;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (newValue)
@@ -199,7 +199,7 @@ public partial class Utility
                 gc.GuildRepeaters.Add(toAdd);
                 try
                 {
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -289,7 +289,7 @@ public partial class Utility
             if (item != null) item.Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone
                 ? text
                 : text.SanitizeMentions(true);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("repeater_msg_update", text);
         }
@@ -317,7 +317,7 @@ public partial class Utility
             var guildConfig = uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
             if (item != null) item.ChannelId = textChannel.Id;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("repeater_channel_update", textChannel.Mention);
         }

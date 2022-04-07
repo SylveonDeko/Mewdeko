@@ -140,7 +140,7 @@ public class SelfAssignedRolesService : INService
             set = true;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return set;
     }

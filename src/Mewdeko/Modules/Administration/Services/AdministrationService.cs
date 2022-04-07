@@ -48,7 +48,7 @@ public class AdministrationService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);;
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -57,7 +57,7 @@ public class AdministrationService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -156,7 +156,7 @@ public class AdministrationService : INService
                 DeleteMessagesOnCommandChannels[chId] = newState == Administration.State.Enable;
             }
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         switch (newState)

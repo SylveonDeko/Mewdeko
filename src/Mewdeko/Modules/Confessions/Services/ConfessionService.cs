@@ -88,7 +88,7 @@ public class ConfessionService : INService
                 UserId = user.Id
             };
             uow.Confessions.Add(toadd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             if (GetConfessionLogChannel(serverId) != 0)
             {
                 var logChannel = guild.GetTextChannel(GetConfessionLogChannel(serverId));
@@ -163,7 +163,7 @@ public class ConfessionService : INService
                 UserId = user.Id
             };
             uow.Confessions.Add(toadd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             if (GetConfessionLogChannel(serverId) != 0)
             {
                 var logChannel = guild.GetTextChannel(GetConfessionLogChannel(serverId));
@@ -184,7 +184,7 @@ public class ConfessionService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionChannel = channelId;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -200,7 +200,7 @@ public class ConfessionService : INService
             blacklists.Add(roleId);
 
         gc.SetConfessionBlacklists(blacklists);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guildId, gc);
     }
 
@@ -209,7 +209,7 @@ public class ConfessionService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionLogChannel = channelId;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 

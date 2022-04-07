@@ -161,7 +161,7 @@ public class LogCommandService : INService
                                                                 logSetting.LogVoicePresenceTTSId =
                                                                     value ? channelId : null;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
@@ -259,7 +259,7 @@ public class LogCommandService : INService
                 _ => null
             };
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return channelId != null;
@@ -525,7 +525,7 @@ public class LogCommandService : INService
                         }
                         else if (cacheable.Value.Roles.Count > after.Roles.Count)
                         {
-                            await Task.Delay(1000);
+                            await Task.Delay(1000).ConfigureAwait(false);
                             var diffRoles = cacheable.Value.Roles
                                 .Where(r => !after.Roles.Contains(r) && !IsRoleDeleted(r.Id))
                                 .Select(r => r.Name)
@@ -626,7 +626,7 @@ public class LogCommandService : INService
                     return;
                 var title = GetText(logChannel.Guild, ch is IVoiceChannel ? "voice_chan_destroyed" : "text_chan_destroyed");
 
-                var audits = await ch.Guild.GetAuditLogsAsync();
+                var audits = await ch.Guild.GetAuditLogsAsync().ConfigureAwait(false);
                 var e = audits.FirstOrDefault(x => x.Action == ActionType.ChannelDeleted);
                 await logChannel.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
@@ -911,11 +911,11 @@ public class LogCommandService : INService
                     eb.WithTitle($"🗑 {count} Messages bulk deleted in {channel.Value.Name}");
                     eb.WithDescription(string.Join("\n",
                         group.Select(x => $"{x.Author}: {x.Content}".Truncate(202))));
-                    await logChannel.SendMessageAsync(embed: eb.Build());
+                    await logChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
 
                 toSend = toSend.Skip(100).ToList();
-                await Task.Delay(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
         });
 

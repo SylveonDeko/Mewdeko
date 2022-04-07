@@ -20,13 +20,13 @@ public partial class Administration
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt()
         {
-            if (await Service.TryStopAntiAlt(ctx.Guild.Id))
+            if (await Service.TryStopAntiAlt(ctx.Guild.Id).ConfigureAwait(false))
             {
-                await ReplyConfirmLocalizedAsync("prot_disable", "Anti-Alt");
+                await ReplyConfirmLocalizedAsync("prot_disable", "Anti-Alt").ConfigureAwait(false);
                 return;
             }
 
-            await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Alt");
+            await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Alt").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -41,9 +41,9 @@ public partial class Administration
                 return;
 
             await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
-                (int?) punishTime?.Time.TotalMinutes ?? 0);
+                (int?) punishTime?.Time.TotalMinutes ?? 0).ConfigureAwait(false);
 
-            await ctx.OkAsync();
+            await ctx.OkAsync().ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -55,9 +55,9 @@ public partial class Administration
             if (minAgeMinutes < 1)
                 return;
 
-            await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, roleId: role.Id);
+            await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, roleId: role.Id).ConfigureAwait(false);
 
-            await ctx.OkAsync();
+            await ctx.OkAsync().ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -84,7 +84,7 @@ public partial class Administration
         {
             if (action == PunishmentAction.AddRole)
             {
-                await ReplyErrorLocalizedAsync("punishment_unsupported", action);
+                await ReplyErrorLocalizedAsync("punishment_unsupported", action).ConfigureAwait(false);
                 return;
             }
 
@@ -102,7 +102,7 @@ public partial class Administration
 
             if (punishTime is not null)
                 if (!ProtectionService.IsDurationAllowed(action))
-                    await ReplyErrorLocalizedAsync("prot_cant_use_time");
+                    await ReplyErrorLocalizedAsync("prot_cant_use_time").ConfigureAwait(false);
 
             var time = (int?) punishTime?.Time.TotalMinutes ?? 0;
             if (time is < 0 or > 60 * 24)
@@ -153,7 +153,7 @@ public partial class Administration
 
             if (timeData is not null)
                 if (!ProtectionService.IsDurationAllowed(action))
-                    await ReplyErrorLocalizedAsync("prot_cant_use_time");
+                    await ReplyErrorLocalizedAsync("prot_cant_use_time").ConfigureAwait(false);
 
             var time = (int?) timeData?.Time.TotalMinutes ?? 0;
             if (time is < 0 or > 60 * 24)

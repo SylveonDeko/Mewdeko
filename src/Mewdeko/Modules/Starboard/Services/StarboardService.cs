@@ -49,7 +49,7 @@ public class StarboardService : INService, IReadyExecutor
             var toAdd = new StarboardPosts {MessageId = messageId, PostId = postId};
             starboardPosts.Add(toAdd);
             uow.Starboard.Add(toAdd);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             return;
         }
 
@@ -60,7 +60,7 @@ public class StarboardService : INService, IReadyExecutor
         post.PostId = postId;
         uow.Starboard.Update(post);
         starboardPosts.Add(post);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private async Task RemoveStarboardPost(ulong messageId)
@@ -69,7 +69,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         uow.Starboard.Remove(toRemove);
         starboardPosts.Remove(toRemove);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
@@ -77,7 +77,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StarboardChannel = channel;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -86,7 +86,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StarboardAllowBots = enabled;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -95,7 +95,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnDelete = removeOnDelete;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -104,7 +104,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnReactionsClear = removeOnClear;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -113,7 +113,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -122,7 +122,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.UseStarboardBlacklist = true;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task<bool> ToggleChannel(IGuild guild, string id)
@@ -135,7 +135,7 @@ public class StarboardService : INService, IReadyExecutor
             await using var uow = _db.GetDbContext();
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardCheckChannels = joinedchannels;
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             _bot.UpdateGuildConfig(guild.Id, gc);
             return false;
         }
@@ -155,7 +155,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.Stars = num;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -184,7 +184,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.Star2 = emote;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
@@ -193,7 +193,7 @@ public class StarboardService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.RepostThreshold = threshold;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 

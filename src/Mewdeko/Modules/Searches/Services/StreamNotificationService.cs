@@ -168,7 +168,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                                       .ToList();
 
                     uow.RemoveRange(toDelete);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
 
                     foreach (var loginToDelete in kvp.Value)
                         _streamTracker.UntrackStreamByKey(new(kvp.Key, loginToDelete));
@@ -348,7 +348,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         foreach (var s in gc.FollowedStreams)
             await PublishUnfollowStream(s);
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return removedCount;
     }
@@ -371,7 +371,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             fs = fss[index];
             uow.Remove(fs);
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             // remove from local cache
             lock (_shardLock)
@@ -429,7 +429,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 return null;
 
             gc.FollowedStreams.Add(fs);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
 
             // add it to the local cache of tracked streams
             // this way this shard will know it needs to post a message to discord

@@ -132,7 +132,7 @@ public class VcRoleService : INService
             await using var uow = _db.GetDbContext();
             Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
             uow.RemoveRange(missingRoles);
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 

@@ -43,7 +43,7 @@ public static class EnumerableExtensions
 
         // Awaits each task and adds the result to the result list.
         foreach(var task in tasks) 
-            res.Add(await task);
+            res.Add(await task.ConfigureAwait(false));
 			
         return res;
     }

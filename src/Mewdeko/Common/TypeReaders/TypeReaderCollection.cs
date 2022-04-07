@@ -16,7 +16,7 @@ public class TypeReaderCollection : TypeReader
 
         foreach (var reader in _readers)
         {
-            var result = await reader.ReadAsync(context, input, services);
+            var result = await reader.ReadAsync(context, input, services).ConfigureAwait(false);
             if (result.Error is not null)
                 errors.Add(result);
             else

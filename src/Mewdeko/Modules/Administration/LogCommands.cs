@@ -130,7 +130,7 @@ public partial class Administration
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Log(LogType type)
         {
-            var val = await Service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
+            var val = await Service.Log(ctx.Guild.Id, ctx.Channel.Id, type).ConfigureAwait(false);
 
             if (val)
                 await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
@@ -142,19 +142,19 @@ public partial class Administration
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task Log(LogType type, ITextChannel channel)
         {
-            var val = await Service.Log(ctx.Guild.Id, channel.Id, type);
+            var val = await Service.Log(ctx.Guild.Id, channel.Id, type).ConfigureAwait(false);
 
             if (val)
             {
                 await ctx.Channel.SendConfirmAsync(
-                    $"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}");
+                    $"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}").ConfigureAwait(false);
                 return;
             }
 
-            await Service.Log(ctx.Guild.Id, channel.Id, type);
+            await Service.Log(ctx.Guild.Id, channel.Id, type).ConfigureAwait(false);
 
             await ctx.Channel.SendConfirmAsync(
-                $"Event Logging for {Format.Bold(type.ToString())} has been switched to {channel.Mention}");
+                $"Event Logging for {Format.Bold(type.ToString())} has been switched to {channel.Mention}").ConfigureAwait(false);
         }
     }
 }

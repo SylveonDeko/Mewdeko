@@ -60,7 +60,7 @@ public partial class Gambling
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -104,7 +104,7 @@ public partial class Gambling
                     .ThenInclude(x => x.Items));
                 var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (entry == null)
@@ -175,7 +175,7 @@ public partial class Gambling
                             await using (var uow = _db.GetDbContext())
                             {
                                 uow.Set<ShopEntryItem>().Remove(item);
-                                await uow.SaveChangesAsync();
+                                await uow.SaveChangesAsync().ConfigureAwait(false);
                             }
 
                             try
@@ -210,7 +210,7 @@ public partial class Gambling
                                     entry = entries.ElementAtOrDefault(index);
                                     if (entry != null)
                                         if (entry.Items.Add(item))
-                                            await uow.SaveChangesAsync();
+                                            await uow.SaveChangesAsync().ConfigureAwait(false);
                                 }
 
                                 await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
@@ -253,7 +253,7 @@ public partial class Gambling
                     entry
                 };
                 uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -281,7 +281,7 @@ public partial class Gambling
                     entry
                 };
                 uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -311,7 +311,7 @@ public partial class Gambling
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
                     // ReSharper disable once AssignmentInConditionalExpression
                     if (added = entry.Items.Add(item))
-                        await uow.SaveChangesAsync();
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (entry == null)
@@ -344,7 +344,7 @@ public partial class Gambling
                 {
                     uow.RemoveRange(removed.Items);
                     uow.Remove(removed);
-                    await uow.SaveChangesAsync();
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 

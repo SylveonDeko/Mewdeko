@@ -70,7 +70,7 @@ public partial class Administration
                 })
                 .Where(x => x != null);
 
-            var all = await Task.WhenAll(results);
+            var all = await Task.WhenAll(results).ConfigureAwait(false);
 
             if (!all.Any())
                 return;
@@ -105,7 +105,7 @@ public partial class Administration
                         RoleId = x.role.Id
                     }).ToList()
                 }))
-                await ctx.OkAsync();
+                await ctx.OkAsync().ConfigureAwait(false);
             else
                 await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
         }
@@ -136,7 +136,7 @@ public partial class Administration
             if (!Service.Get(ctx.Guild.Id, out var rrs) ||
                 !rrs.Any())
             {
-                await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles"));
+                await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles")).ConfigureAwait(false);
             }
             else
             {
@@ -148,7 +148,7 @@ public partial class Administration
                     .WithDefaultEmotes()
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -157,7 +157,7 @@ public partial class Administration
                     var ch = await g.GetTextChannelAsync(rr.ChannelId);
                     IUserMessage msg = null;
                     if (ch is not null)
-                        msg = await ch.GetMessageAsync(rr.MessageId) as IUserMessage;
+                        msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;
                     var eb = new PageBuilder().WithOkColor();
                     return
                         eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",

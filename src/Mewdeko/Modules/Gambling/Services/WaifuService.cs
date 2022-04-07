@@ -67,7 +67,7 @@ public class WaifuService : INService
         var newOwnerUser = uow.GetOrCreateUser(newOwner);
         waifu.ClaimerId = newOwnerUser.Id;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
@@ -131,7 +131,7 @@ public class WaifuService : INService
 
         //wives stay though
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
@@ -223,7 +223,7 @@ public class WaifuService : INService
             }
 
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return (w, isAffinity, result);
@@ -280,7 +280,7 @@ public class WaifuService : INService
                 });
             }
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return (oldAff, success, remaining);
@@ -338,7 +338,7 @@ public class WaifuService : INService
                 });
             }
 
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return (w, result, amount, remaining);
@@ -372,7 +372,7 @@ public class WaifuService : INService
         else
             w.Price += itemObj.Price / 2;
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }

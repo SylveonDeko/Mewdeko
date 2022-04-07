@@ -193,7 +193,7 @@ public class PermissionService : ILateBlocker, INService
             config.Permissions.Add(perm);
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 
@@ -216,7 +216,7 @@ public class PermissionService : ILateBlocker, INService
         await using var uow = _db.GetDbContext();
         var config = uow.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 }

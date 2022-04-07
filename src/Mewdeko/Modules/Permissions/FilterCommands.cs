@@ -61,7 +61,7 @@ public partial class Permissions
                     .WithDefaultEmotes()
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -124,7 +124,7 @@ public partial class Permissions
             {
                 var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterInvites = !config.FilterInvites;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (enabled)
@@ -159,7 +159,7 @@ public partial class Permissions
                     config.FilterInvitesChannelIds.Add(match);
                 else
                     uow.Remove(removed);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (removed == null)
@@ -184,7 +184,7 @@ public partial class Permissions
             {
                 var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterLinks = !config.FilterLinks;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (enabled)
@@ -219,7 +219,7 @@ public partial class Permissions
                     config.FilterLinksChannelIds.Add(match);
                 else
                     uow.Remove(removed);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (removed == null)
@@ -244,7 +244,7 @@ public partial class Permissions
             {
                 var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterWords = !config.FilterWords;
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (enabled)
@@ -279,7 +279,7 @@ public partial class Permissions
                     config.FilterWordsChannelIds.Add(match);
                 else
                     uow.Remove(removed);
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (removed == null)
@@ -316,7 +316,7 @@ public partial class Permissions
                 else
                     uow.Remove(removed);
 
-                await uow.SaveChangesAsync();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             var filteredWords =
@@ -352,7 +352,7 @@ public partial class Permissions
                 .WithDefaultEmotes()
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
             async Task<PageBuilder> PageFactory(int page)
             {

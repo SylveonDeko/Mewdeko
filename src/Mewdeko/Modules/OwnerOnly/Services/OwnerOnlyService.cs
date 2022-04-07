@@ -248,7 +248,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return null;
 
         uow.Remove(toRemove);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return toRemove.Status;
     }
 
@@ -257,7 +257,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         await using var uow = _db.GetDbContext();
         var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
         uow.Add(toAdd);
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public bool ToggleRotatePlaying()
