@@ -154,7 +154,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     }
 
     [SlashCommand("search", "get information on a specific command")]
-    public async Task Test
+    public async Task Search
     (
         [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
     )
@@ -179,5 +179,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
 
         await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpSelect(ctx.Guild, !description).Build(); });
+    }
+
+    [SlashCommand("test", "test")]
+    public async Task Test(string s)
+    {
+        await ctx.Interaction.RespondAsync(s);
     }
 }

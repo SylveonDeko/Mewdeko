@@ -12,7 +12,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 {
     private readonly Mewdeko _bot;
 
-    public SlashConfessions(Mewdeko bot) 
+    public SlashConfessions(Mewdeko bot)
         => _bot = bot;
 
     [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
@@ -40,7 +40,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
     }
 
-    [SlashCommand("channel", "Set the confession channel"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("channel", "Set the confession channel"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -61,7 +61,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         await ctx.Interaction.SendConfirmAsync($"Set {channel.Mention} as the Confession Channel!");
     }
 
-    [SlashCommand("logchannel", "Set the confession channel"),  SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("logchannel", "Set the confession channel"), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -82,7 +82,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         await ctx.Interaction.SendErrorAsync($"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***");
     }
 
-    [SlashCommand("blacklist", "Add a user to the confession blacklist"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("blacklist", "Add a user to the confession blacklist"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -98,8 +98,8 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             await ctx.Interaction.SendConfirmAsync($"Added {user.Mention} to the confession blacklist!!");
         }
     }
-    
-    [SlashCommand("unblacklist", "Unblacklists a user from confessions"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+
+    [SlashCommand("unblacklist", "Unblacklists a user from confessions"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -116,18 +116,17 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
     }
 
-    [SlashCommand("report", "Reports a server for misuse of confessions") , BlacklistCheck]
-    public async Task ConfessionsReport([Summary("ServerId", "The ID of the server abusing confessions")]string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
+    [SlashCommand("report", "Reports a server for misuse of confessions"), BlacklistCheck]
+    public async Task ConfessionsReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
     {
         if (!ulong.TryParse(stringServerId, out var serverId))
         {
             await ctx.Interaction.SendErrorAsync("The ID you provided was invalid!");
             return;
         }
-            
+
         var reportedGuild = await ((DiscordSocketClient)ctx.Client).Rest.GetGuildAsync(serverId);
-        var officialGuild = await ((DiscordSocketClient)ctx.Client).Rest.GetGuildAsync(843489716674494475);
-        var channel = await officialGuild.GetTextChannelAsync(942825117820530709);
+        var channel = await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.ConfessionReportChannelId).ConfigureAwait(false) as ITextChannel;
         var eb = new EmbedBuilder().WithErrorColor().WithTitle("Confessions Abuse Report Recieved")
                                    .AddField("Report", how)
                                    .AddField("Report User", $"{ctx.User} | {ctx.User.Id}")
