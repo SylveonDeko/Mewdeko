@@ -112,11 +112,6 @@ public partial class Games : MewdekoModuleBase<GamesService>
                 crazy = NextDouble(5, 7);
                 advice = ratings.Wif;
                 break;
-            case < 999:
-                hot = NextDouble(8, 10);
-                crazy = NextDouble(2, 3.99d);
-                advice = ratings.Tra;
-                break;
             default:
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(4, 5);
