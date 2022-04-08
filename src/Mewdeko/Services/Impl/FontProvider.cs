@@ -9,8 +9,8 @@ public class FontProvider : INService
     {
         var fonts = new FontCollection();
 
-        NotoSans = fonts.Install("data/fonts/NotoSans-Bold.ttf");
-        UniSans = fonts.Install("data/fonts/Uni Sans.ttf");
+        NotoSans = fonts.Add("data/fonts/NotoSans-Bold.ttf");
+        UniSans = fonts.Add("data/fonts/Uni Sans.ttf");
 
         FallBackFonts = new List<FontFamily>();
 
@@ -21,8 +21,8 @@ public class FontProvider : INService
             try
             {
                 var fontsfolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
-                FallBackFonts.Add(fonts.Install(Path.Combine(fontsfolder, "seguiemj.ttf")));
-                FallBackFonts.AddRange(fonts.InstallCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
+                FallBackFonts.Add(fonts.Add(Path.Combine(fontsfolder, "seguiemj.ttf")));
+                FallBackFonts.AddRange(fonts.AddCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
             }
             catch
             {
@@ -33,8 +33,8 @@ public class FontProvider : INService
         // this will allow support for special characters when drawing text
         foreach (var font in Directory.GetFiles(@"data/fonts"))
             if (font.EndsWith(".ttf"))
-                FallBackFonts.Add(fonts.Install(font));
-            else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(fonts.InstallCollection(font));
+                FallBackFonts.Add(fonts.Add(font));
+            else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(fonts.AddCollection(font));
 
         RipFont = NotoSans.CreateFont(20, FontStyle.Bold);
     }

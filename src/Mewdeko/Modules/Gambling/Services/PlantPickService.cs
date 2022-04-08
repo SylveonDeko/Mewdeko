@@ -75,7 +75,7 @@ public class PlantPickService : INService
         using var uow = _db.GetDbContext();
         var guildConfig = uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
-        var toAdd = new GcChannelId {ChannelId = cid};
+        var toAdd = new GcChannelId { ChannelId = cid };
         if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
         {
             guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
@@ -150,7 +150,7 @@ public class PlantPickService : INService
         img.Mutate(x =>
         {
             // measure the size of the text to be drawing
-            var size = TextMeasurer.Measure(pass, new RendererOptions(font, new PointF(0, 0)));
+            var size = TextMeasurer.Measure(pass, new TextOptions(font));
 
             // fill the background with black, add 5 pixels on each side to make it look better
             x.FillPolygon(Color.ParseHex("00000080"),
