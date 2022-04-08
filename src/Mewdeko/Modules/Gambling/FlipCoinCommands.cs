@@ -55,12 +55,12 @@ public partial class Gambling
                 var tailsArr = _images.Tails[_rng.Next(0, _images.Tails.Count)];
                 if (_rng.Next(0, 10) < 5)
                 {
-                    imgs[i] = Image.Load(headsArr);
+                    imgs[i] = Image.Load<Rgba32>(headsArr);
                     headCount++;
                 }
                 else
                 {
-                    imgs[i] = Image.Load(tailsArr);
+                    imgs[i] = Image.Load<Rgba32>(tailsArr);
                     tailCount++;
                 }
             }
@@ -106,7 +106,7 @@ public partial class Gambling
             string str;
             if (guess == result)
             {
-                var toWin = (long) (amount * Config.BetFlip.Multiplier);
+                var toWin = (long)(amount * Config.BetFlip.Multiplier);
                 str = $"{Format.Bold(ctx.User.ToString())} {GetText("flip_guess", toWin + CurrencySign)}";
                 await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
             }
