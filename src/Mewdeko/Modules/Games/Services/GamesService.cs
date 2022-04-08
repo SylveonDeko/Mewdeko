@@ -124,7 +124,6 @@ public class GamesService : INService, IUnloadableService
     public class RatingTexts
     {
         public string Nog { get; set; }
-        public string Tra { get; set; }
         public string Fun { get; set; }
         public string Uni { get; set; }
         public string Wif { get; set; }
