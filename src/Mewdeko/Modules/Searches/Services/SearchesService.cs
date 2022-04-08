@@ -207,7 +207,7 @@ public class SearchesService : INService, IUnloadableService
     {
         var (text, avatarUrl) = arg;
         using var bg = Image.Load<Rgba32>(_imgs.Rip.ToArray());
-        var (succ, data) = (false, (byte[]) null); //await _cache.TryGetImageDataAsync(avatarUrl);
+        var (succ, data) = (false, (byte[])null); //await _cache.TryGetImageDataAsync(avatarUrl);
         if (!succ)
         {
             using var http = _httpFactory.CreateClient();
@@ -229,19 +229,7 @@ public class SearchesService : INService, IUnloadableService
             DrawAvatar(bg, avatarImg);
         }
 
-        bg.Mutate(x => x.DrawText(
-            new TextGraphicsOptions
-            {
-                TextOptions = new TextOptions
-                {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    WrapTextWidth = 190
-                }.WithFallbackFonts(_fonts.FallBackFonts)
-            },
-            text,
-            _fonts.RipFont,
-            Color.Black,
-            new PointF(25, 225)));
+        bg.Mutate(x => x.DrawText(text, _fonts.RipFont, Color.Black, new PointF(25, 225)));
 
         //flowa
         using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
@@ -474,7 +462,7 @@ public class SearchesService : INService, IUnloadableService
     {
         using var http = _httpFactory.CreateClient();
         var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke");
-        var resObj = JsonConvert.DeserializeAnonymousType(res, new {setup = "", punchline = ""});
+        var resObj = JsonConvert.DeserializeAnonymousType(res, new { setup = "", punchline = "" });
         return (resObj.setup, resObj.punchline);
     }
 
@@ -645,7 +633,7 @@ public class SearchesService : INService, IUnloadableService
             var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
                 .ConfigureAwait(false);
             var apps = JsonConvert
-                .DeserializeAnonymousType(gamesStr, new {applist = new {apps = new List<SteamGameId>()}})
+                .DeserializeAnonymousType(gamesStr, new { applist = new { apps = new List<SteamGameId>() } })
                 .applist.apps;
 
             return apps
@@ -749,92 +737,92 @@ public class SearchesService : INService, IUnloadableService
             totalResults);
     }
     public async Task<GoogleSearchResultData> DuckDuckGoSearchAsync(string query)
-        {
-            query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
-
-            var fullQueryLink = "https://html.duckduckgo.com/html";
-
-            using var http = _httpFactory.CreateClient();
-            http.DefaultRequestHeaders.Clear();
-            http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
-
-            using var formData = new MultipartFormDataContent();
-            formData.Add(new StringContent(query), "q");
-            using var response = await http.PostAsync(fullQueryLink, formData);
-            var content = await response.Content.ReadAsStringAsync();
-
-            using var document = await _googleParser.ParseDocumentAsync(content);
-            var searchResults = document.QuerySelector(".results");
-            var elems = searchResults.QuerySelectorAll(".result");
-            
-            if (!elems.Any())
-                return default;
-
-            var results = elems.Select(elem =>
-                {
-                    var anchor = elem.QuerySelector(".result__a") as IHtmlAnchorElement;
-
-                    if (anchor is null)
-                        return null;
-
-                    var href = anchor.Href;
-                    var name = anchor.TextContent;
-                    
-                    if (string.IsNullOrWhiteSpace(href) || string.IsNullOrWhiteSpace(name))
-                        return null;
-
-                    var txt = elem.QuerySelector(".result__snippet")?.TextContent;
-
-                    if (string.IsNullOrWhiteSpace(txt))
-                        return null;
-
-                    return new GoogleSearchResult(name, href, txt);
-                })
-                .Where(x => x != null)
-                .ToList();
-
-            return new GoogleSearchResultData(
-                results.AsReadOnly(),
-                fullQueryLink,
-                "0");
-        }
-    }
-
-
-    public record RedditCache
     {
-        public IGuild Guild { get; set; }
-        public string Url { get; set; }
+        query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
+
+        var fullQueryLink = "https://html.duckduckgo.com/html";
+
+        using var http = _httpFactory.CreateClient();
+        http.DefaultRequestHeaders.Clear();
+        http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
+
+        using var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(query), "q");
+        using var response = await http.PostAsync(fullQueryLink, formData);
+        var content = await response.Content.ReadAsStringAsync();
+
+        using var document = await _googleParser.ParseDocumentAsync(content);
+        var searchResults = document.QuerySelector(".results");
+        var elems = searchResults.QuerySelectorAll(".result");
+
+        if (!elems.Any())
+            return default;
+
+        var results = elems.Select(elem =>
+            {
+                var anchor = elem.QuerySelector(".result__a") as IHtmlAnchorElement;
+
+                if (anchor is null)
+                    return null;
+
+                var href = anchor.Href;
+                var name = anchor.TextContent;
+
+                if (string.IsNullOrWhiteSpace(href) || string.IsNullOrWhiteSpace(name))
+                    return null;
+
+                var txt = elem.QuerySelector(".result__snippet")?.TextContent;
+
+                if (string.IsNullOrWhiteSpace(txt))
+                    return null;
+
+                return new GoogleSearchResult(name, href, txt);
+            })
+            .Where(x => x != null)
+            .ToList();
+
+        return new GoogleSearchResultData(
+            results.AsReadOnly(),
+            fullQueryLink,
+            "0");
     }
+}
 
-    //private async Task<SteamGameData> SteamGameDataFactory(int appid)
-    //{
-    //    using (var http = _httpFactory.CreateClient())
-    //    {
-    //        //  https://store.steampowered.com/api/appdetails?appids=
-    //        var responseStr = await http.GetStringAsync($"https://store.steampowered.com/api/appdetails?appids={appid}").ConfigureAwait(false);
-    //        var data = JsonConvert.DeserializeObject<Dictionary<int, SteamGameData.Container>>(responseStr);
-    //        if (!data.ContainsKey(appid) || !data[appid].Success)
-    //            return null; // for some reason we can't get the game with valid appid. SHould never happen
 
-    //        return data[appid].Data;
-    //    }
-    //}
+public record RedditCache
+{
+    public IGuild Guild { get; set; }
+    public string Url { get; set; }
+}
 
-    public class GoogleSearchResultData
+//private async Task<SteamGameData> SteamGameDataFactory(int appid)
+//{
+//    using (var http = _httpFactory.CreateClient())
+//    {
+//        //  https://store.steampowered.com/api/appdetails?appids=
+//        var responseStr = await http.GetStringAsync($"https://store.steampowered.com/api/appdetails?appids={appid}").ConfigureAwait(false);
+//        var data = JsonConvert.DeserializeObject<Dictionary<int, SteamGameData.Container>>(responseStr);
+//        if (!data.ContainsKey(appid) || !data[appid].Success)
+//            return null; // for some reason we can't get the game with valid appid. SHould never happen
+
+//        return data[appid].Data;
+//    }
+//}
+
+public class GoogleSearchResultData
+{
+    public GoogleSearchResultData(IReadOnlyList<GoogleSearchResult> results, string fullQueryLink,
+        string totalResults)
     {
-        public GoogleSearchResultData(IReadOnlyList<GoogleSearchResult> results, string fullQueryLink,
-            string totalResults)
-        {
-            Results = results;
-            FullQueryLink = fullQueryLink;
-            TotalResults = totalResults;
-        }
-
-        public IReadOnlyList<GoogleSearchResult> Results { get; }
-        public string FullQueryLink { get; }
-        public string TotalResults { get; }
+        Results = results;
+        FullQueryLink = fullQueryLink;
+        TotalResults = totalResults;
     }
+
+    public IReadOnlyList<GoogleSearchResult> Results { get; }
+    public string FullQueryLink { get; }
+    public string TotalResults { get; }
+}
 
 public class SteamGameId
 {
