@@ -147,7 +147,7 @@ Many computer users run a modified version of the {guhnoo} system every day, wit
 There really is a {loonix}, and these people are using it, but it is just a part of the system they use. {loonix} is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. {loonix} is normally used in combination with the {guhnoo} operating system: the whole system is basically {guhnoo} with {loonix} added, or {guhnoo}/{loonix}. All the so-called {loonix} distributions are really distributions of {guhnoo}/{loonix}."
         ).ConfigureAwait(false);
 
-    [Cmd, Aliases, HelpDissabled]
+    [Cmd, Aliases, HelpDisabled]
     public async Task Dragon()
     {
         var user = DiscordUserExtensions.GetOrCreateUser(_db, ctx.User);
