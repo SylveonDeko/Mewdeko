@@ -6,6 +6,7 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Text;
 using System.Threading;
@@ -109,7 +110,7 @@ public partial class Gambling
                 }
 
                 Interlocked.Add(ref totalBet, amount.Value);
-                using var bgImage = Image.Load(_images.SlotBackground);
+                using var bgImage = Image.Load<Rgba32>(_images.SlotBackground, out var format);
                 var result = SlotMachine.Pull();
                 var numbers = result.Numbers;
 
@@ -125,7 +126,7 @@ public partial class Gambling
                 var n = 0;
                 do
                 {
-                    var digit = (int) (printWon % 10);
+                    var digit = (int)(printWon % 10);
                     using (var img = Image.Load(_images.SlotEmojis[digit]))
                     {
                         bgImage.Mutate(x =>
@@ -139,7 +140,7 @@ public partial class Gambling
                 n = 0;
                 do
                 {
-                    var digit = (int) (printAmount % 10);
+                    var digit = (int)(printAmount % 10);
                     using (var img = Image.Load(_images.SlotEmojis[numbers[digit]]))
                     {
                         bgImage.Mutate(x => x.DrawImage(img, new Point(148 + (105 * digit), 217), 1f));
@@ -165,7 +166,7 @@ public partial class Gambling
                         msg = GetText("slot_jackpot", 30);
                 }
 
-                await using var imgStream = bgImage.ToStream();
+                await using var imgStream = bgImage?.ToStream(format);
                 await ctx.Channel.SendFileAsync(imgStream, "result.png",
                              $"{ctx.User.Mention} {msg}\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
                     .ConfigureAwait(false);

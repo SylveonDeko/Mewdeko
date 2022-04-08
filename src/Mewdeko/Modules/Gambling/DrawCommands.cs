@@ -48,7 +48,7 @@ public partial class Gambling
 
                 var currentCard = cards.Draw();
                 cardObjects.Add(currentCard);
-                images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant()
+                images.Add(Image.Load<Rgba32>(_images.GetCard(currentCard.ToString().ToLowerInvariant()
                     .Replace(' ', '_'))));
             }
 

@@ -20,7 +20,7 @@ public partial class Gambling
 
         private static readonly Regex _fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-        private static readonly char[] _fateRolls = {'-', ' ', '+'};
+        private static readonly char[] _fateRolls = { '-', ' ', '+' };
         private readonly IImageCache _images;
 
         public DiceRollCommands(IDataCache data) => _images = data.LocalImages;
@@ -36,7 +36,7 @@ public partial class Gambling
 
             using var img1 = GetDice(num1);
             using var img2 = GetDice(num2);
-            using var img = new[] {img1, img2}.Merge(out var format);
+            using var img = new[] { img1, img2 }.Merge(out var format);
             await using var ms = img.ToStream(format);
             await ctx.Channel.SendFileAsync(ms,
                     $"dice.{format.FileExtensions.First()}",
@@ -184,12 +184,12 @@ public partial class Gambling
                 case 10:
                     {
                         var images = _images.Dice;
-                        using var imgOne = Image.Load(images[1]);
-                        using var imgZero = Image.Load(images[0]);
-                        return new[] {imgOne, imgZero}.Merge();
+                        using var imgOne = Image.Load<Rgba32>(images[1]);
+                        using var imgZero = Image.Load<Rgba32>(images[0]);
+                        return new Image<Rgba32>[] { imgOne, imgZero }.Merge();
                     }
                 default:
-                    return Image.Load(_images.Dice[num]);
+                    return Image.Load<Rgba32>(_images.Dice[num]);
             }
         }
     }

@@ -87,7 +87,7 @@ public class XpService : INService, IUnloadableService
             var sub = _cache.Redis.GetSubscriber();
             sub.Subscribe($"{_creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
         }
-        
+
         //load settings
         var allGuildConfigs = bot.CachedGuildConfigs.Where(x => x.XpSettings != null).ToList();
         XpTxtRates = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
@@ -545,7 +545,10 @@ public class XpService : INService, IUnloadableService
             e = GetTxtXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
             _addMessageXp.Enqueue(new UserCacheItem
             {
-                Guild = user.Guild, Channel = arg.Channel, User = user, XpAmount = e
+                Guild = user.Guild,
+                Channel = arg.Channel,
+                User = user,
+                XpAmount = e
             });
         });
         return Task.CompletedTask;
@@ -557,7 +560,10 @@ public class XpService : INService, IUnloadableService
 
         _addMessageXp.Enqueue(new UserCacheItem
         {
-            Guild = user.Guild, Channel = channel, User = user, XpAmount = amount
+            Guild = user.Guild,
+            Channel = channel,
+            User = user,
+            XpAmount = amount
         });
     }
 
@@ -741,47 +747,32 @@ public class XpService : INService, IUnloadableService
 
     private async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
     {
-        var usernameTextOptions = new TextGraphicsOptions
-        {
-            TextOptions = new TextOptions
-            {
-                HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center
-            }
-        }.WithFallbackFonts(_fonts.FallBackFonts);
-
-        new TextGraphicsOptions
-        {
-            TextOptions = new TextOptions
-            {
-                HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center
-            }
-        }.WithFallbackFonts(_fonts.FallBackFonts);
-
-        using var img = Image.Load<Rgba32>(_images.XpBackground, out var imageFormat);
+        var img = Image.Load<Rgba32>(_images.XpBackground, out var format);
         if (template.User.Name.Show)
         {
-            var fontSize = (int)(template.User.Name.FontSize * 0.9);
+
             var username = stats.User.Username;
-            var usernameFont = _fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold);
-
-            var size = TextMeasurer.Measure($"{username}", new RendererOptions(usernameFont));
+            var fontSize = (int)(template.User.Name.FontSize * 0.9);
+            var size = TextMeasurer.Measure($"{username}", new(_fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
             var scale = 400f / size.Width;
-            if (scale < 1)
-                usernameFont = _fonts.NotoSans.CreateFont(template.User.Name.FontSize * scale, FontStyle.Bold);
+            var font = scale >= 1
+                ? _fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)
+                : _fonts.NotoSans.CreateFont(template.User.Name.FontSize * scale, FontStyle.Bold);
 
-            img.Mutate(x => x.DrawText(usernameTextOptions, username, usernameFont, template.User.Name.Color,
-                new PointF(template.User.Name.Pos.X, template.User.Name.Pos.Y + 8)));
+            var options = new TextOptions(font)
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Origin = new PointF(template.User.Name.Pos.X, template.User.Name.Pos.Y + 8)
+            };
+
+            img.Mutate(x => x.DrawText(options, username, template.User.Name.Color));
         }
-
-        //club name
-
-
         if (template.User.GuildLevel.Show)
             img.Mutate(x => x.DrawText(stats.Guild.Level.ToString(),
                 _fonts.NotoSans.CreateFont(template.User.GuildLevel.FontSize, FontStyle.Bold),
                 template.User.GuildLevel.Color,
                 new PointF(template.User.GuildLevel.Pos.X, template.User.GuildLevel.Pos.Y)));
-
 
         var pen = new Pen(Color.Black, 1);
 
@@ -846,7 +837,7 @@ public class XpService : INService, IUnloadableService
                     using (var http = _httpFactory.CreateClient())
                     {
                         var avatarData = await http.GetByteArrayAsync(avatarUrl);
-                        using var tempDraw = Image.Load(avatarData);
+                        using var tempDraw = Image.Load<Rgba32>(avatarData);
                         tempDraw.Mutate(x => x
                                              .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
                                              .ApplyRoundedCorners(Math.Max(template.User.Icon.Size.X,
@@ -873,11 +864,11 @@ public class XpService : INService, IUnloadableService
         //club image
 
         img.Mutate(x => x.Resize(template.OutputSize.X, template.OutputSize.Y));
-        return (img.ToStream(imageFormat), imageFormat);
+        return (img.ToStream(format), format);
     }
 
 
-private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
+    private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
     {
         var x1 = info.PointA.X;
         var y1 = info.PointA.Y;

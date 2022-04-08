@@ -327,22 +327,7 @@ public static class Extensions
     /// <param name="fallback">List of fallback Font Families to add</param>
     /// <returns>The same <see cref="TextOptions" /> to allow chaining</returns>
     public static TextOptions WithFallbackFonts(this TextOptions opts, List<FontFamily> fallback)
-    {
-        foreach (var ff in fallback) opts.FallbackFonts.Add(ff);
-        return opts;
-    }
-
-    /// <summary>
-    ///     Adds fallback fonts to <see cref="TextGraphicsOptions" />
-    /// </summary>
-    /// <param name="opts"><see cref="TextGraphicsOptions" /> to which fallback fonts will be added to</param>
-    /// <param name="fallback">List of fallback Font Families to add</param>
-    /// <returns>The same <see cref="TextGraphicsOptions" /> to allow chaining</returns>
-    public static TextGraphicsOptions WithFallbackFonts(this TextGraphicsOptions opts, List<FontFamily> fallback)
-    {
-        opts.TextOptions.WithFallbackFonts(fallback);
-        return opts;
-    }
+        => opts.WithFallbackFonts(fallback);
 
     public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
     {
