@@ -14,7 +14,7 @@ public class CommandStringsTests
     private const string RESPONSES_PATH = "../../../../../src/Mewdeko/data/strings/responses";
     private const string COMMANDS_PATH = "../../../../../src/Mewdeko/data/strings/commands";
     private const string ALIASES_PATH = "../../../../../src/Mewdeko/data/aliases.yml";
-    
+
     [Test]
     public void AllCommandNamesHaveStrings()
     {
@@ -67,10 +67,10 @@ public class CommandStringsTests
             TestContext.Error.WriteLine($"{methodName} is missing an alias.");
             isSuccess = false;
         }
-            
+
         Assert.IsTrue(isSuccess);
     }
-        
+
     [Test]
     public void NoObsoleteAliases()
     {
@@ -86,7 +86,7 @@ public class CommandStringsTests
             TestContext.WriteLine($"'{methodName}' from aliases.yml doesn't have a matching command method.");
             isSuccess = false;
         }
-            
+
         Assert.IsTrue(isSuccess);
     }
 }

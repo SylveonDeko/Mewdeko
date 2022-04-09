@@ -62,7 +62,7 @@ public class HelpService : ILateExecutor, INService
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
         var compBuilder = new ComponentBuilder();
         var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
-        foreach (var i in modules)
+        foreach (var i in modules.Where(x => !x.Attributes.Any(x => x is HelpDisabled)))
         {
             selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
@@ -82,7 +82,7 @@ public class HelpService : ILateExecutor, INService
             $"\nDo `{_ch.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
-        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(x => x is HelpDisabled)).Distinct();
         var count = 0;
         if (description)
         {
@@ -209,6 +209,8 @@ public class HelpService : ILateExecutor, INService
 
     public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
     {
+        if (com.Attributes.Any(x => x is HelpDisabled))
+            throw new Exception("Help is disabled for this command.");
         var prefix = _ch.GetPrefix(guild);
 
         var str = string.Format("**`{0}`**", prefix + com.Aliases.First());
