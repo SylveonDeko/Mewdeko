@@ -2,6 +2,8 @@
 using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
@@ -12,8 +14,9 @@ public partial class Games : MewdekoModuleBase<GamesService>
 {
     private readonly IImageCache _images;
     private readonly Random _rng = new();
+    private readonly MewdekoContext _db;
 
-    public Games(IDataCache data) => _images = data.LocalImages;
+    public Games(IDataCache data, DbService db) => (_images, _db) = (data.LocalImages, db.GetDbContext());
 
     [Cmd, Aliases]
     public async Task Choose([Remainder] string? list = null)
@@ -43,6 +46,18 @@ public partial class Games : MewdekoModuleBase<GamesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RateGirl(IGuildUser usr)
     {
+        var dbUser = DiscordUserExtensions.GetOrCreateUser(_db, usr);
+        if (dbUser.IsDragon)
+        {
+            var eb = new EmbedBuilder()
+                .WithOkColor()
+                .WithFooter("credit: r/place")
+                .WithDescription(GetText("dragon_goes_nom"))
+                .WithImageUrl("https://cdn.discordapp.com/attachments/839193628525330482/962026674122281020/unknown.png");
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
         var gr = Service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
         var originalStream = await gr.Stream;
 
@@ -112,11 +127,6 @@ public partial class Games : MewdekoModuleBase<GamesService>
                 crazy = NextDouble(5, 7);
                 advice = ratings.Wif;
                 break;
-            case < 999:
-                hot = NextDouble(8, 10);
-                crazy = NextDouble(2, 3.99d);
-                advice = ratings.Tra;
-                break;
             default:
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(4, 5);
@@ -136,4 +146,13 @@ Many computer users run a modified version of the {guhnoo} system every day, wit
 
 There really is a {loonix}, and these people are using it, but it is just a part of the system they use. {loonix} is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. {loonix} is normally used in combination with the {guhnoo} operating system: the whole system is basically {guhnoo} with {loonix} added, or {guhnoo}/{loonix}. All the so-called {loonix} distributions are really distributions of {guhnoo}/{loonix}."
         ).ConfigureAwait(false);
+
+    [Cmd, Aliases, HelpDisabled]
+    public async Task Dragon()
+    {
+        var user = DiscordUserExtensions.GetOrCreateUser(_db, ctx.User);
+        user.IsDragon = !user.IsDragon;
+        await _db.SaveChangesAsync();
+        await ReplyConfirmLocalizedAsync("dragon_set").ConfigureAwait(false);
+    }
 }
