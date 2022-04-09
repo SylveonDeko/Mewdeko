@@ -15,6 +15,21 @@ public partial class Suggestions
         Public = 1,
         Private = 2
     }
+
+    public enum SuggestEmoteModeEnum
+    {
+        Reactions = 0,
+        Buttons = 1,
+    }
+
+    public enum ButtonType
+    {
+        Blurple = 1,
+        Grey = 2,
+        Gray = 2,
+        Green = 3,
+        Red = 4
+    }
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
@@ -45,6 +60,19 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync($"Minimum length set to {length} characters!");
         }
 
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task SuggestMotesMode(SuggestEmoteModeEnum mode)
+        {
+            await Service.SetEmoteMode(ctx.Guild, (int)mode);
+            await ctx.Channel.SendConfirmAsync($"Sucessfully set Emote Mode to {mode}");
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task SuggestButtonColor(int button, ButtonType type)
+        {
+            await Service.SetButtonType(ctx.Guild, button, (int)type);
+            await ctx.Channel.SendConfirmAsync($"Button {button} will now be `{type}`");
+        }
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MaxSuggestionLength(int length)
         {
@@ -85,20 +113,14 @@ public partial class Suggestions
             await Service.SetImplementMessage(ctx.Guild, embed);
             await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
         }
-
-        // [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-        // public async Task SuggestThreads(bool enabled)
-        // {
-        //     await Service.SetSuggestThreads(ctx.Guild, enabled);
-        //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads to `{enabled}`");
-        // }
-        //
-        // [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-        // public async Task SuggestThreadsType(SuggestThreadType type)
-        // {
-        //     await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
-        //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
-        // }
+        
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task SuggestThreadsType(SuggestThreadType type)
+        {
+            await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
+            await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
+        }
         
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
