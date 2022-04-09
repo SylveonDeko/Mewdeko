@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using LinqToDB;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
@@ -119,7 +120,7 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-    private ulong GetSNum(ulong? id) 
+    public ulong GetSNum(ulong? id) 
         => _bot.GetGuildConfig(id.Value).sugnum;
     public int GetMaxLength(ulong? id)
         => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
@@ -129,6 +130,33 @@ public class SuggestionsService : INService
     private string GetEmotes(ulong? id)
         => _bot.GetGuildConfig(id.Value).SuggestEmotes;
 
+    public async Task SetButtonType(IGuild guild, int buttonId, int color)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        switch (buttonId)
+        {
+            case 1:
+                gc.Emote1Style = color;
+                break;
+            case 2:
+                gc.Emote2Style = color;
+                break;
+            case 3:
+                gc.Emote3Style = color;
+                break;
+            case 4:
+                gc.Emote4Style = color;
+                break;
+            case 5:
+                gc.Emote5Style = color;
+                break;
+        }
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    
+    
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
         await using var uow = _db.GetDbContext();
@@ -200,23 +228,23 @@ public class SuggestionsService : INService
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
     
-    // public async Task SetSuggestThreads(IGuild guild, bool enabled)
-    // {
-    //     await using var uow = Db.GetDbContext();
-    //     var gc = uow.ForGuildId(guild.Id, set => set);
-    //     gc.SuggestionThreads = enabled;
-    //     await uow.SaveChangesAsync().ConfigureAwait(false);
-    //     _bot.UpdateGuildConfig(guild.Id, gc);
-    // }
-    //
-    // public async Task SetSuggestThreadsType(IGuild guild, int num)
-    // {
-    //     await using var uow = Db.GetDbContext();
-    //     var gc = uow.ForGuildId(guild.Id, set => set);
-    //     gc.SuggestionThreadType = num;
-    //     await uow.SaveChangesAsync().ConfigureAwait(false);
-    //     _bot.UpdateGuildConfig(guild.Id, gc);
-    // }
+    public async Task SetSuggestThreads(IGuild guild, bool enabled)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestionThreads = enabled;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    
+    public async Task SetSuggestThreadsType(IGuild guild, int num)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestionThreadType = num;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
@@ -235,7 +263,76 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+    
+    public async Task SetEmoteMode(IGuild guild, int mode)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.EmoteMode = mode;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
 
+    public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
+    {
+        ulong count;
+        await using var uow = _db.GetDbContext();
+        var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
+        uow.Suggestions.Remove(suggest);
+        await uow.SaveChangesAsync();
+        if (!negative)
+            count = emoteNumber switch
+        {
+            1 => ++suggest.EmoteCount1,
+            2 => ++suggest.EmoteCount2,
+            3 => ++suggest.EmoteCount3,
+            4 => ++suggest.EmoteCount4,
+            5 => ++suggest.EmoteCount5,
+            _ => 0
+        };
+        else
+            count = emoteNumber switch
+            {
+                1 => --suggest.EmoteCount1,
+                2 => --suggest.EmoteCount2,
+                3 => --suggest.EmoteCount3,
+                4 => --suggest.EmoteCount4,
+                5 => --suggest.EmoteCount5,
+                _ => 0
+            };
+        uow.Suggestions.Add(suggest);
+        await uow.SaveChangesAsync();
+    }
+
+    public async Task<ulong> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
+    {
+        ulong count;
+        await using var uow = _db.GetDbContext();
+        var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
+        count = emoteNumber switch
+        {
+            1 => toupdate.EmoteCount1,
+            2 => toupdate.EmoteCount2,
+            3 => toupdate.EmoteCount3,
+            4 => toupdate.EmoteCount4,
+            5 => toupdate.EmoteCount5,
+            _ => 0
+        };
+        return count;
+    }
+
+    public IEmote GetSuggestMote(IGuild guild, int num)
+    {
+        var tup = new Emoji("\uD83D\uDC4D");
+        var tdown = new Emoji("\uD83D\uDC4E");
+        var emotes = _bot.GetGuildConfig(guild.Id).SuggestEmotes;
+        if (emotes is null or "disabled")
+        {
+            return num == 1 ? tup : tdown;
+        }
+
+        return emotes.Split(",")[num-1].ToIEmote();
+    }
     public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
 
     public string GetSuggestionMessage(IGuild guild)
@@ -253,20 +350,70 @@ public class SuggestionsService : INService
     public string GetConsiderMessage(IGuild guild)
         => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
 
-    // public bool GetSuggestThreads(IGuild guild) 
-    //     => _bot.GetGuildConfig(guild.Id).SuggestionThreads;
-    //
-    // public int GetThreadType(IGuild guild)
-    //     => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
+    public bool GetSuggestThreads(IGuild guild) 
+        => _bot.GetGuildConfig(guild.Id).SuggestionThreads;
     
+    public int GetThreadType(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
+    
+    public int GetEmoteMode(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).EmoteMode;
+    
+    public ulong GetConsiderChannel(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ConsiderChannel;
+    
+    public ulong GetAcceptChannel(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).AcceptChannel;
+    
+    public ulong GetImplementChannel(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ImplementChannel;
+    
+    public ulong GetDenyChannel(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).DenyChannel;
+    
+    public bool GetArchiveOnDeny(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ArchiveOnDeny;
+    
+    public bool GetArchiveOnAccept(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ArchiveOnAccept;
+    
+    public bool GetArchiveOnConsider(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ArchiveOnConsider;
+    
+    public bool GetArchiveOnImplement(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).ArchiveOnImplement;
+    
+    public string GetSuggestButtonName(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).SuggestButtonName;
+    
+    public ulong GetSuggestButtonChannel(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).SuggestButtonChannel;
+    
+    public string GetSuggestButtonEmote(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).SuggestButtonEmote;
+    
+    public string GetSuggestButtonMessage(IGuild guild)
+        => _bot.GetGuildConfig(guild.Id).SuggestButtonMessage;
+
+    public ButtonStyle GetButtonStyle(IGuild guild, int id) =>
+        id switch
+        {
+            1 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote1Style,
+            2 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote2Style,
+            3 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote3Style,
+            4 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote4Style,
+            5 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote5Style,
+            _ => ButtonStyle.Secondary
+        };
+
+
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
     {
         string rs;
         rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
-        var use = await guild.GetUserAsync(suggest.UserID);
-        if (suggest.Suggestion is null)
+        if (suggest is null)
         {
             if (interaction is null)
             {
@@ -277,6 +424,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
+        var use = await guild.GetUserAsync(suggest.UserID);
         EmbedBuilder eb;
         if (GetDenyMessage(guild) is "-" or "" or null)
         {
@@ -365,6 +513,11 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.mod.name%", () => user.Username)
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
@@ -414,7 +567,6 @@ public class SuggestionsService : INService
         else
             rs = reason;
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
-        var use = await guild.GetUserAsync(suggest.UserID);
         if (suggest.Suggestion is null)
         {
             if (interaction is null)
@@ -426,7 +578,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-
+        var use = await guild.GetUserAsync(suggest.UserID);
         EmbedBuilder eb;
         if (GetConsiderMessage(guild) is "-" or "" or
             null)
@@ -503,19 +655,24 @@ public class SuggestionsService : INService
             var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
             var suguse = await guild.GetUserAsync(suggest.UserID);
             var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", () => suguse.ToString())
-                .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
-                .WithOverride("%suggest.user.name%", () => suguse.Username)
-                .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", () => user.ToString())
-                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.name%", () => user.Username)
-                .WithOverride("%suggest.mod.message%", () => rs)
-                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                .Build();
+                           .WithServer(client, guild as SocketGuild)
+                           .WithOverride("%suggest.user%", () => suguse.ToString())
+                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.user.name%", () => suguse.Username)
+                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.user%", () => user.ToString())
+                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.name%", () => user.Username)
+                           .WithOverride("%suggest.mod.message%", () => rs)
+                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
+                           .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
                 await message.ModifyAsync(x =>
@@ -563,7 +720,6 @@ public class SuggestionsService : INService
         else
             rs = reason;
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
-        var use = await guild.GetUserAsync(suggest.UserID);
         if (suggest.Suggestion is null)
         {
             if (interaction is null)
@@ -575,7 +731,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-
+        var use = await guild.GetUserAsync(suggest.UserID);
         EmbedBuilder eb;
         if (GetImplementMessage(guild) is "-" or "" or
             null)
@@ -655,19 +811,24 @@ public class SuggestionsService : INService
             GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserID);
             var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", () => suguse.ToString())
-                .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
-                .WithOverride("%suggest.user.name%", () => suguse.Username)
-                .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", user.ToString)
-                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.name%", () => user.Username)
-                .WithOverride("%suggest.mod.message%", () => rs)
-                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                .Build();
+                           .WithServer(client, guild as SocketGuild)
+                           .WithOverride("%suggest.user%", () => suguse.ToString())
+                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.user.name%", () => suguse.Username)
+                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.user%", () => user.ToString())
+                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.name%", () => user.Username)
+                           .WithOverride("%suggest.mod.message%", () => rs)
+                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
+                           .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
                 await message.ModifyAsync(x =>
@@ -713,7 +874,6 @@ public class SuggestionsService : INService
     {
         var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
-        var use = await guild.GetUserAsync(suggest.UserID);
         if (suggest.Suggestion is null)
         {
             if (interaction is null)
@@ -725,7 +885,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-
+        var use = await guild.GetUserAsync(suggest.UserID);
         EmbedBuilder eb;
         if (GetAcceptMessage(guild) is "-" or "" or null)
         {
@@ -803,19 +963,24 @@ public class SuggestionsService : INService
             GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserID);
             var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", () => suguse.ToString())
-                .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggestion.ToString())
-                .WithOverride("%suggest.user.name%", () => suguse.Username)
-                .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", () => user.ToString())
-                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.name%", () => user.Username)
-                .WithOverride("%suggest.mod.message%", () => rs)
-                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                .Build();
+                           .WithServer(client, guild as SocketGuild)
+                           .WithOverride("%suggest.user%", () => suguse.ToString())
+                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.user.name%", () => suguse.Username)
+                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.user%", () => user.ToString())
+                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                           .WithOverride("%suggest.mod.name%", () => user.Username)
+                           .WithOverride("%suggest.mod.message%", () => rs)
+                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
+                           .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
                 await message.ModifyAsync(x =>
@@ -882,43 +1047,50 @@ public class SuggestionsService : INService
             var te = em.Split(",");
             emotes.AddRange(te.Select(Emote.Parse));
         }
+        var builder = new ComponentBuilder();
+        IEmote[] reacts = { tup, tdown };
+        if (GetEmoteMode(guild) == 1)
+        {
+            var count = 0;
+            if (em is null or "disabled")
+                foreach (var i in reacts)
+                {
+                    builder.WithButton("0", $"emotebutton:{count+1}", emote: i, style: GetButtonStyle(guild, ++count));
+                }
+            else
+                foreach (var i in emotes)
+                {
+                    builder.WithButton("0", $"emotebutton:{count+1}", emote: i, style: GetButtonStyle(guild, ++count));
+                }
+        }
 
+        if (GetThreadType(guild) == 1)
+        {
+            builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+        }
+        if (GetThreadType(guild) == 2)
+        {
+            builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+        }
         if (GetSuggestionMessage(guild) is "-" or "")
         {
             var sugnum1 = GetSNum(guild.Id);
-            var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).EmbedAsync(
+            var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).SendMessageAsync(embed:
                 new EmbedBuilder()
                     .WithAuthor(user)
                     .WithTitle($"Suggestion #{GetSNum(guild.Id)}")
                     .WithDescription(suggestion)
-                    .WithOkColor());
-
-            IEmote[] reacts = {tup, tdown};
-            if (em is null or "disabled")
-                foreach (var i in reacts)
-                    await t.AddReactionAsync(i);
-            else
-                foreach (var ei in emotes)
-                    await t.AddReactionAsync(ei);
-
-            // if (GetSuggestThreads(guild))
-            // {
-            //     if (GetThreadType(guild) == 0)
-            //         await channel.CreateThreadAsync($"Suggestion {sugnum1}", message: t);
-            //     else
-            //     {
-            //         try
-            //         {
-            //             var thread = await channel.CreateThreadAsync($"Suggestion {sugnum1}", message: t, type: ThreadType.PrivateThread);
-            //             await thread.AddUserAsync(user);
-            //         }
-            //         catch (Exception e)
-            //         {
-            //             Console.WriteLine(e);
-            //             throw;
-            //         }
-            //     }
-            // }
+                    .WithOkColor().Build(), components: builder.Build());
+            if (GetEmoteMode(guild) == 0)
+            {
+                if (em is null or "disabled")
+                    foreach (var i in reacts)
+                        await t.AddReactionAsync(i);
+                else
+                    foreach (var ei in emotes)
+                        await t.AddReactionAsync(ei);
+            }
+            
             
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
@@ -940,17 +1112,29 @@ public class SuggestionsService : INService
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             IUserMessage msg = null;
             if (ebe is false)
-                await chan.SendMessageAsync(replacer.Replace(GetSuggestionMessage(guild)));
+            {
+                if (GetEmoteMode(guild) == 1)
+                    msg = await chan.SendMessageAsync(replacer.Replace(GetSuggestionMessage(guild)), components: builder.Build());
+                else
+                    msg = await chan.SendMessageAsync(replacer.Replace(GetSuggestionMessage(guild)));
+            }
             else
-                await chan.SendMessageAsync(plainText, embed: embed?.Build());
-            
-            IEmote[] reacts = {tup, tdown};
-            if (em is null or "disabled" or "-")
-                foreach (var i in reacts)
-                    await msg.AddReactionAsync(i);
-            else
-                foreach (var ei in emotes)
-                    await msg.AddReactionAsync(ei);
+            {
+                if (GetEmoteMode(guild) == 1)
+                    msg = await chan.SendMessageAsync(plainText, embed: embed?.Build(), components: builder.Build());
+                else
+                    msg = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+            }
+
+            if (GetEmoteMode(guild) == 0)
+            {
+                if (em is null or "disabled" or "-")
+                    foreach (var i in reacts)
+                        await msg.AddReactionAsync(i);
+                else
+                    foreach (var ei in emotes)
+                        await msg.AddReactionAsync(ei);
+            }
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, msg.Id, user.Id, suggestion);
 
@@ -965,7 +1149,7 @@ public class SuggestionsService : INService
     {
         var guildId = guild.Id;
 
-        var suggest = new Suggestionse
+        var suggest = new SuggestionsModel
         {
             GuildId = guildId,
             SuggestID = suggestId,
@@ -979,15 +1163,63 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public Suggestionse[] Suggestions(ulong gid, ulong sid)
+    public SuggestionsModel[] Suggestions(ulong gid, ulong sid)
     {
         using var uow = _db.GetDbContext();
         return uow.Suggestions.ForId(gid, sid);
     }
 
-    public Suggestionse[] ForUser(ulong guildId, ulong userId)
+    public SuggestionsModel GetSuggestByMessage(ulong msgId)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.Suggestions.FirstOrDefault(x => x.MessageID == msgId);
+    }
+
+    public SuggestionsModel[] ForUser(ulong guildId, ulong userId)
     {
         using var uow = _db.GetDbContext();
         return uow.Suggestions.ForUser(guildId, userId);
+    }
+
+    public int GetPickedEmote(ulong messageId, ulong userId)
+    {
+        using var uow = _db.GetDbContext();
+        var toreturn = uow.SuggestVotes.FirstOrDefault(x => x.UserId == userId && x.MessageId == messageId);
+        return toreturn?.EmotePicked ?? 0;
+    }
+
+    public async Task UpdatePickedEmote(ulong messageId, ulong userId, int emotePicked)
+    {
+        await using var uow = _db.GetDbContext();
+        var tocheck = uow.SuggestVotes.FirstOrDefault(x => x.MessageId == messageId && x.UserId == userId);
+        if (tocheck is null)
+        {
+            var toadd = new SuggestVotes() { EmotePicked = emotePicked, MessageId = messageId, UserId = userId };
+            uow.SuggestVotes.Add(toadd);
+            await uow.SaveChangesAsync();
+        }
+        else
+        {
+            tocheck.EmotePicked = emotePicked;
+            uow.SuggestVotes.Update(tocheck);
+            await uow.SaveChangesAsync();
+        }
+    }
+
+    public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
+    {
+        await using var uow = _db.GetDbContext();
+        uow.SuggestThreads.Add(new SuggestThreads()
+        {
+            MessageId = messageId,
+            ThreadChannelId = threadChannelId
+        });
+        await uow.SaveChangesAsync();
+    }
+
+    public ulong GetThreadByMessage(ulong messageId)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.SuggestThreads.FirstOrDefault(x => x.MessageId == messageId)?.ThreadChannelId ?? 0;
     }
 }

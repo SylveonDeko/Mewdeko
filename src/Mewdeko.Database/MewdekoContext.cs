@@ -26,7 +26,7 @@ public class MewdekoContext : DbContext
     }
 
     public DbSet<GuildConfig> GuildConfigs { get; set; }
-    public DbSet<Suggestionse> Suggestions { get; set; }
+    public DbSet<SuggestionsModel> Suggestions { get; set; }
     public DbSet<Warning2> Warnings2 { get; set; }
     public DbSet<Afk> Afk { get; set; }
     public DbSet<MultiGreet> MultiGreets { get; set; }
@@ -51,6 +51,8 @@ public class MewdekoContext : DbContext
     public DbSet<Poll> Poll { get; set; }
     public DbSet<ClubInfo> Clubs { get; set; }
     public DbSet<CommandCooldown> CommandCooldown { get; set; }
+    public DbSet<SuggestVotes> SuggestVotes { get; set; }
+    public DbSet<SuggestThreads> SuggestThreads { get; set; }
 
     //logging
     public DbSet<LogSetting> LogSettings { get; set; }

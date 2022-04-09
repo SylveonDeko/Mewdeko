@@ -62,15 +62,15 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task<bool> PromptUserConfirmAsync(string text, ulong uid) =>
-        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid).ConfigureAwait(false);
+    public async Task<bool> PromptUserConfirmAsync(string text, ulong uid, bool ephemeral = false, bool delete = true) =>
+        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid, ephemeral, delete).ConfigureAwait(false);
 
-    public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
+    public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid, bool ephemeral = false, bool delete = true)
     {
         embed.WithOkColor();
         var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
             .WithButton("No", "no", ButtonStyle.Danger);
-        var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build(), components: buttons.Build())
+        var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build(), components: buttons.Build(), ephemeral: ephemeral)
             .ConfigureAwait(false);
         try
         {
@@ -82,7 +82,8 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         }
         finally
         {
-            var _ = Task.Run(() => msg.DeleteAsync());
+            if (delete)
+                _ = Task.Run(() => msg.DeleteAsync());
         }
     }
 

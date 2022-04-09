@@ -15,22 +15,49 @@ public class GuildConfig : DbEntity
     public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string AutoAssignRoleId { get; set; } = "0";
-    public bool StarboardAllowBots = true;
-    public bool StarboardRemoveOnDelete = false;
-    public bool StarboardRemoveOnReactionsClear = false;
-    public bool StarboardRemoveOnBelowThreshold = true;
-    
-    public bool SuggestionThreads = false;
-    public int SuggestionThreadType = 0;
-    public bool ArchiveOnDeny = false;
-    public bool ArchiveOnAccept = false;
-    public bool ArchiveOnConsider = false;
-    public bool ArchiveOnImplement = false;
-    public string SuggestButtonMessage = "-";
-    public string SuggestButtonName = "-";
-    public string SuggestButtonEmote = "-";
-    public int ButtonRepostThreshold = 5;
-    public int SuggestCommandsType = 0; 
+    // Starboard
+    public bool StarboardAllowBots { get; set; } = true;
+    public bool StarboardRemoveOnDelete { get; set; } = false;
+    public bool StarboardRemoveOnReactionsClear { get; set; } = false;
+    public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
+    public bool UseStarboardBlacklist { get; set; } = true;
+    public string StarboardCheckChannels { get; set; } = "0";
+
+    // Suggestions
+    public bool SuggestionThreads { get; set; } = false;
+    public int SuggestionThreadType { get; set; } = 0;
+    public bool ArchiveOnDeny { get; set; } = false;
+    public bool ArchiveOnAccept { get; set; } = false;
+    public bool ArchiveOnConsider { get; set; } = false;
+    public bool ArchiveOnImplement { get; set; } = false;
+    public string SuggestButtonMessage { get; set; } = "-";
+    public string SuggestButtonName { get; set; } = "-";
+    public string SuggestButtonEmote { get; set; } = "-";
+    public int ButtonRepostThreshold { get; set; } = 5;
+    public int SuggestCommandsType { get; set; } = 0;
+    public ulong AcceptChannel { get; set; } = 0;
+    public ulong DenyChannel { get; set; } = 0;
+    public ulong ConsiderChannel { get; set; } = 0;
+    public ulong ImplementChannel { get; set; } = 0;
+    public int EmoteMode { get; set; } = 0;
+    public string SuggestMessage { get; set; } = "";
+    public string DenyMessage { get; set; } = "";
+    public string AcceptMessage { get; set; } = "";
+    public string ImplementMessage { get; set; } = "";
+    public string ConsiderMessage { get; set; } = "";
+    public int MinSuggestLength { get; set; } = 0;
+    public int MaxSuggestLength { get; set; } = 4098;
+    public string SuggestEmotes { get; set; }
+    public ulong sugnum { get; set; } = 1;
+    public ulong sugchan { get; set; }
+    public ulong SuggestButtonChannel { get; set; } = 0;
+    public int Emote1Style { get; set; } = 2;
+    public int Emote2Style { get; set; } = 2;
+    public int Emote3Style { get; set; } = 2;
+    public int Emote4Style { get; set; } = 2;
+    public int Emote5Style { get; set; } = 2;
+
+    public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
@@ -38,11 +65,7 @@ public class GuildConfig : DbEntity
     public ulong ConfessionChannel { get; set; } = 0;
     public string ConfessionBlacklist { get; set; } = "0";
     public int MultiGreetType { get; set; } = 0;
-    public int MinSuggestLength { get; set; } = 0;
-    public int MaxSuggestLength { get; set; } = 4098;
-    public string StarboardCheckChannels { get; set; } = "0";
     public ulong MemberRole { get; set; } = 0;
-    public bool UseStarboardBlacklist { get; set; } = true;
     public string TOpenMessage { get; set; } = "none";
     public string GStartMessage { get; set; } = "none";
     public string GEndMessage { get; set; } = "none";
@@ -59,14 +82,7 @@ public class GuildConfig : DbEntity
     public ulong TicketChannel { get; set; } = 0;
     public ulong TicketCategory { get; set; } = 0;
     public bool snipeset { get; set; }
-    public string SuggestEmotes { get; set; }
     public int AfkLength { get; set; } = 250;
-    public string SuggestMessage { get; set; } = "";
-    public string DenyMessage { get; set; } = "";
-    public string AcceptMessage { get; set; } = "";
-    public string ImplementMessage { get; set; } = "";
-    public string ConsiderMessage { get; set; } = "";
-    public string AfkMessage { get; set; } = "-";
     public int XpTxtTimeout { get; set; }
     public int XpTxtRate { get; set; }
     public int XpVoiceRate { get; set; }
@@ -85,8 +101,6 @@ public class GuildConfig : DbEntity
     public int RepostThreshold { get; set; }
     public int PreviewLinks { get; set; }
     public ulong ReactChannel { get; set; }
-    public ulong sugnum { get; set; }
-    public ulong sugchan { get; set; }
     public int fwarn { get; set; }
     public int invwarn { get; set; }
     public int removeroles { get; set; }
