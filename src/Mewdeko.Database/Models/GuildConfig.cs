@@ -24,7 +24,6 @@ public class GuildConfig : DbEntity
     public string StarboardCheckChannels { get; set; } = "0";
 
     // Suggestions
-    public bool SuggestionThreads { get; set; } = false;
     public int SuggestionThreadType { get; set; } = 0;
     public bool ArchiveOnDeny { get; set; } = false;
     public bool ArchiveOnAccept { get; set; } = false;
