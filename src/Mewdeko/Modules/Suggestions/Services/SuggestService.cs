@@ -227,16 +227,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
-    public async Task SetSuggestThreads(IGuild guild, bool enabled)
-    {
-        await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
-        gc.SuggestionThreads = enabled;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
-    }
-    
+
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
@@ -349,9 +340,7 @@ public class SuggestionsService : INService
 
     public string GetConsiderMessage(IGuild guild)
         => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
-
-    public bool GetSuggestThreads(IGuild guild) 
-        => _bot.GetGuildConfig(guild.Id).SuggestionThreads;
+    
     
     public int GetThreadType(IGuild guild)
         => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
