@@ -72,7 +72,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             return;
         }
 
-        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id))
+        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id, false))
         {
             await Service.MultiRemoveRoleGreetInternal(greet.ToArray());
             await ctx.Interaction.SendConfirmFollowupAsync("RoleGreets removed!");

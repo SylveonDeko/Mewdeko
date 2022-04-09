@@ -1,6 +1,10 @@
 h:
   - help
   - h
+suggestmotesmode:
+  - suggestmotesmode
+suggestbuttoncolor:
+  - suggestbuttoncolor
 snipeset:
   - snipeset
   - setsnipe
