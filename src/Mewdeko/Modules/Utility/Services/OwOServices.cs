@@ -1,8 +1,8 @@
 using Discord.WebSocket;
-using Mewdeko.Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -84,7 +84,8 @@ public class OWOServices
         input = Regex.Replace(input, @"R|L", "W");
 
         // use the same random logic for strings based on value to produce consistent results when re-run
-        int seed = 10;
+        int seed = (int)input.Sum(x => char.GetNumericValue(x));
+        Console.WriteLine(seed);
         if (seed % 10 == 1)
             input = $"{Prefixes[(seed % Prefixes.Length) - 1]} {input}";
         else if (seed % 20 == 1)
