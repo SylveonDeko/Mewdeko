@@ -14,7 +14,7 @@ public partial class SuggestStateIds : Migration
                              + "\n Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                              + "\n DateAdded TEXT NOT NULL,"
                              + "\n GuildId INTEGER NOT NULL,"
-                             + "\n SuggestId INTEGER NOT NULL DEFAULT 1,"
+                             + "\n SuggestionId INTEGER NOT NULL DEFAULT 1,"
                              + "\n MessageId INTEGER NOT NULL,"
                              + "\n UserId INTEGER,"
                              + "\n Suggestion Text,"
@@ -27,7 +27,7 @@ public partial class SuggestStateIds : Migration
                              + "\n StateChangeCount INTEGER NOT NULL DEFAULT 0,"
                              + "\n StateChangeMessageId INTEGER NOT NULL DEFAULT 0,"
                              + "\n CurrentState INTEGER NOT NULL DEFAULT 0);"
-                             + "\n INSERT INTO Suggestions (DateAdded, GuildId, SuggestId, MessageId, UserId) SELECT DateAdded, GuildId, SuggestId, MessageId, UserId FROM Suggestions_Old;"
+                             + "\n INSERT INTO Suggestions (DateAdded, GuildId, SuggestionId, MessageId, UserId) SELECT DateAdded, GuildId, SuggestId, MessageId, UserId FROM Suggestions_Old;"
                              + "\n PRAGMA foreign_keys=on;");
         migrationBuilder.DropTable("Suggestions_Old");
     }
