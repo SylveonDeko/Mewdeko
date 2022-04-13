@@ -76,6 +76,11 @@ public class RoleGreetService : INService
             if (i.WebhookUrl != null)
                 continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
+            if (channel is null)
+            {
+                await RemoveRoleGreetInternal(i);
+                continue;
+            }
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
@@ -123,8 +128,15 @@ public class RoleGreetService : INService
                 continue;
             if (!i.GreetBots && user.IsBot)
                 continue;
+            
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
+            var channel = user.Guild.GetTextChannel(i.ChannelId);
+            if (channel is null)
+            {
+                await RemoveRoleGreetInternal(i);
+                continue;
+            }
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
