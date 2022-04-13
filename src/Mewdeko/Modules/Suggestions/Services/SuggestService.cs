@@ -52,12 +52,12 @@ public class SuggestionsService : INService
                 return;
             if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
                 return;
-            var maybeSuggest = GetSuggestByMessage(message.Id);
+            await using var uow = _db.GetDbContext();
+            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageID == message.Id);
             if (maybeSuggest is null)
                 return;
             var tup = new Emoji("\uD83D\uDC4D");
             var tdown = new Emoji("\uD83D\uDC4E");
-            await using var uow = _db.GetDbContext();
             var toSplit = GetEmotes(channel.GuildId);
             if (toSplit is "disabled" or "-" or null)
             {
@@ -105,17 +105,17 @@ public class SuggestionsService : INService
             var message = await arg1.GetOrDownloadAsync();
             if (message is null)
                 return;
-
+            
             if (await arg2.GetOrDownloadAsync() is not ITextChannel channel)
                 return;
             if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
                 return;
-            var maybeSuggest = GetSuggestByMessage(message.Id);
+            await using var uow = _db.GetDbContext();
+            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageID == message.Id);
             if (maybeSuggest is null)
                 return;
             var tup = new Emoji("\uD83D\uDC4D");
             var tdown = new Emoji("\uD83D\uDC4E");
-            await using var uow = _db.GetDbContext();
             var toSplit = GetEmotes(channel.GuildId);
             if (toSplit is "disabled" or "-" or null)
             {
