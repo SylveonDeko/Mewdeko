@@ -53,7 +53,7 @@ public class SuggestionsService : INService
             if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
                 return;
             await using var uow = _db.GetDbContext();
-            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageID == message.Id);
+            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
             if (maybeSuggest is null)
                 return;
             var tup = new Emoji("\uD83D\uDC4D");
@@ -111,7 +111,7 @@ public class SuggestionsService : INService
             if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
                 return;
             await using var uow = _db.GetDbContext();
-            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageID == message.Id);
+            var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
             if (maybeSuggest is null)
                 return;
             var tup = new Emoji("\uD83D\uDC4D");
@@ -407,7 +407,7 @@ public class SuggestionsService : INService
     {
         int count;
         await using var uow = _db.GetDbContext();
-        var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
+        var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         uow.Suggestions.Remove(suggest);
         await uow.SaveChangesAsync();
         if (!negative)
@@ -437,7 +437,7 @@ public class SuggestionsService : INService
     {
         int count;
         await using var uow = _db.GetDbContext();
-        var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
+        var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         count = emoteNumber switch
         {
             1 => toupdate.EmoteCount1,
@@ -551,7 +551,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-        var use = await guild.GetUserAsync(suggest.UserID);
+        var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetDenyMessage(guild) is "-" or "" or null)
         {
@@ -567,7 +567,7 @@ public class SuggestionsService : INService
             else
             {
                 var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID);
+                    .GetMessageAsync(suggest.MessageId);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
                     .WithTitle($"Suggestion #{suggestion} Denied")
@@ -577,7 +577,7 @@ public class SuggestionsService : INService
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             try
             {
                 await message.RemoveAllReactionsAsync();
@@ -601,7 +601,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
                 emb.WithErrorColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed.");
                 else
@@ -620,19 +620,19 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion == null)
                 sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID)).Embeds.FirstOrDefault()
+                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()
                     ?.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
-            var suguse = await guild.GetUserAsync(suggest.UserID);
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
+            var suguse = await guild.GetUserAsync(suggest.UserId);
             var replacer = new ReplacementBuilder()
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -669,7 +669,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!");
                 else
@@ -705,7 +705,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-        var use = await guild.GetUserAsync(suggest.UserID);
+        var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetConsiderMessage(guild) is "-" or "" or
             null)
@@ -722,7 +722,7 @@ public class SuggestionsService : INService
             else
             {
                 var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID);
+                    .GetMessageAsync(suggest.MessageId);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
                     .WithTitle($"Suggestion #{suggestion} Considering")
@@ -732,7 +732,7 @@ public class SuggestionsService : INService
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             try
             {
                 await message.RemoveAllReactionsAsync();
@@ -756,7 +756,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
                 else
@@ -775,18 +775,18 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion == null)
                 sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                           .GetMessageAsync(suggest.MessageID)).Embeds.FirstOrDefault()!.Description;
+                           .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()!.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
-            var suguse = await guild.GetUserAsync(suggest.UserID);
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
+            var suguse = await guild.GetUserAsync(suggest.UserId);
             var replacer = new ReplacementBuilder()
                            .WithServer(client, guild as SocketGuild)
                            .WithOverride("%suggest.user%", () => suguse.ToString())
                            .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                            .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                            .WithOverride("%suggest.user.name%", () => suguse.Username)
                            .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
                            .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -822,7 +822,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Considered by", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
                 else
@@ -858,7 +858,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-        var use = await guild.GetUserAsync(suggest.UserID);
+        var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetImplementMessage(guild) is "-" or "" or
             null)
@@ -875,7 +875,7 @@ public class SuggestionsService : INService
             else
             {
                 var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID);
+                    .GetMessageAsync(suggest.MessageId);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
                     .WithTitle($"Suggestion #{suggestion} Implemented")
@@ -885,7 +885,7 @@ public class SuggestionsService : INService
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             await message.ModifyAsync(x =>
             {
                 x.Content = null;
@@ -909,7 +909,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Implemented By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
                 else
@@ -929,20 +929,20 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion == null)
                 sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID)).Embeds.FirstOrDefault()
+                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()
                     ?.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             GetSNum(guild.Id);
-            var suguse = await guild.GetUserAsync(suggest.UserID);
+            var suguse = await guild.GetUserAsync(suggest.UserId);
             var replacer = new ReplacementBuilder()
                            .WithServer(client, guild as SocketGuild)
                            .WithOverride("%suggest.user%", () => suguse.ToString())
                            .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                            .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                            .WithOverride("%suggest.user.name%", () => suguse.Username)
                            .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
                            .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -979,7 +979,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Implemented By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
                 else
@@ -1012,7 +1012,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-        var use = await guild.GetUserAsync(suggest.UserID);
+        var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetAcceptMessage(guild) is "-" or "" or null)
         {
@@ -1028,7 +1028,7 @@ public class SuggestionsService : INService
             else
             {
                 var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID);
+                    .GetMessageAsync(suggest.MessageId);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
                     .WithTitle($"Suggestion #{suggestion} Accepted")
@@ -1038,7 +1038,7 @@ public class SuggestionsService : INService
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             await message.ModifyAsync(x =>
             {
                 x.Content = null;
@@ -1062,7 +1062,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Accepted By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
                 else
@@ -1082,19 +1082,19 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion is null)
                 sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageID)).Embeds.FirstOrDefault().Description;
+                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault().Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             GetSNum(guild.Id);
-            var suguse = await guild.GetUserAsync(suggest.UserID);
+            var suguse = await guild.GetUserAsync(suggest.UserId);
             var replacer = new ReplacementBuilder()
                            .WithServer(client, guild as SocketGuild)
                            .WithOverride("%suggest.user%", () => suguse.ToString())
                            .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                            .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                            .WithOverride("%suggest.user.name%", () => suguse.Username)
                            .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
                            .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -1131,7 +1131,7 @@ public class SuggestionsService : INService
                 emb.AddField("Reason", rs);
                 emb.AddField("Accepted By", user);
                 emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserID)).SendMessageAsync(embed: emb.Build());
+                await (await guild.GetUserAsync(suggest.UserId)).SendMessageAsync(embed: emb.Build());
                 if (interaction is null)
                     await channel.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
                 else
@@ -1279,15 +1279,23 @@ public class SuggestionsService : INService
         var suggest = new SuggestionsModel
         {
             GuildId = guildId,
-            SuggestID = suggestId,
-            MessageID = messageId,
-            UserID = userId,
+            SuggestionId = suggestId,
+            MessageId = messageId,
+            UserId = userId,
             Suggestion = suggestion
         };
-        await using var uow = _db.GetDbContext();
-        uow.Suggestions.Add(suggest);
+        try
+        {
+            await using var uow = _db.GetDbContext();
+            uow.Suggestions.Add(suggest);
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public SuggestionsModel[] Suggestions(ulong gid, ulong sid)
@@ -1299,7 +1307,7 @@ public class SuggestionsService : INService
     public SuggestionsModel GetSuggestByMessage(ulong msgId)
     {
         using var uow = _db.GetDbContext();
-        return uow.Suggestions.FirstOrDefault(x => x.MessageID == msgId);
+        return uow.Suggestions.FirstOrDefault(x => x.MessageId == msgId);
     }
 
     public SuggestionsModel[] ForUser(ulong guildId, ulong userId)
