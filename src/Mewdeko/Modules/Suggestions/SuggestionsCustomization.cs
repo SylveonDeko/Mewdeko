@@ -197,6 +197,7 @@ public partial class Suggestions
                 catch
                 {
                     await ctx.Channel.SendErrorAsync($"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.");
+                    return;
                 }
 
             var list = emotes.Select(emote => emote.ToString()).ToList();
