@@ -9,13 +9,14 @@ public partial class SuggestStateIds : Migration
         migrationBuilder.AddColumn<ulong>("StateChangeMessageId", "Suggestions", defaultValue: 0);
         migrationBuilder.AddColumn<int>("CurrentState", "Suggestions", defaultValue: 0);
         migrationBuilder.Sql("PRAGMA foreign_keys=off;"
-                             + "\nALTER TABLE Suggestions RENAME TO Suggestions_Old;"
-                             + "\nCREATE TABLE Suggestions ("
+                             + "\n ALTER TABLE Suggestions RENAME TO Suggestions_Old;"
+                             + "\n CREATE TABLE Suggestions ("
+                             + "\n Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                              + "\n DateAdded TEXT NOT NULL,"
                              + "\n GuildId INTEGER NOT NULL,"
-                             + "\n SuggestID INTEGER NOT NULL DEFAULT 1,"
-                             + "\n MessageID INTEGER NOT NULL,"
-                             + "\n UserID INTEGER,"
+                             + "\n SuggestId INTEGER NOT NULL DEFAULT 1,"
+                             + "\n MessageId INTEGER NOT NULL,"
+                             + "\n UserId INTEGER,"
                              + "\n Suggestion Text,"
                              + "\n EmoteCount1 INTEGER NOT NULL DEFAULT 0,"
                              + "\n EmoteCount2 INTEGER NOT NULL DEFAULT 0,"
@@ -25,9 +26,8 @@ public partial class SuggestStateIds : Migration
                              + "\n StateChangeUser INTEGER NOT NULL DEFAULT 0,"
                              + "\n StateChangeCount INTEGER NOT NULL DEFAULT 0,"
                              + "\n StateChangeMessageId INTEGER NOT NULL DEFAULT 0,"
-                             + "\n CurrentState INTEGER NOT NULL DEFAULT 0,"
-                             + "\n PRIMARY KEY(MessageID));"
-                             + "\n INSERT INTO Suggestions (DateAdded, GuildId, SuggestID, MessageId, UserId) SELECT DateAdded, GuildId, SuggestID, MessageId, UserId FROM Suggestions_Old;"
+                             + "\n CurrentState INTEGER NOT NULL DEFAULT 0);"
+                             + "\n INSERT INTO Suggestions (DateAdded, GuildId, SuggestId, MessageId, UserId) SELECT DateAdded, GuildId, SuggestId, MessageId, UserId FROM Suggestions_Old;"
                              + "\n PRAGMA foreign_keys=on;");
         migrationBuilder.DropTable("Suggestions_Old");
     }
