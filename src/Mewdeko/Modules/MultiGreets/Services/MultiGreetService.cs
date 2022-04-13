@@ -153,6 +153,11 @@ public class MultiGreetService : INService
                 continue;
             if (i.WebhookUrl is not null) continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
+            if (channel is null)
+            {
+                await RemoveMultiGreetInternal(i);
+                continue;
+            }
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
@@ -196,6 +201,12 @@ public class MultiGreetService : INService
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var content = replacer.Replace(i.Message);
+            var channel = user.Guild.GetTextChannel(i.ChannelId);
+            if (channel is null)
+            {
+                await RemoveMultiGreetInternal(i);
+                continue;
+            }
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
                 if (embedData is not null && plainText is not "")
