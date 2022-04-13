@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using LinqToDB;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
@@ -10,7 +9,6 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-
 namespace Mewdeko.Modules.Suggestions.Services;
 
 public class SuggestionsService : INService
@@ -36,10 +34,126 @@ public class SuggestionsService : INService
         CmdHandler = cmd;
         Client = client;
         Client.MessageReceived += MessageRecieved;
+        client.ReactionAdded += UpdateCountOnReact;
+        client.ReactionRemoved += UpdateCountOnRemoveReact;
         _db = db;
         _bot = bot;
     }
-    
+
+    private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    {
+       _ = Task.Run(async () =>
+        {
+            var message = await arg1.GetOrDownloadAsync();
+            if (message is null)
+                return;
+
+            if (await arg2.GetOrDownloadAsync() is not ITextChannel channel)
+                return;
+            if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
+                return;
+            var maybeSuggest = GetSuggestByMessage(message.Id);
+            if (maybeSuggest is null)
+                return;
+            var tup = new Emoji("\uD83D\uDC4D");
+            var tdown = new Emoji("\uD83D\uDC4E");
+            await using var uow = _db.GetDbContext();
+            var toSplit = GetEmotes(channel.GuildId);
+            if (toSplit is "disabled" or "-" or null)
+            {
+                if (Equals(arg3.Emote, tup))
+                {
+                    maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+                    uow.Suggestions.Update(maybeSuggest);
+                    await uow.SaveChangesAsync();
+                }
+                else if (Equals(arg3.Emote, tdown))
+                {
+                    maybeSuggest.EmoteCount2 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+                    uow.Suggestions.Update(maybeSuggest);
+                    await uow.SaveChangesAsync();
+                }
+                else
+                    return;
+            }
+            var emotes = toSplit.Split(",");
+            if (Equals(arg3.Emote, emotes[0].ToIEmote()))
+                maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[1].ToIEmote()))
+                maybeSuggest.EmoteCount2 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[2].ToIEmote()))
+                maybeSuggest.EmoteCount3 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[3].ToIEmote()))
+                maybeSuggest.EmoteCount4 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[4].ToIEmote()))
+                maybeSuggest.EmoteCount5 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else
+                return;
+
+            uow.Suggestions.Update(maybeSuggest);
+            await uow.SaveChangesAsync();
+
+        });
+        return Task.CompletedTask;
+
+    }
+
+    private Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    {
+        _ = Task.Run(async () =>
+        {
+            var message = await arg1.GetOrDownloadAsync();
+            if (message is null)
+                return;
+
+            if (await arg2.GetOrDownloadAsync() is not ITextChannel channel)
+                return;
+            if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
+                return;
+            var maybeSuggest = GetSuggestByMessage(message.Id);
+            if (maybeSuggest is null)
+                return;
+            var tup = new Emoji("\uD83D\uDC4D");
+            var tdown = new Emoji("\uD83D\uDC4E");
+            await using var uow = _db.GetDbContext();
+            var toSplit = GetEmotes(channel.GuildId);
+            if (toSplit is "disabled" or "-" or null)
+            {
+                if (Equals(arg3.Emote, tup))
+                {
+                    maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+                    uow.Suggestions.Update(maybeSuggest);
+                    await uow.SaveChangesAsync();
+                }
+                else if (Equals(arg3.Emote, tdown))
+                {
+                    maybeSuggest.EmoteCount2 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+                    uow.Suggestions.Update(maybeSuggest);
+                    await uow.SaveChangesAsync();
+                }
+                else
+                    return;
+            }
+            var emotes = toSplit.Split(",");
+            if (Equals(arg3.Emote, emotes[0].ToIEmote()))
+                maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[1].ToIEmote()))
+                maybeSuggest.EmoteCount2 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[2].ToIEmote()))
+                maybeSuggest.EmoteCount3 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[3].ToIEmote()))
+                maybeSuggest.EmoteCount4 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else if (Equals(arg3.Emote, emotes[4].ToIEmote()))
+                maybeSuggest.EmoteCount5 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
+            else
+                return;
+
+            uow.Suggestions.Update(maybeSuggest);
+            await uow.SaveChangesAsync();
+
+        });
+        return Task.CompletedTask;
+    }
 
     private Task MessageRecieved(SocketMessage msg)
     {
@@ -263,10 +377,35 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-
+    
+    public async Task SetAcceptChannel(IGuild guild, ulong channelId)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AcceptChannel = channelId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    
+    public async Task SetDenyChannel(IGuild guild, ulong channelId)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.DenyChannel = channelId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    public async Task SetConsiderChannel(IGuild guild, ulong channelId)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AcceptChannel = channelId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
-        ulong count;
+        int count;
         await using var uow = _db.GetDbContext();
         var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
         uow.Suggestions.Remove(suggest);
@@ -294,10 +433,9 @@ public class SuggestionsService : INService
         uow.Suggestions.Add(suggest);
         await uow.SaveChangesAsync();
     }
-
-    public async Task<ulong> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
+    public async Task<int> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
     {
-        ulong count;
+        int count;
         await using var uow = _db.GetDbContext();
         var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageID == messageId);
         count = emoteNumber switch
