@@ -41,25 +41,25 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false);;
+        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false); ;
     }
 
     public async Task ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);;
+        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false); ;
     }
 
     public async Task ConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendConfirmAsync(text).ConfigureAwait(false);;
+        await ctx.Interaction.SendConfirmAsync(text).ConfigureAwait(false); ;
     }
 
-    public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
+    public Task ReplyConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+        return ctx.Interaction.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
     public async Task<bool> PromptUserConfirmAsync(string text, ulong uid, bool ephemeral = false, bool delete = true) =>
@@ -90,7 +90,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) ctx.Client;
+        var dsc = (DiscordSocketClient)ctx.Client;
         try
         {
             dsc.InteractionCreated += Interaction;
@@ -132,7 +132,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) ctx.Client;
+        var dsc = (DiscordSocketClient)ctx.Client;
         try
         {
             dsc.MessageReceived += Interaction;
