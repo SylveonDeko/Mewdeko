@@ -17,8 +17,6 @@ public class CmdCdService : ILateBlocker, INService
             bot.CachedGuildConfigs.ToDictionary(k => k.GuildId,
                 v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
 
-    public ConcurrentHashSet<ulong> ChannelTriggerBlocks { get; } = new ConcurrentHashSet<ulong>();
-
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
     public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new();
 
@@ -78,10 +76,10 @@ public class CmdCdService : ILateBlocker, INService
 
         return Task.FromResult(false);
     }
-    
+
     public async Task TryBlockChannel(ulong channelID)
     {
-        
+
     }
 }
 
