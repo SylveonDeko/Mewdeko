@@ -8,7 +8,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using System.Collections.Concurrent;
 
-namespace Mewdeko.Modules.Permissions.Services; 
+namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
@@ -16,6 +16,8 @@ public class CmdCdService : ILateBlocker, INService
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
             bot.CachedGuildConfigs.ToDictionary(k => k.GuildId,
                 v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+
+    public ConcurrentHashSet<ulong> ChannelTriggerBlocks { get; } = new ConcurrentHashSet<ulong>();
 
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
     public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new();
@@ -75,6 +77,11 @@ public class CmdCdService : ILateBlocker, INService
         }
 
         return Task.FromResult(false);
+    }
+    
+    public async Task TryBlockChannel(ulong channelID)
+    {
+        
     }
 }
 

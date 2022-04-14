@@ -5,8 +5,6 @@ namespace Mewdeko.Database.Models;
 
 public class ChatTriggers : DbEntity
 {
-    [NotMapped] public Regex Regex { get; set; }
-
     public ulong UseCount { get; set; }
     public bool IsRegex { get; set; }
     public bool OwnerOnly { get; set; }
@@ -22,6 +20,9 @@ public class ChatTriggers : DbEntity
     public bool ContainsAnywhere { get; set; }
     public bool AllowTarget { get; set; }
     public string Reactions { get; set; }
+
+    public string GrantedRoles { get; set; }
+    public string RemovedRoles { get; set; }
 
     public string[] GetReactions() =>
         string.IsNullOrWhiteSpace(Reactions)
