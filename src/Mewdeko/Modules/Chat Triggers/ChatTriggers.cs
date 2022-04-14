@@ -1,9 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
@@ -67,7 +69,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             }
         }
 
-        var succ = await Service.ImportCrsAsync(ctx.Guild?.Id, input);
+        var succ = await Service.ImportCrsAsync((ctx.User as IGuildUser), input);
         if (!succ)
         {
             await ReplyErrorLocalizedAsync("expr_import_invalid_data");
@@ -85,14 +87,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, false);
 
-        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .WithTitle(GetText("new_chat_trig"))
-            .WithDescription($"#{cr.Id}")
-            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(key))
-            .AddField(efb =>
-                efb.WithName(GetText("response"))
-                    .WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
-        ).ConfigureAwait(false);
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")));
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -103,14 +98,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, true);
 
-        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .WithTitle(GetText("new_chat_trig"))
-            .WithDescription($"#{cr.Id}")
-            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(key))
-            .AddField(efb =>
-                efb.WithName(GetText("response"))
-                    .WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
-        ).ConfigureAwait(false);
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")));
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -121,14 +109,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.EditAsync(ctx.Guild?.Id, id, message, null).ConfigureAwait(false);
         if (cr != null)
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithTitle(GetText("edited_chat_trig"))
-                .WithDescription($"#{id}")
-                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
-                .AddField(efb =>
-                    efb.WithName(GetText("response"))
-                        .WithValue(message.Length > 1024 ? GetText("redacted_too_long") : message))
-            ).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("edited_chat_trig"))).ConfigureAwait(false);
         else
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
@@ -215,13 +196,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (found == null)
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
         else
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithDescription($"#{id}")
-                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(found.Trigger.TrimTo(1024)))
-                .AddField(efb =>
-                    efb.WithName(GetText("response"))
-                        .WithValue($"{(found.Response + "\n```css\n" + found.Response).TrimTo(1020)}```"))
-            ).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(found, ctx.Guild?.Id)).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -231,12 +206,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id);
 
         if (ct != null)
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("deleted"))
-                    .WithDescription($"#{ct.Id}")
-                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(ct.Trigger.TrimTo(1024)))
-                    .AddField(efb => efb.WithName(GetText("response")).WithValue(ct.Response.TrimTo(1024))))
-                .ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(ct, ctx.Guild?.Id), GetText("deleted")).ConfigureAwait(false);
         else
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
     }
@@ -293,24 +263,23 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtCa(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ContainsAnywhere);
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task Rtt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ReactToTrigger);
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtDm(int id) => InternalCtEdit(id, ChatTriggersService.CtField.DmResponse);
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtAd(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AutoDelete);
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtAt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AllowTarget);
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
-
 
     [Cmd, Aliases, OwnerOnly]
     public async Task CtsReload()
@@ -319,10 +288,17 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         await ctx.OkAsync();
     }
-    [ChatTriggerPermCheck(GuildPermission.Administrator)]
+
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
-
+        // throw exception if the trigger is in another guild
+        // DO NOT REMOVE
+        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (ct is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
         var (success, newVal) = await Service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
         if (!success)
         {
@@ -339,7 +315,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
-     ChatTriggerPermCheck(GuildPermission.Administrator)]
+    ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
         if (await PromptUserConfirmAsync(new EmbedBuilder()
@@ -350,5 +326,65 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ReplyConfirmLocalizedAsync("cleared", count).ConfigureAwait(false);
         }
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
+        ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtrGrantToggle(int id, IRole role)
+    {
+        var gUsr = ctx.User as IGuildUser;
+
+        if (!role.CanManageRole(gUsr))
+        {
+            await ReplyErrorLocalizedAsync("cant_manage_role").ConfigureAwait(false);
+            return;
+        }
+
+        var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (cr is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+
+        if (cr.GetRemovedRoles().Contains(role.Id))
+        {
+            await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
+            return;
+        }
+
+        await Service.ToggleGrantedRole(cr, role.Id).ConfigureAwait(false);
+
+        await ReplyConfirmLocalizedAsync("ct_toggled_roll_grant", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
+        ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtrRemoveToggle(int id, IRole role)
+    {
+        var gUsr = ctx.User as IGuildUser;
+
+        if (!role.CanManageRole(gUsr))
+        {
+            await ReplyErrorLocalizedAsync("cant_manage_role").ConfigureAwait(false);
+            return;
+        }
+
+        var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (cr is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+
+        if (cr.GetGrantedRoles().Contains(role.Id))
+        {
+            await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
+            return;
+        }
+
+        await Service.ToggleRemovedRole(cr, role.Id).ConfigureAwait(false);
+
+        await ReplyConfirmLocalizedAsync("ct_toggled_roll_remove", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 }

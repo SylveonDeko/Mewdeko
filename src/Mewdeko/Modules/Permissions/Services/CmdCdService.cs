@@ -8,7 +8,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using System.Collections.Concurrent;
 
-namespace Mewdeko.Modules.Permissions.Services; 
+namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
@@ -75,6 +75,11 @@ public class CmdCdService : ILateBlocker, INService
         }
 
         return Task.FromResult(false);
+    }
+
+    public async Task TryBlockChannel(ulong channelID)
+    {
+
     }
 }
 

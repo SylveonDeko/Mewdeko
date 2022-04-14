@@ -14,6 +14,7 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
 using ExecuteResult = Discord.Commands.ExecuteResult;
@@ -42,6 +43,9 @@ public class CommandHandler : INService
     private IEnumerable<ILateExecutor> lateExecutors;
     public readonly InteractionService InteractionService;
 
+    public ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
+    public ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
+
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService)
@@ -61,17 +65,17 @@ public class CommandHandler : INService
             GLOBAL_COMMANDS_COOLDOWN);
         _client.MessageReceived += MessageReceivedHandler;
     }
-    
-    
+
+
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
     public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
-    
+
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
+    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
         {
@@ -121,7 +125,7 @@ public class CommandHandler : INService
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
-        
+
         _ = Task.Run(async () =>
         {
             var ctx = new SocketInteractionContext(_client, interaction);
@@ -203,7 +207,7 @@ public class CommandHandler : INService
             try
             {
                 IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
-                msg = (IUserMessage) await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                 await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
             }
             catch
@@ -212,7 +216,7 @@ public class CommandHandler : INService
             }
         }
     }
-    
+
 
     private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
@@ -259,16 +263,39 @@ public class CommandHandler : INService
             if (msg is not SocketUserMessage usrMsg)
                 return;
 
-            var channel = msg.Channel;
-            var guild = (msg.Channel as SocketTextChannel)?.Guild;
+            CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id, x => new(new List<IUserMessage> { usrMsg }), (_, y) => { y.Enqueue(usrMsg); return y; });
 
-            await TryRunCommand(guild, channel, usrMsg).ConfigureAwait(false);
+            _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
         }
         catch (Exception ex)
         {
             Log.Warning(ex, "Error in CommandHandler");
             if (ex.InnerException != null)
                 Log.Warning(ex.InnerException, "Inner Exception of the error in CommandHandler");
+        }
+    }
+
+    private async Task<bool> ExecuteCommandsInChannelAsync(ulong ChanelID)
+    {
+        try
+        {
+            if (CommandParseLock.GetValueOrDefault(ChanelID, false) == true) return false;
+            if (CommandParseQueue.GetValueOrDefault(ChanelID) is null || !CommandParseQueue[ChanelID].Any()) return false;
+            CommandParseLock[ChanelID] = true;
+            while (CommandParseQueue[ChanelID].TryDequeue(out var msg))
+            {
+                await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
+            }
+            CommandParseQueue[ChanelID] = new();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+        finally
+        {
+            CommandParseLock[ChanelID] = false;
         }
     }
 
@@ -370,7 +397,7 @@ public class CommandHandler : INService
         string input, IServiceProvider services,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
-        
+
         var searchResult = CommandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);
@@ -475,7 +502,7 @@ public class CommandHandler : INService
 
         //If we get this far, at least one parse was successful. Execute the most likely overload.
         var chosenOverload = successfulParses[0];
-        var execResult = (ExecuteResult) await chosenOverload.Key
+        var execResult = (ExecuteResult)await chosenOverload.Key
             .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
         if (execResult.Exception != null &&

@@ -3815,3 +3815,13 @@ dragon:
     nuuuuu!
   args:
     - never
+ctrgranttoggle: 
+  desc: >-
+    Toggles if a role should be granted when a user triggers a chat trigger.
+  args:
+    - 1 786375627892064257
+ctrremovetoggle:
+  desc: >- 
+    Toggles if a role should be removed when a user triggers a chat trigger.
+  args:
+    - 1 786375627892064257
