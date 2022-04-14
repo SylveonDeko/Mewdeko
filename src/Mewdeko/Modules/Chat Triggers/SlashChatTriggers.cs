@@ -54,7 +54,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             return;
         }
 
-        var succ = await Service.ImportCrsAsync(ctx.Guild?.Id, content).ConfigureAwait(false);
+        var succ = await Service.ImportCrsAsync(ctx.User as IGuildUser, content).ConfigureAwait(false);
         if (!succ)
         {
             await FollowupAsync(GetText("expr_import_invalid_data")).ConfigureAwait(false);
@@ -84,14 +84,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, modal.Key, modal.Message, rgx).ConfigureAwait(false);
 
-        await RespondAsync(embed: new EmbedBuilder().WithOkColor()
-            .WithTitle(GetText("new_chat_trig"))
-            .WithDescription($"#{cr.Id}")
-            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(modal.Key))
-            .AddField(efb =>
-                efb.WithName(GetText("response"))
-                    .WithValue(modal.Message.Length > 1024 ? GetText("redacted_too_long") : modal.Message))
-            .Build());
+        await RespondAsync(embed: Service.GetEmbed(cr, ctx.Guild?.Id).Build()).ConfigureAwait(false);
     }
 
     [SlashCommand("edit", "Edit a chat trigger."),
@@ -217,13 +210,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (found == null)
             await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
         else
-            await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                .WithDescription($"#{id}")
-                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(found.Trigger.TrimTo(1024)))
-                .AddField(efb =>
-                    efb.WithName(GetText("response"))
-                        .WithValue($"{(found.Response + "\n```css\n" + found.Response).TrimTo(1020)}```"))
-                .Build()).ConfigureAwait(false);
+            await ctx.Interaction.RespondAsync(embed: Service.GetEmbed(found, ctx.Guild?.Id).Build()).ConfigureAwait(false);
     }
 
     [SlashCommand("delete", "delete a chat trigger."),
@@ -340,6 +327,78 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ConfirmLocalizedAsync(GetText("cleared", count)).ConfigureAwait(false);
+        }
+    }
+
+    [Group("roles", "roles")]
+    public class Roles : MewdekoSlashModuleBase<ChatTriggersService>
+    {
+        [SlashCommand("toggle-add", "Toggle whether running this command will add the role to the user."),
+        InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+        public async Task ToggleAdd
+        (
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to add roles to.")] int id,
+            [Summary("role", "The roll to toggle.")] IRole role
+        )
+        {
+            var gUsr = ctx.User as IGuildUser;
+
+            if (!role.CanManageRole(gUsr))
+            {
+                await ReplyErrorLocalizedAsync("cant_manage_role").ConfigureAwait(false);
+                return;
+            }
+
+            var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
+            if (cr is null)
+            {
+                await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+                return;
+            }
+
+            if (cr.GetRemovedRoles().Contains(role.Id))
+            {
+                await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
+                return;
+            }
+
+            await Service.ToggleGrantedRole(cr, role.Id).ConfigureAwait(false);
+
+            await ReplyConfirmLocalizedAsync("ct_toggled_roll_grant", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+        }
+
+        [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user."),
+        InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+        public async Task ToggleRemove
+        (
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
+            [Summary("role", "The roll to toggle.")] IRole role
+        )
+        {
+            var gUsr = ctx.User as IGuildUser;
+
+            if (!role.CanManageRole(gUsr))
+            {
+                await ReplyErrorLocalizedAsync("cant_manage_role").ConfigureAwait(false);
+                return;
+            }
+
+            var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
+            if (cr is null)
+            {
+                await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+                return;
+            }
+
+            if (cr.GetGrantedRoles().Contains(role.Id))
+            {
+                await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
+                return;
+            }
+
+            await Service.ToggleRemovedRole(cr, role.Id).ConfigureAwait(false);
+
+            await ReplyConfirmLocalizedAsync("ct_toggled_roll_remove", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
         }
     }
 }

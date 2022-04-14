@@ -1,8 +1,12 @@
+using Mewdeko.Database.Extensions;
+
 namespace Mewdeko.Modules.Chat_Triggers.Common;
 
 public class ExportedTriggers
 {
     public string[] React;
+    public List<ulong> aRole;
+    public List<ulong> rRole;
     public string Res { get; set; }
     public bool Ad { get; set; }
     public bool Dm { get; set; }
@@ -26,5 +30,7 @@ public class ExportedTriggers
                 : ct.GetReactions(),
             Rtt = ct.ReactToTrigger,
             Nr = ct.NoRespond,
+            rRole = ct.GetRemovedRoles(),
+            aRole = ct.GetGrantedRoles()
         };
 }
