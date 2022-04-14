@@ -61,17 +61,17 @@ public class CommandHandler : INService
             GLOBAL_COMMANDS_COOLDOWN);
         _client.MessageReceived += MessageReceivedHandler;
     }
-    
-    
+
+
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
     public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
-    
+
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
+    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
         {
@@ -121,7 +121,7 @@ public class CommandHandler : INService
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
-        
+
         _ = Task.Run(async () =>
         {
             var ctx = new SocketInteractionContext(_client, interaction);
@@ -203,7 +203,7 @@ public class CommandHandler : INService
             try
             {
                 IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
-                msg = (IUserMessage) await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                 await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
             }
             catch
@@ -212,7 +212,7 @@ public class CommandHandler : INService
             }
         }
     }
-    
+
 
     private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
@@ -262,7 +262,7 @@ public class CommandHandler : INService
             var channel = msg.Channel;
             var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-            await TryRunCommand(guild, channel, usrMsg).ConfigureAwait(false);
+            _ = Task.Run(() => TryRunCommand(guild, channel, usrMsg));
         }
         catch (Exception ex)
         {
@@ -370,7 +370,7 @@ public class CommandHandler : INService
         string input, IServiceProvider services,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
-        
+
         var searchResult = CommandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);
@@ -475,7 +475,7 @@ public class CommandHandler : INService
 
         //If we get this far, at least one parse was successful. Execute the most likely overload.
         var chosenOverload = successfulParses[0];
-        var execResult = (ExecuteResult) await chosenOverload.Key
+        var execResult = (ExecuteResult)await chosenOverload.Key
             .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
         if (execResult.Exception != null &&
@@ -484,5 +484,14 @@ public class CommandHandler : INService
             Log.Warning(execResult.Exception, "Command Error");
 
         return (true, null, cmd);
+
+        try
+        {
+            // this should throw an error
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("it was too fast!");
+        }
     }
 }

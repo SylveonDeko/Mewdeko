@@ -33,7 +33,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ContainsAnywhere,
         Message,
         ReactToTrigger,
-        NoRespond
+        NoRespond,
+        PermsEnabledByDefault,
+        ChannelsEnabledByDefault
     }
 
     private const string MENTION_PH = "%bot.mention%";
@@ -128,7 +130,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (await _cmdCds.TryBlock(guild, msg.Author, cr.Trigger))
             return false;
 
-
         try
         {
             if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
@@ -184,14 +185,31 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 await Task.Delay(1000);
             }
 
-            if (!cr.AutoDeleteTrigger) return true;
             try
             {
-                await msg.DeleteAsync().ConfigureAwait(false);
+                if (cr.AutoDeleteTrigger)
+                    await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch
             {
                 // ignored
+            }
+
+            if (cr.GuildId is not null && msg is IUserMessage userMessage && msg.Author is IGuildUser guildUser)
+            {
+                var roles = guildUser.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
+                cr.GetRemovedRoles().ForEach(r => roles.Remove(r));
+                cr.GetGrantedRoles().ForEach(r => roles.Add(r));
+                try
+                {
+                    // single role difference is caused by @everyone
+                    if (roles.Except(guildUser.RoleIds.Where(x => x != guild?.EveryoneRole.Id)).Any())
+                        await guildUser.ModifyAsync(x => x.RoleIds = new Optional<IEnumerable<ulong>>(roles.Distinct()));
+                }
+                catch
+                {
+                    Log.Warning("Unable to modify the roles of {User} in {GuildId}", guildUser.Id, cr.GuildId);
+                }
             }
 
             return true;
@@ -217,7 +235,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .UnescapeUnicodeCodePoints();
     }
 
-    public async Task<bool> ImportCrsAsync(ulong? guildId, string input)
+    public async Task<bool> ImportCrsAsync(IGuildUser user, string input)
     {
         Dictionary<string, List<ExportedTriggers>> data;
         try
@@ -232,25 +250,36 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         await using var uow = _db.GetDbContext();
+        List<Database.Models.ChatTriggers> triggers = new();
         foreach (var (trigger, value) in data)
         {
-            await uow.ChatTriggers.AddRangeAsync(value
-                                                            .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
-                                                            .Select(ct => new Database.Models.ChatTriggers
-                                                            {
-                                                                GuildId = guildId,
-                                                                Response = ct.Res,
-                                                                Reactions = ct.React?.JoinWith("@@@"),
-                                                                Trigger = trigger,
-                                                                AllowTarget = ct.At,
-                                                                ContainsAnywhere = ct.Ca,
-                                                                DmResponse = ct.Dm,
-                                                                AutoDeleteTrigger = ct.Ad,
-                                                                NoRespond = ct.Nr,
-                                                                IsRegex = ct.Rgx
-                                                            }));
+            triggers.AddRange(value
+                                    .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
+                                    .Select(ct => new Database.Models.ChatTriggers
+                                    {
+                                        GuildId = user.Guild.Id,
+                                        Response = ct.Res,
+                                        Reactions = ct.React?.JoinWith("@@@"),
+                                        Trigger = trigger,
+                                        AllowTarget = ct.At,
+                                        ContainsAnywhere = ct.Ca,
+                                        DmResponse = ct.Dm,
+                                        AutoDeleteTrigger = ct.Ad,
+                                        NoRespond = ct.Nr,
+                                        IsRegex = ct.Rgx,
+                                        GrantedRoles = string.Join("@@@", ct.aRole.Select(x => x.ToString())),
+                                        RemovedRoles = string.Join("@@@", ct.rRole.Select(x => x.ToString()))
+                                    }));
         }
 
+        List<ulong> roles = new();
+        triggers.ForEach(x => roles.AddRange(x.GetGrantedRoles()));
+        triggers.ForEach(x => roles.AddRange(x.GetRemovedRoles()));
+
+        if (!roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
+            return false;
+
+        await uow.ChatTriggers.AddRangeAsync(triggers);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await TriggerReloadChatTriggers();
         return true;
@@ -306,27 +335,29 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         if (newGuildReactions.TryGetValue(channel.Guild.Id, out var reactions) && reactions.Length > 0)
         {
-            var cr = MatchChatTriggerss(content, reactions);
+            var cr = MatchChatTriggers(content, reactions);
             if (cr is not null)
                 return cr;
         }
 
         var localGrs = globalReactions;
 
-        return MatchChatTriggerss(content, localGrs);
+        return MatchChatTriggers(content, localGrs);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Database.Models.ChatTriggers MatchChatTriggerss(in ReadOnlySpan<char> content, Database.Models.ChatTriggers[] crs)
+    private Database.Models.ChatTriggers MatchChatTriggers(in ReadOnlySpan<char> content, Database.Models.ChatTriggers[] crs)
     {
         var result = new List<Database.Models.ChatTriggers>(1);
         for (var i = 0; i < crs.Length; i++)
         {
             var cr = crs[i];
             var trigger = cr.Trigger;
+
+            // regex triggers are only checked on regex content
             if (cr.IsRegex)
             {
-                if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromSeconds(1)))
+                if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromMilliseconds(1)))
                     result.Add(cr);
                 continue;
             }
@@ -697,5 +728,56 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 ? crs
                 : Array.Empty<Database.Models.ChatTriggers>();
         return Array.Empty<Database.Models.ChatTriggers>();
+    }
+
+    public async Task ToggleGrantedRole(Database.Models.ChatTriggers cr, ulong rId)
+    {
+        await using var uow = _db.GetDbContext();
+        var roles = cr.GetGrantedRoles();
+        if (!roles.Contains(rId))
+            roles.Add(rId);
+        else
+            roles.RemoveAll(x => x == rId);
+
+        cr.GrantedRoles = string.Join("@@@", roles.Select(x => x.ToString()));
+        uow.ChatTriggers.Update(cr);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(cr.GuildId, cr).ConfigureAwait(false);
+    }
+
+    public async Task ToggleRemovedRole(Database.Models.ChatTriggers cr, ulong rId)
+    {
+        await using var uow = _db.GetDbContext();
+        var roles = cr.GetRemovedRoles();
+        if (!roles.Contains(rId))
+            roles.Add(rId);
+        else
+            roles.RemoveAll(x => x == rId);
+
+        cr.RemovedRoles = string.Join("@@@", roles.Select(x => x.ToString()));
+        uow.ChatTriggers.Update(cr);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(cr.GuildId, cr).ConfigureAwait(false);
+    }
+
+    public EmbedBuilder GetEmbed(Database.Models.ChatTriggers ct, ulong? gId = null, string? title = null)
+    {
+        var eb = new EmbedBuilder().WithOkColor()
+            .WithTitle(title)
+            .WithDescription($"#{ct.Id}")
+            .AddField(efb => efb.WithName(_strings.GetText("trigger", gId)).WithValue(ct.Trigger.TrimTo(1024)))
+            .AddField(efb =>
+                efb.WithName(_strings.GetText("response", gId))
+                    .WithValue($"{(ct.Response + "\n```css\n" + ct.Response).TrimTo(1020)}```"));
+        var reactions = ct.GetReactions();
+        if (reactions.Length >= 1)
+            eb.AddField(_strings.GetText("trigger_reactions", gId), string.Concat(reactions));
+        var addedRoles = ct.GetGrantedRoles();
+        if (addedRoles.Count >= 1)
+            eb.AddField(_strings.GetText("added_roles", gId), addedRoles.Select(x => $"<@&{x}>").Aggregate((x, y) => $"{x}, {y}"));
+        var removedRoles = ct.GetRemovedRoles();
+        if (removedRoles.Count >= 1)
+            eb.AddField(_strings.GetText("removed_roles", gId), removedRoles.Select(x => $"<@&{x}>").Aggregate((x, y) => $"{x}, {y}"));
+        return eb;
     }
 }

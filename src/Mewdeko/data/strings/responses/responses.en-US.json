@@ -23,7 +23,7 @@
     "aar_roles": "The following roles are applied to users that join this server: {0}",
     "aar_role_removed": "Users will no longer receive {0} role when they join this server.",
     "expr_import_no_input": "Invalid input. No valid file upload or input text found.",
-    "expr_import_invalid_data": "Unable to parse the file. Make sure it's a valid .yml file",
+    "expr_import_invalid_data": "An error occurred parsing the file, Make sure it's a valid .yml file and you have permission to manage all roles contained in it.",
     "expr_import_success": "Successfully parsed the chat trigger file.",
     "aabr_none": "Bots will receive regular roles when they join.",
     "aabr_roles": "The following roles are applied to bots that join this server: {0}",
@@ -1113,5 +1113,12 @@
     "roll_fail_invalid_string": "Roll input must be a collection of dice in format `<count>D<sides>`, for example `1d10` would roll a ten sided die",
     "trigger_add_invalid": "Chat Triggers must have non-whitesapce content in both the name key and message.",
     "ctr_testing_emotes": "Almost done, I just need to make sure the emotes are all valid.",
-    "emote_reader_none_found": "No emotes found, make sure your emotes are seperated by a comma, like `❤️,😸`."
+    "emote_reader_none_found": "No emotes found, make sure your emotes are seperated by a comma, like `❤️,😸`.",
+    "cant_manage_role": "You can't manage this role, make sure you have a higher position than it, it's not @ everyone, and it's not managed by an application..",
+    "ct_toggled_roll_grant": "The role \"{0}\" had it's grant state in the chat trigger #{1} toggled.",
+    "ct_toggled_roll_remove": "The role \"{0}\" had it's removeal state in the chat trigger #{1} toggled.",
+    "ct_roll_add_remove": "Rolls cannot be added and removed at the same time.",
+    "removed_roles": "Removed Roles",
+    "added_roles": "Added Roles",
+    "trigger_reactions": "Reactions"
 }
