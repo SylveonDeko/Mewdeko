@@ -150,7 +150,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
     [Cmd, Aliases, HelpDisabled]
     public async Task Dragon()
     {
-        var user = DiscordUserExtensions.GetOrCreateUser(_db, ctx.User);
+        var user = _db.GetOrCreateUser(ctx.User);
         user.IsDragon = !user.IsDragon;
         await _db.SaveChangesAsync();
         await ReplyConfirmLocalizedAsync("dragon_set").ConfigureAwait(false);

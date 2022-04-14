@@ -223,7 +223,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
             return new PageBuilder().WithDescription(
-                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Message:` {curgreet.Message.TrimTo(1000)}")
+                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                     .WithOkColor();
         }
 
