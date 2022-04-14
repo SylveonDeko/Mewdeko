@@ -511,14 +511,5 @@ public class CommandHandler : INService
             Log.Warning(execResult.Exception, "Command Error");
 
         return (true, null, cmd);
-
-        try
-        {
-            // this should throw an error
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("it was too fast!");
-        }
     }
 }
