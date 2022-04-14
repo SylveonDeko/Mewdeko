@@ -1772,3 +1772,11 @@ addchattriggerregex:
   - actr
 dragon:
   - dragon
+ctrgranttoggle:
+  - ctrgranttoggle
+  - ctgranttoggle
+  - ctgt
+ctrremovetoggle: 
+  - ctrremovetoggle
+  - ctremovetoggle
+  - ctrt

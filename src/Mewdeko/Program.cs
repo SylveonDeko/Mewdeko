@@ -1,9 +1,9 @@
-global using System;
-global using System.Linq;
 global using Mewdeko.Services;
-global using System.Threading.Tasks;
+global using System;
 global using System.Collections;
 global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
 using Serilog;
 using System.IO;
 using System.Net.Http;
@@ -34,7 +34,7 @@ if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
     var client = new HttpClient();
     var response = client.GetAsync(uri).Result;
     await using var fs = new FileStream(
-        Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db"), 
+        Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db"),
         FileMode.CreateNew);
     await response.Content.CopyToAsync(fs);
 }
