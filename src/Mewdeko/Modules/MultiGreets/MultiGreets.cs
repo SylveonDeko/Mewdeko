@@ -17,9 +17,9 @@ namespace Mewdeko.Modules.MultiGreets;
 
 public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 {
-    private InteractiveService interactivity;
+    private readonly InteractiveService _interactivity;
 
-    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
+    public MultiGreets(InteractiveService interactivity) => this._interactivity = interactivity;
 
     public enum MultiGreetTypes
     {
@@ -247,14 +247,14 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                         .WithDefaultEmotes()
                         .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
         async Task<PageBuilder> PageFactory(int page)
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
             return new PageBuilder().WithDescription(
-                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
+                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor();
         }
         

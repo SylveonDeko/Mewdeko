@@ -71,11 +71,11 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         }
         if (Service.GetThreadType(ctx.Guild) == 1)
         {
-            builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{suggest.SuggestID}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
         if (Service.GetThreadType(ctx.Guild) == 2)
         {
-            builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{suggest.SuggestID}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build());
     }
@@ -88,10 +88,10 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         if (Service.GetThreadType(ctx.Guild) is 0 or 2)
             return;
         var channel = await ctx.Guild.GetTextChannelAsync(Service.GetSuggestionChannel(ctx.Guild.Id));
-        if (Service.GetThreadByMessage(suggest.MessageID) is 0)
+        if (Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
             var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum}", ThreadType.PublicThread, message: componentInteraction.Message);
-            var user = await ctx.Guild.GetUserAsync(suggest.UserID);
+            var user = await ctx.Guild.GetUserAsync(suggest.UserId);
             if (user is not null)
                 await threadChannel.AddUserAsync(user);
             await threadChannel.AddUserAsync(ctx.User as IGuildUser);
@@ -100,7 +100,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
             return;
         }
 
-        var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageID));
+        var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageId));
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
     
@@ -112,11 +112,11 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         if (Service.GetThreadType(ctx.Guild) is 0 or 1)
             return;
         var channel = await ctx.Guild.GetTextChannelAsync(Service.GetSuggestionChannel(ctx.Guild.Id));
-        var a = Service.GetThreadByMessage(suggest.MessageID);
-        if (Service.GetThreadByMessage(suggest.MessageID) is 0)
+        var a = Service.GetThreadByMessage(suggest.MessageId);
+        if (Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
             var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum}", ThreadType.PrivateThread, message: componentInteraction.Message);
-            var user = await ctx.Guild.GetUserAsync(suggest.UserID);
+            var user = await ctx.Guild.GetUserAsync(suggest.UserId);
             if (user is not null)
                 await threadChannel.AddUserAsync(user);
             await threadChannel.AddUserAsync(ctx.User as IGuildUser);
@@ -125,7 +125,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
             return;
         }
 
-        var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageID));
+        var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageId));
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
 }
