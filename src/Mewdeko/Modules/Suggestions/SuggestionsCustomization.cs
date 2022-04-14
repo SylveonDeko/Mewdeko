@@ -118,6 +118,16 @@ public partial class Suggestions
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestThreadsType(SuggestThreadType type)
         {
+            if (!ctx.Guild.Features.HasThreads)
+            {
+                await ctx.Channel.SendErrorAsync("You do not have threads enabled!");
+                return;
+            }
+            if (type == SuggestThreadType.Private && !ctx.Guild.Features.HasPrivateThreads)
+            {
+                await ctx.Channel.SendErrorAsync("You do not have enough server boosts for private threads!");
+                return;
+            }
             await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
             await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
         }
@@ -187,6 +197,7 @@ public partial class Suggestions
                 catch
                 {
                     await ctx.Channel.SendErrorAsync($"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.");
+                    return;
                 }
 
             var list = emotes.Select(emote => emote.ToString()).ToList();
