@@ -139,8 +139,8 @@ public class CommandHandler : INService
     public string GetPrefix(ulong? id = null)
     {
         if (id is null)
-            return ".";
-        return _bot.GetGuildConfig(id.Value).Prefix ??= ".";
+            return _bss.GetSetting("prefix");
+        return _bot.GetGuildConfig(id.Value).Prefix ??= _bss.GetSetting("prefix");
     }
 
     public string SetDefaultPrefix(string prefix)
