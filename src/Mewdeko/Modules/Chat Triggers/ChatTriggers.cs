@@ -291,14 +291,6 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
-        // throw exception if the trigger is in another guild
-        // DO NOT REMOVE
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
-        if (ct is null)
-        {
-            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
-            return;
-        }
         var (success, newVal) = await Service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
         if (!success)
         {
