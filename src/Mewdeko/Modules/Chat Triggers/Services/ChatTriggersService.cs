@@ -522,19 +522,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await UpdateInternalAsync(guildId, cr);
     }
 
-    public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(int id, CtField field)
+    public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(Database.Models.ChatTriggers ct, CtField field)
     {
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
-        if (ct is null)
-        {
-            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
-            return;
-        }
         var newVal = false;
-        Database.Models.ChatTriggers ct;
         await using (var uow = _db.GetDbContext())
         {
-            ct = uow.ChatTriggers.GetById(id);
             if (ct is null)
                 return (false, false);
             newVal = field switch
