@@ -291,7 +291,13 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
-        var (success, newVal) = await Service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
+        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (ct is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+        var (success, newVal) = await Service.ToggleCrOptionAsync(ct, option).ConfigureAwait(false);
         if (!success)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
