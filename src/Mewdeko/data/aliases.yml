@@ -5,6 +5,9 @@ suggestmotesmode:
   - suggestmotesmode
 suggestbuttoncolor:
   - suggestbuttoncolor
+suggestthreadstype:
+  - suggestthreadstype
+  - suggestthreads
 snipeset:
   - snipeset
   - setsnipe
