@@ -9,7 +9,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Help.Common;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
@@ -108,7 +107,7 @@ public class Help : MewdekoModuleBase<HelpService>
         await ctx.Channel.SendConfirmAsync(
             "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
 
-    [Cmd, Aliases, MewdekoOptions(typeof(CommandsOptions))]
+    [Cmd, Aliases]
     public async Task Commands([Remainder] string? module = null)
     {
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
