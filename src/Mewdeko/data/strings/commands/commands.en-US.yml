@@ -8,6 +8,28 @@ snipelist:
   args:
     - ""
     - "20"
+suggestthreadstype:
+  desc: |-
+    Sets the type of threads to use when suggestions are made. Can only be used if your server has threads enabled
+    - `none` Disables threads for suggestions
+    - `public` Sets the button to open a public thread under that suggestion
+    - `private` Sets the button to open a private thread under that suggestion
+  args:
+    - public
+    - none
+    - private
+suggestmotesmode:
+  desc: Sets whether to use buttons or emotes for the set suggestion emotes
+  args:
+    - emotes
+    - buttons
+suggestbuttoncolor:
+  desc: Sets the color for each emote button if enabled
+  args:
+    - 1 red
+    - 2 blue
+    - 3 gray
+    - 4 green
 
 highlights:
   desc: |-

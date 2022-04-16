@@ -25,6 +25,7 @@ public partial class Suggestions
     public enum ButtonType
     {
         Blurple = 1,
+        Blue = 1,
         Grey = 2,
         Gray = 2,
         Green = 3,
