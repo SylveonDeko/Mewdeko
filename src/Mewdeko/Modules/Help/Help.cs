@@ -99,7 +99,7 @@ public class Help : MewdekoModuleBase<HelpService>
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
         await Service.AddUser(ctx.Message, DateTime.UtcNow);
-        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build());
     }
 
     [Cmd, Aliases]

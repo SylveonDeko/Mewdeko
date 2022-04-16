@@ -57,7 +57,7 @@ public class HelpService : ILateExecutor, INService
         _ = ClearHelp();
     }
 
-    public ComponentBuilder GetHelpSelect(IGuild? guild, bool descriptions = true)
+    public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
     {
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
         var compBuilder = new ComponentBuilder();
@@ -68,7 +68,7 @@ public class HelpService : ILateExecutor, INService
         }
 
         compBuilder.WithSelectMenu(selMenu);
-        compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions}");
+        compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions},{user.Id}");
         return compBuilder;
     }
 
@@ -191,13 +191,14 @@ public class HelpService : ILateExecutor, INService
                 return;
 
             var e = guild.DefaultChannel;
+            var px = _ch.GetPrefix(guild);
             var eb = new EmbedBuilder
             {
                 Description =
-                    "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command."
+                    $"Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
             };
             eb.AddField("How to look for commands",
-                "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
+                $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
             eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link: https://mewdeko.tech/invite");
             eb.WithThumbnailUrl(
                 "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");

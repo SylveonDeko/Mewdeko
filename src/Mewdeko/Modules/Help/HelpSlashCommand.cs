@@ -39,7 +39,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     public async Task Modules()
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build());
         try
         {
             var message = await ctx.Channel.GetMessagesAsync().FlattenAsync();
@@ -170,14 +170,16 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondAsync(embed: embed.Build());
     }
 
-    [ComponentInteraction("toggle-descriptions:*", true)]
-    public async Task ToggleHelpDescriptions(string sDesc)
+    [ComponentInteraction("toggle-descriptions:*,*", true)]
+    public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
+        if (ctx.User.Id.ToString() != sId) return;
+        ;
         await DeferAsync();
         var description = bool.TryParse(sDesc, out var desc) && desc;
         var message = (ctx.Interaction as SocketMessageComponent).Message;
         var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
 
-        await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpSelect(ctx.Guild, !description).Build(); });
+        await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpComponents(ctx.Guild, ctx.User, !description).Build(); });
     }
 }
