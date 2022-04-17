@@ -2275,7 +2275,7 @@ translate:
     Translates from>to text. From the given language to the destination
     language.
   args:
-    - en>fr Hello
+    - fr Hello
 translangs:
   desc: Lists the valid languages for translation.
   args:
