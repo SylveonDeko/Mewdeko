@@ -15,6 +15,8 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using Mewdeko.Votes;
+using Mewdeko.Votes.Controllers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -46,10 +48,16 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IDataCache _cache;
 
 
-    public OwnerOnly(DiscordSocketClient client, Mewdeko bot, IBotStrings strings,
-        InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices,
+    public OwnerOnly(
+        DiscordSocketClient client,
+        Mewdeko bot,
+        IBotStrings strings,
+        InteractiveService serv,
+        ICoordinator coord,
+        IEnumerable<IConfigService> settingServices,
         DbService db,
-        IDataCache cache)
+        IDataCache cache,
+        WebhookEvents events)
     {
         _interactivity = serv;
         _client = client;
@@ -59,6 +67,12 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _settingServices = settingServices;
         _db = db;
         _cache = cache;
+        events.UserVotedTopGg += TopGGUserVote;
+    }
+
+    private void TopGGUserVote(object? sender, TopggVoteWebhookModel e)
+    {
+        Console.Write(e);
     }
 
     [Cmd, Aliases]
