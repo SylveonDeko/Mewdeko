@@ -1,4 +1,6 @@
-﻿using Mewdeko.Votes.Services;
+﻿using Discord;
+using Discord.Webhook;
+using Mewdeko.Votes.Services;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -45,12 +47,25 @@ public class WebhookController : ControllerBase
     [Authorize(Policy = Policies.TOPGG_AUTH)]
     public async Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
     {
-        Console.Write("test");
+        var eb = new EmbedBuilder().WithColor(new Color(222, 173, 74))
+                                   .WithDescription("Thanks for voting! This will help mewdeko be listed higher on topgg so people will recognize its awesomness!")
+                                   .WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,
             "top.gg");
-        
+        var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Key);
+        if (webhook is not null)
+        {
+            try
+            {
+                await webhook.SendMessageAsync($"<@{data.User}> Has voted for mewdeko!", embeds: new[] { eb.Build() });
+            }
+            catch
+            {
+                Console.Write("Possible incorrect webhook for topgg votes.");
+            }
+        }
         await _votesCache.AddNewTopggVote(data.User);
         await Events.InvokeTopGg(data);
         return Ok();
