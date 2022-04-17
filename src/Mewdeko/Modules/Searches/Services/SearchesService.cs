@@ -2,6 +2,7 @@
 using AngleSharp.Html.Parser;
 using Discord;
 using Discord.WebSocket;
+using GTranslate.Translators;
 using Html2Markdown;
 using Mewdeko.Common;
 using Mewdeko.Database;
@@ -348,15 +349,11 @@ public class SearchesService : INService, IUnloadableService
 
     public async Task<string> Translate(string langs, string? text = null)
     {
-        if (string.IsNullOrWhiteSpace(text))
-            throw new ArgumentException("Text is empty or null", nameof(text));
-        var langarr = langs.ToLowerInvariant().Split('>');
-        if (langarr.Length != 2)
-            throw new ArgumentException("Langs does not have 2 parts separated by a >", nameof(langs));
-        var from = langarr[0];
-        var to = langarr[1];
-        text = text?.Trim();
-        return (await _google.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions(true);
+        using var translator = new AggregateTranslator();
+        var translation = await translator.TranslateAsync(text, langs);
+        if (translation.Translation == text)
+            return (await translator.TransliterateAsync(text, langs)).Transliteration;
+        return translation.Translation;
     }
 
     public Task<ImageCacherObject> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
