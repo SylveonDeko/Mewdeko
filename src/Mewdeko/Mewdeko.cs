@@ -24,6 +24,9 @@ using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Impl;
+using Mewdeko.Votes;
+using Mewdeko.Votes.Controllers;
+using Mewdeko.Votes.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -144,6 +147,7 @@ public class Mewdeko
                 .AddSingleton<InteractionService>()
                 .AddSingleton<Localization>()
                 .AddSingleton<MusicService>()
+                .AddSingleton<WebhookEvents>()
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
