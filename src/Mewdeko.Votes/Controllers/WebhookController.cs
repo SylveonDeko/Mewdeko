@@ -45,6 +45,7 @@ public class WebhookController : ControllerBase
     [Authorize(Policy = Policies.TOPGG_AUTH)]
     public async Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
     {
+        Console.Write("test");
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,
