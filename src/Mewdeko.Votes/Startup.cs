@@ -20,6 +20,7 @@ public class Startup
     {
         services.AddControllers();
         services.AddSingleton<FileVotesCache>();
+        services.AddSingleton<WebhookEvents>();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" });
