@@ -54,7 +54,7 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Key);
+        var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Value);
         if (webhook is not null)
         {
             try
