@@ -42,6 +42,7 @@ public class WebhookController : ControllerBase
     }
 
     [HttpPost("/topggwebhook")]
+    [Authorize(Policy = Policies.TOPGG_AUTH)]
     public async Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
     {
         Console.Write("test");
