@@ -54,18 +54,18 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        // var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Value);
-        // if (webhook is not null)
-        // {
-        //     try
-        //     {
-        //         await webhook.SendMessageAsync($"<@{data.User}> Has voted for mewdeko!", embeds: new[] { eb.Build() });
-        //     }
-        //     catch
-        //     {
-        //         Console.Write("Possible incorrect webhook for topgg votes.");
-        //     }
-        // }
+        var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Value);
+        if (webhook is not null)
+        {
+            try
+            {
+                await webhook.SendMessageAsync($"<@{data.User}> Has voted for mewdeko!", embeds: new[] { eb.Build() });
+            }
+            catch
+            {
+                Console.Write("Possible incorrect webhook for topgg votes.");
+            }
+        }
         await _votesCache.AddNewTopggVote(data.User);
         await Events.InvokeTopGg(data);
         return Ok();
