@@ -46,28 +46,33 @@ public class WebhookController : ControllerBase
     [HttpPost("/topggwebhook")]
     [Authorize(Policy = Policies.TOPGG_AUTH)]
     public async Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
-    {
-        var eb = new EmbedBuilder().WithColor(new Color(222, 173, 74))
-                                   .WithDescription("Thanks for voting! This will help mewdeko be listed higher on topgg so people will recognize its awesomness!")
-                                   .WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
+    { 
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,
             "top.gg");
-        var webhook = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Value);
-        if (webhook is not null)
-        {
-            try
-            {
-                await webhook.SendMessageAsync($"<@{data.User}> Has voted for mewdeko!", embeds: new[] { eb.Build() });
-            }
-            catch
-            {
-                Console.Write("Possible incorrect webhook for topgg votes.");
-            }
-        }
         await _votesCache.AddNewTopggVote(data.User);
         await Events.InvokeTopGg(data);
+        await SendWebhook(ulong.Parse(data.User), "Top.GG");
         return Ok();
+    }
+
+    private async Task SendWebhook(ulong userId, string platform)
+    {
+        DiscordWebhookClient webhookClient;
+        try
+        {
+            webhookClient = new DiscordWebhookClient(_conf.GetSection("WebhookURL").Value);
+        }
+        catch
+        {
+            Console.Write("The webhook url is potentially misformatted or is incorrect.");
+            return;
+        }
+        var eb = new EmbedBuilder().WithColor(new Color(222, 173, 74))
+                                   .WithDescription("Thanks for voting! This will help mewdeko be listed higher on topgg so people will recognize its awesomness!")
+                                   .WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
+
+        await webhookClient.SendMessageAsync($"<@{userId}> Has voted for mewdeko on {platform}!", embeds: new[] { eb.Build() });
     }
 }
