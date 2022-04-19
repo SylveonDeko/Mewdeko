@@ -217,9 +217,10 @@ public class Help : MewdekoModuleBase<HelpService>
             await Modules();
             return;
         }
-
+        
+        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{com.Aliases.First()}", ButtonStyle.Success, disabled:com.Parameters.Count != 0);
         var embed = Service.GetCommandHelp(com, ctx.Guild);
-        await channel.EmbedAsync(embed).ConfigureAwait(false);
+        await channel.SendMessageAsync(embed:embed.Build(), components:comp.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, OwnerOnly]

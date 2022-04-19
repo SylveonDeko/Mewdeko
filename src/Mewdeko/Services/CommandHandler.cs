@@ -263,8 +263,7 @@ public class CommandHandler : INService
             if (msg is not SocketUserMessage usrMsg)
                 return;
 
-            CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id, x => new(new List<IUserMessage> { usrMsg }), (_, y) => { y.Enqueue(usrMsg); return y; });
-
+            AddCommandToParseQueue(usrMsg);
             _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
         }
         catch (Exception ex)
@@ -275,7 +274,15 @@ public class CommandHandler : INService
         }
     }
 
-    private async Task<bool> ExecuteCommandsInChannelAsync(ulong chanelId)
+    public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
+        x => new(new List<IUserMessage> {usrMsg}), (_, y) =>
+        {
+            y.Enqueue(usrMsg);
+            return y;
+        });
+
+
+    public async Task<bool> ExecuteCommandsInChannelAsync(ulong chanelId)
     {
         try
         {
@@ -321,7 +328,6 @@ public class CommandHandler : INService
                             beh.GetType().Name, usrMsg.Author.Id);
                         break;
                 }
-
 
                 return;
             }
