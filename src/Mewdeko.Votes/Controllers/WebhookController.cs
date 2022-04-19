@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Webhook;
+using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Services;
 using System;
 using System.Threading.Tasks;
@@ -51,9 +52,12 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        await _votesCache.AddNewTopggVote(data.User);
-        await Events.InvokeTopGg(data);
-        await SendWebhook(ulong.Parse(data.User), "Top.GG");
+        _ = Task.Run(async () =>
+        {
+            await _votesCache.AddNewTopggVote(data.User);
+            await Events.InvokeTopGg(data);
+            await SendWebhook(ulong.Parse(data.User), "Top.GG");
+        });
         return Ok();
     }
 

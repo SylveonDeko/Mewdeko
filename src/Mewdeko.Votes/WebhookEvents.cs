@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mewdeko.Votes.Common;
+using System;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Votes;

@@ -16,6 +16,7 @@ using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Mewdeko.Votes;
+using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Controllers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;

@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Votes;
+﻿namespace Mewdeko.Votes.Common;
 
 public static class Policies
 {
