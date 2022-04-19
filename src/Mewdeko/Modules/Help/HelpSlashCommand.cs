@@ -6,6 +6,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
@@ -20,19 +21,22 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     private readonly IServiceProvider _serviceProvider;
     private readonly GlobalPermissionService _permissionService;
     private readonly CommandService _cmds;
+    private readonly CommandHandler _ch;
 
     public HelpSlashCommand(
         GlobalPermissionService permissionService,
         InteractiveService interactivity,
         IServiceProvider serviceProvider,
         CommandService cmds,
-        InteractionService interactionService)
+        InteractionService interactionService,
+        CommandHandler ch)
     {
         _permissionService = permissionService;
         _interactivity = interactivity;
         _serviceProvider = serviceProvider;
         _cmds = cmds;
         _interactionService = interactionService;
+        _ch = ch;
     }
 
     [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
@@ -54,12 +58,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [ComponentInteraction("helpselect", true), BlacklistCheck]
     public async Task HelpSlash(string[] selected)
     {
-        var currentmsg = Service.GetUserMessage(ctx.User);
-        if (currentmsg is null)
+        var currentmsg = Service.GetUserMessage(ctx.User) ?? new MewdekoUserMessage()
         {
-            await ctx.Interaction.SendEphemeralErrorAsync("Please run the text help command to use this!");
-            return;
-        }
+            Content = "help",
+            Author = ctx.User
+        };
         var module = selected.FirstOrDefault();
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
@@ -165,16 +168,30 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             await Modules();
             return;
         }
+        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{command}", ButtonStyle.Success, disabled:com.Parameters.Count != 0);
 
         var embed = Service.GetCommandHelp(com, ctx.Guild);
-        await RespondAsync(embed: embed.Build());
+        await RespondAsync(embed: embed.Build(), components:comp.Build());
+    }
+
+    [ComponentInteraction("runcmd.*", true)]
+    public async Task RunCmd(string command)
+    {
+        var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
+        if (com.Parameters.Count != 0) return;
+        await DeferAsync(true).ConfigureAwait(false);
+        _ch.AddCommandToParseQueue(new MewdekoUserMessage()
+        {
+            Content = _ch.GetPrefix(ctx.Guild) + command, Author = ctx.User, Channel = ctx.Channel
+        });
+        _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
 
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
         if (ctx.User.Id.ToString() != sId) return;
-        ;
+        
         await DeferAsync();
         var description = bool.TryParse(sDesc, out var desc) && desc;
         var message = (ctx.Interaction as SocketMessageComponent).Message;
