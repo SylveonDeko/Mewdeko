@@ -1120,5 +1120,8 @@
     "ct_roll_add_remove": "Rolls cannot be added and removed at the same time.",
     "removed_roles": "Removed Roles",
     "added_roles": "Added Roles",
-    "trigger_reactions": "Reactions"
+    "trigger_reactions": "Reactions",
+    "help_running_cmd": "Running command",
+    "help_run_cmd": "Run Command",
+    "help_run_cmd_too_long": "Commands with over {0} args cannot be run with with interactions."
 }
