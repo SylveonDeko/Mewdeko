@@ -57,7 +57,7 @@ public partial class Searches
                 return;
             }
 
-            await Xkcd(new MewdekoRandom().Next(1, 1750)).ConfigureAwait(false);
+            await Xkcd(new MewdekoRandom().Next(1, 2607)).ConfigureAwait(false);
         }
     
         [Cmd, Aliases, Priority(1)]
