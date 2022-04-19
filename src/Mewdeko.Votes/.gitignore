@@ -1,3 +1,4 @@
 store/
 bin/
 obj/
+*.json
