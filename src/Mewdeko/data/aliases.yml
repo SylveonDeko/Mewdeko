@@ -1783,3 +1783,8 @@ ctrremovetoggle:
   - ctrremovetoggle
   - ctremovetoggle
   - ctrt
+resolvetonetags:
+  - resolvetonetags
+  - resolvetonetag
+  - tonetags
+  - tonetag
