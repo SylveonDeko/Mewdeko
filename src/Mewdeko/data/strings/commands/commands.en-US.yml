@@ -3847,3 +3847,9 @@ ctrremovetoggle:
     Toggles if a role should be removed when a user triggers a chat trigger.
   args:
     - 1 786375627892064257
+resolvetonetags:
+  desc: >-
+    Resolves all tone tags found in a given string.
+  args:
+    - /gen
+    - I need some cuddles :3 /qp

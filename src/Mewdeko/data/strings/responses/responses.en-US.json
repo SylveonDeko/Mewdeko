@@ -1123,5 +1123,12 @@
     "trigger_reactions": "Reactions",
     "help_running_cmd": "Running command",
     "help_run_cmd": "Run Command",
-    "help_run_cmd_too_long": "Commands with over {0} args cannot be run with with interactions."
+    "help_run_cmd_too_long": "Commands with over {0} args cannot be run with with interactions.",
+    "tonetags_none": "No tone tags",
+    "tonetags_none_body": "No tone tags were found, try checking something else or searching for individual tags.",
+    "tonetags_source": "Source",
+    "tonetags_aliases": "Aliases",
+    "tonetags_tonetags": "ToneTags",
+    "tonetags_sources": "Sources",
+    "tonetags_not_found": "Not Found"
 }
