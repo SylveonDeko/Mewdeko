@@ -44,11 +44,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     private readonly GuildTimezoneService _tzSvc;
     private readonly InteractiveService _interactivity;
     private readonly MartineApi _martineApi;
+    private readonly ToneTagService _toneTagService;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
         InteractiveService serv,
-        MartineApi martineApi)
+        MartineApi martineApi, ToneTagService toneTagService)
     {
         _interactivity = serv;
         _martineApi = martineApi;
@@ -57,6 +58,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _httpFactory = factory;
         _cache = cache;
         _tzSvc = tzSvc;
+        _toneTagService = toneTagService;
     }
     
     //for anonymasen :^)
@@ -888,6 +890,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         //    .WithFooter(efb => efb.WithText(GetText("recommendations", gameData.TotalRecommendations)));
         await ctx.Channel.SendMessageAsync($"https://store.steampowered.com/app/{appId}").ConfigureAwait(false);
     }
+    
+    [Cmd, Aliases]
+    public async Task ResolveToneTags([Remainder] string tag)
+    {
+        var embed = _toneTagService.GetEmbed(_toneTagService.ParseTags(tag), ctx.Guild);
+        await ctx.Channel.EmbedAsync(embed);
+    }
 
     public async Task InternalDapiCommand(IUserMessage umsg, string? tag, DapiSearchType type)
     {
@@ -918,4 +927,5 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         [JsonProperty("result_url")] public string ResultUrl { get; set; }
     }
+    
 }
