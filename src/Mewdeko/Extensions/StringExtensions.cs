@@ -165,4 +165,6 @@ public static class StringExtensions
     public static string GetInitials(this string txt, string glue = "") => string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
     public static bool IsAlphaNumeric(this string txt) => txt.All(c => _lettersAndDigits.Contains(c));
+
+    public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
 }

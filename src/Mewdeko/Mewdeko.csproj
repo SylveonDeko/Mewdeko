@@ -97,6 +97,9 @@
         <None Update="data\images_backup.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="data\tags.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="data\xp_template.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

@@ -23,6 +23,7 @@ using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.OwnerOnly.Services;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Votes;
 using Mewdeko.Votes.Controllers;
@@ -164,7 +165,8 @@ public class Mewdeko
                     ResumeKey = "88383874973209rfjb="
                 })
                 .AddSingleton<IShopService, ShopService>()
-                .AddScoped<ISearchImagesService, SearchImagesService>();
+                .AddScoped<ISearchImagesService, SearchImagesService>()
+                .AddSingleton<ToneTagService>();
 
         s.AddHttpClient();
         s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
