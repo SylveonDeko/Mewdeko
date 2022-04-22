@@ -1222,7 +1222,7 @@ public class SuggestionsService : INService
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             if (interaction is not null)
-                await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
+                await interaction.SendEphemeralFollowupConfirmAsync("Suggestion has been sent!");
         }
         else
         {
@@ -1304,6 +1304,11 @@ public class SuggestionsService : INService
         return uow.Suggestions.ForId(gid, sid);
     }
 
+    public List<SuggestionsModel> Suggestions(ulong gid)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.Suggestions.Where(x => x.GuildId == gid).ToList();
+    }
     public SuggestionsModel GetSuggestByMessage(ulong msgId)
     {
         using var uow = _db.GetDbContext();
