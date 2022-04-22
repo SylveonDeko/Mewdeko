@@ -96,12 +96,11 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     )
     {
         var trigger = Service.GetChatTriggers(ctx.Guild.Id, id);
-        await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null, x =>
-            {
-                x.Title = "Chat trigger edit";
-                x.UpdateTextInputValue("key", trigger.Trigger);
-                x.UpdateTextInputValue("message", trigger.Response);
-            }).ConfigureAwait(false);
+        await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null,
+            x => x
+                 .WithTitle("Chat Trigger Edit")
+                 .UpdateTextInput("key", x => x.Value = trigger.Trigger)
+                 .UpdateTextInput("message", x => x.Value = trigger.Response)).ConfigureAwait(false);
     }
 
     [ModalInteraction("chat_trigger_edit:*,*", true),

@@ -6,7 +6,10 @@ namespace Mewdeko.Extensions;
 
 public static class ModalBuilderExtensions
 {
-    public static void UpdateTextInputValue(this ModalBuilder builder, string customId, string value)
+    public static ModalBuilder UpdateTextInput(
+        this ModalBuilder builder,
+        string customId,
+        Action<TextInputBuilder> input)
     {
         var components = builder.Components.ActionRows.SelectMany(x => x.Components).ToList();
         var comp = components.First(x => x.CustomId == customId) as TextInputComponent;
@@ -19,9 +22,14 @@ public static class ModalBuilderExtensions
             MinLength = comp.MinLength,
             Placeholder = comp.Placeholder,
             Style = comp.Style,
-            Value = value
+            Value = comp.Value
         };
+
+        input(tib);
+        
         builder.Components.ActionRows.RemoveAll(x => x.Components.Any(x => x.CustomId == customId));
         builder.Components.ActionRows.Add(new ActionRowBuilder().AddComponent(tib.Build()));
+
+        return builder;
     }
 }
