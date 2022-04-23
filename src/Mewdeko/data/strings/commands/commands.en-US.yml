@@ -8,6 +8,15 @@ snipelist:
   args:
     - ""
     - "20"
+timeout:
+  desc: "Times out a user using discords Timeout with an optional reason. Max is 28 days."
+  args:
+    - "10d @user bad boi"
+    - "28d @user"
+untimeout:
+  desc: "Removes a users timeout with an option reason"
+  args:
+    - "@user goodboi"
 suggestthreadstype:
   desc: |-
     Sets the type of threads to use when suggestions are made. Can only be used if your server has threads enabled
@@ -1725,16 +1734,6 @@ betflip:
   args:
     - 5 heads
     - 3 t
-roll:
-  desc: >-
-    Rolls 0-100. If you supply a number `X` it rolls up to 30 normal dice. If
-    you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to
-    `y`. `Y` can be a letter 'F' if you want to roll fate dice instead of dnd.
-  args:
-    - ''
-    - '7'
-    - 3d5
-    - 5dF
 rolluo:
   desc: >-
     Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with

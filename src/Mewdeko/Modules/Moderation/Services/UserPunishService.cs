@@ -100,8 +100,9 @@ public class UserPunishService : INService
     }
 
     public async Task ApplyPunishment(IGuild guild, IGuildUser user, IUser mod, PunishmentAction p, int minutes,
-        ulong? roleId, string reason)
+        ulong? roleId, string? reason)
     {
+        reason ??= "None Specified";
         switch (p)
         {
             case PunishmentAction.Mute:
@@ -170,6 +171,17 @@ public class UserPunishService : INService
                 break;
             case PunishmentAction.Warn:
                 await Warn(guild, user.Id, _client.CurrentUser, reason);
+                break;
+            case PunishmentAction.Timeout:
+                try
+                {
+                    await user.SetTimeOutAsync(TimeSpan.FromMinutes(minutes), new RequestOptions() { AuditLogReason = reason });
+                }
+                catch
+                {
+                    Log.Warning($"Unable to apply timeout to user {user} in Guild {guild} due to missing permissions");
+                }
+
                 break;
         }
     }

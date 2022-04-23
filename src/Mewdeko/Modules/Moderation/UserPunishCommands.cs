@@ -1,3 +1,4 @@
+using Amazon.S3.Model;
 using CommandLine;
 using Discord;
 using Discord.Commands;
@@ -5,6 +6,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
@@ -40,24 +42,6 @@ public partial class Moderation : MewdekoModule
             Db = db;
         }
 
-        private async Task<bool> CheckRoleHierarchy(IGuildUser target)
-        {
-            var curUser = ((SocketGuild) ctx.Guild).CurrentUser;
-            var ownerId = Context.Guild.OwnerId;
-            var modMaxRole = ((IGuildUser) ctx.User).GetRoles().Max(r => r.Position);
-            var targetMaxRole = target.GetRoles().Max(r => r.Position);
-            var botMaxRole = curUser.GetRoles().Max(r => r.Position);
-            // bot can't punish a user who is higher in the hierarchy. Discord will return 403
-            // moderator can be owner, in which case role hierarchy doesn't matter
-            // otherwise, moderator has to have a higher role
-            if (botMaxRole > targetMaxRole
-                && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
-                && target.Id != ownerId) return true;
-            await ReplyErrorLocalizedAsync("hierarchy");
-            return false;
-
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task SetWarnChannel([Remainder] ITextChannel channel)
@@ -86,6 +70,26 @@ public partial class Moderation : MewdekoModule
                 $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
         }
 
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
+        public async Task Timeout(StoopidTime time, IGuildUser user, string? reason = null)
+        {
+            reason ??= $"{ctx.User} || None Specified";
+            if (time.Time.Days > 28)
+            {
+                await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                return;
+            }
+
+            await user.SetTimeOutAsync(time.Time, new RequestOptions { AuditLogReason = reason });
+            await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day));
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
+        public async Task UnTimeOut(IGuildUser user)
+        {
+            await user.RemoveTimeOutAsync(new RequestOptions { AuditLogReason = $"Removal requested by {ctx.User}" });
+            await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention);
+        }
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string? reason = null)
@@ -349,6 +353,15 @@ public partial class Moderation : MewdekoModule
 
             if (!success)
                 return;
+            switch (punish)
+            {
+                case PunishmentAction.Timeout when time?.Time.Days > 28:
+                    await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                    return;
+                case PunishmentAction.Timeout when time is null:
+                    await ReplyErrorLocalizedAsync("timeout_needs_time");
+                    return;
+            }
 
             if (time is null)
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
@@ -434,6 +447,56 @@ public partial class Moderation : MewdekoModule
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
         }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
+        public async Task Ban(StoopidTime pruneTime, StoopidTime time, IUser user, [Remainder] string? msg = null)
+        {
+            if (time.Time > TimeSpan.FromDays(49))
+                return;
+
+            if (pruneTime.Time > TimeSpan.FromDays(49))
+                return;
+
+            var guildUser =
+                await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
+
+            if (guildUser != null && !await CheckRoleHierarchy(guildUser))
+                return;
+
+            var dmFailed = false;
+
+            if (guildUser != null)
+                try
+                {
+                    var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
+                    var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    if (embedBuilder is not null && item2 is not null)
+                    {
+                        var userChannel = await guildUser.CreateDMChannelAsync();
+                        await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                    }
+                }
+                catch
+                {
+                    dmFailed = true;
+                }
+
+            await _mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}", pruneTime.Time).ConfigureAwait(false);
+            var toSend = new EmbedBuilder().WithOkColor()
+                .WithTitle($"⛔️ {GetText("banned_user")}")
+                .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
+                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                .AddField(efb =>
+                    efb.WithName(GetText("duration"))
+                        .WithValue($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m")
+                        .WithIsInline(true));
+
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
+
+            await ctx.Channel.EmbedAsync(toSend)
+                .ConfigureAwait(false);
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
@@ -454,6 +517,18 @@ public partial class Moderation : MewdekoModule
             {
                 await Ban(user, msg);
             }
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
+        public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
+        {
+            await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}");
+
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                           .WithTitle($"⛔️ {GetText("banned_user")}")
+                                                           .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)))
+                     .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -491,6 +566,43 @@ public partial class Moderation : MewdekoModule
 
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
+        public async Task Ban(StoopidTime time, IGuildUser user, [Remainder] string? msg = null)
+        {
+            if (!await CheckRoleHierarchy(user))
+                return;
+
+            var dmFailed = false;
+
+            try
+            {
+                var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
+                var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                if (embedBuilder is not null && item2 is not null)
+                {
+                    var userChannel = await user.CreateDMChannelAsync();
+                    await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                }
+            }
+            catch
+            {
+                dmFailed = true;
+            }
+
+            await ctx.Guild.AddBanAsync(user, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
+
+            var toSend = new EmbedBuilder().WithOkColor()
+                                           .WithTitle($"⛔️ {GetText("banned_user")}")
+                                           .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
+                                           .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
+
+            await ctx.Channel.EmbedAsync(toSend)
+                     .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

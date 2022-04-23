@@ -11,6 +11,10 @@ suggestthreadstype:
 snipeset:
   - snipeset
   - setsnipe
+timeout:
+  - timeout
+untimeout:
+  - untimeout
 invite:
   - invite
 testsite:

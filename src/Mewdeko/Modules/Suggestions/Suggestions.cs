@@ -39,6 +39,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         {
             //ignored
         }
+
+        suggestion = suggestion.EscapeQuotes();
         if (suggestion.Length > Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
@@ -56,29 +58,31 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         
         await Service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient,
             suggestion, ctx.Channel as ITextChannel);
+        
     }
 
+    
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Deny(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason);
+            ctx.Channel as ITextChannel, reason.EscapeQuotes());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Accept(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason);
+            ctx.Channel as ITextChannel, reason.EscapeQuotes());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Implemented(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason);
+            ctx.Channel as ITextChannel, reason.EscapeQuotes());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Consider(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason);
+            ctx.Channel as ITextChannel, reason.EscapeQuotes());
 }
