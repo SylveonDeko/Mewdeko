@@ -167,4 +167,6 @@ public static class StringExtensions
     public static bool IsAlphaNumeric(this string txt) => txt.All(c => _lettersAndDigits.Contains(c));
 
     public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
+
+    public static string EscapeQuotes(this string txt) => txt.Replace("\"", "''");
 }

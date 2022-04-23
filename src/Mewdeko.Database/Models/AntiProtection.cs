@@ -59,7 +59,8 @@ public enum PunishmentAction
     VoiceMute,
     AddRole,
     Delete,
-    Warn
+    Warn,
+    Timeout
 }
 
 public class AntiSpamIgnore : DbEntity

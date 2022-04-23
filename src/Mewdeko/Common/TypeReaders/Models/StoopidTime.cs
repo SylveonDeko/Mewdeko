@@ -29,8 +29,6 @@ public class StoopidTime
                 continue;
             }
 
-            if (value < 1) throw new ArgumentException($"Invalid {groupName} value.");
-
             namesAndValues[groupName] = value;
         }
 
