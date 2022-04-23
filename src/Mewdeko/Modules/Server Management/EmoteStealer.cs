@@ -26,7 +26,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
             Description = "<a:loading:900381735244689469> Adding Emotes...",
             Color = Mewdeko.OkColor
         };
-        var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value);
+        var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any())
         {
             await ctx.Interaction.SendEphemeralFollowupErrorAsync("No emotes in this message!");

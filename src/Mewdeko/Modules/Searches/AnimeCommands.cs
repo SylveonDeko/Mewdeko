@@ -262,11 +262,16 @@ public partial class Searches
             var er = await reader.ReadToEndAsync();
             var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
                 new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-            var ert = stuff?.MoeResults.FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(stuff.Error))
+            {
+                await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}");
+                return;
+            }
+            var ert = stuff.Result.FirstOrDefault();
             if (ert?.Filename is null)
                 await ctx.Channel.SendErrorAsync(
                     "No results found. Please try a different image, or avoid cropping the current one.");
-            var image = await c2.GetMediaById(ert!.Anilist);
+            var image = await c2.GetMediaById(ert.Anilist);
             var eb = new EmbedBuilder
             {
                 ImageUrl = image?.CoverImageLarge,
@@ -281,11 +286,11 @@ public partial class Searches
             eb.AddField("Air Start Date", image?.AiringStartDate);
             eb.AddField("Air End Date", image?.AiringEndDate);
             eb.AddField("Season Number", te);
-            if (ert.Episode is not null) eb.AddField("Episode", ert.Episode);
+            if (ert.Episode is not 0) eb.AddField("Episode", ert.Episode);
             eb.AddField("AniList Link", image?.SiteUrl);
             eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image?.IdMal}");
             eb.AddField("Score", image?.MeanScore);
-            eb.AddField("Description", image?.DescriptionMd.TrimTo(1024));
+            eb.AddField("Description", image?.DescriptionMd.TrimTo(1024).StripHtml());
             _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
         }
 

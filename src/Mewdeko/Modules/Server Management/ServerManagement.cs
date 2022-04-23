@@ -203,7 +203,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         };
         var errored = new List<string>();
         var emotes = new List<string>();
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value).Distinct();
         if (!tags.Any()) return;
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
         foreach (var i in tags)
@@ -247,7 +247,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var list = new Optional<IEnumerable<IRole>>(new[] {role});
         var errored = new List<string>();
         var emotes = new List<string>();
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value).Distinct();
         if (!tags.Any()) return;
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
 
