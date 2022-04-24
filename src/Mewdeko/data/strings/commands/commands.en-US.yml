@@ -1426,7 +1426,7 @@ setavatar:
     Sets a new avatar image for Mewdeko. Parameter is a direct link to an
     image.
   args:
-    - 'http://i.imgur.com/xTG3a1I.jpg'
+    - 'https://i.imgur.com/xTG3a1I.jpg'
 setgame:
   desc: 'Sets the bots game status to either Playing, Listening, or Watching.'
   args:
@@ -2173,11 +2173,11 @@ urbandict:
   args:
     - Pineapple
 catfact:
-  desc: 'Shows a random catfact from <http://catfacts-api.appspot.com/api/facts>'
+  desc: 'Shows a random catfact from <https://catfacts-api.appspot.com/api/facts>'
   args:
     - ''
 yomama:
-  desc: 'Shows a random joke from <http://api.yomomma.info/>'
+  desc: 'Shows a random joke from <https://api.yomomma.info/>'
   args:
     - ''
 randjoke:
@@ -3676,7 +3676,7 @@ timelyreset:
     - ''
 novel:
   desc: >-
-    Searches for a novel on `http://novelupdates.com/`. You have to provide an
+    Searches for a novel on `https://novelupdates.com/`. You have to provide an
     exact name.
   args:
     - the nine cauldrons
