@@ -200,21 +200,25 @@ public class UtilityService : INService
         return Task.CompletedTask;
     }
 
-    public async Task MsgReciev2(SocketMessage msg)
+    public Task MsgReciev2(SocketMessage msg)
     {
-        if (msg.Author.IsBot) return;
-        if (msg.Channel is SocketDMChannel) return;
-        var guild = ((SocketGuildChannel) msg.Channel).Guild.Id;
-        var id = GetReactChans(guild);
-        if (msg.Channel.Id == id)
+        _ = Task.Run(async () =>
         {
-            Emote.TryParse("<:upvote:863122283283742791>", out var emote);
-            Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
-            await Task.Delay(200);
-            await msg.AddReactionAsync(emote);
-            await Task.Delay(200);
-            await msg.AddReactionAsync(emote2);
-        }
+            if (msg.Author.IsBot) return;
+            if (msg.Channel is SocketDMChannel) return;
+            var guild = ((SocketGuildChannel)msg.Channel).Guild.Id;
+            var id = GetReactChans(guild);
+            if (msg.Channel.Id == id)
+            {
+                Emote.TryParse("<:upvote:863122283283742791>", out var emote);
+                Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
+                await Task.Delay(200);
+                await msg.AddReactionAsync(emote);
+                await Task.Delay(200);
+                await msg.AddReactionAsync(emote2);
+            }
+        });
+        return Task.CompletedTask;
     }
 
     public static async Task<UrlReport> UrlChecker(string url)
@@ -223,71 +227,64 @@ public class UtilityService : INService
         return await vcheck.GetUrlReportAsync(url, true);
     }
 
-    public async Task MsgReciev(SocketMessage msg)
+    public Task MsgReciev(SocketMessage msg)
     {
-        if (msg.Channel is SocketTextChannel t)
+        _ = Task.Run(async () =>
         {
-            if (msg.Author.IsBot) return;
-            var gid = t.Guild;
-            if (GetPLinks(gid.Id) == 1)
+            if (msg.Channel is SocketTextChannel t)
             {
-                var linkParser =
-                    new Regex(
-                        @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
-                        RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                foreach (Match m in linkParser.Matches(msg.Content))
+                if (msg.Author.IsBot) return;
+                var gid = t.Guild;
+                if (GetPLinks(gid.Id) == 1)
                 {
-                    var e = new Uri(m.Value);
-                    var en = e.Host.Split(".");
-                    if (!en.Contains("discord")) continue;
-                    var eb = string.Join("", e.Segments).Split("/");
-                    if (!eb.Contains("channels")) continue;
-                    SocketGuild guild;
-                    if (gid.Id != Convert.ToUInt64(eb[2]))
+                    var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+                        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    foreach (Match m in linkParser.Matches(msg.Content))
                     {
-                        guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
-                        if (guild is null) return;
-                    }
-                    else
-                    {
-                        guild = gid;
-                    }
-
-                    if (guild != t.Guild)
-                        return;
-                    var em = await ((IGuild) guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
-                    if (em == null) return;
-                    var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
-                    if (msg2 is null) return;
-                    var en2 = new EmbedBuilder
-                    {
-                        Color = Mewdeko.OkColor,
-                        Author = new EmbedAuthorBuilder
+                        var e = new Uri(m.Value);
+                        var en = e.Host.Split(".");
+                        if (!en.Contains("discord")) continue;
+                        var eb = string.Join("", e.Segments).Split("/");
+                        if (!eb.Contains("channels")) continue;
+                        SocketGuild guild;
+                        if (gid.Id != Convert.ToUInt64(eb[2]))
                         {
-                            Name = msg2.Author.Username,
-                            IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
-                        },
-                        Footer = new EmbedFooterBuilder
-                        {
-                            IconUrl = ((IGuild) guild).IconUrl,
-                            Text = $"{((IGuild) guild).Name}: {em.Name}"
+                            guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
+                            if (guild is null) return;
                         }
-                    };
-                    if (msg2.Embeds.Any())
-                    {
-                        en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault()?.Description);
-                        if (msg2.Embeds.FirstOrDefault()!.Image != null)
-                            en2.ImageUrl = msg2.Embeds.FirstOrDefault()?.Image.Value.Url;
+                        else
+                        {
+                            guild = gid;
+                        }
+
+                        if (guild != t.Guild)
+                            return;
+                        var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
+                        if (em == null) return;
+                        var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
+                        if (msg2 is null) return;
+                        var en2 = new EmbedBuilder
+                        {
+                            Color = Mewdeko.OkColor,
+                            Author = new EmbedAuthorBuilder { Name = msg2.Author.Username, IconUrl = msg2.Author.GetAvatarUrl(size: 2048) },
+                            Footer = new EmbedFooterBuilder { IconUrl = ((IGuild)guild).IconUrl, Text = $"{((IGuild)guild).Name}: {em.Name}" }
+                        };
+                        if (msg2.Embeds.Any())
+                        {
+                            en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault()?.Description);
+                            if (msg2.Embeds.FirstOrDefault()!.Image != null)
+                                en2.ImageUrl = msg2.Embeds.FirstOrDefault()?.Image.Value.Url;
+                        }
+
+                        if (msg2.Content.Any()) en2.Description = msg2.Content;
+
+                        if (msg2.Attachments.Any()) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
+
+                        await msg.Channel.SendMessageAsync("", embed: en2.WithTimestamp(msg2.Timestamp).Build());
                     }
-
-                    if (msg2.Content.Any()) en2.Description = msg2.Content;
-
-                    if (msg2.Attachments.Any()) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
-
-                    await msg.Channel.SendMessageAsync("",
-                        embed: en2.WithTimestamp(msg2.Timestamp).Build());
                 }
             }
-        }
+        });
+        return Task.CompletedTask;
     }
 }

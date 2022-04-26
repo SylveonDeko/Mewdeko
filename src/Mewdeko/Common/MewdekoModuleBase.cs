@@ -63,14 +63,12 @@ public abstract class MewdekoModule : ModuleBase
 
     public async Task<bool> PromptUserConfirmAsync(string message, ulong userid) 
         => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid).ConfigureAwait(false);
-    
+
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();
-        var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
-            .WithButton("No", "no", ButtonStyle.Danger);
-        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build())
-            .ConfigureAwait(false);
+        var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success).WithButton("No", "no", ButtonStyle.Danger);
+        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build()).ConfigureAwait(false);
         try
         {
             var input = await GetButtonInputAsync(msg.Channel.Id, msg.Id, userid).ConfigureAwait(false);
@@ -84,6 +82,27 @@ public abstract class MewdekoModule : ModuleBase
             var _ = Task.Run(() => msg.DeleteAsync());
         }
     }
+    
+
+    public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
+    {
+        var curUser = ((SocketGuild) ctx.Guild).CurrentUser;
+        var ownerId = Context.Guild.OwnerId;
+        var modMaxRole = ((IGuildUser) ctx.User).GetRoles().Max(r => r.Position);
+        var targetMaxRole = target.GetRoles().Max(r => r.Position);
+        var botMaxRole = curUser.GetRoles().Max(r => r.Position);
+        // bot can't punish a user who is higher in the hierarchy. Discord will return 403
+        // moderator can be owner, in which case role hierarchy doesn't matter
+        // otherwise, moderator has to have a higher role
+        if (botMaxRole > targetMaxRole
+            && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
+            && target.Id != ownerId) return true;
+        if (displayError)
+            await ReplyErrorLocalizedAsync("hierarchy");
+        return false;
+
+    }
+    
     public async Task<bool> PromptUserConfirmAsync(IUserMessage message, EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();

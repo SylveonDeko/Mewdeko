@@ -1,13 +1,14 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
 public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 {
-    [ComponentInteraction("emotebutton:*")]
+    [ComponentInteraction("emotebutton:*"), BlacklistCheck]
     public async Task UpdateCount(string number)
     {
         await DeferAsync(true);
@@ -80,7 +81,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build());
     }
 
-    [ComponentInteraction("publicsuggestthread:*")]
+    [ComponentInteraction("publicsuggestthread:*"), BlacklistCheck]
     public async Task PublicThreadStartOrJoin(string suggestnum)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;
@@ -104,7 +105,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
     
-    [ComponentInteraction("privatesuggestthread:*")]
+    [ComponentInteraction("privatesuggestthread:*"), BlacklistCheck]
     public async Task PrivateThreadStartOrJoin(string suggestnum)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;

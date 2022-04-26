@@ -31,6 +31,7 @@ public class MuteService : INService
     private static readonly OverwritePermissions _denyOverwrite =
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
+    
 
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
@@ -435,9 +436,9 @@ public class MuteService : INService
         StartUn_Timer(user.GuildId, user.Id, after, TimerType.Mute); // start the timer
     }
 
-    public async Task TimedBan(IGuild guild, IUser user, TimeSpan after, string reason)
+    public async Task TimedBan(IGuild guild, IUser user, TimeSpan after, string reason, TimeSpan todelete = default)
     {
-        await guild.AddBanAsync(user.Id, 0, reason).ConfigureAwait(false);
+        await guild.AddBanAsync(user.Id, todelete.Days, reason).ConfigureAwait(false);
         await using (var uow = _db.GetDbContext())
         {
             var config = uow.ForGuildId(guild.Id, set => set.Include(x => x.UnbanTimer));

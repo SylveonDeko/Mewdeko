@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
@@ -23,12 +24,20 @@ public class Afk : MewdekoModuleBase<AfkService>
         _client = client;
     }
 
+    public enum AfkTypeEnum
+    {
+        SelfDisable = 1,
+        OnMessage = 2,
+        OnType = 3,
+        Either = 4
+    }
+
     [Cmd, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         if (message == null)
@@ -38,7 +47,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             if (!enumerable.Any() || enumerable.Last() == "")
             {
                 await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync("Afk message enabled!").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("afk_enabled_no_message").ConfigureAwait(false);;
                 try
                 {
                     var user = await ctx.Guild.GetUserAsync(ctx.User.Id).ConfigureAwait(false);
@@ -56,7 +65,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             }
 
             await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "", 0).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("afk_disabled").ConfigureAwait(false);
             try
             {
                 var user = await ctx.Guild.GetUserAsync(ctx.User.Id).ConfigureAwait(false);
@@ -72,13 +81,12 @@ public class Afk : MewdekoModuleBase<AfkService>
 
         if (message.Length != 0 && message.Length > Service.GetAfkLength(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"That's too long! The length for afk on this server is set to {Service.GetAfkLength(ctx.Guild.Id)} characters.").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id));
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message, 0).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}").ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message.EscapeQuotes(), 0).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("afk_enabled", message);
         try
         {
             var user1 = await ctx.Guild.GetUserAsync(ctx.User.Id).ConfigureAwait(false);
@@ -100,17 +108,16 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         if (Service.GetAfkDel(ctx.Guild.Id) == 0)
         {
-            await ctx.Channel.SendConfirmAsync("Afk messages are currently not being deleted.").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("afk_messages_nodelete");
             return;
         }
 
-        await ctx.Channel.SendConfirmAsync(
-            $"Your current Afk Mention Message will delete after {Service.GetAfkDel(ctx.Guild.Id)}").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("afk_messages_delete", TimeSpan.FromSeconds(Service.GetAfkDel(ctx.Guild.Id)).Humanize(maxUnit: TimeUnit.Minute));
     }
 
     [Cmd, Aliases, Priority(1)]
@@ -281,62 +288,18 @@ public class Afk : MewdekoModuleBase<AfkService>
             await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters").ConfigureAwait(false);
         }
     }
-
-    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
-    public async Task AfkType(string ehm)
-    {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
-        {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
-            return;
-        }
-        switch (ehm.ToLower())
-        {
-            case "typeorsend":
-                await Service.AfkTypeSet(ctx.Guild, 4);
-                await ctx.Channel.SendConfirmAsync(
-                    "Afk messages will be disabled when a user sends a message or types in chat.").ConfigureAwait(false);
-                break;
-            case "onmessage":
-                await Service.AfkTypeSet(ctx.Guild, 3);
-                await ctx.Channel.SendConfirmAsync("Afk will be disabled when a user sends a message.").ConfigureAwait(false);
-                break;
-            case "ontype":
-                await Service.AfkTypeSet(ctx.Guild, 2);
-                await ctx.Channel.SendConfirmAsync("Afk messages will be disabled when a user starts typing.").ConfigureAwait(false);
-                break;
-            case "selfdisable":
-                await Service.AfkTypeSet(ctx.Guild, 1);
-                await ctx.Channel.SendConfirmAsync(
-                    "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)").ConfigureAwait(false);
-                break;
-            
-        }
-    }
-
+    
     [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
-    public async Task AfkType(int ehm)
+    public async Task AfkType(AfkTypeEnum afkTypeEnum)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
-        switch (ehm)
-        {
-            case 4:
-                await AfkType("typeorsend").ConfigureAwait(false);
-                break;
-            case 3:
-                await AfkType("onmessage").ConfigureAwait(false);
-                break;
-            case 2:
-                await AfkType("ontype").ConfigureAwait(false);
-                break;
-            case 1:
-                await AfkType("selfdisable").ConfigureAwait(false);
-                break;
-        }
+
+        await Service.AfkTypeSet(ctx.Guild, (int)afkTypeEnum);
+        await ReplyConfirmLocalizedAsync("afk_type_set", afkTypeEnum);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -344,7 +307,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");        
             return;
         }
         if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
@@ -362,7 +325,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         var mentions = new List<string>();
@@ -406,7 +369,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         var list = new HashSet<string>();
@@ -459,15 +422,25 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
+        
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         var users = 0;
+        var erroredusers = 0;
         foreach (var i in user)
-            try
-            {
+        {
+            var curafk = Service.IsAfk(ctx.Guild, i);
+                if (!curafk)
+                    continue;
+                
+                if (!await CheckRoleHierarchy(i, false))
+                {
+                    erroredusers++;
+                    continue;
+                }
                 await Service.AfkSet(ctx.Guild, i, "", 0);
                 users++;
                 try
@@ -478,13 +451,24 @@ public class Afk : MewdekoModuleBase<AfkService>
                 {
                     //ignored
                 }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+        }
 
-        await ctx.Channel.SendConfirmAsync($"AFK Message for {users} users has been disabled!").ConfigureAwait(false);
+        switch (users)
+        {
+            case >0 when erroredusers == 0:
+                await ReplyConfirmLocalizedAsync("afk_rm_multi_success", users);
+                break;
+            case 0 when erroredusers == 0:
+                await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");
+                break;
+            case >0 when erroredusers > 0:
+                await ReplyConfirmLocalizedAsync("afk_success_hierarchy", users, erroredusers);
+                break;
+            case 0 when erroredusers >= 1:
+                await ReplyErrorLocalizedAsync("afk_rm_fail_hierarchy");
+                break;
+
+        }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
@@ -492,13 +476,13 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
-        var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
-        if (afkmsg == "")
+        
+        if (!Service.IsAfk(ctx.Guild, user))
         {
-            await ctx.Channel.SendErrorAsync("The mentioned user does not have an afk status set!");
+            await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");
             return;
         }
 
@@ -513,6 +497,6 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
 
         await Service.AfkSet(ctx.Guild, user, "", 0).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("afk_rm_success", user.Mention);
     }
 }
