@@ -8,6 +8,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
+using Swan;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -138,10 +139,10 @@ public partial class Utility
 
         private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
         {
-            var time = DateTime.UtcNow + ts;
-
             if (ts > TimeSpan.FromDays(60))
                 return false;
+            
+            var time = DateTime.UtcNow + ts;
 
             if (ctx.Guild != null)
             {
@@ -170,8 +171,9 @@ public partial class Utility
                 : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
             try
             {
+                var unixTime = time.ToUnixEpochDate();
                 await ctx.Channel.SendConfirmAsync(
-                    $"⏰ {GetText("remind", Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username), Format.Bold(message), $"{ts.Days}d {ts.Hours}h {ts.Minutes}min", gTime, gTime)}").ConfigureAwait(false);
+                    $"⏰ {GetText("remind", Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username), Format.Bold(message), $"<t:{unixTime}:R>", gTime, gTime)}").ConfigureAwait(false);
             }
             catch
             {
