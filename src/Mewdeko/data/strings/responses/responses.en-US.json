@@ -673,7 +673,7 @@
     "quote_deleted": "Quote #{0} deleted.",
     "region": "Region",
     "registered_on": "Registered on",
-    "remind": "I will remind {0} to {1} in {2} `({3:d.M.yyyy.} at {4:HH:mm})`",
+    "remind": "I will remind {0} to {1} {2} `({3:d.M.yyyy.} at {4:HH:mm})`",
     "remind_invalid_format": "Not a valid remind format. Check the command list.",
     "remind_too_long": "Remind time has exceeded maximum.",
     "repeater": "Repeating {0} every {1} day(s), {2} hour(s) and {3} minute(s).",
