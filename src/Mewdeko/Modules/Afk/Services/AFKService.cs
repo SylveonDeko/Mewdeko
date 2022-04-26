@@ -230,14 +230,27 @@ public class AfkService : INService, IReadyExecutor
     public bool IsAfk(IGuild guild, IGuildUser user)
     {
         var afkmsg = GetAfkMessage(guild.Id, user.Id);
-        var result = afkmsg?.LastOrDefault()?.Message;
-        return !string.IsNullOrEmpty(result);
+        if (afkmsg is null)
+            return false;
+        var result = afkmsg.LastOrDefault();
+        if (result is null)
+            return false;
+        return !string.IsNullOrEmpty(result.Message);
     }
 
     private Task MessageUpdated(Cacheable<IMessage, ulong> msg, SocketMessage msg2, ISocketMessageChannel t)
     {
-        if (msg.Value is not null && msg.Value.Content == msg2.Content) return Task.CompletedTask;
-        return MessageReceived(msg2);
+        _ = Task.Run(async () =>
+        {
+            var message = await msg.GetOrDownloadAsync();
+            if (message is null)
+                return;
+            if (message.Timestamp > new DateTimeOffset(DateTime.UtcNow, TimeSpan.FromMinutes(30)))
+                return;
+
+            await MessageReceived(msg2);
+        });
+        return Task.CompletedTask;
     }
 
     public async Task AfkTypeSet(IGuild guild, int num)

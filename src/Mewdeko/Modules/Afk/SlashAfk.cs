@@ -77,7 +77,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
+        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message.EscapeQuotes(), 0);
         await ctx.Interaction.SendConfirmAsync($"AFK Message set to:\n{message}");
         await ctx.Guild.DownloadUsersAsync();
     }
