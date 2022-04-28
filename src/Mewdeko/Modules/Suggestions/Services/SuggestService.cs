@@ -60,33 +60,28 @@ public class SuggestionsService : INService
             
             if (GetSuggestButtonRepost(channel.Guild) == 0)
                 return;
-            // if (_repostChecking.Contains(channel.Id))
-            //     return;
+            if (_repostChecking.Contains(channel.Id))
+                return;
             _repostChecking.Add(channel.Id);
             var buttonId = GetSuggestButtonMessageId(channel.Guild);
             var messages = await channel.GetMessagesAsync(arg, Direction.Before, GetSuggestButtonRepost(channel.Guild)).FlattenAsync();
             if (messages.Select(x => x.Id).Contains(buttonId))
-                return;
-            try
             {
-                if (buttonId != 0)
+                _repostChecking.Remove(channel.Id);
+                return;
+            }
+            if (buttonId != 0)
                     try
                     {
                         await channel.DeleteMessageAsync(buttonId);
                     }
-                    catch (Exception e)
+                    catch (HttpException)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Log.Error($"Button Repost will not work because of missing permissions in guild {channel.Guild}");
+                        _repostChecking.Remove(channel.Id);
+                        return;
                     }
-            }
-            catch (HttpException)
-            {
-                Log.Error($"Button Repost will not work because of missing permissions in guild {channel.Guild}");
-                _repostChecking.Remove(channel.Id);
-                return;
-            }
-
+            
             var message = GetSuggestButtonMessage(channel.Guild);
             if (string.IsNullOrWhiteSpace(message) || message is "disabled" or "-")
             {
@@ -95,12 +90,7 @@ public class SuggestionsService : INService
                     .WithDescription("Press the button below to make a suggestion!");
                 var component = new ComponentBuilder().WithButton("Suggest Here!", "suggestbutton", ButtonStyle.Secondary);
                 var toAdd = await channel.SendMessageAsync(embed: eb.Build(), components: component.Build());
-                await using var uow = _db.GetDbContext();
-                var gc = uow.ForGuildId(channel.GuildId, set => set);
-                gc.SuggestButtonMessageId = toAdd.Id;
-                uow.GuildConfigs.Update(gc);
-                await uow.SaveChangesAsync();
-                _bot.UpdateGuildConfig(channel.GuildId, gc);
+                await SetSuggestionButtonId(channel.Guild, toAdd.Id);
                 _repostChecking.Remove(channel.Id);
                 return;
             }
@@ -122,11 +112,7 @@ public class SuggestionsService : INService
                         buttonEmote = GetSuggestButtonEmote(channel.Guild).ToIEmote();
                     builder.WithButton(buttonLabel, "suggestbutton", ButtonStyle.Secondary, emote: buttonEmote);
                     var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: builder.Build());
-                    await using var uow = _db.GetDbContext();
-                    var gc = uow.ForGuildId(channel.GuildId, set => set);
-                    gc.SuggestButtonMessageId = toadd.Id;
-                    await uow.SaveChangesAsync();
-                    _bot.UpdateGuildConfig(channel.GuildId, gc);
+                    await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     _repostChecking.Remove(channel.Id);
 
                 }
@@ -136,6 +122,7 @@ public class SuggestionsService : INService
                 }
             }
 
+            _repostChecking.Remove(channel.Id);
         });
         return Task.CompletedTask;
     }
@@ -380,6 +367,23 @@ public class SuggestionsService : INService
         gc.SuggestEmotes = parsedEmotes;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    
+    public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
+    {
+        try
+        {
+            await using var uow = _db.GetDbContext();
+            var gc = uow.ForGuildId(guild.Id, set => set);
+            gc.SuggestButtonMessageId = messageId;
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            _bot.UpdateGuildConfig(guild.Id, gc);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
