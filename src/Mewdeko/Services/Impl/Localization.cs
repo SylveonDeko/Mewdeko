@@ -23,8 +23,9 @@ public class Localization : ILocalization
     {
         _bss = bss;
         _db = db;
-
-        var cultureInfoNames = bot.CachedGuildConfigs
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var cultureInfoNames = gc
             .ToDictionary(x => x.GuildId, x => x.Locale);
 
         GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo>(cultureInfoNames.ToDictionary(x => x.Key,

@@ -53,3 +53,5 @@ groupGreets: false
 # This setting can be changed via .rots command.
 # See RotatingStatuses submodule in Administration.
 rotateStatuses: true
+# Used for global command logs
+commandLogChannel: 967698079748862012

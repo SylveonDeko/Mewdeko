@@ -43,9 +43,10 @@ public class SearchImagesService : ISearchImagesService, INService
         _http.AddFakeHeaders();
         _cache = cacher;
         _db = db;
-
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            bot.CachedGuildConfigs.ToDictionary(
+            gc.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }

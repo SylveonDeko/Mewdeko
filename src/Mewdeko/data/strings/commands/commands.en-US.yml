@@ -17,6 +17,10 @@ untimeout:
   desc: "Removes a users timeout with an option reason"
   args:
     - "@user goodboi"
+suggestbuttonchannel:
+  desc: "Sets the channel where the suggest button is posted."
+  args:
+    - "#channel"
 suggestthreadstype:
   desc: |-
     Sets the type of threads to use when suggestions are made. Can only be used if your server has threads enabled

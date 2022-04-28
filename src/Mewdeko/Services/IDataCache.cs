@@ -16,6 +16,9 @@ public interface IDataCache
     Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
     Task AddAfkToCache(ulong id, List<Afk> newAfk);
     Task CacheHighlights(ulong id, List<Highlights> highlights);
+    void AddOrUpdateGuildConfig(ulong id, GuildConfig guildConfig);
+    void DeleteGuildConfig(ulong id);
+    GuildConfig? GetGuildConfig(ulong id);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     Task AddHighlightToCache(ulong id, List<Highlights> newHighlight);
     Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight);

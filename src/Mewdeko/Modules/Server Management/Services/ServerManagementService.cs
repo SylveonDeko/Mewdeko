@@ -1,5 +1,7 @@
 using Discord;
 using Discord.WebSocket;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using System.Collections.Concurrent;
 
@@ -8,12 +10,10 @@ namespace Mewdeko.Modules.Server_Management.Services;
 public class ServerManagementService : INService
 {
 
-    public ServerManagementService(DiscordSocketClient client, Mewdeko bot)
+    public ServerManagementService(Mewdeko bot, DbService db)
     {
-        var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = bot.CachedGuildConfigs
-            .Where(x => guildIds.Contains(x.GuildId))
-            .ToList();
+        using var uow = db.GetDbContext();
+        var configs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
 
         GuildMuteRoles = configs
             .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))

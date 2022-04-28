@@ -19,7 +19,9 @@ public class RoleCommandsService : INService
     public RoleCommandsService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
-        _models = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId,
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        _models = gc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
         client.ReactionAdded += _client_ReactionAdded;
