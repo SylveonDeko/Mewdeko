@@ -56,8 +56,8 @@ public class GuildConfig : DbEntity
     public int Emote3Style { get; set; } = 2;
     public int Emote4Style { get; set; } = 2;
     public int Emote5Style { get; set; } = 2;
-    public ulong SuggestButtonMessageId = 0;
-    public int SuggestButtonRepostThreshold = 5;
+    public ulong SuggestButtonMessageId { get; set; } = 0;
+    public int SuggestButtonRepostThreshold { get; set;  }= 5;
 
     public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }
