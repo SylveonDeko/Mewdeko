@@ -11,6 +11,7 @@ public class GuildConfig : DbEntity
     public string Prefix { get; set; } = null;
     public ulong StaffRole { get; set; }
     public ulong GameMasterRole { get; set; }
+    public ulong CommandLogChannel { get; set; } = 0;
     public bool DeleteMessageOnCommand { get; set; }
     public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
@@ -55,6 +56,8 @@ public class GuildConfig : DbEntity
     public int Emote3Style { get; set; } = 2;
     public int Emote4Style { get; set; } = 2;
     public int Emote5Style { get; set; } = 2;
+    public ulong SuggestButtonMessageId = 0;
+    public int SuggestButtonRepostThreshold = 5;
 
     public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }

@@ -31,6 +31,14 @@ public partial class Suggestions
         Green = 3,
         Red = 4
     }
+
+    public enum RepostThreshold
+    {
+        Disabled = 0,
+        Five = 5,
+        Ten = 10,
+        Fifteen = 15
+    }
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
@@ -132,7 +140,13 @@ public partial class Suggestions
             await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
             await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
         }
-        
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task SuggestButtonChannel(ITextChannel channel)
+        {
+            await Service.SetSuggestButtonChannel(ctx.Guild, channel.Id);
+            await ctx.Channel.SendConfirmAsync($"Suggest Button Channel set to {channel.Mention}");
+        }
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
         {
@@ -146,7 +160,7 @@ public partial class Suggestions
             await Service.SetDenyMessage(ctx.Guild, embed);
             await ctx.Channel.SendConfirmAsync("Sucessfully updated denied suggestion message!");
         }
-
+        
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ConsiderMessage([Remainder] string embed)
         {

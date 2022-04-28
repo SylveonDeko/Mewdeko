@@ -8,6 +8,8 @@ suggestbuttoncolor:
 suggestthreadstype:
   - suggestthreadstype
   - suggestthreads
+suggestbuttonchannel:
+  - suggestbuttonchannel
 snipeset:
   - snipeset
   - setsnipe

@@ -111,6 +111,9 @@ note: This setting is primarily used if you're afraid of raids, or you're runnin
 This setting can be changed via .rots command.
 See RotatingStatuses submodule in Administration.")]
     public bool RotateStatuses { get; set; }
+    
+    [Comment(@"Used for global command logs")]
+    public ulong CommandLogChannel { get; set; }
 
 //         [Comment(@"Whether the prefix will be a suffix, or prefix.
 // For example, if your prefix is ! you will run a command called 'cash' by typing either
@@ -154,6 +157,7 @@ public class ColorConfig
 
     [Comment(@"Color used for embed responses while command is doing work or is in progress")]
     public Rgba32 Pending { get; set; }
+    
 }
 
 public enum ConsoleOutputType

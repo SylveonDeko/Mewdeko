@@ -4,6 +4,8 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using System.Collections.Concurrent;
@@ -12,10 +14,13 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
-    public CmdCdService(Mewdeko bot) =>
+    public CmdCdService(Mewdeko bot, DbService db)
+    {
+        using var uow = db.GetDbContext();
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-            bot.CachedGuildConfigs.ToDictionary(k => k.GuildId,
-                v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+            uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds()
+                                                 .Contains(x.GuildId)).ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+    }
 
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
     public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new();

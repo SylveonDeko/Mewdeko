@@ -117,7 +117,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     [SlashCommand("report", "Reports a server for misuse of confessions"), BlacklistCheck]
-    public async Task ConfessionsReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
+    public async Task ConfessReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
     {
         if (!ulong.TryParse(stringServerId, out var serverId))
         {

@@ -29,6 +29,7 @@ public class HelpService : ILateExecutor, INService
     private readonly CommandService _cmds;
     private readonly GlobalPermissionService _perms;
     private readonly PermissionService _nPerms;
+    private readonly IDataCache _cache;
 
     public HelpService(
         CommandHandler ch,
@@ -40,7 +41,8 @@ public class HelpService : ILateExecutor, INService
         BlacklistService blacklistService,
         CommandService cmds,
         GlobalPermissionService perms,
-        PermissionService nPerms)
+        PermissionService nPerms,
+        IDataCache cache)
     {
         _dpos = dpos;
         _strings = strings;
@@ -54,6 +56,7 @@ public class HelpService : ILateExecutor, INService
         _client.JoinedGuild += HandleJoin;
         _perms = perms;
         _nPerms = nPerms;
+        _cache = cache;
         _ = ClearHelp();
     }
 
@@ -184,7 +187,7 @@ public class HelpService : ILateExecutor, INService
     {
         _ = Task.Run(async () =>
         {
-            if (_bot.CachedGuildConfigs.TryGetConfig(guild.Id, out _))
+            if (_cache.GetGuildConfig(guild.Id) is not null)
                 return;
 
             if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
