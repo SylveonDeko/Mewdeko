@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Threading;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
@@ -34,6 +36,7 @@ public class CommandHandler : INService
     public readonly CommandService CommandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
+    public static ulong CommandLogChannelId { get; set; }
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer _clearUsersOnShortCooldown;
     private readonly IBotStrings _strings;
@@ -75,7 +78,7 @@ public class CommandHandler : INService
 
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public static Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
+    public Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
         {
@@ -87,6 +90,43 @@ public class CommandHandler : INService
                     ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
                     ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
                     info.MethodName, result.ErrorReason);
+                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+                if (tofetch is RestTextChannel restChannel)
+                {
+                    var eb = new EmbedBuilder()
+                          .WithErrorColor()
+                          .WithTitle("Slash Command Errored")
+                          .AddField("Reason", result.ErrorReason)
+                          .AddField("Module", info.Module.Name ?? "None")
+                          .AddField("Command", info.Name)
+                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+
+                    await restChannel.SendMessageAsync(embed: eb.Build());
+                }
+
+                if (ctx.Guild is null) return;
+                {
+                    if (info.MethodName.ToLower() is "confess" or "confessreport")
+                        return;
+                    
+                    var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                    if (gc.CommandLogChannel is 0) return;
+                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                    if (channel is null)
+                        return;
+                    var eb = new EmbedBuilder()
+                             .WithErrorColor()
+                             .WithTitle("Slash Command Errored")
+                             .AddField("Reason", result.ErrorReason)
+                             .AddField("Module", info.Module.Name ?? "None")
+                             .AddField("Command", info.Name)
+                             .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
+                             .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+
+                    await channel.SendMessageAsync(embed: eb.Build());
+                }
                 return;
             }
 
@@ -96,10 +136,46 @@ public class CommandHandler : INService
                 chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 info.Module.SlashGroupName, info.MethodName); // {3}
+            
+            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+                if (tofetch1 is RestTextChannel restChannel1)
+                {
+                    var eb = new EmbedBuilder()
+                          .WithOkColor()
+                          .WithTitle("Slash Command Executed")
+                          .AddField("Module", info.Module.Name ?? "None")
+                          .AddField("Command", info.Name)
+                          .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
+                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+
+                    await restChannel1.SendMessageAsync(embed: eb.Build());
+                }
+
+                if (ctx.Guild is null) return;
+                {
+                    if (info.MethodName.ToLower() is "confess" or "confessreport")
+                        return;
+                    
+                    var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                    if (gc.CommandLogChannel is 0) return;
+                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                    if (channel is null)
+                        return;
+                    var eb = new EmbedBuilder()
+                             .WithOkColor()
+                             .WithTitle("Slash Command Executed.")
+                             .AddField("Module", info.Module.Name ?? "None")
+                             .AddField("Command", info.Name)
+                             .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                             .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+
+                    await channel.SendMessageAsync(embed: eb.Build());
+                }
         });
         return Task.CompletedTask;
     }
-    private static Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
+    private Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
         {
@@ -111,6 +187,44 @@ public class CommandHandler : INService
                     ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
                     ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
                     slashInfo.MethodName, result.ErrorReason);
+                
+                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+                if (tofetch is RestTextChannel restChannel)
+                {
+                    var eb = new EmbedBuilder()
+                          .WithErrorColor()
+                          .WithTitle("Slash Command Errored.")
+                          .AddField("Reason", result.ErrorReason)
+                          .AddField("Module", slashInfo.Module.Name ?? "None")
+                          .AddField("Command", slashInfo.Name)
+                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+
+                    await restChannel.SendMessageAsync(embed: eb.Build());
+                }
+
+                if (ctx.Guild is null) return;
+                {
+                    if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
+                        return;
+                    
+                    var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                    if (gc.CommandLogChannel is 0) return;
+                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                    if (channel is null)
+                        return;
+                    var eb = new EmbedBuilder()
+                             .WithErrorColor()
+                             .WithTitle("Slash Command Errored.")
+                             .AddField("Reason", result.ErrorReason)
+                             .AddField("Module", slashInfo.Module.Name ?? "None")
+                             .AddField("Command", slashInfo.Name)
+                             .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                             .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+
+                    await channel.SendMessageAsync(embed: eb.Build());
+                }
                 return;
             }
 
@@ -120,6 +234,42 @@ public class CommandHandler : INService
                 chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
+            
+            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            if (tofetch1 is RestTextChannel restChannel1)
+            {
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithTitle("Slash Command Executed.")
+                         .AddField("Module", slashInfo.Module.Name ?? "None")
+                         .AddField("Command", slashInfo.Name)
+                         .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                         .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                         .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+
+                await restChannel1.SendMessageAsync(embed: eb.Build());
+            }
+
+            if (ctx.Guild is null) return;
+            {
+                if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
+                    return;
+                    
+                var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                if (gc.CommandLogChannel is 0) return;
+                var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                if (channel is null)
+                    return;
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithTitle("Slash Command Executed.")
+                         .AddField("Module", slashInfo.Module.Name ?? "None")
+                         .AddField("Command", slashInfo.Name)
+                         .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                         .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+
+                await channel.SendMessageAsync(embed: eb.Build());
+            }
         });
         return Task.CompletedTask;
     }
@@ -218,50 +368,79 @@ public class CommandHandler : INService
     }
 
 
-    private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
+    private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
-        Log.Information("Command Executed after " +
-                        string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))) +
-                        "s\n\t" +
-                        "User: {0}\n\t" +
-                        "Server: {1}\n\t" +
-                        "Channel: {2}\n\t" +
-                        "Message: {3}", $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
-            channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
-            channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
-            usrMsg.Content // {3}
-        );
+        _ = Task.Run(async () =>
+        {
+            Log.Information(
+                "Command Executed after "
+                + string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")))
+                + "s\n\t"
+                + "User: {0}\n\t"
+                + "Server: {1}\n\t"
+                + "Channel: {2}\n\t"
+                + "Message: {3}", $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+                channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+                channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
+                usrMsg.Content); // {3}
+            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            if (toFetch is RestTextChannel restChannel)
+            {
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle("Text Command Executed")
+                    .AddField("Executed Time", string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))))
+                    .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                    .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                    .AddField("Message", usrMsg.Content.TrimTo(1000));
+
+                await restChannel.SendMessageAsync(embed: eb.Build());
+            }
+        });
         return Task.CompletedTask;
     }
 
-    private static void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel,
-        params int[] execPoints)
+    private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
-        var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
-        Log.Warning($"Command Errored after {errorafter}\n\t" +
-                    "User: {0}\n\t" +
-                    "Server: {1}\n\t" +
-                    "Channel: {2}\n\t" +
-                    "Message: {3}\n\t" +
-                    "Error: {4}",
-            $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
-            channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
-            channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
-            usrMsg.Content,
-            errorMessage);
+        _ = Task.Run(async () =>
+        {
+            var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
+            Log.Warning($"Command Errored after {errorafter}\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
+                $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+                channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+                channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
+                usrMsg.Content, errorMessage);
+
+            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            if (toFetch is RestTextChannel restChannel)
+            {
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithTitle("Text Command Errored")
+                         .AddField("Error Reason", errorMessage)
+                         .AddField("Errored Time", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")))
+                         .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                         .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                         .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                         .AddField("Message", usrMsg.Content.TrimTo(1000));
+
+                await restChannel.SendMessageAsync(embed: eb.Build());
+            }
+        });
     }
 
-    private async Task MessageReceivedHandler(SocketMessage msg)
+    private Task MessageReceivedHandler(SocketMessage msg)
     {
         try
         {
 
             if (msg.Author.IsBot ||
                 !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
-                return;
+                return Task.CompletedTask;
 
             if (msg is not SocketUserMessage usrMsg)
-                return;
+                return Task.CompletedTask;
 
             AddCommandToParseQueue(usrMsg);
             _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
@@ -272,6 +451,7 @@ public class CommandHandler : INService
             if (ex.InnerException != null)
                 Log.Warning(ex.InnerException, "Inner Exception of the error in CommandHandler");
         }
+        return Task.CompletedTask;
     }
 
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,

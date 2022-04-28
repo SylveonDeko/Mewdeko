@@ -31,9 +31,10 @@ public class GreetSettingsService : INService
         _client = client;
         _bot = bot;
         _bss = bss;
-
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
-            _bot.CachedGuildConfigs
+            gc
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));
 
         _client.UserJoined += UserJoined;
