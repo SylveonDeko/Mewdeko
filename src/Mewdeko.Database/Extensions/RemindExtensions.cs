@@ -23,4 +23,9 @@ public static class RemindExtensions
                     .OrderBy(x => x.DateAdded)
                     .Skip(page * 10)
                     .Take(10);
+
+    public static IEnumerable<Reminder> AllRemindersFor(this DbSet<Reminder> reminders, ulong userId, ulong? guildId) =>
+        reminders.AsQueryable()
+                 .Where(x => (guildId != null && x.ServerId == guildId) || x.UserId == userId)
+                 .OrderBy(x => x.DateAdded);
 }
