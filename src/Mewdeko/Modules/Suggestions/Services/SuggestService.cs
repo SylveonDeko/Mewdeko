@@ -22,6 +22,7 @@ public class SuggestionsService : INService
     public readonly AdministrationService Adminserv;
     private readonly Mewdeko _bot;
     private readonly List<ulong> _repostChecking;
+    private readonly List<ulong> _spamCheck;
 
     public readonly CommandHandler CmdHandler;
 
@@ -35,6 +36,7 @@ public class SuggestionsService : INService
     {
         _perms = permserv;
         _repostChecking = new List<ulong>();
+        _spamCheck = new List<ulong>();
         Adminserv = aserv;
         CmdHandler = cmd;
         Client = client;
@@ -264,19 +266,32 @@ public class SuggestionsService : INService
         {
             if (msg.Channel is not ITextChannel chan)
                 return;
+            if (_spamCheck.Contains(chan.Id))
+                return;
+            _spamCheck.Add(chan.Id);
             var guild = chan?.Guild;
             var prefix = CmdHandler.GetPrefix(guild);
             if (guild != null && chan.Id == GetSuggestionChannel(guild.Id) && msg.Author.IsBot == false && !msg.Content.StartsWith(prefix))
             {
                 if (chan.Id != GetSuggestionChannel(guild.Id))
+                {
+                    _spamCheck.Remove(chan.Id);
                     return;
+                }
                 var guser = msg.Author as IGuildUser;
                 var pc = _perms.GetCacheFor(guild.Id);
                 var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
                 if (!test)
+                {
+                    _spamCheck.Remove(chan.Id);
                     return;
+                }
+
                 if (guser.RoleIds.Contains(Adminserv.GetStaffRole(guser.Guild.Id)))
+                {
+                    _spamCheck.Remove(chan.Id);
                     return;
+                }
                 if (msg.Content.Length > GetMaxLength(guild.Id))
                 {
                     try
@@ -291,6 +306,7 @@ public class SuggestionsService : INService
                     try
                     {
                         await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({GetMaxLength(guild.Id)})` of this server!");
+                        _spamCheck.Remove(chan.Id);
                     }
                     catch
                     {
@@ -314,6 +330,7 @@ public class SuggestionsService : INService
                     try
                     {
                         await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({GetMaxLength(guild.Id)})` of this server!");
+                        _spamCheck.Remove(chan.Id);
                     }
                     catch
                     {
@@ -324,6 +341,7 @@ public class SuggestionsService : INService
                 }
 
                 await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel);
+                _spamCheck.Remove(chan.Id);
                 try
                 {
                     await msg.DeleteAsync();
@@ -444,7 +462,7 @@ public class SuggestionsService : INService
         else
             buttonLabel = GetSuggestButtonName(guild);
         if (string.IsNullOrWhiteSpace(GetSuggestButtonEmote(guild)) || GetSuggestButtonEmote(guild) is "disabled" or "-")
-            buttonEmote = "<:HaneBomb:914307912044802059>".ToIEmote();
+            buttonEmote = null;
         else
             buttonEmote = GetSuggestButtonEmote(guild).ToIEmote();
         builder.WithButton(buttonLabel, "suggestbutton", GetSuggestButtonColor(guild), emote: buttonEmote);

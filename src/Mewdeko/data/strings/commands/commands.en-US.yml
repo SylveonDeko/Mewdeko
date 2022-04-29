@@ -43,7 +43,26 @@ suggestmotecolor:
     - 2 blue
     - 3 gray
     - 4 green
-
+suggestbuttoncolor:
+  desc: Sets the color used for the suggest button. Updates Immediately.
+  args:
+    - red
+    - green
+    - blue
+    - grey
+suggestbuttonmessage:
+  desc: Sets the message used for the suggest button, accepts embed code. Set to - to set to default. Updates Immediately.
+  args:
+    - embedcode
+    - Suggest Here!
+suggestbuttonlabel:
+  desc: Sets the label used on the suggest button. Up to 80 characters. Updates Immediately.
+  args:
+    - Suggest Here!
+suggestbuttonemote:
+  desc: Sets the emote used in the suggest button. Updates Immediately.
+  args:
+    - hanebomb
 highlights:
   desc: |-
     - `add` Adds a word to your highlights
