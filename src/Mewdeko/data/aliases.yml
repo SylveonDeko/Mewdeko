@@ -5,6 +5,14 @@ suggestmotesmode:
   - suggestmotesmode
 suggestmotecolor:
   - suggestmotecolor
+suggestbuttoncolor:
+  - suggestbuttoncolor
+suggestbuttonmessage:
+  - suggestbuttonmessage
+suggestbuttonlabel:
+  - suggestbuttonlabel
+suggestbuttonemote:
+  - suggestbuttonemote
 suggestthreadstype:
   - suggestthreadstype
   - suggestthreads
