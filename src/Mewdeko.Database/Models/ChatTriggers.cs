@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
-
-namespace Mewdeko.Database.Models;
+﻿namespace Mewdeko.Database.Models;
 
 public class ChatTriggers : DbEntity
 {

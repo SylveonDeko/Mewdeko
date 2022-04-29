@@ -2,7 +2,6 @@
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using Swan;
 using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common;
