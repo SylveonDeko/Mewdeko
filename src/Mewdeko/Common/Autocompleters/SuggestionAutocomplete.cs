@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
 

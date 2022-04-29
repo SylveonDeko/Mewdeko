@@ -13,7 +13,6 @@ using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Net;
 using Color = SixLabors.ImageSharp.Color;
-using Extensions = Mewdeko.Extensions.Extensions;
 
 namespace Mewdeko.Modules.Administration;
 

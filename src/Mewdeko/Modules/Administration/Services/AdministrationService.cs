@@ -10,7 +10,6 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 
 namespace Mewdeko.Modules.Administration.Services;
 

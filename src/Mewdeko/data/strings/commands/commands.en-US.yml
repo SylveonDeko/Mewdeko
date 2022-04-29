@@ -36,7 +36,7 @@ suggestmotesmode:
   args:
     - emotes
     - buttons
-suggestbuttoncolor:
+suggestmotecolor:
   desc: Sets the color for each emote button if enabled
   args:
     - 1 red
