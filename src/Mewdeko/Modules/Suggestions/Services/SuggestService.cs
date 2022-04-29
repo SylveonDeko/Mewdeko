@@ -50,6 +50,7 @@ public class SuggestionsService : INService
     
     private Task RepostButton(SocketMessage arg)
     {
+        IEnumerable<IMessage> messages;
         _ = Task.Run(async () =>
         {
             if (arg.Channel is not ITextChannel channel)
@@ -65,7 +66,6 @@ public class SuggestionsService : INService
                 return;
             _repostChecking.Add(channel.Id);
             var buttonId = GetSuggestButtonMessageId(channel.Guild);
-            IEnumerable<IMessage> messages;
             if (GetSuggestButtonRepost(channel.Guild) is 0)
             {
                 _repostChecking.Remove(channel.Id);
@@ -685,31 +685,55 @@ public class SuggestionsService : INService
     
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
-        int count;
         await using var uow = _db.GetDbContext();
         var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         uow.Suggestions.Remove(suggest);
         await uow.SaveChangesAsync();
-        if (!negative)
-            count = emoteNumber switch
+        switch (negative)
         {
-            1 => ++suggest.EmoteCount1,
-            2 => ++suggest.EmoteCount2,
-            3 => ++suggest.EmoteCount3,
-            4 => ++suggest.EmoteCount4,
-            5 => ++suggest.EmoteCount5,
-            _ => 0
-        };
-        else
-            count = emoteNumber switch
-            {
-                1 => --suggest.EmoteCount1,
-                2 => --suggest.EmoteCount2,
-                3 => --suggest.EmoteCount3,
-                4 => --suggest.EmoteCount4,
-                5 => --suggest.EmoteCount5,
-                _ => 0
-            };
+            case false:
+                switch (emoteNumber)
+                {
+                    case 1:
+                        ++suggest.EmoteCount1;
+                        break;
+                    case 2:
+                        ++suggest.EmoteCount2;
+                        break;
+                    case 3:
+                        ++suggest.EmoteCount3;
+                        break;
+                    case 4:
+                        ++suggest.EmoteCount4;
+                        break;
+                    case 5:
+                        ++suggest.EmoteCount5;
+                        break;
+                }
+
+                break;
+            default:
+                switch (emoteNumber)
+                {
+                    case 1:
+                        --suggest.EmoteCount1;
+                        break;
+                    case 2:
+                        --suggest.EmoteCount2;
+                        break;
+                    case 3:
+                        --suggest.EmoteCount3;
+                        break;
+                    case 4:
+                        --suggest.EmoteCount4;
+                        break;
+                    case 5:
+                        --suggest.EmoteCount5;
+                        break;
+                }
+
+                break;
+        }
         uow.Suggestions.Add(suggest);
         await uow.SaveChangesAsync();
     }
