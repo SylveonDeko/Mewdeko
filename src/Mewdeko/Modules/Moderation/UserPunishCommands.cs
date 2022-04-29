@@ -1,4 +1,3 @@
-using Amazon.S3.Model;
 using CommandLine;
 using Discord;
 using Discord.Commands;

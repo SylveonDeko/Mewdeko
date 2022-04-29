@@ -3,8 +3,8 @@ h:
   - h
 suggestmotesmode:
   - suggestmotesmode
-suggestbuttoncolor:
-  - suggestbuttoncolor
+suggestmotecolor:
+  - suggestmotecolor
 suggestthreadstype:
   - suggestthreadstype
   - suggestthreads

@@ -1,5 +1,4 @@
 using Discord;
-using Discord.WebSocket;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;

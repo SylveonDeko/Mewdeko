@@ -3,7 +3,6 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using Swan.Formatters;
 using System.Net;
 
 namespace Mewdeko.Services.Impl;
@@ -51,7 +50,10 @@ public class RedisCache : IDataCache
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
         var db = Redis.GetDatabase();
-        db.StringSet($"{_redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig));
+        db.StringSet($"{_redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings 
+        { 
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }));
     }
 
     public GuildConfig? GetGuildConfig(ulong guildId)

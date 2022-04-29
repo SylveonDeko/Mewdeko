@@ -2,6 +2,7 @@
 using Discord.Interactions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Modals;
 using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Suggestions.Services;
@@ -129,4 +130,13 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageId));
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
+
+    [ComponentInteraction("suggestbutton"), BlacklistCheck]
+    public async Task SendSuggestModal()
+        => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
+                        null,
+                        x => x.UpdateTextInput("suggestion",
+                            s => s.WithMaxLength(Math.Min(4000, Service.GetMaxLength(ctx.Guild?.Id)))
+                                  .WithMinLength(Math.Min(Service.GetMinLength(ctx.Guild?.Id), 4000))))
+                    .ConfigureAwait(false);
 }

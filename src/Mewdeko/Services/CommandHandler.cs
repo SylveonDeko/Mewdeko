@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.Threading;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;

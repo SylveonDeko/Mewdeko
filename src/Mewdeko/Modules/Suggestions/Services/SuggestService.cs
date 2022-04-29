@@ -1,6 +1,6 @@
 ﻿using Discord;
+using Discord.Net;
 using Discord.WebSocket;
-using EmbedIO;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
@@ -11,7 +11,6 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
-using System.Threading;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -64,7 +63,21 @@ public class SuggestionsService : INService
                 return;
             _repostChecking.Add(channel.Id);
             var buttonId = GetSuggestButtonMessageId(channel.Guild);
-            var messages = await channel.GetMessagesAsync(arg, Direction.Before, GetSuggestButtonRepost(channel.Guild)).FlattenAsync();
+            IEnumerable<IMessage> messages;
+            if (GetSuggestButtonRepost(channel.Guild) is 0)
+            {
+                _repostChecking.Remove(channel.Id);
+                return;
+            }
+            try
+            {
+                messages = await channel.GetMessagesAsync(arg, Direction.Before, GetSuggestButtonRepost(channel.Guild)).FlattenAsync();
+            }
+            catch (HttpException)
+            {
+                _repostChecking.Remove(channel.Id);
+                return;
+            }
             if (messages.Select(x => x.Id).Contains(buttonId))
             {
                 _repostChecking.Remove(channel.Id);
@@ -88,8 +101,7 @@ public class SuggestionsService : INService
                 var eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithDescription("Press the button below to make a suggestion!");
-                var component = new ComponentBuilder().WithButton("Suggest Here!", "suggestbutton", ButtonStyle.Secondary);
-                var toAdd = await channel.SendMessageAsync(embed: eb.Build(), components: component.Build());
+                var toAdd = await channel.SendMessageAsync(embed: eb.Build(), components: GetSuggestButton(channel.Guild).Build());
                 await SetSuggestionButtonId(channel.Guild, toAdd.Id);
                 _repostChecking.Remove(channel.Id);
                 return;
@@ -99,19 +111,21 @@ public class SuggestionsService : INService
             {
                 try
                 {
-                    ComponentBuilder builder = new ComponentBuilder();
-                    string buttonLabel;
-                    IEmote buttonEmote;
-                    if (string.IsNullOrWhiteSpace(GetSuggestButtonName(channel.Guild)) || GetSuggestButtonName(channel.Guild) is "Disabled")
-                        buttonLabel = "Sugggest Here!";
-                    else
-                        buttonLabel = GetSuggestButtonName(channel.Guild);
-                    if (string.IsNullOrWhiteSpace(GetSuggestButtonEmote(channel.Guild)) || GetSuggestButtonEmote(channel.Guild) is "disabled")
-                        buttonEmote = "<:HaneBomb:914307912044802059>".ToIEmote();
-                    else
-                        buttonEmote = GetSuggestButtonEmote(channel.Guild).ToIEmote();
-                    builder.WithButton(buttonLabel, "suggestbutton", ButtonStyle.Secondary, emote: buttonEmote);
-                    var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: builder.Build());
+                    var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
+                    await SetSuggestionButtonId(channel.Guild, toadd.Id);
+                    _repostChecking.Remove(channel.Id);
+
+                }
+                catch (NullReferenceException)
+                {
+                    _repostChecking.Remove(channel.Id);
+                }
+            }
+            else
+            {
+                try
+                {
+                    var toadd = await channel.SendMessageAsync(GetSuggestButtonMessage(channel.Guild), components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     _repostChecking.Remove(channel.Id);
 
@@ -368,6 +382,15 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
+    public async Task SetSuggestButtonColor(IGuild guild, int colorNum)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestButtonColor = colorNum;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
     
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
     {
@@ -411,7 +434,112 @@ public class SuggestionsService : INService
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-
+    public ComponentBuilder GetSuggestButton(IGuild guild)
+    {
+        string buttonLabel;
+        IEmote buttonEmote;
+        var builder = new ComponentBuilder();
+        if (string.IsNullOrWhiteSpace(GetSuggestButtonName(guild)) || GetSuggestButtonName(guild) is "disabled" or "-")
+            buttonLabel = "Suggest Here!";
+        else
+            buttonLabel = GetSuggestButtonName(guild);
+        if (string.IsNullOrWhiteSpace(GetSuggestButtonEmote(guild)) || GetSuggestButtonEmote(guild) is "disabled" or "-")
+            buttonEmote = "<:HaneBomb:914307912044802059>".ToIEmote();
+        else
+            buttonEmote = GetSuggestButtonEmote(guild).ToIEmote();
+        builder.WithButton(buttonLabel, "suggestbutton", GetSuggestButtonColor(guild), emote: buttonEmote);
+        return builder;
+    }
+    public async Task UpdateSuggestionButtonMessage(IGuild guild, string code)
+    {
+        var toGet = GetSuggestButtonChannel(guild);
+        if (toGet is 0)
+            return;
+        var channel = await guild.GetTextChannelAsync(toGet);
+        if (channel is null)
+            return;
+        var messageId = GetSuggestButtonMessageId(guild);
+        try
+        {
+            var message = await channel.GetMessageAsync(messageId);
+            if (message is null)
+            {
+                if (SmartEmbed.TryParse(code, out var embed, out var plainText))
+                {
+                    var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
+                    await SetSuggestionButtonId(channel.Guild, toadd.Id);
+                    return;
+                }
+                else
+                {
+                    var toadd = await channel.SendMessageAsync(code, components: GetSuggestButton(channel.Guild).Build());
+                    await SetSuggestionButtonId(channel.Guild, toadd.Id);
+                    return;
+                }
+            }
+            if (code is "-")
+            {
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithDescription("Press the button below to make a suggestion!");
+                try
+                {
+                    await ((IUserMessage)message).ModifyAsync(x =>
+                    {
+                        x.Embed = eb.Build();
+                        x.Content = null;
+                        x.Components = GetSuggestButton(channel.Guild).Build();
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            else
+            {
+                if (SmartEmbed.TryParse(code, out var embed, out var plainText))
+                {
+                    await ((IUserMessage)message).ModifyAsync(x =>
+                    {
+                        x.Embed = embed?.Build();
+                        x.Content = plainText;
+                        x.Components = GetSuggestButton(channel.Guild).Build();
+                    });
+                }
+                else
+                {
+                    await ((IUserMessage)message).ModifyAsync(x =>
+                    {
+                        x.Content = code;
+                        x.Embed = null;
+                        x.Components = GetSuggestButton(channel.Guild).Build();
+                    });
+                }
+            }
+        }
+        catch (Discord.Net.HttpException)
+        {
+            // ignored
+        }
+    }
+    public async Task SetSuggestButtonMessage(IGuild guild, string message)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestButtonMessage = message;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    public async Task SetSuggestButtonLabel(IGuild guild, string message)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestButtonName = message;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
         await using var uow = _db.GetDbContext();
@@ -661,6 +789,9 @@ public class SuggestionsService : INService
     
     public ulong GetSuggestButtonMessageId(IGuild guild)
         => _bot.GetGuildConfig(guild.Id).SuggestButtonMessageId;
+    
+    public ButtonStyle GetSuggestButtonColor(IGuild guild)
+        => (ButtonStyle)_bot.GetGuildConfig(guild.Id).SuggestButtonColor;
 
     public ButtonStyle GetButtonStyle(IGuild guild, int id) =>
         id switch
