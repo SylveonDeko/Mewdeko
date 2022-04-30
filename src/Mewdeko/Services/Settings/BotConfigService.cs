@@ -24,8 +24,10 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("console.type", bs => bs.ConsoleOutputType, Enum.TryParse, ConfigPrinters.ToString);
         AddParsedProp("locale", bs => bs.DefaultLocale, ConfigParsers.Culture, ConfigPrinters.Culture);
         AddParsedProp("prefix", bs => bs.Prefix, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("commandlogchannel", bs => bs.CommandLogChannel, ulong.TryParse, ConfigPrinters.ToString);
 
         UpdateColors();
+        UpdateCommandChannel();
     }
 
     public override string Name { get; } = "bot";
@@ -38,5 +40,11 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }
 
-    protected override void OnStateUpdate() => UpdateColors();
+    private void UpdateCommandChannel() => CommandHandler.CommandLogChannelId = data.CommandLogChannel;
+
+    protected override void OnStateUpdate()
+    {
+        UpdateColors();
+        UpdateCommandChannel();
+    }
 }

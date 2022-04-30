@@ -22,10 +22,11 @@ public class VerboseErrorsService : INService, IUnloadableService
         _strings = strings;
         _db = db;
         _ch = ch;
-
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         _ch.CommandErrored += LogVerboseError;
 
-        _guildsEnabled = new ConcurrentHashSet<ulong>(bot.CachedGuildConfigs
+        _guildsEnabled = new ConcurrentHashSet<ulong>(gc
                                                         .Where(x => x.VerboseErrors)
                                                         .Select(x => x.GuildId));
     }

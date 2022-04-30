@@ -6,7 +6,6 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
-using System;
 
 namespace Mewdeko.Modules.Utility.Services;
 

@@ -1,7 +1,4 @@
 using Discord;
-using Mewdeko.Common;
-using PokeApiNet;
-using Image = Mewdeko.Common.Image;
 
 namespace Mewdeko.Extensions;
 

@@ -1,7 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Mewdeko.Database.Models;
 
 public class SuggestionsModel : DbEntity
