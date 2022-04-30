@@ -1,13 +1,6 @@
 using Discord;
-using Discord.Commands;
 using Discord.Interactions;
-using Discord.WebSocket;
-using Mewdeko;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
-using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Common.Attributes;
 

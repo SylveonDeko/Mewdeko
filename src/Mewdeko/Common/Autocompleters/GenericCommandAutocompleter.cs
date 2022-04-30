@@ -1,10 +1,6 @@
 using Discord;
 using Discord.Commands;
 using Discord.Interactions;
-using Discord.WebSocket;
-using Mewdeko;
-using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;

@@ -17,6 +17,10 @@ untimeout:
   desc: "Removes a users timeout with an option reason"
   args:
     - "@user goodboi"
+suggestbuttonchannel:
+  desc: "Sets the channel where the suggest button is posted."
+  args:
+    - "#channel"
 suggestthreadstype:
   desc: |-
     Sets the type of threads to use when suggestions are made. Can only be used if your server has threads enabled
@@ -32,14 +36,33 @@ suggestmotesmode:
   args:
     - emotes
     - buttons
-suggestbuttoncolor:
+suggestmotecolor:
   desc: Sets the color for each emote button if enabled
   args:
     - 1 red
     - 2 blue
     - 3 gray
     - 4 green
-
+suggestbuttoncolor:
+  desc: Sets the color used for the suggest button. Updates Immediately.
+  args:
+    - red
+    - green
+    - blue
+    - grey
+suggestbuttonmessage:
+  desc: Sets the message used for the suggest button, accepts embed code. Set to - to set to default. Updates Immediately.
+  args:
+    - embedcode
+    - Suggest Here!
+suggestbuttonlabel:
+  desc: Sets the label used on the suggest button. Up to 80 characters. Updates Immediately.
+  args:
+    - Suggest Here!
+suggestbuttonemote:
+  desc: Sets the emote used in the suggest button. Updates Immediately.
+  args:
+    - hanebomb
 highlights:
   desc: |-
     - `add` Adds a word to your highlights

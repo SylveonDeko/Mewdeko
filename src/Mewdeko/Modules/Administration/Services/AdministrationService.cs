@@ -10,7 +10,6 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -23,15 +22,17 @@ public class AdministrationService : INService
     public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
         LogCommandService logService)
     {
+        using var uow = db.GetDbContext();
+        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         _bot = bot;
         _db = db;
         _logService = logService;
 
-        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(bot.CachedGuildConfigs
+        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
             .Where(g => g.DeleteMessageOnCommand)
             .Select(g => g.GuildId));
 
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.CachedGuildConfigs
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(gc
             .SelectMany(x => x.DelMsgOnCmdChannels)
             .ToDictionary(x => x.ChannelId, x => x.State)
             .ToConcurrent());

@@ -1,6 +1,4 @@
 using Discord;
-using Discord.Interactions;
-using MoreLinq;
 
 namespace Mewdeko.Extensions;
 

@@ -32,9 +32,10 @@ public class MessageRepeaterService : INService
     {
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
-
+        await using var uow = _db.GetDbContext();
+        var gcs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in bot.CachedGuildConfigs.Where(gc => (gc.GuildId >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
+        foreach (var gc in gcs.Where(gc => (gc.GuildId >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
         {
             try
             {
