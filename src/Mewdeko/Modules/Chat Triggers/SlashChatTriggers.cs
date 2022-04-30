@@ -7,6 +7,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Modals;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
@@ -404,6 +405,24 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await Service.ToggleRemovedRole(cr, role.Id).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("ct_toggled_roll_remove", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+        }
+
+        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions,
+         BlacklistCheck, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
+        public async Task ChatTriggerRoleGrantType(
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
+            [Summary("mode", "How should roles be added when the trigger is used.")] CTRoleGrantType type)
+        {
+            var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
+
+            if (res?.Id != id)
+            {
+                await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            }
+            else
+            {
+                await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build());
+            }
         }
     }
 }
