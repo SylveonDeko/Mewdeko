@@ -59,8 +59,9 @@ public class ToneTagService
             eb.WithTitle(_strings.GetText("tonetags_tonetags", guild?.Id));
             var i = -1;
             result.Tags.ForEach(x => eb.AddField(result.ActualTags[++i], x.Description));
-            eb.AddField(_strings.GetText("tonetags_not_found", guild?.Id),
-                string.Join(", ", result.MissingTags.Distinct()));
+            if (result.MissingTags.Any())
+                eb.AddField(_strings.GetText("tonetags_not_found", guild?.Id),
+                    string.Join(", ", result.MissingTags.Distinct()));
             eb.AddField(_strings.GetText("tonetags_sources", guild?.Id),
                 string.Join(", ", result.Tags.Select(x => GetMarkdownLink(x.Source)).Distinct()));
             eb.WithOkColor();
