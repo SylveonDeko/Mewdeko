@@ -1,12 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using LinqToDB.Tools;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
-using Swan;
 
 namespace Mewdeko.Modules.Suggestions;
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>

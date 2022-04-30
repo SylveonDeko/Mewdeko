@@ -156,7 +156,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
-    [SlashCommand("search", "get information on a specific command")]
+    [SlashCommand("search", "get information on a specific command"), BlacklistCheck]
     public async Task Search
     (
         [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
@@ -174,7 +174,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondAsync(embed: embed.Build(), components:comp.Build());
     }
 
-    [ComponentInteraction("runcmd.*", true)]
+    [ComponentInteraction("runcmd.*", true), BlacklistCheck]
     public async Task RunCmd(string command)
     {
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
@@ -187,7 +187,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("toggle-descriptions:*,*", true)]
+    [ComponentInteraction("toggle-descriptions:*,*", true), BlacklistCheck]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
         if (ctx.User.Id.ToString() != sId) return;

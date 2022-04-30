@@ -17,17 +17,13 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
-using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Votes;
-using Mewdeko.Votes.Controllers;
-using Mewdeko.Votes.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -78,7 +74,6 @@ public class Mewdeko
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
-    public List<GuildConfig> CachedGuildConfigs { get; private set; } = new();
 
 
     public static Color OkColor { get; set; }
@@ -97,25 +92,16 @@ public class Mewdeko
 
     public GuildConfig GetGuildConfig(ulong guildId)
     {
-        if (CachedGuildConfigs.TryGetConfig(guildId, out var gc))
-            return gc;
-        gc = _db.GetDbContext().ForGuildId(guildId);
-        CachedGuildConfigs.Add(gc);
+        using var uow = _db.GetDbContext();
+        var cachedConfig = Cache.GetGuildConfig(guildId);
+        GuildConfig gc;
+        gc = cachedConfig ?? uow.ForGuildId(guildId);
         return gc;
     }
 
-    public void UpdateGuildConfig(ulong guildId, GuildConfig config)
-    {
-        if (CachedGuildConfigs.TryGetConfig(guildId, out var gc))
-        {
-            CachedGuildConfigs.Remove(gc);
-            CachedGuildConfigs.Add(config);
-        }
-        else
-        {
-            CachedGuildConfigs.Add(config);
-        }
-    }
+    public void UpdateGuildConfig(ulong guildId, GuildConfig config) 
+        => Cache.AddOrUpdateGuildConfig(guildId, config);
+
     private void AddServices()
     {
         var startingGuildIdList = GetCurrentGuildIds();
@@ -125,7 +111,11 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            CachedGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToList();
+            var configs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId));
+            foreach (var config in configs)
+            {
+                UpdateGuildConfig(config.GuildId, config);
+            }
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             gs2.Stop();
             Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
@@ -188,7 +178,8 @@ public class Mewdeko
                                       typeof(IEarlyBehavior),
                                       typeof(ILateBlocker),
                                       typeof(IInputTransformer),
-                                      typeof(ILateExecutor))).AsSelfWithInterfaces()
+                                      typeof(ILateExecutor)))
+                                  .AsSelfWithInterfaces()
                                   .WithSingletonLifetime()
         );
 
@@ -198,7 +189,7 @@ public class Mewdeko
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
-        _ = LoadTypeReaders(typeof(Mewdeko).Assembly);
+        _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -229,7 +220,7 @@ public class Mewdeko
         var toReturn = new List<object>();
         foreach (var ft in filteredTypes)
         {
-            var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
+            var x = (TypeReader)ActivatorUtilities.CreateInstance(Services, ft);
             var baseType = ft.BaseType;
             var typeArgs = baseType?.GetGenericArguments();
             if (typeArgs != null) CommandService.AddTypeReader(typeArgs[0], x);
@@ -301,8 +292,7 @@ public class Mewdeko
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
                 if (arg.Name is not null)
                 {
-                    if (CachedGuildConfigs.TryGetConfig(arg.Id, out var gc))
-                        CachedGuildConfigs.Remove(gc);
+                    Cache.DeleteGuildConfig(arg.Id);
                 }
             }
             catch
@@ -328,12 +318,11 @@ public class Mewdeko
                 gc = uow.ForGuildId(arg.Id);
             }
 
-            CachedGuildConfigs.Add(gc);
+            Cache.AddOrUpdateGuildConfig(arg.Id, gc);
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId) as RestTextChannel;
             var eb = new EmbedBuilder();
-            eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
-            eb.AddField("Server ID", arg.Id);
+            eb.WithTitle($"Joined {Format.Bold(arg.Name)} {arg.Id}");
             eb.AddField("Members", arg.MemberCount);
             eb.AddField("Boosts", arg.PremiumSubscriptionCount);
             eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");

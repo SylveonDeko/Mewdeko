@@ -1,4 +1,3 @@
-using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -15,9 +14,7 @@ using Mewdeko.Services.Impl;
 using Serilog;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading;
-using Embed = Mewdeko.Common.Embed;
 
 namespace Mewdeko.Modules.Utility;
 

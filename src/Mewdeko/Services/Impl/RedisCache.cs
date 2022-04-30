@@ -46,6 +46,28 @@ public class RedisCache : IDataCache
     public async Task CacheAfk(ulong id, List<Afk> objectList) =>
         await Task.Run(() => 
             new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } });
+    
+    public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
+    {
+        var db = Redis.GetDatabase();
+        db.StringSet($"{_redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings 
+        { 
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }));
+    }
+
+    public GuildConfig? GetGuildConfig(ulong guildId)
+    {
+        var db = Redis.GetDatabase();
+        var toDeserialize = db.StringGet($"{_redisKey}_{guildId}_config");
+        return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<GuildConfig>(toDeserialize);
+    }
+
+    public void DeleteGuildConfig(ulong guildId)
+    {
+        var db = Redis.GetDatabase();
+        db.KeyDelete($"{_redisKey}_{guildId}_config");
+    }
 
     public async Task CacheHighlights(ulong id, List<Highlights> objectList) =>
         await Task.Run(() =>
@@ -59,9 +81,6 @@ public class RedisCache : IDataCache
                 { id, objectList }
             };
         });
-
-    public void CacheGuildConfigs(ulong id, List<GuildConfig> objectList) 
-        => new RedisDictionary<ulong, List<GuildConfig>>($"{_redisKey}_afk", Redis){{id, objectList}};
 
     public List<Afk> GetAfkForGuild(ulong id)
     {
@@ -173,6 +192,10 @@ public class RedisCache : IDataCache
         await db.StringSetAsync($"image_{key}", data);
     }
 
+    public async Task UpdateGuildConfig(ulong id, GuildConfig config)
+    {
+        
+    }
 
     public TimeSpan? AddTimelyClaim(ulong id, int period)
     {
