@@ -23,6 +23,7 @@ public class ChatTriggers : DbEntity
 
     public string GrantedRoles { get; set; }
     public string RemovedRoles { get; set; }
+    public CTRoleGrantType RoleGrantType { get; set; }
 
     public string[] GetReactions() =>
         string.IsNullOrWhiteSpace(Reactions)
@@ -37,4 +38,11 @@ public class ReactionResponse : DbEntity
 {
     public bool OwnerOnly { get; set; }
     public string Text { get; set; }
+}
+
+public enum CTRoleGrantType
+{
+    Sender,
+    Mentioned,
+    Both
 }
