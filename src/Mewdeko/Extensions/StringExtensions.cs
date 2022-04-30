@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
+using PokeApiNet;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,6 +22,8 @@ public static class StringExtensions
     private static readonly Regex _codePointRegex
         = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
+
+    public static readonly Regex _userMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
 
     public static string PadBoth(this string str, int length)
     {
@@ -153,6 +156,12 @@ public static class StringExtensions
     }
 
     public static string SanitizeRoleMentions(this string str) => str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
+
+    public static string RemoveUserMentions(this string str) => _userMentionsRegex.Replace(str, "");
+
+    public static IEnumerable<ulong> GetUserMentions(this string str) => _userMentionsRegex.Matches(str)
+        .Select(x => x.Groups["id"]).SelectMany(x => x.Captures).Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
+        .Where(x => x is not 0).Distinct();
 
     public static string SanitizeAllMentions(this string str) => str.SanitizeMentions().SanitizeRoleMentions();
 
