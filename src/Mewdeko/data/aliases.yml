@@ -1806,3 +1806,14 @@ chattriggerrolegranttype:
   - chattriggerrolegranttype
   - ctrolegranttype
   - ctrgt
+getpronouns:
+  - getpronouns
+  - pronouns
+pronounoverride:
+  - pronounoverride
+  - pronounsoverride
+  - pnoverride
+pronounoverrideforceclear:
+  - pronounoverrideforceclear
+  - pnovverideforceclear
+  - pnofc
