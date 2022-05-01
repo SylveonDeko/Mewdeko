@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 
@@ -112,10 +113,19 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Data.Title}]({image.Data.PostUrl})",
-                ImageUrl = image.Data.ImageUrl,
+                ImageUrl = image.Data.ImageUrl.CheckIfNotEmbeddable() ? null : image.Data.ImageUrl,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: eb.Build());
+            if (image.Data.ImageUrl.CheckIfNotEmbeddable())
+            {
+                using var http = _httpFactory.CreateClient();
+                using var sr = await http.GetAsync(image.Data.ImageUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                await using var imgStream = imgData.ToStream();
+                await ctx.Channel.SendFileAsync(imgStream, $"{subreddit}.{image.Data.ImageUrl.GetExtension()}");
+            }
+            else
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
         catch (ApiException)
         {
@@ -172,7 +182,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             _ => Sort.Date
         };
 
-        var result = await client.SearchQueryAsync(page, e, search, $"{exclude} -lolicon -loli");
+        var result = await client.SearchQueryAsync(page, e, search, $"{exclude} -lolicon -loli -shota -shotacon");
         if (!result.Books.Any())
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
@@ -204,6 +214,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         }
     }
 
+    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
+    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF");
+    
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
 
@@ -427,47 +440,11 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Boobs()
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                                         .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 12000)}")
-                                         .ConfigureAwait(false))[0];
-            }
-
-            await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
+    public async Task Boobs() => await RedditNsfw("boobs");
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Butts()
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                                         .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 6100)}")
-                                         .ConfigureAwait(false))[0];
-            }
-
-            await ctx.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
+    public async Task Butts() => await RedditNsfw("ass");
 
     [Cmd, Aliases]
     [RequireContext(ContextType.Guild)]

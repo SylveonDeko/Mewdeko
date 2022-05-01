@@ -40,24 +40,23 @@ public static class StringExtensions
             return newString;
         });
 
-    public static bool CheckIfMusicUrl(this string input)
-    {
-        if (input.EndsWith(".mp4"))
-            return true;
-        if (input.EndsWith(".mp3"))
-            return true;
-        if (input.EndsWith(".flac"))
-            return true;
-        if (input.EndsWith(".ogg"))
-            return true;
-        if (input.EndsWith(".wav"))
-            return true;
-        if (input.EndsWith(".mov"))
-            return true;
-        if (input.EndsWith(".mp4"))
-            return true;
-        return false;
-    }
+    public static bool CheckIfMusicUrl(this string input) =>
+        input.EndsWith(".mp4") switch
+        {
+            false when input.EndsWith(".mp3") => true,
+            false when input.EndsWith(".flac") => true,
+            false when input.EndsWith(".ogg") => true,
+            false when input.EndsWith(".wav") => true,
+            false when input.EndsWith(".mov") => true,
+            false when input.EndsWith(".mp4") => true,
+            false => false,
+            _ => true
+        };
+
+    public static bool CheckIfNotEmbeddable(this string input) 
+        => input.EndsWith("gifv") || input.EndsWith("mp4");
+    public static string GetExtension(this string attachmentName) 
+        => Path.GetExtension(attachmentName);
     public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 
     public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
