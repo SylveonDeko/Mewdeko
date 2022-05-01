@@ -1,6 +1,6 @@
 {
     "dragon_goes_nom": "Oh no, a dragon is a walking up to you! *nom* no one liked your head anyway.",
-    "dragon_set": "You are now an all powerfull dragon goddess",
+    "dragon_set": "You are now an all powerful dragon goddess",
     "deleted": "Chat Trigger deleted",
     "insuff_perms": "Insufficient permissions. Requires Bot ownership for global Chat Triggers, and Administrator for server Chat Triggers.",
     "list_all": "List of all Chat Triggers",
@@ -1107,6 +1107,7 @@
     "module_description_afk": "Set or cusotmize afk",
     "module_description_globalbans": "Unused at the moment, will be for global reports on users",
     "module_description_giveaways": "Start giveaways",
+    "module_description_pronouns": "Check your friends pronouns and make sure yours are up-to-date",
     "all_stats_cleared": "all_stats_cleared",
     "moved": "moved",
     "define": "define",
@@ -1149,5 +1150,19 @@
     "tonetags_tonetags": "ToneTags",
     "tonetags_sources": "Sources",
     "tonetags_not_found": "Not Found",
-    "role_grant_type": "Role Grant Type"
+    "role_grant_type": "Role Grant Type",
+    "pronouns_pndb_special" : "{0} uses {1} (retrieved from [PronounDB](https://pronoundb.org/docs)).",
+    "pronouns_pndb_get" : "{0} uses {1} pronouns (retrieved from [PronounDB](https://pronoundb.org/docs))",
+    "pronouns_internal_get" : "{0} uses {1} pronouns",
+    "pronouns_internal_update": "Your pronouns are now {0}.",
+    "pronouns_internal_self": "You use {0} pronouns.",
+    "pronouns_internal_no_override": "Your pronouns are not overwritten.",
+    "pronouns_overwrite_button": "Overwrite Pronouns",
+    "pronouns_overwrite_clear_button": "Clear Pronouns Overwrite",
+    "pronouns_disabled": "You cannot use pronouns commands because {0}. Join the support server for assistance.",
+    "pronouns_disabled_user": "This user has been banned from pronouns commands. Their pronouns have been cleared and cannot be recovered.",
+    "pronouns_report_button": "Report Pronouns",
+    "pronouns_reported": "Pronouns reported, thanks for helping keep mewdeko safe.",
+    "pronouns_cleared": "The user's pronouns have been cleared and cannot be recovered.",
+    "pronouns_cleared_self": "Your pronouns have been reset to the default value (pronoun db)."
 }

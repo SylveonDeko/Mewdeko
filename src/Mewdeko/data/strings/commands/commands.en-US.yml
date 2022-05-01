@@ -3884,3 +3884,24 @@ chattriggerrolegranttype:
   args:
     - 1234 sender
     - 1234 Both
+getpronouns:
+  desc: >-
+    Gets a user's preferred pronouns, if they haven't specified them using `pnoverride` it will 
+    fetch the pronouns from [pronoundb](https://pronoundb.org)
+  args:
+    - '@user'
+    - ''
+pronounoverride:
+  desc: >- 
+    Changes the default pronouns displayed when someone runs `getpronouns` on you.
+    Use the command with no args to clear the pronouns.
+  args:
+    - she/they/kits
+    - tig/vamps
+    - ''
+pronounoverrideforceclear:
+  desc: >-
+    Forcefully clears a user's pronoun override and sets their PronounsDisabled property
+  args:
+    - '@user true pronouns contained transphobic message'
+    - '@user false pronouns being used to start conflict with another user, cleared as a warning.'
