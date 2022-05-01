@@ -10,6 +10,6 @@ public static class RoleExtensions
             return !role.IsManaged && role.Id != user.Guild.EveryoneRole.Id;
         if (!user.GuildPermissions.Has(GuildPermission.ManageRoles) && !user.GuildPermissions.Has(GuildPermission.Administrator))
             return false;
-        return role.Position > user.GetRoles().Max(x => x.Position) && !role.IsManaged && role.Id != user.Guild.EveryoneRole.Id;
+        return role.Position < user.GetRoles().Max(x => x.Position) && !role.IsManaged && role.Id != user.Guild.EveryoneRole.Id;
     }
 }

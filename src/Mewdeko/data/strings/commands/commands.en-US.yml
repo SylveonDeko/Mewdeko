@@ -3875,3 +3875,12 @@ resolvetonetags:
   args:
     - /gen
     - I need some cuddles :3 /qp
+chattriggerrolegranttype:
+  desc: |-
+    Changes the way roles are added when the reaction is triggered:
+    - `Sender` adds/removes roles from the person sending the message
+    - `Mentioned` adds/removes roles from people mentioned in the message, when this option is enabled mentions will be removed before checking if the trigger matches
+    - `Both` same as Mentioned, but sender also gets the role changes
+  args:
+    - 1234 sender
+    - 1234 Both

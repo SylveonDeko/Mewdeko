@@ -1802,3 +1802,7 @@ resolvetonetags:
   - resolvetonetag
   - tonetags
   - tonetag
+chattriggerrolegranttype:
+  - chattriggerrolegranttype
+  - ctrolegranttype
+  - ctrgt

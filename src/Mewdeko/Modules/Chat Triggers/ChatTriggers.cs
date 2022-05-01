@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
@@ -279,6 +280,21 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
 
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task ChatTriggerRoleGrantType(int id, CTRoleGrantType type)
+    {
+        var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
+
+        if (res?.Id != id)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")));
+        }
+    }
+    
     [Cmd, Aliases, OwnerOnly]
     public async Task CtsReload()
     {
@@ -290,7 +306,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
         var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
-        if (ct is null)
+        if (ct?.Id != id)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
             return;
