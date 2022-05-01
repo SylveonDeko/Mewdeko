@@ -197,18 +197,30 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             if (cr.GuildId is not null && msg is IUserMessage userMessage && msg.Author is IGuildUser guildUser)
             {
-                var roles = guildUser.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
-                cr.GetRemovedRoles().ForEach(r => roles.Remove(r));
-                cr.GetGrantedRoles().ForEach(r => roles.Add(r));
-                try
+                var effectedUsers = cr.RoleGrantType switch
                 {
-                    // single role difference is caused by @everyone
-                    if (roles.Except(guildUser.RoleIds.Where(x => x != guild?.EveryoneRole.Id)).Any())
-                        await guildUser.ModifyAsync(x => x.RoleIds = new Optional<IEnumerable<ulong>>(roles.Distinct()));
-                }
-                catch
+                    CTRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
+                    CTRoleGrantType.Sender => new List<ulong>() {msg.Author.Id},
+                    CTRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id)
+                };
+
+                foreach (var userId in effectedUsers)
                 {
-                    Log.Warning("Unable to modify the roles of {User} in {GuildId}", guildUser.Id, cr.GuildId);
+                    var user = await guildUser.Guild.GetUserAsync(userId);
+                    try
+                    {
+                        var baseRoles = user.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
+                        var roles = baseRoles.Where(x => !cr.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
+                        roles.AddRange(cr.GetGrantedRoles());
+                        
+                        // difference is caused by @everyone
+                        if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))
+                            await user.ModifyAsync(x => x.RoleIds = new(roles));
+                    }
+                    catch
+                    {
+                        Log.Warning("Unable to modify the roles of {User} in {GuildId}", guildUser.Id, cr.GuildId);
+                    }
                 }
             }
 
@@ -346,7 +358,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Database.Models.ChatTriggers MatchChatTriggers(in ReadOnlySpan<char> content, Database.Models.ChatTriggers[] crs)
+    private Database.Models.ChatTriggers MatchChatTriggers(string content, Database.Models.ChatTriggers[] crs)
     {
         var result = new List<Database.Models.ChatTriggers>(1);
         for (var i = 0; i < crs.Length; i++)
@@ -361,7 +373,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     result.Add(cr);
                 continue;
             }
-
+            
+            // if the trigger depends on user mentions to grant roles
+            // those should be removed
+            if (cr.RoleGrantType is CTRoleGrantType.Mentioned or CTRoleGrantType.Both)
+            {
+                content = content.RemoveUserMentions().Trim();
+            }
+            
             if (content.Length > trigger.Length)
             {
                 // if input is greater than the trigger, it can only work if:
@@ -369,7 +388,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 if (cr.ContainsAnywhere)
                 {
                     // if ca is enabled, we have to check if it is a word within the content
-                    var wp = content.GetWordPosition(trigger);
+                    var wp = Extensions.Extensions.GetWordPosition(content, trigger);
 
                     // if it is, then that's valid
                     if (wp != WordPosition.None) result.Add(cr);
@@ -697,8 +716,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return cr;
     }
-
-
+    
     public async Task<Database.Models.ChatTriggers> DeleteAsync(ulong? guildId, int id)
     {
         await using var uow = _db.GetDbContext();
@@ -716,6 +734,22 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         return null;
+    }
+
+    public async Task<Database.Models.ChatTriggers> SetRoleGrantType(ulong? guildId, int id, CTRoleGrantType type)
+    {
+        await using var uow = _db.GetDbContext();
+        var cr = uow.ChatTriggers.GetById(id);
+
+        if (cr == null || cr.GuildId != guildId)
+            return null;
+
+        cr.RoleGrantType = type;
+
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, cr);
+
+        return cr;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -776,6 +810,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         var removedRoles = ct.GetRemovedRoles();
         if (removedRoles.Count >= 1)
             eb.AddField(_strings.GetText("removed_roles", gId), removedRoles.Select(x => $"<@&{x}>").Aggregate((x, y) => $"{x}, {y}"));
+        if (addedRoles.Count >= 1 || removedRoles.Count >= 1)
+            eb.AddField(_strings.GetText("role_grant_type", gId), ct.RoleGrantType);
         return eb;
     }
 }
