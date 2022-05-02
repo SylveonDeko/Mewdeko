@@ -9,10 +9,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Extensions;
 using Newtonsoft.Json.Linq;
-using NHentai.NET.Client;
-using NHentai.NET.Models.Searches;
+using NHentaiAPI;
 using Refit;
-using System.IO;
 using System.Net.Http;
 using System.Threading;
 
@@ -118,11 +116,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             };
             if (image.Data.ImageUrl.CheckIfNotEmbeddable())
             {
-                using var http = _httpFactory.CreateClient();
-                using var sr = await http.GetAsync(image.Data.ImageUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                await using var imgStream = imgData.ToStream();
-                await ctx.Channel.SendFileAsync(imgStream, $"{subreddit}.{image.Data.ImageUrl.GetExtension()}");
+                await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build());
             }
             else
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
@@ -137,10 +131,10 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num)
     {
-        var client = new HentaiClient();
-        var book = await client.SearchBookAsync(num);
-        var title = book.Titles.English;
-        var pages = book.GetPages();
+        var client = new NHentaiClient();
+        var book = await client.GetBookAsync(num);
+        var title = book.Title.English;
+        var pages = book.Images.Pages;
         var tags = new List<string>();
         foreach (var i in book.Tags) tags.Add(i.Name);
         if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
@@ -163,27 +157,20 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var enumerable = pages as string[] ?? pages.ToArray();
             return new PageBuilder()
-                .WithTitle($"{Format.Bold($"{title}")} - {enumerable.ToArray().Length} pages")
-                .WithImageUrl(pages.Skip(page).FirstOrDefault())
-                .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500));
+                   .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
+                   .WithImageUrl(client.GetPictureUrl(book, page))
+                   .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500));
         }
     }
 
     public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",
         string? exclude = null)
     {
-        var client = new HentaiClient();
-        var e = type.ToLower() switch
-        {
-            "date" => Sort.Date,
-            "popular" => Sort.Popular,
-            _ => Sort.Date
-        };
+        var client = new NHentaiClient();
 
-        var result = await client.SearchQueryAsync(page, e, search, $"{exclude} -lolicon -loli -shota -shotacon");
-        if (!result.Books.Any())
+        var result = await client.GetSearchPageListAsync($"search {exclude} -lolicon -loli -shota -shotacon", page);
+        if (!result.Result.Any())
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
             return;
@@ -193,7 +180,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(result.Books.Count - 1)
+            .WithMaxPageIndex(result.Result.Count - 1)
             .WithDefaultEmotes()
             .Build();
 
@@ -202,15 +189,15 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         async Task<PageBuilder> PageFactory(int page1)
         {
             await Task.CompletedTask;
-            var list = result.Books.Skip(page1).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
+            var list = result.Result.Skip(page1).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
             return new PageBuilder().WithOkColor()
-                                    .WithTitle(result.Books.Skip(page1).FirstOrDefault().Titles.English)
+                                    .WithTitle(result.Result.Skip(page1).FirstOrDefault().Title.English)
                                     .WithDescription(string.Join("|", list.Take(20)))
-                                    .AddField("NHentai Magic Number", result.Books.Skip(page1).FirstOrDefault().Id)
+                                    .AddField("NHentai Magic Number", result.Result.Skip(page1).FirstOrDefault().Id)
                                     .AddField("NHentai Magic URL",
-                                        $"https://nhentai.net/g/{result.Books.Skip(page1).FirstOrDefault().Id}")
-                                    .AddField("Pages", result.Books.Skip(page1).FirstOrDefault().PagesCount)
-                                    .WithImageUrl(result.Books.Skip(page1).FirstOrDefault().GetCover());
+                                        $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
+                                    .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
+                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page).FirstOrDefault()));
         }
     }
 
