@@ -117,6 +117,7 @@ public class BotCredentials : IBotCredentials
             GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 892789588739891250;
             ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
             GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
+            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepID) ? pnrepID : 970086914826858547;
         }
         catch (Exception ex)
         {
@@ -166,6 +167,7 @@ public class BotCredentials : IBotCredentials
     public ulong GuildJoinsChannelId { get; }
     public ulong ConfessionReportChannelId { get; }
     public ulong GlobalBanReportChannelId { get; }
+    public ulong PronounAbuseReportChannelId { get; }
 
     public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
 
@@ -224,6 +226,7 @@ public class BotCredentials : IBotCredentials
         public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
         public ulong ConfessionReportChannelId { get; set; } = 942825117820530709;
         public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
+        public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
 
         [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
 
