@@ -47,12 +47,20 @@ public class SuggestionsService : INService
         _db = db;
         _bot = bot;
     }
-    
+
+    public enum SuggestState
+    {
+        Suggested = 0,
+        Accepted = 1,
+        Denied = 2,
+        Considered = 3,
+        Implemented = 4
+    }
     private Task RepostButton(SocketMessage arg)
     {
-        IEnumerable<IMessage> messages;
         _ = Task.Run(async () =>
         {
+            IEnumerable<IMessage> messages;
             if (arg.Channel is not ITextChannel channel)
                 return;
 
@@ -426,7 +434,7 @@ public class SuggestionsService : INService
             throw;
         }
     }
-
+    
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
         await using var uow = _db.GetDbContext();
@@ -451,7 +459,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-
+    
     public ComponentBuilder GetSuggestButton(IGuild guild)
     {
         string buttonLabel;
@@ -594,6 +602,25 @@ public class SuggestionsService : INService
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
+    public async Task UpdateSuggestState(ulong messageId, int state, ulong stateChangeId)
+    {
+        await using var uow = _db.GetDbContext();
+        var suggest = GetSuggestByMessage(messageId);
+        suggest.CurrentState = state;
+        suggest.StateChangeUser = stateChangeId;
+        suggest.StateChangeCount = suggest.StateChangeCount++;
+        uow.Suggestions.Update(suggest);
+        await uow.SaveChangesAsync();
+    }
+
+    public async Task UpdateStateMessageId(ulong messageId, ulong messageStateId)
+    {
+        await using var uow = _db.GetDbContext();
+        var suggest = GetSuggestByMessage(messageId);
+        suggest.StateChangeMessageId = messageStateId;
+        uow.Suggestions.Update(suggest);
+        await uow.SaveChangesAsync();
+    }
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
@@ -927,6 +954,12 @@ public class SuggestionsService : INService
                 else
                     await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.");
             }
+
+            await UpdateSuggestState(message.Id, (int)SuggestState.Denied, user.Id);
+            if (GetDenyChannel(guild) is not 0)
+            {
+                
+            }
         }
         else
         {
@@ -1102,7 +1135,7 @@ public class SuggestionsService : INService
                            .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                            .WithOverride("%suggest.user.name%", () => suguse.Username)
                            .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.user%", () => user.ToString())
+                           .WithOverride("%suggest.mod.user%", user.ToString)
                            .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
                            .WithOverride("%suggest.mod.name%", () => user.Username)
                            .WithOverride("%suggest.mod.message%", () => rs)
