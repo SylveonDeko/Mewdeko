@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
@@ -9,6 +10,7 @@ using Mewdeko.Modules.Suggestions.Services;
 namespace Mewdeko.Modules.Suggestions;
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
+    
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels)]
     public async Task SetSuggestChannel(ITextChannel? channel = null)
@@ -26,6 +28,48 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
     }
 
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(ChannelPermission.ManageMessages)]
+    public async Task SuggestInfo(ulong num)
+    {
+        var suggest = Service.Suggestions(ctx.Guild.Id, num).FirstOrDefault();
+        if (suggest is null)
+        {
+            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.");
+            return;
+        }
+
+        var emoteCount = new List<string>();
+        var emotes = Service.GetEmotes(ctx.Guild.Id);
+        int count = 0;
+        if (emotes is not null and not "disable")
+        {
+            var te = emotes.Split(",");
+            foreach (var i in te)
+            {
+                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, ++count)}`");
+            }
+        }
+        else
+        {
+            emoteCount.Add($"👍 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 1)}`");
+            emoteCount.Add($"👎 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 2)}`");
+        }
+
+        var components = new ComponentBuilder()
+                         .WithButton("Accept", $"accept:{suggest.SuggestionId}")
+                         .WithButton("Deny", $"deny:{suggest.SuggestionId}")
+                         .WithButton("Consider", $"consider:{suggest.SuggestionId}")
+                         .WithButton("Implement", $"implement:{suggest.SuggestionId}");
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .AddField("Suggestion", $"{suggest.Suggestion.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
+            .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
+            .AddField("Curerent State", (SuggestionsService.SuggestState)suggest.CurrentState)
+            .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody": $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
+            .AddField("State Change Count", suggest.StateChangeCount)
+            .AddField("Emote Count", string.Join("\n", emoteCount));
+        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
+    }
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Suggest([Remainder] string suggestion)
     {

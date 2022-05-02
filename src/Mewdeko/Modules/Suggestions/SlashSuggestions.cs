@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using LinqToDB.Tools;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Autocompleters;
@@ -37,6 +38,41 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             s => s.WithMaxLength(Math.Min(4000, Service.GetMaxLength(ctx.Guild?.Id)))
                   .WithMinLength(Math.Min(Service.GetMinLength(ctx.Guild?.Id), 4000))))
                                       .ConfigureAwait(false);
+
+    [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    public async Task Accept(string suggestId) 
+        => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:accept.{suggestId}");
+
+    [ComponentInteraction("deny:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    public async Task Deny(string suggestId)
+        => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:deny.{suggestId}");
+    [ComponentInteraction("consider:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    public async Task Consider(string suggestId)
+        => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:consider.{suggestId}");
+    [ComponentInteraction("implement:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    public async Task Implemented(string suggestId) 
+        => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:implement.{suggestId}");
+
+    [ModalInteraction("suggeststate:*.*", true), CheckPermissions, BlacklistCheck, RequireContext(ContextType.Guild)]
+    public async Task HandleStateModal(string state, string suggestId, SuggestStateModal modal)
+    {
+        ulong.TryParse(suggestId, out var sugId);
+        switch (state)
+        {
+            case "accept":
+                await Accept(sugId, modal.Reason);
+                break;
+            case "deny":
+                await Deny(sugId, modal.Reason);
+                break;
+            case "consider":
+                await Consider(sugId, modal.Reason);
+                break;
+            case "implement":
+                await Implemented(sugId, modal.Reason);
+                break;
+        }
+    }
     
     [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions, 
      BlacklistCheck]
