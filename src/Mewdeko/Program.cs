@@ -30,7 +30,7 @@ if (args.Length > 0)
 }
 if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
 {
-    var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/946967102680621087/Mewdeko.db");
+    var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/970711443672543252/Mewdeko.db");
     var client = new HttpClient();
     var response = client.GetAsync(uri).Result;
     await using var fs = new FileStream(

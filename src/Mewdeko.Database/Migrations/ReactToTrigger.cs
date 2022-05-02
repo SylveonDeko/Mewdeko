@@ -7,13 +7,13 @@ public partial class ReactToTrigger : Migration
     protected override void Up(MigrationBuilder migrationBuilder) =>
         migrationBuilder.AddColumn<string>(
             "ReactToTrigger",
-            "ChatTriggers",
+            "CustomReactions",
             "Integer",
             defaultValue: 0,
             nullable: true);
 
     protected override void Down(MigrationBuilder migrationBuilder) =>
         migrationBuilder.DropColumn(
-            "ChatTriggers",
+            "CustomReactions",
             "ReactToTrigger");
 }
