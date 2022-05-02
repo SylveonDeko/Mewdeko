@@ -106,7 +106,7 @@ public class LogCommandService : INService
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
-
+    
     public bool LogIgnore(ulong gid, ulong cid)
     {
         int removed;
@@ -163,6 +163,7 @@ public class LogCommandService : INService
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
+    
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
     {
@@ -264,7 +265,14 @@ public class LogCommandService : INService
 
         return channelId != null;
     }
-
+    public async Task UpdateCommandLogChannel(IGuild guild, ulong id)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.CommandLogChannel = id;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
         var _ = Task.Run(async () =>
