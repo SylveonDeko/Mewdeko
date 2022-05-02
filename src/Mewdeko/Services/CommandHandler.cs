@@ -389,12 +389,28 @@ public class CommandHandler : INService
                     .WithOkColor()
                     .WithTitle("Text Command Executed")
                     .AddField("Executed Time", string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))))
-                    .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                    .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
                     .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
                     .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
                     .AddField("Message", usrMsg.Content.TrimTo(1000));
 
                 await restChannel.SendMessageAsync(embed: eb.Build());
+            }
+
+            if (channel.Guild is null) return;
+            var guildChannel = _bot.GetGuildConfig(channel.Guild.Id).CommandLogChannel;
+            var toSend = await _client.Rest.GetChannelAsync(guildChannel);
+            if (toSend is RestTextChannel restTextChannel)
+            {
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithTitle("Text Command Executed")
+                         .AddField("Executed Time", string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))))
+                         .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
+                         .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                         .AddField("Message", usrMsg.Content.TrimTo(1000));
+
+                await restTextChannel.SendMessageAsync(embed: eb.Build());
             }
         });
         return Task.CompletedTask;

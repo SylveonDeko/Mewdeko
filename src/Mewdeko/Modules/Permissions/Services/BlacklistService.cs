@@ -16,7 +16,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly IPubSub _pubSub;
 
     private readonly TypedKey<BlacklistEntry[]> _blPubKey = new("blacklist.reload");
-    public IReadOnlyList<BlacklistEntry> BlacklistEntries;
+    public IList<BlacklistEntry> BlacklistEntries;
 
     public BlacklistService(DbService db, IPubSub pubSub, DiscordSocketClient client)
     {
@@ -26,6 +26,24 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         Reload(false);
         _pubSub.Sub(_blPubKey, OnReload);
         client.JoinedGuild += CheckBlacklist;
+        BlacklistEntries.Add(new BlacklistEntry()
+        {
+            DateAdded = DateTime.Now,
+            ItemId = 967780813741625344,
+            Type = BlacklistType.User
+        });
+        BlacklistEntries.Add(new BlacklistEntry()
+        {
+            DateAdded = DateTime.UtcNow,
+            ItemId = 930096051900280882,
+            Type = BlacklistType.User
+        });
+        BlacklistEntries.Add(new BlacklistEntry()
+        {
+            DateAdded = DateTime.UtcNow,
+            ItemId = 767459211373314118,
+            Type = BlacklistType.User
+        });
     }
 
     private Task CheckBlacklist(SocketGuild arg)
@@ -81,7 +99,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     {
         using var uow = _db.GetDbContext();
         var toPublish = uow.Blacklist.AsNoTracking().ToArray();
-        BlacklistEntries = toPublish;
+        BlacklistEntries = toPublish.ToList();
         if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
 

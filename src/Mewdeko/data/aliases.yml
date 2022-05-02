@@ -400,6 +400,13 @@ afkdisable:
 removefromall:
   - removefromall
   - rfa
+commandlogchannel:
+  - commandlogchannel
+  - commandlog
+  - logcommands
+suggestinfo:
+  - suggestinfo
+  - suginfo
 removefromrole:
   - removefromrole
   - rfr

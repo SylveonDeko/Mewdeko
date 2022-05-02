@@ -1469,6 +1469,15 @@ archiveonconsider:
   desc: "Toggles whether the suggestions thread is auto archived when considered."
   args:
     - ""
+commandlogchannel:
+  desc: "Sets where slash and regular commands are logged for the guild. Put nothing to disable."
+  args:
+    - "command-logs"
+    - ""
+suggestinfo:
+  desc: "Allows you to see stats of a suggestion using its number."
+  args:
+    - "10"
 die:
   desc: Shuts the bot down.
   args:

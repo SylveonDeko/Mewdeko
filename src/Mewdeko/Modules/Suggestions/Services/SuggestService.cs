@@ -25,7 +25,7 @@ public class SuggestionsService : INService
     private readonly List<ulong> _spamCheck;
 
     public readonly CommandHandler CmdHandler;
-
+    
     public SuggestionsService(
         DbService db,
         Mewdeko bot,
@@ -277,7 +277,7 @@ public class SuggestionsService : INService
             _spamCheck.Add(chan.Id);
             var guild = chan?.Guild;
             var prefix = CmdHandler.GetPrefix(guild);
-            if (guild != null && chan.Id == GetSuggestionChannel(guild.Id) && msg.Author.IsBot == false && !msg.Content.StartsWith(prefix))
+            if (guild != null && msg.Author.IsBot == false && !msg.Content.StartsWith(prefix))
             {
                 if (chan.Id != GetSuggestionChannel(guild.Id))
                 {
@@ -367,7 +367,7 @@ public class SuggestionsService : INService
     public int GetMaxLength(ulong? id) => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
     public int GetMinLength(ulong? id) => _bot.GetGuildConfig(id.Value).MinSuggestLength;
 
-    private string GetEmotes(ulong? id) => _bot.GetGuildConfig(id.Value).SuggestEmotes;
+    public string GetEmotes(ulong? id) => _bot.GetGuildConfig(id.Value).SuggestEmotes;
 
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
