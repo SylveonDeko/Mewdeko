@@ -118,6 +118,45 @@ public partial class Suggestions
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task AcceptChannel(ITextChannel? channel = null)
+        {
+            await Service.SetAcceptChannel(ctx.Guild, channel?.Id ?? 0);
+            if (channel is null)
+                await ctx.Channel.SendConfirmAsync("Accept Channel Disabled.");
+            else
+                await ctx.Channel.SendConfirmAsync($"Accept channel set to {channel.Mention}");
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task DenyChannel(ITextChannel? channel = null)
+        {
+            await Service.SetDenyChannel(ctx.Guild, channel?.Id ?? 0);
+            if (channel is null)
+                await ctx.Channel.SendConfirmAsync("Deny Channel Disabled.");
+            else
+                await ctx.Channel.SendConfirmAsync($"Deny channel set to {channel.Mention}");
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ConsiderChannel(ITextChannel? channel = null)
+        {
+            await Service.SetConsiderChannel(ctx.Guild, channel?.Id ?? 0);
+            if (channel is null)
+                await ctx.Channel.SendConfirmAsync("Consider Channel Disabled.");
+            else
+                await ctx.Channel.SendConfirmAsync($"Consider channel set to {channel.Mention}");
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ImplementChannel(ITextChannel? channel = null)
+        {
+            await Service.SetImplementChannel(ctx.Guild, channel?.Id ?? 0);
+            if (channel is null)
+                await ctx.Channel.SendConfirmAsync("Implement Channel Disabled.");
+            else
+                await ctx.Channel.SendConfirmAsync($"Implement channel set to {channel.Mention}");
+        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ImplementMessage([Remainder] string embed)
         {
             if (embed == "-")
@@ -211,6 +250,36 @@ public partial class Suggestions
                 await Service.UpdateSuggestionButtonMessage(ctx.Guild, Service.GetSuggestButtonMessage(ctx.Guild));
             }
         }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ArchiveOnDeny()
+        {
+            var current = Service.GetArchiveOnDeny(ctx.Guild);
+            await Service.SetArchiveOnDeny(ctx.Guild, !current);
+            await ctx.Channel.SendConfirmAsync($"Archive on deny is now set to `{!current}`");
+        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ArchiveOnAccept()
+        {
+            var current = Service.GetArchiveOnAccept(ctx.Guild);
+            await Service.SetArchiveOnAccept(ctx.Guild, !current);
+            await ctx.Channel.SendConfirmAsync($"Archive on accept is now set to `{!current}`");
+        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ArchiveOnConsider()
+        {
+            var current = Service.GetArchiveOnConsider(ctx.Guild);
+            await Service.SetArchiveOnConsider(ctx.Guild, !current);
+            await ctx.Channel.SendConfirmAsync($"Archive on consider is now set to `{!current}`");
+        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task ArchiveOnImplement()
+        {
+            var current = Service.GetArchiveOnImplement(ctx.Guild);
+            await Service.SetArchiveOnImplement(ctx.Guild, !current);
+            await ctx.Channel.SendConfirmAsync($"Archive on implement is now set to `{!current}`");
+        }
+        
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
         {

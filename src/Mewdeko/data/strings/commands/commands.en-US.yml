@@ -1429,6 +1429,46 @@ purge:
     - '@Someone X -s'
     - 20 --nb
     - 20 --ob
+hentaigif:
+  desc: "Sends a random hentai gif from the hentai_gif subreddit"
+  args:
+    - ""
+acceptchannel:
+  desc: "Sets a channel for suggestions to send accepted ones to. Put nothing to disable."
+  args:
+    - "accepted"
+    - ""
+considerchannel:
+  desc: "Sets a channel for suggestions to send considered ones to. Put nothing to disable."
+  args:
+    - "considered"
+    - ""
+implementchannel:
+  desc: "Sets a channel for suggestions to send implemented ones to. Put nothing to disable."
+  args:
+    - "implemented"
+    - ""
+denychannel:
+  desc: "Sets a channel for suggestions to send denied ones to. Put nothing to disable."
+  args:
+    - "denied"
+    - ""
+archiveonaccept:
+  desc: "Toggles whether the suggestions thread is auto archived when accepted."
+  args:
+    - ""
+archiveondeny:
+  desc: "Toggles whether the suggestions thread is auto archived when denied."
+  args:
+    - ""
+archiveonimplement:
+  desc: "Toggles whether the suggestions thread is auto archived when implemented."
+  args:
+    - ""
+archiveonconsider:
+  desc: "Toggles whether the suggestions thread is auto archived when considered."
+  args:
+    - ""
 die:
   desc: Shuts the bot down.
   args:
