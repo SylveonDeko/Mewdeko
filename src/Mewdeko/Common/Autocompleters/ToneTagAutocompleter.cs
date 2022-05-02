@@ -11,10 +11,11 @@ public class ToneTagAutocompleter : AutocompleteHandler
         IParameterInfo parameter,
         IServiceProvider services) =>
         Task.FromResult(AutocompletionResult.FromSuccess((services.GetService(typeof(ToneTagService)) as ToneTagService)
-                                                         .Tags.SelectMany(x => x.GetAllValues())
-                                                         .Select(x => '/' + x)
-                                                         .Where(x => x.Contains(inter.Data.Current.Value as string))
+                                                         .Tags.SelectMany(x => x.GetAllValues()).Select(x => '/' + x)
+                                                         .Where(x => x.Contains(inter.Data.Current.Value as string,
+                                                             StringComparison.InvariantCultureIgnoreCase))
                                                          .OrderByDescending(x =>
-                                                             x.StartsWith(inter.Data.Current.Value as string)).Take(20)
+                                                             x.StartsWith(inter.Data.Current.Value as string,
+                                                                 StringComparison.InvariantCultureIgnoreCase)).Take(20)
                                                          .Select(x => new AutocompleteResult(x, x))));
 }

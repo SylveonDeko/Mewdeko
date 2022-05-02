@@ -26,4 +26,7 @@ public class DiscordUser : DbEntity
     public override string ToString() => $"{Username}#{Discriminator}";
 
     public bool IsDragon { get; set; }
+    public string Pronouns { get; set; }
+    public string? PronounsClearedReason { get; set; }
+    public bool PronounsDisabled { get; set; }
 }
