@@ -13,6 +13,24 @@ suggestbuttonlabel:
   - suggestbuttonlabel
 suggestbuttonemote:
   - suggestbuttonemote
+hentaigif:
+  - hentaigif
+acceptchannel:
+  - acceptchannel
+denychannel:
+  - denychannel
+considerchannel:
+  - considerchannel
+implementchannel:
+  - implementchannel
+archiveondeny:
+  - archiveondeny
+archiveonaccept:
+  - archiveonaccept
+archiveonconsider:
+  - archiveonconsider
+archiveonimplement:
+  - archiveonimplement
 suggestthreadstype:
   - suggestthreadstype
   - suggestthreads
@@ -212,7 +230,6 @@ afktimeout:
   - afktimeout
 afkundisable:
   - afkundisable
-  - afkdisable
 banunder:
   - banunder
 kickunder:

@@ -56,6 +56,7 @@ public class SuggestionsService : INService
         Considered = 3,
         Implemented = 4
     }
+
     private Task RepostButton(SocketMessage arg)
     {
         _ = Task.Run(async () =>
@@ -67,7 +68,7 @@ public class SuggestionsService : INService
             var buttonChannel = GetSuggestButtonChannel(channel.Guild);
             if (buttonChannel != channel.Id)
                 return;
-            
+
             if (GetSuggestButtonRepost(channel.Guild) == 0)
                 return;
             if (_repostChecking.Contains(channel.Id))
@@ -79,6 +80,7 @@ public class SuggestionsService : INService
                 _repostChecking.Remove(channel.Id);
                 return;
             }
+
             try
             {
                 messages = await channel.GetMessagesAsync(arg, Direction.Before, GetSuggestButtonRepost(channel.Guild)).FlattenAsync();
@@ -88,29 +90,29 @@ public class SuggestionsService : INService
                 _repostChecking.Remove(channel.Id);
                 return;
             }
+
             if (messages.Select(x => x.Id).Contains(buttonId))
             {
                 _repostChecking.Remove(channel.Id);
                 return;
             }
+
             if (buttonId != 0)
-                    try
-                    {
-                        await channel.DeleteMessageAsync(buttonId);
-                    }
-                    catch (HttpException)
-                    {
-                        Log.Error($"Button Repost will not work because of missing permissions in guild {channel.Guild}");
-                        _repostChecking.Remove(channel.Id);
-                        return;
-                    }
-            
+                try
+                {
+                    await channel.DeleteMessageAsync(buttonId);
+                }
+                catch (HttpException)
+                {
+                    Log.Error($"Button Repost will not work because of missing permissions in guild {channel.Guild}");
+                    _repostChecking.Remove(channel.Id);
+                    return;
+                }
+
             var message = GetSuggestButtonMessage(channel.Guild);
             if (string.IsNullOrWhiteSpace(message) || message is "disabled" or "-")
             {
-                var eb = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithDescription("Press the button below to make a suggestion!");
+                var eb = new EmbedBuilder().WithOkColor().WithDescription("Press the button below to make a suggestion!");
                 var toAdd = await channel.SendMessageAsync(embed: eb.Build(), components: GetSuggestButton(channel.Guild).Build());
                 await SetSuggestionButtonId(channel.Guild, toAdd.Id);
                 _repostChecking.Remove(channel.Id);
@@ -124,7 +126,6 @@ public class SuggestionsService : INService
                     var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     _repostChecking.Remove(channel.Id);
-
                 }
                 catch (NullReferenceException)
                 {
@@ -138,7 +139,6 @@ public class SuggestionsService : INService
                     var toadd = await channel.SendMessageAsync(GetSuggestButtonMessage(channel.Guild), components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     _repostChecking.Remove(channel.Id);
-
                 }
                 catch (NullReferenceException)
                 {
@@ -150,12 +150,11 @@ public class SuggestionsService : INService
         });
         return Task.CompletedTask;
     }
-    
-    
+
 
     private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-       _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             var message = await arg1.GetOrDownloadAsync();
             if (message is null)
@@ -189,6 +188,7 @@ public class SuggestionsService : INService
                 else
                     return;
             }
+
             var emotes = toSplit.Split(",");
             if (Equals(arg3.Emote, emotes[0].ToIEmote()))
                 maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
@@ -205,10 +205,8 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync();
-
         });
         return Task.CompletedTask;
-
     }
 
     private Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
@@ -218,7 +216,7 @@ public class SuggestionsService : INService
             var message = await arg1.GetOrDownloadAsync();
             if (message is null)
                 return;
-            
+
             if (await arg2.GetOrDownloadAsync() is not ITextChannel channel)
                 return;
             if (channel.Id != GetSuggestionChannel(channel.Guild.Id))
@@ -247,6 +245,7 @@ public class SuggestionsService : INService
                 else
                     return;
             }
+
             var emotes = toSplit.Split(",");
             if (Equals(arg3.Emote, emotes[0].ToIEmote()))
                 maybeSuggest.EmoteCount1 = (await message.GetReactionUsersAsync(arg3.Emote, 500).FlattenAsync()).Count(x => !x.IsBot);
@@ -263,7 +262,6 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync();
-
         });
         return Task.CompletedTask;
     }
@@ -286,6 +284,7 @@ public class SuggestionsService : INService
                     _spamCheck.Remove(chan.Id);
                     return;
                 }
+
                 var guser = msg.Author as IGuildUser;
                 var pc = _perms.GetCacheFor(guild.Id);
                 var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
@@ -300,6 +299,7 @@ public class SuggestionsService : INService
                     _spamCheck.Remove(chan.Id);
                     return;
                 }
+
                 if (msg.Content.Length > GetMaxLength(guild.Id))
                 {
                     try
@@ -363,15 +363,11 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-    public ulong GetSNum(ulong? id) 
-        => _bot.GetGuildConfig(id.Value).sugnum;
-    public int GetMaxLength(ulong? id)
-        => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
-    public int GetMinLength(ulong? id)
-        => _bot.GetGuildConfig(id.Value).MinSuggestLength;
+    public ulong GetSNum(ulong? id) => _bot.GetGuildConfig(id.Value).sugnum;
+    public int GetMaxLength(ulong? id) => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
+    public int GetMinLength(ulong? id) => _bot.GetGuildConfig(id.Value).MinSuggestLength;
 
-    private string GetEmotes(ulong? id)
-        => _bot.GetGuildConfig(id.Value).SuggestEmotes;
+    private string GetEmotes(ulong? id) => _bot.GetGuildConfig(id.Value).SuggestEmotes;
 
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
@@ -395,11 +391,24 @@ public class SuggestionsService : INService
                 gc.Emote5Style = color;
                 break;
         }
+
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
-    
+
+    public Task<(ulong, ulong)> GetRepostedMessageAndChannel(SuggestionsModel suggestions, IGuild guild)
+    {
+        (ulong, ulong) toreturn = suggestions.CurrentState switch
+        {
+            1 => (suggestions.StateChangeMessageId, GetAcceptChannel(guild)),
+            2 => (suggestions.StateChangeMessageId, GetDenyChannel(guild)),
+            3 => (suggestions.StateChangeMessageId, GetConsiderChannel(guild)),
+            4 => (suggestions.StateChangeMessageId, GetImplementChannel(guild)),
+            _ => (0, 0)
+        };
+        return Task.FromResult(toreturn);
+    }
+
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
         await using var uow = _db.GetDbContext();
@@ -417,7 +426,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
     {
         try
@@ -434,7 +443,7 @@ public class SuggestionsService : INService
             throw;
         }
     }
-    
+
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
         await using var uow = _db.GetDbContext();
@@ -443,6 +452,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
     public async Task SetMinLength(IGuild guild, int minLength)
     {
         await using var uow = _db.GetDbContext();
@@ -451,6 +461,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
         await using var uow = _db.GetDbContext();
@@ -459,7 +470,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public ComponentBuilder GetSuggestButton(IGuild guild)
     {
         string buttonLabel;
@@ -476,6 +487,7 @@ public class SuggestionsService : INService
         builder.WithButton(buttonLabel, "suggestbutton", GetSuggestButtonColor(guild), emote: buttonEmote);
         return builder;
     }
+
     public async Task UpdateSuggestionButtonMessage(IGuild guild, string code)
     {
         var toGet = GetSuggestButtonChannel(guild);
@@ -503,11 +515,10 @@ public class SuggestionsService : INService
                     return;
                 }
             }
+
             if (code is "-")
             {
-                var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithDescription("Press the button below to make a suggestion!");
+                var eb = new EmbedBuilder().WithOkColor().WithDescription("Press the button below to make a suggestion!");
                 try
                 {
                     await ((IUserMessage)message).ModifyAsync(x =>
@@ -545,11 +556,12 @@ public class SuggestionsService : INService
                 }
             }
         }
-        catch (Discord.Net.HttpException)
+        catch (HttpException)
         {
             // ignored
         }
     }
+
     public async Task SetSuggestButtonMessage(IGuild guild, string message)
     {
         await using var uow = _db.GetDbContext();
@@ -558,6 +570,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
     public async Task SetSuggestButtonLabel(IGuild guild, string message)
     {
         await using var uow = _db.GetDbContext();
@@ -566,6 +579,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
         await using var uow = _db.GetDbContext();
@@ -602,25 +616,24 @@ public class SuggestionsService : INService
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task UpdateSuggestState(ulong messageId, int state, ulong stateChangeId)
+    public async Task UpdateSuggestState(SuggestionsModel suggestionsModel, int state, ulong stateChangeId)
     {
         await using var uow = _db.GetDbContext();
-        var suggest = GetSuggestByMessage(messageId);
-        suggest.CurrentState = state;
-        suggest.StateChangeUser = stateChangeId;
-        suggest.StateChangeCount = suggest.StateChangeCount++;
-        uow.Suggestions.Update(suggest);
+        suggestionsModel.CurrentState = state;
+        suggestionsModel.StateChangeUser = stateChangeId;
+        suggestionsModel.StateChangeCount += 1;
+        uow.Suggestions.Update(suggestionsModel);
         await uow.SaveChangesAsync();
     }
 
-    public async Task UpdateStateMessageId(ulong messageId, ulong messageStateId)
+    public async Task UpdateStateMessageId(SuggestionsModel suggestionsModel, ulong messageStateId)
     {
         await using var uow = _db.GetDbContext();
-        var suggest = GetSuggestByMessage(messageId);
-        suggest.StateChangeMessageId = messageStateId;
-        uow.Suggestions.Update(suggest);
+        suggestionsModel.StateChangeMessageId = messageStateId;
+        uow.Suggestions.Update(suggestionsModel);
         await uow.SaveChangesAsync();
     }
+
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
@@ -647,7 +660,39 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
+    public async Task SetArchiveOnDeny(IGuild guild, bool value)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ArchiveOnDeny = value;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    public async Task SetArchiveOnAccept(IGuild guild, bool value)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ArchiveOnAccept = value;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    public async Task SetArchiveOnConsider(IGuild guild, bool value)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ArchiveOnConsider = value;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+    public async Task SetArchiveOnImplement(IGuild guild, bool value)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ArchiveOnImplement = value;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
         await using var uow = _db.GetDbContext();
@@ -656,7 +701,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task SetAcceptChannel(IGuild guild, ulong channelId)
     {
         await using var uow = _db.GetDbContext();
@@ -665,7 +710,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task SetDenyChannel(IGuild guild, ulong channelId)
     {
         await using var uow = _db.GetDbContext();
@@ -674,11 +719,21 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+
     public async Task SetConsiderChannel(IGuild guild, ulong channelId)
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConsiderChannel = channelId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        _bot.UpdateGuildConfig(guild.Id, gc);
+    }
+
+    public async Task SetImplementChannel(IGuild guild, ulong channelId)
+    {
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ImplementChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
@@ -691,7 +746,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task SetSuggestButtonEmote(IGuild guild, string emote)
     {
         await using var uow = _db.GetDbContext();
@@ -700,7 +755,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task SetSuggestButtonRepostThreshold(IGuild guild, int repostThreshold)
     {
         await using var uow = _db.GetDbContext();
@@ -709,7 +764,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
-    
+
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
         await using var uow = _db.GetDbContext();
@@ -761,9 +816,11 @@ public class SuggestionsService : INService
 
                 break;
         }
+
         uow.Suggestions.Add(suggest);
         await uow.SaveChangesAsync();
     }
+
     public async Task<int> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
     {
         int count;
@@ -791,76 +848,55 @@ public class SuggestionsService : INService
             return num == 1 ? tup : tdown;
         }
 
-        return emotes.Split(",")[num-1].ToIEmote();
+        return emotes.Split(",")[num - 1].ToIEmote();
     }
+
     public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
 
-    public string GetSuggestionMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestMessage;
+    public string GetSuggestionMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestMessage;
 
-    public string GetAcceptMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).AcceptMessage;
+    public string GetAcceptMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).AcceptMessage;
 
-    public string GetDenyMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).DenyMessage;
+    public string GetDenyMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).DenyMessage;
 
-    public string GetImplementMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ImplementMessage;
+    public string GetImplementMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ImplementMessage;
 
-    public string GetConsiderMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
-    
-    
-    public int GetThreadType(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
-    
-    public int GetEmoteMode(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).EmoteMode;
-    
-    public ulong GetConsiderChannel(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ConsiderChannel;
-    
-    public ulong GetAcceptChannel(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).AcceptChannel;
-    
-    public ulong GetImplementChannel(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ImplementChannel;
-    
-    public ulong GetDenyChannel(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).DenyChannel;
-    
-    public bool GetArchiveOnDeny(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ArchiveOnDeny;
-    
-    public bool GetArchiveOnAccept(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ArchiveOnAccept;
-    
-    public bool GetArchiveOnConsider(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ArchiveOnConsider;
-    
-    public bool GetArchiveOnImplement(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).ArchiveOnImplement;
-    
-    public string GetSuggestButtonName(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonName;
-    
-    public ulong GetSuggestButtonChannel(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonChannel;
-    
-    public string GetSuggestButtonEmote(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonEmote;
-    
-    public string GetSuggestButtonMessage(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonMessage;
-    
-    public int GetSuggestButtonRepost(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonRepostThreshold;
-    
-    public ulong GetSuggestButtonMessageId(IGuild guild)
-        => _bot.GetGuildConfig(guild.Id).SuggestButtonMessageId;
-    
-    public ButtonStyle GetSuggestButtonColor(IGuild guild)
-        => (ButtonStyle)_bot.GetGuildConfig(guild.Id).SuggestButtonColor;
+    public string GetConsiderMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
+
+
+    public int GetThreadType(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
+
+    public int GetEmoteMode(IGuild guild) => _bot.GetGuildConfig(guild.Id).EmoteMode;
+
+    public ulong GetConsiderChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).ConsiderChannel;
+
+    public ulong GetAcceptChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).AcceptChannel;
+
+    public ulong GetImplementChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).ImplementChannel;
+
+    public ulong GetDenyChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).DenyChannel;
+
+    public bool GetArchiveOnDeny(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnDeny;
+
+    public bool GetArchiveOnAccept(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnAccept;
+
+    public bool GetArchiveOnConsider(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnConsider;
+
+    public bool GetArchiveOnImplement(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnImplement;
+
+    public string GetSuggestButtonName(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonName;
+
+    public ulong GetSuggestButtonChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonChannel;
+
+    public string GetSuggestButtonEmote(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonEmote;
+
+    public string GetSuggestButtonMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonMessage;
+
+    public int GetSuggestButtonRepost(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonRepostThreshold;
+
+    public ulong GetSuggestButtonMessageId(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonMessageId;
+
+    public ButtonStyle GetSuggestButtonColor(IGuild guild) => (ButtonStyle)_bot.GetGuildConfig(guild.Id).SuggestButtonColor;
 
     public ButtonStyle GetButtonStyle(IGuild guild, int id) =>
         id switch
@@ -874,8 +910,14 @@ public class SuggestionsService : INService
         };
 
 
-    public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
+    public async Task SendDenyEmbed(
+        IGuild guild,
+        DiscordSocketClient client,
+        IUser user,
+        ulong suggestion,
+        ITextChannel channel,
+        string? reason = null,
+        IDiscordInteraction? interaction = null)
     {
         string rs;
         rs = reason ?? "none";
@@ -891,47 +933,73 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
+
         var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetDenyMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
             {
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Denied")
-                    .WithDescription(suggest.Suggestion)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
             }
             else
             {
-                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId);
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Denied")
-                    .WithDescription(desc.Embeds.FirstOrDefault()?.Description)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(desc.Embeds.FirstOrDefault()?.Description).WithOkColor()
+                                       .AddField("Reason", rs);
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
-            try
+            if (chan is null)
             {
-                await message.RemoveAllReactionsAsync();
-            }
-            catch
-            {
-                // ignored
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
             }
 
-            await message.ModifyAsync(x =>
+            if (GetArchiveOnDeny(guild))
             {
-                x.Content = null;
-                x.Embed = eb.Build();
-            });
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            if (await chan.GetMessageAsync(suggest.MessageId) is IUserMessage message)
+            {
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = null;
+                    x.Embed = eb.Build();
+                });
+                try
+                {
+                    await message.RemoveAllReactionsAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            else
+            {
+                var msg = await chan.SendMessageAsync(embed: eb.Build());
+                suggest.MessageId = msg.Id;
+                await using var uow = _db.GetDbContext();
+                uow.Update(suggest);
+                await uow.SaveChangesAsync();
+            }
+
             try
             {
                 var emb = new EmbedBuilder();
@@ -955,56 +1023,191 @@ public class SuggestionsService : INService
                     await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.");
             }
 
-            await UpdateSuggestState(message.Id, (int)SuggestState.Denied, user.Id);
+            await UpdateSuggestState(suggest, (int)SuggestState.Denied, user.Id);
             if (GetDenyChannel(guild) is not 0)
             {
-                
+                var denyChannel = await guild.GetTextChannelAsync(GetDenyChannel(guild));
+                if (denyChannel is null)
+                    return;
+                if (!(await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(denyChannel).EmbedLinks)
+                    return;
+                if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                {
+                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                    var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                    if (toCheck is not null)
+                    {
+                        var messageCheck = await toCheck.GetMessageAsync(messageId);
+                        if (messageCheck is not null)
+                            try
+                            {
+                                await messageCheck.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                    }
+                }
+
+                var toSet = await denyChannel.SendMessageAsync(embed: eb.Build());
+                await UpdateStateMessageId(suggest, toSet.Id);
             }
         }
         else
         {
             string sug;
             if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()
-                    ?.Description;
+                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
+            if (chan is null)
+            {
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
+            }
+
             var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             var suguse = await guild.GetUserAsync(suggest.UserId);
-            var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", () => suguse.ToString())
-                .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-                .WithOverride("%suggest.user.name%", () => suguse.Username)
-                .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", () => user.ToString())
-                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.name%", () => user.Username)
-                .WithOverride("%suggest.mod.message%", () => rs)
-                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
-                .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
-                .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
-                .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
-                .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
-                .Build();
+            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
+                                                   .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                                                   .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                                                   .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
+                                                   .WithOverride("%suggest.user.name%", () => suguse.Username)
+                                                   .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
+                                                   .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                                                   .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                                                   .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                                                   .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                                                   .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                                                   .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), out var embed, out var plainText);
+            if (GetArchiveOnDeny(guild))
+            {
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
             if (ebe is false)
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Embed = null;
-                    x.Content = replacer.Replace(GetDenyMessage(guild));
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Embed = null;
+                        x.Content = replacer.Replace(GetDenyMessage(guild));
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(replacer.Replace(GetDenyMessage(guild)));
+                    suggest.MessageId = toReplace.Id;
+                    await using var uow = _db.GetDbContext();
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                await UpdateSuggestState(suggest, (int)SuggestState.Denied, user.Id);
+                if (GetDenyChannel(guild) is not 0)
+                {
+                    var denyChannel = await guild.GetTextChannelAsync(GetDenyChannel(guild));
+                    if (denyChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(denyChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await denyChannel.SendMessageAsync(replacer.Replace(GetDenyMessage(guild)));
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
             else
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Content = plainText;
-                    x.Embed = embed?.Build();
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Content = plainText;
+                        x.Embed = embed?.Build();
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    await using var uow = _db.GetDbContext();
+                    suggest.MessageId = toReplace.Id;
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                if (GetDenyChannel(guild) is not 0)
+                {
+                    var denyChannel = await guild.GetTextChannelAsync(GetDenyChannel(guild));
+                    if (denyChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(denyChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await denyChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
 
             try
             {
@@ -1031,8 +1234,14 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task SendConsiderEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
+    public async Task SendConsiderEmbed(
+        IGuild guild,
+        DiscordSocketClient client,
+        IUser user,
+        ulong suggestion,
+        ITextChannel channel,
+        string? reason = null,
+        IDiscordInteraction? interaction = null)
     {
         string rs;
         if (reason == null)
@@ -1051,48 +1260,73 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
+
         var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
-        if (GetConsiderMessage(guild) is "-" or "" or
-            null)
+        if (GetConsiderMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
             {
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Considering")
-                    .WithDescription(suggest.Suggestion)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Considering").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
             }
             else
             {
-                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId);
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Considering")
-                    .WithDescription(desc.Embeds.FirstOrDefault().Description)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Considering").WithDescription(desc.Embeds.FirstOrDefault().Description).WithOkColor()
+                                       .AddField("Reason", rs);
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
-            try
+            if (chan is null)
             {
-                await message.RemoveAllReactionsAsync();
-            }
-            catch
-            {
-                // ignored
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
             }
 
-            await message.ModifyAsync(x =>
+            if (GetArchiveOnConsider(guild))
             {
-                x.Content = null;
-                x.Embed = eb.Build();
-            });
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            if (await chan.GetMessageAsync(suggest.MessageId) is IUserMessage message)
+            {
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = null;
+                    x.Embed = eb.Build();
+                });
+                try
+                {
+                    await message.RemoveAllReactionsAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            else
+            {
+                var msg = await chan.SendMessageAsync(embed: eb.Build());
+                suggest.MessageId = msg.Id;
+                await using var uow = _db.GetDbContext();
+                uow.Update(suggest);
+                await uow.SaveChangesAsync();
+            }
+
             try
             {
                 var emb = new EmbedBuilder();
@@ -1115,50 +1349,192 @@ public class SuggestionsService : INService
                 else
                     await interaction.SendConfirmAsync("Suggestion set as considered but the user had DMs off.");
             }
+
+            await UpdateSuggestState(suggest, (int)SuggestState.Considered, user.Id);
+            if (GetConsiderChannel(guild) is not 0)
+            {
+                var considerChannel = await guild.GetTextChannelAsync(GetConsiderChannel(guild));
+                if (considerChannel is null)
+                    return;
+                if (!(await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(considerChannel).EmbedLinks)
+                    return;
+                if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                {
+                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                    var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                    if (toCheck is not null)
+                    {
+                        var messageCheck = await toCheck.GetMessageAsync(messageId);
+                        if (messageCheck is not null)
+                            try
+                            {
+                                await messageCheck.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                    }
+                }
+
+                var toSet = await considerChannel.SendMessageAsync(embed: eb.Build());
+                await UpdateStateMessageId(suggest, toSet.Id);
+            }
         }
         else
         {
             string sug;
             if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                           .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()!.Description;
+                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()!.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
+            if (chan is null)
+            {
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
+            }
+
             var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             var suguse = await guild.GetUserAsync(suggest.UserId);
-            var replacer = new ReplacementBuilder()
-                           .WithServer(client, guild as SocketGuild)
-                           .WithOverride("%suggest.user%", () => suguse.ToString())
-                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-                           .WithOverride("%suggest.user.name%", () => suguse.Username)
-                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.user%", user.ToString)
-                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.name%", () => user.Username)
-                           .WithOverride("%suggest.mod.message%", () => rs)
-                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
-                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
-                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
-                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
-                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
-                           .Build();
+            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
+                                                   .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                                                   .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                                                   .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
+                                                   .WithOverride("%suggest.user.name%", () => suguse.Username)
+                                                   .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString()).WithOverride("%suggest.mod.user%", user.ToString)
+                                                   .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
+                                                   .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                                                   .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                                                   .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                                                   .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                                                   .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                                                   .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), out var embed, out var plainText);
+            if (GetArchiveOnConsider(guild))
+            {
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
             if (ebe is false)
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Embed = null;
-                    x.Content = replacer.Replace(GetConsiderMessage(guild));
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Embed = null;
+                        x.Content = replacer.Replace(GetConsiderMessage(guild));
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(replacer.Replace(GetConsiderMessage(guild)));
+                    suggest.MessageId = toReplace.Id;
+                    await using var uow = _db.GetDbContext();
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                await UpdateSuggestState(suggest, (int)SuggestState.Considered, user.Id);
+                if (GetConsiderChannel(guild) is not 0)
+                {
+                    var considerChannel = await guild.GetTextChannelAsync(GetConsiderChannel(guild));
+                    if (considerChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(considerChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await considerChannel.SendMessageAsync(replacer.Replace(GetConsiderMessage(guild)));
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
             else
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Content = plainText;
-                    x.Embed = embed?.Build();
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Content = plainText;
+                        x.Embed = embed?.Build();
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    await using var uow = _db.GetDbContext();
+                    suggest.MessageId = toReplace.Id;
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                if (GetConsiderChannel(guild) is not 0)
+                {
+                    var considerChannel = await guild.GetTextChannelAsync(GetConsiderChannel(guild));
+                    if (considerChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(considerChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await considerChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
+
             try
             {
                 var emb = new EmbedBuilder();
@@ -1184,8 +1560,14 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task SendImplementEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
+    public async Task SendImplementEmbed(
+        IGuild guild,
+        DiscordSocketClient client,
+        IUser user,
+        ulong suggestion,
+        ITextChannel channel,
+        string? reason = null,
+        IDiscordInteraction? interaction = null)
     {
         string rs;
         if (reason == null)
@@ -1204,46 +1586,71 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
+
         var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
-        if (GetImplementMessage(guild) is "-" or "" or
-            null)
+        if (GetImplementMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
             {
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Implemented")
-                    .WithDescription(suggest.Suggestion)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Implemented").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
             }
             else
             {
-                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId);
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Implemented")
-                    .WithDescription(desc.Embeds.FirstOrDefault().Description)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Implemented").WithDescription(desc.Embeds.FirstOrDefault().Description).WithOkColor()
+                                       .AddField("Reason", rs);
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
-            await message.ModifyAsync(x =>
+            if (chan is null)
             {
-                x.Content = null;
-                x.Embed = eb.Build();
-            });
-            try
-            {
-                await message.RemoveAllReactionsAsync();
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
             }
-            catch
+
+            if (GetArchiveOnImplement(guild))
             {
-                // ignored
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            if (await chan.GetMessageAsync(suggest.MessageId) is IUserMessage message)
+            {
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = null;
+                    x.Embed = eb.Build();
+                });
+                try
+                {
+                    await message.RemoveAllReactionsAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            else
+            {
+                var msg = await chan.SendMessageAsync(embed: eb.Build());
+                suggest.MessageId = msg.Id;
+                await using var uow = _db.GetDbContext();
+                uow.Update(suggest);
+                await uow.SaveChangesAsync();
             }
 
             try
@@ -1267,54 +1674,194 @@ public class SuggestionsService : INService
                     await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
                 else
                     await interaction.SendConfirmAsync("Suggestion set as implemented but the user had DMs off.");
+            }
 
+            await UpdateSuggestState(suggest, (int)SuggestState.Implemented, user.Id);
+            if (GetImplementChannel(guild) is not 0)
+            {
+                var implementChannel = await guild.GetTextChannelAsync(GetImplementChannel(guild));
+                if (implementChannel is null)
+                    return;
+                if (!(await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(implementChannel).EmbedLinks)
+                    return;
+                if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                {
+                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                    var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                    if (toCheck is not null)
+                    {
+                        var messageCheck = await toCheck.GetMessageAsync(messageId);
+                        if (messageCheck is not null)
+                            try
+                            {
+                                await messageCheck.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                    }
+                }
+
+                var toSet = await implementChannel.SendMessageAsync(embed: eb.Build());
+                await UpdateStateMessageId(suggest, toSet.Id);
             }
         }
         else
         {
             string sug;
             if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()
-                    ?.Description;
+                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
+            if (chan is null)
+            {
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
+            }
+
             var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserId);
-            var replacer = new ReplacementBuilder()
-                           .WithServer(client, guild as SocketGuild)
-                           .WithOverride("%suggest.user%", () => suguse.ToString())
-                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-                           .WithOverride("%suggest.user.name%", () => suguse.Username)
-                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.user%", () => user.ToString())
-                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.name%", () => user.Username)
-                           .WithOverride("%suggest.mod.message%", () => rs)
-                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
-                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
-                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
-                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
-                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
-                           .Build();
+            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
+                                                   .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                                                   .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                                                   .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
+                                                   .WithOverride("%suggest.user.name%", () => suguse.Username)
+                                                   .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
+                                                   .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                                                   .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                                                   .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                                                   .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                                                   .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                                                   .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), out var embed, out var plainText);
+            if (GetArchiveOnImplement(guild))
+            {
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
             if (ebe is false)
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Embed = null;
-                    x.Content = replacer.Replace(GetImplementMessage(guild));
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Embed = null;
+                        x.Content = replacer.Replace(GetImplementMessage(guild));
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(replacer.Replace(GetImplementMessage(guild)));
+                    suggest.MessageId = toReplace.Id;
+                    await using var uow = _db.GetDbContext();
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                await UpdateSuggestState(suggest, (int)SuggestState.Implemented, user.Id);
+                if (GetImplementChannel(guild) is not 0)
+                {
+                    var implementChannel = await guild.GetTextChannelAsync(GetImplementChannel(guild));
+                    if (implementChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(implementChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await implementChannel.SendMessageAsync(replacer.Replace(GetImplementMessage(guild)));
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
             else
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Content = plainText;
-                    x.Embed = embed?.Build();
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Content = plainText;
+                        x.Embed = embed?.Build();
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    await using var uow = _db.GetDbContext();
+                    suggest.MessageId = toReplace.Id;
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                if (GetImplementChannel(guild) is not 0)
+                {
+                    var implementChannel = await guild.GetTextChannelAsync(GetImplementChannel(guild));
+                    if (implementChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(implementChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await implementChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
 
             try
             {
@@ -1337,13 +1884,18 @@ public class SuggestionsService : INService
                     await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
                 else
                     await interaction.SendConfirmAsync("Suggestion set as implemented but the user had DMs off.");
-
             }
         }
     }
 
-    public async Task SendAcceptEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
+    public async Task SendAcceptEmbed(
+        IGuild guild,
+        DiscordSocketClient client,
+        IUser user,
+        ulong suggestion,
+        ITextChannel channel,
+        string? reason = null,
+        IDiscordInteraction? interaction = null)
     {
         var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
@@ -1358,45 +1910,71 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
+
         var use = await guild.GetUserAsync(suggest.UserId);
         EmbedBuilder eb;
         if (GetAcceptMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
             {
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Accepted")
-                    .WithDescription(suggest.Suggestion)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Accepted").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
             }
             else
             {
-                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId);
-                eb = new EmbedBuilder()
-                    .WithAuthor(use)
-                    .WithTitle($"Suggestion #{suggestion} Accepted")
-                    .WithDescription(desc.Embeds.FirstOrDefault().Description)
-                    .WithOkColor()
-                    .AddField("Reason", rs);
+                var desc = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId);
+                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Accepted").WithDescription(desc.Embeds.FirstOrDefault().Description).WithOkColor()
+                                       .AddField("Reason", rs);
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
-            await message.ModifyAsync(x =>
+            if (chan is null)
             {
-                x.Content = null;
-                x.Embed = eb.Build();
-            });
-            try
-            {
-                await message.RemoveAllReactionsAsync();
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
             }
-            catch
+
+            if (GetArchiveOnAccept(guild))
             {
-                // ignored
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            if (await chan.GetMessageAsync(suggest.MessageId) is IUserMessage message)
+            {
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = null;
+                    x.Embed = eb.Build();
+                });
+                try
+                {
+                    await message.RemoveAllReactionsAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            else
+            {
+                var msg = await chan.SendMessageAsync(embed: eb.Build());
+                suggest.MessageId = msg.Id;
+                await using var uow = _db.GetDbContext();
+                uow.Update(suggest);
+                await uow.SaveChangesAsync();
             }
 
             try
@@ -1420,53 +1998,194 @@ public class SuggestionsService : INService
                     await channel.SendConfirmAsync("Suggestion set as accepted but the user had their dms off.");
                 else
                     await interaction.SendConfirmAsync("Suggestion set as accepted but the user had DMs off.");
+            }
 
+            await UpdateSuggestState(suggest, (int)SuggestState.Accepted, user.Id);
+            if (GetAcceptChannel(guild) is not 0)
+            {
+                var acceptChannel = await guild.GetTextChannelAsync(GetAcceptChannel(guild));
+                if (acceptChannel is null)
+                    return;
+                if (!(await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(acceptChannel).EmbedLinks)
+                    return;
+                if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                {
+                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                    var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                    if (toCheck is not null)
+                    {
+                        var messageCheck = await toCheck.GetMessageAsync(messageId);
+                        if (messageCheck is not null)
+                            try
+                            {
+                                await messageCheck.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                    }
+                }
+
+                var toSet = await acceptChannel.SendMessageAsync(embed: eb.Build());
+                await UpdateStateMessageId(suggest, toSet.Id);
             }
         }
         else
         {
             string sug;
             if (suggest.Suggestion is null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)))
-                    .GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault().Description;
+                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault().Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
+            if (chan is null)
+            {
+                if (interaction is not null)
+                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                else
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!");
+                return;
+            }
+
             var message = await chan.GetMessageAsync(suggest.MessageId) as IUserMessage;
             GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserId);
-            var replacer = new ReplacementBuilder()
-                           .WithServer(client, guild as SocketGuild)
-                           .WithOverride("%suggest.user%", () => suguse.ToString())
-                           .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                           .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                           .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-                           .WithOverride("%suggest.user.name%", () => suguse.Username)
-                           .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.user%", () => user.ToString())
-                           .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                           .WithOverride("%suggest.mod.name%", () => user.Username)
-                           .WithOverride("%suggest.mod.message%", () => rs)
-                           .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                           .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
-                           .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
-                           .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
-                           .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
-                           .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString())
-                           .Build();
+            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
+                                                   .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                                                   .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                                                   .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
+                                                   .WithOverride("%suggest.user.name%", () => suguse.Username)
+                                                   .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                                                   .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
+                                                   .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                                                   .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                                                   .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                                                   .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                                                   .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                                                   .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), out var embed, out var plainText);
+            if (GetArchiveOnAccept(guild))
+            {
+                var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
+                if (threadChannel is not null)
+                {
+                    try
+                    {
+                        await threadChannel.ModifyAsync(x => x.Archived = true);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+
             if (ebe is false)
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Embed = null;
-                    x.Content = replacer.Replace(GetAcceptMessage(guild));
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Embed = null;
+                        x.Content = replacer.Replace(GetAcceptMessage(guild));
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(replacer.Replace(GetAcceptMessage(guild)));
+                    suggest.MessageId = toReplace.Id;
+                    await using var uow = _db.GetDbContext();
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                await UpdateSuggestState(suggest, (int)SuggestState.Accepted, user.Id);
+                if (GetAcceptChannel(guild) is not 0)
+                {
+                    var acceptChannel = await guild.GetTextChannelAsync(GetAcceptChannel(guild));
+                    if (acceptChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(acceptChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await acceptChannel.SendMessageAsync(replacer.Replace(GetAcceptMessage(guild)));
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
             else
-                await message.ModifyAsync(x =>
+            {
+                if (message is not null)
                 {
-                    x.Content = plainText;
-                    x.Embed = embed?.Build();
-                });
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Content = plainText;
+                        x.Embed = embed?.Build();
+                    });
+                }
+                else
+                {
+                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    await using var uow = _db.GetDbContext();
+                    suggest.MessageId = toReplace.Id;
+                    uow.Suggestions.Update(suggest);
+                    await uow.SaveChangesAsync();
+                }
+
+                if (GetAcceptChannel(guild) is not 0)
+                {
+                    var acceptChannel = await guild.GetTextChannelAsync(GetAcceptChannel(guild));
+                    if (acceptChannel is not null)
+                    {
+                        if ((await guild.GetUserAsync(client.CurrentUser.Id)).GetPermissions(acceptChannel).EmbedLinks)
+                        {
+                            if ((await GetRepostedMessageAndChannel(suggest, guild)).Item1 is not 0)
+                            {
+                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild);
+                                var toCheck = await guild.GetTextChannelAsync(messageChannel);
+                                if (toCheck is not null)
+                                {
+                                    var messageCheck = await toCheck.GetMessageAsync(messageId);
+                                    if (messageCheck is not null)
+                                        try
+                                        {
+                                            await messageCheck.DeleteAsync();
+                                        }
+                                        catch
+                                        {
+                                            // ignored
+                                        }
+                                }
+                            }
+
+                            var toSet = await acceptChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            await UpdateStateMessageId(suggest, toSet.Id);
+                        }
+                    }
+                }
+            }
 
             try
             {
@@ -1493,21 +2212,24 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task SendSuggestion(IGuild guild, IGuildUser user, DiscordSocketClient client, string suggestion,
-        ITextChannel channel, IDiscordInteraction? interaction = null)
+    public async Task SendSuggestion(
+        IGuild guild,
+        IGuildUser user,
+        DiscordSocketClient client,
+        string suggestion,
+        ITextChannel channel,
+        IDiscordInteraction? interaction = null)
     {
         if (GetSuggestionChannel(guild.Id) == 0)
-        {   
+        {
             if (interaction is null)
             {
-                var msg = await channel.SendErrorAsync(
-                "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!");
+                var msg = await channel.SendErrorAsync("There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!");
                 msg.DeleteAfter(3);
                 return;
             }
 
-            await interaction.SendEphemeralErrorAsync(
-                "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` then try again!");
+            await interaction.SendEphemeralErrorAsync("There is no suggestion channel set! Have an admin set it using `setsuggestchannel` then try again!");
             return;
         }
 
@@ -1520,6 +2242,7 @@ public class SuggestionsService : INService
             var te = em.Split(",");
             emotes.AddRange(te.Select(Emote.Parse));
         }
+
         var builder = new ComponentBuilder();
         IEmote[] reacts = { tup, tdown };
         if (GetEmoteMode(guild) == 1)
@@ -1528,12 +2251,12 @@ public class SuggestionsService : INService
             if (em is null or "disabled")
                 foreach (var i in reacts)
                 {
-                    builder.WithButton("0", $"emotebutton:{count+1}", emote: i, style: GetButtonStyle(guild, ++count));
+                    builder.WithButton("0", $"emotebutton:{count + 1}", emote: i, style: GetButtonStyle(guild, ++count));
                 }
             else
                 foreach (var i in emotes)
                 {
-                    builder.WithButton("0", $"emotebutton:{count+1}", emote: i, style: GetButtonStyle(guild, ++count));
+                    builder.WithButton("0", $"emotebutton:{count + 1}", emote: i, style: GetButtonStyle(guild, ++count));
                 }
         }
 
@@ -1541,19 +2264,18 @@ public class SuggestionsService : INService
         {
             builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
         }
+
         if (GetThreadType(guild) == 2)
         {
             builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
         }
+
         if (GetSuggestionMessage(guild) is "-" or "")
         {
             var sugnum1 = GetSNum(guild.Id);
-            var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).SendMessageAsync(embed:
-                new EmbedBuilder()
-                    .WithAuthor(user)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id)}")
-                    .WithDescription(suggestion)
-                    .WithOkColor().Build(), components: builder.Build());
+            var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).SendMessageAsync(
+                embed: new EmbedBuilder().WithAuthor(user).WithTitle($"Suggestion #{GetSNum(guild.Id)}").WithDescription(suggestion).WithOkColor().Build(),
+                components: builder.Build());
             if (GetEmoteMode(guild) == 0)
             {
                 if (em is null or "disabled")
@@ -1563,8 +2285,8 @@ public class SuggestionsService : INService
                     foreach (var ei in emotes)
                         await t.AddReactionAsync(ei);
             }
-            
-            
+
+
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             if (interaction is not null)
@@ -1573,17 +2295,13 @@ public class SuggestionsService : INService
         else
         {
             var sugnum1 = GetSNum(guild.Id);
-            var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", user.ToString)
-                .WithOverride("%suggest.message%", () => suggestion.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => sugnum1.ToString())
-                .WithOverride("%suggest.user.name%", () => user.Username)
-                .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString())
-                .Build();
+            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", user.ToString)
+                                                   .WithOverride("%suggest.message%", () => suggestion.SanitizeMentions(true))
+                                                   .WithOverride("%suggest.number%", () => sugnum1.ToString()).WithOverride("%suggest.user.name%", () => user.Username)
+                                                   .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString()).Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), out var embed, out var plainText);
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            IUserMessage msg = null;
+            IUserMessage msg;
             if (ebe is false)
             {
                 if (GetEmoteMode(guild) == 1)
@@ -1608,6 +2326,7 @@ public class SuggestionsService : INService
                     foreach (var ei in emotes)
                         await msg.AddReactionAsync(ei);
             }
+
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, msg.Id, user.Id, suggestion);
 
@@ -1618,7 +2337,12 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task Suggest(IGuild guild, ulong suggestId, ulong messageId, ulong userId, string suggestion)
+    public async Task Suggest(
+        IGuild guild,
+        ulong suggestId,
+        ulong messageId,
+        ulong userId,
+        string suggestion)
     {
         var guildId = guild.Id;
 
@@ -1655,6 +2379,7 @@ public class SuggestionsService : INService
         using var uow = _db.GetDbContext();
         return uow.Suggestions.Where(x => x.GuildId == gid).ToList();
     }
+
     public SuggestionsModel GetSuggestByMessage(ulong msgId)
     {
         using var uow = _db.GetDbContext();
@@ -1695,11 +2420,7 @@ public class SuggestionsService : INService
     public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
     {
         await using var uow = _db.GetDbContext();
-        uow.SuggestThreads.Add(new SuggestThreads()
-        {
-            MessageId = messageId,
-            ThreadChannelId = threadChannelId
-        });
+        uow.SuggestThreads.Add(new SuggestThreads() { MessageId = messageId, ThreadChannelId = threadChannelId });
         await uow.SaveChangesAsync();
     }
 

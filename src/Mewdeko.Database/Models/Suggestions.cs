@@ -17,7 +17,7 @@ public class SuggestionsModel : DbEntity
     public ulong StateChangeUser { get; set; } = 0;
     public ulong StateChangeCount { get; set; } = 0;
     public ulong StateChangeMessageId { get; set; } = 0;
-    public int CurrentState = 0;
+    public int CurrentState { get; set; } = 0;
 
 
 }
