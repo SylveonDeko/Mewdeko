@@ -10,7 +10,7 @@ public static class LogSetup
     public static void SetupLogger(object source)
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Verbose)
             .MinimumLevel.Override("System", LogEventLevel.Information)
             .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()

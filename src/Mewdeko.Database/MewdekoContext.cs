@@ -7,6 +7,7 @@ namespace Mewdeko.Database;
 
 public class MewdekoContextFactory : IDesignTimeDbContextFactory<MewdekoContext>
 {
+    
     public MewdekoContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
@@ -24,6 +25,7 @@ public class MewdekoContext : DbContext
     public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
     {
     }
+    
 
     public DbSet<GuildConfig> GuildConfigs { get; set; }
     public DbSet<SuggestionsModel> Suggestions { get; set; }
