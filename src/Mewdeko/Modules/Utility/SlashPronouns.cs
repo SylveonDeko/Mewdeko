@@ -7,13 +7,13 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Pronouns.Services;
+using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Modules.Pronouns;
+namespace Mewdeko.Modules.Utility;
 
 [Group("pronouns", "pronouns")]
-public class SlashPronoun : MewdekoSlashModuleBase<PronounsService>
+public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
 {
     private readonly DbService _db;
     private readonly Mewdeko _bot;

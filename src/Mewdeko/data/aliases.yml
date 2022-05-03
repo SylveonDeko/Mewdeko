@@ -1815,17 +1815,17 @@ dragon:
   - dragon
 ctrgranttoggle:
   - ctrgranttoggle
-  - ctgranttoggle
   - ctgt
+  - ctgranttoggle
 ctrremovetoggle: 
   - ctrremovetoggle
-  - ctremovetoggle
   - ctrt
+  - ctremovetoggle
 resolvetonetags:
   - resolvetonetags
+  - tonetag
   - resolvetonetag
   - tonetags
-  - tonetag
 chattriggerrolegranttype:
   - chattriggerrolegranttype
   - ctrolegranttype
@@ -1834,10 +1834,11 @@ getpronouns:
   - getpronouns
   - pronouns
 pronounoverride:
+  - setpronouns
   - pronounoverride
   - pronounsoverride
   - pnoverride
 pronounoverrideforceclear:
   - pronounoverrideforceclear
-  - pnovverideforceclear
   - pnofc
+  - pnovverideforceclear
