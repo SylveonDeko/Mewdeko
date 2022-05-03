@@ -1,3 +1,3 @@
-namespace Mewdeko.Modules.Pronouns.Common;
+namespace Mewdeko.Modules.Utility.Common;
 
 public record PronounSearchResult(string Pronouns, bool PronounDb);
