@@ -3940,7 +3940,7 @@ getpronouns:
   args:
     - '@user'
     - ''
-pronounoverride:
+setpronouns:
   desc: >- 
     Changes the default pronouns displayed when someone runs `getpronouns` on you.
     Use the command with no args to clear the pronouns.
