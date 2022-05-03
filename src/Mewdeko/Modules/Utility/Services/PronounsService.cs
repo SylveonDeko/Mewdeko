@@ -1,10 +1,10 @@
 using Mewdeko.Database;
-using Mewdeko.Modules.Pronouns.Common;
+using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http;
 
-namespace Mewdeko.Modules.Pronouns.Services;
+namespace Mewdeko.Modules.Utility.Services;
 
 public class PronounsService : INService
 {

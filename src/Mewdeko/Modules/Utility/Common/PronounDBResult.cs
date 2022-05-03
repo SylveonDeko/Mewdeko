@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Mewdeko.Modules.Pronouns.Common;
+namespace Mewdeko.Modules.Utility.Common;
 
 public class PronounDbResult
 {
