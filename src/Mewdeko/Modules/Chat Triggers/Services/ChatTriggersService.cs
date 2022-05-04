@@ -288,7 +288,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         triggers.ForEach(x => roles.AddRange(x.GetGrantedRoles()));
         triggers.ForEach(x => roles.AddRange(x.GetRemovedRoles()));
 
-        if (!roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
+        if (roles.Any() && !roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
             return false;
 
         await uow.ChatTriggers.AddRangeAsync(triggers);

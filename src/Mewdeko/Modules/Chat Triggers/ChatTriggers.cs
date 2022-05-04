@@ -57,10 +57,10 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 await ReplyErrorLocalizedAsync("expr_import_no_input");
                 return;
             }
-
+            
             using var client = _clientFactory.CreateClient();
             input = await client.GetStringAsync(attachment.Url);
-
+            
             if (string.IsNullOrWhiteSpace(input))
             {
                 await ReplyErrorLocalizedAsync("expr_import_no_input");
@@ -68,6 +68,11 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             }
         }
 
+        if (!ctx.Message.Attachments.Any())
+        {
+            using var client = _clientFactory.CreateClient();
+            input = await client.GetStringAsync(input);
+        }
         var succ = await Service.ImportCrsAsync((ctx.User as IGuildUser), input);
         if (!succ)
         {
