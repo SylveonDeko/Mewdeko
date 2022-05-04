@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using LinqToDB;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
@@ -488,6 +489,14 @@ public class SuggestionsService : INService
         return builder;
     }
 
+    public async Task SuggestReset(IGuild guild)
+    {
+        await using var uow = _db.GetDbContext();
+        await uow.Suggestions.DeleteAsync();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.sugnum = 1;
+        await uow.SaveChangesAsync();
+    }
     public async Task UpdateSuggestionButtonMessage(IGuild guild, string code, bool bypasschannelcheck = false)
     {
         var toGet = GetSuggestButtonChannel(guild);
@@ -2271,12 +2280,12 @@ public class SuggestionsService : INService
 
         if (GetThreadType(guild) == 1)
         {
-            builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Public Discussion", customId: $"publicsuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
         }
 
         if (GetThreadType(guild) == 2)
         {
-            builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Private Discussion", customId: $"privatesuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
         }
 
         if (GetSuggestionMessage(guild) is "-" or "")

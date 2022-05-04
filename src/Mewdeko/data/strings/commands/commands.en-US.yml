@@ -1478,6 +1478,10 @@ suggestinfo:
   desc: "Allows you to see stats of a suggestion using its number."
   args:
     - "10"
+suggestclear:
+  desc: "Resets and wipes suggestions. ***Cannot be undone***"
+  args:
+    - ""
 die:
   desc: Shuts the bot down.
   args:

@@ -73,11 +73,11 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         }
         if (Service.GetThreadType(ctx.Guild) == 1)
         {
-            builder.WithButton("Join/Create Public Thread", customId: $"publicsuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Public Discussion", customId: $"publicsuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
         if (Service.GetThreadType(ctx.Guild) == 2)
         {
-            builder.WithButton("Join/Create Private Thread", customId: $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Private Discussion", customId: $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build());
     }
@@ -92,7 +92,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var channel = await ctx.Guild.GetTextChannelAsync(Service.GetSuggestionChannel(ctx.Guild.Id));
         if (Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
-            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum}", ThreadType.PublicThread, message: componentInteraction.Message);
+            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PublicThread, message: componentInteraction.Message);
             var user = await ctx.Guild.GetUserAsync(suggest.UserId);
             if (user is not null)
                 await threadChannel.AddUserAsync(user);
@@ -117,7 +117,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var a = Service.GetThreadByMessage(suggest.MessageId);
         if (Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
-            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum}", ThreadType.PrivateThread, message: componentInteraction.Message);
+            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PrivateThread, message: componentInteraction.Message);
             var user = await ctx.Guild.GetUserAsync(suggest.UserId);
             if (user is not null)
                 await threadChannel.AddUserAsync(user);

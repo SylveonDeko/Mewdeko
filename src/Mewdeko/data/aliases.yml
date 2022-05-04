@@ -395,6 +395,11 @@ inroles:
 setbanner:
   - setbanner
   - setserverbanner
+suggestclear:
+  - suggestclear
+  - suggestreset
+  - resetsuggestions
+  - clearsuggestions
 afkdisable:
   - afkdisable
 removefromall:
