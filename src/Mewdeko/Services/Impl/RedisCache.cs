@@ -4,6 +4,7 @@ using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Net;
+// ReSharper disable CollectionNeverQueried.Local
 
 namespace Mewdeko.Services.Impl;
 
@@ -165,10 +166,8 @@ public class RedisCache : IDataCache
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
-
-#pragma warning disable CS1998
+    
     public async Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
-#pragma warning restore CS1998
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
         return customers[id];
@@ -191,12 +190,6 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"image_{key}", data);
     }
-
-    public async Task UpdateGuildConfig(ulong id, GuildConfig config)
-    {
-        
-    }
-
     public TimeSpan? AddTimelyClaim(ulong id, int period)
     {
         if (period == 0)
