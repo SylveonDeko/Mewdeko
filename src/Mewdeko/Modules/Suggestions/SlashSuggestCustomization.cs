@@ -189,11 +189,6 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task SuggestThreadsType(Suggestions.SuggestThreadType type)
     {
-        if (!ctx.Guild.Features.HasThreads)
-        {
-            await ctx.Interaction.SendErrorAsync("You do not have threads enabled!");
-            return;
-        }
 
         if (type == Suggestions.SuggestThreadType.Private && !ctx.Guild.Features.HasPrivateThreads)
         {
