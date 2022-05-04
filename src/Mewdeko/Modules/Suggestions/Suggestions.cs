@@ -28,7 +28,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(ChannelPermission.ManageMessages)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SuggestInfo(ulong num)
     {
         var suggest = Service.Suggestions(ctx.Guild.Id, num).FirstOrDefault();
@@ -69,6 +69,22 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             .AddField("State Change Count", suggest.StateChangeCount)
             .AddField("Emote Count", string.Join("\n", emoteCount));
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    public async Task SuggestClear()
+    {
+        var suggests = Service.Suggestions(ctx.Guild.Id);
+        if (!suggests.Any())
+        {
+            await ctx.Channel.SendErrorAsync("There are no suggestions to clear.");
+            return;
+        }
+        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id))
+        {
+            await Service.SuggestReset(ctx.Guild);
+            await ctx.Channel.SendConfirmAsync("Suggestions cleared.");
+        }
     }
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Suggest([Remainder] string suggestion)
