@@ -5,7 +5,7 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Autocompleters;
 
 public class GenericCommandAutocompleter : AutocompleteHandler
 {

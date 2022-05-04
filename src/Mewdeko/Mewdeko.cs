@@ -147,12 +147,10 @@ public class Mewdeko
                 .AddSingleton<LavalinkNode>()
                 .AddSingleton(new LavalinkNodeOptions
                 {
-                    AllowResuming = true,
                     Password = "Hope4a11",
                     WebSocketUri = "ws://127.0.0.1:2333",
                     RestUri = "http://127.0.0.1:2333",
                     DisconnectOnStop = false,
-                    ResumeKey = "88383874973209rfjb="
                 })
                 .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>()
