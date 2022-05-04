@@ -174,11 +174,6 @@ public partial class Suggestions
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestThreadsType(SuggestThreadType type)
         {
-            if (!ctx.Guild.Features.HasThreads)
-            {
-                await ctx.Channel.SendErrorAsync("You do not have threads enabled!");
-                return;
-            }
             if (type == SuggestThreadType.Private && !ctx.Guild.Features.HasPrivateThreads)
             {
                 await ctx.Channel.SendErrorAsync("You do not have enough server boosts for private threads!");
