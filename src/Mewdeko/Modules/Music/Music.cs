@@ -721,7 +721,7 @@ public class Music : MewdekoModuleBase<MusicService>
         var player = _lavaNode.GetPlayer(ctx.Guild);
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
-                searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
+                searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.Contains("soundcloud.app.goo.gl") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
             {
                 if (player is null)
                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
