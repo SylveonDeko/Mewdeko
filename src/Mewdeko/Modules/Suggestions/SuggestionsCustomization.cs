@@ -187,7 +187,7 @@ public partial class Suggestions
         public async Task SuggestButtonChannel(ITextChannel channel)
         {
             await Service.SetSuggestButtonChannel(ctx.Guild, channel.Id);
-            await Service.UpdateSuggestionButtonMessage(ctx.Guild, Service.GetSuggestButtonMessage(ctx.Guild));
+            await Service.UpdateSuggestionButtonMessage(ctx.Guild, Service.GetSuggestButtonMessage(ctx.Guild), true);
             await ctx.Channel.SendConfirmAsync($"Suggest Button Channel set to {channel.Mention}");
             
         }

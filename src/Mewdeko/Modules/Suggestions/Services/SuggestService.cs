@@ -488,10 +488,10 @@ public class SuggestionsService : INService
         return builder;
     }
 
-    public async Task UpdateSuggestionButtonMessage(IGuild guild, string code)
+    public async Task UpdateSuggestionButtonMessage(IGuild guild, string code, bool bypasschannelcheck = false)
     {
         var toGet = GetSuggestButtonChannel(guild);
-        if (toGet is 0)
+        if (toGet is 0 && !bypasschannelcheck)
             return;
         var channel = await guild.GetTextChannelAsync(toGet);
         if (channel is null)
@@ -499,12 +499,21 @@ public class SuggestionsService : INService
         var messageId = GetSuggestButtonMessageId(guild);
         try
         {
+            if (messageId is 0)
+                messageId = 999;
             var message = await channel.GetMessageAsync(messageId);
             if (message is null)
             {
                 if (SmartEmbed.TryParse(code, out var embed, out var plainText))
                 {
                     var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
+                    await SetSuggestionButtonId(channel.Guild, toadd.Id);
+                    return;
+                }
+                if (code is "-")
+                {
+                    var eb = new EmbedBuilder().WithOkColor().WithDescription("Press the button below to make a suggestion!");
+                    var toadd = await channel.SendMessageAsync(plainText, embed: eb.Build(), components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     return;
                 }
