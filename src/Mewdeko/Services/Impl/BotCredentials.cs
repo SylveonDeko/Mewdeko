@@ -11,6 +11,7 @@ namespace Mewdeko.Services.Impl;
 public class BotCredentials : IBotCredentials
 {
     private readonly string _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
+    private readonly FileSystemWatcher _watcher;
 
     public BotCredentials()
     {
@@ -27,6 +28,17 @@ public class BotCredentials : IBotCredentials
         if (!File.Exists(_credsFileName))
             Log.Warning(
                 $"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'Mewdeko_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
+        UpdateCredentials(null, null);
+        _watcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
+        _watcher.NotifyFilter = NotifyFilters.LastWrite;
+        _watcher.Filter = "*.json";
+        _watcher.EnableRaisingEvents = true;
+        _watcher.Changed += UpdateCredentials;
+    }
+    
+
+    public void UpdateCredentials(object ae, FileSystemEventArgs _)
+    {
         try
         {
             var configBuilder = new ConfigurationBuilder();
@@ -127,47 +139,47 @@ public class BotCredentials : IBotCredentials
         }
     }
 
-    public int ShardRunPort { get; }
-    public string GoogleApiKey { get; }
-    public string SpotifyClientId { get; }
-    public string SpotifyClientSecret { get; }
-    public string MashapeKey { get; }
-    public string StatcordKey { get; }
-    public string Token { get; }
+    public int ShardRunPort { get; set; }
+    public string GoogleApiKey { get; set; }
+    public string SpotifyClientId { get; set; }
+    public string SpotifyClientSecret { get; set; }
+    public string MashapeKey { get; set; }
+    public string StatcordKey { get; set; }
+    public string Token { get; set; }
 
-    public ImmutableArray<ulong> OwnerIds { get; }
-    public ImmutableArray<ulong> OfficialMods { get; }
+    public ImmutableArray<ulong> OwnerIds { get; set; }
+    public ImmutableArray<ulong> OfficialMods { get; set; }
 
-    public string OsuApiKey { get; }
-    public string CleverbotApiKey { get; }
-    public RestartConfig RestartCommand { get; }
-    public DbConfig Db { get; }
-    public int TotalShards { get; }
-    public string CarbonKey { get; }
-    public string PatreonAccessToken { get; }
-    public string ShardRunCommand { get; }
-    public string ShardRunArguments { get; }
+    public string OsuApiKey { get; set; }
+    public string CleverbotApiKey { get; set; }
+    public RestartConfig RestartCommand { get; set; }
+    public DbConfig Db { get; set; }
+    public int TotalShards { get; set; }
+    public string CarbonKey { get; set; }
+    public string PatreonAccessToken { get; set; }
+    public string ShardRunCommand { get; set; }
+    public string ShardRunArguments { get; set; }
 
-    public string PatreonCampaignId { get; }
+    public string PatreonCampaignId { get; set; }
 
-    public string TwitchClientId { get; }
-    public string TwitchClientSecret { get; }
-    public string TrovoClientId { get; }
+    public string TwitchClientId { get; set; }
+    public string TwitchClientSecret { get; set; }
+    public string TrovoClientId { get; set; }
 
-    public string VotesUrl { get; }
-    public string VotesToken { get; }
-    public string BotListToken { get; }
-    public string RedisOptions { get; }
-    public string LocationIqApiKey { get; }
-    public string TimezoneDbApiKey { get; }
-    public string CoinmarketcapApiKey { get; }
+    public string VotesUrl { get; set; }
+    public string VotesToken { get; set; }
+    public string BotListToken { get; set; }
+    public string RedisOptions { get; set; }
+    public string LocationIqApiKey { get; set; }
+    public string TimezoneDbApiKey { get; set; }
+    public string CoinmarketcapApiKey { get; set; }
 
 
-    public ulong DebugGuildId { get; }
-    public ulong GuildJoinsChannelId { get; }
-    public ulong ConfessionReportChannelId { get; }
-    public ulong GlobalBanReportChannelId { get; }
-    public ulong PronounAbuseReportChannelId { get; }
+    public ulong DebugGuildId { get; set; }
+    public ulong GuildJoinsChannelId { get; set; }
+    public ulong ConfessionReportChannelId { get; set; }
+    public ulong GlobalBanReportChannelId { get; set; }
+    public ulong PronounAbuseReportChannelId { get; set; }
 
     public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
 
