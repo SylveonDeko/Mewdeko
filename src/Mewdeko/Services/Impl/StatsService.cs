@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IHttpClientFactory Factory { get; }
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
-    public const string BOT_VERSION = "6.00";
+    public const string BOT_VERSION = "6.01";
 
 
     private readonly DateTime _started;
@@ -96,8 +96,6 @@ public class StatsService : IStatsService
                                  content).ConfigureAwait(false))
                 {
                 }
-                var chan = await Client.Rest.GetChannelAsync(934661783480832000) as RestTextChannel;
-                await chan.SendMessageAsync("Sent count to top.gg!");
             }
             catch (Exception ex)
             {

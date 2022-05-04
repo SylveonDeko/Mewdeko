@@ -100,7 +100,22 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         await Service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient,
             modal.Suggestion, ctx.Channel as ITextChannel, ctx.Interaction);
     }
-    
+    [SlashCommand("clear", "Clears all suggestions. Cannot be undone.")]
+    public async Task SuggestClear()
+    {
+        await DeferAsync();
+        var suggests = Service.Suggestions(ctx.Guild.Id);
+        if (!suggests.Any())
+        {
+            await ctx.Interaction.SendErrorFollowupAsync("There are no suggestions to clear.");
+            return;
+        }
+        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id))
+        {
+            await Service.SuggestReset(ctx.Guild);
+            await ctx.Interaction.SendConfirmFollowupAsync("Suggestions cleared.");
+        }
+    }
     [SlashCommand("deny", "Denies a suggestion"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
     public async Task Deny([Summary(description:"The number of the suggestion.")][Autocomplete(typeof(SuggestionAutocompleter))]ulong suggestid, string? reason = null) =>
