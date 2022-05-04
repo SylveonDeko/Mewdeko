@@ -2,7 +2,7 @@ using Discord;
 using Discord.Interactions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Autocompleters;
 
 public class ChatTriggerAutocompleter : AutocompleteHandler
 {

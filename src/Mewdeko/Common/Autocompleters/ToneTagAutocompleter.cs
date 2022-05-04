@@ -1,7 +1,8 @@
 using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Mewdeko.Modules.Searches.Services;
+
+namespace Mewdeko.Common.Autocompleters;
 
 public class ToneTagAutocompleter : AutocompleteHandler
 {
