@@ -452,7 +452,7 @@ afktype:
   args:
     - onmessage
     - ontype
-    - sefdisable
+    - selfdisable
     - '3'
     - '2'
     - '1'
