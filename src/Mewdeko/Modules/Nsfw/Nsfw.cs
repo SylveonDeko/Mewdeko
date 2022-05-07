@@ -159,7 +159,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             await Task.CompletedTask;
             return new PageBuilder()
                    .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
-                   .WithImageUrl(client.GetPictureUrl(book, page+1))
+                   .WithImageUrl(NHentaiClient.GetPictureUrl(book, page+1).AbsoluteUri)
                    .WithOkColor();
         }
     }
@@ -198,7 +198,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                                     .AddField("NHentai Magic URL",
                                         $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
                                     .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
-                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()));
+                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
         }
     }
 
