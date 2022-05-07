@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Tests", "src\Mewdek
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Votes", "src\Mewdeko.Votes\Mewdeko.Votes.csproj", "{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHentaiAPI", "C:\Users\Sylveon\Documents\NHentaiAPI\NHentaiAPI\NHentaiAPI.csproj", "{5714719E-A27E-4650-A430-0EBC00F286BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
