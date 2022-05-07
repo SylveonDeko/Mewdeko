@@ -267,6 +267,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(allRewards.Count / 9)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -427,6 +428,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(lines.Length / 15)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -476,6 +478,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(allUsers.Count / 9)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

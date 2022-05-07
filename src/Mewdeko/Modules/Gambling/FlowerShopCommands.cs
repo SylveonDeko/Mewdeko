@@ -58,6 +58,7 @@ public partial class Gambling
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(entries.Count / 9)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

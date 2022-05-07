@@ -231,6 +231,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(greets.Length-1)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,

@@ -157,6 +157,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(groups.Select(x => x.Count()).FirstOrDefault() - 1)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactive.SendPaginatorAsync(paginator, Context.Channel,

@@ -377,7 +377,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(duckDuckGoImageResults.Length)
-                                                          .WithDefaultEmotes().Build();
+                                                          .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -397,6 +398,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
                                                       .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                       .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                       .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
@@ -590,6 +592,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                     .WithMaxPageIndex(items.Length - 1)
                     .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -661,6 +664,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(col.Count - 1)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

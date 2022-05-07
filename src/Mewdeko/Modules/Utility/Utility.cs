@@ -62,6 +62,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(emotes.Length / 10)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -235,6 +236,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(msg.Count() - 1)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -283,6 +285,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(msg.Count() - 1)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -664,6 +667,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(roleUsers.Length / 20)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -699,6 +703,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(roleUsers.Length / 20)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -883,6 +888,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .WithMaxPageIndex(result.Results.Count / 10)
             .WithDefaultCanceledPage()
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));

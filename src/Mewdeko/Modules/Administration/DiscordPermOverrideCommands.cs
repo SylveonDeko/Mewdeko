@@ -68,6 +68,7 @@ public partial class Administration
                 .WithMaxPageIndex(overrides.Count)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
