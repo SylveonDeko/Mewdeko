@@ -373,6 +373,7 @@ public partial class Searches
                             .WithMaxPageIndex(result.Data.Count - 1)
                             .WithDefaultCanceledPage()
                             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                             .Build();
             await msg.DeleteAsync();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

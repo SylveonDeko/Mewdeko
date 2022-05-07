@@ -200,6 +200,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(afks.ToArray().Length / 20)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -255,6 +256,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(mentions.ToArray().Length / 20)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

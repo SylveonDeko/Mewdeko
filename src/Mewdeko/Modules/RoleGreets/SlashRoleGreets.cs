@@ -210,6 +210,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(greets.Length - 1)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,

@@ -868,7 +868,6 @@ public class SuggestionsService : INService
 
         return emotes.Split(",")[num - 1].ToIEmote();
     }
-
     public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
 
     public string GetSuggestionMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestMessage;

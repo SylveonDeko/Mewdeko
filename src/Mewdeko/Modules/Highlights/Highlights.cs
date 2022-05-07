@@ -76,6 +76,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                 .WithMaxPageIndex(highlightsForUser.Count() / 10)
                                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                 .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
@@ -145,6 +146,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                 .WithMaxPageIndex(matched.Count() / 10)
                                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                 .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,

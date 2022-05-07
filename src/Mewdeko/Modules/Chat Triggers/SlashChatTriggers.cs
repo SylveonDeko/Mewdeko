@@ -140,6 +140,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(chatTriggers.Length / 20)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -188,6 +189,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(chatTriggers.Length / 20)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);

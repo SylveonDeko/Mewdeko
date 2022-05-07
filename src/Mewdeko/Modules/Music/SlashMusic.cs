@@ -97,6 +97,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         .WithMaxPageIndex(plists.Count() / 15)
                         .WithDefaultCanceledPage()
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
         await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
@@ -154,7 +155,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(plist.Songs.Count() / 15)
-                                                          .WithDefaultCanceledPage().WithDefaultEmotes().Build();
+                                                          .WithDefaultCanceledPage().WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -1107,6 +1109,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         .WithMaxPageIndex(queue.Count / 10)
                         .WithDefaultCanceledPage()
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60));

@@ -129,6 +129,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(chatTriggers.Length / 20)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false); ;
@@ -177,6 +178,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(chatTriggers.Length / 20)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false); ;

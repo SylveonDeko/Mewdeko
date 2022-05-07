@@ -118,6 +118,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(perms.Count / 10)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 

@@ -136,6 +136,7 @@ public partial class Utility
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
@@ -182,6 +183,7 @@ public partial class Utility
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
