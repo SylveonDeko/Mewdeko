@@ -194,7 +194,7 @@ public class SearchImageCacher : INService
         }
     }
 
-    public async Task<ImageData> GetImageNew(string[] tags, bool forceExplicit, Booru type,
+    public async Task<ImageData> GetImageNew(string?[] tags, bool forceExplicit, Booru type,
         HashSet<string> blacklistedTags, CancellationToken cancel)
     {
         // make sure tags are proper
@@ -248,7 +248,9 @@ public class SearchImageCacher : INService
             {
                 if (maxPage == 0)
                 {
+                    #if DEBUG
                     Log.Information("Tag {0} yields no result on {1}, skipping.", tagStr, type);
+                    #endif
                     return new();
                 }
 
@@ -263,7 +265,9 @@ public class SearchImageCacher : INService
 
             if (result is null or { Count: 0 })
             {
+                #if DEBUG
                 Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
+                #endif
                 continue;
             }
 
