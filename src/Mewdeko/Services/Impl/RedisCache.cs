@@ -143,7 +143,7 @@ public class RedisCache : IDataCache
     public Task<bool> TryAddHighlightStaggerUser(ulong userId)
     {
         var db = Redis.GetDatabase();
-        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2), When.NotExists));
+        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2), when: When.NotExists));
     }
     public string GetIgnoredUsers(ulong guildId, ulong userId)
     {
@@ -265,7 +265,7 @@ public class RedisCache : IDataCache
     public Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
-        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(10), When.NotExists));
+        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(10), when: When.NotExists));
     }
 
     public Task<bool> GetHighlightStagger(ulong guildId, ulong userId)
@@ -279,7 +279,7 @@ public class RedisCache : IDataCache
         if (db.StringSet($"{_redisKey}_ratelimit_{id}_{name}",
                 0, // i don't use the value
                 TimeSpan.FromSeconds(expireIn),
-                When.NotExists))
+                when: When.NotExists))
             return null;
 
         return db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
