@@ -106,6 +106,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         .WithMaxPageIndex(plists.Count() / 15)
                         .WithDefaultCanceledPage()
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
@@ -161,7 +162,8 @@ public class Music : MewdekoModuleBase<MusicService>
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(plist.Songs.Count() / 15)
-                                                          .WithDefaultCanceledPage().WithDefaultEmotes().Build();
+                                                          .WithDefaultCanceledPage().WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -1123,6 +1125,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithMaxPageIndex(queue.Count / 10)
             .WithDefaultCanceledPage()
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

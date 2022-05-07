@@ -21,7 +21,7 @@ public class GameVoiceChannelService : INService
     }
     
 
-    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
+    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
         _ = Task.Run(async () =>
         {

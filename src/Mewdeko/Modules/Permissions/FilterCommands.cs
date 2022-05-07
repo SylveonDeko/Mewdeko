@@ -59,6 +59,7 @@ public partial class Permissions
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                     .WithMaxPageIndex(words.Count() / 10)
                     .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -350,6 +351,7 @@ public partial class Permissions
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(fws.Length / 10)
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;

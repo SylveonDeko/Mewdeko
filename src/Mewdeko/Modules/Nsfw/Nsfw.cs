@@ -135,8 +135,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         var book = await client.GetBookAsync(num);
         var title = book.Title.English;
         var pages = book.Images.Pages;
-        var tags = new List<string>();
-        foreach (var i in book.Tags) tags.Add(i.Name);
+        var tags = book.Tags.Select(i => i.Name).ToList();
         if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
 
         {
@@ -148,8 +147,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(pages.Count())
+            .WithMaxPageIndex(pages.Count-1)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -159,8 +159,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             await Task.CompletedTask;
             return new PageBuilder()
                    .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
-                   .WithImageUrl(client.GetPictureUrl(book, page))
-                   .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500));
+                   .WithImageUrl(client.GetPictureUrl(book, page+1))
+                   .WithOkColor();
         }
     }
 
@@ -169,7 +169,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         var client = new NHentaiClient();
 
-        var result = await client.GetSearchPageListAsync($"search {exclude} -lolicon -loli -shota -shotacon", page);
+        var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page);
         if (!result.Result.Any())
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
@@ -182,6 +182,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
             .WithMaxPageIndex(result.Result.Count - 1)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
@@ -197,7 +198,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                                     .AddField("NHentai Magic URL",
                                         $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
                                     .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
-                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page).FirstOrDefault()));
+                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()));
         }
     }
 

@@ -103,6 +103,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithMaxPageIndex(users.Count() - 1)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -163,6 +164,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithMaxPageIndex(guildUsers.Length - 1)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
 

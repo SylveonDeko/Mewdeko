@@ -245,6 +245,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(greets.Length-1)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,

@@ -71,6 +71,11 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
     }
 
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+    public async Task TopSuggestions()
+    {
+        
+    }
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task SuggestClear()
     {

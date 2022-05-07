@@ -154,6 +154,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(gways.Count() / 5)
                         .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
