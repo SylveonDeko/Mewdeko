@@ -608,6 +608,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                         .WithDescription(item.Definition);
                 }
             }
+            else
+            {
+                await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
+            }
         }
         catch
         {
