@@ -467,7 +467,7 @@ public class XpService : INService, IUnloadableService
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int e;
         e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
-        _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), When.NotExists);
+        _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
     public int GetXpTimeout(ulong? id)
@@ -633,7 +633,7 @@ public class XpService : INService, IUnloadableService
         var key = $"{_creds.RedisKey()}_user_xp_gain_{userId.Id}";
         int e;
         e = GetXpTimeout(userId.Guild.Id) == 0 ? _xpConfig.Data.MessageXpCooldown : GetXpTimeout(userId.Guild.Id);
-        return r.StringSet(key, true, TimeSpan.FromMinutes(e), When.NotExists);
+        return r.StringSet(key, true, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
     public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
