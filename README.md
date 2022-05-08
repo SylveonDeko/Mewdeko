@@ -13,6 +13,8 @@
 
 </a>
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B03QN1K)
+
 # Table of Contents
 ### - [About Mewdeko](About-Mewdeko.md)
 ### - [Selfhost Guide (Windows)](Selfhost-Windows.md)
