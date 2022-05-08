@@ -46,7 +46,7 @@ public class WebhookController : ControllerBase
 
     [HttpPost("/topggwebhook")]
     [Authorize(Policy = Policies.TOPGG_AUTH)]
-    public async Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
+    public Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
     { 
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
@@ -58,7 +58,7 @@ public class WebhookController : ControllerBase
             await Events.InvokeTopGg(data);
             await SendWebhook(ulong.Parse(data.User), "Top.GG");
         });
-        return Ok();
+        return Task.FromResult<IActionResult>(Ok());
     }
 
     private async Task SendWebhook(ulong userId, string platform)

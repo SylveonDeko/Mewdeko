@@ -81,11 +81,6 @@ public class CmdCdService : ILateBlocker, INService
 
         return Task.FromResult(false);
     }
-
-    public async Task TryBlockChannel(ulong channelID)
-    {
-
-    }
 }
 
 public class ActiveCooldown
