@@ -201,7 +201,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 {
                     CTRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
                     CTRoleGrantType.Sender => new List<ulong>() {msg.Author.Id},
-                    CTRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id)
+                    CTRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id),
+                    _ => new List<ulong>()
                 };
 
                 foreach (var userId in effectedUsers)

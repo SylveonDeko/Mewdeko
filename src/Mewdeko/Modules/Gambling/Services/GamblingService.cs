@@ -10,6 +10,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Services;
@@ -80,22 +81,13 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
     public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
     public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
-    public bool GetVoted(ulong id)
+    public async Task<bool> GetVoted(ulong id)
     {
-        var url = $"https://top.gg/api/bots/{_bot.Client.CurrentUser.Id}/check?userId={id}";
-#pragma warning disable CS0618
-        var request = WebRequest.Create(url);
-#pragma warning restore CS0618
-        request.Method = "GET";
-        request.Headers.Add("Authorization",
-            _creds.VotesToken);
-        using var webResponse = request.GetResponse();
-        using var webStream = webResponse.GetResponseStream();
-
-        using var reader = new StreamReader(webStream);
-        var data = reader.ReadToEnd();
-        return data.Contains("{\"voted\":1}");
-    }
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", _creds.VotesToken);
+        var tocheck = await client.GetStringAsync($"https://top.gg/api/bots/{_client.CurrentUser.Id}/check?userId={id}");
+        return tocheck.Contains('1');
+}
 
     public EconomyResult GetEconomy()
     {

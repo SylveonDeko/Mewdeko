@@ -131,7 +131,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var val = 25000;
         var period = 3;
         TimeSpan? rem;
-        if (!Service.GetVoted(ctx.User.Id))
+        if (!await Service.GetVoted(ctx.User.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 "You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
