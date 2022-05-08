@@ -8,6 +8,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;
 using Mewdeko.Modules.Permissions.Common;
@@ -77,6 +78,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private readonly object _gcrWriteLock = new();
     private readonly GlobalPermissionService _gperm;
+    private readonly DiscordPermOverrideService _discordPermOverride;
     private readonly PermissionService _perms;
     private readonly IPubSub _pubSub;
     private readonly Random _rng;
@@ -94,7 +96,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public ChatTriggersService(PermissionService perms, DbService db, IBotStrings strings,
         Mewdeko bot,
         DiscordSocketClient client, CommandHandler cmd, GlobalPermissionService gperm, CmdCdService cmdCds,
-        IPubSub pubSub)
+        IPubSub pubSub,
+        DiscordPermOverrideService discordPermOverride)
     {
         _db = db;
         _client = client;
@@ -105,6 +108,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         _cmdCds = cmdCds;
         _gperm = gperm;
         _pubSub = pubSub;
+        _discordPermOverride = discordPermOverride;
         _rng = new MewdekoRandom();
 
         _pubSub.Sub(_crsReloadedKey, OnCrsShouldReload);
@@ -129,11 +133,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return false;
         if (await _cmdCds.TryBlock(guild, msg.Author, cr.Trigger))
             return false;
+        
 
         try
         {
             if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
-
+            
             if (guild is SocketGuild sg)
             {
                 var pc = _perms.GetCacheFor(guild.Id);
@@ -158,6 +163,16 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     }
 
                     return true;
+                }
+
+                if (_discordPermOverride.TryGetOverrides(guild.Id, cr.Trigger, out var perms))
+                {
+                    var user = msg.Author as IGuildUser;
+                    if (!user.GuildPermissions.Has(perms.Value))
+                    {
+                        Log.Information($"Chat Trigger {cr.Trigger} Blocked for {msg.Author} in {guild} due to them missing {perms}.");
+                        return false;
+                    }
                 }
             }
 
@@ -195,12 +210,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 // ignored
             }
 
-            if (cr.GuildId is not null && msg is IUserMessage userMessage && msg.Author is IGuildUser guildUser)
+            if (cr.GuildId is not null && msg?.Author is IGuildUser guildUser)
             {
                 var effectedUsers = cr.RoleGrantType switch
                 {
                     CTRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
-                    CTRoleGrantType.Sender => new List<ulong>() {msg.Author.Id},
+                    CTRoleGrantType.Sender => new List<ulong> {msg.Author.Id},
                     CTRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id),
                     _ => new List<ulong>()
                 };

@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IHttpClientFactory Factory { get; }
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
-    public const string BOT_VERSION = "6.03";
+    public const string BOT_VERSION = "6.1";
 
 
     private readonly DateTime _started;
