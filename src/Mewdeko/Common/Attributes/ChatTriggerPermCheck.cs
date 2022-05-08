@@ -24,7 +24,6 @@ public class ChatTriggerPermCheck : PreconditionAttribute
             return Task.FromResult(!creds.IsOwner(context.User) ? PreconditionResult.FromError("You must be a bot owner to add global Chat Triggers!") : PreconditionResult.FromSuccess());
         }
         var permService = services.GetService<DiscordPermOverrideService>();
-        Debug.Assert(permService != null, $"{nameof(permService)} != null");
         return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var _)
             ? Task.FromResult(PreconditionResult.FromSuccess())
             : UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
