@@ -167,10 +167,10 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
     
-    public async Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
+    public Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
-        return customers[id];
+        return Task.FromResult(customers[id]);
     }
 
     public List<Highlights> GetHighlightsForGuild(ulong id)

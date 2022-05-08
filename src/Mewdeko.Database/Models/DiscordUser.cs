@@ -27,6 +27,6 @@ public class DiscordUser : DbEntity
 
     public bool IsDragon { get; set; }
     public string Pronouns { get; set; }
-    public string? PronounsClearedReason { get; set; }
+    public string PronounsClearedReason { get; set; }
     public bool PronounsDisabled { get; set; }
 }
