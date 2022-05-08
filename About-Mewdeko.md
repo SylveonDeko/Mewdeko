@@ -1,27 +1,11 @@
 ﻿<h1 align="center"><a href="https://mewdeko.tech/">Mewdeko</a> - the 🌸<em>kawaii</em>🌸 Discord bot!</h1>
 <p align="center">
     <img height="400px" src="https://media.discordapp.net/attachments/915770282579484693/916912959169634334/monogatari-series-background-hd-1600x900-108924.jpg" alt="mewdeko banner~ nya"/>
-    <br>
-    <a href="https://discord.gg/bBcp69VMjF">
-        <img src="https://discordapp.com/api/guilds/843489716674494475/widget.png" alt="Get support at the Mewdeko's Clubhouse discord server!">
-    </a>
-    <a href="https://opensource.org/licenses/AGPL-3.0">
-        <img src="https://img.shields.io/badge/license-AGPLv3-pink" alt="GNU AGPLv3">
-    </a>
-    <a href="https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands">
-        <img src="https://img.shields.io/badge/discord-add%20mewdeko!-pink" alt="Invite Mewdeko to your server!">
-    </a>
-    <a href="https://top.gg/bot/752236274261426212">
-        <img src="https://img.shields.io/badge/top.gg-mewdeko%20nya~-pink" alt="Invite Mewdeko to your server!">
-    </a>
-<a href="https://deepsource.io/gh/Sylveon76/Mewdeko/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/Sylveon76/Mewdeko.svg/?label=active+issues&show_trend=true&token=VcLitooif2JEfTAH55aJS-5z"/></a>
-
 </p>
 
 
 ## Cute but *Powerful.* ( ◕‿◕✿)
 Mewdeko is a bot that combines customization, moderation and other community-enhancing features and tools to your Discord server.
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B03QN1K)
 
 ### Fun.
 Above all, this bot is made to make your server work for you and your community - including cute games, surprises, and more!
