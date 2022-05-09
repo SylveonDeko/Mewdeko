@@ -1,5 +1,6 @@
 using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Modals;
@@ -9,6 +10,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
+using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -17,10 +19,12 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
 {
     private readonly DbService _db;
     private readonly Mewdeko _bot;
-    public SlashPronoun(DbService db, Mewdeko bot)
+    private readonly BlacklistService _bss; 
+    public SlashPronoun(DbService db, Mewdeko bot, BlacklistService bss)
     {
         _db = db;
         _bot = bot;
+        _bss = bss;
     }
 
     [ComponentInteraction("pronouns_overwrite", true), BlacklistCheck]
@@ -65,16 +69,59 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                                .ConfigureAwait(false);
         var eb = new EmbedBuilder().WithAuthor(ctx.User).WithTitle("Pronoun abuse report")
                                    .AddField("Reported User", $"{user.Username} ({user.UserId}, <@{user.UserId}>)")
+                                   .AddField("Reporter", $"{reporter.Username} ({reporter.UserId}, <@{reporter.UserId}>)")
                                    .AddField("Pronouns Cleared Reason",
                                        string.IsNullOrWhiteSpace(user.PronounsClearedReason)
                                            ? "Never Cleared"
                                            : user.PronounsClearedReason)
                                    .AddField("Pronouns", user.Pronouns)
+                                   .WithFooter($"reported in the guild {ctx.Guild?.Id ?? 0} on shard {(ctx.Client as DiscordSocketClient)?.ShardId ?? 0}")
                                    .WithErrorColor();
-        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        var cb = new ComponentBuilder()
+                 .WithButton("Reported User", "reported_row", ButtonStyle.Secondary, disabled: true)
+                 .WithButton("Clear Pronouns", $"pronouns_clear:{user.UserId},false", ButtonStyle.Danger)
+                 .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{user.UserId},true", ButtonStyle.Danger)
+                 .WithButton("Blacklist User", $"pronouns_blacklist:{user.UserId}", ButtonStyle.Danger)
+                 .WithButton("Reporter", "reporter_row", ButtonStyle.Secondary, disabled: true, row: 1)
+                 .WithButton("Clear Pronouns", $"pronouns_clear:{reporter.UserId},false", ButtonStyle.Danger, row: 1)
+                 .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger, row: 1)
+                 .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
+                 .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
+                 .WithButton("Blacklist guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2);
+        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components:cb.Build()).ConfigureAwait(false);
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
     }
 
+    [ComponentInteraction("pronouns_clear:*,*", true), BlacklistCheck, OwnerOnly]
+    public async Task ClearPronouns(string sId, string sDisable) =>
+        await RespondWithModalAsync<PronounsFCBlacklistModal>($"pronouns_fc_action:{sId},{sDisable},false");
+
+    [ComponentInteraction("pronouns_blacklist:*", true), BlacklistCheck, OwnerOnly]
+    public async Task BlacklistPronouns(string sId) =>
+        await RespondWithModalAsync<PronounsFCBlacklistModal>($"pronouns_fc_action:{sId},true,true");
+
+    [ComponentInteraction("pronouns_blacklist_guild:*", true), BlacklistCheck, OwnerOnly]
+    public async Task BlacklistGuildPronouns(string sId)
+    {
+        _bss.Blacklist(BlacklistType.Server, ulong.Parse(sId));
+        await RespondAsync("Blacklisted guild.").ConfigureAwait(false);
+    }
+
+    [ModalInteraction("pronouns_fc_action:*,*,*", true), BlacklistCheck, OwnerOnly]
+    public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFCBlacklistModal modal)
+    {
+        ulong userId = ulong.Parse(sId);
+        await using var uow = _db.GetDbContext();
+        var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
+        user.Pronouns = "";
+        user.PronounsDisabled = bool.TryParse(sPronounsDisable, out var disable) && disable;
+        user.PronounsClearedReason = modal.FcReason;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        if (bool.TryParse(sBlacklist, out var blacklist) && blacklist)
+            _bss.Blacklist(BlacklistType.User, user.UserId);
+        await RespondAsync("completed moderation actions.").ConfigureAwait(false);
+    }
+    
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
         if (!user.PronounsDisabled) return false;
