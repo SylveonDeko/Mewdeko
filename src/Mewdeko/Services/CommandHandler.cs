@@ -397,8 +397,9 @@ public class CommandHandler : INService
                 await restChannel.SendMessageAsync(embed: eb.Build());
             }
 
-            if (channel.Guild is null) return;
+            if (channel?.Guild is null) return;
             var guildChannel = _bot.GetGuildConfig(channel.Guild.Id).CommandLogChannel;
+            if (guildChannel == 0) return;
             var toSend = await _client.Rest.GetChannelAsync(guildChannel);
             if (toSend is RestTextChannel restTextChannel)
             {

@@ -153,6 +153,6 @@ There really is a {loonix}, and these people are using it, but it is just a part
         var user = _db.GetOrCreateUser(ctx.User);
         user.IsDragon = !user.IsDragon;
         await _db.SaveChangesAsync();
-        await ReplyConfirmLocalizedAsync("dragon_set").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset").ConfigureAwait(false);
     }
 }

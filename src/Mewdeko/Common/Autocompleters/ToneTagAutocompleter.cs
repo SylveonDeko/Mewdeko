@@ -17,6 +17,6 @@ public class ToneTagAutocompleter : AutocompleteHandler
                                                              StringComparison.InvariantCultureIgnoreCase))
                                                          .OrderByDescending(x =>
                                                              x.StartsWith(inter.Data.Current.Value as string,
-                                                                 StringComparison.InvariantCultureIgnoreCase)).Take(20)
+                                                                 StringComparison.InvariantCultureIgnoreCase)).Take(25)
                                                          .Select(x => new AutocompleteResult(x, x))));
 }
