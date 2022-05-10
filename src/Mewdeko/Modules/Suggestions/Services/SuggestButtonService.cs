@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Suggestions.Services;
 
 public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 {
-    [ComponentInteraction("emotebutton:*"), BlacklistCheck]
+    [ComponentInteraction("emotebutton:*")]
     public async Task UpdateCount(string number)
     {
         await DeferAsync(true);
@@ -82,7 +82,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build());
     }
 
-    [ComponentInteraction("publicsuggestthread:*"), BlacklistCheck]
+    [ComponentInteraction("publicsuggestthread:*")]
     public async Task PublicThreadStartOrJoin(string suggestnum)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;
@@ -106,7 +106,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
     
-    [ComponentInteraction("privatesuggestthread:*"), BlacklistCheck]
+    [ComponentInteraction("privatesuggestthread:*")]
     public async Task PrivateThreadStartOrJoin(string suggestnum)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;
@@ -131,7 +131,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
 
-    [ComponentInteraction("suggestbutton"), BlacklistCheck]
+    [ComponentInteraction("suggestbutton")]
     public async Task SendSuggestModal()
         => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
                         null,

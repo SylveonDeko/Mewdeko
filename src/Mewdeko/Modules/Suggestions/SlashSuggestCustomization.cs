@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Suggestions;
 public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsService>
 {
     [SlashCommand("suggestmessage", "Allows to set a custom embed when suggesting."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SuggestMessage(string embed)
     {
         if (embed == "-")
@@ -28,7 +28,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("suggestminlength", "Set the minimum suggestion length."), Discord.Interactions.RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions, BlacklistCheck]
+     CheckPermissions]
     public async Task MinSuggestionLength(int length)
     {
         if (length >= 2048)
@@ -42,7 +42,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("suggestmaxlength", "Set the maximum suggestion length."), Discord.Interactions.RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions, BlacklistCheck]
+     CheckPermissions]
     public async Task MaxSuggestionLength(int length)
     {
         if (length <= 0)
@@ -56,7 +56,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("acceptmessage", "Allows to set a custom embed when a suggestion is accepted."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AcceptMessage(string embed)
     {
         if (embed == "-")
@@ -71,7 +71,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("implementmessage", "Allows to set a custom embed when a suggestion is set implemented."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ImplementMessage(string embed)
     {
         if (embed == "-")
@@ -86,7 +86,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("denymessage", "Allows to set a custom embed when a suggestion is denied."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task DenyMessage(string embed)
     {
         if (embed == "-")
@@ -101,7 +101,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("considermessage", "Allows to set a custom embed when a suggestion is considered."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ConsiderMessage(string embed)
     {
         if (embed == "-")
@@ -116,7 +116,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("emotesmode", "Set whether suggestmotes are buttons or reactions"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SuggestMotesMode(Suggestions.SuggestEmoteModeEnum mode)
     {
         await Service.SetEmoteMode(ctx.Guild, (int)mode);
@@ -124,7 +124,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("buttoncolor", "Change the color of the suggestion button"), Discord.Interactions.RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions, BlacklistCheck]
+     CheckPermissions]
     public async Task SuggestButtonColor(Suggestions.ButtonType type)
     {
         await Service.SetSuggestButtonColor(ctx.Guild, (int)type);
@@ -133,7 +133,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("emotecolor", "Set the color of each button on a suggestion"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SuggestMoteColor([Discord.Interactions.Summary("number", "The number you want to change")] int num, Suggestions.ButtonType type)
     {
         await Service.SetButtonType(ctx.Guild, num, (int)type);
@@ -142,7 +142,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("acceptchannel", "Set the channel accepted suggestions get sent to."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AcceptChannel(ITextChannel? channel = null)
     {
         await Service.SetAcceptChannel(ctx.Guild, channel?.Id ?? 0);
@@ -153,7 +153,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("denychannel", "Set the channel denied suggestions go to."), Discord.Interactions.RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions, BlacklistCheck]
+     CheckPermissions]
     public async Task DenyChannel(ITextChannel? channel = null)
     {
         await Service.SetDenyChannel(ctx.Guild, channel?.Id ?? 0);
@@ -164,7 +164,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("considerchannel", "Set the channel considered suggestions go to."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ConsiderChannel(ITextChannel? channel = null)
     {
         await Service.SetConsiderChannel(ctx.Guild, channel?.Id ?? 0);
@@ -175,7 +175,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("implementchannel", "Set the channel where implemented suggestions go"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ImplementChannel(ITextChannel? channel = null)
     {
         await Service.SetImplementChannel(ctx.Guild, channel?.Id ?? 0);
@@ -186,7 +186,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("threadstype", "Set the type of threads used in suggestions."), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SuggestThreadsType(Suggestions.SuggestThreadType type)
     {
 
@@ -202,7 +202,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
 
 
     [SlashCommand("archiveondeny", "Set whether threads auto archive on deny"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ArchiveOnDeny()
     {
         var current = Service.GetArchiveOnDeny(ctx.Guild);
@@ -211,7 +211,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("archiveonaccept", "Set whether threads auto archive on accept"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ArchiveOnAccept()
     {
         var current = Service.GetArchiveOnAccept(ctx.Guild);
@@ -220,7 +220,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("archiveonconsider", "Set whether threads auto archive on consider"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ArchiveOnConsider()
     {
         var current = Service.GetArchiveOnConsider(ctx.Guild);
@@ -229,7 +229,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("archiveonimplement", "Set whether threads auto archive on implement"), Discord.Interactions.RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ArchiveOnImplement()
     {
         var current = Service.GetArchiveOnImplement(ctx.Guild);

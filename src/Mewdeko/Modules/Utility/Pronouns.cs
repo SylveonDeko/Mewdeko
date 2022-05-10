@@ -7,6 +7,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -76,6 +77,16 @@ public partial class Utility
         {
             await using var uow = _db.GetDbContext();
             var dbUser = uow.GetOrCreateUser(user);
+            dbUser.PronounsDisabled = pronounsDisabledAbuse;
+            dbUser.PronounsClearedReason = reason;
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared");
+        }
+        [Cmd, Aliases, OwnerOnly]
+        public async Task PronounOverrideForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
+        {
+            await using var uow = _db.GetDbContext();
+            var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user);
             dbUser.PronounsDisabled = pronounsDisabledAbuse;
             dbUser.PronounsClearedReason = reason;
             await uow.SaveChangesAsync().ConfigureAwait(false);
