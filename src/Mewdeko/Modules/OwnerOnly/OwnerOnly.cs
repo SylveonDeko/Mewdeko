@@ -44,6 +44,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IBotStrings _strings;
     private readonly InteractiveService _interactivity;
     private readonly IDataCache _cache;
+    private readonly CommandService _commandService;
+    private readonly IServiceProvider _services;
 
 
     public OwnerOnly(
@@ -54,7 +56,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         ICoordinator coord,
         IEnumerable<IConfigService> settingServices,
         DbService db,
-        IDataCache cache)
+        IDataCache cache,
+        CommandService commandService,
+        IServiceProvider services)
     {
         _interactivity = serv;
         _client = client;
@@ -64,6 +68,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _settingServices = settingServices;
         _db = db;
         _cache = cache;
+        _commandService = commandService;
+        _services = services;
     }
 
     [Cmd, Aliases]
@@ -354,7 +360,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{Prefix}restart", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser) ctx.User;
@@ -387,7 +393,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture))
             return;
-
+        var command = _commandService.Search(cmdText.Replace(Prefix, "").Split(" ")[0]);
+        if (!command.IsSuccess)
+            return;
+        foreach (var i in command.Commands)
+        {
+            if (!(await i.CheckPreconditionsAsync(ctx, _services)).IsSuccess)
+                return;
+        }
+        var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
+        
+        if (count.Count() == 15)
+            return;
         if (interval < 5)
             return;
 

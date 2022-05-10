@@ -61,8 +61,9 @@ public class SearchImageCacher : INService
             // Log.Warning("Got no images for {0}, tags: {1}", type, string.Join(", ", tags));
             return false;
         }
-
+        #if DEBUG
         Log.Information("Updating {0}...", type);
+        #endif
         lock (_typeLocks[type])
         {
             var typeUsedTags = _usedTags[type];

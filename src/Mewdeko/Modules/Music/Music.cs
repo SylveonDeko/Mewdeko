@@ -588,7 +588,6 @@ public class Music : MewdekoModuleBase<MusicService>
             await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!");
             return;
         }
-
         var voiceState = Context.User as IVoiceState;
         if (voiceState?.VoiceChannel == null)
         {
