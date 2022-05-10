@@ -40,7 +40,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _ch = ch;
     }
 
-    [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
+    [SlashCommand("help", "Shows help on how to use the bot")]
     public async Task Modules()
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
@@ -56,7 +56,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         }
     }
 
-    [ComponentInteraction("helpselect", true), BlacklistCheck]
+    [ComponentInteraction("helpselect", true)]
     public async Task HelpSlash(string[] selected)
     {
         var currentmsg = Service.GetUserMessage(ctx.User) ?? new MewdekoUserMessage()
@@ -141,23 +141,23 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)\nDo `{Prefix}h commandname` to see info on that command")
+                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/Mewdeko)\nDo `{Prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
-    [SlashCommand("invite", "You should invite me to your server and check all my features!"), BlacklistCheck]
+    [SlashCommand("invite", "You should invite me to your server and check all my features!")]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link",
                 "[Click Here](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
             .AddField("Website/Docs", "https://mewdeko.tech")
-            .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
+            .AddField("Support Server", "https://discord.gg/Mewdeko")
             .WithOkColor();
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
-    [SlashCommand("search", "get information on a specific command"), BlacklistCheck]
+    [SlashCommand("search", "get information on a specific command")]
     public async Task Search
     (
         [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
@@ -175,7 +175,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondAsync(embed: embed.Build(), components:comp.Build());
     }
 
-    [ComponentInteraction("runcmd.*", true), BlacklistCheck]
+    [ComponentInteraction("runcmd.*", true)]
     public async Task RunCmd(string command)
     {
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
@@ -188,7 +188,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("toggle-descriptions:*,*", true), BlacklistCheck]
+    [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
         if (ctx.User.Id.ToString() != sId) return;

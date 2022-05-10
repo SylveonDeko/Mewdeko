@@ -8,6 +8,7 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -274,10 +275,26 @@ public class CommandHandler : INService
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
-
         _ = Task.Run(async () =>
         {
             var ctx = new SocketInteractionContext(_client, interaction);
+            var blacklistService = _services.GetService<BlacklistService>();
+            var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
+                url: "https://discord.gg/Mewdeko").Build();
+            foreach (var bl in blacklistService.BlacklistEntries)
+            {
+                if (ctx.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == ctx.Guild.Id)
+                {
+                    await ctx.Interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components:cb);
+                    return;
+                }
+
+                if (bl.Type == BlacklistType.User && bl.ItemId == ctx.User.Id)
+                {
+                    await ctx.Interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral:true, components:cb);
+                    return;
+                }
+            }
             await InteractionService.ExecuteCommandAsync(ctx, _services);
         });
         return Task.CompletedTask;
