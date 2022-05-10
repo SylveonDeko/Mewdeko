@@ -18,21 +18,21 @@ public partial class Permissions
         public BlacklistCommands(IBotCredentials creds) => _creds = creds;
 
         [Cmd, Aliases]
-        public Task UserBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.User, reason);
+        public Task UserBlacklist(AddRemove action, ulong id, [Remainder] string? reason) => Blacklist(action, id, BlacklistType.User, reason);
 
         [Cmd, Aliases]
-        public Task UserBlacklist(AddRemove action, IUser usr, [Remainder] string reason) => Blacklist(action, usr.Id, BlacklistType.User, reason);
+        public Task UserBlacklist(AddRemove action, IUser usr, [Remainder] string? reason) => Blacklist(action, usr.Id, BlacklistType.User, reason);
 
         [Cmd, Aliases]
-        public Task ChannelBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.Channel, reason);
+        public Task ChannelBlacklist(AddRemove action, ulong id, [Remainder] string? reason) => Blacklist(action, id, BlacklistType.Channel, reason);
 
         [Cmd, Aliases]
-        public Task ServerBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.Server, reason);
+        public Task ServerBlacklist(AddRemove action, ulong id, [Remainder] string? reason) => Blacklist(action, id, BlacklistType.Server, reason);
 
         [Cmd, Aliases]
-        public Task ServerBlacklist(AddRemove action, IGuild guild, [Remainder] string reason) => Blacklist(action, guild.Id, BlacklistType.Server, reason);
+        public Task ServerBlacklist(AddRemove action, IGuild guild, [Remainder] string? reason) => Blacklist(action, guild.Id, BlacklistType.Server, reason);
 
-        private async Task Blacklist(AddRemove action, ulong id, BlacklistType type, string reason)
+        private async Task Blacklist(AddRemove action, ulong id, BlacklistType type, string? reason)
         {
             switch (action)
             {
