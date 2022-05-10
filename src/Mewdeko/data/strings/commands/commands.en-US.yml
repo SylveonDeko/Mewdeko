@@ -1727,8 +1727,8 @@ userblacklist:
     Either [add]s or [rem]oves a user specified by a Mention or an ID from a
     blacklist.
   args:
-    - add @SomeUser
-    - rem 12312312313
+    - add @SomeUser spam pinging
+    - rem 12312312313 applied for unban
 channelblacklist:
   desc: 'Either [add]s or [rem]oves a channel specified by an ID from a blacklist.'
   args:
@@ -1738,7 +1738,7 @@ serverblacklist:
     Either [add]s or [rem]oves a server specified by a Name or an ID from a
     blacklist.
   args:
-    - add 12312321312
+    - add 12312321312 
     - rem SomeTrashServer
 cmdcooldown:
   desc: Sets a cooldown per user for a command. Set it to 0 to remove the cooldown.

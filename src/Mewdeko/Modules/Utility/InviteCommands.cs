@@ -39,7 +39,7 @@ public partial class Utility
             var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
                 .ConfigureAwait(false);
 
-            await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/Mewdeko{invite.Code}")
+            await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
                 .ConfigureAwait(false);
         }
     
