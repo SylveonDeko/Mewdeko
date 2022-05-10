@@ -18,28 +18,28 @@ public partial class Permissions
         public BlacklistCommands(IBotCredentials creds) => _creds = creds;
 
         [Cmd, Aliases]
-        public Task UserBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.User);
+        public Task UserBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.User, reason);
 
         [Cmd, Aliases]
-        public Task UserBlacklist(AddRemove action, IUser usr) => Blacklist(action, usr.Id, BlacklistType.User);
+        public Task UserBlacklist(AddRemove action, IUser usr, [Remainder] string reason) => Blacklist(action, usr.Id, BlacklistType.User, reason);
 
         [Cmd, Aliases]
-        public Task ChannelBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Channel);
+        public Task ChannelBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.Channel, reason);
 
         [Cmd, Aliases]
-        public Task ServerBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Server);
+        public Task ServerBlacklist(AddRemove action, ulong id, [Remainder] string reason) => Blacklist(action, id, BlacklistType.Server, reason);
 
         [Cmd, Aliases]
-        public Task ServerBlacklist(AddRemove action, IGuild guild) => Blacklist(action, guild.Id, BlacklistType.Server);
+        public Task ServerBlacklist(AddRemove action, IGuild guild, [Remainder] string reason) => Blacklist(action, guild.Id, BlacklistType.Server, reason);
 
-        private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
+        private async Task Blacklist(AddRemove action, ulong id, BlacklistType type, string reason)
         {
             switch (action)
             {
                 case AddRemove.Add when _creds.OwnerIds.Contains(id):
                     return;
                 case AddRemove.Add:
-                    Service.Blacklist(type, id);
+                    Service.Blacklist(type, id, reason);
                     break;
                 case AddRemove.Rem:
                 default:

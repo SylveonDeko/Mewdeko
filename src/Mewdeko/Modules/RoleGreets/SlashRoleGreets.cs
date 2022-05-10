@@ -19,7 +19,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     private InteractiveService interactivity;
     public RoleRoleGreets(InteractiveService interactivity) => this.interactivity = interactivity;
 
-    [SlashCommand("add","Add a role to RoleGreets."), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("add","Add a role to RoleGreets."), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task RoleGreetAdd(IRole role, ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -35,7 +35,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                 break;
         }
     }
-    [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num-1);
@@ -47,7 +47,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await Service.ChangeRgGb(greet, enabled);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} GreetBots set to {enabled}");
     }
-    [SlashCommand("remove","Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("remove","Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(int id)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
@@ -61,7 +61,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await ctx.Interaction.SendConfirmAsync("RoleGreet removed!");
     }
 
-    [SlashCommand("removerole","Removes all RoleGreets on that channel."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("removerole","Removes all RoleGreets on that channel."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(IRole role)
     {
         await ctx.Interaction.DeferAsync();
@@ -80,7 +80,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     }
 
     [SlashCommand("delete","Set how long it takes for a greet to delete"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+     RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
@@ -99,7 +99,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
 
     }
     
-    [SlashCommand("disable", "Disable a RoleGreet using its Id"), Aliases, RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("disable", "Disable a RoleGreet using its Id"), Aliases, RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num-1);
@@ -112,7 +112,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {enabled}");
     }
     [SlashCommand("webhook","Set a custom name and avatar to use for each RoleGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions, BlacklistCheck]
+     RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
@@ -154,7 +154,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         }
     }
 
-    [SlashCommand("message","Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("message","Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync();
@@ -196,7 +196,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await ctx.Interaction.SendConfirmFollowupAsync($"RoleGreet Message for RoleGreet #{id} set!");
     }
 
-    [SlashCommand("list","Lists all current RoleGreets"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("list","Lists all current RoleGreets"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetList()
     {
         var greets = Service.GetGreets(ctx.Guild.Id);

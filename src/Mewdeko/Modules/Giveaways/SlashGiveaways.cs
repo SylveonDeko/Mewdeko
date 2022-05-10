@@ -22,7 +22,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         _db = db;
     }
 
-    [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEmote(string maybeEmote)
     {
         await DeferAsync();
@@ -48,7 +48,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         await ctx.Interaction.SendConfirmFollowupAsync(
             $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.");
     }
-    [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
         await using var uow = _db.GetDbContext();
@@ -70,7 +70,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         await ctx.Interaction.SendConfirmAsync("Giveaway Rerolled!");
     }
 
-    [SlashCommand("stats", "View giveaway stats!"), CheckPermissions, BlacklistCheck]
+    [SlashCommand("stats", "View giveaway stats!"), CheckPermissions]
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
@@ -103,7 +103,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         }
     }
 
-    [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what)
     {
         await ctx.Interaction.DeferAsync();
@@ -138,7 +138,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     }
     
 
-    [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
         await using var uow = _db.GetDbContext();
