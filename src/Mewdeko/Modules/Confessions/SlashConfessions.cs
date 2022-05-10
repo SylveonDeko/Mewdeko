@@ -15,7 +15,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     public SlashConfessions(Mewdeko bot)
         => _bot = bot;
 
-    [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Confess(string confession, IAttachment? attachment = null)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -40,7 +40,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
     }
 
-    [SlashCommand("channel", "Set the confession channel"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("channel", "Set the confession channel"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -61,7 +61,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         await ctx.Interaction.SendConfirmAsync($"Set {channel.Mention} as the Confession Channel!");
     }
 
-    [SlashCommand("logchannel", "Set the confession channel"), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("logchannel", "Set the confession channel"), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -82,7 +82,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         await ctx.Interaction.SendErrorAsync($"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***");
     }
 
-    [SlashCommand("blacklist", "Add a user to the confession blacklist"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("blacklist", "Add a user to the confession blacklist"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -99,7 +99,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
     }
 
-    [SlashCommand("unblacklist", "Unblacklists a user from confessions"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("unblacklist", "Unblacklists a user from confessions"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
@@ -116,7 +116,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
     }
 
-    [SlashCommand("report", "Reports a server for misuse of confessions"), BlacklistCheck]
+    [SlashCommand("report", "Reports a server for misuse of confessions")]
     public async Task ConfessReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
     {
         if (!ulong.TryParse(stringServerId, out var serverId))

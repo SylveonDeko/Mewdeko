@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Games;
 [Group("games", "Some of mewdekos games!")]
 public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
 {
-    [SlashCommand("activity", "Launch a discord activity in a voice channel!"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("activity", "Launch a discord activity in a voice channel!"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Activity(IVoiceChannel chan, DefaultApplications app)
     {
         var eb = new EmbedBuilder().WithOkColor();
@@ -24,7 +24,7 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
     }
 
     [SlashCommand("setgamemasterrole", "Allows you to set the game master role"),
-     RequireUserPermission(GuildPermission.ManageGuild), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+     RequireUserPermission(GuildPermission.ManageGuild), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task SetGameMaster(IRole? role = null)
     {
         var eb = new EmbedBuilder().WithOkColor();

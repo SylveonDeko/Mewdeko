@@ -84,7 +84,7 @@ public class HelpService : ILateExecutor, INService
             $"\nDo `{_ch.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
             $"\nDo `{_ch.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
-            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
+            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/Mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(x => x is HelpDisabled)).Distinct();
         var count = 0;
         if (description)
@@ -174,7 +174,7 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/Mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build());
@@ -202,7 +202,7 @@ public class HelpService : ILateExecutor, INService
             };
             eb.AddField("How to look for commands",
                 $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
-            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link: https://mewdeko.tech/invite");
+            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/Mewdeko \nInvite Link: https://mewdeko.tech/invite");
             eb.WithThumbnailUrl(
                 "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
             eb.WithOkColor();

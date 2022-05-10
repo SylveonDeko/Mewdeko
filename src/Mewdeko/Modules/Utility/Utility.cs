@@ -112,7 +112,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .AddField("Invite Link (IOS shows an error so use the browser)",
                 $"[Click Here](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
             .AddField("Website/Docs", "https://mewdeko.tech")
-            .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
+            .AddField("Support Server", "https://discord.gg/Mewdeko")
             .WithOkColor();
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
@@ -799,7 +799,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.EmbedAsync(
                      new EmbedBuilder().WithOkColor()
                                        .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BOT_VERSION}")
-                                                             .WithUrl("https://discord.gg/6n3aa9Xapf")
+                                                             .WithUrl("https://discord.gg/Mewdeko")
                                                              .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
                                        .AddField(efb =>
                                            efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
