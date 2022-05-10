@@ -25,7 +25,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         _db = db;
     }
 
-    [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
         await using var uow = _db.GetDbContext();
@@ -45,7 +45,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ListHighlights()
     {
         await using var uow = _db.GetDbContext();
@@ -79,7 +79,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("delete", "Delete a highlight."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("delete", "Delete a highlight."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task DeleteHighlight(
         [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to delete.")] string words)
     {
@@ -121,7 +121,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await ctx.Interaction.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
     }
 
-    [SlashCommand("match", "Find a matching highlight."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("match", "Find a matching highlight."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task MatchHighlight(
         [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to find.")] string words)
     {
@@ -163,7 +163,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("toggle-user", "Ignore a specified user."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("toggle-user", "Ignore a specified user."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ToggleUser(IUser user)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, user.Id.ToString()))
@@ -174,7 +174,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from ignored users!");
     }
 
-    [SlashCommand("toggle-channel", "Ignore a specified channel."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("toggle-channel", "Ignore a specified channel."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ToggleChannel(ITextChannel channel)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()))
@@ -185,7 +185,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await ctx.Interaction.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
     }
 
-    [SlashCommand("toggle-global", "Enable or disable highlights globally."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("toggle-global", "Enable or disable highlights globally."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ToggleGlobal([Summary("enabled", "Are highlights enabled globally?")] bool enabled)
     {
         if (enabled)

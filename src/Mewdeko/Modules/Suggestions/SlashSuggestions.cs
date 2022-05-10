@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Suggestions;
 public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
 {
     [SlashCommand("setchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetSuggestChannel(ITextChannel? channel = null)
     {
         if (channel == null)
@@ -31,7 +31,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
     }
 
     [SlashCommand("suggest", "Sends a suggestion to the suggestion channel, if there is one set.", true),
-     RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+     RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Suggest() => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
         null,
         x => x.UpdateTextInput("suggestion",
@@ -39,21 +39,21 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
                   .WithMinLength(Math.Min(Service.GetMinLength(ctx.Guild?.Id), 4000))))
                                       .ConfigureAwait(false);
 
-    [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Accept(string suggestId) 
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:accept.{suggestId}");
 
-    [ComponentInteraction("deny:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("deny:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Deny(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:deny.{suggestId}");
-    [ComponentInteraction("consider:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("consider:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Consider(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:consider.{suggestId}");
-    [ComponentInteraction("implement:*", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("implement:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Implemented(string suggestId) 
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:implement.{suggestId}");
 
-    [ModalInteraction("suggeststate:*.*", true), CheckPermissions, BlacklistCheck, RequireContext(ContextType.Guild)]
+    [ModalInteraction("suggeststate:*.*", true), CheckPermissions, RequireContext(ContextType.Guild)]
     public async Task HandleStateModal(string state, string suggestId, SuggestStateModal modal)
     {
         ulong.TryParse(suggestId, out var sugId);
@@ -74,8 +74,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
     }
     
-    [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions, 
-     BlacklistCheck]
+    [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task HandleSuggestion(SuggestionModal modal)
     {
         modal.Suggestion = modal.Suggestion.EscapeQuotes();
@@ -117,25 +116,25 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
     }
     [SlashCommand("deny", "Denies a suggestion"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Deny([Summary(description:"The number of the suggestion.")][Autocomplete(typeof(SuggestionAutocompleter))]ulong suggestid, string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction);
 
     [SlashCommand("accept", "Accepts a suggestion"),RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Accept([Summary(description:"The number of the suggestion.")][Autocomplete(typeof(SuggestionAutocompleter))]ulong suggestid, string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction);
 
     [SlashCommand("implement", "Sets a suggestion as implemented"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Implemented([Summary(description:"The number of the suggestion.")][Autocomplete(typeof(SuggestionAutocompleter))]ulong suggestid, string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction);
 
     [SlashCommand("consider", "Sets a suggestion as considered"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Consider([Summary(description:"The number of the suggestion.")][Autocomplete(typeof(SuggestionAutocompleter))]ulong suggestid, string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction);

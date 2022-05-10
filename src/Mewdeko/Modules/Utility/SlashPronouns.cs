@@ -27,10 +27,10 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         _bss = bss;
     }
 
-    [ComponentInteraction("pronouns_overwrite", true), BlacklistCheck]
+    [ComponentInteraction("pronouns_overwrite", true)]
     public async Task OverwritePronouns() => await RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal");
 
-    [ComponentInteraction("pronouns_overwrite_clear", true), BlacklistCheck]
+    [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
     {
         await using var uow = _db.GetDbContext();
@@ -42,7 +42,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     }
     
 
-    [ModalInteraction("pronouns_overwrite_modal", true), BlacklistCheck]
+    [ModalInteraction("pronouns_overwrite_modal", true)]
     public async Task PronounsOverwriteModal(PronounsModal modal)
     {
         await using var uow = _db.GetDbContext();
@@ -53,7 +53,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns);
     }
 
-    [ComponentInteraction("pronouns_report.*;", true), BlacklistCheck]
+    [ComponentInteraction("pronouns_report.*;", true)]
     public async Task ReportPronouns(string sId)
     {
         await using var uow = _db.GetDbContext();
@@ -92,33 +92,40 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
     }
 
-    [ComponentInteraction("pronouns_clear:*,*", true), BlacklistCheck, OwnerOnly]
+    [ComponentInteraction("pronouns_clear:*,*", true), OwnerOnly]
     public async Task ClearPronouns(string sId, string sDisable) =>
-        await RespondWithModalAsync<PronounsFCBlacklistModal>($"pronouns_fc_action:{sId},{sDisable},false");
+        await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>(
+            $"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns"));
 
-    [ComponentInteraction("pronouns_blacklist:*", true), BlacklistCheck, OwnerOnly]
+    [ComponentInteraction("pronouns_blacklist:*", true), OwnerOnly]
     public async Task BlacklistPronouns(string sId) =>
-        await RespondWithModalAsync<PronounsFCBlacklistModal>($"pronouns_fc_action:{sId},true,true");
+        await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
+            x => x.WithTitle("Blacklist User and Clear Pronouns"));
 
-    [ComponentInteraction("pronouns_blacklist_guild:*", true), BlacklistCheck, OwnerOnly]
-    public async Task BlacklistGuildPronouns(string sId)
+    [ComponentInteraction("pronouns_blacklist_guild:*", true), OwnerOnly]
+    public async Task BlacklistGuildPronouns(string sId) =>
+        await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null,
+            x => x.WithTitle("Blacklist Guild"));
+
+    [ModalInteraction("pronouns_fcb_g:*", true), OwnerOnly]
+    public async Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
     {
-        _bss.Blacklist(BlacklistType.Server, ulong.Parse(sId));
-        await RespondAsync("Blacklisted guild.").ConfigureAwait(false);
+        var id = ulong.Parse(sId);
+        _bss.Blacklist(BlacklistType.Server, id, modal.FcbReason);
     }
-
-    [ModalInteraction("pronouns_fc_action:*,*,*", true), BlacklistCheck, OwnerOnly]
-    public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFCBlacklistModal modal)
+    
+    [ModalInteraction("pronouns_fc_action:*,*,*", true), OwnerOnly]
+    public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFcbModal modal)
     {
         ulong userId = ulong.Parse(sId);
         await using var uow = _db.GetDbContext();
         var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
         user.Pronouns = "";
         user.PronounsDisabled = bool.TryParse(sPronounsDisable, out var disable) && disable;
-        user.PronounsClearedReason = modal.FcReason;
+        user.PronounsClearedReason = modal.FcbReason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         if (bool.TryParse(sBlacklist, out var blacklist) && blacklist)
-            _bss.Blacklist(BlacklistType.User, user.UserId);
+            _bss.Blacklist(BlacklistType.User, user.UserId, modal.FcbReason);
         await RespondAsync("completed moderation actions.").ConfigureAwait(false);
     }
     
@@ -129,7 +136,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         return true;
     }
     
-    [SlashCommand("get", "Get a user's pronouns!"), BlacklistCheck, CheckPermissions]
+    [SlashCommand("get", "Get a user's pronouns!"), CheckPermissions]
     [UserCommand("Pronouns")]
     public async Task GetPronouns(IUser? user)
     {
@@ -146,7 +153,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                 : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), components: cb.Build(), ephemeral:true);
     }
     
-    [SlashCommand("override", "Override your default pronouns"), BlacklistCheck, CheckPermissions]
+    [SlashCommand("override", "Override your default pronouns"), CheckPermissions]
     public async Task PronounOverride(string? pronouns = null)
     {
         await using var uow = _db.GetDbContext();

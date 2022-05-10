@@ -58,11 +58,11 @@ public static class Extensions
 
     public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
-            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build()).ConfigureAwait(false);
+            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
 
     public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
-            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build()).ConfigureAwait(false);
+            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build()).ConfigureAwait(false);
@@ -75,11 +75,11 @@ public static class Extensions
 
     public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
-            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build()).ConfigureAwait(false);
+            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
-            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build()).ConfigureAwait(false);
+            .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
 
 
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)

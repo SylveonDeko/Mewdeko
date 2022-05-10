@@ -27,7 +27,7 @@ public partial class Utility
         }
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
-         RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+         RequireContext(ContextType.Guild), CheckPermissions]
         public async Task Snipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
@@ -69,7 +69,7 @@ public partial class Utility
         }
 
         [SlashCommand("edited", "Snipes edited messages for the current or mentioned channel"),
-         RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+         RequireContext(ContextType.Guild), CheckPermissions]
         public async Task EditSnipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
@@ -111,7 +111,7 @@ public partial class Utility
         }
 
         [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
-         RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+         RequireContext(ContextType.Guild), CheckPermissions]
         public async Task SnipeList(int amount = 5)
         {
             if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -158,7 +158,7 @@ public partial class Utility
         }
         
         [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
-         RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+         RequireContext(ContextType.Guild), CheckPermissions]
         public async Task EditSnipeList(int amount = 5)
         {
             if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -206,7 +206,7 @@ public partial class Utility
 
         [SlashCommand("set", "Enable or Disable sniping"), 
          SlashUserPerm(GuildPermission.Administrator), 
-         CheckPermissions, BlacklistCheck]
+         CheckPermissions]
         public async Task SnipeSet(bool enabled)
         {
             await Service.SnipeSetBool(ctx.Guild, enabled);

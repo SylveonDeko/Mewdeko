@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Starboard;
 [Group("starboard", "Manage the starboard!")]
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
-    [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStarboard(ITextChannel? chn = null)
     {
         if (chn is null)
@@ -23,7 +23,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmAsync($"Channel set to {chn.Mention}");
     }
 
-    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetRepostThreshold(int num)
     {
         if (num == 0)
@@ -36,7 +36,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmAsync($"Successfully set the Repost Threshold to {num}");
     }
 
-    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStars(int num)
     {
         var count = Service.GetStarCount(ctx.Guild.Id);
@@ -45,7 +45,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!");
     }
 
-    [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStar(string? emoteText = null)
     {
         await ctx.Interaction.DeferAsync();
@@ -81,7 +81,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmFollowupAsync($"Successfully set the star to {emote}");
     }
     
-    [SlashCommand("channel-toggle", "Adds a channel to the whitelist/blacklist"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("channel-toggle", "Adds a channel to the whitelist/blacklist"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task StarboardChToggle(ITextChannel channel)
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
@@ -107,7 +107,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         }
     }
 
-    [SlashCommand("removeonreactionclear", "Sets wether a post is removed when the source reactions are cleared."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("removeonreactionclear", "Sets wether a post is removed when the source reactions are cleared."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task StarboardRemoveOnReactionsCleared(bool enabled)
     {
         await Service.SetRemoveOnClear(ctx.Guild, enabled);
@@ -117,7 +117,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
             await ctx.Interaction.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.");
     }
     
-    [SlashCommand("removeondelete", "Sets wehter a post gets removed when the source gets deleted."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("removeondelete", "Sets wehter a post gets removed when the source gets deleted."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task StarboardRemoveOnDelete(bool enabled)
     {
         await Service.SetRemoveOnDelete(ctx.Guild, enabled);
@@ -127,7 +127,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
             await ctx.Interaction.SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.");
     }
     
-    [SlashCommand("removeonbelowthreshold", "Sets wether a post is removed when its below the set star count."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("removeonbelowthreshold", "Sets wether a post is removed when its below the set star count."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task StarboardRemoveOnBelowThreshold(bool enabled)
     {
         await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled);
@@ -137,7 +137,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
             await ctx.Interaction.SendConfirmAsync("Starboard posts will no longer be removed when the messages star count is below the current star count");
     }
     
-    [SlashCommand("allowbots", "Sets wether starboard ignores bots."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("allowbots", "Sets wether starboard ignores bots."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task StarboardAllowBots(bool enabled)
     {
         await Service.SetStarboardAllowBots(ctx.Guild, enabled);

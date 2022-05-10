@@ -21,7 +21,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
 
     public SlashRemindCommands(DbService db, GuildTimezoneService tz) => (_db, _tz) = (db, tz);
 
-    [SlashCommand("me", "Send a reminder to yourself."), BlacklistCheck]
+    [SlashCommand("me", "Send a reminder to yourself.")]
     // ReSharper disable once MemberCanBePrivate.Global
     public async Task Me
     (
@@ -37,7 +37,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         await RemindInternal(ctx.User.Id, true, time, reminder);
     }
 
-    [SlashCommand("here", "Send a reminder to this channel."), BlacklistCheck]
+    [SlashCommand("here", "Send a reminder to this channel.")]
     public async Task Here
     (
         [Summary("time", "When should the reminder respond.")] TimeSpan time,
@@ -58,7 +58,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         await RemindInternal(ctx.Channel.Id, false, time, reminder).ConfigureAwait(false);
     }
 
-    [SlashCommand("channel", "Send a reminder to this channel."), BlacklistCheck, 
+    [SlashCommand("channel", "Send a reminder to this channel."), 
      UserPerm(ChannelPermission.ManageMessages)]
     public async Task Channel
     (
@@ -85,7 +85,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
     }
 
-    [ModalInteraction("remind:*,*,*;", true), BlacklistCheck]
+    [ModalInteraction("remind:*,*,*;", true)]
     public async Task ReminderModal(string sId, string sPri, string sTime, ReminderModal modal)
     {
         var id = ulong.Parse(sId);
@@ -142,7 +142,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         return true;
     }
 
-    [SlashCommand("list", "List your current reminders"), BlacklistCheck]
+    [SlashCommand("list", "List your current reminders")]
     public async Task List(
         [Summary("page", "What page of reminders do you want to load.")]int page = 1)
     {
@@ -183,7 +183,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         await RespondAsync(embed: embed.Build()).ConfigureAwait(false);
     }
     
-    [SlashCommand("delete", "Delete a reminder"), BlacklistCheck]
+    [SlashCommand("delete", "Delete a reminder")]
     public async Task RemindDelete([Summary("index", "The reminders index (from /remind list)")]int index)
     {
         if (--index < 0)
