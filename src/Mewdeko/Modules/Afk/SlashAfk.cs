@@ -24,7 +24,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         _client = client;
     }
 
-    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Afk(string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -84,7 +84,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
     [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), 
      RequireContext(ContextType.Guild), 
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CustomAfkMessage(string embedCode)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -102,7 +102,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated afk message!");
     }
 
-    [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions, BlacklistCheck]
+    [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions]
     public async Task GetActiveAfks()
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -137,7 +137,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("view", "View another user's afk message"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("view", "View another user's afk message"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task AfkView(IGuildUser user)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -155,7 +155,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
-    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkDisabledList()
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -198,7 +198,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
                                     .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20)));
         }
     }
-    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkLength(int num)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -218,7 +218,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkType(string ehm)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -250,7 +250,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
+    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkTimeout(string input)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -275,7 +275,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkUndisable(ITextChannel channel)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -320,7 +320,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
+    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkDisable(ITextChannel channel)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -376,7 +376,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
+    [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task AfkRemove(IGuildUser user)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")

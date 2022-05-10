@@ -103,10 +103,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
 
-    public void Blacklist(BlacklistType type, ulong id)
+    public void Blacklist(BlacklistType type, ulong id, string? reason)
     {
         using var uow = _db.GetDbContext();
-        var item = new BlacklistEntry {ItemId = id, Type = type};
+        var item = new BlacklistEntry {ItemId = id, Type = type, Reason = reason ?? "No reason provided."};
         uow.Blacklist.Add(item);
         uow.SaveChanges();
             
