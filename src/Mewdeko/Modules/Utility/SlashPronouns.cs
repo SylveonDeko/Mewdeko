@@ -112,6 +112,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     {
         var id = ulong.Parse(sId);
         _bss.Blacklist(BlacklistType.Server, id, modal.FcbReason);
+        await RespondAsync("blacklisted the server");
     }
     
     [ModalInteraction("pronouns_fc_action:*,*,*", true), OwnerOnly]
