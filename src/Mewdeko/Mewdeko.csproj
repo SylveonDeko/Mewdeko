@@ -133,6 +133,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <Optimize>true</Optimize>
+        <DebugType>full</DebugType>
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="credentials_example.json" />
