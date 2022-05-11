@@ -28,8 +28,6 @@ public class GenericCommandAutocompleter : AutocompleteHandler
         {
             var autoresult = _commands.Commands.Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
                                       .Select(x => $"{x.Name} : {x.RealSummary(_strings, context.Guild?.Id, _commandHandler.GetPrefix(context.Guild?.Id))}")
-                                      .Concat(_commands.Commands.SelectMany(x => x.Aliases.Select(a =>
-                                          $"{a} : {x.RealSummary(_strings, context.Guild?.Id, _commandHandler.GetPrefix(context.Guild?.Id))}")))
                                       .Where(x => x.Contains((string)autocompleteInteraction.Data.Current.Value, StringComparison.OrdinalIgnoreCase))
                                       .OrderByDescending(x => x.StartsWith((string)autocompleteInteraction.Data.Current.Value, StringComparison.OrdinalIgnoreCase)).Distinct()
                                       .Take(20).Select(x => new AutocompleteResult(x.Length >= 100 ? x[..97] + "..." : x, x.Split(':')[0].Trim()));
