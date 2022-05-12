@@ -178,7 +178,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
             // get its result
             var result = task.GetAwaiter().GetResult();
-            if(result.Error == "")
+            if(string.IsNullOrEmpty(result.Error))
             {
                 // if we have a non-error result, cancel other searches and return the result
                 cancelSource.Cancel();
