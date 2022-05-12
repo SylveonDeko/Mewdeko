@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
@@ -60,7 +60,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (ctx.Guild.EveryoneRole.Permissions.SendMessages == false)
+            if (!ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
                 await ctx.Channel.SendErrorAsync(
                     "<a:crossfragutil:854536474098663434> Server is already in lockdown!");

@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -319,7 +319,7 @@ public partial class Gambling
                 await ReplyErrorLocalizedAsync("shop_item_not_found").ConfigureAwait(false);
             else if (!rightType)
                 await ReplyErrorLocalizedAsync("shop_item_wrong_type").ConfigureAwait(false);
-            else if (added == false)
+            else if (!added)
                 await ReplyErrorLocalizedAsync("shop_list_item_not_unique").ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("shop_list_item_added").ConfigureAwait(false);
