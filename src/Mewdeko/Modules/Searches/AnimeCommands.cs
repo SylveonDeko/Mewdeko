@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using AngleSharp;
 using AngleSharp.Html.Dom;
 using Anilist4Net;
@@ -304,7 +304,7 @@ public partial class Searches
             if (te.DescriptionMd != null) desc = te.DescriptionMd;
             if (te.DescriptionMd != null && te.DescriptionMd.Length > 1024) desc = te.DescriptionMd.TrimTo(1024);
             string altnames;
-            if (te.AlternativeNames.FirstOrDefault() == "")
+            if (string.IsNullOrEmpty(te.AlternativeNames.FirstOrDefault()))
                 altnames = "None";
             else
                 altnames = string.Join(",", te.AlternativeNames);

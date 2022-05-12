@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using StackExchange.Redis;
 using System.IO;
@@ -129,6 +129,6 @@ public class ImageLoader
     {
         await HandleJObject(obj).ConfigureAwait(false);
         var results = await Task.WhenAll(_uriTasks).ConfigureAwait(false);
-        await Db.StringSetAsync(results.Where(x => x.Key != "").ToArray()).ConfigureAwait(false);
+        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray()).ConfigureAwait(false);
     }
 }
