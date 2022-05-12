@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Mewdeko.Database.Extensions;
 using Newtonsoft.Json;
 
@@ -35,7 +35,7 @@ public class SmartEmbed
             if (newEmbed is {IsValid: false}) 
                 return false;
 
-            embed = newEmbed.IsEmbedValid == false ? null : newEmbed.ToEmbed();
+            embed = !newEmbed.IsEmbedValid? null : newEmbed.ToEmbed();
             plainText = newEmbed.Content;
             return true;
         }
@@ -49,7 +49,7 @@ public class SmartEmbed
         if (crembed is {IsValid: false}) 
             return false;
 
-        embed = crembed.IsEmbedValid == false ? null : crembed.ToEmbed();
+        embed = !crembed.IsEmbedValid? null : crembed.ToEmbed();
         plainText = crembed.PlainText;
         return true;
     }
