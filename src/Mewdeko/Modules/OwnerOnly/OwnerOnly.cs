@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
@@ -865,7 +865,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     await process.WaitForExitAsync();
                 }
             }
-            else if (output == "")
+            else if (string.IsNullOrEmpty(output))
             {
                 await ctx.Channel.SendMessageAsync("```The output was blank```");
             }

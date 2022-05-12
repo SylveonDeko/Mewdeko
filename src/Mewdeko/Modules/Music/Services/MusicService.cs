@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.WebSocket;
 using Lavalink4NET;
 using Lavalink4NET.Player;
@@ -163,7 +163,7 @@ public class MusicService : INService
 
                     break;
                 case "album/":
-                    if (_creds.SpotifyClientId == "")
+                    if (string.IsNullOrEmpty(_creds.SpotifyClientId))
                     {
                         await chan.SendErrorAsync(
                             "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
@@ -217,7 +217,7 @@ public class MusicService : INService
                     break;
 
                 case "track/":
-                    if (_creds.SpotifyClientId == "")
+                    if (string.IsNullOrEmpty(_creds.SpotifyClientId))
                     {
                         await chan.SendErrorAsync(
                             "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
