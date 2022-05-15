@@ -244,7 +244,9 @@ public class AfkService : INService, IReadyExecutor
             var message = await msg.GetOrDownloadAsync();
             if (message is null)
                 return;
-            if (message.Timestamp > new DateTimeOffset(DateTime.UtcNow, TimeSpan.FromMinutes(30)))
+            var origDateUnspecified = message.Timestamp.ToUniversalTime();
+            var origDate = new DateTime(origDateUnspecified.Ticks, DateTimeKind.Unspecified);
+            if (DateTime.UtcNow > origDate.Add(TimeSpan.FromMinutes(30)))
                 return;
 
             await MessageReceived(msg2);
