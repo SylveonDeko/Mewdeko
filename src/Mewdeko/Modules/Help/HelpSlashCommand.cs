@@ -8,6 +8,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
+using Mewdeko.Common.Modals;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
@@ -179,15 +180,31 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     public async Task RunCmd(string command)
     {
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
-        if (com.Parameters.Count != 0) return;
-        await DeferAsync(true).ConfigureAwait(false);
-        _ch.AddCommandToParseQueue(new MewdekoUserMessage()
+        if (!com.Parameters.Any())
         {
-            Content = _ch.GetPrefix(ctx.Guild) + command, Author = ctx.User, Channel = ctx.Channel
-        });
-        _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+            _ch.AddCommandToParseQueue(new MewdekoUserMessage()
+            {
+                Content = _ch.GetPrefix(ctx.Guild) + command, Author = ctx.User, Channel = ctx.Channel
+            });
+            _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}");
     }
 
+    [ModalInteraction("runcmdmodal.*", ignoreGroupNames: true)]
+    public async Task RunModal(string command, CommandModal modal)
+    {
+        await DeferAsync();
+        var msg = new MewdekoUserMessage
+        {
+            Content = $"{_ch.GetPrefix(ctx.Guild)}{command} {modal.Args}", Author = ctx.User, Channel = ctx.Channel
+        };
+        _ch.AddCommandToParseQueue(msg);
+        _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        return;
+    }
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {

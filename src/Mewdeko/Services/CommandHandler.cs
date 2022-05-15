@@ -463,7 +463,7 @@ public class CommandHandler : INService
         });
     }
 
-    private Task MessageReceivedHandler(SocketMessage msg)
+    public Task MessageReceivedHandler(SocketMessage msg)
     {
         try
         {
@@ -495,18 +495,18 @@ public class CommandHandler : INService
         });
 
 
-    public async Task<bool> ExecuteCommandsInChannelAsync(ulong chanelId)
+    public async Task<bool> ExecuteCommandsInChannelAsync(ulong channelId)
     {
         try
         {
-            if (CommandParseLock.GetValueOrDefault(chanelId, false)) return false;
-            if (CommandParseQueue.GetValueOrDefault(chanelId) is null || !CommandParseQueue[chanelId].Any()) return false;
-            CommandParseLock[chanelId] = true;
-            while (CommandParseQueue[chanelId].TryDequeue(out var msg))
+            if (CommandParseLock.GetValueOrDefault(channelId, false)) return false;
+            if (CommandParseQueue.GetValueOrDefault(channelId) is null || !CommandParseQueue[channelId].Any()) return false;
+            CommandParseLock[channelId] = true;
+            while (CommandParseQueue[channelId].TryDequeue(out var msg))
             {
                 await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
             }
-            CommandParseQueue[chanelId] = new();
+            CommandParseQueue[channelId] = new();
             return true;
         }
         catch
@@ -515,7 +515,7 @@ public class CommandHandler : INService
         }
         finally
         {
-            CommandParseLock[chanelId] = false;
+            CommandParseLock[channelId] = false;
         }
     }
 
