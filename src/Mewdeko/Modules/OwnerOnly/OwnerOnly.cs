@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 
 namespace Mewdeko.Modules.OwnerOnly;
 [OwnerOnly]
@@ -489,7 +490,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
-
+    
     [Cmd, Aliases]
     public async Task Wait(int miliseconds)
     {
