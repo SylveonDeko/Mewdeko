@@ -40,17 +40,21 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task Asar(int group, [Remainder] IRole role)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                 return;
 
             var succ = Service.AddNew(ctx.Guild.Id, role, group);
 
             if (succ)
+            {
                 await ReplyConfirmLocalizedAsync("role_added", Format.Bold(role.Name),
-                    Format.Bold(group.ToString())).ConfigureAwait(false);
+                                Format.Bold(group.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("role_in_list", Format.Bold(role.Name)).ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -60,18 +64,22 @@ public partial class Administration
             var set = await Service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 
             if (set)
+            {
                 await ReplyConfirmLocalizedAsync("group_name_added", Format.Bold(group.ToString()),
-                    Format.Bold(name)).ConfigureAwait(false);
+                                Format.Bold(name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("group_name_removed", Format.Bold(group.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task Rsar([Remainder] IRole role)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                 return;
 
@@ -95,7 +103,7 @@ public partial class Administration
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -118,6 +126,7 @@ public partial class Administration
 
                     rolesStr.AppendLine($"\t\t\t\t ⟪{groupNameText}⟫");
                     foreach (var (model, role) in kvp.AsEnumerable())
+                    {
                         if (role == null)
                         {
                         }
@@ -129,6 +138,7 @@ public partial class Administration
                             else
                                 rolesStr.AppendLine($"‌‌   {role.Name} (lvl {model.LevelRequirement}+)");
                         }
+                    }
 
                     rolesStr.AppendLine();
                 }
@@ -176,24 +186,34 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Iam([Remainder] IRole role)
         {
-            var guildUser = (IGuildUser) ctx.User;
+            var guildUser = (IGuildUser)ctx.User;
 
             var (result, autoDelete, extra) = await Service.Assign(guildUser, role).ConfigureAwait(false);
 
             IUserMessage msg;
             if (result == SelfAssignedRolesService.AssignResult.ErrNotAssignable)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
+            }
             else if (result == SelfAssignedRolesService.AssignResult.ErrLvlReq)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_level", Format.Bold(extra.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else if (result == SelfAssignedRolesService.AssignResult.ErrAlreadyHave)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_already", Format.Bold(role.Name))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else if (result == SelfAssignedRolesService.AssignResult.ErrNotPerms)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
+            }
             else
+            {
                 msg = await ReplyConfirmLocalizedAsync("self_assign_success", Format.Bold(role.Name))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
 
             if (autoDelete)
             {
@@ -205,21 +225,29 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Iamnot([Remainder] IRole role)
         {
-            var guildUser = (IGuildUser) ctx.User;
+            var guildUser = (IGuildUser)ctx.User;
 
             var (result, autoDelete) = await Service.Remove(guildUser, role).ConfigureAwait(false);
 
             IUserMessage msg;
             if (result == SelfAssignedRolesService.RemoveResult.ErrNotAssignable)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
+            }
             else if (result == SelfAssignedRolesService.RemoveResult.ErrNotHave)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_have", Format.Bold(role.Name))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else if (result == SelfAssignedRolesService.RemoveResult.ErrNotPerms)
+            {
                 msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
+            }
             else
+            {
                 msg = await ReplyConfirmLocalizedAsync("self_assign_remove", Format.Bold(role.Name))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
 
             if (autoDelete)
             {

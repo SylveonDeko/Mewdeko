@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Modals;
 using Mewdeko.Extensions;
 
@@ -55,20 +54,20 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
             {
                 await Service.UpdateEmoteCount(componentInteraction.Message.Id, emoteNum);
                 var label = int.Parse(i.Label);
-                builder.WithButton((label+1).ToString(), $"emotebutton:{emoteNum}",
+                builder.WithButton((label + 1).ToString(), $"emotebutton:{emoteNum}",
                     emote: Service.GetSuggestMote(ctx.Guild, emoteNum), style: Service.GetButtonStyle(ctx.Guild, emoteNum));
                 continue;
             }
-    
+
             if (splitNum == pickedEmote)
             {
                 await Service.UpdateEmoteCount(componentInteraction.Message.Id, splitNum, true);
                 var label = int.Parse(i.Label);
-                builder.WithButton((label-1).ToString(), $"emotebutton:{splitNum}",
+                builder.WithButton((label - 1).ToString(), $"emotebutton:{splitNum}",
                     emote: Service.GetSuggestMote(ctx.Guild, splitNum), style: Service.GetButtonStyle(ctx.Guild, splitNum));
                 continue;
             }
-            builder.WithButton(i.Label, 
+            builder.WithButton(i.Label,
                 customId: $"emotebutton:{count}", Service.GetButtonStyle(ctx.Guild, count), Service.GetSuggestMote(ctx.Guild, count));
         }
         if (Service.GetThreadType(ctx.Guild) == 1)
@@ -105,7 +104,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var thread = await ctx.Guild.GetThreadChannelAsync(Service.GetThreadByMessage(suggest.MessageId));
         await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}");
     }
-    
+
     [ComponentInteraction("privatesuggestthread:*")]
     public async Task PrivateThreadStartOrJoin(string suggestnum)
     {

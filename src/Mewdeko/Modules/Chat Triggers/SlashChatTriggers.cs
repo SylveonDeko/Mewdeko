@@ -72,7 +72,6 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
         => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
-
     [ModalInteraction("chat_trigger_add:*", true),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
@@ -116,16 +115,20 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         var cr = await Service.EditAsync(ctx.Guild?.Id, id, modal.Message, rgx).ConfigureAwait(false);
         if (cr != null)
+        {
             await RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                .WithTitle(GetText("edited_chat_trig"))
-                .WithDescription($"#{id}")
-                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
-                .AddField(efb =>
-                    efb.WithName(GetText("response"))
-                        .WithValue(modal.Message.Length > 1024 ? GetText("redacted_too_long") : modal.Message))
-                .Build()).ConfigureAwait(false);
+                        .WithTitle(GetText("edited_chat_trig"))
+                        .WithDescription($"#{id}")
+                        .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
+                        .AddField(efb =>
+                            efb.WithName(GetText("response"))
+                                .WithValue(modal.Message.Length > 1024 ? GetText("redacted_too_long") : modal.Message))
+                        .Build()).ConfigureAwait(false);
+        }
         else
+        {
             await RespondAsync(GetText("edit_fail")).ConfigureAwait(false);
+        }
     }
 
     [SlashCommand("list", "List chat triggers."),
@@ -157,9 +160,11 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                                                                            if (cr.AutoDeleteTrigger) str = $"🗑{str}";
                                                                            if (cr.DmResponse) str = $"📪{str}";
                                                                            var reactions = cr.GetReactions();
-                                                                           if (reactions.Any())
+                                                                           if (reactions.Length > 0)
+                                                                           {
                                                                                str =
                                                                                    $"{str} // {string.Join(" ", reactions)}";
+                                                                           }
 
                                                                            return str;
                                                                        })));
@@ -172,7 +177,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
-        if (chatTriggers == null || !chatTriggers.Any())
+        if (chatTriggers == null || chatTriggers.Length == 0)
         {
             await ctx.Interaction.SendErrorAsync("no_found").ConfigureAwait(false);
         }
@@ -220,18 +225,21 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task DeleteChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
-
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
 
         if (ct != null)
+        {
             await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("deleted"))
-                    .WithDescription($"#{ct.Id}")
-                    .AddField(efb => efb.WithName(GetText("trigger")).WithValue(ct.Trigger.TrimTo(1024)))
-                    .AddField(efb => efb.WithName(GetText("response")).WithValue(ct.Response.TrimTo(1024)))
-                    .Build()).ConfigureAwait(false);
+                            .WithTitle(GetText("deleted"))
+                            .WithDescription($"#{ct.Id}")
+                            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(ct.Trigger.TrimTo(1024)))
+                            .AddField(efb => efb.WithName(GetText("response")).WithValue(ct.Response.TrimTo(1024)))
+                            .Build()).ConfigureAwait(false);
+        }
         else
+        {
             await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
+        }
     }
 
     [SlashCommand("react", "add a reaction chat trigger.."),
@@ -318,11 +326,15 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         if (newVal)
+        {
             await ctx.Interaction.SendConfirmAsync(GetText("option_enabled", Format.Code(option.ToString()),
-                Format.Code(id.ToString()))).ConfigureAwait(false);
+                        Format.Code(id.ToString()))).ConfigureAwait(false);
+        }
         else
+        {
             await ctx.Interaction.SendConfirmAsync(GetText("option_dissabled", Format.Code(option.ToString()),
-                Format.Code(id.ToString()))).ConfigureAwait(false);
+                        Format.Code(id.ToString()))).ConfigureAwait(false);
+        }
     }
 
     [SlashCommand("clear", "Clear all chat triggers."),

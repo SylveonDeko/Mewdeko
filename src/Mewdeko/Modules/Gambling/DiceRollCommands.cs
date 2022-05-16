@@ -47,7 +47,6 @@ public partial class Gambling
         [Cmd, Aliases, Priority(1)]
         public async Task Roll(int num) => await InternalRoll(num, true).ConfigureAwait(false);
 
-
         [Cmd, Aliases, Priority(1)]
         public async Task Rolluo(int num = 1) => await InternalRoll(num, false).ConfigureAwait(false);
 
@@ -76,14 +75,20 @@ public partial class Gambling
                 if (ordered)
                 {
                     if (randomNumber == 6 || dice.Count == 0)
+                    {
                         toInsert = 0;
+                    }
                     else if (randomNumber != 1)
+                    {
                         for (var j = 0; j < dice.Count; j++)
+                        {
                             if (values[j] < randomNumber)
                             {
                                 toInsert = j;
                                 break;
                             }
+                        }
+                    }
                 }
                 else
                 {

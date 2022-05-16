@@ -42,12 +42,14 @@ public partial class Searches
             }
 
             var abilities = new List<Ability>();
-            if (poke.Abilities.Any())
+            if (poke.Abilities.Count > 0)
+            {
                 foreach (var i in poke.Abilities)
                 {
                     var ability = await _pokeClient.GetResourceAsync<Ability>(i.Ability.Name);
                     abilities.Add(ability);
                 }
+            }
 
             if (isShiny)
             {
@@ -56,9 +58,12 @@ public partial class Searches
                 eb.WithOkColor();
                 eb.AddField("Abilites",
                     string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
-                if (poke.Forms.Any() || poke.Forms.Count != 1)
+                if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
+                {
                     eb.AddField("Forms",
                         string.Join("\n", poke.Forms.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
+                }
+
                 eb.WithThumbnailUrl(poke.Sprites.FrontShiny);
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }
@@ -69,9 +74,12 @@ public partial class Searches
                 eb.WithOkColor();
                 eb.AddField("Abilites",
                     string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
-                if (poke.Forms.Any() || poke.Forms.Count != 1)
+                if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
+                {
                     eb.AddField("Forms",
                         string.Join("\n", poke.Forms.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
+                }
+
                 eb.WithThumbnailUrl(poke.Sprites.FrontDefault);
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }

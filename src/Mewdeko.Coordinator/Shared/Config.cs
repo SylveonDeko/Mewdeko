@@ -16,5 +16,4 @@ public readonly struct Config
         ShardStartArgs = shardStartArgs;
         UnresponsiveSec = unresponsiveSec;
     }
-
 }

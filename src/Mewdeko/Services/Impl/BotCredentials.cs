@@ -26,8 +26,11 @@ public class BotCredentials : IBotCredentials
         }
 
         if (!File.Exists(_credsFileName))
+        {
             Log.Warning(
                 $"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'Mewdeko_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
+        }
+
         UpdateCredentials(null, null);
         _watcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
         _watcher.NotifyFilter = NotifyFilters.LastWrite;
@@ -35,7 +38,6 @@ public class BotCredentials : IBotCredentials
         _watcher.EnableRaisingEvents = true;
         _watcher.Changed += UpdateCredentials;
     }
-    
 
     public void UpdateCredentials(object ae, FileSystemEventArgs _)
     {
@@ -173,7 +175,6 @@ public class BotCredentials : IBotCredentials
     public string LocationIqApiKey { get; set; }
     public string TimezoneDbApiKey { get; set; }
     public string CoinmarketcapApiKey { get; set; }
-
 
     public ulong DebugGuildId { get; set; }
     public ulong GuildJoinsChannelId { get; set; }

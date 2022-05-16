@@ -37,7 +37,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task CmdCooldown(CommandOrCrInfo command, int secs)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             if (secs is < 0 or > 3600)
             {
                 await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 3600).ConfigureAwait(false);
@@ -86,15 +86,19 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AllCmdCooldowns()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
-            if (!localSet.Any())
+            if (localSet.Count == 0)
+            {
                 await ReplyConfirmLocalizedAsync("cmdcd_none").ConfigureAwait(false);
+            }
             else
+            {
                 await channel.SendTableAsync("",
-                        localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
-                    .ConfigureAwait(false);
+                                    localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
+                                .ConfigureAwait(false);
+            }
         }
     }
 }

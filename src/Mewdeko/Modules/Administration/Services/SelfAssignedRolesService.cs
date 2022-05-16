@@ -70,7 +70,7 @@ public class SelfAssignedRolesService : INService
         var (autoDelete, exclusive, roles) = GetAdAndRoles(guildUser.Guild.Id);
 
         var selfAssignedRoles = roles as SelfAssignedRole[] ?? roles.ToArray();
-        var theRoleYouWant = selfAssignedRoles.FirstOrDefault(r => r.RoleId == role.Id);
+        var theRoleYouWant = Array.Find(selfAssignedRoles, r => r.RoleId == role.Id);
         if (theRoleYouWant == null)
             return (AssignResult.ErrNotAssignable, autoDelete, null);
         if (theRoleYouWant.LevelRequirement > userLevelData.Level)
@@ -89,6 +89,7 @@ public class SelfAssignedRolesService : INService
             {
                 var sameRole = guildUser.Guild.GetRole(roleId);
                 if (sameRole != null)
+                {
                     try
                     {
                         await guildUser.RemoveRoleAsync(sameRole).ConfigureAwait(false);
@@ -98,6 +99,7 @@ public class SelfAssignedRolesService : INService
                     {
                         // ignored
                     }
+                }
             }
         }
 
@@ -118,7 +120,7 @@ public class SelfAssignedRolesService : INService
         var set = false;
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
-        var toUpdate = gc.SelfAssignableRoleGroupNames.FirstOrDefault(x => x.Number == group);
+        var toUpdate = gc.SelfAssignableRoleGroupNames.Find(x => x.Number == group);
 
         if (string.IsNullOrWhiteSpace(name))
         {

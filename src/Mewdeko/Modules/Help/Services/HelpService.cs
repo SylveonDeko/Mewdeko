@@ -115,7 +115,6 @@ public class HelpService : ILateExecutor, INService
         return !pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _) ? "❌" : "✅";
     }
 
-
     public string GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
 
     public record UMsg
@@ -124,9 +123,9 @@ public class HelpService : ILateExecutor, INService
         public DateTime Time { get; set; }
     }
 
-    public Task AddUser(IUserMessage msg, DateTime time)
+    public static Task AddUser(IUserMessage msg, DateTime time)
     {
-        var tocheck = UsrMsg.FirstOrDefault(x => x.Msg == msg);
+        var tocheck = UsrMsg.Find(x => x.Msg == msg);
         if (tocheck is not null)
         {
             UsrMsg.Remove(tocheck);
@@ -137,8 +136,8 @@ public class HelpService : ILateExecutor, INService
         return Task.CompletedTask;
     }
 
-    public IUserMessage GetUserMessage(IUser user) =>
-        UsrMsg.FirstOrDefault(x => x.Msg.Author == user)?.Msg ?? null;
+    public static IUserMessage GetUserMessage(IUser user) =>
+        UsrMsg.Find(x => x.Msg.Author == user)?.Msg;
 
     public static async Task ClearHelp()
     {
@@ -160,15 +159,14 @@ public class HelpService : ILateExecutor, INService
         return SmartEmbed.TryParse(settings.DmHelpText, out var embed, out var plainText)
             ? msg.Channel.EmbedAsync(embed, plainText)
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
-
     }
-
 
     private Task HandlePing(SocketMessage msg)
     {
         _ = Task.Run(async () =>
         {
             if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>")
+            {
                 if (msg.Channel is ITextChannel chan)
                 {
                     var eb = new EmbedBuilder();
@@ -179,6 +177,7 @@ public class HelpService : ILateExecutor, INService
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build());
                 }
+            }
         });
         return Task.CompletedTask;
     }
@@ -217,7 +216,7 @@ public class HelpService : ILateExecutor, INService
             throw new Exception("Help is disabled for this command.");
         var prefix = _ch.GetPrefix(guild);
 
-        var str = string.Format("**`{0}`**", prefix + com.Aliases.First());
+        var str = string.Format("**`{0}`**", prefix + com.Aliases[0]);
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
             str += string.Format(" **/ `{0}`**", prefix + alias);
@@ -227,9 +226,9 @@ public class HelpService : ILateExecutor, INService
         _dpos.TryGetOverrides(guild?.Id ?? 0, com.Name, out var overrides);
         var reqs = GetCommandRequirements(com, overrides);
         var botReqs = GetCommandBotRequirements(com);
-        if (reqs.Any())
+        if (reqs.Length > 0)
             em.AddField("User Permissions", string.Join("\n", reqs));
-        if (botReqs.Any())
+        if (botReqs.Length > 0)
             em.AddField("Bot Permissions", string.Join("\n", botReqs));
 
         em.AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(string.Join("\n",
@@ -260,8 +259,8 @@ public class HelpService : ILateExecutor, INService
 
     public static List<string> GetCommandOptionHelpList(Type opt)
     {
-        var strs = opt.GetProperties()
-                      .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
+        return opt.GetProperties()
+                      .Select(x => Array.Find(x.GetCustomAttributes(true), a => a is OptionAttribute))
                       .Where(x => x != null).Cast<OptionAttribute>().Select(x =>
                       {
                           var toReturn = $"`--{x.LongName}`";
@@ -272,10 +271,7 @@ public class HelpService : ILateExecutor, INService
                           toReturn += $"   {x.HelpText}  ";
                           return toReturn;
                       }).ToList();
-
-        return strs;
     }
-
 
     public static string[] GetCommandRequirements(CommandInfo cmd, GuildPermission? overrides = null)
     {

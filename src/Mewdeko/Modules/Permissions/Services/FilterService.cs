@@ -134,7 +134,7 @@ public class FilterService : IEarlyBehavior, INService
     public void WordBlacklist(string id, ulong id2)
     {
         using var uow = _db.GetDbContext();
-        var item = new AutoBanEntry {Word = id, GuildId = id2};
+        var item = new AutoBanEntry { Word = id, GuildId = id2 };
         uow.AutoBanWords.Add(item);
         uow.SaveChanges();
 
@@ -248,6 +248,7 @@ public class FilterService : IEarlyBehavior, INService
             return false;
         var bannedwords = Blacklist.Where(x => x.GuildId == guild.Id);
         foreach (var i in bannedwords.Select(x => x.Word))
+        {
             if (msg.Content.ToLower().Contains(i))
                 try
                 {
@@ -274,6 +275,7 @@ public class FilterService : IEarlyBehavior, INService
                         return false;
                     }
                 }
+        }
 
         return false;
     }
@@ -290,6 +292,7 @@ public class FilterService : IEarlyBehavior, INService
         var filteredServerWords = FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
         usrMsg.Content.ToLowerInvariant().Split(' ');
         if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
+        {
             foreach (var word in filteredChannelWords)
                 if (usrMsg.Content.Contains(word))
                 {
@@ -312,8 +315,10 @@ public class FilterService : IEarlyBehavior, INService
 
                     return true;
                 }
+        }
 
         foreach (var word in filteredServerWords)
+        {
             if (usrMsg.Content.Contains(word))
             {
                 try
@@ -335,6 +340,7 @@ public class FilterService : IEarlyBehavior, INService
 
                 return true;
             }
+        }
 
         return false;
     }
@@ -349,6 +355,7 @@ public class FilterService : IEarlyBehavior, INService
         if ((InviteFilteringChannels.Contains(usrMsg.Channel.Id)
              || InviteFilteringServers.Contains(guild.Id))
             && usrMsg.Content.IsDiscordInvite())
+        {
             try
             {
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
@@ -367,6 +374,7 @@ public class FilterService : IEarlyBehavior, INService
                     ex);
                 return true;
             }
+        }
 
         return false;
     }
@@ -381,6 +389,7 @@ public class FilterService : IEarlyBehavior, INService
         if ((LinkFilteringChannels.Contains(usrMsg.Channel.Id)
              || LinkFilteringServers.Contains(guild.Id))
             && usrMsg.Content.TryGetUrlPath(out _))
+        {
             try
             {
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
@@ -391,6 +400,7 @@ public class FilterService : IEarlyBehavior, INService
                 Log.Warning("I do not have permission to filter links in channel with id " + usrMsg.Channel.Id, ex);
                 return true;
             }
+        }
 
         return false;
     }

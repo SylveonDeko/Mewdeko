@@ -26,7 +26,7 @@ public class CrEmbed
         !string.IsNullOrWhiteSpace(Thumbnail) ||
         !string.IsNullOrWhiteSpace(Image) ||
         (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
-        Fields is {Length: > 0};
+        Fields is { Length: > 0 };
 
     public EmbedBuilder ToEmbed()
     {
@@ -40,12 +40,14 @@ public class CrEmbed
             embed.WithUrl(Url);
         embed.WithColor(new Color(Color));
         if (Footer != null)
+        {
             embed.WithFooter(efb =>
             {
                 efb.WithText(Footer.Text);
                 if (Uri.IsWellFormedUriString(Footer.IconUrl, UriKind.Absolute))
                     efb.WithIconUrl(Footer.IconUrl);
             });
+        }
 
         if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
             embed.WithThumbnailUrl(Thumbnail);
@@ -64,13 +66,14 @@ public class CrEmbed
         if (Fields == null) return embed;
         {
             foreach (var f in Fields)
+            {
                 if (!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
                     embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+            }
         }
 
         return embed;
     }
-    
 }
 
 public class CrEmbedField

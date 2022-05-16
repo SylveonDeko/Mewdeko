@@ -16,16 +16,16 @@ public partial class Games
     {
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
-        public async Task Poll([Remainder] string input) 
+        public async Task Poll([Remainder] string input)
             => await Poll(PollType.SingleAnswer, input);
-        
+
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Poll(PollType type, [Remainder] string arg)
         {
             if (type == PollType.PollEnded)
                 return;
-            
+
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
@@ -76,7 +76,9 @@ public partial class Games
                 }
             }
             else
+            {
                 await ReplyErrorLocalizedAsync("poll_already_running").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),

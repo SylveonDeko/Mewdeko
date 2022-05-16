@@ -11,6 +11,6 @@ public static class AfkExtensions
             .AsNoTracking().
             Where(x => x.GuildId == guildId).ToArray();
 
-    public static Afk[] GetAll(this DbSet<Afk> set) => 
+    public static Afk[] GetAll(this DbSet<Afk> set) =>
         set.AsQueryable().AsNoTracking().ToArray();
 }

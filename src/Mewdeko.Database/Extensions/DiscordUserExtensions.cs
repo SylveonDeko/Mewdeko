@@ -12,14 +12,14 @@ public static class DiscordUserExtensions
         ctx.DiscordUser
            .ToLinqToDBTable()
            .InsertOrUpdate(() => new DiscordUser
-               {
-                   UserId = userId,
-                   Username = username,
-                   Discriminator = discrim,
-                   AvatarId = avatarId,
-                   TotalXp = 0,
-                   CurrencyAmount = 0
-               },
+           {
+               UserId = userId,
+               Username = username,
+               Discriminator = discrim,
+               AvatarId = avatarId,
+               TotalXp = 0,
+               CurrencyAmount = 0
+           },
                old => new DiscordUser
                {
                    Username = username,
@@ -64,7 +64,7 @@ public static class DiscordUserExtensions
              .Where(c => c.CurrencyAmount > 0 && botId != c.UserId)
              .OrderByDescending(c => c.CurrencyAmount)
              .ToList();
-    
+
 
     public static long GetUserCurrency(this DbSet<DiscordUser> users, ulong userId) =>
         users.AsNoTracking()
@@ -73,8 +73,7 @@ public static class DiscordUserExtensions
 
     public static void RemoveFromMany(this DbSet<DiscordUser> users, IEnumerable<ulong> ids)
     {
-        var items = users.AsQueryable().Where(x => ids.Contains(x.UserId));
-        foreach (var item in items)
+        foreach (var item in users.AsQueryable().Where(x => ids.Contains(x.UserId)))
         {
             item.CurrencyAmount = 0;
         }
@@ -125,7 +124,6 @@ WHERE UserId={userId};
 INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, CurrencyAmount, TotalXp)
 VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount}, 0);
 ");
-                
         }
         else
         {

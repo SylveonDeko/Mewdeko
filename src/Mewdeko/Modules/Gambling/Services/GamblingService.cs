@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Concurrent;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 
@@ -87,11 +85,12 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
         client.DefaultRequestHeaders.Add("Authorization", _creds.VotesToken);
         var tocheck = await client.GetStringAsync($"https://top.gg/api/bots/{_client.CurrentUser.Id}/check?userId={id}");
         return tocheck.Contains('1');
-}
+    }
 
     public EconomyResult GetEconomy()
     {
         if (_cache.TryGetEconomy(out var data))
+        {
             try
             {
                 return JsonConvert.DeserializeObject<EconomyResult>(data);
@@ -100,6 +99,7 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
             {
                 // ignored
             }
+        }
 
         decimal cash;
         decimal onePercent;

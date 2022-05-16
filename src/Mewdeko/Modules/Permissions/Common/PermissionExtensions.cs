@@ -52,16 +52,17 @@ public static class PermissionExtensions
         string moduleName)
     {
         if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
-               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
+               string.Equals(perm.SecondaryTargetName, commandName, StringComparison.InvariantCultureIgnoreCase)) ||
               (perm.SecondaryTarget == SecondaryPermissionType.Module &&
-               perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
+               string.Equals(perm.SecondaryTargetName, moduleName, StringComparison.InvariantCultureIgnoreCase)) ||
               perm.SecondaryTarget == SecondaryPermissionType.AllModules))
+        {
             return null;
-
-        var guildUser = message.Author as IGuildUser;
+        }
 
         switch (perm.PrimaryTarget)
         {
+
             case PrimaryPermissionType.User:
                 if (perm.PrimaryTargetId == message.Author.Id)
                     return perm.State;
@@ -71,17 +72,19 @@ public static class PermissionExtensions
                     return perm.State;
                 break;
             case PrimaryPermissionType.Category:
-                if (perm.PrimaryTargetId == ((ITextChannel) message.Channel).CategoryId)
+                if (perm.PrimaryTargetId == ((ITextChannel)message.Channel).CategoryId)
                     return perm.State;
                 break;
             case PrimaryPermissionType.Role:
-                if (guildUser == null)
+                if (message.Author is not IGuildUser guildUser)
                     break;
                 if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
                     return perm.State;
                 break;
             case PrimaryPermissionType.Server:
-                if (guildUser == null)
+                if (message.Author is not IGuildUser guildUser1)
+                    break;
+                if (guildUser1 == null)
                     break;
                 return perm.State;
         }
@@ -91,13 +94,13 @@ public static class PermissionExtensions
     public static bool? CheckSlashPermission(this Permissionv2 perm, string moduleName, IUser user, string commandName, IMessageChannel chan)
     {
         if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
-               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
+               string.Equals(perm.SecondaryTargetName, commandName, StringComparison.InvariantCultureIgnoreCase)) ||
               (perm.SecondaryTarget == SecondaryPermissionType.Module &&
-               perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
+               string.Equals(perm.SecondaryTargetName, moduleName, StringComparison.InvariantCultureIgnoreCase)) ||
               perm.SecondaryTarget == SecondaryPermissionType.AllModules))
+        {
             return null;
-
-        var guildUser = user as IGuildUser;
+        }
 
         switch (perm.PrimaryTarget)
         {
@@ -110,17 +113,19 @@ public static class PermissionExtensions
                     return perm.State;
                 break;
             case PrimaryPermissionType.Category:
-                if (perm.PrimaryTargetId == ((ITextChannel) chan).CategoryId)
+                if (perm.PrimaryTargetId == ((ITextChannel)chan).CategoryId)
                     return perm.State;
                 break;
             case PrimaryPermissionType.Role:
-                if (guildUser == null)
+                if (user is not IGuildUser guildUser)
                     break;
                 if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
                     return perm.State;
                 break;
             case PrimaryPermissionType.Server:
-                if (guildUser == null)
+                if (user is not IGuildUser guildUser1)
+                    break;
+                if (guildUser1 == null)
                     break;
                 return perm.State;
         }

@@ -16,7 +16,6 @@ public class UserPunishService2 : INService
     private readonly MuteService _mute;
     private readonly Mewdeko _bot;
 
-
     public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
     {
         _mute = mute;
@@ -27,8 +26,7 @@ public class UserPunishService2 : INService
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-
-    public ulong GetMWarnlogChannel(ulong? id) 
+    public ulong GetMWarnlogChannel(ulong? id)
         => _bot.GetGuildConfig(id.Value).MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
@@ -74,7 +72,7 @@ public class UserPunishService2 : INService
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        var p = ps.FirstOrDefault(x => x.Count == warnings);
+        var p = ps.Find(x => x.Count == warnings);
 
         if (p != null)
         {
@@ -91,27 +89,42 @@ public class UserPunishService2 : INService
                     break;
                 case PunishmentAction.VoiceMute:
                     if (p.Time == 0)
+                    {
                         await _mute.MuteUser(user, mod, MuteType.Voice).ConfigureAwait(false);
+                    }
                     else
+                    {
                         await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Voice)
-                            .ConfigureAwait(false);
+                                                .ConfigureAwait(false);
+                    }
+
                     break;
                 case PunishmentAction.ChatMute:
                     if (p.Time == 0)
+                    {
                         await _mute.MuteUser(user, mod, MuteType.Chat).ConfigureAwait(false);
+                    }
                     else
+                    {
                         await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Chat)
-                            .ConfigureAwait(false);
+                                                .ConfigureAwait(false);
+                    }
+
                     break;
                 case PunishmentAction.Kick:
                     await user.KickAsync("Warned too many times.").ConfigureAwait(false);
                     break;
                 case PunishmentAction.Ban:
                     if (p.Time == 0)
+                    {
                         await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
+                    }
                     else
+                    {
                         await _mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
-                            .ConfigureAwait(false);
+                                                .ConfigureAwait(false);
+                    }
+
                     break;
                 case PunishmentAction.Softban:
                     await guild.AddBanAsync(user, 7, "Warned too many times").ConfigureAwait(false);
@@ -134,10 +147,14 @@ public class UserPunishService2 : INService
                     if (role is not null)
                     {
                         if (p.Time == 0)
+                        {
                             await user.AddRoleAsync(role).ConfigureAwait(false);
+                        }
                         else
+                        {
                             await _mute.TimedRole(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.",
-                                role).ConfigureAwait(false);
+                                                        role).ConfigureAwait(false);
+                        }
                     }
                     else
                     {
@@ -155,13 +172,10 @@ public class UserPunishService2 : INService
 
     public int GetWarnings(IGuild guild, ulong userId)
     {
-        int warnings;
         using var uow = _db.GetDbContext();
-        warnings = uow.Warnings2
+        return uow.Warnings2
             .ForId(guild.Id, userId)
             .Count(w => !w.Forgiven && w.UserId == userId);
-
-        return warnings;
     }
 
     public async Task CheckAllWarnExpiresAsync()
@@ -272,7 +286,7 @@ WHERE GuildId={guildId}
         {
             Count = number,
             Punishment = punish,
-            Time = (int?) time?.Time.TotalMinutes ?? 0,
+            Time = (int?)time?.Time.TotalMinutes ?? 0,
             RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         uow.SaveChanges();
@@ -287,7 +301,7 @@ WHERE GuildId={guildId}
 
         using var uow = _db.GetDbContext();
         var ps = uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)).WarnPunishments2;
-        var p = ps.FirstOrDefault(x => x.Count == number);
+        var p = ps.Find(x => x.Count == number);
 
         if (p == null) return true;
         uow.Remove(p);

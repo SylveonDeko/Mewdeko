@@ -129,7 +129,9 @@ public sealed class Connect4Game : IDisposable
 
             if (!await _cs.RemoveAsync(userId, "Connect4-bet", bet, true)
                     .ConfigureAwait(false)) // user doesn't have enough money to gamble
+            {
                 return false;
+            }
 
             if (_rng.Next(0, 2) == 0) //rolling from 0-1, if number is 0, join as first player
             {
@@ -169,13 +171,15 @@ public sealed class Connect4Game : IDisposable
         await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            inputCol -= 1;
+            inputCol--;
             if (CurrentPhase is Phase.Ended or Phase.Joining)
                 return false;
 
             if (!((_players[0].Value.UserId == userId && CurrentPhase == Phase.P1Move)
                   || (_players[1].Value.UserId == userId && CurrentPhase == Phase.P2Move)))
+            {
                 return false;
+            }
 
             if (inputCol is < 0 or > NUMBER_OF_COLUMNS) //invalid input
                 return false;
@@ -185,11 +189,13 @@ public sealed class Connect4Game : IDisposable
 
             var start = NUMBER_OF_ROWS * inputCol;
             for (var i = start; i < start + NUMBER_OF_ROWS; i++)
+            {
                 if (_gameState[i] == Field.Empty)
                 {
                     _gameState[i] = GetPlayerPiece(userId);
                     break;
                 }
+            }
 
             //check winnning condition
             // ok, i'll go from [0-2] in rows (and through all columns) and check upward if 4 are connected
@@ -235,6 +241,7 @@ public sealed class Connect4Game : IDisposable
 
                     var first = _gameState[j + (i * NUMBER_OF_ROWS)];
                     if (first != Field.Empty)
+                    {
                         for (var k = 1; k < 4; k++)
                         {
                             var next = _gameState[j + ((i + k) * NUMBER_OF_ROWS)];
@@ -243,6 +250,7 @@ public sealed class Connect4Game : IDisposable
                                 EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                             else break;
                         }
+                    }
                 }
             }
 
@@ -359,7 +367,7 @@ public sealed class Connect4Game : IDisposable
         }
 
         if (winId != null)
-            _cs.AddAsync(winId.Value, "Connnect4-win", (long) (_options.Bet * 1.98), true);
+            _cs.AddAsync(winId.Value, "Connnect4-win", (long)(_options.Bet * 1.98), true);
     }
 
     private Field GetPlayerPiece(ulong userId) =>
@@ -372,11 +380,13 @@ public sealed class Connect4Game : IDisposable
     {
         var start = NUMBER_OF_ROWS * column;
         for (var i = start; i < start + NUMBER_OF_ROWS; i++)
+        {
             if (_gameState[i] == Field.Empty)
                 return false;
+        }
+
         return true;
     }
-
 
     public class Options : IMewdekoCommandOptions
     {

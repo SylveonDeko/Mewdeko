@@ -52,12 +52,14 @@ public class TriviaQuestion
     private static bool JudgeGuess(int guessLength, int answerLength, int levDistance)
     {
         foreach (var level in _strictness)
+        {
             if (guessLength <= level.Item1 || answerLength <= level.Item1)
             {
                 if (levDistance <= level.Item2)
                     return true;
                 return false;
             }
+        }
 
         return false;
     }

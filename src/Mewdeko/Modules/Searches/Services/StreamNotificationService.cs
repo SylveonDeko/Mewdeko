@@ -45,7 +45,6 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly TypedKey<FollowStreamPubData> _streamFollowKey;
     private readonly TypedKey<FollowStreamPubData> _streamUnfollowKey;
 
-
     public StreamNotificationService(
         DbService db,
         DiscordSocketClient client,
@@ -85,10 +84,10 @@ public class StreamNotificationService : IReadyExecutor, INService
             var followedStreams = guildConfigs.SelectMany(x => x.FollowedStreams).ToList();
 
             _shardTrackedStreams = followedStreams.GroupBy(x => new
-                                                  {
-                                                      x.Type,
-                                                      Name = x.Username.ToLower()
-                                                  })
+            {
+                x.Type,
+                Name = x.Username.ToLower()
+            })
                                                   .ToList()
                                                   .ToDictionary(
                                                       x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
@@ -105,10 +104,10 @@ public class StreamNotificationService : IReadyExecutor, INService
                     _streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
                 _trackCounter = allFollowedStreams.GroupBy(x => new
-                                                  {
-                                                      x.Type,
-                                                      Name = x.Username.ToLower()
-                                                  })
+                {
+                    x.Type,
+                    Name = x.Username.ToLower()
+                })
                                                   .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
                                                       x => x.Select(fs => fs.GuildId).ToHashSet());
             }
@@ -146,7 +145,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 var errorLimit = TimeSpan.FromHours(12);
                 var failingStreams = _streamTracker.GetFailingStreams(errorLimit, true).ToList();
 
-                if (!failingStreams.Any())
+                if (failingStreams.Count == 0)
                     continue;
 
                 var deleteGroups = failingStreams.GroupBy(x => x.Type)
@@ -193,7 +192,9 @@ public class StreamNotificationService : IReadyExecutor, INService
         {
             var key = info.Key;
             if (_trackCounter.ContainsKey(key))
+            {
                 _trackCounter[key].Add(info.GuildId);
+            }
             else
             {
                 _trackCounter[key] = new()
@@ -283,11 +284,8 @@ public class StreamNotificationService : IReadyExecutor, INService
         }
     }
 
-
-
     private Task OnStreamsOnline(List<StreamData> data)
         => _pubSub.Pub(_streamsOnlineKey, data);
-
 
     private Task OnStreamsOffline(List<StreamData> data)
         => _pubSub.Pub(_streamsOfflineKey, data);
@@ -441,7 +439,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 streams.Add(fs);
             }
         }
-    
+
         PublishFollowStream(fs);
         return data;
     }
@@ -475,7 +473,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         return embed;
     }
 
-    private string GetText(ulong guildId, string key, params object[] replacements) 
+    private string GetText(ulong guildId, string key, params object[] replacements)
         => _strings.GetText(key, guildId, replacements);
 
     public bool ToggleStreamOffline(ulong guildId)

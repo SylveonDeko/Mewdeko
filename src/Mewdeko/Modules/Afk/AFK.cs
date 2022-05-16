@@ -44,10 +44,10 @@ public class Afk : MewdekoModuleBase<AfkService>
         {
             var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
             var enumerable = afkmsg as string[] ?? afkmsg.ToArray();
-            if (!enumerable.Any() || enumerable.Last() == "")
+            if (enumerable.Length == 0 || enumerable.Last()?.Length == 0)
             {
-                await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0).ConfigureAwait(false);
-                await ReplyConfirmLocalizedAsync("afk_enabled_no_message").ConfigureAwait(false);;
+                await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("afk_enabled_no_message").ConfigureAwait(false);
                 try
                 {
                     var user = await ctx.Guild.GetUserAsync(ctx.User.Id).ConfigureAwait(false);
@@ -58,13 +58,13 @@ public class Afk : MewdekoModuleBase<AfkService>
                 }
                 catch
                 {
-                  // ignored
+                    // ignored
                 }
                 await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "", 0).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("afk_disabled").ConfigureAwait(false);
             try
             {
@@ -85,7 +85,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message.EscapeQuotes(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeQuotes(), 0).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message);
         try
         {
@@ -162,8 +162,10 @@ public class Afk : MewdekoModuleBase<AfkService>
             $"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}").ConfigureAwait(false);
         await Service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
         if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
+        {
             await ctx.Channel.SendMessageAsync(
                 $"Welcome back {ctx.User.Mention} I have removed your timed AFK.").ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -188,7 +190,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
         var afks = await Service.GetAfkUsers(ctx.Guild).ConfigureAwait(false);
-        if (!afks.Any())
+        if (afks.Length == 0)
         {
             await ctx.Channel.SendErrorAsync("There are no currently AFK users!").ConfigureAwait(false);
             return;
@@ -203,7 +205,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -232,7 +234,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, Priority(0),  UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -243,8 +245,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
 
-        var e = chans.Split(",");
-        foreach (var i in e)
+        foreach (var i in chans.Split(","))
         {
             var role = await ctx.Guild.GetTextChannelAsync(Convert.ToUInt64(i)).ConfigureAwait(false);
             mentions.Add(role.Mention);
@@ -259,7 +260,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -290,7 +291,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters").ConfigureAwait(false);
         }
     }
-    
+
     [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(AfkTypeEnum afkTypeEnum)
     {
@@ -309,7 +310,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");        
+            await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
         if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
@@ -342,13 +343,15 @@ public class Afk : MewdekoModuleBase<AfkService>
         var e = chans.Split(",");
         var list = e.ToList();
         foreach (var i in chan)
+        {
             if (e.Contains(i.Id.ToString()))
             {
                 toremove.Add(i.Id.ToString());
                 mentions.Add(i.Mention);
             }
+        }
 
-        if (!mentions.Any())
+        if (mentions.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("The channels you have specifed are not set to ignore Afk!").ConfigureAwait(false);
             return;
@@ -408,7 +411,7 @@ public class Afk : MewdekoModuleBase<AfkService>
                 newchans.Add(i.Id.ToString());
             }
 
-            if (mentions.Any())
+            if (mentions.Count > 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     "No channels were added because the channels you specified are already in the list.").ConfigureAwait(false);
@@ -424,7 +427,6 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
-        
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting");
@@ -435,41 +437,40 @@ public class Afk : MewdekoModuleBase<AfkService>
         foreach (var i in user)
         {
             var curafk = Service.IsAfk(ctx.Guild, i);
-                if (!curafk)
-                    continue;
-                
-                if (!await CheckRoleHierarchy(i, false))
-                {
-                    erroredusers++;
-                    continue;
-                }
-                await Service.AfkSet(ctx.Guild, i, "", 0);
-                users++;
-                try
-                {
-                    await i.ModifyAsync(x => x.Nickname = i.Nickname.Replace("[AFK]", ""));
-                }
-                catch
-                {
-                    //ignored
-                }
+            if (!curafk)
+                continue;
+
+            if (!await CheckRoleHierarchy(i, false))
+            {
+                erroredusers++;
+                continue;
+            }
+            await Service.AfkSet(ctx.Guild, i, "", 0);
+            users++;
+            try
+            {
+                await i.ModifyAsync(x => x.Nickname = i.Nickname.Replace("[AFK]", ""));
+            }
+            catch
+            {
+                //ignored
+            }
         }
 
         switch (users)
         {
-            case >0 when erroredusers == 0:
+            case > 0 when erroredusers == 0:
                 await ReplyConfirmLocalizedAsync("afk_rm_multi_success", users);
                 break;
             case 0 when erroredusers == 0:
                 await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");
                 break;
-            case >0 when erroredusers > 0:
+            case > 0 when erroredusers > 0:
                 await ReplyConfirmLocalizedAsync("afk_success_hierarchy", users, erroredusers);
                 break;
             case 0 when erroredusers >= 1:
                 await ReplyErrorLocalizedAsync("afk_rm_fail_hierarchy");
                 break;
-
         }
     }
 
@@ -481,7 +482,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             await ReplyErrorLocalizedAsync("afk_still_starting");
             return;
         }
-        
+
         if (!Service.IsAfk(ctx.Guild, user))
         {
             await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");

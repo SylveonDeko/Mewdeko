@@ -13,8 +13,6 @@ public class FollowedStream : DbEntity
         Trovo = 6
     }
 
-
-
     public ulong GuildId { get; set; }
     public ulong ChannelId { get; set; }
     public string Username { get; set; }
@@ -23,7 +21,8 @@ public class FollowedStream : DbEntity
 
     protected bool Equals(FollowedStream other)
         => ChannelId == other.ChannelId
-           && Username.Trim().ToUpperInvariant() == other.Username.Trim().ToUpperInvariant()
+           && string.Equals(Username.Trim(), other.Username.Trim()
+, StringComparison.InvariantCultureIgnoreCase)
            && Type == other.Type;
 
     public override int GetHashCode()
@@ -34,5 +33,4 @@ public class FollowedStream : DbEntity
 
     public StreamDataKey CreateKey()
         => new(Type, Username.ToLower());
-
 }

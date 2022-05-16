@@ -5,7 +5,6 @@ namespace Mewdeko.Database.Extensions;
 
 public static class SelfAssignedRolesExtensions
 {
-
     public static bool DeleteByGuildAndRoleId(this DbSet<SelfAssignedRole> set, ulong guildId, ulong roleId)
     {
         var role = set.FirstOrDefault(s => s.GuildId == guildId && s.RoleId == roleId);

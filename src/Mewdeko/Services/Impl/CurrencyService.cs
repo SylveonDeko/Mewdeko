@@ -29,6 +29,7 @@ public class CurrencyService : ICurrencyService
     {
         await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble);
         if (sendMessage)
+        {
             try
             {
                 await (await user.CreateDMChannelAsync())
@@ -42,6 +43,7 @@ public class CurrencyService : ICurrencyService
             {
                 // ignored
             }
+        }
     }
 
     public async Task AddBulkAsync(IEnumerable<ulong> userIds, IEnumerable<string> reasons,
@@ -57,9 +59,12 @@ public class CurrencyService : ICurrencyService
         var userIdHashSet = new HashSet<ulong>(idArray.Length);
         await using var uow = _db.GetDbContext();
         for (var i = 0; i < idArray.Length; i++)
+        {
             // i have to prevent same user changing more than once as it will cause db error
             if (userIdHashSet.Add(idArray[i]))
                 InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
+        }
+
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -103,8 +108,10 @@ public class CurrencyService : ICurrencyService
         long amount, bool gamble)
     {
         if (amount < 0)
+        {
             throw new ArgumentException("You can't add negative amounts. Use RemoveAsync method for that.",
                 nameof(amount));
+        }
 
         await using var uow = _db.GetDbContext();
         InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
@@ -115,8 +122,10 @@ public class CurrencyService : ICurrencyService
         string reason, long amount, bool gamble = false)
     {
         if (amount < 0)
+        {
             throw new ArgumentException("You can't remove negative amounts. Use AddAsync method for that.",
                 nameof(amount));
+        }
 
         bool result;
         await using var uow = _db.GetDbContext();

@@ -25,8 +25,8 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     // ReSharper disable once MemberCanBePrivate.Global
     public async Task Me
     (
-        [Summary("time", "When should the reminder respond.")]TimeSpan time, 
-        [Summary("reminder", "(optional) what should the reminder message be")]string reminder = ""
+        [Summary("time", "When should the reminder respond.")] TimeSpan time,
+        [Summary("reminder", "(optional) what should the reminder message be")] string reminder = ""
     )
     {
         if (string.IsNullOrEmpty(reminder))
@@ -58,16 +58,16 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         await RemindInternal(ctx.Channel.Id, false, time, reminder).ConfigureAwait(false);
     }
 
-    [SlashCommand("channel", "Send a reminder to this channel."), 
+    [SlashCommand("channel", "Send a reminder to this channel."),
      UserPerm(ChannelPermission.ManageMessages)]
     public async Task Channel
     (
-        [Summary("channel", "where should the reminder be sent?")]ITextChannel channel, 
-        [Summary("time", "When should the reminder respond.")]TimeSpan time, 
-        [Summary("reminder", "(optional) what should the reminder message be")]string reminder = ""
+        [Summary("channel", "where should the reminder be sent?")] ITextChannel channel,
+        [Summary("time", "When should the reminder respond.")] TimeSpan time,
+        [Summary("reminder", "(optional) what should the reminder message be")] string reminder = ""
     )
     {
-        var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
+        var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
         if (!perms.SendMessages || !perms.ViewChannel)
         {
             await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
@@ -79,10 +79,12 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             await RespondWithModalAsync<ReminderModal>($"remind:{channel.Id},0,{time};").ConfigureAwait(false);
             return;
         }
-        
+
         if (!await RemindInternal(channel.Id, false, time, reminder)
                 .ConfigureAwait(false))
+        {
             await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+        }
     }
 
     [ModalInteraction("remind:*,*,*;", true)]
@@ -94,12 +96,12 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
 
         await RemindInternal(id, pri, time, modal.Reminder).ConfigureAwait(false);
     }
-    
+
     private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
     {
         if (ts > TimeSpan.FromDays(60))
             return false;
-            
+
         var time = DateTime.UtcNow + ts;
 
         if (ctx.Guild is not null)
@@ -117,7 +119,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             UserId = ctx.User.Id,
             ServerId = ctx.Guild?.Id ?? 0
         };
-        
+
         await using (var uow = _db.GetDbContext())
         {
             uow.Reminders.Add(rem);
@@ -127,7 +129,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         var gTime = ctx.Guild == null
             ? time
             : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
-        
+
         try
         {
             var unixTime = time.ToUnixEpochDate();
@@ -144,11 +146,11 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
 
     [SlashCommand("list", "List your current reminders")]
     public async Task List(
-        [Summary("page", "What page of reminders do you want to load.")]int page = 1)
+        [Summary("page", "What page of reminders do you want to load.")] int page = 1)
     {
-        if (--page < 0) 
+        if (--page < 0)
             return;
-        
+
         var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle(GetText("reminder_list"));
@@ -160,7 +162,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
                       .ToList();
         }
 
-        if (rems.Any())
+        if (rems.Count > 0)
         {
             var i = 0;
             foreach (var rem in rems)
@@ -168,7 +170,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
                 var when = rem.When;
                 var diff = when - DateTime.UtcNow;
                 embed.AddField(
-                    $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
+                    $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
                     $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
 `TargetId:` {rem.ChannelId}
 `Message:` {rem.Message?.TrimTo(50)}");
@@ -182,9 +184,9 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         embed.AddPaginatedFooter(page + 1, null);
         await RespondAsync(embed: embed.Build()).ConfigureAwait(false);
     }
-    
+
     [SlashCommand("delete", "Delete a reminder")]
-    public async Task RemindDelete([Summary("index", "The reminders index (from /remind list)")]int index)
+    public async Task RemindDelete([Summary("index", "The reminders index (from /remind list)")] int index)
     {
         if (--index < 0)
             return;

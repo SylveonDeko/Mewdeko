@@ -15,7 +15,7 @@ public partial class ServerManagement
         {
             ulong result = 0;
             foreach (var permission in permissions)
-                result |= (ulong) permission;
+                result |= (ulong)permission;
             return result;
         }
 

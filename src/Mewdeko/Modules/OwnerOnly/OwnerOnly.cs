@@ -23,7 +23,6 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 
 namespace Mewdeko.Modules.OwnerOnly;
 [OwnerOnly]
@@ -47,7 +46,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IDataCache _cache;
     private readonly CommandService _commandService;
     private readonly IServiceProvider _services;
-
 
     public OwnerOnly(
         DiscordSocketClient client,
@@ -92,7 +90,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task ListServers(int page = 1)
     {
-        page -= 1;
+        page--;
 
         if (page < 0)
             return;
@@ -131,11 +129,15 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
                     if (string.IsNullOrWhiteSpace(s.ToString()))
                     {
-                        if (s.Attachments.Any())
+                        if (s.Attachments.Count > 0)
+                        {
                             msg += $"FILES_UPLOADED: {string.Join("\n", s.Attachments.Select(x => x.Url))}";
-                        else if (s.Embeds.Any())
+                        }
+                        else if (s.Embeds.Count > 0)
+                        {
                             msg +=
-                                $"EMBEDS: {string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"))}";
+                                                        $"EMBEDS: {string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"))}";
+                        }
                     }
                     else
                     {
@@ -195,7 +197,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithOkColor()
                 .WithTitle($"⚙️ {setting.Name}")
                 .WithDescription(propStrings);
-
 
             await ctx.Channel.EmbedAsync(embed);
             return;
@@ -289,7 +290,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var statuses = Service.GetRotatingStatuses();
 
-        if (!statuses.Any())
+        if (statuses.Count == 0)
         {
             await ReplyErrorLocalizedAsync("ropl_not_set").ConfigureAwait(false);
         }
@@ -321,7 +322,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task RemovePlaying(int index)
     {
-        index -= 1;
+        index--;
 
         var msg = await Service.RemovePlayingAsync(index).ConfigureAwait(false);
 
@@ -337,7 +338,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         try
         {
             CultureInfo ci;
-            if (name.Trim().ToLowerInvariant() == "default")
+            if (string.Equals(name.Trim(), "default", StringComparison.InvariantCultureIgnoreCase))
             {
                 Localization.ResetDefaultCulture();
                 ci = Localization.DefaultCultureInfo;
@@ -364,7 +365,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{Prefix}restart", StringComparison.InvariantCulture))
             return;
 
-        var guser = (IGuildUser) ctx.User;
+        var guser = (IGuildUser)ctx.User;
         var cmd = new AutoCommand
         {
             CommandText = cmdText,
@@ -403,13 +404,13 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 return;
         }
         var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
-        
+
         if (count.Count() == 15)
             return;
         if (interval < 5)
             return;
 
-        var guser = (IGuildUser) ctx.User;
+        var guser = (IGuildUser)ctx.User;
         var cmd = new AutoCommand
         {
             CommandText = cmdText,
@@ -468,7 +469,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .Skip(page * 5)
             .Take(5)
             .ToList();
-        if (!scmds.Any())
+        if (scmds.Count == 0)
         {
             await ReplyErrorLocalizedAsync("autocmdlist_none").ConfigureAwait(false);
         }
@@ -490,7 +491,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
-    
+
     [Cmd, Aliases]
     public async Task Wait(int miliseconds)
     {
@@ -567,7 +568,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task ShardStats()
     {
-
         var statuses = _coord.GetAllShardStatuses();
 
         var status = string.Join(" : ", statuses
@@ -587,7 +587,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             })
             .ToArray();
 
-
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
@@ -597,22 +596,22 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
             var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
 
-                if (string.IsNullOrWhiteSpace(str))
-                    str = GetText("no_shards_on_page");
+            if (string.IsNullOrWhiteSpace(str))
+                str = GetText("no_shards_on_page");
 
-                return new PageBuilder()
-                    .WithAuthor(a => a.WithName(GetText("shard_stats")))
-                    .WithTitle(status)
-                    .WithColor(Mewdeko.OkColor)
-                    .WithDescription(str);
-            }
+            return new PageBuilder()
+                .WithAuthor(a => a.WithName(GetText("shard_stats")))
+                .WithTitle(status)
+                .WithColor(Mewdeko.OkColor)
+                .WithDescription(str);
+        }
     }
 
     private static string ConnectionStateToEmoji(ShardStatus status)
@@ -627,7 +626,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         };
     }
 
-
     [Cmd, Aliases]
     public async Task RestartShard(int shardId)
     {
@@ -641,11 +639,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
 
-
     [Cmd, Aliases]
     public async Task Die()
     {
-
         try
         {
             await ReplyConfirmLocalizedAsync("shutting_down").ConfigureAwait(false);
@@ -699,9 +695,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("bot_name", Format.Bold(newName)).ConfigureAwait(false);
     }
 
-    
-
-
     [Cmd, Aliases]
     public async Task SetStatus([Remainder] SettableUserStatus status)
     {
@@ -741,9 +734,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [Cmd, Aliases]
-    public async Task Send(ulong whereOrTo, [Remainder] string msg) 
+    public async Task Send(ulong whereOrTo, [Remainder] string msg)
         => await Send(whereOrTo, 0, msg);
-    
+
     [Cmd, Aliases]
     public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
     {
@@ -898,7 +891,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         };
         var msg = await ctx.Channel.SendMessageAsync("", embed: embed.Build());
 
-        var globals = new EvaluationEnvironment((CommandContext) Context);
+        var globals = new EvaluationEnvironment((CommandContext)Context);
         var sopts = ScriptOptions.Default
             .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                 "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
@@ -992,6 +985,6 @@ public sealed class EvaluationEnvironment
     public IMessageChannel Channel => ctx.Channel;
     public IGuild Guild => ctx.Guild;
     public IUser User => ctx.User;
-    public IGuildUser Member => (IGuildUser) ctx.User;
+    public IGuildUser Member => (IGuildUser)ctx.User;
     public DiscordSocketClient Client => ctx.Client as DiscordSocketClient;
 }

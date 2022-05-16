@@ -45,14 +45,14 @@ public class RedisCache : IDataCache
     }
 
     public async Task CacheAfk(ulong id, List<Afk> objectList) =>
-        await Task.Run(() => 
+        await Task.Run(() =>
             new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } });
-    
+
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
         var db = Redis.GetDatabase();
-        db.StringSet($"{_redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings 
-        { 
+        db.StringSet($"{_redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings
+        {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         }));
     }
@@ -75,20 +75,16 @@ public class RedisCache : IDataCache
             _ = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } });
 
     public async Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList) =>
-        await Task.Run(() =>
-        {
-            _ = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis)
+        await Task.Run(() => _ = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis)
             {
                 { id, objectList }
-            };
-        });
+            });
 
     public List<Afk> GetAfkForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis);
         return customers[id];
     }
-    
 
     public Task AddAfkToCache(ulong id, List<Afk> newAfk)
     {
@@ -97,7 +93,7 @@ public class RedisCache : IDataCache
         customers.Add(id, newAfk);
         return Task.CompletedTask;
     }
-    
+
     public Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
@@ -105,7 +101,7 @@ public class RedisCache : IDataCache
         customers.Add(id, newAfk);
         return Task.CompletedTask;
     }
-    
+
     public Task AddHighlightToCache(ulong id, List<Highlights> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
@@ -132,7 +128,7 @@ public class RedisCache : IDataCache
         var value = db.StringGet($"{_redisKey}_ignoredchannels_{guildId}_{userId}");
         return JsonConvert.DeserializeObject<string>(value);
     }
-    
+
     public Task AddIgnoredUsers(ulong guildId, ulong userId, string ignored)
     {
         var db = Redis.GetDatabase();
@@ -158,7 +154,7 @@ public class RedisCache : IDataCache
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
-    
+
     public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
@@ -166,7 +162,7 @@ public class RedisCache : IDataCache
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
-    
+
     public Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
@@ -178,7 +174,7 @@ public class RedisCache : IDataCache
         var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
         return customers[id];
     }
-    
+
     public List<HighlightSettings> GetHighlightSettingsForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
@@ -198,7 +194,7 @@ public class RedisCache : IDataCache
         {
             var time = TimeSpan.FromHours(period);
             var db = Redis.GetDatabase();
-            if ((bool?) db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
+            if ((bool?)db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
             {
                 db.StringSet($"{_redisKey}_timelyclaim_{id}", true, time);
                 return null;
@@ -216,7 +212,7 @@ public class RedisCache : IDataCache
         {
             var time = TimeSpan.FromHours(period);
             var db = Redis.GetDatabase();
-            if ((bool?) db.StringGet($"{_redisKey}_voteclaim_{id}") == null)
+            if ((bool?)db.StringGet($"{_redisKey}_voteclaim_{id}") == null)
             {
                 db.StringSet($"{_redisKey}_voteclaim_{id}", true, time);
                 return null;
@@ -280,7 +276,9 @@ public class RedisCache : IDataCache
                 0, // i don't use the value
                 TimeSpan.FromSeconds(expireIn),
                 when: When.NotExists))
+        {
             return null;
+        }
 
         return db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
     }
@@ -305,7 +303,7 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
     }
-    
+
     public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
@@ -317,20 +315,20 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
     }
-    
+
     public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
         var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
         return JsonConvert.DeserializeObject<int>(toget);
     }
-    
+
     public async Task SetGuildSettingString(ulong guildId, string setting, string value)
     {
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
     }
-    
+
     public async Task<string> GetGuildSettingString(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
@@ -356,14 +354,14 @@ public class RedisCache : IDataCache
             return obj;
         }
 
-        return (TOut) JsonConvert.DeserializeObject(data, typeof(TOut));
+        return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
     }
 
     public DateTime GetLastCurrencyDecay()
     {
         var db = Redis.GetDatabase();
 
-        var str = (string) db.StringGet($"{_redisKey}_last_currency_decay");
+        var str = (string)db.StringGet($"{_redisKey}_last_currency_decay");
         if (string.IsNullOrEmpty(str))
             return DateTime.MinValue;
 

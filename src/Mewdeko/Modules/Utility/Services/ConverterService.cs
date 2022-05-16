@@ -23,11 +23,13 @@ public class ConverterService : INService, IUnloadableService
         _httpFactory = factory;
 
         if (client.ShardId == 0)
+        {
             _currencyUpdater = new Timer(
-                async shouldLoad => await UpdateCurrency((bool) shouldLoad).ConfigureAwait(false),
+                async shouldLoad => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
                 client.ShardId == 0,
                 TimeSpan.Zero,
                 _updateInterval);
+        }
     }
 
     public ConvertUnit[] Units =>
@@ -53,19 +55,19 @@ public class ConverterService : INService, IUnloadableService
     {
         try
         {
-            var unitTypeString = "currency";
+            const string unitTypeString = "currency";
             if (shouldLoad)
             {
                 var currencyRates = await GetCurrencyRates().ConfigureAwait(false);
                 var baseType = new ConvertUnit
                 {
-                    Triggers = new[] {currencyRates.Base},
+                    Triggers = new[] { currencyRates.Base },
                     Modifier = decimal.One,
                     UnitType = unitTypeString
                 };
                 var range = currencyRates.ConversionRates.Select(u => new ConvertUnit
                 {
-                    Triggers = new[] {u.Key},
+                    Triggers = new[] { u.Key },
                     Modifier = u.Value,
                     UnitType = unitTypeString
                 }).ToArray();

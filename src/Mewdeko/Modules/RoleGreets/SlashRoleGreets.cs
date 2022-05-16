@@ -19,12 +19,11 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     private InteractiveService interactivity;
     public RoleRoleGreets(InteractiveService interactivity) => this.interactivity = interactivity;
 
-    [SlashCommand("add","Add a role to RoleGreets."), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions]
+    [SlashCommand("add", "Add a role to RoleGreets."), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task RoleGreetAdd(IRole role, ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        var added = Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id);
-        switch (added)
+        switch (Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id))
         {
             case true:
                 await ctx.Interaction.SendConfirmAsync($"Added {role.Mention} to greet in {channel.Mention}!");
@@ -38,7 +37,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!");
@@ -47,7 +46,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await Service.ChangeRgGb(greet, enabled);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} GreetBots set to {enabled}");
     }
-    [SlashCommand("remove","Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("remove", "Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(int id)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
@@ -61,7 +60,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await ctx.Interaction.SendConfirmAsync("RoleGreet removed!");
     }
 
-    [SlashCommand("removerole","Removes all RoleGreets on that channel."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("removerole", "Removes all RoleGreets on that channel."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(IRole role)
     {
         await ctx.Interaction.DeferAsync();
@@ -79,7 +78,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         }
     }
 
-    [SlashCommand("delete","Set how long it takes for a greet to delete"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
+    [SlashCommand("delete", "Set how long it takes for a greet to delete"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
@@ -92,17 +91,20 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
 
         await Service.ChangeRgDelete(greet, howlong);
         if (howlong > 0)
+        {
             await ctx.Interaction.SendConfirmAsync(
-                $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+                        $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+        }
         else
+        {
             await ctx.Interaction.SendConfirmAsync($"RoleGreet #{id} will no longer delete.");
-
+        }
     }
-    
+
     [SlashCommand("disable", "Disable a RoleGreet using its Id"), Aliases, RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!");
@@ -111,7 +113,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await Service.RoleGreetDisable(greet, enabled);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {enabled}");
     }
-    [SlashCommand("webhook","Set a custom name and avatar to use for each RoleGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
+    [SlashCommand("webhook", "Set a custom name and avatar to use for each RoleGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
@@ -154,7 +156,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         }
     }
 
-    [SlashCommand("message","Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("message", "Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync();
@@ -196,11 +198,11 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await ctx.Interaction.SendConfirmFollowupAsync($"RoleGreet Message for RoleGreet #{id} set!");
     }
 
-    [SlashCommand("list","Lists all current RoleGreets"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("list", "Lists all current RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetList()
     {
         var greets = Service.GetGreets(ctx.Guild.Id);
-        if (!greets.Any())
+        if (greets.Length == 0)
         {
             await ctx.Interaction.SendErrorAsync("No RoleGreets setup!");
         }
@@ -223,6 +225,5 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                                         $"#{Array.IndexOf(greets, curgreet) + 1}\n`Role:` {((await ctx.Guild.GetTextChannelAsync(curgreet.RoleId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.RoleId))?.Mention)} `{curgreet.RoleId}`\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Disabled:` {curgreet.Disabled}\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                     .WithOkColor();
         }
-
     }
 }

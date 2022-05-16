@@ -35,14 +35,14 @@ public partial class Utility
             if (!success)
                 return;
 
-            var ch = (ITextChannel) ctx.Channel;
+            var ch = (ITextChannel)ctx.Channel;
             var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
                 .ConfigureAwait(false);
 
             await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
                 .ConfigureAwait(false);
         }
-    
+
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task InviteInfo(string text)
         {
@@ -56,7 +56,7 @@ public partial class Utility
             {
                 // ignored
             }
-            
+
             var eb = new EmbedBuilder().WithOkColor().WithTitle(invinfo.GuildName).WithThumbnailUrl(guild?.IconUrl)
                                        .WithDescription(
                                            $"Online: {invinfo.PresenceCount}\nTotal Count: {invinfo.MemberCount}")
@@ -95,7 +95,7 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -116,7 +116,7 @@ public partial class Utility
         {
             if (--index < 0)
                 return;
-            var ch = (ITextChannel) ctx.Channel;
+            var ch = (ITextChannel)ctx.Channel;
 
             var invites = await ch.GetInvitesAsync().ConfigureAwait(false);
 

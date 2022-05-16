@@ -38,7 +38,6 @@ public class RedisLocalDataCache : ILocalDataCache
         private set => Set("trivia_questions", value);
     }
 
-
     private T Get<T>(string key) where T : class => JsonConvert.DeserializeObject<T>(Db.StringGet($"{_creds.RedisKey()}_localdata_{key}"));
 
     private void Set(string key, object obj) => Db.StringSet($"{_creds.RedisKey()}_localdata_{key}", JsonConvert.SerializeObject(obj));

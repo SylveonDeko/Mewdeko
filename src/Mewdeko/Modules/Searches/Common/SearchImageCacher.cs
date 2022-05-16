@@ -43,19 +43,26 @@ public class SearchImageCacher
             throw new Exception("One of the specified tags is blacklisted");
 
         if (type == DapiSearchType.E621)
+        {
             tags = tags.Select(tag => tag?.Replace("yuri", "female/female", StringComparison.InvariantCulture))
                 .ToArray();
+        }
 
         await _lock.WaitAsync().ConfigureAwait(false);
         try
         {
             ImageCacherObject[] imgs;
-            if (tags.Any())
+            if (tags.Length > 0)
+            {
                 imgs = _cache.Where(x =>
-                        x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e"))
-                    .ToArray();
+                                    x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e"))
+                                .ToArray();
+            }
             else
+            {
                 imgs = _cache.Where(x => x.SearchType == type).ToArray();
+            }
+
             imgs = imgs.Where(x => x.Tags.All(t => !blacklistedTags.Contains(t.ToLowerInvariant()))).ToArray();
             ImageCacherObject img;
             if (imgs.Length == 0)
@@ -78,8 +85,11 @@ public class SearchImageCacher
                     return null;
                 var toReturn = images[_rng.Next(images.Length)];
                 foreach (var dledImg in images)
+                {
                     if (dledImg != toReturn)
                         _cache.Add(dledImg);
+                }
+
                 return toReturn;
             }
         }
@@ -146,7 +156,7 @@ public class SearchImageCacher
                 case DapiSearchType.E621:
                     {
                         var data = await http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeAnonymousType(data, new {posts = new List<E621Object>()})
+                        return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
                                           .posts
                                           .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
                                           .Select(x => new ImageCacherObject(x.File.Url,
@@ -187,11 +197,12 @@ public class SearchImageCacher
         using (var http = _httpFactory.CreateClient())
         await using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
         using (var reader = XmlReader.Create(stream, new XmlReaderSettings
-               {
-                   Async = true
-               }))
+        {
+            Async = true
+        }))
         {
             while (await reader.ReadAsync().ConfigureAwait(false))
+            {
                 if (reader.NodeType == XmlNodeType.Element &&
                     reader.Name == "post")
                     list.Add(new ImageCacherObject(new DapiImageObject
@@ -200,6 +211,7 @@ public class SearchImageCacher
                         Tags = reader["tags"],
                         Rating = reader["rating"] ?? "e"
                     }, type));
+            }
         }
 
         return list.ToArray();
@@ -248,7 +260,6 @@ public class SafebooruElement
 {
     public string Directory { get; set; }
     public string Image { get; set; }
-
 
     public string FileUrl => $"https://safebooru.org/images/{Directory}/{Image}";
     public string Rating { get; set; }

@@ -5,7 +5,7 @@ namespace Mewdeko.Database.Extensions;
 
 public static class MusicExtensions
 {
-    public static IEnumerable<MusicPlaylist> GetPlaylistsByUser(this DbSet<MusicPlaylist> set, ulong userId) 
+    public static IEnumerable<MusicPlaylist> GetPlaylistsByUser(this DbSet<MusicPlaylist> set, ulong userId)
         => set.AsQueryable().Where(x => x.AuthorId == userId)
               .Include(x => x.Songs);
 

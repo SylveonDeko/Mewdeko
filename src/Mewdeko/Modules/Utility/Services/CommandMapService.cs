@@ -43,6 +43,7 @@ public class CommandMapService : IInputTransformer, INService
             return input;
 
         if (guild != null)
+        {
             if (AliasMaps.TryGetValue(guild.Id, out var maps))
             {
                 var keys = maps.Keys
@@ -60,6 +61,7 @@ public class CommandMapService : IInputTransformer, INService
                     return newInput;
                 }
             }
+        }
 
         return input;
     }

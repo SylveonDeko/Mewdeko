@@ -20,10 +20,9 @@ public static class LogSetup
                          outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
                      .Enrich.WithProperty("LogSource", source)
                      .CreateLogger();
-            
+
         Console.OutputEncoding = Encoding.UTF8;
     }
 
     private static ConsoleTheme GetTheme() => AnsiConsoleTheme.Code;
-
 }

@@ -34,8 +34,8 @@ public partial class Administration
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
             [Remainder] StoopidTime? punishTime = null)
         {
-            var minAgeMinutes = (int) minAge.Time.TotalMinutes;
-            var punishTimeMinutes = (int?) punishTime?.Time.TotalMinutes ?? 0;
+            var minAgeMinutes = (int)minAge.Time.TotalMinutes;
+            var punishTimeMinutes = (int?)punishTime?.Time.TotalMinutes ?? 0;
 
             if (minAgeMinutes < 1 || punishTimeMinutes < 0)
                 return;
@@ -49,7 +49,7 @@ public partial class Administration
                     return;
             }
             await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
-                (int?) punishTime?.Time.TotalMinutes ?? 0).ConfigureAwait(false);
+                (int?)punishTime?.Time.TotalMinutes ?? 0).ConfigureAwait(false);
 
             await ctx.OkAsync().ConfigureAwait(false);
         }
@@ -58,7 +58,7 @@ public partial class Administration
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Remainder] IRole role)
         {
-            var minAgeMinutes = (int) minAge.Time.TotalMinutes;
+            var minAgeMinutes = (int)minAge.Time.TotalMinutes;
 
             if (minAgeMinutes < 1)
                 return;
@@ -99,7 +99,7 @@ public partial class Administration
                     await ReplyErrorLocalizedAsync("timeout_needs_time");
                     return;
             }
-            
+
             if (action == PunishmentAction.AddRole)
             {
                 await ReplyErrorLocalizedAsync("punishment_unsupported", action).ConfigureAwait(false);
@@ -119,10 +119,12 @@ public partial class Administration
             }
 
             if (punishTime is not null)
+            {
                 if (!ProtectionService.IsDurationAllowed(action))
                     await ReplyErrorLocalizedAsync("prot_cant_use_time").ConfigureAwait(false);
+            }
 
-            var time = (int?) punishTime?.Time.TotalMinutes ?? 0;
+            var time = (int?)punishTime?.Time.TotalMinutes ?? 0;
             if (time is < 0 or > 60 * 24)
                 return;
 
@@ -151,7 +153,6 @@ public partial class Administration
         {
             if (action != PunishmentAction.AddRole)
                 return Task.CompletedTask;
-            
 
             return InternalAntiSpam(messageCount, action, null, role);
         }
@@ -171,10 +172,12 @@ public partial class Administration
                 return;
 
             if (timeData is not null)
+            {
                 if (!ProtectionService.IsDurationAllowed(action))
                     await ReplyErrorLocalizedAsync("prot_cant_use_time").ConfigureAwait(false);
+            }
 
-            var time = (int?) timeData?.Time.TotalMinutes ?? 0;
+            var time = (int?)timeData?.Time.TotalMinutes ?? 0;
             if (time is < 0 or > 60 * 24)
                 return;
             switch (action)
@@ -224,14 +227,18 @@ public partial class Administration
                 .WithTitle(GetText("prot_active"));
 
             if (spam != null)
+            {
                 embed.AddField(efb => efb.WithName("Anti-Spam")
                     .WithValue(GetAntiSpamString(spam).TrimTo(1024))
                     .WithIsInline(true));
+            }
 
             if (raid != null)
+            {
                 embed.AddField(efb => efb.WithName("Anti-Raid")
                     .WithValue(GetAntiRaidString(raid).TrimTo(1024))
                     .WithIsInline(true));
+            }
 
             if (alt is not null)
                 embed.AddField("Anti-Alt", GetAntiAltString(alt), true);

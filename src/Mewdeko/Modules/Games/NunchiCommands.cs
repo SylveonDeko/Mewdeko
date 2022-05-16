@@ -28,14 +28,15 @@ public partial class Games
             {
                 // join it
                 if (!await nunchi.Join(ctx.User.Id, ctx.User.ToString()).ConfigureAwait(false))
+                {
                     // if you failed joining, that means game is running or just ended
                     // await ReplyErrorLocalized("nunchi_already_started").ConfigureAwait(false);
                     return;
+                }
 
                 await ReplyConfirmLocalizedAsync("nunchi_joined", nunchi.ParticipantCount).ConfigureAwait(false);
                 return;
             }
-
 
             try
             {

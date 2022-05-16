@@ -24,14 +24,18 @@ public class CurrencyRaffleGame
         // (that's the user who created it)
         if (GameType == Type.Normal && _users.Count > 0 &&
             _users.First().Amount != amount)
+        {
             return false;
+        }
 
         if (!_users.Add(new User
-            {
-                DiscordUser = usr,
-                Amount = amount
-            }))
+        {
+            DiscordUser = usr,
+            Amount = amount
+        }))
+        {
             return false;
+        }
 
         return true;
     }

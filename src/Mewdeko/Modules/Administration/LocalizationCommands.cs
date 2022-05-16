@@ -52,7 +52,7 @@ public partial class Administration
             try
             {
                 CultureInfo ci;
-                if (name.Trim().ToLowerInvariant() == "default")
+                if (string.Equals(name.Trim(), "default", StringComparison.InvariantCultureIgnoreCase))
                 {
                     Localization.RemoveGuildCulture(ctx.Guild);
                     ci = Localization.DefaultCultureInfo;
@@ -85,7 +85,7 @@ public partial class Administration
             try
             {
                 CultureInfo ci;
-                if (name.Trim().ToLowerInvariant() == "default")
+                if (string.Equals(name.Trim(), "default", StringComparison.InvariantCultureIgnoreCase))
                 {
                     Localization.ResetDefaultCulture();
                     ci = Localization.DefaultCultureInfo;

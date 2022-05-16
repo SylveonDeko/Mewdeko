@@ -27,7 +27,7 @@ public class RoleCommandsService : INService
 
     public Task UpdateCount(IGuild guild, int jobId, int addedTo)
     {
-        var list1 = Jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == jobId);
+        var list1 = Jobslist.Find(x => x.GuildId == guild.Id && x.JobId == jobId);
         var add = new RoleJobs
         {
             StartedBy = list1.StartedBy,
@@ -49,7 +49,7 @@ public class RoleCommandsService : INService
 
     public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
     {
-        var list1 = Jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == jobId);
+        var list1 = Jobslist.Find(x => x.GuildId == guild.Id && x.JobId == jobId);
         var add = new RoleJobs
         {
             StartedBy = list1.StartedBy,
@@ -75,7 +75,7 @@ public class RoleCommandsService : INService
 
     public Task RemoveJob(IGuild guild, int job)
     {
-        var list = Jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == job);
+        var list = Jobslist.Find(x => x.GuildId == guild.Id && x.JobId == job);
         Jobslist.Remove(list);
         return Task.CompletedTask;
     }

@@ -75,9 +75,11 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
         {
             // ReSharper disable once AssignmentInConditionalExpression
             if (removed = Source.Remove(item))
+            {
                 for (var i = 0; i < Source.Count; i++)
                     if (Source[i].Index != i)
                         Source[i].Index = i;
+            }
         }
 
         return removed;
@@ -119,8 +121,10 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
         lock (_locker)
         {
             for (var i = 0; i < Source.Count; i++)
+            {
                 if (Source[i].Index != i)
                     Source[i].Index = i;
+            }
         }
     }
 

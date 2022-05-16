@@ -71,7 +71,7 @@ public partial class Moderation
         {
             if (ctx.User.Id != user.Guild.OwnerId
                 && user.GetRoles().Select(r => r.Position).Max() >=
-                ((IGuildUser) ctx.User).GetRoles().Select(r => r.Position).Max())
+                ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max())
             {
                 await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
                 return;
@@ -104,10 +104,15 @@ public partial class Moderation
             }
 
             if (punishment == null)
+            {
                 await ReplyConfirmLocalizedAsync("user_warned", Format.Bold(user.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("user_warned_and_punished", Format.Bold(user.ToString()),
-                    Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
+                                Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
+            }
+
             if (MWarnlogChannel != 0)
             {
                 var uow = _db.GetDbContext();
@@ -146,11 +151,15 @@ public partial class Moderation
             }
 
             if (opts.Delete)
+            {
                 await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -161,8 +170,8 @@ public partial class Moderation
         public Task MWarnlog(IGuildUser? user = null)
         {
             if (user == null)
-                user = (IGuildUser) ctx.User;
-            return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.MuteMembers
+                user = (IGuildUser)ctx.User;
+            return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.MuteMembers
                 ? MWarnlog(user.Id)
                 : Task.CompletedTask;
         }
@@ -190,7 +199,7 @@ public partial class Moderation
                     (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
                 .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
 
-            if (!warnings.Any())
+            if (warnings.Length == 0)
             {
                 embed.WithDescription(GetText("warnings_none"));
             }
@@ -229,7 +238,7 @@ public partial class Moderation
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -243,7 +252,7 @@ public partial class Moderation
                             var all = x.Count();
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
-                            var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
+                            var usr = ((SocketGuild)ctx.Guild).GetUser(x.Key);
                             return $"{usr?.ToString() ?? x.Key.ToString()} | {total} ({all} - {forgiven})";
                         });
 
@@ -273,10 +282,14 @@ public partial class Moderation
             else
             {
                 if (success)
+                {
                     await ReplyConfirmLocalizedAsync("warning_cleared", Format.Bold(index.ToString()), userStr)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyErrorLocalizedAsync("warning_clear_fail").ConfigureAwait(false);
+                }
             }
         }
 
@@ -284,21 +297,25 @@ public partial class Moderation
          UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
         {
-            var punish = PunishmentAction.AddRole;
+            const PunishmentAction punish = PunishmentAction.AddRole;
             var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
 
             if (!success)
                 return;
 
             if (time is null)
+            {
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
-                    Format.Bold(punish.ToString()),
-                    Format.Bold(number.ToString())).ConfigureAwait(false);
+                                Format.Bold(punish.ToString()),
+                                Format.Bold(number.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
-                    Format.Bold(punish.ToString()),
-                    Format.Bold(number.ToString()),
-                    Format.Bold(time.Input)).ConfigureAwait(false);
+                                Format.Bold(punish.ToString()),
+                                Format.Bold(number.ToString()),
+                                Format.Bold(time.Input)).ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -315,14 +332,18 @@ public partial class Moderation
                 return;
 
             if (time is null)
+            {
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
-                    Format.Bold(punish.ToString()),
-                    Format.Bold(number.ToString())).ConfigureAwait(false);
+                                Format.Bold(punish.ToString()),
+                                Format.Bold(number.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
-                    Format.Bold(punish.ToString()),
-                    Format.Bold(number.ToString()),
-                    Format.Bold(time.Input)).ConfigureAwait(false);
+                                Format.Bold(punish.ToString()),
+                                Format.Bold(number.ToString()),
+                                Format.Bold(time.Input)).ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -341,12 +362,17 @@ public partial class Moderation
             var ps = Service.WarnPunishList(ctx.Guild.Id);
 
             string list;
-            if (ps.Any())
+            if (ps.Length > 0)
+            {
                 list = string.Join("\n",
-                    ps.Select(x =>
-                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
+                                ps.Select(x =>
+                                    $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
+            }
             else
+            {
                 list = GetText("warnpl_none");
+            }
+
             await ctx.Channel.SendConfirmAsync(
                 GetText("warn_punish_list"),
                 list).ConfigureAwait(false);

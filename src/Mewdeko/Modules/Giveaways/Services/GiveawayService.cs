@@ -67,7 +67,7 @@ public class GiveawayService : INService, IReadyExecutor
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public string GetGiveawayEmote(ulong? id) 
+    public string GetGiveawayEmote(ulong? id)
         => _bot.GetGuildConfig(id.Value).GiveawayEmote;
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
@@ -134,9 +134,11 @@ public class GiveawayService : INService, IReadyExecutor
                     //ignored 
                 }
             }
-            if (reqrolesparsed.Any())
+            if (reqrolesparsed.Count > 0)
+            {
                 eb.WithDescription(
                     $"React with {emote} to enter!\nHosted by {hostuser.Mention}\nRequired Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\nEnd Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
+            }
         }
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);
@@ -167,7 +169,7 @@ public class GiveawayService : INService, IReadyExecutor
         else
             await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
-    
+
     public async Task GiveawayTimerAction(Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
@@ -180,7 +182,10 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
                 IUserMessage ch1)
+            {
                 return;
+            }
+
             ch = ch1;
         }
         catch
@@ -193,7 +198,6 @@ public class GiveawayService : INService, IReadyExecutor
         if (emote.Name == null)
         {
             await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!");
-            
         }
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
         if (reacts.Count() - 1 <= r.Winners)
@@ -212,14 +216,11 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (r.Winners == 1)
             {
-                
                 var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
-
                     var parsedreqs = new List<ulong>();
-                    var split = r.RestrictTo.Split(" ");
-                    foreach (var i in split)
+                    foreach (var i in r.RestrictTo.Split(" "))
                     {
                         if (ulong.TryParse(i, out var parsed))
                         {
@@ -229,9 +230,11 @@ public class GiveawayService : INService, IReadyExecutor
 
                     try
                     {
-                        if (parsedreqs.Any())
+                        if (parsedreqs.Count > 0)
+                        {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
+                        }
                     }
                     catch
                     {
@@ -239,7 +242,7 @@ public class GiveawayService : INService, IReadyExecutor
                     }
                 }
 
-                if (!users.Any())
+                if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
                                                 .WithDescription(
@@ -267,10 +270,9 @@ public class GiveawayService : INService, IReadyExecutor
             else
             {
                 var rand = new Random();
-                 var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
-
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
                     Console.Write(split.Length);
@@ -284,9 +286,11 @@ public class GiveawayService : INService, IReadyExecutor
 
                     try
                     {
-                        if (parsedreqs.Any())
+                        if (parsedreqs.Count > 0)
+                        {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
+                        }
                     }
                     catch
                     {
@@ -294,7 +298,7 @@ public class GiveawayService : INService, IReadyExecutor
                     }
                 }
 
-                if (!users.Any())
+                if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
                                                 .WithDescription(
@@ -335,7 +339,10 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
                 IUserMessage ch1)
+            {
                 return;
+            }
+
             ch = ch1;
         }
         catch
@@ -355,15 +362,14 @@ public class GiveawayService : INService, IReadyExecutor
             uow.Giveaways.Update(r);
             await uow.SaveChangesAsync().ConfigureAwait(false);
             return;
-            
-            
         }
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
         if (reacts.Count() - 1 <= r.Winners)
         {
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.ErrorColor, Description = "There were not enough participants!"
+                Color = Mewdeko.ErrorColor,
+                Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build());
             r.Ended = 1;
@@ -374,14 +380,11 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (r.Winners == 1)
             {
-
                 var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
-
                     var parsedreqs = new List<ulong>();
-                    var split = r.RestrictTo.Split(" ");
-                    foreach (var i in split)
+                    foreach (var i in r.RestrictTo.Split(" "))
                     {
                         if (ulong.TryParse(i, out var parsed))
                         {
@@ -391,9 +394,11 @@ public class GiveawayService : INService, IReadyExecutor
 
                     try
                     {
-                        if (parsedreqs.Any())
+                        if (parsedreqs.Count > 0)
+                        {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
+                        }
                     }
                     catch
                     {
@@ -401,7 +406,7 @@ public class GiveawayService : INService, IReadyExecutor
                     }
                 }
 
-                if (!users.Any())
+                if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
                                                 .WithDescription(
@@ -432,10 +437,8 @@ public class GiveawayService : INService, IReadyExecutor
                 var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
-
                     var parsedreqs = new List<ulong>();
-                    var split = r.RestrictTo.Split(" ");
-                    foreach (var i in split)
+                    foreach (var i in r.RestrictTo.Split(" "))
                     {
                         if (ulong.TryParse(i, out var parsed))
                         {
@@ -445,9 +448,11 @@ public class GiveawayService : INService, IReadyExecutor
 
                     try
                     {
-                        if (parsedreqs.Any())
+                        if (parsedreqs.Count > 0)
+                        {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
+                        }
                     }
                     catch
                     {
@@ -455,7 +460,7 @@ public class GiveawayService : INService, IReadyExecutor
                     }
                 }
 
-                if (!users.Any())
+                if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
                                                 .WithDescription(

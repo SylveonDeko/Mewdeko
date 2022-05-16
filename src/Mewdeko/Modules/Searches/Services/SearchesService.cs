@@ -106,6 +106,7 @@ public class SearchesService : INService, IUnloadableService
                     var text = await Translate(langs, umsg.Resolve(TagHandling.Ignore))
                         .ConfigureAwait(false);
                     if (autoDelete)
+                    {
                         try
                         {
                             await umsg.DeleteAsync().ConfigureAwait(false);
@@ -114,6 +115,7 @@ public class SearchesService : INService, IUnloadableService
                         {
                             // ignored
                         }
+                    }
 
                     await umsg.Channel.SendConfirmAsync(
                                   $"{umsg.Author.Mention} `:` {text.Replace("<@ ", "<@", StringComparison.InvariantCulture).Replace("<@! ", "<@!", StringComparison.InvariantCulture)}")
@@ -139,12 +141,17 @@ public class SearchesService : INService, IUnloadableService
             Log.Warning("data/magicitems.json is missing. Magic items are not loaded.");
 
         if (File.Exists("data/yomama.txt"))
+        {
             _yomamaJokes = File.ReadAllLines("data/yomama.txt")
                 .Shuffle()
                 .ToList();
+        }
+
         if (File.Exists("data/ultimatelist.txt"))
+        {
             _nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
                 .ToList();
+        }
     }
 
     public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new();
@@ -180,7 +187,7 @@ public class SearchesService : INService, IUnloadableService
             Guild = guild,
             Url = url
         };
-        if (!Cache.Any())
+        if (Cache.Count == 0)
         {
             Cache.Add(e);
             return false;
@@ -189,7 +196,6 @@ public class SearchesService : INService, IUnloadableService
         if (Cache.Contains(e)) return Cache.Contains(e) || true;
         Cache.Add(e);
         return false;
-
     }
 
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
@@ -286,7 +292,9 @@ public class SearchesService : INService, IUnloadableService
 
         if (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey)
             || string.IsNullOrWhiteSpace(_creds.TimezoneDbApiKey))
+        {
             return (default, TimeErrors.ApiKeyMissing);
+        }
 
         try
         {
@@ -296,8 +304,7 @@ public class SearchesService : INService, IUnloadableService
                 var url =
                     $"https://eu1.locationiq.com/v1/search.php?{(string.IsNullOrWhiteSpace(_creds.LocationIqApiKey) ? "key=" : $"key={_creds.LocationIqApiKey}&")}q={Uri.EscapeDataString(query)}&format=json";
 
-                var res = http.GetStringAsync(url);
-                return res;
+                return http.GetStringAsync(url);
             }, "", TimeSpan.FromHours(1));
 
             var responses = JsonConvert.DeserializeObject<LocationIqResponse[]>(res);
@@ -347,7 +354,7 @@ public class SearchesService : INService, IUnloadableService
         return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png";
     }
 
-    public async Task<string> Translate(string langs, string? text = null)
+    public static async Task<string> Translate(string langs, string? text = null)
     {
         using var translator = new AggregateTranslator();
         var translation = await translator.TranslateAsync(text, langs);
@@ -362,7 +369,9 @@ public class SearchesService : INService, IUnloadableService
         tag ??= "";
         if (string.IsNullOrWhiteSpace(tag)
             && (tag.Contains("loli") || tag.Contains("shota")))
-            return null;
+        {
+            return Task.FromResult<ImageCacherObject>(null);
+        }
 
         var tags = tag
             .Split('+')
@@ -559,8 +568,8 @@ public class SearchesService : INService, IUnloadableService
             var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
             if (objs == null || objs.Length == 0)
                 return null;
-            var data = objs.FirstOrDefault(x => x.Collectible)
-                       ?? objs.FirstOrDefault(x => !string.IsNullOrEmpty(x.PlayerClass))
+            var data = Array.Find(objs, x => x.Collectible)
+                       ?? Array.Find(objs, x => !string.IsNullOrEmpty(x.PlayerClass))
                        ?? objs.FirstOrDefault();
             if (data == null)
                 return null;
@@ -645,22 +654,20 @@ public class SearchesService : INService, IUnloadableService
         if (gamesMap == null)
             return -1;
 
-
         query = query.Trim();
 
         var keyList = gamesMap.Keys.ToList();
 
-        var key = keyList.FirstOrDefault(x => x.Equals(query, StringComparison.OrdinalIgnoreCase));
+        var key = keyList.Find(x => x.Equals(query, StringComparison.OrdinalIgnoreCase));
 
         if (key == default)
         {
-            key = keyList.FirstOrDefault(x => x.StartsWith(query, StringComparison.OrdinalIgnoreCase));
+            key = keyList.Find(x => x.StartsWith(query, StringComparison.OrdinalIgnoreCase));
             if (key == default)
                 return -1;
         }
 
         return gamesMap[key];
-
 
         //// try finding the game id
         //var val = db.HashGet(STEAM_GAME_IDS_KEY, query);
@@ -737,14 +744,16 @@ public class SearchesService : INService, IUnloadableService
     {
         query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
 
-        var fullQueryLink = "https://html.duckduckgo.com/html";
+        const string fullQueryLink = "https://html.duckduckgo.com/html";
 
         using var http = _httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
 
-        using var formData = new MultipartFormDataContent();
-        formData.Add(new StringContent(query), "q");
+        using var formData = new MultipartFormDataContent
+        {
+            { new StringContent(query), "q" }
+        };
         using var response = await http.PostAsync(fullQueryLink, formData);
         var content = await response.Content.ReadAsStringAsync();
 
@@ -757,23 +766,23 @@ public class SearchesService : INService, IUnloadableService
 
         var results = elems.Select(elem =>
             {
-                var anchor = elem.QuerySelector(".result__a") as IHtmlAnchorElement;
+                if (elem.QuerySelector(".result__a") is IHtmlAnchorElement anchor)
+                {
+                    var href = anchor.Href;
+                    var name = anchor.TextContent;
 
-                if (anchor is null)
-                    return null;
+                    if (string.IsNullOrWhiteSpace(href) || string.IsNullOrWhiteSpace(name))
+                        return null;
 
-                var href = anchor.Href;
-                var name = anchor.TextContent;
+                    var txt = elem.QuerySelector(".result__snippet")?.TextContent;
 
-                if (string.IsNullOrWhiteSpace(href) || string.IsNullOrWhiteSpace(name))
-                    return null;
+                    if (string.IsNullOrWhiteSpace(txt))
+                        return null;
 
-                var txt = elem.QuerySelector(".result__snippet")?.TextContent;
+                    return new GoogleSearchResult(name, href, txt);
+                }
 
-                if (string.IsNullOrWhiteSpace(txt))
-                    return null;
-
-                return new GoogleSearchResult(name, href, txt);
+                return null;
             })
             .Where(x => x != null)
             .ToList();
@@ -784,7 +793,6 @@ public class SearchesService : INService, IUnloadableService
             "0");
     }
 }
-
 
 public record RedditCache
 {

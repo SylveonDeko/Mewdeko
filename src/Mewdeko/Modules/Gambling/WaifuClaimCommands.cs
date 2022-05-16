@@ -136,7 +136,7 @@ public partial class Gambling
                     break;
                 default:
                     await ReplyErrorLocalizedAsync("waifu_recent_divorce",
-                        Format.Bold(((int) remaining?.TotalHours).ToString()),
+                        Format.Bold(((int)remaining?.TotalHours).ToString()),
                         Format.Bold(remaining?.Minutes.ToString()));
                     break;
             }
@@ -155,21 +155,32 @@ public partial class Gambling
             if (!sucess)
             {
                 if (remaining != null)
+                {
                     await ReplyErrorLocalizedAsync("waifu_affinity_cooldown",
-                        Format.Bold(((int) remaining?.TotalHours).ToString()),
-                        Format.Bold(remaining?.Minutes.ToString()));
+                                        Format.Bold(((int)remaining?.TotalHours).ToString()),
+                                        Format.Bold(remaining?.Minutes.ToString()));
+                }
                 else
+                {
                     await ReplyErrorLocalizedAsync("waifu_affinity_already");
+                }
+
                 return;
             }
 
             if (u == null)
+            {
                 await ReplyConfirmLocalizedAsync("waifu_affinity_reset");
+            }
             else if (oldAff == null)
+            {
                 await ReplyConfirmLocalizedAsync("waifu_affinity_set", Format.Bold(u.ToString()));
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("waifu_affinity_changed", Format.Bold(oldAff.ToString()),
-                    Format.Bold(u.ToString()));
+                                Format.Bold(u.ToString()));
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -229,10 +240,9 @@ public partial class Gambling
             var waifuItems = Service.GetWaifuItems()
                 .ToDictionary(x => x.ItemEmoji, x => x);
 
-
             var nobody = GetText("nobody");
             var i = 0;
-            var itemsStr = !wi.Items.Any()
+            var itemsStr = wi.Items.Count == 0
                 ? "-"
                 : string.Join("\n", wi.Items
                     .Where(x => waifuItems.TryGetValue(x.ItemEmoji, out _))
@@ -268,7 +278,6 @@ public partial class Gambling
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public async Task WaifuGift()
         {
-
             var waifuItems = Service.GetWaifuItems();
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
@@ -279,7 +288,7 @@ public partial class Gambling
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -288,13 +297,13 @@ public partial class Gambling
                             .WithTitle(GetText("waifu_gift_shop"))
                             .WithOkColor();
 
-                    waifuItems
-                        .OrderBy(x => x.Price)
-                        .Skip(9 * page)
-                        .Take(9)
-                        .ForEach(x => embed.AddField($"{x.ItemEmoji} {x.Name}", x.Price, true));
+                waifuItems
+                    .OrderBy(x => x.Price)
+                    .Skip(9 * page)
+                    .Take(9)
+                    .ForEach(x => embed.AddField($"{x.ItemEmoji} {x.Name}", x.Price, true));
 
-                    return embed;
+                return embed;
             }
         }
 
@@ -305,7 +314,7 @@ public partial class Gambling
                 return;
 
             var allItems = Service.GetWaifuItems();
-            var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
+            var item = allItems.FirstOrDefault(x => string.Equals(x.Name, itemName, StringComparison.InvariantCultureIgnoreCase));
             if (item is null)
             {
                 await ReplyErrorLocalizedAsync("waifu_gift_not_exist");
@@ -315,11 +324,15 @@ public partial class Gambling
             var sucess = await Service.GiftWaifuAsync(ctx.User, waifu, item);
 
             if (sucess)
+            {
                 await ReplyConfirmLocalizedAsync("waifu_gift",
-                    Format.Bold($"{item} {item.ItemEmoji}"),
-                    Format.Bold(waifu.ToString()));
+                                Format.Bold($"{item} {item.ItemEmoji}"),
+                                Format.Bold(waifu.ToString()));
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
+            }
         }
     }
 }

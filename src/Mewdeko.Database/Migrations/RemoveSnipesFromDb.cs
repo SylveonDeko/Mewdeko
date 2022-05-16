@@ -4,6 +4,6 @@ namespace Mewdeko.Database.Migrations;
 
 public partial class RemoveSnipesFromDb : Migration
 {
-    protected override void Up(MigrationBuilder migrationBuilder) 
+    protected override void Up(MigrationBuilder migrationBuilder)
         => migrationBuilder.DropTable("SnipeStore");
 }

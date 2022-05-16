@@ -19,11 +19,11 @@ public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
         req.Headers.AddFakeHeaders();
         using var res = await _http.SendAsync(req, cancel).ConfigureAwait(false);
         res.EnsureSuccessStatusCode();
-            
+
         var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(_serializerOptions, cancel).ConfigureAwait(false);
         if (container?.Images is null)
             return new();
-            
+
         return container.Images
                         .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
                         .ToList();

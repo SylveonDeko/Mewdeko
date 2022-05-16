@@ -18,7 +18,7 @@ public class RollCommandService : INService
                              .ToList();
         if (dies.Any(x => x.Sides is >= int.MaxValue or < 0))
             throw new ArgumentException("roll_fail_dice_sides");
-        if (!dies.Any())
+        if (dies.Count == 0)
             throw new ArgumentException("roll_fail_no_dice");
 
         var opResult = _operationFinder.Match(parsed);

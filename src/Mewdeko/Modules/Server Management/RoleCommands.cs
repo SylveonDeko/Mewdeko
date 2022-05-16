@@ -31,11 +31,17 @@ public partial class ServerManagement
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Categories.....");
             foreach (var i in (await ctx.Guild.GetChannelsAsync()).Where(x => x is not SocketThreadChannel or SocketVoiceChannel))
+            {
                 if (perms != null)
-                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+            }
+
             foreach (var i in await ctx.Guild.GetCategoriesAsync())
+            {
                 if (perms != null)
-                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+            }
+
             var eb = new EmbedBuilder
             {
                 Color = Mewdeko.OkColor,
@@ -60,8 +66,11 @@ public partial class ServerManagement
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Channels.....");
             foreach (var i in (await ctx.Guild.GetTextChannelsAsync()).Where(x => x is not SocketThreadChannel))
+            {
                 if (perms != null)
-                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+            }
+
             var eb = new EmbedBuilder
             {
                 Color = Mewdeko.OkColor,
@@ -86,8 +95,11 @@ public partial class ServerManagement
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories.....");
             foreach (var i in await ctx.Guild.GetCategoriesAsync())
+            {
                 if (perms != null)
-                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                    await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+            }
+
             var eb = new EmbedBuilder
             {
                 Color = Mewdeko.OkColor,
@@ -108,7 +120,7 @@ public partial class ServerManagement
             }
 
             var secondlist = new List<string>();
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             foreach (var i in roles.Where(x => !x.IsManaged))
             {
@@ -151,7 +163,7 @@ public partial class ServerManagement
         public async Task StopJob(int jobnum)
         {
             var list = Service.Jobslist
-                .FirstOrDefault(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id);
+                .Find(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id);
             if (list == null)
             {
                 await ctx.Channel.SendErrorAsync(
@@ -221,7 +233,7 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync(
                 $"{role.Mention} has had the following users added:\n{string.Join<string>("|", users.Select(x => x.Mention))}");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveUsersFromRole(IRole role, params IUser[] users)
         {
@@ -245,7 +257,7 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync(
                 $"{role.Mention} has had the following users removed:\n{string.Join<string>("|", users.Select(x => x.Mention))}");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRoles(IGuildUser user, params IRole[] roles)
@@ -273,7 +285,7 @@ public partial class ServerManagement
         public async Task RoleJobs()
         {
             var list = Service.Jobslist;
-            if (!list.Any())
+            if (list.Count == 0)
             {
                 await ctx.Channel.SendErrorAsync("No Mass Role Operations running!");
                 return;
@@ -287,14 +299,21 @@ public partial class ServerManagement
             foreach (var i in list)
             {
                 if (i.Role2 is not null && i.JobType != "Adding then Removing a Role")
+                {
                     eb.AddField($"Job {i.JobId}",
                         $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nFirst Role:{i.Role1.Mention}\nSecond Role:{i.Role2.Mention}");
+                }
+
                 if (i.Role2 is not null && i.JobType == "Adding then Removing a Role")
+                {
                     eb.AddField($"Job {i.JobId}",
-                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRemoving Role:{i.Role2.Mention}\nAdding Role:{i.Role1.Mention}");
+                                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRemoving Role:{i.Role2.Mention}\nAdding Role:{i.Role1.Mention}");
+                }
                 else
+                {
                     eb.AddField($"Job {i.JobId}",
-                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRole:{i.Role1.Mention}");
+                                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRole:{i.Role1.Mention}");
+                }
             }
 
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
@@ -305,7 +324,7 @@ public partial class ServerManagement
         public async Task AddToAll(IRole role)
         {
             await Task.Delay(500);
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -349,6 +368,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -369,18 +389,18 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToAllBots(IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -423,6 +443,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -443,6 +464,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -453,7 +475,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToAllUsers(IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -496,6 +518,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -516,6 +539,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -526,7 +550,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToUsersOver(StoopidTime time, IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -572,6 +596,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -592,6 +617,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -602,7 +628,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToUsersUnder(StoopidTime time, IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -648,6 +674,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -668,17 +695,17 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAll(IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -722,6 +749,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -742,6 +770,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -752,7 +781,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAllUsers(IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -796,6 +825,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -816,6 +846,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -826,7 +857,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAllBots(IRole role)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -870,6 +901,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -890,6 +922,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -900,7 +933,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddRoleToRole(IRole role, IRole role2)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
@@ -946,6 +979,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in inrole)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -966,6 +1000,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -976,7 +1011,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromRole(IRole role, IRole role2)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
@@ -1016,6 +1051,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in inrole)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -1036,6 +1072,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);
@@ -1048,7 +1085,7 @@ public partial class ServerManagement
         {
             await Task.Delay(500);
             var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -1085,6 +1122,7 @@ public partial class ServerManagement
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in inrole)
+                {
                     try
                     {
                         var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
@@ -1106,6 +1144,7 @@ public partial class ServerManagement
                     {
                         //ignored
                     }
+                }
             }
 
             await Service.RemoveJob(ctx.Guild, jobId);

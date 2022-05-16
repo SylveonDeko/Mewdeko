@@ -63,7 +63,7 @@ public class StreamRoleService : INService, IUnloadableService
 
         return Task.CompletedTask;
     }
-    
+
     public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action,
         ulong userId, string userName)
     {
@@ -198,8 +198,10 @@ public class StreamRoleService : INService, IUnloadableService
         UpdateCache(fromRole.Guild.Id, setting);
 
         foreach (var usr in await fromRole.GetMembersAsync().ConfigureAwait(false))
+        {
             if (usr is { } x)
                 await RescanUser(x, setting, addRole).ConfigureAwait(false);
+        }
     }
     public async Task StopStreamRole(IGuild guild, bool cleanup = false)
     {
@@ -218,11 +220,10 @@ public class StreamRoleService : INService, IUnloadableService
 
     private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole? addRole = null)
     {
-        var g = (StreamingGame) user.Activities
+        var g = (StreamingGame)user.Activities
             .FirstOrDefault(a => a is StreamingGame &&
                                  (string.IsNullOrWhiteSpace(setting.Keyword)
-                                  || a.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
-                                  || setting.Whitelist.Any(x => x.UserId == user.Id)));
+                                  || a.Name.Contains(setting.Keyword, StringComparison.InvariantCultureIgnoreCase) || setting.Whitelist.Any(x => x.UserId == user.Id)));
 
         if (g is not null
             && setting.Enabled
@@ -260,6 +261,7 @@ public class StreamRoleService : INService, IUnloadableService
         {
             //check if user is in the addrole
             if (user.RoleIds.Contains(setting.AddRoleId))
+            {
                 try
                 {
                     addRole ??= user.Guild.GetRole(setting.AddRoleId);
@@ -276,6 +278,7 @@ public class StreamRoleService : INService, IUnloadableService
                     Log.Warning(ex, "Error removing stream role(s). Forcibly disabling stream role feature");
                     throw new StreamRolePermissionException();
                 }
+            }
         }
     }
 
@@ -293,8 +296,10 @@ public class StreamRoleService : INService, IUnloadableService
             var users = await guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false);
             foreach (var usr in users.Where(x =>
                          x.RoleIds.Contains(setting.FromRoleId) || x.RoleIds.Contains(addRole.Id)))
+            {
                 if (usr is { } x)
                     await RescanUser(x, setting, addRole).ConfigureAwait(false);
+            }
         }
     }
 

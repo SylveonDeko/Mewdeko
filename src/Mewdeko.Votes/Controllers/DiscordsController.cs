@@ -26,7 +26,7 @@ public class DiscordsController : ControllerBase
     public async Task<IEnumerable<Vote>> New()
     {
         var votes = await _cache.GetNewDiscordsVotesAsync();
-        if(votes.Count > 0)
+        if (votes.Count > 0)
             _logger.LogInformation("Sending {NewDiscordsVotes} new discords votes.", votes.Count);
         return votes;
     }

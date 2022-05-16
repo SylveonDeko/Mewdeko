@@ -36,8 +36,10 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
-        if (highlights.Any() && highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
+        if (highlights.Count > 0 && highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
+        {
             await ctx.Interaction.SendErrorAsync("That's already in your highlights");
+        }
         else
         {
             await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words);
@@ -51,7 +53,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await using var uow = _db.GetDbContext();
         var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
-        if (!highlightsForUser.Any())
+        if (highlightsForUser.Count == 0)
         {
             await ctx.Interaction.SendErrorAsync("You have no highlights set.");
             return;
@@ -83,7 +85,6 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     public async Task DeleteHighlight(
         [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to delete.")] string words)
     {
-
         if (string.IsNullOrWhiteSpace(words))
         {
             await ctx.Interaction.SendErrorAsync("Cannot delete an empty highlight.");
@@ -93,7 +94,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await using var uow = _db.GetDbContext();
         var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
-        if (!highlightsForUser.Any())
+        if (highlightsForUser.Count == 0)
         {
             await ctx.Interaction.SendErrorAsync("Cannot delete because you have no highlights set!");
             return;
@@ -117,7 +118,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await ctx.Interaction.SendErrorAsync("This is not in your highlights!");
             return;
         }
-        await Service.RemoveHighlight(highlightsForUser.FirstOrDefault(x => x.Word == words));
+        await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words));
         await ctx.Interaction.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
     }
 

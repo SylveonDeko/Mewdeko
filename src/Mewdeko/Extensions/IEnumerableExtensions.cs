@@ -38,13 +38,14 @@ public static class EnumerableExtensions
         list.Insert(newIndex, item);
     }
 
-    public static async Task<List<T>> GetResults<T>(this IEnumerable<Task<T>> tasks) {
+    public static async Task<List<T>> GetResults<T>(this IEnumerable<Task<T>> tasks)
+    {
         var res = new List<T>();
 
         // Awaits each task and adds the result to the result list.
-        foreach(var task in tasks) 
+        foreach (var task in tasks)
             res.Add(await task.ConfigureAwait(false));
-			
+
         return res;
     }
     /// <summary>
@@ -89,7 +90,7 @@ public static class EnumerableExtensions
 
     public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
         where T : class, IIndexed => new(enumerable);
-    
+
     /// <summary>
     ///     Creates a task that will complete when all of the <see cref="Task{TResult}" /> objects in an enumerable
     ///     collection have completed
@@ -108,5 +109,4 @@ public static class EnumerableExtensions
     /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
     public static Task WhenAll(this IEnumerable<Task> tasks)
         => Task.WhenAll(tasks);
-
 }

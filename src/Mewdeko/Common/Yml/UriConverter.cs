@@ -11,13 +11,12 @@ public class UriConverter : IYamlTypeConverter
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
-        var result = new Uri(scalar.Value);
-        return result;
+        return new Uri(scalar.Value);
     }
 
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
-        var uri = (Uri) value;
+        var uri = (Uri)value;
         emitter.Emit(new Scalar(uri.ToString()));
     }
 }

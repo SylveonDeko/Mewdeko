@@ -14,15 +14,16 @@ public class Replacer
         _regex = regex;
     }
 
-
     public string Replace(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
             return input;
 
         foreach (var (key, text) in _replacements)
+        {
             if (input.Contains(key))
                 input = input.Replace(key, text(), StringComparison.InvariantCulture);
+        }
 
         foreach (var item in _regex) input = item.Regex.Replace(input, m => item.Replacement(m));
 

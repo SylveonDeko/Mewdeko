@@ -21,11 +21,10 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Timezones()
         {
-
             var timezones = TimeZoneInfo.GetSystemTimeZones()
                                         .OrderBy(x => x.BaseUtcOffset)
                                         .ToArray();
-            var timezonesPerPage = 20;
+            const int timezonesPerPage = 20;
 
             var curTime = DateTimeOffset.UtcNow;
 
@@ -51,7 +50,7 @@ public partial class Administration
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -82,7 +81,6 @@ public partial class Administration
             {
                 tz = null;
             }
-
 
             if (tz == null)
             {

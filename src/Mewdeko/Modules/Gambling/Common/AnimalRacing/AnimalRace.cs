@@ -97,8 +97,7 @@ public sealed class AnimalRace : IDisposable
             if (_users.Contains(user))
                 throw new AlreadyJoinedException();
 
-            var animal = _animalsQueue.Dequeue();
-            user.Animal = animal;
+            user.Animal = _animalsQueue.Dequeue();
             _users.Add(user);
 
             if (_animalsQueue.Count == 0) //start if no more spots left
@@ -118,8 +117,10 @@ public sealed class AnimalRace : IDisposable
         if (_users.Count <= 1)
         {
             foreach (var user in _users)
+            {
                 if (user.Bet > 0)
                     await _currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
+            }
 
             OnStartingFailed?.Invoke(this);
             CurrentPhase = Phase.Ended;
@@ -149,9 +150,11 @@ public sealed class AnimalRace : IDisposable
             }
 
             if (FinishedUsers[0].Bet > 0)
+            {
                 await _currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
                                    FinishedUsers[0].Bet * (_users.Count - 1))
                                .ConfigureAwait(false);
+            }
 
             OnEnded?.Invoke(this);
         });

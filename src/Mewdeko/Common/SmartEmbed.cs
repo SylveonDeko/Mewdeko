@@ -25,31 +25,35 @@ public class SmartEmbed
         {
             var newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
 
-            if (newEmbed.Embed.Fields is {Count: > 0})
+            if (newEmbed.Embed.Fields is { Count: > 0 })
+            {
                 foreach (var f in newEmbed.Embed.Fields)
                 {
                     f.Name = f.Name.TrimTo(256);
                     f.Value = f.Value.TrimTo(1024);
                 }
+            }
 
-            if (newEmbed is {IsValid: false}) 
+            if (newEmbed is { IsValid: false })
                 return false;
 
-            embed = !newEmbed.IsEmbedValid? null : newEmbed.ToEmbed();
+            embed = !newEmbed.IsEmbedValid ? null : newEmbed.ToEmbed();
             plainText = newEmbed.Content;
             return true;
         }
-        if (crembed is {Fields.Length: > 0})
+        if (crembed is { Fields.Length: > 0 })
+        {
             foreach (var f in crembed.Fields)
             {
                 f.Name = f.Name.TrimTo(256);
                 f.Value = f.Value.TrimTo(1024);
             }
-            
-        if (crembed is {IsValid: false}) 
+        }
+
+        if (crembed is { IsValid: false })
             return false;
 
-        embed = !crembed.IsEmbedValid? null : crembed.ToEmbed();
+        embed = !crembed.IsEmbedValid ? null : crembed.ToEmbed();
         plainText = crembed.PlainText;
         return true;
     }

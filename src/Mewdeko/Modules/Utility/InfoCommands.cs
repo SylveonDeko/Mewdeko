@@ -36,7 +36,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task VInfo([Remainder] IVoiceChannel? channel = null)
         {
-            var voiceChannel = ((IGuildUser) ctx.User).VoiceChannel;
+            var voiceChannel = ((IGuildUser)ctx.User).VoiceChannel;
             var eb = new EmbedBuilder();
             switch (voiceChannel)
             {
@@ -99,7 +99,7 @@ public partial class Utility
 
                 var eb = new EmbedBuilder()
                     .WithTitle("Message Info");
-                if (message.Embeds.Any()) eb.AddField("Embeds", message.Embeds.Count);
+                if (message.Embeds.Count > 0) eb.AddField("Embeds", message.Embeds.Count);
 
                 if (!string.IsNullOrEmpty(message.Content))
                     eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
@@ -122,14 +122,19 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ServerInfo(string? guildName = null)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             guildName = guildName?.ToUpperInvariant();
             SocketGuild guild;
             if (string.IsNullOrWhiteSpace(guildName))
-                guild = (SocketGuild) channel.Guild;
+            {
+                guild = (SocketGuild)channel.Guild;
+            }
             else
+            {
                 guild = _client.Guilds.FirstOrDefault(
-                    g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
+                                g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
+            }
+
             if (guild == null)
                 return;
             var ownername = guild.GetUser(guild.OwnerId);
@@ -150,7 +155,8 @@ public partial class Utility
                 embed.WithImageUrl($"{guild.SplashUrl}?size=2048");
             if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                 embed.WithThumbnailUrl(guild.IconUrl);
-            if (guild.Emotes.Any())
+            if (guild.Emotes.Count > 0)
+            {
                 embed.AddField(fb =>
                     fb.WithName($"{GetText("custom_emojis")}({guild.Emotes.Count})")
                         .WithValue(string.Join(" ", guild.Emotes
@@ -158,6 +164,8 @@ public partial class Utility
                                 .Take(30)
                                 .Select(e => $"{e}"))
                             .TrimTo(1024)));
+            }
+
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
             if (input == "moreinfo")
@@ -183,7 +191,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChannelInfo(ITextChannel? channel = null)
         {
-            var ch = channel ?? (ITextChannel) ctx.Channel;
+            var ch = channel ?? (ITextChannel)ctx.Channel;
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
             var embed = new EmbedBuilder()
                 .WithTitle(ch.Name)
@@ -223,11 +231,15 @@ public partial class Utility
                 .AddField("Joined Discord", $"{user.CreatedAt:MM/dd/yyyy HH:mm}")
                 .AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
 
-            if (user.Activities.Any())
+            if (user.Activities.Count > 0)
+            {
                 embed.AddField("Activities",
                     string.Join("\n", user.Activities.Select(x => string.Format($"{x.Name}: {x.Details ?? ""}"))));
+            }
+
             var av = user.RealAvatarUrl();
             if (av != null && av.IsAbsoluteUri)
+            {
                 if (userbanner is not null)
                 {
                     embed.WithThumbnailUrl(av.ToString());
@@ -237,14 +249,18 @@ public partial class Utility
                 {
                     embed.WithImageUrl(av.ToString());
                 }
+            }
 
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
             if (input == "moreinfo")
             {
                 if (user.GetRoles().Any())
+                {
                     embed.AddField("Roles",
                         string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
+                }
+
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
                 embed.AddField("Is Server Muted", user.GetRoles().Contains(MuteRole));

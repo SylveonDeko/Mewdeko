@@ -17,14 +17,14 @@ public class ImageData : IComparable<ImageData>
         {
             FileUrl = url.StartsWith("http", StringComparison.InvariantCulture) ? url : $"https:{url}";
         }
-            
+
         SearchType = type;
         FileUrl = url;
         Tags = tags.ToHashSet();
         Rating = rating;
     }
 
-    public override string ToString() 
+    public override string ToString()
         => FileUrl;
 
     public override int GetHashCode() => FileUrl.GetHashCode();

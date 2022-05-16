@@ -40,7 +40,6 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Memelist()
         {
-
             using var http = _httpFactory.CreateClient("memelist");
             var res = await http.GetAsync("https://api.memegen.link/templates/")
                 .ConfigureAwait(false);
@@ -58,17 +57,15 @@ public partial class Searches
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
                 var templates = data.Skip(page * 15).Take(15).Aggregate("", (current, template) => current + $"**{template.Name}:**\n key: `{template.Id}`\n");
-                var embed = new PageBuilder()
+                return new PageBuilder()
                             .WithOkColor()
                             .WithDescription(templates);
-
-                return embed;
             }
         }
 
@@ -78,8 +75,7 @@ public partial class Searches
             var memeUrl = $"http://api.memegen.link/{meme}";
             if (!string.IsNullOrWhiteSpace(memeText))
             {
-                var memeTextArray = memeText.Split(';');
-                foreach (var text in memeTextArray)
+                foreach (var text in memeText.Split(';'))
                 {
                     var newText = Replace(text);
                     memeUrl += $"/{newText}";
@@ -96,10 +92,12 @@ public partial class Searches
             var sb = new StringBuilder();
 
             foreach (var c in input)
+            {
                 if (_map.TryGetValue(c, out var tmp))
                     sb.Append(tmp);
                 else
                     sb.Append(c);
+            }
 
             return sb.ToString();
         }

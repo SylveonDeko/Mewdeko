@@ -6,5 +6,4 @@ public class TrovoRequestData
 {
     [JsonPropertyName("username")]
     public string Username { get; set; }
-
 }

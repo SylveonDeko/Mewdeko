@@ -33,6 +33,7 @@ public class PermissionService : ILateBlocker, INService
 
         using var uow = _db.GetDbContext();
         foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
+        {
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
@@ -40,6 +41,7 @@ public class PermissionService : ILateBlocker, INService
                     PermRole = x.PermissionRole,
                     Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                 });
+        }
     }
 
     //guildid, root permission
@@ -68,6 +70,7 @@ public class PermissionService : ILateBlocker, INService
         if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out var index))
         {
             if (pc.Verbose)
+            {
                 try
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
@@ -79,10 +82,10 @@ public class PermissionService : ILateBlocker, INService
                 {
                     // ignored
                 }
+            }
 
             return true;
         }
-
 
         if (moduleName == nameof(Permissions))
         {
@@ -101,6 +104,7 @@ public class PermissionService : ILateBlocker, INService
             {
                 returnMsg = "You need Admin permissions in order to use permission commands.";
                 if (pc.Verbose)
+                {
                     try
                     {
                         await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
@@ -109,6 +113,7 @@ public class PermissionService : ILateBlocker, INService
                     {
                         // ignored
                     }
+                }
 
                 return true;
             }
@@ -117,6 +122,7 @@ public class PermissionService : ILateBlocker, INService
             {
                 returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
                 if (pc.Verbose)
+                {
                     try
                     {
                         await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
@@ -125,6 +131,7 @@ public class PermissionService : ILateBlocker, INService
                     {
                         // ignored
                     }
+                }
 
                 return true;
             }
@@ -159,7 +166,6 @@ public class PermissionService : ILateBlocker, INService
         }
 
         return true;
-
     }
 
     public PermissionCache GetCacheFor(ulong guildId)

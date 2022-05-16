@@ -270,7 +270,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -284,12 +284,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 .Take(9)
                 .ToList();
 
-            if (!localRewards.Any())
+            if (localRewards.Count == 0)
                 return embed.WithDescription(GetText("no_level_up_rewards"));
 
             foreach (var reward in localRewards)
+            {
                 embed.AddField(GetText("level_x", reward.Key),
                     string.Join("\n", reward.Select(y => y.Item2)));
+            }
 
             return embed;
         }
@@ -305,10 +307,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
         Service.SetRoleReward(ctx.Guild.Id, level, role?.Id);
 
         if (role == null)
+        {
             await ReplyConfirmLocalizedAsync("role_reward_cleared", level).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("role_reward_added", level, Format.Bold(role.ToString()))
-                .ConfigureAwait(false);
+                        .ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
@@ -321,12 +327,16 @@ public partial class Xp : MewdekoModuleBase<XpService>
         var config = _gss.Data;
 
         if (amount == 0)
+        {
             await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, config.Currency.Sign)
-                .ConfigureAwait(false);
+                        .ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("cur_reward_added",
-                    level, Format.Bold(amount + config.Currency.Sign))
-                .ConfigureAwait(false);
+                            level, Format.Bold(amount + config.Currency.Sign))
+                        .ConfigureAwait(false);
+        }
     }
 
     private string GetNotifLocationString(XpNotificationLocation loc)
@@ -413,7 +423,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .Select(x => $"`channel` {x.Name}")
             .ToList();
 
-        var rolesStr = roles.Any() ? $"{string.Join("\n", roles)}\n" : string.Empty;
+        var rolesStr = roles.Count > 0 ? $"{string.Join("\n", roles)}\n" : string.Empty;
         var chansStr = chans.Count > 0 ? $"{string.Join("\n", chans)}\n" : string.Empty;
         var desc = Format.Code(serverExcluded
             ? GetText("server_is_excluded")
@@ -431,17 +441,15 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var embed = new PageBuilder()
+            return new PageBuilder()
                 .WithTitle(GetText("exclusion_list"))
                 .WithDescription(string.Join('\n', lines.Skip(15 * page).Take(15)))
                 .WithOkColor();
-
-            return embed;
         }
     }
 
@@ -449,12 +457,11 @@ public partial class Xp : MewdekoModuleBase<XpService>
      RequireContext(ContextType.Guild)]
     public async Task XpLeaderboard(params string[] args)
     {
-
         var (opts, _) = OptionsParser.ParseFrom(new LbOpts(), args);
 
         await Context.Channel.TriggerTypingAsync();
 
-        var socketGuild = (SocketGuild) ctx.Guild;
+        var socketGuild = (SocketGuild)ctx.Guild;
         List<UserXpStats> allUsers;
         if (opts.Clean)
         {
@@ -481,7 +488,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -496,12 +503,12 @@ public partial class Xp : MewdekoModuleBase<XpService>
             else
                 users = Service.GetUserXps(ctx.Guild.Id, page);
 
-            if (!users.Any()) return embed.WithDescription("-");
+            if (users.Count == 0) return embed.WithDescription("-");
 
             for (var i = 0; i < users.Count; i++)
             {
                 var levelStats = new LevelStats(users[i].Xp + users[i].AwardedXp);
-                var user = ((SocketGuild) ctx.Guild).GetUser(users[i].UserId);
+                var user = ((SocketGuild)ctx.Guild).GetUser(users[i].UserId);
 
                 var userXpData = users[i];
 
@@ -528,7 +535,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             return;
 
         Service.AddXp(userId, ctx.Guild.Id, amount);
-        var usr = ((SocketGuild) ctx.Guild).GetUser(userId)?.ToString()
+        var usr = ((SocketGuild)ctx.Guild).GetUser(userId)?.ToString()
                   ?? userId.ToString();
         await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))
             .ConfigureAwait(false);

@@ -35,7 +35,9 @@ public partial class Gambling
                     opts,
                     GetEmbed
                 ).ConfigureAwait(false))
+            {
                 await ReplyErrorLocalizedAsync("start_event_fail").ConfigureAwait(false);
+            }
         }
 
         private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot) =>

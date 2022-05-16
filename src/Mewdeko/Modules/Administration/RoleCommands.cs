@@ -4,8 +4,10 @@ using Discord.Net;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LinqToDB;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
@@ -27,11 +29,13 @@ public partial class Administration
 
         private readonly IServiceProvider _services;
         private readonly InteractiveService _interactivity;
+        private readonly DbService _db;
 
-        public RoleCommands(IServiceProvider services, InteractiveService intserv)
+        public RoleCommands(IServiceProvider services, InteractiveService intserv, DbService db)
         {
             _services = services;
             _interactivity = intserv;
+            _db = db;
         }
 
         public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
@@ -41,7 +45,6 @@ public partial class Administration
                 : (await ctx.Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false))
                 .Skip(1)
                 .FirstOrDefault();
-
 
             if (input.Length % 2 != 0)
                 return;
@@ -60,18 +63,21 @@ public partial class Administration
                         return null;
                     }
 
-                    var role = (IRole) roleResult.BestMatch;
-                    if (role.Position > Extensions.Extensions.GetRoles(((IGuildUser) ctx.User)).Select(r => r.Position).Max()
+                    var role = (IRole)roleResult.BestMatch;
+                    if (role.Position > Extensions.Extensions.GetRoles(((IGuildUser)ctx.User)).Select(r => r.Position).Max()
                         && ctx.User.Id != ctx.Guild.OwnerId)
+                    {
                         return null;
+                    }
+
                     var emote = x.Last().ToIEmote();
-                    return new {role, emote};
+                    return new { role, emote };
                 })
                 .Where(x => x != null);
 
             var all = await Task.WhenAll(results).ConfigureAwait(false);
 
-            if (!all.Any())
+            if (all.Length == 0)
                 return;
 
             foreach (var x in all)
@@ -79,10 +85,12 @@ public partial class Administration
                 try
                 {
                     if (target != null)
+                    {
                         await target.AddReactionAsync(x.emote, new RequestOptions
                         {
                             RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
                         }).ConfigureAwait(false);
+                    }
                 }
                 catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.BadRequest)
                 {
@@ -94,19 +102,23 @@ public partial class Administration
             }
 
             if (target != null && Service.Add(ctx.Guild.Id, new ReactionRoleMessage
+            {
+                Exclusive = exclusive,
+                MessageId = target.Id,
+                ChannelId = target.Channel.Id,
+                ReactionRoles = all.Select(x => new ReactionRole
                 {
-                    Exclusive = exclusive,
-                    MessageId = target.Id,
-                    ChannelId = target.Channel.Id,
-                    ReactionRoles = all.Select(x => new ReactionRole
-                    {
-                        EmoteName = x.emote.ToString(),
-                        RoleId = x.role.Id
-                    }).ToList()
-                }))
+                    EmoteName = x.emote.ToString(),
+                    RoleId = x.role.Id
+                }).ToList()
+            }))
+            {
                 await ctx.OkAsync().ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), BotPerm(GuildPermission.ManageRoles), Priority(0)]
@@ -115,7 +127,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) => InternalReactionRoles(true, messageId, input);
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task ReactionRoles(Exclude _, ulong messageId, params string[] input) => InternalReactionRoles(true, messageId, input);
@@ -133,7 +145,7 @@ public partial class Administration
         public async Task ReactionRolesList()
         {
             if (!Service.Get(ctx.Guild.Id, out var rrs) ||
-                !rrs.Any())
+                rrs.Count == 0)
             {
                 await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles")).ConfigureAwait(false);
             }
@@ -177,8 +189,11 @@ public partial class Administration
         {
             if (index < 1 ||
                 !Service.Get(ctx.Guild.Id, out var rrs) ||
-                !rrs.Any() || rrs.Count < index)
+                rrs.Count == 0 || rrs.Count < index)
+            {
                 return;
+            }
+
             index--;
             Service.Remove(ctx.Guild.Id, index);
             await ReplyConfirmLocalizedAsync("reaction_role_removed", index + 1).ConfigureAwait(false);
@@ -188,7 +203,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task SetRole(IRole roleToAdd, [Remainder] IGuildUser targetUser)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             var runnerMaxRolePosition = runnerUser.GetRoles().Max(x => x.Position);
             if (ctx.User.Id != ctx.Guild.OwnerId && runnerMaxRolePosition <= roleToAdd.Position)
                 return;
@@ -211,10 +226,13 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
         {
-            var runnerUser = (IGuildUser) ctx.User;
+            var runnerUser = (IGuildUser)ctx.User;
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                 runnerUser.GetRoles().Max(x => x.Position) <= roleToRemove.Position)
+            {
                 return;
+            }
+
             try
             {
                 await targetUser.RemoveRoleAsync(roleToRemove).ConfigureAwait(false);
@@ -231,7 +249,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RenameRole(IRole roleToEdit, [Remainder] string newname)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= roleToEdit.Position)
                 return;
             try
@@ -256,7 +274,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveAllRoles([Remainder] IGuildUser user)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
 
             var userRoles = user.GetRoles()
                 .Where(x => !x.IsManaged && x != x.Guild.EveryoneRole)
@@ -264,7 +282,10 @@ public partial class Administration
 
             if (user.Id == ctx.Guild.OwnerId || (ctx.User.Id != ctx.Guild.OwnerId &&
                                                  guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+            {
                 return;
+            }
+
             try
             {
                 await user.RemoveRolesAsync(userRoles).ConfigureAwait(false);
@@ -291,10 +312,12 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task DeleteRole([Remainder] IRole role)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (ctx.User.Id != guser.Guild.OwnerId
                 && guser.GetRoles().Max(x => x.Position) <= role.Position)
+            {
                 return;
+            }
 
             await role.DeleteAsync().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("dr", Format.Bold(role.Name)).ConfigureAwait(false);
@@ -307,10 +330,14 @@ public partial class Administration
             var newHoisted = !role.IsHoisted;
             await role.ModifyAsync(r => r.Hoist = newHoisted).ConfigureAwait(false);
             if (newHoisted)
+            {
                 await ReplyConfirmLocalizedAsync("rolehoist_enabled", Format.Bold(role.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("rolehoist_disabled", Format.Bold(role.Name))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]

@@ -26,7 +26,7 @@ public class SuggestionsService : INService
     private readonly List<ulong> _spamCheck;
 
     public readonly CommandHandler CmdHandler;
-    
+
     public SuggestionsService(
         DbService db,
         Mewdeko bot,
@@ -99,6 +99,7 @@ public class SuggestionsService : INService
             }
 
             if (buttonId != 0)
+            {
                 try
                 {
                     await channel.DeleteMessageAsync(buttonId);
@@ -109,6 +110,7 @@ public class SuggestionsService : INService
                     _repostChecking.Remove(channel.Id);
                     return;
                 }
+            }
 
             var message = GetSuggestButtonMessage(channel.Guild);
             if (string.IsNullOrWhiteSpace(message) || message is "disabled" or "-")
@@ -152,7 +154,6 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-
     private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
         _ = Task.Run(async () =>
@@ -187,7 +188,9 @@ public class SuggestionsService : INService
                     await uow.SaveChangesAsync();
                 }
                 else
+                {
                     return;
+                }
             }
 
             var emotes = toSplit.Split(",");
@@ -244,7 +247,9 @@ public class SuggestionsService : INService
                     await uow.SaveChangesAsync();
                 }
                 else
+                {
                     return;
+                }
             }
 
             var emotes = toSplit.Split(",");
@@ -278,7 +283,7 @@ public class SuggestionsService : INService
             _spamCheck.Add(chan.Id);
             var guild = chan?.Guild;
             var prefix = CmdHandler.GetPrefix(guild);
-            if (guild != null && msg.Author.IsBot == false && !msg.Content.StartsWith(prefix))
+            if (guild != null && !msg.Author.IsBot && !msg.Content.StartsWith(prefix))
             {
                 if (chan.Id != GetSuggestionChannel(guild.Id))
                 {
@@ -639,7 +644,7 @@ public class SuggestionsService : INService
         await using var uow = _db.GetDbContext();
         suggestionsModel.CurrentState = state;
         suggestionsModel.StateChangeUser = stateChangeId;
-        suggestionsModel.StateChangeCount += 1;
+        suggestionsModel.StateChangeCount++;
         uow.Suggestions.Update(suggestionsModel);
         await uow.SaveChangesAsync();
     }
@@ -841,10 +846,9 @@ public class SuggestionsService : INService
 
     public async Task<int> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
     {
-        int count;
         await using var uow = _db.GetDbContext();
         var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
-        count = emoteNumber switch
+        return emoteNumber switch
         {
             1 => toupdate.EmoteCount1,
             2 => toupdate.EmoteCount2,
@@ -853,7 +857,6 @@ public class SuggestionsService : INService
             5 => toupdate.EmoteCount5,
             _ => 0
         };
-        return count;
     }
 
     public IEmote GetSuggestMote(IGuild guild, int num)
@@ -879,7 +882,6 @@ public class SuggestionsService : INService
     public string GetImplementMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ImplementMessage;
 
     public string GetConsiderMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
-
 
     public int GetThreadType(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
 
@@ -926,7 +928,6 @@ public class SuggestionsService : INService
             _ => ButtonStyle.Secondary
         };
 
-
     public async Task SendDenyEmbed(
         IGuild guild,
         DiscordSocketClient client,
@@ -936,8 +937,7 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
-        string rs;
-        rs = reason ?? "none";
+        string rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         if (suggest is null)
         {
@@ -1056,6 +1056,7 @@ public class SuggestionsService : INService
                     {
                         var messageCheck = await toCheck.GetMessageAsync(messageId);
                         if (messageCheck is not null)
+                        {
                             try
                             {
                                 await messageCheck.DeleteAsync();
@@ -1064,6 +1065,7 @@ public class SuggestionsService : INService
                             {
                                 // ignored
                             }
+                        }
                     }
                 }
 
@@ -1122,7 +1124,7 @@ public class SuggestionsService : INService
                 }
             }
 
-            if (ebe is false)
+            if (!ebe)
             {
                 if (message is not null)
                 {
@@ -1157,6 +1159,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1165,6 +1168,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -1208,6 +1212,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1216,6 +1221,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -1383,6 +1389,7 @@ public class SuggestionsService : INService
                     {
                         var messageCheck = await toCheck.GetMessageAsync(messageId);
                         if (messageCheck is not null)
+                        {
                             try
                             {
                                 await messageCheck.DeleteAsync();
@@ -1391,6 +1398,7 @@ public class SuggestionsService : INService
                             {
                                 // ignored
                             }
+                        }
                     }
                 }
 
@@ -1448,7 +1456,7 @@ public class SuggestionsService : INService
                 }
             }
 
-            if (ebe is false)
+            if (!ebe)
             {
                 if (message is not null)
                 {
@@ -1483,6 +1491,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1491,6 +1500,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -1534,6 +1544,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1542,6 +1553,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -1709,6 +1721,7 @@ public class SuggestionsService : INService
                     {
                         var messageCheck = await toCheck.GetMessageAsync(messageId);
                         if (messageCheck is not null)
+                        {
                             try
                             {
                                 await messageCheck.DeleteAsync();
@@ -1717,6 +1730,7 @@ public class SuggestionsService : INService
                             {
                                 // ignored
                             }
+                        }
                     }
                 }
 
@@ -1776,7 +1790,7 @@ public class SuggestionsService : INService
                 }
             }
 
-            if (ebe is false)
+            if (!ebe)
             {
                 if (message is not null)
                 {
@@ -1811,6 +1825,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1819,6 +1834,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -1862,6 +1878,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -1870,6 +1887,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -2033,6 +2051,7 @@ public class SuggestionsService : INService
                     {
                         var messageCheck = await toCheck.GetMessageAsync(messageId);
                         if (messageCheck is not null)
+                        {
                             try
                             {
                                 await messageCheck.DeleteAsync();
@@ -2041,6 +2060,7 @@ public class SuggestionsService : INService
                             {
                                 // ignored
                             }
+                        }
                     }
                 }
 
@@ -2100,7 +2120,7 @@ public class SuggestionsService : INService
                 }
             }
 
-            if (ebe is false)
+            if (!ebe)
             {
                 if (message is not null)
                 {
@@ -2135,6 +2155,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -2143,6 +2164,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -2186,6 +2208,7 @@ public class SuggestionsService : INService
                                 {
                                     var messageCheck = await toCheck.GetMessageAsync(messageId);
                                     if (messageCheck is not null)
+                                    {
                                         try
                                         {
                                             await messageCheck.DeleteAsync();
@@ -2194,6 +2217,7 @@ public class SuggestionsService : INService
                                         {
                                             // ignored
                                         }
+                                    }
                                 }
                             }
 
@@ -2266,15 +2290,19 @@ public class SuggestionsService : INService
         {
             var count = 0;
             if (em is null or "disabled")
+            {
                 foreach (var i in reacts)
                 {
                     builder.WithButton("0", $"emotebutton:{count + 1}", emote: i, style: GetButtonStyle(guild, ++count));
                 }
+            }
             else
+            {
                 foreach (var i in emotes)
                 {
                     builder.WithButton("0", $"emotebutton:{count + 1}", emote: i, style: GetButtonStyle(guild, ++count));
                 }
+            }
         }
 
         if (GetThreadType(guild) == 1)
@@ -2296,13 +2324,16 @@ public class SuggestionsService : INService
             if (GetEmoteMode(guild) == 0)
             {
                 if (em is null or "disabled")
+                {
                     foreach (var i in reacts)
                         await t.AddReactionAsync(i);
+                }
                 else
+                {
                     foreach (var ei in emotes)
                         await t.AddReactionAsync(ei);
+                }
             }
-
 
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
@@ -2319,7 +2350,7 @@ public class SuggestionsService : INService
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), out var embed, out var plainText);
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             IUserMessage msg;
-            if (ebe is false)
+            if (!ebe)
             {
                 if (GetEmoteMode(guild) == 1)
                     msg = await chan.SendMessageAsync(replacer.Replace(GetSuggestionMessage(guild)), components: builder.Build());
@@ -2337,11 +2368,15 @@ public class SuggestionsService : INService
             if (GetEmoteMode(guild) == 0)
             {
                 if (em is null or "disabled" or "-")
+                {
                     foreach (var i in reacts)
                         await msg.AddReactionAsync(i);
+                }
                 else
+                {
                     foreach (var ei in emotes)
                         await msg.AddReactionAsync(ei);
+                }
             }
 
             await Sugnum(guild, sugnum1 + 1);

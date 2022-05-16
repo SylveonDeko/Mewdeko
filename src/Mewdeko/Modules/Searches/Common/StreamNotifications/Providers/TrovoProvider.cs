@@ -1,11 +1,11 @@
-﻿﻿using Mewdeko.Database.Models;
- using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
- using Serilog;
- using System.Net.Http;
- using System.Net.Http.Json;
- using System.Text.RegularExpressions;
+﻿using Mewdeko.Database.Models;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Serilog;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.RegularExpressions;
 
- namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class TrovoProvider : Provider
 {
@@ -18,11 +18,9 @@ public class TrovoProvider : Provider
 
     private readonly IBotCredentials _creds;
 
-
     public TrovoProvider(IHttpClientFactory httpClientFactory, IBotCredentials creds)
     {
         (_httpClientFactory, _creds) = (httpClientFactory, creds);
-
 
         if (string.IsNullOrWhiteSpace(creds.TrovoClientId))
         {
@@ -106,13 +104,13 @@ If you are experiencing ratelimits, you should create your own application at: h
     public override async Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> usernames)
     {
         var trovoClientId = _creds.TrovoClientId;
-        
+
         if (string.IsNullOrWhiteSpace(trovoClientId))
         {
             Log.Warning("Trovo streams will be ignored until TrovoClientId is added to creds.yml");
             return Array.Empty<StreamData>();
         }
-        
+
         var results = new List<StreamData>(usernames.Count);
         foreach (var chunk in usernames.Chunk(10)
                                        .Select(x => x.Select(GetStreamDataAsync)))

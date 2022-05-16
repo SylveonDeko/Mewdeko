@@ -62,7 +62,7 @@ public partial class Permissions
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -79,8 +79,7 @@ public partial class Permissions
         public async Task FWarn(string yesnt)
         {
             await Service.SetFwarn(ctx.Guild, yesnt[..1].ToLower());
-            var t = Service.GetFw(ctx.Guild.Id);
-            switch (t)
+            switch (Service.GetFw(ctx.Guild.Id))
             {
                 case 1:
                     await ctx.Channel.SendConfirmAsync("Warn on filtered word is now enabled!");
@@ -95,8 +94,7 @@ public partial class Permissions
         public async Task InvWarn(string yesnt)
         {
             await Service.InvWarn(ctx.Guild, yesnt[..1].ToLower());
-            var t = Service.GetInvWarn(ctx.Guild.Id);
-            switch (t)
+            switch (Service.GetInvWarn(ctx.Guild.Id))
             {
                 case 1:
                     await ctx.Channel.SendConfirmAsync("Warn on invite post is now enabled!");
@@ -118,7 +116,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterInv()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
             await using (var uow = _db.GetDbContext())
@@ -143,7 +141,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterInv()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             FilterChannelId removed;
             await using (var uow = _db.GetDbContext())
@@ -178,7 +176,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterLin()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
             await using (var uow = _db.GetDbContext())
@@ -203,7 +201,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterLin()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             FilterLinksChannelId removed;
             await using (var uow = _db.GetDbContext())
@@ -238,7 +236,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterWords()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
             await using (var uow = _db.GetDbContext())
@@ -263,7 +261,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterWords()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             FilterChannelId removed;
             await using (var uow = _db.GetDbContext())
@@ -298,7 +296,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task FilterWord([Remainder] string? word)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             word = word?.Trim().ToLowerInvariant();
 
@@ -313,7 +311,7 @@ public partial class Permissions
                 removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
                 if (removed == null)
-                    config.FilteredWords.Add(new FilteredWord {Word = word});
+                    config.FilteredWords.Add(new FilteredWord { Word = word });
                 else
                     uow.Remove(removed);
 
@@ -338,8 +336,7 @@ public partial class Permissions
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task LstFilterWords()
         {
-
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             Service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
@@ -354,7 +351,7 @@ public partial class Permissions
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

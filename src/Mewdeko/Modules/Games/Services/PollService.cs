@@ -20,19 +20,14 @@ public class PollService : INService
 
         using var uow = db.GetDbContext();
         ActivePolls = uow.Poll.GetAllPolls()
-            .ToDictionary(x => x.GuildId, x =>
-            {
-                var pr = new PollRunner(db, x);
-                return pr;
-            })
+            .ToDictionary(x => x.GuildId, x => new PollRunner(db, x))
             .ToConcurrent();
     }
 
     public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; }
-    
+
     public async Task<(bool allowed, PollType type)> TryVote(IGuild guild, int num, IUser user)
     {
-
         if (!ActivePolls.TryGetValue(guild.Id, out var poll))
             return (false, PollType.PollEnded);
 
@@ -53,11 +48,11 @@ public class PollService : INService
         if (string.IsNullOrWhiteSpace(input) || !input.Contains(";"))
             return null;
         var data = input.Split(';');
-        if (data.Length < 3 )
+        if (data.Length < 3)
             return null;
 
         var col = new IndexedCollection<PollAnswer>(data.Skip(1)
-                                                        .Select(x => new PollAnswer {Text = x}));
+                                                        .Select(x => new PollAnswer { Text = x }));
 
         return new Poll
         {
@@ -78,7 +73,6 @@ public class PollService : INService
         uow.Poll.Add(p);
         uow.SaveChanges();
         return true;
-
     }
 
     public Poll StopPoll(ulong guildId)
@@ -91,7 +85,5 @@ public class PollService : INService
         }
 
         return pr.Poll;
-
     }
-    
 }

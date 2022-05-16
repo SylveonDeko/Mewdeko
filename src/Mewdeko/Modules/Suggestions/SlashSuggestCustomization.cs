@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -189,7 +188,6 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SuggestThreadsType(Suggestions.SuggestThreadType type)
     {
-
         if (type == Suggestions.SuggestThreadType.Private && !ctx.Guild.Features.HasPrivateThreads)
         {
             await ctx.Interaction.SendErrorAsync("You do not have enough server boosts for private threads!");
@@ -199,7 +197,6 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
         await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
         await ctx.Interaction.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
     }
-
 
     [SlashCommand("archiveondeny", "Set whether threads auto archive on deny"), Discord.Interactions.RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]

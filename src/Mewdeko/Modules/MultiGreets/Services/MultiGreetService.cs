@@ -16,7 +16,6 @@ public class MultiGreetService : INService
     private DiscordSocketClient client;
     private readonly Mewdeko _bot;
 
-
     public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.client = client;
@@ -24,7 +23,7 @@ public class MultiGreetService : INService
         _db = db;
         this.client.UserJoined += DoMultiGreet;
     }
-    
+
     public MultiGreet[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
     private MultiGreet[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
 
@@ -33,7 +32,7 @@ public class MultiGreetService : INService
         _ = Task.Run(async () =>
         {
             var greets = GetGreets(user.Guild.Id);
-            if (!greets.Any()) return;
+            if (greets.Length == 0) return;
             if (GetMultiGreetType(user.Guild.Id) == 3)
                 return;
             if (GetMultiGreetType(user.Guild.Id) == 1)
@@ -45,15 +44,14 @@ public class MultiGreetService : INService
             }
             var webhooks = greets.Where(x => x.WebhookUrl is not null)
                                  .Select(x => new DiscordWebhookClient(x.WebhookUrl));
-            if (greets.Any())
+            if (greets.Length > 0)
                 await HandleChannelGreets(greets, user);
             if (webhooks.Any())
                 await HandleWebhookGreets(greets, user);
         });
         return Task.CompletedTask;
-
     }
-    
+
     public async Task HandleRandomGreet(MultiGreet greet, SocketGuildUser user)
     {
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
@@ -109,7 +107,6 @@ public class MultiGreetService : INService
                     });
                     if (greet.DeleteTime > 0)
                         msg.DeleteAfter(greet.DeleteTime);
-
                 }
 
                 if (embedData is null && plainText is not null)
@@ -145,7 +142,6 @@ public class MultiGreetService : INService
     }
     private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
     {
-        
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
         {
@@ -166,7 +162,6 @@ public class MultiGreetService : INService
                     var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
-
                 }
 
                 if (embedData is null && plainText is not null)
@@ -277,7 +272,7 @@ public class MultiGreetService : INService
         uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
+
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
     {
         await using var uow = _db.GetDbContext();
@@ -285,7 +280,7 @@ public class MultiGreetService : INService
         uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
+
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
         await using var uow = _db.GetDbContext();
@@ -296,15 +291,14 @@ public class MultiGreetService : INService
 
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
-        await using var uow =  _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         uow.MultiGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
-        await using var uow =  _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         uow.MultiGreets.RemoveRange(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
 }

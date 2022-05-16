@@ -15,7 +15,7 @@ public sealed class YandereImageDownloader : ImageDownloader<DapiImageObject>
     public override async Task<List<DapiImageObject>> DownloadImagesAsync(string[] tags, int page, bool isExplicit = false, CancellationToken cancel = default)
     {
         var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
-            
+
         var uri = $"{_baseUrl}/post.json?limit=200&tags={tagString}&page={page}";
         var imageObjects = await _http.GetFromJsonAsync<DapiImageObject[]>(uri, _serializerOptions, cancel)
                                       .ConfigureAwait(false);

@@ -25,13 +25,13 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
-    
+
     public Permissions(DbService db, InteractiveService inter)
     {
         _interactivity = inter;
         _db = db;
-    }   
-    
+    }
+
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task ResetPerms()
@@ -69,11 +69,16 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             var cache = Service.GetCacheFor(ctx.Guild.Id);
             if (!ulong.TryParse(cache.PermRole, out var roleId) ||
-                (role = ((SocketGuild) ctx.Guild).GetRole(roleId)) == null)
+                (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
+            {
                 await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("permrole", Format.Bold(role.ToString())).ConfigureAwait(false);
+            }
+
             return;
         }
 
@@ -120,7 +125,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -139,7 +144,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RemovePerm(int index)
     {
-        index -= 1;
+        index--;
         if (index < 0)
             return;
         try
@@ -158,7 +163,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {
@@ -169,9 +174,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task MovePerm(int from, int to)
     {
-        from -= 1;
-        to -= 1;
+        from--;
+        to--;
         if (!(from == to || from < 0 || to < 0))
+        {
             try
             {
                 Permissionv2 fromPerm;
@@ -204,7 +210,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 }
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
-                        Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) ctx.Guild)),
+                        Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)ctx.Guild)),
                         ++from,
                         ++to)
                     .ConfigureAwait(false);
@@ -213,6 +219,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             catch (Exception e) when (e is ArgumentOutOfRangeException or IndexOutOfRangeException)
             {
             }
+        }
 
         await ReplyErrorLocalizedAsync("perm_out_of_range").ConfigureAwait(false);
     }
@@ -231,13 +238,17 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("sx_enable",
-                Format.Code(command.Name),
-                GetText("of_command")).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command")).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("sx_disable",
-                Format.Code(command.Name),
-                GetText("of_command")).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command")).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -253,13 +264,17 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("sx_enable",
-                Format.Code(module.Name),
-                GetText("of_module")).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module")).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("sx_disable",
-                Format.Code(module.Name),
-                GetText("of_module")).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module")).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -276,15 +291,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("ux_enable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("ux_disable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -300,15 +319,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("ux_enable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("ux_disable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -328,15 +351,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("rx_enable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("rx_disable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -354,17 +381,20 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             State = action.Value
         }).ConfigureAwait(false);
 
-
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("rx_enable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("rx_disable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -381,15 +411,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -405,15 +439,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -429,11 +467,15 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("acm_enable",
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("acm_disable",
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -450,15 +492,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                Format.Code(command.Name),
-                GetText("of_command"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(command.Name),
+                        GetText("of_command"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -474,15 +520,19 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                Format.Code(module.Name),
-                GetText("of_module"),
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(module.Name),
+                        GetText("of_module"),
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -498,11 +548,15 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("acm_enable",
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("acm_disable",
-                Format.Code(chnl.Name)).ConfigureAwait(false);
+                        Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -521,11 +575,15 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("arm_enable",
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("arm_disable",
-                Format.Code(role.Name)).ConfigureAwait(false);
+                        Format.Code(role.Name)).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -541,11 +599,15 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         }).ConfigureAwait(false);
 
         if (action.Value)
+        {
             await ReplyConfirmLocalizedAsync("aum_enable",
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
         else
+        {
             await ReplyConfirmLocalizedAsync("aum_disable",
-                Format.Code(user.ToString())).ConfigureAwait(false);
+                        Format.Code(user.ToString())).ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]

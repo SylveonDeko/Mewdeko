@@ -16,7 +16,9 @@ public class LocalBotStringsProvider : IBotStringsProvider
     {
         if (responseStrings.TryGetValue(localeName, out var langStrings)
             && langStrings.TryGetValue(key, out var text))
+        {
             return text;
+        }
 
         return null;
     }
@@ -31,7 +33,9 @@ public class LocalBotStringsProvider : IBotStringsProvider
     {
         if (commandStrings.TryGetValue(localeName, out var langStrings)
             && langStrings.TryGetValue(commandName, out var strings))
+        {
             return strings;
+        }
 
         return null;
     }

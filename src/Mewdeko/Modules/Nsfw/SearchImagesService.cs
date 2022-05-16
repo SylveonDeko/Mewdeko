@@ -53,7 +53,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
     private Task<UrlReply> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default) => GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
 
-    private bool IsValidTag(string tag) => tag.All(x => x != '+' && x != '?' && x != '/'); // tags mustn't contain + or ? or /
+    private static bool IsValidTag(string tag) => tag.All(x => x != '+' && x != '?' && x != '/'); // tags mustn't contain + or ? or /
 
     private async Task<UrlReply> GetNsfwImageAsync(
         ulong guildId,
@@ -71,7 +71,7 @@ public class SearchImagesService : ISearchImagesService, INService
             };
         }
 #if  DEBUG
-        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);  
+        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);
 #endif
         try
         {
@@ -82,15 +82,21 @@ public class SearchImagesService : ISearchImagesService, INService
                 case Booru.E621:
                     {
                         for (var i = 0; i < tags.Length; ++i)
+                        {
                             if (tags[i] == "yuri")
                                 tags[i] = "female/female";
+                        }
+
                         break;
                     }
                 case Booru.Derpibooru:
                     {
                         for (var i = 0; i < tags.Length; ++i)
+                        {
                             if (tags[i] == "yuri")
                                 tags[i] = "lesbian";
+                        }
+
                         break;
                     }
             }
@@ -118,7 +124,6 @@ public class SearchImagesService : ISearchImagesService, INService
             reply.Tags.AddRange(result.Tags);
 
             return reply;
-
         }
         catch (Exception ex)
         {
@@ -154,7 +159,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public Task<UrlReply> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Safebooru);
-        
+
     public Task<UrlReply> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
 
@@ -178,7 +183,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
             // get its result
             var result = task.GetAwaiter().GetResult();
-            if(string.IsNullOrEmpty(result.Error))
+            if (string.IsNullOrEmpty(result.Error))
             {
                 // if we have a non-error result, cancel other searches and return the result
                 cancelSource.Cancel();
@@ -202,8 +207,7 @@ public class SearchImagesService : ISearchImagesService, INService
     {
         try
         {
-            JToken obj;
-            obj = JArray.Parse(await _http.GetStringAsync($"http://api.oboobs.ru/boobs/{_rng.Next(0, 12000)}").ConfigureAwait(false))[0];
+            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.oboobs.ru/boobs/{_rng.Next(0, 12000)}").ConfigureAwait(false))[0];
             return new UrlReply
             {
                 Error = "",
@@ -265,8 +269,7 @@ public class SearchImagesService : ISearchImagesService, INService
     {
         try
         {
-            JToken obj;
-            obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}"))[0];
+            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}"))[0];
             return new UrlReply
             {
                 Error = "",

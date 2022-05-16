@@ -24,6 +24,7 @@ public class LocalFileStringsSource : IStringsSource
     {
         var outputDict = new Dictionary<string, Dictionary<string, string>>();
         foreach (var file in Directory.GetFiles(_responsesPath))
+        {
             try
             {
                 var langDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(file));
@@ -34,6 +35,7 @@ public class LocalFileStringsSource : IStringsSource
             {
                 Log.Error(ex, "Error loading {FileName} response strings: {ErrorMessage}", file, ex.Message);
             }
+        }
 
         return outputDict;
     }
@@ -45,6 +47,7 @@ public class LocalFileStringsSource : IStringsSource
 
         var outputDict = new Dictionary<string, Dictionary<string, CommandStrings>>();
         foreach (var file in Directory.GetFiles(_commandsPath))
+        {
             try
             {
                 var text = File.ReadAllText(file);
@@ -56,6 +59,7 @@ public class LocalFileStringsSource : IStringsSource
             {
                 Log.Error(ex, "Error loading {FileName} command strings: {ErrorMessage}", file, ex.Message);
             }
+        }
 
         return outputDict;
     }

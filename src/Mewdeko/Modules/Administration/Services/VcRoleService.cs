@@ -47,6 +47,7 @@ public class VcRoleService : INService
                         if (add)
                         {
                             if (!user.RoleIds.Contains(role.Id))
+                            {
                                 try
                                 {
                                     await user.AddRoleAsync(role).ConfigureAwait(false);
@@ -55,10 +56,12 @@ public class VcRoleService : INService
                                 {
                                     // ignored
                                 }
+                            }
                         }
                         else
                         {
                             if (user.RoleIds.Contains(role.Id))
+                            {
                                 try
                                 {
                                     await user.RemoveRoleAsync(role).ConfigureAwait(false);
@@ -67,6 +70,7 @@ public class VcRoleService : INService
                                 {
                                     // ignored
                                 }
+                            }
                         }
 
                         await Task.Delay(250).ConfigureAwait(false);
@@ -127,7 +131,7 @@ public class VcRoleService : INService
             infos.TryAdd(ri.VoiceChannelId, role);
         }
 
-        if (missingRoles.Any())
+        if (missingRoles.Count > 0)
         {
             await using var uow = _db.GetDbContext();
             Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
@@ -186,8 +190,7 @@ public class VcRoleService : INService
             try
             {
                 if (oldVc == newVc) return;
-                ulong guildId;
-                guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
+                ulong guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
 
                 if (VcRoles.TryGetValue(guildId, out var guildVcRoles))
                 {

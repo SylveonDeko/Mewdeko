@@ -57,5 +57,4 @@ public class TrovoGetUsersResponse
 
     [JsonPropertyName("ended_at")]
     public string EndedAt { get; set; }
-
 }

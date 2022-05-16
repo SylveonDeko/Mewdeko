@@ -20,6 +20,5 @@ public static class MusicPlayerSettingsExtensions
 
         await settings.AddAsync(newSettings);
         return newSettings;
-
     }
 }

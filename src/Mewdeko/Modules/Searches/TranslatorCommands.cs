@@ -33,7 +33,7 @@ public partial class Searches
             try
             {
                 await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
+                var translation = await SearchesService.Translate(langs, text).ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync($"{GetText("translation")} {langs}", translation)
                     .ConfigureAwait(false);
             }
@@ -46,7 +46,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             if (autoDelete == AutoDeleteAutoTranslate.Del)
             {

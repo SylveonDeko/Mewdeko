@@ -25,5 +25,4 @@ public enum PollType
     AllowChange,
     MultiAnswer,
     PollEnded
-
 }

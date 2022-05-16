@@ -66,18 +66,18 @@ public class NewEmbed
     [JsonProperty("content")] public string Content { get; set; }
 
     [JsonProperty("embed")] public Embed Embed { get; set; }
-    
+
     public bool IsValid =>
         IsEmbedValid || !string.IsNullOrWhiteSpace(Content);
-    
+
     public bool IsEmbedValid =>
         !string.IsNullOrWhiteSpace(Embed.Description) ||
         !string.IsNullOrWhiteSpace(Embed.Url) ||
         Embed.Thumbnail != null ||
         Embed.Image != null ||
         (Embed.Footer != null && (!string.IsNullOrWhiteSpace(Embed.Footer.Text) || !string.IsNullOrWhiteSpace(Embed.Footer.IconUrl))) ||
-        Embed.Fields is {Count: > 0};
-    
+        Embed.Fields is { Count: > 0 };
+
     public EmbedBuilder ToEmbed()
     {
         var embed = new EmbedBuilder();
@@ -90,12 +90,14 @@ public class NewEmbed
             embed.WithUrl(Embed.Url);
         embed.WithColor(new Color(Embed.Color));
         if (Embed.Footer != null)
+        {
             embed.WithFooter(efb =>
             {
                 efb.WithText(Embed.Footer.Text);
                 if (Uri.IsWellFormedUriString(Embed.Footer.IconUrl, UriKind.Absolute))
                     efb.WithIconUrl(Embed.Footer.IconUrl);
             });
+        }
 
         if (Embed.Thumbnail != null && Uri.IsWellFormedUriString(Embed.Thumbnail.Url, UriKind.Absolute))
             embed.WithThumbnailUrl(Embed.Thumbnail.Url);

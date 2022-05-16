@@ -62,14 +62,13 @@ public class TypingGame
         if (IsActive) return; // can't start running game
         IsActive = true;
         CurrentSentence = GetRandomSentence();
-        var i = (int) (CurrentSentence.Length / WORD_VALUE * 1.7f);
+        var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
         try
         {
             await Channel
                 .SendConfirmAsync(
                     $@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.")
                 .ConfigureAwait(false);
-
 
             var time = _options.StartTime;
 
@@ -118,7 +117,7 @@ public class TypingGame
 
     public string GetRandomSentence()
     {
-        if (_games.TypingArticles.Any())
+        if (_games.TypingArticles.Count > 0)
             return _games.TypingArticles[new MewdekoRandom().Next(0, _games.TypingArticles.Count)].Text;
         return $"No typing articles found. Use {_prefix}typeadd command to add a new article for typing.";
     }
@@ -158,9 +157,11 @@ public class TypingGame
                                 efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
                         .ConfigureAwait(false);
                     if (_finishedUserIds.Count % 4 == 0)
+                    {
                         await Channel.SendConfirmAsync(
                                          $":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
                             .ConfigureAwait(false);
+                    }
                 }
             }
             catch (Exception ex)

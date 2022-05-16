@@ -45,10 +45,12 @@ public class TimeSpanConverter : TypeConverter<TimeSpan>
         {
             @string = @string?.ToLower().Trim();
             var matches = _regex.Matches(@string ?? string.Empty);
-            if (matches.Any())
+            if (matches.Count > 0)
+            {
                 foreach (Match match in matches)
                     if (_callback.TryGetValue(match.Groups[2].Value, out var result))
                         span += result(match.Groups[1].Value);
+            }
         }
 
         return Task.FromResult(TypeConverterResult.FromSuccess(span));

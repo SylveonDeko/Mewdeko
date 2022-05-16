@@ -63,9 +63,7 @@ public class Help : MewdekoModuleBase<HelpService>
         var eb = new EmbedBuilder().WithOkColor()
                                    .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
         return (plainText, eb);
-
     }
-
 
     [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
@@ -76,7 +74,6 @@ public class Help : MewdekoModuleBase<HelpService>
             await ctx.Channel.SendErrorAsync(
                 "That command wasn't found! Please retry your search with a different term.");
         }
-
         else
         {
             string cmdnames = null;
@@ -98,7 +95,7 @@ public class Help : MewdekoModuleBase<HelpService>
     public async Task Modules()
     {
         var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await Service.AddUser(ctx.Message, DateTime.UtcNow);
+        await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
         await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build());
     }
 
@@ -117,7 +114,6 @@ public class Help : MewdekoModuleBase<HelpService>
             return;
         }
 
-
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
@@ -127,7 +123,6 @@ public class Help : MewdekoModuleBase<HelpService>
             .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
-
 
         // check preconditions for all commands, but only if it's not 'all'
         // because all will show all commands anyway, no need to check
@@ -167,10 +162,11 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             await Task.CompletedTask;
             var transformed = groups.Select(x => x.ElementAt(page).Where(x => !x.Attributes.Any(x => x is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases.First(),-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
+            {
                 if (i == last - 1 && (i + 1) % 1 != 0)
                 {
                     var grp = 0;
@@ -184,6 +180,7 @@ public class Help : MewdekoModuleBase<HelpService>
                             return string.Concat(x);
                         });
                 }
+            }
 
             return new PageBuilder()
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
@@ -218,10 +215,10 @@ public class Help : MewdekoModuleBase<HelpService>
             await Modules();
             return;
         }
-        
-        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{com.Aliases.First()}", ButtonStyle.Success);
+
+        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{com.Aliases[0]}", ButtonStyle.Success);
         var embed = Service.GetCommandHelp(com, ctx.Guild);
-        await channel.SendMessageAsync(embed:embed.Build(), components:comp.Build()).ConfigureAwait(false);
+        await channel.SendMessageAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, OwnerOnly]
@@ -237,7 +234,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .OrderBy(x => x.Key)
             .ToDictionary(
                 x => x.Key,
-                x => x.Distinct(commandInfo => commandInfo.Aliases.First())
+                x => x.Distinct(commandInfo => commandInfo.Aliases[0])
                     .Select(com =>
                     {
                         com.Module.GetTopLevelModule();
@@ -295,6 +292,8 @@ public class Help : MewdekoModuleBase<HelpService>
 
     [Cmd, Aliases]
     public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
+    [Cmd, Aliases]
+    public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko");
 }
 
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>

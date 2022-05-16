@@ -20,7 +20,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     private readonly JsonSerializerOptions _serializerOptions = new()
     {
         MaxDepth = 0,
-        Converters = {new Rgba32Converter(), new CultureInfoConverter()}
+        Converters = { new Rgba32Converter(), new CultureInfoConverter() }
     };
 
     private readonly TypedKey<TSettings> _changeKey;
@@ -74,7 +74,9 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         prop = prop.ToLowerInvariant();
         if (!_propSelectors.TryGetValue(prop, out var selector) ||
             !_propPrinters.TryGetValue(prop, out var printer))
+        {
             return default;
+        }
 
         return printer(selector());
     }
@@ -165,10 +167,10 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     {
         checker ??= _ => true;
         key = key.ToLowerInvariant();
-        _propPrinters[key] = obj => printer((TProp) obj);
+        _propPrinters[key] = obj => printer((TProp)obj);
         _propSelectors[key] = () => selector.Compile()(data);
         _propSetters[key] = Magic(selector, parser, checker);
-        _propComments[key] = ((MemberExpression) selector.Body).Member.GetCustomAttribute<CommentAttribute>()
+        _propComments[key] = ((MemberExpression)selector.Body).Member.GetCustomAttribute<CommentAttribute>()
             ?.Comment;
     }
 
@@ -183,8 +185,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
                 return false;
 
             object targetObject = target;
-            var expr = (MemberExpression) selector.Body;
-            var prop = (PropertyInfo) expr.Member;
+            var expr = (MemberExpression)selector.Body;
+            var prop = (PropertyInfo)expr.Member;
 
             var expressions = new List<MemberExpression>();
 
@@ -199,7 +201,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
 
             foreach (var memberExpression in expressions.AsEnumerable().Reverse())
             {
-                var localProp = (PropertyInfo) memberExpression.Member;
+                var localProp = (PropertyInfo)memberExpression.Member;
                 targetObject = localProp.GetValue(targetObject);
             }
 

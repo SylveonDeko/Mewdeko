@@ -28,13 +28,12 @@ public class UtilityService : INService
         _db = db;
         _bot = bot;
         _cache = cache;
-
     }
 
-    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) 
+    public async Task<List<SnipeStore>> GetSnipes(ulong guildId)
         => await _cache.GetSnipesForGuild(guildId);
 
-    public int GetPLinks(ulong? id) 
+    public int GetPLinks(ulong? id)
         => _bot.GetGuildConfig(id.Value).PreviewLinks;
 
     public ulong GetReactChans(ulong? id)
@@ -118,7 +117,7 @@ public class UtilityService : INService
             DateAdded = DateTime.UtcNow
         });
         var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id) ?? new List<SnipeStore>();
-        if (!snipes.Any())
+        if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
             if (todelete.Any())
@@ -132,7 +131,7 @@ public class UtilityService : INService
     {
         _ = Task.Run(async () =>
         {
-            if (!GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id)) return;
+            if (!GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
             var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
@@ -141,22 +140,22 @@ public class UtilityService : INService
             {
                 var snipemsg = new SnipeStore
                 {
-                    GuildId = ((SocketTextChannel) ch.Value).Guild.Id,
+                    GuildId = ((SocketTextChannel)ch.Value).Guild.Id,
                     ChannelId = ch.Id,
                     Message = msg.Content,
                     UserId = msg.Author.Id,
                     Edited = 0,
                     DateAdded = DateTime.UtcNow
                 };
-                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel) ch.Value).Guild.Id) ?? new List<SnipeStore>();
-                if (!snipes.Any())
+                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id) ?? new List<SnipeStore>();
+                if (snipes.Count == 0)
                 {
                     var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
                     if (todelete.Any())
                         snipes.RemoveRange(todelete);
                 }
                 snipes.Add(snipemsg);
-                await _cache.AddSnipeToCache(((SocketTextChannel) ch.Value).Guild.Id, snipes);
+                await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes);
             }
         });
         return Task.CompletedTask;
@@ -169,8 +168,8 @@ public class UtilityService : INService
         {
             if (ch is not ITextChannel)
                 return;
-            
-            if (!GetSnipeSet(((SocketTextChannel) ch).Guild.Id)) return;
+
+            if (!GetSnipeSet(((SocketTextChannel)ch).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
             var user = await msg.Channel.GetUserAsync(msg.Author.Id);
@@ -179,22 +178,22 @@ public class UtilityService : INService
             {
                 var snipemsg = new SnipeStore
                 {
-                    GuildId = ((SocketTextChannel) ch).Guild.Id,
+                    GuildId = ((SocketTextChannel)ch).Guild.Id,
                     ChannelId = ch.Id,
                     Message = msg.Content,
                     UserId = msg.Author.Id,
                     Edited = 1,
                     DateAdded = DateTime.UtcNow
                 };
-                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel) ch).Guild.Id) ?? new List<SnipeStore>();
-                if (!snipes.Any())
+                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id) ?? new List<SnipeStore>();
+                if (snipes.Count == 0)
                 {
                     var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
                     if (todelete.Any())
                         snipes.RemoveRange(todelete);
                 }
                 snipes.Add(snipemsg);
-                await _cache.AddSnipeToCache(((SocketTextChannel) ch).Guild.Id, snipes);
+                await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes);
             }
         });
         return Task.CompletedTask;
@@ -269,16 +268,16 @@ public class UtilityService : INService
                             Author = new EmbedAuthorBuilder { Name = msg2.Author.Username, IconUrl = msg2.Author.GetAvatarUrl(size: 2048) },
                             Footer = new EmbedFooterBuilder { IconUrl = ((IGuild)guild).IconUrl, Text = $"{((IGuild)guild).Name}: {em.Name}" }
                         };
-                        if (msg2.Embeds.Any())
+                        if (msg2.Embeds.Count > 0)
                         {
                             en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault()?.Description);
                             if (msg2.Embeds.FirstOrDefault()!.Image != null)
                                 en2.ImageUrl = msg2.Embeds.FirstOrDefault()?.Image.Value.Url;
                         }
 
-                        if (msg2.Content.Any()) en2.Description = msg2.Content;
+                        if (msg2.Content.Length > 0) en2.Description = msg2.Content;
 
-                        if (msg2.Attachments.Any()) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
+                        if (msg2.Attachments.Count > 0) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
 
                         await msg.Channel.SendMessageAsync("", embed: en2.WithTimestamp(msg2.Timestamp).Build());
                     }

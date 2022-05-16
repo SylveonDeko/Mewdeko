@@ -38,7 +38,7 @@ public class TicTacToe
         _client = client;
         _options = options;
 
-        _users = new[] {firstUser, null};
+        _users = new[] { firstUser, null };
         _state = new int?[,]
         {
             {null, null, null},
@@ -165,16 +165,20 @@ public class TicTacToe
 
         _client.MessageReceived += Client_MessageReceived;
 
-
         previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
     }
 
     private bool IsDraw()
     {
         for (var i = 0; i < 3; i++)
-        for (var j = 0; j < 3; j++)
-            if (_state[i, j] == null)
-                return false;
+        {
+            for (var j = 0; j < 3; j++)
+            {
+                if (_state[i, j] == null)
+                    return false;
+            }
+        }
+
         return true;
     }
 

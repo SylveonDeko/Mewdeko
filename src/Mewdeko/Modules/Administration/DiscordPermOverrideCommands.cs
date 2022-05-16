@@ -59,7 +59,6 @@ public partial class Administration
          UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideList()
         {
-
             var overrides = await Service.GetAllOverrides(Context.Guild.Id).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
@@ -80,8 +79,11 @@ public partial class Administration
                     .Take(9)
                     .ToList();
                 if (thisPageOverrides.Count == 0)
+                {
                     return new PageBuilder().WithDescription(GetText("perm_override_page_none"))
                         .WithColor(Mewdeko.ErrorColor);
+                }
+
                 return new PageBuilder()
                     .WithDescription(string.Join("\n",
                         thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")))

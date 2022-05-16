@@ -15,14 +15,13 @@ public class RoleGreetService : INService
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
 
-
     public RoleGreetService(DbService db, DiscordSocketClient client)
     {
         _client = client;
         _db = db;
         _client.GuildMemberUpdated += DoRoleGreet;
     }
-    
+
     public RoleGreet[] GetGreets(ulong roleId) => _db.GetDbContext().RoleGreets.ForRoleId(roleId);
 
     public RoleGreet[] GetListGreets(ulong guildId) =>
@@ -34,15 +33,18 @@ public class RoleGreetService : INService
         {
             var user = await cacheable.GetOrDownloadAsync();
             if (user.Roles.SequenceEqual(socketGuildUser.Roles))
+            {
                 if (user.Roles.Count > socketGuildUser.Roles.Count)
                     return;
+            }
+
             var diffRoles = socketGuildUser.Roles.Where(r => !user.Roles.Contains(r)).ToArray();
             foreach (var i in diffRoles)
             {
                 var greets = GetGreets(i.Id);
-                if (!greets.Any()) return;
+                if (greets.Length == 0) return;
                 var webhooks = greets.Where(x => x.WebhookUrl is not null).Select(x => new DiscordWebhookClient(x.WebhookUrl));
-                if (greets.Any())
+                if (greets.Length > 0)
                 {
                     async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user);
 
@@ -55,7 +57,6 @@ public class RoleGreetService : INService
 
                     diffRoles.ForEach(Exec);
                 }
-
             }
         });
         return Task.CompletedTask;
@@ -89,7 +90,6 @@ public class RoleGreetService : INService
                     var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
-
                 }
 
                 if (embedData is null && plainText is not null)
@@ -128,7 +128,7 @@ public class RoleGreetService : INService
                 continue;
             if (!i.GreetBots && user.IsBot)
                 continue;
-            
+
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var channel = user.Guild.GetTextChannel(i.ChannelId);
@@ -169,13 +169,12 @@ public class RoleGreetService : INService
             }
         }
     }
-    
-    
+
     public bool AddRoleGreet(ulong guildId, ulong channelId, ulong roleId)
     {
         if (GetGreets(guildId).Length == 10)
             return false;
-        var toadd = new RoleGreet { ChannelId = channelId, GuildId = guildId, RoleId = roleId};
+        var toadd = new RoleGreet { ChannelId = channelId, GuildId = guildId, RoleId = roleId };
         var uow = _db.GetDbContext();
         uow.RoleGreets.Add(toadd);
         uow.SaveChangesAsync();
@@ -189,7 +188,7 @@ public class RoleGreetService : INService
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
+
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
         var uow = _db.GetDbContext();
@@ -212,7 +211,7 @@ public class RoleGreetService : INService
         uow.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
+
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
         var uow = _db.GetDbContext();
@@ -223,15 +222,14 @@ public class RoleGreetService : INService
 
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
     {
-        var uow =  _db.GetDbContext();
+        var uow = _db.GetDbContext();
         uow.RoleGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
-        var uow =  _db.GetDbContext();
+        var uow = _db.GetDbContext();
         uow.RoleGreets.RemoveRange(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
-    
 }

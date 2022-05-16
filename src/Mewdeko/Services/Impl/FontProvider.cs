@@ -18,6 +18,7 @@ public class FontProvider : INService
 
         // try loading some emoji and jap fonts on windows as fallback fonts
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
             try
             {
                 var fontsfolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
@@ -28,13 +29,16 @@ public class FontProvider : INService
             {
                 // ignored
             }
+        }
 
         // any fonts present in data/fonts should be added as fallback fonts
         // this will allow support for special characters when drawing text
         foreach (var font in Directory.GetFiles(@"data/fonts"))
+        {
             if (font.EndsWith(".ttf"))
                 FallBackFonts.Add(fonts.Add(font));
             else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(fonts.AddCollection(font));
+        }
 
         RipFont = NotoSans.CreateFont(20, FontStyle.Bold);
     }
