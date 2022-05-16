@@ -21,6 +21,10 @@ suggestbuttonchannel:
   desc: "Sets the channel where the suggest button is posted."
   args:
     - "#channel"
+source:
+  desc: "Shows the github link for the bot. If this command exists in the lang files and not in the source code, the bot has been tampered with in an improper way."
+  args:
+  - ""
 suggestthreadstype:
   desc: |-
     Sets the type of threads to use when suggestions are made. Can only be used if your server has threads enabled

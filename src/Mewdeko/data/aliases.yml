@@ -15,6 +15,12 @@ suggestbuttonemote:
   - suggestbuttonemote
 hentaigif:
   - hentaigif
+source:
+  - source
+  - github
+  - repo
+  - gitlab
+  - bitbucket
 acceptchannel:
   - acceptchannel
 denychannel:
