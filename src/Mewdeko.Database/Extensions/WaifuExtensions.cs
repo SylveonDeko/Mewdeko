@@ -15,7 +15,7 @@ public class WaifuInfoStats
     public List<WaifuItem> Items { get; set; }
     public List<string> Claims30 { get; set; }
 }
-    
+
 public static class WaifuExtensions
 {
     public static WaifuInfo ByWaifuUserId(this DbSet<WaifuInfo> waifus, ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
@@ -58,7 +58,6 @@ public static class WaifuExtensions
                          Price = x.Price,
                      })
                      .ToList();
-
     }
 
     public static decimal GetTotalValue(this DbSet<WaifuInfo> waifus) =>

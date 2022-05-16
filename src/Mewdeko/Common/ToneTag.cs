@@ -9,7 +9,7 @@ public class ToneTag
     public List<string> Aliases { get; set; }
     public List<string> ShortAliases { get; set; }
 
-    public List<string> GetAllValues() 
+    public List<string> GetAllValues()
         => Aliases.Concat(ShortAliases).Append(DefaultName).Append(DefaultShortName).ToList();
 }
 

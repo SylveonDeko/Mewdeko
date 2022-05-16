@@ -24,10 +24,11 @@ public partial class Games
         public async Task Acrophobia(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             var game = new AcrophobiaGame(options);
             if (Service.AcrophobiaGames.TryAdd(channel.Id, game))
+            {
                 try
                 {
                     game.OnStarted += Game_OnStarted;
@@ -43,8 +44,11 @@ public partial class Games
                     Service.AcrophobiaGames.TryRemove(channel.Id, out game);
                     game.Dispose();
                 }
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("acro_running").ConfigureAwait(false);
+            }
 
             Task ClientMessageReceived(SocketMessage msg)
             {
@@ -103,7 +107,6 @@ public partial class Games
                              .ConfigureAwait(false);
                     return;
             }
-
 
             var i = 0;
             var embed = new EmbedBuilder()

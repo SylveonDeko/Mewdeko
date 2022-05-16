@@ -11,7 +11,7 @@ public class DapiImageObject : IImageData
     public string TagString { get; set; }
     public int Score { get; set; }
     public string Rating { get; set; }
-        
+
     public ImageData ToCachedImageData(Booru type)
-        => new ImageData(FileUrl, type, Tags?.Split(' ') ?? TagString?.Split(' '), Score.ToString() ?? Rating);
+        => new(FileUrl, type, Tags?.Split(' ') ?? TagString?.Split(' '), Score.ToString() ?? Rating);
 }

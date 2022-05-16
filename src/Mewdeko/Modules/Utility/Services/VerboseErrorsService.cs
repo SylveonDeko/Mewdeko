@@ -14,7 +14,6 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly DbService _db;
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
-    
 
     public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch,
         IBotStrings strings)
@@ -50,8 +49,8 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .AddField("Usages",
                     string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _ch.GetPrefix(channel.Guild))))
                 .WithErrorColor();
-            
-            await channel.SendMessageAsync(embed: embed.Build(),  components: new ComponentBuilder()
+
+            await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()
                                                                               .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
         }
         catch
@@ -68,16 +67,16 @@ public class VerboseErrorsService : INService, IUnloadableService
 
             if (enabled == null)
                 enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
-            else gc.VerboseErrors = (bool) enabled; // New behaviour, just set it.
+            else gc.VerboseErrors = (bool)enabled; // New behaviour, just set it.
 
             uow.SaveChanges();
         }
 
-        if ((bool) enabled) // This doesn't need to be duplicated inside the using block
+        if ((bool)enabled) // This doesn't need to be duplicated inside the using block
             _guildsEnabled.Add(guildId);
         else
             _guildsEnabled.TryRemove(guildId);
 
-        return (bool) enabled;
+        return (bool)enabled;
     }
 }

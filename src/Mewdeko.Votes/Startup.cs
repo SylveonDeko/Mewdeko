@@ -22,10 +22,7 @@ public class Startup
         services.AddControllers();
         services.AddSingleton<FileVotesCache>();
         services.AddSingleton<WebhookEvents>();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" });
-        });
+        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" }));
 
         services
             .AddAuthentication(opts =>
@@ -33,7 +30,7 @@ public class Startup
                 opts.DefaultScheme = AuthHandler.SCHEME_NAME;
                 opts.AddScheme<AuthHandler>(AuthHandler.SCHEME_NAME, AuthHandler.SCHEME_NAME);
             });
-            
+
         services
             .AddAuthorization(opts =>
             {
@@ -60,6 +57,6 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }

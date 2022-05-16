@@ -24,7 +24,7 @@ public partial class Games
         public async Task TicTacToe(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TicTacToe.Options(), args);
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             await _sem.WaitAsync(1000).ConfigureAwait(false);
             try
@@ -35,7 +35,7 @@ public partial class Games
                     return;
                 }
 
-                game = new TicTacToe(Strings, _client, channel, (IGuildUser) ctx.User, options);
+                game = new TicTacToe(Strings, _client, channel, (IGuildUser)ctx.User, options);
                 Service.TicTacToeGames.Add(channel.Id, game);
                 await ReplyConfirmLocalizedAsync("ttt_created").ConfigureAwait(false);
 

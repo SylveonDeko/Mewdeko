@@ -31,7 +31,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task WowJoke()
         {
-            if (!Service.WowJokes.Any())
+            if (Service.WowJokes.Count == 0)
             {
                 await ReplyErrorLocalizedAsync("jokes_not_loaded").ConfigureAwait(false);
                 return;
@@ -44,7 +44,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task MagicItem()
         {
-            if (!Service.WowJokes.Any())
+            if (Service.WowJokes.Count == 0)
             {
                 await ReplyErrorLocalizedAsync("magicitems_not_loaded").ConfigureAwait(false);
                 return;

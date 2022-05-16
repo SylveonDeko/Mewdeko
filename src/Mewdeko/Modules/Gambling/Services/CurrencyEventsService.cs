@@ -16,7 +16,7 @@ public class CurrencyEventsService : INService
     private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
         new();
 
-    public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs,GamblingConfigService configService)
+    public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService configService)
     {
         _client = client;
         _cs = cs;
@@ -46,6 +46,7 @@ public class CurrencyEventsService : INService
 
         var added = _events.TryAdd(guildId, ce);
         if (added)
+        {
             try
             {
                 ce.OnEnded += OnEventEnded;
@@ -57,6 +58,7 @@ public class CurrencyEventsService : INService
                 _events.TryRemove(guildId, out ce);
                 return false;
             }
+        }
 
         return added;
     }

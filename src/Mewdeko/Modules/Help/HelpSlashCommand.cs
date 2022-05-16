@@ -5,7 +5,6 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
@@ -19,7 +18,6 @@ namespace Mewdeko.Modules.Help;
 public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 {
     private readonly InteractiveService _interactivity;
-    private readonly InteractionService _interactionService;
     private readonly IServiceProvider _serviceProvider;
     private readonly GlobalPermissionService _permissionService;
     private readonly CommandService _cmds;
@@ -30,14 +28,12 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         InteractiveService interactivity,
         IServiceProvider serviceProvider,
         CommandService cmds,
-        InteractionService interactionService,
         CommandHandler ch)
     {
         _permissionService = permissionService;
         _interactivity = interactivity;
         _serviceProvider = serviceProvider;
         _cmds = cmds;
-        _interactionService = interactionService;
         _ch = ch;
     }
 
@@ -49,7 +45,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         try
         {
             var message = await ctx.Channel.GetMessagesAsync().FlattenAsync();
-            await Service.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow);
+            await HelpService.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow);
         }
         catch
         {
@@ -60,7 +56,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [ComponentInteraction("helpselect", true)]
     public async Task HelpSlash(string[] selected)
     {
-        var currentmsg = Service.GetUserMessage(ctx.User) ?? new MewdekoUserMessage()
+        var currentmsg = HelpService.GetUserMessage(ctx.User) ?? new MewdekoUserMessage()
         {
             Content = "help",
             Author = ctx.User
@@ -73,14 +69,12 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             return;
         }
 
-
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
         var cmds = _cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                    .StartsWith(module, StringComparison.InvariantCulture))
-            .Where(c => !_permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                    .StartsWith(module, StringComparison.InvariantCulture) && !_permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
         // check preconditions for all commands, but only if it's not 'all'
@@ -120,10 +114,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         {
             await Task.CompletedTask;
             var transformed = groups.Select(x => x.ElementAt(page).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases.First(),-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
+            {
                 if (i == last - 1 && (i + 1) % 1 != 0)
                 {
                     var grp = 0;
@@ -137,6 +132,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                             return string.Concat(x);
                         });
                 }
+            }
 
             return new PageBuilder()
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
@@ -170,23 +166,25 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             await Modules();
             return;
         }
-        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{command}", ButtonStyle.Success, disabled:com.Parameters.Count != 0);
+        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{command}", ButtonStyle.Success, disabled: com.Parameters.Count != 0);
 
         var embed = Service.GetCommandHelp(com, ctx.Guild);
-        await RespondAsync(embed: embed.Build(), components:comp.Build());
+        await RespondAsync(embed: embed.Build(), components: comp.Build());
     }
 
     [ComponentInteraction("runcmd.*", true)]
     public async Task RunCmd(string command)
     {
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
-        if (!com.Parameters.Any())
+        if (com.Parameters.Count == 0)
         {
             _ch.AddCommandToParseQueue(new MewdekoUserMessage()
             {
-                Content = _ch.GetPrefix(ctx.Guild) + command, Author = ctx.User, Channel = ctx.Channel
+                Content = _ch.GetPrefix(ctx.Guild) + command,
+                Author = ctx.User,
+                Channel = ctx.Channel
             });
-            _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+            _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
             return;
         }
 
@@ -199,20 +197,22 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await DeferAsync();
         var msg = new MewdekoUserMessage
         {
-            Content = $"{_ch.GetPrefix(ctx.Guild)}{command} {modal.Args}", Author = ctx.User, Channel = ctx.Channel
+            Content = $"{_ch.GetPrefix(ctx.Guild)}{command} {modal.Args}",
+            Author = ctx.User,
+            Channel = ctx.Channel
         };
         _ch.AddCommandToParseQueue(msg);
-        _ = Task.Run( () => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
         return;
     }
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
         if (ctx.User.Id.ToString() != sId) return;
-        
+
         await DeferAsync();
         var description = bool.TryParse(sDesc, out var desc) && desc;
-        var message = (ctx.Interaction as SocketMessageComponent).Message;
+        var message = (ctx.Interaction as SocketMessageComponent)?.Message;
         var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
 
         await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpComponents(ctx.Guild, ctx.User, !description).Build(); });

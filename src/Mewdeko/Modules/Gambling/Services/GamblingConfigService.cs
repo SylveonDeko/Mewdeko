@@ -10,7 +10,6 @@ public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
     private const string FILE_PATH = "data/gambling.yml";
     private static readonly TypedKey<GamblingConfig> _changeKey = new("config.gambling.updated");
 
-
     public GamblingConfigService(IConfigSeria serializer, IPubSub pubSub)
         : base(FILE_PATH, serializer, pubSub, _changeKey)
     {

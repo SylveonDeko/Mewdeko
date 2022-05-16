@@ -12,14 +12,14 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
 {
     private readonly Mewdeko _bot;
 
-    public Confessions(Mewdeko bot) 
+    public Confessions(Mewdeko bot)
         => _bot = bot;
 
     [Cmd, Aliases, RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string? confession = null)
     {
         var gc = _bot.GetGuildConfig(serverId);
-        var attachment = ctx.Message.Attachments.FirstOrDefault().Url ?? null;
+        var attachment = ctx.Message.Attachments.FirstOrDefault().Url;
         var user = ctx.User as SocketUser;
         if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
         {
@@ -28,7 +28,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                 await ctx.Channel.SendErrorAsync("This server does not have confessions enabled!");
                 return;
             }
-            if (gc.ConfessionBlacklist.Split(" ").Any())
+            if (gc.ConfessionBlacklist.Split(" ").Length > 0)
             {
                 if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
                 {
@@ -94,7 +94,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
-        if (blacklists.Any())
+        if (blacklists.Length > 0)
         {
             if (blacklists.Contains(user.Id.ToString()))
             {
@@ -106,12 +106,12 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
             await ctx.Channel.SendConfirmAsync($"Added {user.Mention} to the confession blacklist!!");
         }
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
-        if (blacklists.Any())
+        if (blacklists.Length > 0)
         {
             if (!blacklists.Contains(user.Id.ToString()))
             {

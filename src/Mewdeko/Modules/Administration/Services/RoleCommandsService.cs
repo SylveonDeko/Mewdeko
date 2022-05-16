@@ -39,7 +39,9 @@ public class RoleCommandsService : INService
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)
+                {
                     return;
+                }
 
                 if (chan.Value is not SocketGuildChannel gch)
                     return;
@@ -53,7 +55,7 @@ public class RoleCommandsService : INService
                     return;
 
                 // compare emote names for backwards compatibility :facepalm:
-                var reactionRole = conf.ReactionRoles.FirstOrDefault(x =>
+                var reactionRole = conf.ReactionRoles.Find(x =>
                     x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
                 if (reactionRole != null)
                 {
@@ -97,7 +99,7 @@ public class RoleCommandsService : INService
 
                     var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
                     if (toAdd != null && !gusr.Roles.Contains(toAdd))
-                        await gusr.AddRolesAsync(new[] {toAdd}).ConfigureAwait(false);
+                        await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -126,12 +128,13 @@ public class RoleCommandsService : INService
         {
             try
             {
-                
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)
+                {
                     return;
-            
+                }
+
                 if (chan.Value is not SocketGuildChannel gch)
                     return;
 
@@ -143,7 +146,7 @@ public class RoleCommandsService : INService
                 if (conf == null)
                     return;
 
-                var reactionRole = conf.ReactionRoles.FirstOrDefault(x =>
+                var reactionRole = conf.ReactionRoles.Find(x =>
                     x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
 
                 if (reactionRole != null)

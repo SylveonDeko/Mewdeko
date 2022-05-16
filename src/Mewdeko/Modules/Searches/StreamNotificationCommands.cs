@@ -75,7 +75,6 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task StreamList()
         {
-
             var streams = new List<FollowedStream>();
             await using (var uow = _db.GetDbContext())
             {
@@ -88,7 +87,7 @@ public partial class Searches
                 for (var index = all.Count - 1; index >= 0; index--)
                 {
                     var fs = all[index];
-                    if (((SocketGuild) ctx.Guild).GetTextChannel(fs.ChannelId) is null)
+                    if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
                         await Service.UnfollowStreamAsync(fs.GuildId, index);
                     else
                         streams.Insert(0, fs);
@@ -104,7 +103,7 @@ public partial class Searches
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -112,24 +111,26 @@ public partial class Searches
                 var elements = streams.Skip(page * 12).Take(12)
                                       .ToList();
 
-                    if (elements.Count == 0)
-                        return new PageBuilder()
+                if (elements.Count == 0)
+                {
+                    return new PageBuilder()
                             .WithDescription(GetText("streams_none"))
                             .WithErrorColor();
+                }
 
-                    var eb = new PageBuilder()
+                var eb = new PageBuilder()
                         .WithTitle(GetText("streams_follow_title"))
                         .WithOkColor();
-                    for (var index = 0; index < elements.Count; index++)
-                    {
-                        var elem = elements[index];
-                        eb.AddField(
-                            $"**#{index + 1 + (12 * page)}** {elem.Username.ToLower()}",
-                            $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
-                            true);
-                    }
+                for (var index = 0; index < elements.Count; index++)
+                {
+                    var elem = elements[index];
+                    eb.AddField(
+                        $"**#{index + 1 + (12 * page)}** {elem.Username.ToLower()}",
+                        $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
+                        true);
+                }
 
-                    return eb;
+                return eb;
             }
         }
 
@@ -156,11 +157,15 @@ public partial class Searches
             }
 
             if (string.IsNullOrWhiteSpace(message))
+            {
                 await ReplyConfirmLocalizedAsync("stream_message_reset", Format.Bold(fs.Username))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("stream_message_set", Format.Bold(fs.Username))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -176,13 +181,17 @@ public partial class Searches
                 }
 
                 if (data.IsLive)
+                {
                     await ReplyConfirmLocalizedAsync("streamer_online",
-                            Format.Bold(data.Name),
-                            Format.Bold(data.Viewers.ToString()))
-                        .ConfigureAwait(false);
+                                            Format.Bold(data.Name),
+                                            Format.Bold(data.Viewers.ToString()))
+                                        .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("streamer_offline", data.Name)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
             }
             catch
             {

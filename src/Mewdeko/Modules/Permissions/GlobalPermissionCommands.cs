@@ -13,13 +13,12 @@ public partial class Permissions
     [Group, OwnerOnly]
     public class GlobalPermissionCommands : MewdekoSubmodule<GlobalPermissionService>
     {
-
         [Cmd, Aliases]
         public async Task GlobalPermList()
         {
             var blockedModule = Service.BlockedModules;
             var blockedCommands = Service.BlockedCommands;
-            if (!blockedModule.Any() && !blockedCommands.Any())
+            if (blockedModule.Count == 0 && blockedCommands.Count == 0)
             {
                 await ReplyErrorLocalizedAsync("lgp_none").ConfigureAwait(false);
                 return;
@@ -27,28 +26,32 @@ public partial class Permissions
 
             var embed = new EmbedBuilder().WithOkColor();
 
-            if (blockedModule.Any())
+            if (blockedModule.Count > 0)
+            {
                 embed.AddField(efb => efb
                     .WithName(GetText("blocked_modules"))
                     .WithValue(string.Join("\n", Service.BlockedModules))
                     .WithIsInline(false));
+            }
 
-            if (blockedCommands.Any())
+            if (blockedCommands.Count > 0)
+            {
                 embed.AddField(efb => efb
                     .WithName(GetText("blocked_commands"))
                     .WithValue(string.Join("\n", Service.BlockedCommands))
                     .WithIsInline(false));
+            }
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-        
+
         [Cmd, Aliases]
         public async Task ResetGlobalPerms()
         {
             await Service.Reset();
             await ReplyConfirmLocalizedAsync("global_perms_reset").ConfigureAwait(false);
         }
-        
+
         [Cmd, Aliases]
         public async Task GlobalModule(ModuleOrCrInfo module)
         {

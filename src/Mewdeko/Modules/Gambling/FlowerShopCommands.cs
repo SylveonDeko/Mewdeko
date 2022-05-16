@@ -46,7 +46,6 @@ public partial class Gambling
 
         private async Task ShopInternalAsync()
         {
-
             await using var uow = _db.GetDbContext();
             var entries = uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
@@ -61,40 +60,43 @@ public partial class Gambling
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
                 var theseEntries = entries.Skip(page * 9).Take(9).ToArray();
 
-                    if (!theseEntries.Any())
-                        return new PageBuilder().WithErrorColor()
+                if (theseEntries.Length == 0)
+                {
+                    return new PageBuilder().WithErrorColor()
                             .WithDescription(GetText("shop_none"));
-                    var embed = new PageBuilder().WithOkColor()
+                }
+
+                var embed = new PageBuilder().WithOkColor()
                         .WithTitle(GetText("shop", CurrencySign));
 
-                    for (var i = 0; i < theseEntries.Length; i++)
-                    {
-                        var entry = theseEntries[i];
-                        embed.AddField(
-                            $"#{(page * 9) + i + 1} - {entry.Price}{CurrencySign}",
-                            EntryToString(entry),
-                            true);
-                    }
-
-                    return embed;
+                for (var i = 0; i < theseEntries.Length; i++)
+                {
+                    var entry = theseEntries[i];
+                    embed.AddField(
+                        $"#{(page * 9) + i + 1} - {entry.Price}{CurrencySign}",
+                        EntryToString(entry),
+                        true);
                 }
+
+                return embed;
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public Task Shop() 
+        public Task Shop()
             => ShopInternalAsync();
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Buy(int index)
         {
-            index -= 1;
+            index--;
             if (index < 0)
                 return;
             ShopEntry entry;
@@ -118,7 +120,7 @@ public partial class Gambling
             {
                 case ShopEntryType.Role:
                     {
-                        var guser = (IGuildUser) ctx.User;
+                        var guser = (IGuildUser)ctx.User;
                         var role = ctx.Guild.GetRole(entry.RoleId);
 
                         if (role == null)
@@ -210,8 +212,10 @@ public partial class Gambling
                                         .ShopEntries);
                                     entry = entries.ElementAtOrDefault(index);
                                     if (entry != null)
+                                    {
                                         if (entry.Items.Add(item))
                                             await uow.SaveChangesAsync().ConfigureAwait(false);
+                                    }
                                 }
 
                                 await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
@@ -230,7 +234,7 @@ public partial class Gambling
             }
         }
 
-        private static long GetProfitAmount(int price) => (int) Math.Ceiling(0.90 * price);
+        private static long GetProfitAmount(int price) => (int)Math.Ceiling(0.90 * price);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageRoles)]
@@ -247,13 +251,12 @@ public partial class Gambling
             };
             await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
+                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries)
                 {
                     entry
                 };
-                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
@@ -275,13 +278,12 @@ public partial class Gambling
             };
             await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
+                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries)
                 {
                     entry
                 };
-                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
@@ -293,7 +295,7 @@ public partial class Gambling
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopListAdd(int index, [Remainder] string itemText)
         {
-            index -= 1;
+            index--;
             if (index < 0)
                 return;
             var item = new ShopEntryItem
@@ -310,9 +312,11 @@ public partial class Gambling
                         .ThenInclude(x => x.Items)).ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
+                {
                     // ReSharper disable once AssignmentInConditionalExpression
                     if (added = entry.Items.Add(item))
                         await uow.SaveChangesAsync().ConfigureAwait(false);
+                }
             }
 
             if (entry == null)
@@ -329,7 +333,7 @@ public partial class Gambling
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopRemove(int index)
         {
-            index -= 1;
+            index--;
             if (index < 0)
                 return;
             ShopEntry removed;
@@ -350,10 +354,14 @@ public partial class Gambling
             }
 
             if (removed == null)
+            {
                 await ReplyErrorLocalizedAsync("shop_item_not_found").ConfigureAwait(false);
+            }
             else
+            {
                 await ctx.Channel.EmbedAsync(EntryToEmbed(removed)
-                    .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
+                                .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

@@ -12,13 +12,18 @@ public class DbService
     public DbService(int shardCount)
     {
         LinqToDBForEFTools.Initialize();
-            
+
         var builder = new SqliteConnectionStringBuilder("Data Source=data/Mewdeko.db");
         if (shardCount > 1)
+        {
             builder.DataSource = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Mewdeko.db");
+                        "Mewdeko.db");
+        }
         else
+        {
             builder.DataSource = builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
+        }
+
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
         optionsBuilder.UseSqlite(builder.ToString());
         _options = optionsBuilder.Options;
@@ -56,5 +61,4 @@ public class DbService
     }
 
     public MewdekoContext GetDbContext() => GetDbContextInternal();
-    
 }

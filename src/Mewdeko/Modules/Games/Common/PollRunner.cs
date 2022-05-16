@@ -19,7 +19,6 @@ public class PollRunner
     }
 
     public Poll Poll { get; }
-    
 
     public async Task<(bool allowed, PollType type)> TryVote(int num, IUser user)
     {
@@ -27,14 +26,12 @@ public class PollRunner
         await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
-
-
             voteObj = new PollVote
             {
                 UserId = user.Id,
                 VoteIndex = num
             };
-            var voteCheck = Poll.Votes.FirstOrDefault(x => x.UserId == user.Id && x.VoteIndex == num) == null;
+            var voteCheck = Poll.Votes.Find(x => x.UserId == user.Id && x.VoteIndex == num) == null;
             switch (Poll.PollType)
             {
                 case PollType.SingleAnswer when !Poll.Votes.Contains(voteObj):
@@ -54,9 +51,9 @@ public class PollRunner
                     {
                         await using var uow = _db.GetDbContext();
                         var trackedPoll = uow.Poll.GetById(Poll.Id);
-                        trackedPoll.Votes.Remove(trackedPoll.Votes.FirstOrDefault(x => x.UserId == user.Id));
+                        trackedPoll.Votes.Remove(trackedPoll.Votes.Find(x => x.UserId == user.Id));
                         trackedPoll.Votes.Add(voteObj);
-                        Poll.Votes.Remove(Poll.Votes.FirstOrDefault(x => x.UserId == user.Id));
+                        Poll.Votes.Remove(Poll.Votes.Find(x => x.UserId == user.Id));
                         Poll.Votes.Add(voteObj);
                         await uow.SaveChangesAsync().ConfigureAwait(false);
                         return (true, PollType.AllowChange);

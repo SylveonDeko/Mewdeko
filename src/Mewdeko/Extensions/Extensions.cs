@@ -38,7 +38,6 @@ public static class Extensions
 
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
 
-
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
         bool sanitizeAll = false)
     {
@@ -48,7 +47,6 @@ public static class Extensions
 
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
-
 
     public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build()).ConfigureAwait(false);
@@ -81,7 +79,6 @@ public static class Extensions
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build()).ConfigureAwait(false);
 
-
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
@@ -103,7 +100,7 @@ public static class Extensions
 
     public static bool TryGetConfig(this List<GuildConfig> configList, ulong id, out GuildConfig config)
     {
-        var tocheck = configList.FirstOrDefault(x => x.GuildId == id);
+        var tocheck = configList.Find(x => x.GuildId == id);
         if (tocheck == null)
         {
             config = null;
@@ -232,7 +229,6 @@ public static class Extensions
         Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
 
-
     public static string MethodName(this CommandInfo cmd) =>
         ((Cmd)cmd.Attributes.FirstOrDefault(x => x is Cmd)!)
         ?.MethodName
@@ -333,13 +329,18 @@ public static class Extensions
     {
         var imageStream = new MemoryStream();
         if (format?.Name == "GIF")
+        {
             img.SaveAsGif(imageStream);
+        }
         else
+        {
             img.SaveAsPng(imageStream, new PngEncoder
             {
                 ColorType = PngColorType.RgbWithAlpha,
                 CompressionLevel = PngCompressionLevel.BestCompression
             });
+        }
+
         imageStream.Position = 0;
         return imageStream;
     }
@@ -368,7 +369,6 @@ public static class Extensions
 
         return msg.Content.Headers.ContentLength / 1.Mb();
     }
-
 
     public static IEnumerable<Type> LoadFrom(this IServiceCollection collection, Assembly assembly)
     {
@@ -416,7 +416,9 @@ public static class Extensions
 
             if (collection.FirstOrDefault(x => x.ServiceType == serviceType) !=
                 null) // if that type is already added, skip
+            {
                 continue;
+            }
 
             //also add the same type
             var interfaceType = interfaces.FirstOrDefault(x => serviceType.GetInterfaces().Contains(x));

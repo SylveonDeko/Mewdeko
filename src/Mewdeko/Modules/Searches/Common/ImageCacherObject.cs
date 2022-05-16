@@ -5,11 +5,16 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
     public ImageCacherObject(DapiImageObject obj, DapiSearchType type)
     {
         if (type == DapiSearchType.Danbooru && !Uri.IsWellFormedUriString(obj.FileUrl, UriKind.Absolute))
+        {
             FileUrl = $"https://danbooru.donmai.us{obj.FileUrl}";
+        }
         else
+        {
             FileUrl = obj.FileUrl.StartsWith("http", StringComparison.InvariantCulture)
-                ? obj.FileUrl
-                : $"https:{obj.FileUrl}";
+                        ? obj.FileUrl
+                        : $"https:{obj.FileUrl}";
+        }
+
         SearchType = type;
         Rating = obj.Rating;
         Tags = new HashSet<string>((obj.Tags ?? obj.TagString).Split(' '));

@@ -24,7 +24,7 @@ public class WheelOfFortuneGame
     {
         var result = _rng.Next(0, _config.WheelOfFortune.Multipliers.Length);
 
-        var amount = (long) (_bet * _config.WheelOfFortune.Multipliers[result]);
+        var amount = (long)(_bet * _config.WheelOfFortune.Multipliers[result]);
 
         if (amount > 0)
             await _cs.AddAsync(_userId, "Wheel Of Fortune - won", amount, true).ConfigureAwait(false);

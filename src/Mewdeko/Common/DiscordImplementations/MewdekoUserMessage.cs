@@ -59,7 +59,7 @@ public class MewdekoUserMessage : IUserMessage
         TagHandling channelHandling = TagHandling.Name,
         TagHandling roleHandling = TagHandling.Name,
         TagHandling everyoneHandling = TagHandling.Ignore,
-        TagHandling emojiHandling = TagHandling.Name) => 
+        TagHandling emojiHandling = TagHandling.Name) =>
         throw new NotImplementedException();
 
     public IUserMessage ReferencedMessage { get; set; }

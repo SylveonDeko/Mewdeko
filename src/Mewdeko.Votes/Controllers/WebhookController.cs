@@ -28,17 +28,16 @@ public class WebhookController : ControllerBase
         _conf = conf;
         this.Events = events;
     }
-        
+
     [HttpPost("/discordswebhook")]
     [Authorize(Policy = Policies.DISCORDS_AUTH)]
-    public async Task<IActionResult> DiscordsWebhook([FromBody]DiscordsVoteWebhookModel data)
+    public async Task<IActionResult> DiscordsWebhook([FromBody] DiscordsVoteWebhookModel data)
     {
-
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,
             "discords.com");
-        
+
         await _votesCache.AddNewDiscordsVote(data.User);
         await Events.InvokeDiscords(data);
         return Ok();
@@ -47,7 +46,7 @@ public class WebhookController : ControllerBase
     [HttpPost("/topggwebhook")]
     [Authorize(Policy = Policies.TOPGG_AUTH)]
     public Task<IActionResult> TopggWebhook([FromBody] TopggVoteWebhookModel data)
-    { 
+    {
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,

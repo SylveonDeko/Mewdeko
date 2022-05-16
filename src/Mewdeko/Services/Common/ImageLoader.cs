@@ -27,16 +27,17 @@ public class ImageLoader
     private async Task<byte[]> GetImageData(Uri uri)
     {
         if (uri.IsFile)
+        {
             try
             {
-                var bytes = await File.ReadAllBytesAsync(uri.LocalPath);
-                return bytes;
+                return await File.ReadAllBytesAsync(uri.LocalPath);
             }
             catch (Exception ex)
             {
                 Log.Warning(ex, "Failed reading image bytes");
                 return null;
             }
+        }
 
         return await _http.GetByteArrayAsync(uri);
     }
@@ -48,7 +49,7 @@ public class ImageLoader
             {
                 try
                 {
-                    return await GetImageData((Uri) x).ConfigureAwait(false);
+                    return await GetImageData((Uri)x).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -65,13 +66,15 @@ public class ImageLoader
         await Db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
         await Db.ListRightPushAsync(GetKey(key),
             vals.Where(x => x != null)
-                .Select(x => (RedisValue) x)
+                .Select(x => (RedisValue)x)
                 .ToArray()).ConfigureAwait(false);
 
         if (arr.Count != vals.Length)
+        {
             Log.Information(
                 "{2}/{1} URIs for the key '{0}' have been loaded. Some of the supplied URIs are either unavailable or invalid.",
                 key, arr.Count, vals.Length);
+        }
     }
 
     private async Task<KeyValuePair<RedisKey, RedisValue>> HandleUri(Uri uri, string key)
@@ -102,25 +105,27 @@ public class ImageLoader
         Task t;
         // go through all of the kvps in the object
         foreach (var kvp in obj)
+        {
             switch (kvp.Value.Type)
             {
                 // if it's a JArray, resole it using jarray method which will
                 // return task<byte[][]> aka an array of all images' bytes
                 case JTokenType.Array:
-                    t = HandleJArray((JArray) kvp.Value, GetParentString() + kvp.Key);
+                    t = HandleJArray((JArray)kvp.Value, GetParentString() + kvp.Key);
                     tasks.Add(t);
                     break;
                 case JTokenType.String:
                     {
-                        var uriTask = HandleUri((Uri) kvp.Value, GetParentString() + kvp.Key);
+                        var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
                         _uriTasks.Add(uriTask);
                         break;
                     }
                 case JTokenType.Object:
-                    t = HandleJObject((JObject) kvp.Value, GetParentString() + kvp.Key);
+                    t = HandleJObject((JObject)kvp.Value, GetParentString() + kvp.Key);
                     tasks.Add(t);
                     break;
             }
+        }
 
         return Task.WhenAll(tasks);
     }

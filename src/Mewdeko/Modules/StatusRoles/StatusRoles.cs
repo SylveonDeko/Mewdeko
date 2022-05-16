@@ -5,5 +5,4 @@ namespace Mewdeko.Modules.StatusRoles;
 
 public class StatusRoles : MewdekoModuleBase<StatusRolesService>
 {
-    
 }

@@ -28,7 +28,6 @@ public abstract class MewdekoModule : ModuleBase
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
-    
     // ReSharper disable once InconsistentNaming
     protected ICommandContext ctx => Context;
 
@@ -42,7 +41,7 @@ public abstract class MewdekoModule : ModuleBase
         var text = GetText(textKey, args);
         return ctx.Channel.SendErrorAsync(text);
     }
-    
+
     public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
@@ -61,7 +60,7 @@ public abstract class MewdekoModule : ModuleBase
         return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task<bool> PromptUserConfirmAsync(string message, ulong userid) 
+    public async Task<bool> PromptUserConfirmAsync(string message, ulong userid)
         => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid).ConfigureAwait(false);
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
@@ -82,13 +81,12 @@ public abstract class MewdekoModule : ModuleBase
             var _ = Task.Run(() => msg.DeleteAsync());
         }
     }
-    
 
     public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
     {
-        var curUser = ((SocketGuild) ctx.Guild).CurrentUser;
+        var curUser = ((SocketGuild)ctx.Guild).CurrentUser;
         var ownerId = Context.Guild.OwnerId;
-        var modMaxRole = ((IGuildUser) ctx.User).GetRoles().Max(r => r.Position);
+        var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
         var targetMaxRole = target.GetRoles().Max(r => r.Position);
         var botMaxRole = curUser.GetRoles().Max(r => r.Position);
         // bot can't punish a user who is higher in the hierarchy. Discord will return 403
@@ -96,13 +94,16 @@ public abstract class MewdekoModule : ModuleBase
         // otherwise, moderator has to have a higher role
         if (botMaxRole > targetMaxRole
             && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
-            && target.Id != ownerId) return true;
+            && target.Id != ownerId)
+        {
+            return true;
+        }
+
         if (displayError)
             await ReplyErrorLocalizedAsync("hierarchy");
         return false;
-
     }
-    
+
     public async Task<bool> PromptUserConfirmAsync(IUserMessage message, EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();
@@ -121,12 +122,16 @@ public abstract class MewdekoModule : ModuleBase
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) ctx.Client;
+        var dsc = (DiscordSocketClient)ctx.Client;
         try
         {
             dsc.InteractionCreated += Interaction;
             if (await Task.WhenAny(userInputTask.Task, Task.Delay(30000)).ConfigureAwait(false) !=
-                userInputTask.Task) return null;
+                userInputTask.Task)
+            {
+                return null;
+            }
+
             return await userInputTask.Task.ConfigureAwait(false);
         }
         finally
@@ -137,6 +142,7 @@ public abstract class MewdekoModule : ModuleBase
         async Task Interaction(SocketInteraction arg)
         {
             if (arg is SocketMessageComponent c)
+            {
                 await Task.Run(async () =>
                 {
                     if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId)
@@ -156,18 +162,23 @@ public abstract class MewdekoModule : ModuleBase
                     userInputTask.TrySetResult(c.Data.CustomId);
                     return Task.CompletedTask;
                 }).ConfigureAwait(false);
+            }
         }
     }
 
     public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) ctx.Client;
+        var dsc = (DiscordSocketClient)ctx.Client;
         try
         {
             dsc.MessageReceived += Interaction;
             if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
-                userInputTask.Task) return null;
+                userInputTask.Task)
+            {
+                return null;
+            }
+
             return await userInputTask.Task.ConfigureAwait(false);
         }
         finally
@@ -198,13 +209,17 @@ public abstract class MewdekoModule : ModuleBase
         var component = new ComponentBuilder().WithButton("Cancel", "cancel", ButtonStyle.Danger).Build();
         var msg = await chan.SendMessageAsync(embed: eb.Build(), components: component).ConfigureAwait(false);
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) ctx.Client;
+        var dsc = (DiscordSocketClient)ctx.Client;
         try
         {
             dsc.InteractionCreated += CheckCancel;
             dsc.MessageReceived += Interaction;
             if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
-                userInputTask.Task) return null;
+                userInputTask.Task)
+            {
+                return null;
+            }
+
             return await userInputTask.Task.ConfigureAwait(false);
         }
         finally
@@ -237,6 +252,7 @@ public abstract class MewdekoModule : ModuleBase
         Task CheckCancel(SocketInteraction arg)
         {
             if (arg is SocketMessageComponent c)
+            {
                 Task.Run(() =>
                 {
                     if (c.Channel.Id != chan.Id || c.User.Id != userId || c.Message.Id != msg.Id)
@@ -257,11 +273,12 @@ public abstract class MewdekoModule : ModuleBase
                     msg.DeleteAsync();
                     return Task.CompletedTask;
                 });
+            }
+
             return Task.CompletedTask;
         }
     }
 }
-
 
 public abstract class MewdekoModuleBase<TService> : MewdekoModule
 {

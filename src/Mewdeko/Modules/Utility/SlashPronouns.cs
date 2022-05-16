@@ -8,9 +8,9 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
-using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -19,7 +19,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
 {
     private readonly DbService _db;
     private readonly Mewdeko _bot;
-    private readonly BlacklistService _bss; 
+    private readonly BlacklistService _bss;
     public SlashPronoun(DbService db, Mewdeko bot, BlacklistService bss)
     {
         _db = db;
@@ -40,7 +40,6 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await uow.SaveChangesAsync();
         await ConfirmLocalizedAsync("pronouns_cleared_self");
     }
-    
 
     [ModalInteraction("pronouns_overwrite_modal", true)]
     public async Task PronounsOverwriteModal(PronounsModal modal)
@@ -58,9 +57,9 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     {
         await using var uow = _db.GetDbContext();
         var reporter = uow.GetOrCreateUser(ctx.User);
-        
+
         if (await PronounsDisabled(reporter).ConfigureAwait(false)) return;
-        
+
         var id = ulong.Parse(sId);
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == id).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(user?.Pronouns)) return;
@@ -88,7 +87,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                  .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
                  .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
                  .WithButton("Blacklist guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2);
-        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components:cb.Build()).ConfigureAwait(false);
+        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
     }
 
@@ -114,7 +113,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         _bss.Blacklist(BlacklistType.Server, id, modal.FcbReason);
         await RespondAsync("blacklisted the server");
     }
-    
+
     [ModalInteraction("pronouns_fc_action:*,*,*", true), OwnerOnly]
     public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFcbModal modal)
     {
@@ -129,14 +128,14 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
             _bss.Blacklist(BlacklistType.User, user.UserId, modal.FcbReason);
         await RespondAsync("completed moderation actions.").ConfigureAwait(false);
     }
-    
+
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
         if (!user.PronounsDisabled) return false;
         await ReplyErrorLocalizedAsync("pronouns_disabled_user", user.PronounsClearedReason).ConfigureAwait(false);
         return true;
     }
-    
+
     [SlashCommand("get", "Get a user's pronouns!"), CheckPermissions]
     [UserCommand("Pronouns")]
     public async Task GetPronouns(IUser? user)
@@ -151,9 +150,9 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await RespondAsync(GetText(
             pronouns.PronounDb
                 ? pronouns.Pronouns.Contains(' ') ? "pronouns_pndb_special" : "pronouns_pndb_get"
-                : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), components: cb.Build(), ephemeral:true);
+                : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), components: cb.Build(), ephemeral: true);
     }
-    
+
     [SlashCommand("override", "Override your default pronouns"), CheckPermissions]
     public async Task PronounOverride(string? pronouns = null)
     {
@@ -166,12 +165,12 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                 .WithButton(GetText("pronouns_overwrite_button"), "pronouns_overwrite");
             if (string.IsNullOrWhiteSpace(user.Pronouns))
             {
-                await RespondAsync(GetText("pronouns_internal_no_override"), components:cb.Build()).ConfigureAwait(false);
+                await RespondAsync(GetText("pronouns_internal_no_override"), components: cb.Build()).ConfigureAwait(false);
                 return;
             }
 
             cb.WithButton(GetText("pronouns_overwrite_clear_button"), "pronouns_overwrite_clear", ButtonStyle.Danger);
-            await RespondAsync(GetText("pronouns_internal_self", user.Pronouns), components:cb.Build()).ConfigureAwait(false);
+            await RespondAsync(GetText("pronouns_internal_self", user.Pronouns), components: cb.Build()).ConfigureAwait(false);
             return;
         }
         user.Pronouns = pronouns;

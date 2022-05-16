@@ -18,7 +18,7 @@ public class Rule34ImageDownloader : ImageDownloader<Rule34Object>
 
         if (images is null)
             return new();
-            
+
         return images
                .Where(img => !string.IsNullOrWhiteSpace(img.Image))
                .ToList();

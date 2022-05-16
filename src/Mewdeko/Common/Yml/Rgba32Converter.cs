@@ -13,14 +13,13 @@ public class Rgba32Converter : IYamlTypeConverter
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
-        var result = Rgba32.ParseHex(scalar.Value);
-        return result;
+        return Rgba32.ParseHex(scalar.Value);
     }
 
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
-        var color = (Rgba32) value;
-        var val = (uint) ((color.B << 0) | (color.G << 8) | (color.R << 16));
+        var color = (Rgba32)value;
+        var val = (uint)((color.B << 0) | (color.G << 8) | (color.R << 16));
         emitter.Emit(new Scalar(val.ToString("X6").ToLower()));
     }
 }
@@ -32,13 +31,12 @@ public class CultureInfoConverter : IYamlTypeConverter
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
-        var result = new CultureInfo(scalar.Value);
-        return result;
+        return new CultureInfo(scalar.Value);
     }
 
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
-        var ci = (CultureInfo) value;
+        var ci = (CultureInfo)value;
         emitter.Emit(new Scalar(ci.Name));
     }
 }

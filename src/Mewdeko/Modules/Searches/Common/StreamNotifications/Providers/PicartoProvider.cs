@@ -92,7 +92,7 @@ public class PicartoProvider : Provider
         return toReturn;
     }
 
-    private StreamData ToStreamData(PicartoChannelResponse stream)
+    private static StreamData ToStreamData(PicartoChannelResponse stream)
         => new()
         {
             StreamType = FollowedStream.FType.Picarto,
@@ -106,5 +106,4 @@ public class PicartoProvider : Provider
             StreamUrl = $"https://picarto.tv/{stream.Name}",
             AvatarUrl = stream.Avatar
         };
-
 }

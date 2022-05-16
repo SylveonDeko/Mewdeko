@@ -17,7 +17,6 @@ public class GlobalPermissionService : ILateBlocker, INService
     public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;
     public int Priority { get; } = 0;
 
-
     public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
         CommandInfo command)
     {
@@ -27,7 +26,9 @@ public class GlobalPermissionService : ILateBlocker, INService
         if (commandName != "resetglobalperms" &&
             (settings.Blocked.Commands.Contains(commandName) ||
              settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())))
+        {
             return Task.FromResult(true);
+        }
 
         return Task.FromResult(false);
     }
@@ -39,7 +40,9 @@ public class GlobalPermissionService : ILateBlocker, INService
 
         if (commandName != "resetglobalperms" &&
             settings.Blocked.Commands.Contains(commandName))
+        {
             return Task.FromResult(true);
+        }
 
         return Task.FromResult(false);
     }

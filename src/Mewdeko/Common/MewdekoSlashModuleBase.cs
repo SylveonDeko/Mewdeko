@@ -28,7 +28,6 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
-
     // ReSharper disable once InconsistentNaming
     protected IInteractionContext ctx => Context;
 
@@ -41,7 +40,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false); ;
+        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false);
     }
 
     public async Task ReplyErrorLocalizedAsync(string textKey, params object[] args)
@@ -49,7 +48,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         var text = GetText(textKey, args);
         await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);
     }
-    
+
     public async Task EphemeralReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
@@ -67,7 +66,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         var text = GetText(textKey, args);
         return ctx.Interaction.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
-    
+
     public Task EphemeralReplyConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
@@ -107,7 +106,11 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         {
             dsc.InteractionCreated += Interaction;
             if (await Task.WhenAny(userInputTask.Task, Task.Delay(30000)).ConfigureAwait(false) !=
-                userInputTask.Task) return null;
+                userInputTask.Task)
+            {
+                return null;
+            }
+
             return await userInputTask.Task.ConfigureAwait(false);
         }
         finally
@@ -118,6 +121,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         Task Interaction(SocketInteraction arg)
         {
             if (arg is SocketMessageComponent c)
+            {
                 Task.Run(() =>
                 {
                     if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId)
@@ -137,6 +141,8 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
                     userInputTask.TrySetResult(c.Data.CustomId);
                     return Task.CompletedTask;
                 });
+            }
+
             return Task.CompletedTask;
         }
     }
@@ -149,7 +155,11 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         {
             dsc.MessageReceived += Interaction;
             if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
-                userInputTask.Task) return null;
+                userInputTask.Task)
+            {
+                return null;
+            }
+
             return await userInputTask.Task.ConfigureAwait(false);
         }
         finally

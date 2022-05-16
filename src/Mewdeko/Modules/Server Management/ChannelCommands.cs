@@ -17,7 +17,6 @@ public partial class ServerManagement
     [Group]
     public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
     {
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task LockCheck()
@@ -26,8 +25,8 @@ public partial class ServerManagement
                 "<a:loading:900381735244689469> Making sure role permissions don't get in the way of lockdown...");
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
                 x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
-            if (roles.Any())
+                ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+            if (roles.Count > 0)
             {
                 foreach (var i in roles)
                 {
@@ -52,8 +51,8 @@ public partial class ServerManagement
         {
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
                 x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
-            if (roles.Any())
+                ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+            if (roles.Count > 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     "<a:crossfragutil:854536474098663434> Please run the Lockcheck command as you have roles that will get in the way of lockdown");
@@ -106,7 +105,7 @@ public partial class ServerManagement
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Grab(IGuildUser user)
         {
-            var vc = ((IGuildUser) ctx.User).VoiceChannel;
+            var vc = ((IGuildUser)ctx.User).VoiceChannel;
             if (vc == null)
             {
                 await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!");
@@ -225,7 +224,6 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
-
         [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndVcChannels(string catName, params string[] channels)
         {
@@ -301,11 +299,11 @@ public partial class ServerManagement
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(0)]
-        public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
+        public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int)time.Time.TotalSeconds);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(1)]
-        public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int) time.Time.TotalSeconds);
+        public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(2)]
@@ -313,7 +311,7 @@ public partial class ServerManagement
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(4)]
-        public async Task Slowmode() => await InternalSlowmode((ITextChannel) ctx.Channel);
+        public async Task Slowmode() => await InternalSlowmode((ITextChannel)ctx.Channel);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {

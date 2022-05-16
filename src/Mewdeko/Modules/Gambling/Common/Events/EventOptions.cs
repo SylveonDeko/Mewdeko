@@ -18,7 +18,6 @@ public class EventOptions : IMewdekoCommandOptions
         HelpText = "Number of hours the event should run for. Default 24.")]
     public int Hours { get; set; } = 24;
 
-
     public void NormalizeOptions()
     {
         if (Amount < 0)

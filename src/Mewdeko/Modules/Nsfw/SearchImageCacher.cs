@@ -42,7 +42,7 @@ public class SearchImageCacher : INService
         }
     }
 
-    private string Key(Booru boory, string tag)
+    private static string Key(Booru boory, string tag)
         => $"booru:{boory}__tag:{tag}";
 
     /// <summary>
@@ -61,9 +61,9 @@ public class SearchImageCacher : INService
             // Log.Warning("Got no images for {0}, tags: {1}", type, string.Join(", ", tags));
             return false;
         }
-        #if DEBUG
+#if DEBUG
         Log.Information("Updating {0}...", type);
-        #endif
+#endif
         lock (_typeLocks[type])
         {
             var typeUsedTags = _usedTags[type];
@@ -73,11 +73,13 @@ public class SearchImageCacher : INService
             // if user uses no tags for the hentai command and there are no used
             // tags atm, just select 50 random tags from downloaded images to seed
             if (typeUsedTags.Count == 0)
+            {
                 images.SelectMany(x => x.Tags)
                       .Distinct()
                       .Shuffle()
                       .Take(50)
                       .ForEach(x => typeUsedTags.Add(x));
+            }
 
             foreach (var img in images)
             {
@@ -85,7 +87,7 @@ public class SearchImageCacher : INService
                 // do not put that image in the cache
                 if (_defaultTagBlacklist.Overlaps(img.Tags))
                     continue;
-                    
+
                 // if image doesn't have a proper absolute uri, skip it
                 if (!Uri.IsWellFormedUriString(img.FileUrl, UriKind.Absolute))
                     continue;
@@ -103,8 +105,8 @@ public class SearchImageCacher : INService
                             e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
                             return new();
                         });
-                            
-                        if(set.Count < 100)
+
+                        if (set.Count < 100)
                             set.Add(img);
                     }
                 }
@@ -128,7 +130,7 @@ public class SearchImageCacher : INService
                 if (_usedTags.TryGetValue(type, out var allTags)
                     && allTags.Count > 0)
                 {
-                    tags = new[] {allTags.ToList()[_rng.Next(0, allTags.Count)]};
+                    tags = new[] { allTags.ToList()[_rng.Next(0, allTags.Count)] };
                 }
                 else
                 {
@@ -148,7 +150,6 @@ public class SearchImageCacher : INService
             if (setList.Count == 0)
                 return null;
 
-
             List<ImageData> resultList;
             // if multiple tags, we need to interesect sets
             if (setList.Count > 1)
@@ -166,7 +167,6 @@ public class SearchImageCacher : INService
                 }
 
                 resultList = resultSet.ToList();
-
             }
             else
             {
@@ -180,7 +180,7 @@ public class SearchImageCacher : INService
             // if no items in the set -> not found
             if (resultList.Count == 0)
                 return null;
-                
+
             var toReturn = resultList[_rng.Next(0, resultList.Count)];
 
             // remove from cache
@@ -230,9 +230,7 @@ public class SearchImageCacher : INService
 
         if (!success)
             return default;
-        image = QueryLocal(tags, type, blacklistedTags);
-
-        return image;
+        return QueryLocal(tags, type, blacklistedTags);
     }
 
     private readonly ConcurrentDictionary<(Booru, string), int> _maxPages = new();
@@ -249,9 +247,9 @@ public class SearchImageCacher : INService
             {
                 if (maxPage == 0)
                 {
-                    #if DEBUG
+#if DEBUG
                     Log.Information("Tag {0} yields no result on {1}, skipping.", tagStr, type);
-                    #endif
+#endif
                     return new();
                 }
 
@@ -266,9 +264,9 @@ public class SearchImageCacher : INService
 
             if (result is null or { Count: 0 })
             {
-                #if DEBUG
+#if DEBUG
                 Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
-                #endif
+#endif
                 continue;
             }
 
@@ -278,7 +276,7 @@ public class SearchImageCacher : INService
         return new();
     }
 
-    private IImageDownloader GetImageDownloader(Booru booru, HttpClient http)
+    private static IImageDownloader GetImageDownloader(Booru booru, HttpClient http)
         => booru switch
         {
             Booru.Danbooru => new DanbooruImageDownloader(http),
@@ -297,9 +295,9 @@ public class SearchImageCacher : INService
     {
         try
         {
-            #if DEBUG
+#if DEBUG
             Log.Information("Downloading from {0} (page {1})...", type, page);
-            #endif
+#endif
 
             using var http = _httpFactory.CreateClient();
             var downloader = GetImageDownloader(type, http);

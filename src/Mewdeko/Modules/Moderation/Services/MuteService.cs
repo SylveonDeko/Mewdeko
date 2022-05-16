@@ -31,7 +31,6 @@ public class MuteService : INService
     private static readonly OverwritePermissions _denyOverwrite =
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
-    
 
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
@@ -130,11 +129,9 @@ public class MuteService : INService
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
         = new();
-    
 
     public event Action<IGuildUser, IUser, MuteType, string> UserMuted;
     public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted;
-    
 
     private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
     {
@@ -194,40 +191,43 @@ public class MuteService : INService
         switch (type)
         {
             case MuteType.All:
-            {
-                try
                 {
-                    await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
+                    try
+                    {
+                        await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
 
-                await using var uow = _db.GetDbContext();
-                var config = uow.ForGuildId(usr.Guild.Id,
-                    set => set.Include(gc => gc.MutedUsers).Include(gc => gc.UnmuteTimers));
-                var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[] {usr.Guild.EveryoneRole});
-                var enumerable = roles as IRole[] ?? roles.ToArray();
-                var uroles = string.Join(" ", enumerable.Select(x => x.Id));
-                if (GetRemoveOnMute(usr.Guild.Id) == 0) config.MutedUsers.Add(new MutedUserId {UserId = usr.Id});
-                if (GetRemoveOnMute(usr.Guild.Id) == 1)
-                    config.MutedUsers.Add(new MutedUserId {UserId = usr.Id, roles = uroles});
-                if (MutedUsers.TryGetValue(usr.Guild.Id, out var muted)) muted.Add(usr.Id);
-
-                config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
-
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-                var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
-                if (!usr.RoleIds.Contains(muteRole.Id))
+                    await using var uow = _db.GetDbContext();
+                    var config = uow.ForGuildId(usr.Guild.Id,
+                        set => set.Include(gc => gc.MutedUsers).Include(gc => gc.UnmuteTimers));
+                    var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[] { usr.Guild.EveryoneRole });
+                    var enumerable = roles as IRole[] ?? roles.ToArray();
+                    var uroles = string.Join(" ", enumerable.Select(x => x.Id));
+                    if (GetRemoveOnMute(usr.Guild.Id) == 0) config.MutedUsers.Add(new MutedUserId { UserId = usr.Id });
                     if (GetRemoveOnMute(usr.Guild.Id) == 1)
-                        await usr.RemoveRolesAsync(enumerable);
-                await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
-                StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
+                        config.MutedUsers.Add(new MutedUserId { UserId = usr.Id, roles = uroles });
+                    if (MutedUsers.TryGetValue(usr.Guild.Id, out var muted)) muted.Add(usr.Id);
 
-                UserMuted(usr, mod, MuteType.All, reason);
-                break;
-            }
+                    config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
+
+                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
+                    if (!usr.RoleIds.Contains(muteRole.Id))
+                    {
+                        if (GetRemoveOnMute(usr.Guild.Id) == 1)
+                            await usr.RemoveRolesAsync(enumerable);
+                    }
+
+                    await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
+                    StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
+
+                    UserMuted(usr, mod, MuteType.All, reason);
+                    break;
+                }
             case MuteType.Voice:
                 try
                 {
@@ -249,7 +249,7 @@ public class MuteService : INService
         }
     }
 
-    public int GetRemoveOnMute(ulong? id) 
+    public int GetRemoveOnMute(ulong? id)
         => _bot.GetGuildConfig(id.Value).removeroles;
 
     public async Task Removeonmute(IGuild guild, string yesnt)
@@ -297,6 +297,7 @@ public class MuteService : INService
                             }
 
                             if (Uroles != null)
+                            {
                                 foreach (var i in Uroles)
                                     if (ulong.TryParse(i, out var roleId))
                                         try
@@ -307,6 +308,7 @@ public class MuteService : INService
                                         {
                                             // ignored
                                         }
+                            }
                         }
 
                         var match = new MutedUserId
@@ -384,6 +386,7 @@ public class MuteService : INService
 
         var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
         if (muteRole == null)
+        {
             //if it doesn't exist, create it
             try
             {
@@ -396,14 +399,20 @@ public class MuteService : INService
                            await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false)
                                .ConfigureAwait(false);
             }
+        }
 
         foreach (var toOverwrite in await guild.GetTextChannelsAsync().ConfigureAwait(false))
+        {
             try
             {
                 if (toOverwrite is IThreadChannel)
                     continue;
                 if (toOverwrite.PermissionOverwrites.Any(x => x.TargetId == muteRole.Id
-                                                              && x.TargetType == PermissionTarget.Role)) continue;
+                                                              && x.TargetType == PermissionTarget.Role))
+                {
+                    continue;
+                }
+
                 await toOverwrite.AddPermissionOverwriteAsync(muteRole, _denyOverwrite)
                                  .ConfigureAwait(false);
 
@@ -413,6 +422,7 @@ public class MuteService : INService
             {
                 // ignored
             }
+        }
 
         return muteRole;
     }

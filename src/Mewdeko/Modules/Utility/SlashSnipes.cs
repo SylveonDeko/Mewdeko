@@ -37,13 +37,14 @@ public partial class Utility
                 return;
             }
 
-
             var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
                              .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
+            {
                 msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
                                                              .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+            }
 
             if (msg is null)
             {
@@ -55,7 +56,7 @@ public partial class Utility
 
             var em = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
+                Author = new EmbedAuthorBuilder { IconUrl = user.GetAvatarUrl(), Name = $"{user} said:" },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
@@ -79,13 +80,14 @@ public partial class Utility
                 return;
             }
 
-
             var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
                                                              .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
+            {
                 msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
                                                              .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+            }
 
             if (msg is null)
             {
@@ -97,7 +99,7 @@ public partial class Utility
 
             var em = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
+                Author = new EmbedAuthorBuilder { IconUrl = user.GetAvatarUrl(), Name = $"{user} said:" },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
@@ -125,7 +127,7 @@ public partial class Utility
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-                if (!snipeStores.Any())
+                if (snipeStores.Length == 0)
                 {
                     await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
                     return;
@@ -156,7 +158,7 @@ public partial class Utility
                 }
             }
         }
-        
+
         [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task EditSnipeList(int amount = 5)
@@ -172,7 +174,7 @@ public partial class Utility
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-                if (!snipeStores.Any())
+                if (snipeStores.Length == 0)
                 {
                     await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
                     return;
@@ -204,8 +206,8 @@ public partial class Utility
             }
         }
 
-        [SlashCommand("set", "Enable or Disable sniping"), 
-         SlashUserPerm(GuildPermission.Administrator), 
+        [SlashCommand("set", "Enable or Disable sniping"),
+         SlashUserPerm(GuildPermission.Administrator),
          CheckPermissions]
         public async Task SnipeSet(bool enabled)
         {

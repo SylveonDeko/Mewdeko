@@ -22,7 +22,11 @@ public partial class Moderation
             var runnerUserRoles = runnerUser.GetRoles();
             var targetUserRoles = targetUser.GetRoles();
             if (runnerUser.Id == ctx.Guild.OwnerId ||
-                runnerUserRoles.Max(x => x.Position) > targetUserRoles.Max(x => x.Position)) return true;
+                runnerUserRoles.Max(x => x.Position) > targetUserRoles.Max(x => x.Position))
+            {
+                return true;
+            }
+
             await ReplyErrorLocalizedAsync("mute_perms").ConfigureAwait(false);
             return false;
         }
@@ -66,7 +70,7 @@ public partial class Moderation
                 await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
                 await ctx.Channel.SendConfirmAsync(
                     $"{user} has been muted in this channel for {time.Time.Humanize()}!");
-                await Task.Delay((int) time.Time.TotalMilliseconds);
+                await Task.Delay((int)time.Time.TotalMilliseconds);
                 try
                 {
                     await channel.AddPermissionOverwriteAsync(user,
@@ -111,8 +115,8 @@ public partial class Moderation
                             }
                             catch
                             {
-                               // ignored
-                            }                          
+                                // ignored
+                            }
                         }
 
                         await msg.ModifyAsync(x =>
@@ -131,7 +135,7 @@ public partial class Moderation
                             catch
                             {
                                 // ignored
-                            }                          
+                            }
                         }
 
                         await msg.ModifyAsync(x =>
@@ -151,7 +155,7 @@ public partial class Moderation
                         catch
                         {
                             // ignored
-                        }                          
+                        }
                     }
 
                     await msg.ModifyAsync(x =>
@@ -184,7 +188,7 @@ public partial class Moderation
             }
 
             if (Context.User.Id != Context.Guild.OwnerId &&
-                role.Position >= ((SocketGuildUser) Context.User).Roles.Max(x => x.Position))
+                role.Position >= ((SocketGuildUser)Context.User).Roles.Max(x => x.Position))
             {
                 await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
                 return;
@@ -201,7 +205,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, target))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
                     return;
 
                 await Service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
@@ -227,7 +231,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
@@ -263,7 +267,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
@@ -302,7 +306,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
@@ -323,7 +327,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
@@ -343,7 +347,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);

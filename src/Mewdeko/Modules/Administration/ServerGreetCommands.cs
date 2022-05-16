@@ -15,7 +15,7 @@ public partial class Administration
         private readonly IHttpClientFactory _httpFactory;
 
         public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
@@ -82,7 +82,6 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("boostmsg_enable", $"{Prefix}boost").ConfigureAwait(false);
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task Greet()
@@ -108,7 +107,11 @@ public partial class Administration
             }
 
             if (chan is not null && name is not null && image is not null && text is not null &&
-                text.ToLower() != "disable") return;
+                text.ToLower() != "disable")
+            {
+                return;
+            }
+
             if (image is not null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
@@ -122,13 +125,17 @@ public partial class Administration
                 await Service.SetWebGreetUrl(ctx.Guild, txt);
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                }
             }
 
-            if (ctx.Message.Attachments.Any() && image is null && text is null)
+            if (ctx.Message.Attachments.Count > 0 && image is null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
                 var tags = ctx.Message.Attachments.FirstOrDefault();
@@ -142,23 +149,31 @@ public partial class Administration
                 await Service.SetWebGreetUrl(ctx.Guild, txt);
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                }
             }
 
-            if (!ctx.Message.Attachments.Any() && image is null && text is null)
+            if (ctx.Message.Attachments.Count == 0 && image is null && text is null)
             {
                 var webhook = await chan.CreateWebhookAsync(name);
                 var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
                 await Service.SetWebGreetUrl(ctx.Guild, txt).ConfigureAwait(false);
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets").ConfigureAwait(false);
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.").ConfigureAwait(false);
+                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.").ConfigureAwait(false);
+                }
             }
         }
 
@@ -175,7 +190,11 @@ public partial class Administration
             }
 
             if (chan is not null && name is not null && image is not null && text is not null &&
-                text.ToLower() != "disable") return;
+                text.ToLower() != "disable")
+            {
+                return;
+            }
+
             if (image is not null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
@@ -189,13 +208,17 @@ public partial class Administration
                 await Service.SetWebLeaveUrl(ctx.Guild, txt);
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                }
             }
 
-            if (ctx.Message.Attachments.Any() && image is null && text is null)
+            if (ctx.Message.Attachments.Count > 0 && image is null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
                 var tags = ctx.Message.Attachments.FirstOrDefault();
@@ -209,23 +232,31 @@ public partial class Administration
                 await Service.SetWebLeaveUrl(ctx.Guild, txt);
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                }
             }
 
-            if (!ctx.Message.Attachments.Any() && image is null && text is null)
+            if (ctx.Message.Attachments.Count == 0 && image is null && text is null)
             {
                 var webhook = await chan.CreateWebhookAsync(name);
                 var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
                 await Service.SetWebLeaveUrl(ctx.Guild, txt);
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
+                {
                     await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                }
             }
         }
 
@@ -348,14 +379,13 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("byedel_off").ConfigureAwait(false);
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task ByeTest([Remainder] IGuildUser? user = null)
         {
-            user ??= (IGuildUser) Context.User;
+            user ??= (IGuildUser)Context.User;
 
-            await Service.ByeTest((ITextChannel) Context.Channel, user);
+            await Service.ByeTest((ITextChannel)Context.Channel, user);
             var enabled = Service.GetByeEnabled(Context.Guild.Id);
             if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
         }
@@ -375,9 +405,9 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetTest([Remainder] IGuildUser? user = null)
         {
-            user ??= (IGuildUser) Context.User;
+            user ??= (IGuildUser)Context.User;
 
-            await Service.GreetTest((ITextChannel) Context.Channel, user);
+            await Service.GreetTest((ITextChannel)Context.Channel, user);
             var enabled = Service.GetGreetEnabled(Context.Guild.Id);
             if (!enabled)
                 await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
@@ -387,7 +417,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetDmTest([Remainder] IGuildUser? user = null)
         {
-            user ??= (IGuildUser) Context.User;
+            user ??= (IGuildUser)Context.User;
 
             var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
             var success = await Service.GreetDmTest(channel, user).ConfigureAwait(false);

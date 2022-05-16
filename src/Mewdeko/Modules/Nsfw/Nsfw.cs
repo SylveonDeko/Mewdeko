@@ -42,7 +42,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
         var e = new RedditCache { Guild = guild, Url = url };
-        if (!Cache.Any())
+        if (Cache.Count == 0)
         {
             Cache.Add(e);
             return false;
@@ -119,7 +119,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build());
             }
             else
+            {
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
         }
         catch (ApiException)
         {
@@ -147,19 +149,19 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(pages.Count-1)
+            .WithMaxPageIndex(pages.Count - 1)
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
             return new PageBuilder()
                    .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
-                   .WithImageUrl(NHentaiClient.GetPictureUrl(book, page+1).AbsoluteUri)
+                   .WithImageUrl(NHentaiClient.GetPictureUrl(book, page + 1).AbsoluteUri)
                    .WithOkColor();
         }
     }
@@ -170,7 +172,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         var client = new NHentaiClient();
 
         var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page);
-        if (!result.Result.Any())
+        if (result.Result.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
             return;
@@ -185,7 +187,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page1)
         {
@@ -204,7 +206,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF");
-    
+
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
 
@@ -244,7 +246,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             try
             {
                 if (tags is null || tags.Length == 0)
+                {
                     await InternalDapiCommand(null, true, Service.Hentai).ConfigureAwait(false);
+                }
                 else
                 {
                     var groups = tags.Split('|');
@@ -349,7 +353,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Hentai(params string[] tags) 
+    public Task Hentai(params string[] tags)
         => InternalDapiCommand(tags, true, Service.Hentai);
 
     [Cmd, Aliases]
@@ -366,7 +370,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 Service.Gelbooru(ctx.Guild?.Id, true, tags));
 
             var linksEnum = images?.Where(l => l != null).ToArray();
-            if (images is null || !linksEnum.Any())
+            if (images is null || linksEnum.Length == 0)
             {
                 await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
                 return;
@@ -443,7 +447,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         {
             var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id);
             await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
-                blTags.Any()
+                blTags.Length > 0
                     ? string.Join(", ", blTags)
                     : "-").ConfigureAwait(false);
         }
@@ -464,7 +468,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         Func<ulong?, bool, string[], Task<UrlReply>> func)
     {
         var data = await func(ctx.Guild?.Id, forceExplicit, tags);
-            
+
         if (data is null || !string.IsNullOrWhiteSpace(data.Error))
         {
             await ReplyErrorLocalizedAsync("no_results");

@@ -128,6 +128,18 @@
         <None Update="credentials.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Remove="DiscordChatExporter\Superpower.dll" />
+        <None Remove="DiscordChatExporter\Spectre.Console.dll" />
+        <None Remove="DiscordChatExporter\Polly.dll" />
+        <None Remove="DiscordChatExporter\MiniRazor.Runtime.dll" />
+        <None Remove="DiscordChatExporter\JsonExtensions.dll" />
+        <None Remove="DiscordChatExporter\Gress.dll" />
+        <None Remove="DiscordChatExporter\DiscordChatExporter.Core.dll" />
+        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.runtimeconfig.json" />
+        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.exe" />
+        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.dll" />
+        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.deps.json" />
+        <None Remove="DiscordChatExporter\CliFx.dll" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

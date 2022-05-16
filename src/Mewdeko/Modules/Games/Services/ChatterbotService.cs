@@ -66,9 +66,7 @@ public class ChatterBotService : INService
             {
                 if (msg is not IUserMessage usrMsg)
                     return;
-                
-                
-                
+
                 IChatterBotSession cbs;
                 string message;
                 try
@@ -79,10 +77,10 @@ public class ChatterBotService : INService
                 {
                     return;
                 }
-                
+
                 if (message == null || cbs == null)
                     return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
@@ -126,7 +124,6 @@ public class ChatterBotService : INService
 
         if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
         {
-
             (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
             return null;
         }
@@ -135,8 +132,7 @@ public class ChatterBotService : INService
             CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));
             CleverbotUsers.TryGetValue(msg.Author.Id, out lazyCleverbot);
         }
-        
-      
+
         cleverbot = lazyCleverbot.Value;
 
         var mewdekoId = _client.CurrentUser.Id;

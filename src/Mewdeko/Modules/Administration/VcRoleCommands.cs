@@ -18,10 +18,14 @@ public partial class Administration
         public async Task VcRoleRm(ulong vcId)
         {
             if (Service.RemoveVcRole(ctx.Guild.Id, vcId))
+            {
                 await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vcId.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("vcrole_not_found").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
@@ -30,12 +34,13 @@ public partial class Administration
         {
             if (vchan is IVoiceChannel chan)
             {
-
                 if (role == null)
                 {
                     if (Service.RemoveVcRole(ctx.Guild.Id, chan.Id))
+                    {
                         await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(chan.Name))
                             .ConfigureAwait(false);
+                    }
                 }
                 else
                 {
@@ -54,7 +59,7 @@ public partial class Administration
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole([Remainder] IRole? role = null)
         {
-            var user = (IGuildUser) ctx.User;
+            var user = (IGuildUser)ctx.User;
 
             var vc = user.VoiceChannel;
 
@@ -80,15 +85,19 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task VcRoleList()
         {
-            var guild = (SocketGuild) ctx.Guild;
+            var guild = (SocketGuild)ctx.Guild;
             string text;
             if (Service.VcRoles.TryGetValue(ctx.Guild.Id, out var roles))
             {
-                if (!roles.Any())
+                if (roles.Count == 0)
+                {
                     text = GetText("no_vcroles");
+                }
                 else
+                {
                     text = string.Join("\n", roles.Select(x =>
-                        $"{Format.Bold(guild.GetVoiceChannel(x.Key)?.Name ?? x.Key.ToString())} => {x.Value}"));
+                                        $"{Format.Bold(guild.GetVoiceChannel(x.Key)?.Name ?? x.Key.ToString())} => {x.Value}"));
+                }
             }
             else
             {

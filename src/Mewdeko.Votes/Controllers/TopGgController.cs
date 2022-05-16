@@ -26,9 +26,9 @@ public class TopGgController : ControllerBase
     public async Task<IEnumerable<Vote>> New()
     {
         var votes = await _cache.GetNewTopGgVotesAsync();
-        if(votes.Count > 0)
+        if (votes.Count > 0)
             _logger.LogInformation("Sending {NewTopggVotes} new topgg votes.", votes.Count);
-            
+
         return votes;
     }
 }

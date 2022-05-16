@@ -45,7 +45,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
             case HighlightActions.Add:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
-                if (highlights.Any() && highlights.Any(x => x.UserId == ctx.User.Id))
+                if (highlights.Count > 0 && highlights.Any(x => x.UserId == ctx.User.Id))
                 {
                     if (highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
                     {
@@ -65,7 +65,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 break;
             case HighlightActions.List:
                 var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
-                if (!highlightsForUser.Any())
+                if (highlightsForUser.Count == 0)
                 {
                     await ctx.Channel.SendErrorAsync("You have no highlights set!");
                     return;
@@ -97,7 +97,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 if (string.IsNullOrWhiteSpace(words))
                     return;
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
-                if (!highlightsForUser.Any())
+                if (highlightsForUser.Count == 0)
                 {
                     await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!");
                     return;
@@ -121,14 +121,14 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendErrorAsync("This is not in your highlights!");
                     return;
                 }
-                await Service.RemoveHighlight(highlightsForUser.FirstOrDefault(x => x.Word == words));
+                await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words));
                 await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
                 break;
             case HighlightActions.Match:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
-                if (!highlightsForUser.Any())
+                if (highlightsForUser.Count == 0)
                 {
                     await ctx.Channel.SendErrorAsync("There are no highlights to match to.");
                     return;
@@ -197,7 +197,10 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!");
                 }
                 else
+                {
                     await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
+                }
+
                 break;
 
             case HighlightActions.Toggle:
@@ -219,8 +222,6 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
                 await ctx.Channel.SendConfirmAsync("Highlights disabled.");
                 break;
-
         }
     }
-
 }

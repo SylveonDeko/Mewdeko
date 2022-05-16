@@ -39,7 +39,7 @@ public class HelixUsersResponse
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
     }
-    
+
     [JsonPropertyName("data")]
     public List<User> Data { get; set; }
 }

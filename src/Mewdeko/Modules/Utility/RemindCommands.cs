@@ -45,14 +45,16 @@ public partial class Utility
             if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, remindData.Time,
                         remindData.What)
                     .ConfigureAwait(false))
+            {
                 await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(0)]
         public async Task Remind(ITextChannel channel, [Remainder] string remindString)
         {
-            var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
+            var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
             if (!perms.SendMessages || !perms.ViewChannel)
             {
                 await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
@@ -65,10 +67,11 @@ public partial class Utility
                 return;
             }
 
-
             if (!await RemindInternal(channel.Id, false, remindData.Time, remindData.What)
                     .ConfigureAwait(false))
+            {
                 await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases]
@@ -88,7 +91,7 @@ public partial class Utility
                     .ToList();
             }
 
-            if (rems.Any())
+            if (rems.Count > 0)
             {
                 var i = 0;
                 foreach (var rem in rems)
@@ -96,7 +99,7 @@ public partial class Utility
                     var when = rem.When;
                     var diff = when - DateTime.UtcNow;
                     embed.AddField(
-                        $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
+                        $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
                         $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
 `TargetId:` {rem.ChannelId}
 `Message:` {rem.Message?.TrimTo(50)}");
@@ -141,12 +144,12 @@ public partial class Utility
         {
             if (ts > TimeSpan.FromDays(60))
                 return false;
-            
+
             var time = DateTime.UtcNow + ts;
 
             if (ctx.Guild != null)
             {
-                var perms = ((IGuildUser) ctx.User).GetPermissions((IGuildChannel) ctx.Channel);
+                var perms = ((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel);
                 if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
             }
 

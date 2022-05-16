@@ -180,8 +180,10 @@ public class XpService : INService, IUnloadableService
                             du.LastLevelUp = DateTime.UtcNow;
                             var first = item.First();
                             if (du.NotifyOnLevelUp != XpNotificationLocation.None)
+                            {
                                 toNotify.Add((first.Guild, first.Channel, first.User, newGlobalLevelData.Level,
                                     du.NotifyOnLevelUp, NotifOf.Global));
+                            }
                         }
 
                         if (oldGuildLevelData.Level >= newGuildLevelData.Level) continue;
@@ -190,8 +192,10 @@ public class XpService : INService, IUnloadableService
                             //send level up notification
                             var first = item.First();
                             if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
+                            {
                                 toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
                                     usr.NotifyOnLevelUp, NotifOf.Server));
+                            }
 
                             //give role
                             if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
@@ -208,17 +212,19 @@ public class XpService : INService, IUnloadableService
 
                             for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
                             {
-                                var rrew = rrews.FirstOrDefault(x => x.Level == i);
+                                var rrew = rrews.Find(x => x.Level == i);
                                 if (rrew != null)
                                 {
                                     var role = first.User.Guild.GetRole(rrew.RoleId);
                                     if (role is not null) _ = first.User.AddRoleAsync(role);
                                 }
 
-                                var crew = crews.FirstOrDefault(x => x.Level == i);
+                                var crew = crews.Find(x => x.Level == i);
                                 if (crew != null)
+                                {
                                     //give the user the reward if it exists
                                     await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
+                                }
                             }
                         }
                     }
@@ -234,8 +240,10 @@ public class XpService : INService, IUnloadableService
                         {
                             var chan = await x.User.CreateDMChannelAsync();
                             if (chan != null)
+                            {
                                 await chan.SendConfirmAsync(_strings.GetText("level_up_dm", x.Guild.Id, x.User.Mention,
                                     Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-")));
+                            }
                         }
                         else if (x.MessageChannel != null) // channel
                         {
@@ -262,7 +270,6 @@ public class XpService : INService, IUnloadableService
             }
         }
     }
-
 
     private void InternalReloadXpTemplate()
     {
@@ -422,11 +429,15 @@ public class XpService : INService, IUnloadableService
             if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
             if (after.VoiceChannel != null && after.VoiceChannel != before.VoiceChannel)
+            {
                 ScanChannelForVoiceXp(after.VoiceChannel);
+            }
             else if (after.VoiceChannel == null)
+            {
                 // In this case, the user left the channel and the previous for loops didn't catch
                 // it because it wasn't in any new channel. So we need to get rid of it.
                 UserLeftVoiceChannel(user, before.VoiceChannel);
+            }
         });
 
         return Task.CompletedTask;
@@ -435,11 +446,15 @@ public class XpService : INService, IUnloadableService
     private void ScanChannelForVoiceXp(SocketVoiceChannel channel)
     {
         if (ShouldTrackVoiceChannel(channel))
+        {
             foreach (var user in channel.Users)
                 ScanUserForVoiceXp(user, channel);
+        }
         else
+        {
             foreach (var user in channel.Users)
                 UserLeftVoiceChannel(user, channel);
+        }
     }
 
     /// <summary>
@@ -465,8 +480,7 @@ public class XpService : INService, IUnloadableService
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        int e;
-        e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
+        int e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
         _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
@@ -509,8 +523,7 @@ public class XpService : INService, IUnloadableService
         var dateStart = DateTimeOffset.FromUnixTimeSeconds(startUnixTime);
         var dateEnd = DateTimeOffset.UtcNow;
         var minutes = (dateEnd - dateStart).TotalMinutes;
-        double ten;
-        ten = GetVoiceXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceXpPerMinute : GetVoiceXpRate(user.Guild.Id);
+        double ten = GetVoiceXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceXpPerMinute : GetVoiceXpRate(user.Guild.Id);
         var xp = ten * minutes;
         var actualXp = (int)Math.Floor(xp);
 
@@ -542,8 +555,7 @@ public class XpService : INService, IUnloadableService
 
             if (!SetUserRewarded(user))
                 return;
-            int e;
-            e = GetTxtXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
+            int e = GetTxtXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
             _addMessageXp.Enqueue(new UserCacheItem
             {
                 Guild = user.Guild,
@@ -631,8 +643,7 @@ public class XpService : INService, IUnloadableService
     {
         var r = _cache.Redis.GetDatabase();
         var key = $"{_creds.RedisKey()}_user_xp_gain_{userId.Id}";
-        int e;
-        e = GetXpTimeout(userId.Guild.Id) == 0 ? _xpConfig.Data.MessageXpCooldown : GetXpTimeout(userId.Guild.Id);
+        int e = GetXpTimeout(userId.Guild.Id) == 0 ? _xpConfig.Data.MessageXpCooldown : GetXpTimeout(userId.Guild.Id);
         return r.StringSet(key, true, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
@@ -657,7 +668,7 @@ public class XpService : INService, IUnloadableService
             globalRank, guildRank);
     }
 
-    public (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
+    public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
     {
         const int baseXp = XP_REQUIRED_LVL_1;
         int required;
@@ -745,13 +756,11 @@ public class XpService : INService, IUnloadableService
         return await GenerateXpImageAsync(stats);
     }
 
-
     private async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
     {
         var img = Image.Load<Rgba32>(_images.XpBackground, out var format);
         if (template.User.Name.Show)
         {
-
             var username = stats.User.Username;
             var fontSize = (int)(template.User.Name.FontSize * 0.9);
             var size = TextMeasurer.Measure($"{username}", new(_fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
@@ -770,10 +779,12 @@ public class XpService : INService, IUnloadableService
             img.Mutate(x => x.DrawText(options, username, template.User.Name.Color));
         }
         if (template.User.GuildLevel.Show)
+        {
             img.Mutate(x => x.DrawText(stats.Guild.Level.ToString(),
                 _fonts.NotoSans.CreateFont(template.User.GuildLevel.FontSize, FontStyle.Bold),
                 template.User.GuildLevel.Color,
                 new PointF(template.User.GuildLevel.Pos.X, template.User.GuildLevel.Pos.Y)));
+        }
 
         var pen = new Pen(Color.Black, 1);
 
@@ -787,10 +798,12 @@ public class XpService : INService, IUnloadableService
         }
 
         if (template.User.Xp.Guild.Show)
+        {
             img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
                 _fonts.UniSans.CreateFont(template.User.Xp.Guild.FontSize, FontStyle.Bold),
                 Brushes.Solid(template.User.Xp.Guild.Color),
                 new PointF(template.User.Xp.Guild.Pos.X, template.User.Xp.Guild.Pos.Y)));
+        }
 
         if (stats.FullGuildStats.AwardedXp != 0 && template.User.Xp.Awarded.Show)
         {
@@ -806,10 +819,12 @@ public class XpService : INService, IUnloadableService
         //ranking
 
         if (template.User.GuildRank.Show)
+        {
             img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(),
                 _fonts.UniSans.CreateFont(template.User.GuildRank.FontSize, FontStyle.Bold),
                 template.User.GuildRank.Color,
                 new PointF(template.User.GuildRank.Pos.X, template.User.GuildRank.Pos.Y)));
+        }
 
         //time on this level
 
@@ -819,15 +834,17 @@ public class XpService : INService, IUnloadableService
             return $"{offset.Humanize()} ago";
         }
 
-
         if (template.User.TimeOnLevel.Guild.Show)
+        {
             img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp),
                 _fonts.UniSans.CreateFont(template.User.TimeOnLevel.Guild.FontSize),
                 template.User.TimeOnLevel.Guild.Color,
                 new PointF(template.User.TimeOnLevel.Guild.Pos.X, template.User.TimeOnLevel.Guild.Pos.Y)));
+        }
         //avatar
 
         if (stats.User.AvatarId != null && template.User.Icon.Show)
+        {
             try
             {
                 var avatarUrl = stats.User.RealAvatarUrl();
@@ -861,6 +878,7 @@ public class XpService : INService, IUnloadableService
             {
                 Log.Warning(ex, "Error drawing avatar image");
             }
+        }
 
         //club image
 
@@ -868,8 +886,7 @@ public class XpService : INService, IUnloadableService
         return (img.ToStream(format), format);
     }
 
-
-    private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
+    private static void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
     {
         var x1 = info.PointA.X;
         var y1 = info.PointA.Y;
@@ -912,7 +929,6 @@ public class XpService : INService, IUnloadableService
         img.Mutate(x => x.FillPolygon(info.Color, new PointF(x1, y1), new PointF(x3, y3), new PointF(x4, y4),
             new PointF(x2, y2)));
     }
-
 
     public void XpReset(ulong guildId, ulong userId)
     {

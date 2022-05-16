@@ -74,7 +74,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
             startTime = DateTime.MinValue.ToUniversalTime();
         }
 
-        var reply = new GetStatusReply
+        return new GetStatusReply
         {
             State = status.State,
             GuildCount = status.GuildCount,
@@ -84,8 +84,6 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
             StartedAt = Timestamp.FromDateTime(startTime),
             UserCount = status.UserCount
         };
-
-        return reply;
     }
 
     public override Task<RestartAllReply> RestartAllShards(RestartAllRequest request, ServerCallContext context)

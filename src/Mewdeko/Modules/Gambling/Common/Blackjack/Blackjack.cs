@@ -28,7 +28,6 @@ public class Blackjack
     private Deck Deck { get; } = new QuadDeck();
     public Dealer Dealer { get; set; }
 
-
     public List<User> Players { get; set; } = new();
     public GameState State { get; set; } = GameState.Starting;
     public User CurrentUser { get; private set; }
@@ -59,7 +58,7 @@ public class Blackjack
 
             await PrintState().ConfigureAwait(false);
             //if no users joined the game, end it
-            if (!Players.Any())
+            if (Players.Count == 0)
             {
                 State = GameState.Ended;
                 GameEnded?.Invoke(this);
@@ -79,11 +78,13 @@ public class Blackjack
 
             //go through all users and ask them what they want to do
             foreach (var usr in Players.Where(x => !x.Done))
+            {
                 while (!usr.Done)
                 {
                     Log.Information($"Waiting for {usr.DiscordUser}'s move");
                     await PromptUserMove(usr).ConfigureAwait(false);
                 }
+            }
 
             await PrintState().ConfigureAwait(false);
             State = GameState.Ended;
@@ -201,25 +202,41 @@ public class Blackjack
         }
 
         if (hw > 21)
+        {
             foreach (var usr in Players)
+            {
                 if (usr.State is User.UserState.Stand or User.UserState.Blackjack)
                     usr.State = User.UserState.Won;
                 else
                     usr.State = User.UserState.Lost;
+            }
+        }
         else
+        {
             foreach (var usr in Players)
+            {
                 if (usr.State == User.UserState.Blackjack)
+                {
                     usr.State = User.UserState.Won;
+                }
                 else if (usr.State == User.UserState.Stand)
+                {
                     usr.State = hw < usr.GetHandValue()
-                        ? User.UserState.Won
-                        : User.UserState.Lost;
+                                        ? User.UserState.Won
+                                        : User.UserState.Lost;
+                }
                 else
+                {
                     usr.State = User.UserState.Lost;
+                }
+            }
+        }
 
         foreach (var usr in Players)
+        {
             if (usr.State is User.UserState.Won or User.UserState.Blackjack)
                 await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, true).ConfigureAwait(false);
+        }
     }
 
     public async Task<bool> Double(IUser u)
@@ -251,14 +268,21 @@ public class Blackjack
             u.Cards.Add(Deck.Draw());
 
             if (u.GetHandValue() == 21)
+            {
                 //blackjack
                 u.State = User.UserState.Blackjack;
+            }
             else if (u.GetHandValue() > 21)
+            {
                 // user busted
                 u.State = User.UserState.Bust;
+            }
             else
+            {
                 //with double you just get one card, and then you're done
                 u.State = User.UserState.Stand;
+            }
+
             currentUserMove.TrySetResult(true);
 
             return true;
@@ -293,11 +317,15 @@ public class Blackjack
             u.Cards.Add(Deck.Draw());
 
             if (u.GetHandValue() == 21)
+            {
                 //blackjack
                 u.State = User.UserState.Blackjack;
+            }
             else if (u.GetHandValue() > 21)
+            {
                 // user busted
                 u.State = User.UserState.Bust;
+            }
 
             currentUserMove.TrySetResult(true);
 

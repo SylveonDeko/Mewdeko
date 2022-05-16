@@ -11,7 +11,7 @@ public class AfkController : ControllerBase
 {
     private readonly DbService _db;
 
-    public AfkController(DbService db) 
+    public AfkController(DbService db)
         => _db = db;
 
     [HttpGet]

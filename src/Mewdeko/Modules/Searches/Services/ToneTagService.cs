@@ -1,10 +1,10 @@
 using Discord;
-using System.IO;
-using System.Text.Json;
 using Mewdeko.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 namespace Mewdeko.Modules.Searches.Services;
 
@@ -16,7 +16,7 @@ public class ToneTagService
     public IReadOnlyList<ToneTag> Tags { get; private set; }
 
     public ToneTagService(IBotStrings strings, BotConfigService bss) =>
-        (_strings, _bss, Tags) = (strings, bss,  JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
+        (_strings, _bss, Tags) = (strings, bss, JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
 
     public List<string> GetToneTags(string input) =>
         _toneTagRegex.Matches(input.RemoveUrls()).Select(x => x.Value[1..]).ToList();
@@ -59,9 +59,12 @@ public class ToneTagService
             eb.WithTitle(_strings.GetText("tonetags_tonetags", guild?.Id));
             var i = -1;
             result.Tags.ForEach(x => eb.AddField(result.ActualTags[++i], x.Description));
-            if (result.MissingTags.Any())
+            if (result.MissingTags.Count > 0)
+            {
                 eb.AddField(_strings.GetText("tonetags_not_found", guild?.Id),
                     string.Join(", ", result.MissingTags.Distinct()));
+            }
+
             eb.AddField(_strings.GetText("tonetags_sources", guild?.Id),
                 string.Join(", ", result.Tags.Select(x => GetMarkdownLink(x.Source)).Distinct()));
             eb.WithOkColor();
@@ -71,10 +74,9 @@ public class ToneTagService
     }
 
     public static string GetMarkdownLink(ToneTagSource source) =>
-        !string.IsNullOrWhiteSpace(source.Url) ? $"[{source.Title}]({source.Url})" : source.Title;  
+        !string.IsNullOrWhiteSpace(source.Url) ? $"[{source.Title}]({source.Url})" : source.Title;
 
     public ParseResult ParseTags(string input) => ParseTags(GetToneTags(input));
 
     public record ParseResult(List<ToneTag> Tags, List<string> ActualTags, List<string> MissingTags);
 }
-

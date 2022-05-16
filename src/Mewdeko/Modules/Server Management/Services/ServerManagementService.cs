@@ -8,7 +8,6 @@ namespace Mewdeko.Modules.Server_Management.Services;
 
 public class ServerManagementService : INService
 {
-
     public ServerManagementService(Mewdeko bot, DbService db)
     {
         using var uow = db.GetDbContext();
@@ -21,7 +20,6 @@ public class ServerManagementService : INService
     }
 
     public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-
 
     public async Task<IRole> GetMuteRole(IGuild guild)
     {

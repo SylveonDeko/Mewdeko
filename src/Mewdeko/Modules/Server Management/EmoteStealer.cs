@@ -11,11 +11,11 @@ namespace Mewdeko.Modules.Server_Management;
 public class EmoteStealer : MewdekoSlashCommandModule
 {
     private readonly IHttpClientFactory _httpFactory;
-    
+
     public EmoteStealer(IHttpClientFactory factory) => _httpFactory = factory;
-    
-    [MessageCommand("Steal Emotes"), 
-     RequireBotPermission(GuildPermission.ManageEmojisAndStickers), 
+
+    [MessageCommand("Steal Emotes"),
+     RequireBotPermission(GuildPermission.ManageEmojisAndStickers),
      SlashUserPerm(GuildPermission.ManageEmojisAndStickers),
     CheckPermissions]
     public async Task Steal(IMessage message)
@@ -59,8 +59,8 @@ public class EmoteStealer : MewdekoSlashCommandModule
         {
             Color = Mewdeko.OkColor
         };
-        if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
-        if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
+        if (emotes.Count > 0) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
+        if (errored.Count > 0) b.AddField("Errored Emotes", string.Join("\n\n", errored));
         await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = b.Build());
     }
 }

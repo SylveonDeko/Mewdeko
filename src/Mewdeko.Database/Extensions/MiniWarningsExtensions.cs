@@ -13,7 +13,7 @@ public static class MiniWarningExtensions
         return query.ToArray();
     }
 
-    public static bool Forgive(this DbSet<Warning2> set,ulong guildId, ulong userId, string mod, int index)
+    public static bool Forgive(this DbSet<Warning2> set, ulong guildId, ulong userId, string mod, int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));

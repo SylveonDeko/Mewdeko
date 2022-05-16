@@ -69,7 +69,6 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync(
                 $"Your current starboard emote is {maybeEmote} {Format.Code(maybeEmote.ToString())}");
             return;
-
         }
 
         try
@@ -93,7 +92,9 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {Prefix}swm)");
         }
         else
+        {
             await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {Prefix}swm)");
+        }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -120,7 +121,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         else
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.");
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnDelete(bool enabled)
     {
@@ -130,7 +131,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         else
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.");
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnBelowThreshold(bool enabled)
     {
@@ -140,7 +141,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         else
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed when the messages star count is below the current star count");
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardAllowBots(bool enabled)
     {
@@ -150,5 +151,4 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         else
             await ctx.Channel.SendConfirmAsync("Starboard will now ignore bots.");
     }
-    
 }

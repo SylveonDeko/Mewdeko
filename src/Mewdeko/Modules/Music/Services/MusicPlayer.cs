@@ -26,15 +26,15 @@ public class MusicPlayer : LavalinkPlayer
     public override async Task OnTrackStartedAsync(TrackStartedEventArgs args)
     {
         var queue = musicService.GetQueue(args.Player.GuildId);
-        var track = queue.FirstOrDefault(x => x.Identifier == args.Player.CurrentTrack.Identifier);
+        var track = queue.Find(x => x.Identifier == args.Player.CurrentTrack.Identifier);
         LavalinkTrack nextTrack = null;
         try
         {
             nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);
         }
-        catch 
+        catch
         {
-           //ignored
+            //ignored
         }
         var resultMusicChannelId = (await musicService.GetSettingsInternalAsync(args.Player.GuildId)).MusicChannelId;
         if (resultMusicChannelId != null)
@@ -49,7 +49,7 @@ public class MusicPlayer : LavalinkPlayer
                     var eb = new EmbedBuilder()
                              .WithOkColor()
                              .WithDescription($"Now playing {track.Title} by {track.Author}")
-                             .WithTitle($"Track #{queue.IndexOf(track)+1}")
+                             .WithTitle($"Track #{queue.IndexOf(track) + 1}")
                              .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)))
                              .WithThumbnailUrl(artWork?.AbsoluteUri);
                     if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
@@ -63,20 +63,20 @@ public class MusicPlayer : LavalinkPlayer
     public override async Task OnTrackEndAsync(TrackEndEventArgs args)
     {
         var queue = musicService.GetQueue(args.Player.GuildId);
-        if (queue.Any())
+        if (queue.Count > 0)
         {
             var gid = args.Player.GuildId;
             var msettings = await musicService.GetSettingsInternalAsync(gid);
             if (client.GetChannel(msettings.MusicChannelId.Value) is not ITextChannel channel)
                 return;
             if (args.Reason is TrackEndReason.Stopped or TrackEndReason.CleanUp or TrackEndReason.Replaced) return;
-            var currentTrack = queue.FirstOrDefault(x => args.Player.CurrentTrack.Identifier == x.Identifier);
+            var currentTrack = queue.Find(x => args.Player.CurrentTrack.Identifier == x.Identifier);
             if (msettings.PlayerRepeat == PlayerRepeatType.Track)
             {
                 await args.Player.PlayAsync(currentTrack);
                 return;
             }
-            
+
             var nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
             if (nextTrack.Source is null && channel != null)
             {

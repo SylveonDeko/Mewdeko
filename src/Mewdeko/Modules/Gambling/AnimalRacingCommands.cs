@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -54,8 +53,10 @@ public partial class Gambling
                     try
                     {
                         if (arg.Channel.Id == ctx.Channel.Id)
+                        {
                             if (ar.CurrentPhase == AnimalRace.Phase.Running && ++count % 9 == 0)
                                 raceMessage = null;
+                        }
                     }
                     catch
                     {
@@ -71,9 +72,12 @@ public partial class Gambling
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 var winner = race.FinishedUsers[0];
                 if (race.FinishedUsers[0].Bet > 0)
+                {
                     return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                         GetText("animal_race_won_money", Format.Bold(winner.Username),
                             winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Count - 1)) + CurrencySign));
+                }
+
                 return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                     GetText("animal_race_won", Format.Bold(winner.Username), winner.Animal.Icon));
             }
@@ -104,22 +108,26 @@ public partial class Gambling
 {
     var index = race.FinishedUsers.IndexOf(p);
     var extra = index == -1 ? "" : $"#{index + 1} {(index == 0 ? "🏆" : "")}";
-    return $"{(int) (p.Progress / 60f * 100),-2}%|{new string('‣', p.Progress) + p.Animal.Icon + extra}";
+    return $"{(int)(p.Progress / 60f * 100),-2}%|{new string('‣', p.Progress) + p.Animal.Icon + extra}";
 }))}
 |🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🔚|";
 
             var msg = raceMessage;
 
             if (msg == null)
+            {
                 raceMessage = await ctx.Channel.SendConfirmAsync(text)
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
-                        .WithTitle(GetText("animal_race"))
-                        .WithDescription(text)
-                        .WithOkColor()
-                        .Build())
-                    .ConfigureAwait(false);
+                                    .WithTitle(GetText("animal_race"))
+                                    .WithDescription(text)
+                                    .WithOkColor()
+                                    .Build())
+                                .ConfigureAwait(false);
+            }
         }
 
         private Task Ar_OnStartingFailed(AnimalRace race)
@@ -145,12 +153,16 @@ public partial class Gambling
                 var user = await ar.JoinRace(ctx.User.Id, ctx.User.ToString(), amount)
                     .ConfigureAwait(false);
                 if (amount > 0)
+                {
                     await ctx.Channel.SendConfirmAsync(GetText("animal_race_join_bet", ctx.User.Mention,
-                        user.Animal.Icon, amount + CurrencySign)).ConfigureAwait(false);
+                                        user.Animal.Icon, amount + CurrencySign)).ConfigureAwait(false);
+                }
                 else
+                {
                     await ctx.Channel
-                        .SendConfirmAsync(GetText("animal_race_join", ctx.User.Mention, user.Animal.Icon))
-                        .ConfigureAwait(false);
+                                        .SendConfirmAsync(GetText("animal_race_join", ctx.User.Mention, user.Animal.Icon))
+                                        .ConfigureAwait(false);
+                }
             }
             catch (ArgumentOutOfRangeException)
             {

@@ -117,8 +117,8 @@ public sealed class AcrophobiaGame : IDisposable
 
         for (var i = 0; i < wordCount; i++)
         {
-            var randChar = (char) _rng.Next(65, 91);
-            lettersArr[i] = randChar == 'X' ? (char) _rng.Next(65, 88) : randChar;
+            var randChar = (char)_rng.Next(65, 91);
+            lettersArr[i] = randChar == 'X' ? (char)_rng.Next(65, 88) : randChar;
         }
 
         StartingLetters = lettersArr.ToImmutableArray();
@@ -146,7 +146,10 @@ public sealed class AcrophobiaGame : IDisposable
                         || index >= _submissions.Count
                         || (toVoteFor = _submissions.ToArray()[index].Key).UserId == user.UserId
                         || !_usersWhoVoted.Add(userId))
+                    {
                         break;
+                    }
+
                     ++_submissions[toVoteFor];
                     var _ = Task.Run(() => OnUserVoted(userName));
                     return true;
@@ -168,7 +171,9 @@ public sealed class AcrophobiaGame : IDisposable
 
         if (inputWords.Length !=
             StartingLetters.Length) // number of words must be the same as the number of the starting letters
+        {
             return false;
+        }
 
         for (var i = 0; i < StartingLetters.Length; i++)
         {
@@ -176,7 +181,9 @@ public sealed class AcrophobiaGame : IDisposable
 
             if (!inputWords[i]
                     .StartsWith(letter.ToString(), StringComparison.InvariantCulture)) // all first letters must match
+            {
                 return false;
+            }
         }
 
         return true;

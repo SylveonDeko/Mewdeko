@@ -38,18 +38,16 @@ public class AdministrationService : INService
             .ToConcurrent());
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
-    
+
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
-    
-    
 
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
-        await uow.SaveChangesAsync().ConfigureAwait(false);;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -175,9 +173,10 @@ public class AdministrationService : INService
 
     public static async Task DeafenUsers(bool value, params IGuildUser[] users)
     {
-        if (!users.Any())
+        if (users.Length == 0)
             return;
         foreach (var u in users)
+        {
             try
             {
                 await u.ModifyAsync(usr => usr.Deaf = value).ConfigureAwait(false);
@@ -186,6 +185,7 @@ public class AdministrationService : INService
             {
                 // ignored
             }
+        }
     }
 
     public static async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)

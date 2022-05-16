@@ -19,7 +19,6 @@ public class GameVoiceChannelService : INService
         client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         client.GuildMemberUpdated += _client_GuildMemberUpdated;
     }
-    
 
     private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
@@ -36,8 +35,10 @@ public class GameVoiceChannelService : INService
                 if (!Equals(cacheable.Value.Activities, after.Activities)
                     && after.Activities != null
                     && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
+                {
                     //trigger gvc
                     await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -82,11 +83,15 @@ public class GameVoiceChannelService : INService
 
                 if (oldState.VoiceChannel == newState.VoiceChannel ||
                     newState.VoiceChannel == null)
+                {
                     return;
+                }
 
                 if (_bot.GetGuildConfig(gUser.Guild.Id).GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
+                {
                     return;
+                }
 
                 await TriggerGvc(gUser, game).ConfigureAwait(false);
             }

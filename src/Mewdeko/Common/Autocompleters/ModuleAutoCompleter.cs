@@ -4,7 +4,6 @@ using Discord.Interactions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;
-using Serilog;
 
 namespace Mewdeko.Common.Autocompleters;
 

@@ -6,7 +6,7 @@ public static class ImageDownloaderHelper
     {
         if (isExplicit)
             tags = tags.Append("rating:explicit");
-            
+
         return string.Join('+', tags.Select(x => x.ToLowerInvariant()));
     }
 }

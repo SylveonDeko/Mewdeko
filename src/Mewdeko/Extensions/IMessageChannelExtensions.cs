@@ -7,7 +7,7 @@ public static class MessageChannelExtensions
 {
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "") =>
         ch.SendMessageAsync(msg, embed: embed.Build(),
-            options: new RequestOptions {RetryMode = RetryMode.AlwaysRetry});
+            options: new RequestOptions { RetryMode = RetryMode.AlwaysRetry });
 
     public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error,
         string? url = null, string? footer = null)
@@ -20,7 +20,7 @@ public static class MessageChannelExtensions
             eb.WithFooter(efb => efb.WithText(footer));
         return ch.SendMessageAsync("", embed: eb.Build());
     }
-    
+
     public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error) => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build(), components: new ComponentBuilder()
         .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko").Build());
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text,
@@ -36,13 +36,12 @@ public static class MessageChannelExtensions
     }
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
-    
 
     public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string text,
         ComponentBuilder? builder = null) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
             components: builder?.Build());
-    
+
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text,
         ComponentBuilder? builder = null) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),

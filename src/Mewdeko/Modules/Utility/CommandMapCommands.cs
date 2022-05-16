@@ -108,12 +108,10 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList()
         {
-
-            if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || !maps.Any())
+            if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || maps.Count == 0)
             {
                 await ReplyErrorLocalizedAsync("aliases_none").ConfigureAwait(false);
                 return;
@@ -130,7 +128,7 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

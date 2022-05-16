@@ -9,5 +9,4 @@ public class TrovoSocialLink
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
-
 }

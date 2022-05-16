@@ -35,7 +35,6 @@ public class LogSetting : DbEntity
     // ReSharper disable once InconsistentNaming
     public ulong? LogVoicePresenceTTSId { get; set; } = null;
 
-
     //-------------------DO NOT USE----------------
     // these old fields are here because sqlite doesn't support drop column operation
     // will be removed after bot moves to another database provider

@@ -23,11 +23,10 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
     public RoleGreets(InteractiveService interactivity) => _interactivity = interactivity;
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task RoleGreetAdd (IRole role, [Remainder] ITextChannel? channel = null)
+    public async Task RoleGreetAdd(IRole role, [Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        var added = Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id);
-        switch (added)
+        switch (Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id))
         {
             case true:
                 await ctx.Channel.SendConfirmAsync($"Added {role.Mention} to greet in {channel.Mention}!");
@@ -40,9 +39,9 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task RoleGreetRemove (int id)
+    public async Task RoleGreetRemove(int id)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No greet with that ID found!");
@@ -52,9 +51,9 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         await Service.RemoveRoleGreetInternal(greet);
         await ctx.Channel.SendConfirmAsync("RoleGreet removed!");
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task RoleGreetRemove ([Remainder]IRole role)
+    public async Task RoleGreetRemove([Remainder] IRole role)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).Where(x => x.RoleId == role.Id);
         if (!greet.Any())
@@ -72,9 +71,9 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task RoleGreetDelete (int id, StoopidTime time)
+    public async Task RoleGreetDelete(int id, StoopidTime time)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
@@ -84,33 +83,35 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         await Service.ChangeRgDelete(greet, int.Parse(time.Time.TotalSeconds.ToString(CultureInfo.InvariantCulture)));
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated RoleGreet #{id} to delete after {time.Time.Humanize()}.");
-
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task RoleGreetDelete(int id, int howlong)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
             return;
         }
-        
+
         await Service.ChangeRgDelete(greet, howlong);
         if (howlong > 0)
+        {
             await ctx.Channel.SendConfirmAsync(
-                $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+                        $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+        }
         else
+        {
             await ctx.Channel.SendConfirmAsync($"RoleGreet #{id} will no longer delete.");
-
+        }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!");
@@ -122,7 +123,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!");
@@ -136,7 +137,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
      RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
@@ -176,9 +177,9 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task RoleGreetMessage(int id, [Remainder]string? message = null)
+    public async Task RoleGreetMessage(int id, [Remainder] string? message = null)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
@@ -221,7 +222,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
     public async Task RoleGreetList()
     {
         var greets = Service.GetListGreets(ctx.Guild.Id);
-        if (!greets.Any())
+        if (greets.Length == 0)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreets setup!");
         }
@@ -229,7 +230,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                         .AddUser(ctx.User)
                         .WithPageFactory(PageFactory)
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(greets.Length-1)
+                        .WithMaxPageIndex(greets.Length - 1)
                         .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
@@ -244,6 +245,5 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                                         $"#{Array.IndexOf(greets, curgreet) + 1}\n`Role:` {((ctx.Guild.GetRole(curgreet.RoleId))?.Mention == null ? "Deleted" : (ctx.Guild.GetRole(curgreet.RoleId))?.Mention)} `{curgreet.RoleId}`\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Disabled:` {curgreet.Disabled}\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor();
         }
-        
     }
 }

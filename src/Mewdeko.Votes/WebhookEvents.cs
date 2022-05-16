@@ -14,7 +14,7 @@ public class WebhookEvents
         UserVotedTopGg?.Invoke(this, data);
         return Task.CompletedTask;
     }
-    
+
     public Task InvokeDiscords(DiscordsVoteWebhookModel data)
     {
         UserVotedDiscords?.Invoke(this, data);

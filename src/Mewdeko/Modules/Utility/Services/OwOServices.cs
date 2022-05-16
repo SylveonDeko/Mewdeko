@@ -63,7 +63,6 @@ public class OWOServices
         "*gwomps*"
     };
 
-
     public static string OWOIfy(string input)
     {
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));

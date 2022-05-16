@@ -9,13 +9,13 @@ public class PollButtons : MewdekoSlashCommandModule
 {
     private readonly PollService _pollService;
 
-    public PollButtons(PollService pollService) 
+    public PollButtons(PollService pollService)
         => _pollService = pollService;
 
     [ComponentInteraction("pollbutton:*")]
     public async Task Pollbutton(string num)
     {
-        var (allowed, type) = await _pollService.TryVote(ctx.Guild, int.Parse(num)-1, ctx.User);
+        var (allowed, type) = await _pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User);
         switch (type)
         {
             case PollType.PollEnded:

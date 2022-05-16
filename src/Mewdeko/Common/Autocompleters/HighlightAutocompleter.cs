@@ -8,7 +8,7 @@ namespace Mewdeko.Common.Autocompleters;
 
 public class HighlightAutocompleter : AutocompleteHandler
 {
-    public HighlightAutocompleter(DbService db) 
+    public HighlightAutocompleter(DbService db)
         => Db = db;
 
     public DiscordSocketClient Client { get; set; }

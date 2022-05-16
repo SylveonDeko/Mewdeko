@@ -8,7 +8,7 @@ namespace Mewdeko.Common.Autocompleters;
 
 public class SuggestionAutocompleter : AutocompleteHandler
 {
-    public SuggestionAutocompleter(SuggestionsService suggest) 
+    public SuggestionAutocompleter(SuggestionsService suggest)
         => _suggest = suggest;
 
     public DiscordSocketClient Client { get; set; }

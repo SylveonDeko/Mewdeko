@@ -126,12 +126,11 @@ public class ProtectionService : INService
 
         if (raid != null)
         {
-            var raidStats = new AntiRaidStats {AntiRaidSettings = raid};
-            _antiRaidGuilds[gc.GuildId] = raidStats;
+            _antiRaidGuilds[gc.GuildId] = new AntiRaidStats { AntiRaidSettings = raid };
         }
 
         if (spam != null)
-            _antiSpamGuilds[gc.GuildId] = new AntiSpamStats {AntiSpamSettings = spam};
+            _antiSpamGuilds[gc.GuildId] = new AntiSpamStats { AntiSpamSettings = spam };
 
         var alt = gc.AntiAltSetting;
         if (alt is not null)
@@ -152,6 +151,7 @@ public class ProtectionService : INService
         _ = Task.Run(async () =>
         {
             if (maybeAlts is { } alts)
+            {
                 if (user.CreatedAt != default)
                 {
                     var diff = DateTime.UtcNow - user.CreatedAt.UtcDateTime;
@@ -169,6 +169,7 @@ public class ProtectionService : INService
                         return;
                     }
                 }
+            }
 
             try
             {
@@ -216,7 +217,9 @@ public class ProtectionService : INService
                     {
                         ChannelId = channel.Id
                     }))
+                {
                     return;
+                }
 
                 var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, _ => new UserSpamStats(msg),
                     (_, old) =>
@@ -226,14 +229,16 @@ public class ProtectionService : INService
                     });
 
                 if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
+                {
                     if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                     {
                         stats.Dispose();
                         var settings = spamSettings.AntiSpamSettings;
                         await PunishUsers(settings.Action, ProtectionType.Spamming, settings.MuteTime,
-                                settings.RoleId, (IGuildUser) msg.Author)
+                                settings.RoleId, (IGuildUser)msg.Author)
                             .ConfigureAwait(false);
                     }
+                }
             }
             catch
             {
@@ -254,6 +259,7 @@ public class ProtectionService : INService
             gus[0].Guild.Name);
 
         foreach (var gu in gus)
+        {
             await _punishUserQueue.Writer.WriteAsync(new PunishQueueItem
             {
                 Action = action,
@@ -262,6 +268,7 @@ public class ProtectionService : INService
                 MuteTime = muteTime,
                 RoleId = roleId
             }).ConfigureAwait(false);
+        }
 
         _ = OnAntiProtectionTriggered(action, pt, gus);
     }

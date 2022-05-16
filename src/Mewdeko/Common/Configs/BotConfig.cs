@@ -11,8 +11,7 @@ public sealed class BotConfig
     public BotConfig()
     {
         Version = 1;
-        var color = new ColorConfig();
-        Color = color;
+        Color = new ColorConfig();
         DefaultLocale = new CultureInfo("en-US");
         ConsoleOutputType = ConsoleOutputType.Normal;
         ForwardMessages = false;
@@ -43,8 +42,7 @@ public sealed class BotConfig
     }
   ]
 }";
-        var blocked = new BlockedConfig();
-        Blocked = blocked;
+        Blocked = new BlockedConfig();
         Prefix = ".";
         RotateStatuses = false;
         GroupGreets = false;
@@ -67,9 +65,9 @@ and copy the hex code fo your selected color (marked as #)")]
 Allowed values: Simple, Normal, None")]
     public ConsoleOutputType ConsoleOutputType { get; set; }
 
-//         [Comment(@"For what kind of updates will the bot check.
-// Allowed values: Release, Commit, None")]
-//         public UpdateCheckType CheckForUpdates { get; set; }
+    //         [Comment(@"For what kind of updates will the bot check.
+    // Allowed values: Release, Commit, None")]
+    //         public UpdateCheckType CheckForUpdates { get; set; }
 
     // [Comment(@"How often will the bot check for updates, in hours")]
     // public int CheckUpdateInterval { get; set; }
@@ -111,15 +109,15 @@ note: This setting is primarily used if you're afraid of raids, or you're runnin
 This setting can be changed via .rots command.
 See RotatingStatuses submodule in Administration.")]
     public bool RotateStatuses { get; set; }
-    
+
     [Comment(@"Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
 
-//         [Comment(@"Whether the prefix will be a suffix, or prefix.
-// For example, if your prefix is ! you will run a command called 'cash' by typing either
-// '!cash @Someone' if your prefixIsSuffix: false or
-// 'cash @Someone!' if your prefixIsSuffix: true")]
-//         public bool PrefixIsSuffix { get; set; }
+    //         [Comment(@"Whether the prefix will be a suffix, or prefix.
+    // For example, if your prefix is ! you will run a command called 'cash' by typing either
+    // '!cash @Someone' if your prefixIsSuffix: false or
+    // 'cash @Someone!' if your prefixIsSuffix: true")]
+    //         public bool PrefixIsSuffix { get; set; }
 
     // public string Prefixed(string text) => PrefixIsSuffix
     //     ? text + Prefix
@@ -157,7 +155,6 @@ public class ColorConfig
 
     [Comment(@"Color used for embed responses while command is doing work or is in progress")]
     public Rgba32 Pending { get; set; }
-    
 }
 
 public enum ConsoleOutputType

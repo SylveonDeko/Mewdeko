@@ -111,7 +111,7 @@ public class ReactionEvent : ICurrencyEvent
         var toAward = new List<ulong>();
         while (_toAward.TryDequeue(out var x)) toAward.Add(x);
 
-        if (!toAward.Any())
+        if (toAward.Count == 0)
             return;
 
         try
@@ -122,8 +122,10 @@ public class ReactionEvent : ICurrencyEvent
                 true).ConfigureAwait(false);
 
             if (_isPotLimited)
+            {
                 await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
-                    new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
+                    new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
+            }
 
             Log.Information("Awarded {0} users {1} currency.{2}",
                 toAward.Count,
@@ -165,7 +167,9 @@ public class ReactionEvent : ICurrencyEvent
                     (gu.JoinedAt == null ||
                      (DateTime.UtcNow - gu.JoinedAt.Value).TotalDays <
                      1))) // and no users for who we don't know when they joined
+            {
                 return;
+            }
             // there has to be money left in the pot
             // and the user wasn't rewarded
             if (_awardedUsers.Add(r.UserId) && TryTakeFromPot())
@@ -181,6 +185,7 @@ public class ReactionEvent : ICurrencyEvent
     private bool TryTakeFromPot()
     {
         if (_isPotLimited)
+        {
             lock (_potLock)
             {
                 if (PotSize < _amount)
@@ -189,6 +194,7 @@ public class ReactionEvent : ICurrencyEvent
                 PotSize -= _amount;
                 return true;
             }
+        }
 
         return true;
     }

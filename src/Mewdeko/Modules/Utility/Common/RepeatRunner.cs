@@ -77,12 +77,16 @@ public class RepeatRunner
                 // if added timeofday is less than specified timeofday for initial trigger
                 // that means the repeater first ran that same day at that exact specified time
                 if (added.TimeOfDay <= initialTriggerTimeOfDay)
+                {
                     // in that case, just add the difference to make sure the timeofday is the same
                     initialDateTime = added + (initialTriggerTimeOfDay - added.TimeOfDay);
+                }
                 else
+                {
                     // if not, then it ran at that time the following day
                     // in other words; Add one day, and subtract how much time passed since that time of day
                     initialDateTime = added + TimeSpan.FromDays(1) - (added.TimeOfDay - initialTriggerTimeOfDay);
+                }
 
                 CalculateInitialInterval(initialDateTime);
             }

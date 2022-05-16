@@ -68,7 +68,7 @@ public partial class Gambling
             {
                 var res = SlotMachine.Pull();
                 if (dict.ContainsKey(res.Multiplier))
-                    dict[res.Multiplier] += 1;
+                    dict[res.Multiplier]++;
                 else
                     dict.Add(res.Multiplier, 1);
             }
@@ -121,8 +121,7 @@ public partial class Gambling
                         x.DrawImage(randomImage, new Point(95 + (142 * i), 330), new GraphicsOptions()));
                 }
 
-                var won = amount * result.Multiplier;
-                var printWon = won;
+                var printWon = amount * result.Multiplier;
                 var n = 0;
                 do
                 {
@@ -145,7 +144,6 @@ public partial class Gambling
                     {
                         bgImage.Mutate(x => x.DrawImage(img, new Point(148 + (105 * digit), 217), 1f));
                     }
-
 
                     n++;
                 } while ((printAmount /= 10) != 0);

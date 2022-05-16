@@ -168,7 +168,7 @@ public class IndexedCollectionTests
     /// </summary>
     /// <typeparam name="T">An indexed, reference type.</typeparam>
     /// <param name="collection">The indexed collection to be checked.</param>
-    private void CheckIndices<T>(IndexedCollection<T> collection) where T : class, IIndexed
+    private static void CheckIndices<T>(IndexedCollection<T> collection) where T : class, IIndexed
     {
         for (var index = 0; index < collection.Count; index++)
             Assert.AreEqual(index, collection[index].Index);
@@ -180,6 +180,6 @@ public class IndexedCollectionTests
     /// <typeparam name="T">An indexed, database entity type.</typeparam>
     /// <param name="sample">A sample collection to be added as an indexed collection.</param>
     /// <returns>An indexed collection of <typeparamref name="T"/>.</returns>
-    private IndexedCollection<T> GetCollectionSample<T>(IEnumerable<T> sample = default) where T : DbEntity, IIndexed, new()
-        => new IndexedCollection<T>(sample ?? Enumerable.Range(0, 10).Select(x => new T { Id = x }));
+    private static IndexedCollection<T> GetCollectionSample<T>(IEnumerable<T> sample = default) where T : DbEntity, IIndexed, new()
+        => new(sample ?? Enumerable.Range(0, 10).Select(x => new T { Id = x }));
 }

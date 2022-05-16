@@ -62,7 +62,6 @@ public class TwitchHelixProvider : Provider
         if (!match.Success) return Task.FromResult<StreamData>(null);
         var name = match.Groups["name"].Value;
         return GetStreamDataAsync(name);
-
     }
 
     public override async Task<StreamData?> GetStreamDataAsync(string login)
@@ -98,9 +97,9 @@ public class TwitchHelixProvider : Provider
         var loginsSet = logins.Select(x => x.ToLowerInvariant())
                               .Distinct()
                               .ToHashSet();
-        
+
         var dataDict = new Dictionary<string, StreamData>();
-        
+
         foreach (var chunk in logins.Chunk(100))
         {
             try
@@ -128,13 +127,13 @@ public class TwitchHelixProvider : Provider
                 return new List<StreamData>();
             }
         }
-        
+
         // any item left over loginsSet is an invalid username
         foreach (var login in loginsSet)
         {
             _failingStreams.TryAdd(login, DateTime.UtcNow);
         }
-        
+
         // only get streams for users which exist
         foreach (var chunk in dataDict.Keys.Chunk(100))
         {
@@ -169,7 +168,7 @@ public class TwitchHelixProvider : Provider
         return dataDict.Values;
     }
 
-    private StreamData UserToStreamData(HelixUsersResponse.User user)
+    private static StreamData UserToStreamData(HelixUsersResponse.User user)
         => new()
         {
             UniqueName = user.Login,
@@ -180,8 +179,8 @@ public class TwitchHelixProvider : Provider
             StreamType = FollowedStream.FType.Twitch,
             Preview = user.OfflineImageUrl
         };
-    
-    private StreamData FillStreamData(StreamData partial, HelixStreamsResponse.StreamData apiData)
+
+    private static StreamData FillStreamData(StreamData partial, HelixStreamsResponse.StreamData apiData)
         => partial with
         {
             StreamType = FollowedStream.FType.Twitch,

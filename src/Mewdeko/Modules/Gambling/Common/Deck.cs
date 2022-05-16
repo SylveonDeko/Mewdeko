@@ -8,12 +8,14 @@ public class QuadDeck : Deck
     {
         CardPool = new List<Card>(52 * 4);
         for (var j = 1; j < 14; j++)
-        for (var i = 1; i < 5; i++)
         {
-            CardPool.Add(new Card((CardSuit) i, j));
-            CardPool.Add(new Card((CardSuit) i, j));
-            CardPool.Add(new Card((CardSuit) i, j));
-            CardPool.Add(new Card((CardSuit) i, j));
+            for (var i = 1; i < 5; i++)
+            {
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+            }
         }
     }
 }
@@ -75,12 +77,14 @@ public class Deck
         CardPool = new List<Card>(52);
         //foreach suit
         for (var j = 1; j < 14; j++)
+        {
             // and number
-        for (var i = 1; i < 5; i++)
-            //generate a card of that suit and number and add it to the pool
+            for (var i = 1; i < 5; i++)
+                //generate a card of that suit and number and add it to the pool
 
-            // the pool will go from ace of spades,hears,diamonds,clubs all the way to the king of spades. hearts, ...
-            CardPool.Add(new Card((CardSuit) i, j));
+                // the pool will go from ace of spades,hears,diamonds,clubs all the way to the king of spades. hearts, ...
+                CardPool.Add(new Card((CardSuit)i, j));
+        }
     }
 
     /// <summary>
@@ -171,7 +175,7 @@ public class Deck
         if (handValues == null)
             InitHandValues();
         foreach (var kvp in handValues.Where(x => x.Value(cards))) return kvp.Key;
-        return $"High card {cards.FirstOrDefault(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText()}";
+        return $"High card {cards.Find(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText()}";
     }
 
     public class Card : IComparable
@@ -273,7 +277,9 @@ public class Deck
             if (input.Length != 2
                 || !_numberCharToNumber.TryGetValue(input[0], out var n)
                 || !_suitCharToSuit.TryGetValue(input[1].ToString(), out var s))
+            {
                 throw new ArgumentException("Invalid input", nameof(input));
+            }
 
             return new Card(s, n);
         }
