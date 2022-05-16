@@ -34,7 +34,7 @@ public partial class Games
 
         public async Task InternalTrivia(params string[] args)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             var (opts, _) = OptionsParser.ParseFrom(new TriviaOptions(), args);
 
@@ -64,7 +64,7 @@ public partial class Games
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tl()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             if (Service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
             {
@@ -79,7 +79,7 @@ public partial class Games
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tq()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             if (Service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
             {

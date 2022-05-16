@@ -2,16 +2,15 @@
 using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace Mewdeko.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class ChatTriggerPermCheck : PreconditionAttribute
 {
-    public ChatTriggerPermCheck (GuildPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    public ChatTriggerPermCheck(GuildPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
-    public ChatTriggerPermCheck (ChannelPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    public ChatTriggerPermCheck(ChannelPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 

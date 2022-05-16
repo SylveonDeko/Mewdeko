@@ -15,7 +15,7 @@ public sealed class SankakuImageDownloader : ImageDownloader<SankakuImageObject>
         _baseUrl = "https://capi-v2.sankakucomplex.com";
         _http.AddFakeHeaders();
     }
-        
+
     public override async Task<List<SankakuImageObject>> DownloadImagesAsync(string[] tags, int page, bool isExplicit = false, CancellationToken cancel = default)
     {
         // explicit probably not supported

@@ -98,8 +98,7 @@ public class PlantPickService : INService
     public IEnumerable<GuildConfigExtensions.GeneratingChannel> GetAllGeneratingChannels()
     {
         using var uow = _db.GetDbContext();
-        var chs = uow.GuildConfigs.GetGeneratingChannels();
-        return chs;
+        return (IEnumerable<GuildConfigExtensions.GeneratingChannel>)uow.GuildConfigs.GetGeneratingChannels();
     }
 
     /// <summary>
@@ -190,7 +189,9 @@ public class PlantPickService : INService
 
                 if (DateTime.UtcNow - TimeSpan.FromSeconds(config.Generation.GenCooldown) <
                     lastGeneration) //recently generated in this channel, don't generate again
+                {
                     return;
+                }
 
                 var num = rng.Next(1, 101) + (config.Generation.Chance * 100);
                 if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
@@ -271,7 +272,6 @@ public class PlantPickService : INService
                 ids = entries.Select(x => x.MessageId).ToArray();
                 // remove them from the database
                 uow.RemoveRange(entries);
-
 
                 if (amount > 0)
                 {

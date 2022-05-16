@@ -29,7 +29,7 @@ public static class Extensions
                     await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
                 var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
 
-                if (!elems.Any())
+                if (elems.Length == 0)
                     return "";
 
                 var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
@@ -51,11 +51,10 @@ public static class Extensions
         var substringIndex = resolvedTrigger.Length;
         if (containsAnywhere)
         {
-            var pos = ctx.Content.AsSpan().GetWordPosition(resolvedTrigger);
-            switch (pos)
+            switch (ctx.Content.AsSpan().GetWordPosition(resolvedTrigger))
             {
                 case WordPosition.Start:
-                    substringIndex += 1;
+                    substringIndex++;
                     break;
                 case WordPosition.End:
                     substringIndex = ctx.Content.Length;
@@ -104,7 +103,7 @@ public static class Extensions
             {
                 var pos = ctx.Content.AsSpan().GetWordPosition(trigger);
                 if (pos == WordPosition.Start)
-                    substringIndex += 1;
+                    substringIndex++;
                 else if (pos == WordPosition.End)
                     substringIndex = ctx.Content.Length;
                 else if (pos == WordPosition.Middle)
@@ -120,7 +119,7 @@ public static class Extensions
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText );
+            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
             return await channel.SendMessageAsync(plainText, embed: crembed?.Build()).ConfigureAwait(false);
@@ -167,8 +166,7 @@ public static class Extensions
 
     private static bool IsValidWordDivider(this in ReadOnlySpan<char> str, int index)
     {
-        var ch = str[index];
-        switch (ch)
+        switch (str[index])
         {
             case >= 'a' and <= 'z':
             case >= 'A' and <= 'Z':

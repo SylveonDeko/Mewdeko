@@ -45,12 +45,14 @@ public class WaifuService : INService
         {
             if (!await _cs.RemoveAsync(owner.Id,
                     "Waifu Transfer - affinity penalty",
-                    (int) (waifu.Price * 0.6),
+                    (int)(waifu.Price * 0.6),
                     true))
+            {
                 // unable to pay 60% penalty
                 return false;
+            }
 
-            waifu.Price = (int) (waifu.Price * 0.7); // half of 60% = 30% price reduction
+            waifu.Price = (int)(waifu.Price * 0.7); // half of 60% = 30% price reduction
             if (waifu.Price < settings.Waifu.MinPrice)
                 waifu.Price = settings.Waifu.MinPrice;
         }
@@ -58,7 +60,7 @@ public class WaifuService : INService
         {
             if (!await _cs.RemoveAsync(owner.Id, "Waifu Transfer", waifu.Price / 10, true)) return false;
 
-            waifu.Price = (int) (waifu.Price * 0.95); // half of 10% = 5% price reduction
+            waifu.Price = (int)(waifu.Price * 0.95); // half of 10% = 5% price reduction
             if (waifu.Price < settings.Waifu.MinPrice)
                 waifu.Price = settings.Waifu.MinPrice;
         }
@@ -93,7 +95,7 @@ public class WaifuService : INService
             .GroupBy(x => x.New)
             .Count();
 
-        return (int) Math.Ceiling(waifu.Price * 1.25f) +
+        return (int)Math.Ceiling(waifu.Price * 1.25f) +
                ((divorces + affs + 2) * settings.Waifu.Multipliers.WaifuReset);
     }
 
@@ -186,7 +188,7 @@ public class WaifuService : INService
                     w.Price = amount + (amount / 4);
                     result = WaifuClaimResult.Success;
 
-                   uow .WaifuUpdates.Add(new WaifuUpdate
+                    uow.WaifuUpdates.Add(new WaifuUpdate
                     {
                         User = w.Waifu,
                         Old = oldClaimer,
@@ -221,7 +223,6 @@ public class WaifuService : INService
             {
                 result = WaifuClaimResult.InsufficientAmount;
             }
-
 
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -316,7 +317,7 @@ public class WaifuService : INService
                 if (w.Affinity?.UserId == user.Id)
                 {
                     await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, true);
-                    w.Price = (int) Math.Floor(w.Price * _gss.Data.Waifu.Multipliers.DivorceNewValue);
+                    w.Price = (int)Math.Floor(w.Price * _gss.Data.Waifu.Multipliers.DivorceNewValue);
                     result = DivorceResult.SucessWithPenalty;
                 }
                 else
@@ -329,7 +330,7 @@ public class WaifuService : INService
                 var oldClaimer = w.Claimer;
                 w.Claimer = null;
 
-               uow.WaifuUpdates.Add(new WaifuUpdate
+                uow.WaifuUpdates.Add(new WaifuUpdate
                 {
                     User = w.Waifu,
                     Old = oldClaimer,
@@ -353,6 +354,7 @@ public class WaifuService : INService
             set => set.Include(x => x.Items)
                 .Include(x => x.Claimer));
         if (w == null)
+        {
             uow.WaifuInfo.Add(w = new WaifuInfo
             {
                 Affinity = null,
@@ -360,6 +362,7 @@ public class WaifuService : INService
                 Price = 1,
                 Waifu = uow.GetOrCreateUser(giftedWaifu)
             });
+        }
 
         w.Items.Add(new WaifuItem
         {
@@ -368,7 +371,7 @@ public class WaifuService : INService
         });
 
         if (w.Claimer?.UserId == from.Id)
-            w.Price += (int) (itemObj.Price * _gss.Data.Waifu.Multipliers.GiftEffect);
+            w.Price += (int)(itemObj.Price * _gss.Data.Waifu.Multipliers.GiftEffect);
         else
             w.Price += itemObj.Price / 2;
 
@@ -382,6 +385,7 @@ public class WaifuService : INService
         using var uow = _db.GetDbContext();
         var wi = uow.GetWaifuInfo(targetId);
         if (wi == null)
+        {
             wi = new WaifuInfoStats
             {
                 AffinityCount = 0,
@@ -394,6 +398,7 @@ public class WaifuService : INService
                 Items = new List<WaifuItem>(),
                 Price = 1
             };
+        }
 
         return wi;
     }
@@ -443,7 +448,7 @@ public class WaifuService : INService
         var conf = _gss.Data;
         return _gss.Data.Waifu.Items
             .Select(x =>
-                new WaifuItemModel(x.ItemEmoji, (int) (x.Price * conf.Waifu.Multipliers.AllGiftPrices), x.Name))
+                new WaifuItemModel(x.ItemEmoji, (int)(x.Price * conf.Waifu.Multipliers.AllGiftPrices), x.Name))
             .ToList();
     }
 

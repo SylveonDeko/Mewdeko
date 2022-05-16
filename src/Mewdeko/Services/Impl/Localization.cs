@@ -117,12 +117,14 @@ public class Localization : ILocalization
         _commandData.TryGetValue(key, out var toReturn);
 
         if (toReturn == null)
+        {
             return new CommandData
             {
                 Cmd = key,
                 Desc = key,
-                Usage = new[] {key}
+                Usage = new[] { key }
             };
+        }
 
         return toReturn;
     }

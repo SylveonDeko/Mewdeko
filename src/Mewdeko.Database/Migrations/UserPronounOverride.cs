@@ -8,6 +8,6 @@ public partial class UserPronounOverride : Migration
     {
         migrationBuilder.AddColumn<string>("Pronouns", "DiscordUser", defaultValue: "", nullable: false);
         migrationBuilder.AddColumn<string>("PronounsClearedReason", "DiscordUser", nullable: true);
-        migrationBuilder.AddColumn<bool>("PronounsDisabled", "DiscordUser", nullable:false, defaultValue:false);
+        migrationBuilder.AddColumn<bool>("PronounsDisabled", "DiscordUser", nullable: false, defaultValue: false);
     }
 }

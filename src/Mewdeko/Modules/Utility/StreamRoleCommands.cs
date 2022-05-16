@@ -51,18 +51,28 @@ public partial class Utility
                 .ConfigureAwait(false);
 
             if (action == AddRemove.Add)
+            {
                 if (success)
+                {
                     await ReplyConfirmLocalizedAsync("stream_role_bl_add", Format.Bold(user.ToString()))
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("stream_role_bl_add_fail", Format.Bold(user.ToString()))
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+            }
             else if (success)
+            {
                 await ReplyConfirmLocalizedAsync("stream_role_bl_rem", Format.Bold(user.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("stream_role_bl_rem_fail", Format.Bold(user.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, BotPerm(GuildPermission.ManageRoles),
@@ -74,18 +84,28 @@ public partial class Utility
                 .ConfigureAwait(false);
 
             if (action == AddRemove.Add)
+            {
                 if (success)
+                {
                     await ReplyConfirmLocalizedAsync("stream_role_wl_add", Format.Bold(user.ToString()))
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("stream_role_wl_add_fail", Format.Bold(user.ToString()))
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+            }
             else if (success)
+            {
                 await ReplyConfirmLocalizedAsync("stream_role_wl_rem", Format.Bold(user.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("stream_role_wl_rem_fail", Format.Bold(user.ToString()))
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
         }
     }
 }

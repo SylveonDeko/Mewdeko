@@ -26,17 +26,14 @@ public class YamlSeria : IConfigSeria
         where T : notnull
     {
         var escapedOutput = _serializer.Serialize(obj);
-        var output = _codePointRegex.Replace(escapedOutput,
+        return _codePointRegex.Replace(escapedOutput,
             me =>
             {
                 var str = me.Groups["code"].Value;
-                var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
-                return newString;
+                return YamlHelper.UnescapeUnicodeCodePoint(str);
             });
-        return output;
     }
 
     public T Deserialize<T>(string data)
         => _deserializer.Deserialize<T>(data);
-
 }

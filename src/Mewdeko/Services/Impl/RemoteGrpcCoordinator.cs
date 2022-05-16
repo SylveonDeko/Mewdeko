@@ -65,7 +65,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
 
         return res.Statuses.Sum(x => x.GuildCount);
     }
-    
+
     public int GetUserCount()
     {
         var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());

@@ -50,9 +50,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             _ => ctx.Guild.Emotes.ToArray()
         };
 
-        if (!emotes.Any())
+        if (emotes.Length == 0)
         {
-            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false); ;
+            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false);
             return;
         }
 
@@ -121,9 +121,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task TestSite(string url)
     {
         using var client = new HttpClient();
-        var response = await client.GetAsync(url).ConfigureAwait(false); ;
+        var response = await client.GetAsync(url).ConfigureAwait(false);
 
-        await response.Content.ReadAsStringAsync().ConfigureAwait(false); ;
+        await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         var statusCode = response.StatusCode;
         if (statusCode.ToString() == "Forbidden")
             await ctx.Channel.SendErrorAsync("Sites down m8").ConfigureAwait(false);
@@ -171,7 +171,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         await Service.SnipeSet(ctx.Guild, yesnt).ConfigureAwait(false);
         var t = Service.GetSnipeSet(ctx.Guild.Id);
-        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false); ;
+        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -190,7 +190,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendErrorAsync("There is nothing to snipe here!").ConfigureAwait(false);
             return;
         }
-        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false); ;
+        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
         var em = new EmbedBuilder
         {
@@ -223,7 +223,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-            if (!snipeStores.Any())
+            if (snipeStores.Length == 0)
             {
                 await ReplyErrorLocalizedAsync("no_snipes").ConfigureAwait(false);
                 return;
@@ -272,7 +272,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-            if (!snipeStores.Any())
+            if (snipeStores.Length == 0)
             {
                 await ReplyErrorLocalizedAsync("no_snipes");
                 return;
@@ -319,7 +319,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                         .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
+                         .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!");
@@ -428,7 +428,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build());
-
         }
     }
 
@@ -437,8 +436,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task PreviewLinks(string yesnt)
     {
         await Service.PreviewLinks(ctx.Guild, yesnt[..1].ToLower());
-        var t = Service.GetPLinks(ctx.Guild.Id);
-        switch (t)
+        switch (Service.GetPLinks(ctx.Guild.Id))
         {
             case 1:
                 await ctx.Channel.SendConfirmAsync("Link previews are now enabled!");
@@ -591,7 +589,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 return;
             }
 
-
             var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
             var em = new EmbedBuilder
@@ -637,11 +634,15 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         var i = 0;
         if (arr.Length == 0)
+        {
             await ReplyErrorLocalizedAsync("nobody_playing_game").ConfigureAwait(false);
+        }
         else
+        {
             await ctx.Channel.SendConfirmAsync(
-                         $"```css\n{string.Join("\n", arr.GroupBy(_ => i++ / 2).Select(ig => string.Concat(ig.Select(el => $"• {el,-27}"))))}\n```")
-                .ConfigureAwait(false);
+                                 $"```css\n{string.Join("\n", arr.GroupBy(_ => i++ / 2).Select(ig => string.Concat(ig.Select(el => $"• {el,-27}"))))}\n```")
+                        .ConfigureAwait(false);
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -758,22 +759,30 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                 .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
-            if (!roles.Any())
+            if (roles.Length == 0)
+            {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
+            }
             else
+            {
                 await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                    $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles)}").ConfigureAwait(false);
+                                $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles)}").ConfigureAwait(false);
+            }
         }
         else
         {
             var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                 .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
-            if (!roles.Any())
+            if (roles.Length == 0)
+            {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
+            }
             else
+            {
                 await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                                 $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()}")
-                    .ConfigureAwait(false);
+                                             $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()}")
+                                .ConfigureAwait(false);
+            }
         }
     }
 
@@ -827,7 +836,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         else
             await ctx.Channel.SendMessageAsync(result.TrimTo(2000)).ConfigureAwait(false);
     }
-
 
     [Cmd, Ratelimit(30)]
     public async Task Ping()
@@ -892,7 +900,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
-
     }
     [Cmd, Aliases]
     public async Task OwoIfy([Remainder] string input)

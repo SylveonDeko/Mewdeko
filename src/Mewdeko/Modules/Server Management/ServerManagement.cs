@@ -19,7 +19,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task PermView()
     {
-        var perms = ((IGuildUser) ctx.User).GuildPermissions;
+        var perms = ((IGuildUser)ctx.User).GuildPermissions;
         var eb = new EmbedBuilder();
         eb.WithTitle("List of allowed perms");
         eb.WithOkColor();
@@ -121,7 +121,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
         else if (url.StartsWith("<"))
         {
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
             var result = tags.Select(m => m.Url);
             acturl = string.Join("", result);
         }
@@ -151,7 +151,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
      BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
     public async Task RemoveEmote(string emote)
     {
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value)
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value)
             .FirstOrDefault();
         try
         {
@@ -175,7 +175,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             return;
         }
 
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value)
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value)
             .FirstOrDefault();
         try
         {
@@ -203,7 +203,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         };
         var errored = new List<string>();
         var emotes = new List<string>();
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value).Distinct();
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any()) return;
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
         foreach (var i in tags)
@@ -230,8 +230,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         {
             Color = Mewdeko.OkColor
         };
-        if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
-        if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
+        if (emotes.Count > 0) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
+        if (errored.Count > 0) b.AddField("Errored Emotes", string.Join("\n\n", errored));
         await msg.ModifyAsync(x => x.Embed = b.Build());
     }
 
@@ -244,10 +244,10 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             Description = $"<a:loading:900381735244689469> Adding Emotes to {role.Mention}...",
             Color = Mewdeko.OkColor
         };
-        var list = new Optional<IEnumerable<IRole>>(new[] {role});
+        var list = new Optional<IEnumerable<IRole>>(new[] { role });
         var errored = new List<string>();
         var emotes = new List<string>();
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value).Distinct();
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any()) return;
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
 
@@ -275,9 +275,9 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         {
             Color = Mewdeko.OkColor
         };
-        if (emotes.Any())
+        if (emotes.Count > 0)
             b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
-        if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
+        if (errored.Count > 0) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
         await msg.ModifyAsync(x => x.Embed = b.Build());
     }
 }

@@ -17,7 +17,6 @@ public class HighlightsService : INService, IReadyExecutor
     private readonly IDataCache _cache;
     private readonly DbService _db;
 
-
     public HighlightsService(DiscordSocketClient client, IDataCache cache, DbService db)
     {
         _client = client;
@@ -59,8 +58,7 @@ public class HighlightsService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var allHighlights = uow.Highlights.AllHighlights();
         var allHighlightSettings = uow.HighlightSettings.AllHighlightSettings();
-        var guilds = _client.Guilds;
-        foreach (var i in guilds)
+        foreach (var i in (IReadOnlyCollection<SocketGuild>)_client.Guilds)
         {
             await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList());
             await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList());
@@ -79,13 +77,11 @@ public class HighlightsService : INService, IReadyExecutor
         return Task.CompletedTask;
     }
 
-
     private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> _highlightQueue =
         Channel.CreateBounded<(SocketMessage, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
         {
             FullMode = BoundedChannelFullMode.DropNewest
         });
-
 
     private async Task<bool> ExecuteHighlights(SocketMessage message)
     {
@@ -97,10 +93,9 @@ public class HighlightsService : INService, IReadyExecutor
         var usersDMd = new List<ulong>();
         var content = message.Content;
         var highlightWords = GetForGuild(channel.Guild.Id);
-        if (!highlightWords.Any())
+        if (highlightWords.Count == 0)
             return true;
-        var toSend = (from h in highlightWords where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b") select h).ToList();
-        foreach (var i in toSend)
+        foreach (var i in (List<Database.Models.Highlights>)(from h in highlightWords where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b") select h).ToList())
         {
             if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
                 continue;
@@ -156,7 +151,6 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 // ignored in case a user has dms off
             }
-
         }
 
         return true;
@@ -233,7 +227,10 @@ public class HighlightsService : INService, IReadyExecutor
             ignored = false;
         }
         else
+        {
             toedit.Add(channelId);
+        }
+
         toupdate.IgnoredChannels = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -275,7 +272,10 @@ public class HighlightsService : INService, IReadyExecutor
             ignored = false;
         }
         else
+        {
             toedit.Add(userToIgnore);
+        }
+
         toupdate.IgnoredUsers = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -291,7 +291,7 @@ public class HighlightsService : INService, IReadyExecutor
         uow.Highlights.Remove(toremove);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightsForGuild(toremove.GuildId) ?? new List<Database.Models.Highlights>();
-        if (current.Any())
+        if (current.Count > 0)
         {
             toremove.Id = 0;
             current.Remove(toremove);
@@ -305,10 +305,9 @@ public class HighlightsService : INService, IReadyExecutor
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
         var highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
-        if (!highlights.Any()) return new List<Database.Models.Highlights>();
+        if (highlights.Count == 0) return new List<Database.Models.Highlights>();
         _cache.AddHighlightToCache(guildId, highlights);
         return highlights;
-
     }
 
     public IEnumerable<HighlightSettings> GetSettingsForGuild(ulong guildId)
@@ -317,7 +316,7 @@ public class HighlightsService : INService, IReadyExecutor
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
         var highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
-        if (!highlightSettings.Any()) return new List<HighlightSettings>();
+        if (highlightSettings.Count == 0) return new List<HighlightSettings>();
         _cache.AddHighlightSettingToCache(guildId, highlightSettings);
         return highlightSettings;
     }

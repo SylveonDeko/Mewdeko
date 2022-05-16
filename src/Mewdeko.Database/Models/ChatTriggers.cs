@@ -27,7 +27,6 @@ public class ChatTriggers : DbEntity
             ? Array.Empty<string>()
             : Reactions.Split("@@@");
 
-
     public bool IsGlobal() => GuildId is null or 0;
 }
 

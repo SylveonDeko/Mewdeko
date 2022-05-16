@@ -123,7 +123,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public int Priority => -1;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
-
     public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {
         // maybe this message is a custom reaction
@@ -133,12 +132,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return false;
         if (await _cmdCds.TryBlock(guild, msg.Author, cr.Trigger))
             return false;
-        
 
         try
         {
             if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
-            
+
             if (guild is SocketGuild sg)
             {
                 var pc = _perms.GetCacheFor(guild.Id);
@@ -180,8 +178,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             if (!cr.NoRespond)
                 sentMsg = await cr.Send(msg, _client, false).ConfigureAwait(false);
 
-            var reactions = cr.GetReactions();
-            foreach (var reaction in reactions)
+            foreach (var reaction in cr.GetReactions())
             {
                 try
                 {
@@ -215,7 +212,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 var effectedUsers = cr.RoleGrantType switch
                 {
                     CTRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
-                    CTRoleGrantType.Sender => new List<ulong> {msg.Author.Id},
+                    CTRoleGrantType.Sender => new List<ulong> { msg.Author.Id },
                     CTRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id),
                     _ => new List<ulong>()
                 };
@@ -228,7 +225,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         var baseRoles = user.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
                         var roles = baseRoles.Where(x => !cr.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
                         roles.AddRange(cr.GetGrantedRoles());
-                        
+
                         // difference is caused by @everyone
                         if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))
                             await user.ModifyAsync(x => x.RoleIds = new(roles));
@@ -304,7 +301,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         triggers.ForEach(x => roles.AddRange(x.GetGrantedRoles()));
         triggers.ForEach(x => roles.AddRange(x.GetRemovedRoles()));
 
-        if (roles.Any() && !roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
+        if (roles.Count > 0 && !roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
             return false;
 
         await uow.ChatTriggers.AddRangeAsync(triggers);
@@ -333,8 +330,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         lock (_gcrWriteLock)
         {
-            var globalItems =
-                uow.ChatTriggers
+            globalReactions = uow.ChatTriggers
                 .AsNoTracking()
                 .Where(x => x.GuildId == null || x.GuildId == 0)
                 .AsEnumerable()
@@ -344,8 +340,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     return x;
                 })
                 .ToArray();
-
-            globalReactions = globalItems;
         }
 
         ready = true;
@@ -389,14 +383,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     result.Add(cr);
                 continue;
             }
-            
+
             // if the trigger depends on user mentions to grant roles
             // those should be removed
             if (cr.RoleGrantType is CTRoleGrantType.Mentioned or CTRoleGrantType.Both)
             {
                 content = content.RemoveUserMentions().Trim();
             }
-            
+
             if (content.Length > trigger.Length)
             {
                 // if input is greater than the trigger, it can only work if:
@@ -419,7 +413,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 // content has to start with the trigger followed by a space
                 if (cr.AllowTarget && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
                                    && content[trigger.Length] == ' ')
+                {
                     result.Add(cr);
+                }
             }
             else if (content.Length < cr.Trigger.Length)
             {
@@ -466,23 +462,32 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private void UpdateInternal(ulong? maybeGuildId, Database.Models.ChatTriggers cr)
     {
         if (maybeGuildId is { } guildId)
+        {
             newGuildReactions.AddOrUpdate(guildId, new[] { cr },
-                (_, old) =>
-                {
-                    var newArray = old.ToArray();
-                    for (var i = 0; i < newArray.Length; i++)
-                        if (newArray[i].Id == cr.Id)
-                            newArray[i] = cr;
-                    return newArray;
-                });
+                        (_, old) =>
+                        {
+                            var newArray = old.ToArray();
+                            for (var i = 0; i < newArray.Length; i++)
+                            {
+                                if (newArray[i].Id == cr.Id)
+                                    newArray[i] = cr;
+                            }
+
+                            return newArray;
+                        });
+        }
         else
+        {
             lock (_gcrWriteLock)
             {
                 var crs = globalReactions;
                 for (var i = 0; i < crs.Length; i++)
+                {
                     if (crs[i].Id == cr.Id)
                         crs[i] = cr;
+                }
             }
+        }
     }
 
     private Task AddInternalAsync(ulong? maybeGuildId, Database.Models.ChatTriggers cr)
@@ -491,11 +496,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         cr.Trigger = cr.Trigger.Replace(MENTION_PH, _client.CurrentUser.Mention);
 
         if (maybeGuildId is { } guildId)
+        {
             newGuildReactions.AddOrUpdate(guildId,
-                new[] { cr },
-                (_, old) => old.With(cr));
+                        new[] { cr },
+                        (_, old) => old.With(cr));
+        }
         else
+        {
             return _pubSub.Pub(_gcrAddedKey, cr);
+        }
 
         return Task.CompletedTask;
     }
@@ -633,11 +642,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         lock (_gcrWriteLock)
         {
             for (var i = 0; i < globalReactions.Length; i++)
+            {
                 if (globalReactions[i].Id == c.Id)
                 {
                     globalReactions[i] = c;
                     return default;
                 }
+            }
 
             // if edited cr is not found?!
             // add it
@@ -651,8 +662,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         lock (_gcrWriteLock)
         {
-            var newGlobalReactions = DeleteInternal(globalReactions, id);
-            globalReactions = newGlobalReactions;
+            globalReactions = DeleteInternal(globalReactions, id);
         }
 
         return default;
@@ -670,16 +680,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private async Task OnJoinedGuild(GuildConfig gc)
     {
         await using var uow = _db.GetDbContext();
-        var crs = await
+        newGuildReactions[gc.GuildId] = await
             uow
             .ChatTriggers
             .AsNoTracking()
             .Where(x => x.GuildId == gc.GuildId)
             .ToArrayAsync();
-
-        newGuildReactions[gc.GuildId] = crs;
     }
-
 
     public async Task<Database.Models.ChatTriggers> AddAsync(ulong? guildId, string key, string message, bool regex)
     {
@@ -719,7 +726,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         // disable allowtarget if message had target, but it was removed from it
         if (!message.Contains("%target%", StringComparison.OrdinalIgnoreCase)
             && cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
+        {
             cr.AllowTarget = false;
+        }
 
         cr.Response = message;
 
@@ -732,7 +741,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return cr;
     }
-    
+
     public async Task<Database.Models.ChatTriggers> DeleteAsync(ulong? guildId, int id)
     {
         await using var uow = _db.GetDbContext();
@@ -772,9 +781,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public Database.Models.ChatTriggers[] GetChatTriggersFor(ulong? maybeGuildId)
     {
         if (maybeGuildId is { } guildId)
+        {
             return newGuildReactions.TryGetValue(guildId, out var crs)
                 ? crs
                 : Array.Empty<Database.Models.ChatTriggers>();
+        }
+
         return Array.Empty<Database.Models.ChatTriggers>();
     }
 

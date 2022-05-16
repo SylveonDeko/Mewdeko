@@ -60,7 +60,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _tzSvc = tzSvc;
         _toneTagService = toneTagService;
     }
-    
+
     //for anonymasen :^)
     [Cmd, Aliases]
     public async Task Meme()
@@ -90,7 +90,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
-    
 
     [Cmd, Aliases]
     public async Task RandomReddit(string subreddit)
@@ -137,7 +136,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
-    
+
     [Cmd, Aliases]
     public async Task Rip([Remainder] IGuildUser usr)
     {
@@ -159,7 +158,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         var rep = new ReplacementBuilder()
-            .WithDefault(ctx.User, channel, (SocketGuild) ctx.Guild, (DiscordSocketClient) ctx.Client)
+            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
             .Build();
 
         if (SmartEmbed.TryParse(rep.Replace(message), out var embedData, out var plainText))
@@ -177,7 +176,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
-    public Task Say([Remainder] string message) => Say((ITextChannel) ctx.Channel, message);
+    public Task Say([Remainder] string message) => Say((ITextChannel)ctx.Channel, message);
 
     // done in 3.0
     [Cmd, Aliases]
@@ -288,7 +287,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [Cmd, Aliases]   
+    [Cmd, Aliases]
     public async Task Youtube([Remainder] string? query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -363,11 +362,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         using var dscraper = new DuckDuckGoScraper();
         var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
         var googleImageResults = search as GoogleImageResult[] ?? search.ToArray();
-        if (!googleImageResults.Any())
+        if (googleImageResults.Length == 0)
         {
             var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
             var duckDuckGoImageResults = search2 as DuckDuckGoImageResult[] ?? search2.ToArray();
-            if (!duckDuckGoImageResults.Any())
+            if (duckDuckGoImageResults.Length == 0)
             {
                 await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!");
             }
@@ -379,7 +378,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                           .WithMaxPageIndex(duckDuckGoImageResults.Length)
                                                           .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -400,7 +399,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                       .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                       .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -434,15 +433,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         query = query.Trim();
         if (!_cachedShortenedLinks.TryGetValue(query, out var shortLink))
+        {
             try
             {
                 using var http = _httpFactory.CreateClient();
                 using var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten");
-                var formData = new MultipartFormDataContent
+                req.Content = new MultipartFormDataContent
                 {
                     {new StringContent(query), "url"}
                 };
-                req.Content = formData;
 
                 using var res = await http.SendAsync(req).ConfigureAwait(false);
                 var content = await res.Content.ReadAsStringAsync();
@@ -460,6 +459,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 Log.Error(ex, "Error shortening a link: {Message}", ex.Message);
                 return;
             }
+        }
 
         await ctx.Channel.EmbedAsync(new EmbedBuilder()
                 .WithColor(Mewdeko.OkColor)
@@ -509,7 +509,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
-
 
     // done in 3.0
     [Cmd, Aliases]
@@ -584,7 +583,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         try
         {
             var items = JsonConvert.DeserializeObject<UrbanResponse>(res)?.List;
-            if (items != null && items.Any())
+            if (items != null && items.Length > 0)
             {
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -595,7 +594,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -648,11 +647,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 await ReplyErrorLocalizedAsync("define_unknown").ConfigureAwait(false);
             }
 
-
             var col = datas.Select(tuple => (
                 Definition: tuple.Sense.Definition is string
                     ? tuple.Sense.Definition.ToString()
-                    : ((JArray) JToken.Parse(tuple.Sense.Definition.ToString())).First.ToString(),
+                    : ((JArray)JToken.Parse(tuple.Sense.Definition.ToString())).First.ToString(),
                 Example: tuple.Sense.Examples is null || tuple.Sense.Examples.Count == 0
                     ? string.Empty
                     : tuple.Sense.Examples[0].Text,
@@ -671,23 +669,23 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
                 var tuple = col.Skip(page).First();
-                    var embed = new PageBuilder()
-                        .WithDescription(ctx.User.Mention)
-                        .AddField(GetText("word"), tuple.Word, true)
-                        .AddField(GetText("class"), tuple.WordType, true)
-                        .AddField(GetText("definition"), tuple.Definition)
-                        .WithOkColor();
+                var embed = new PageBuilder()
+                    .WithDescription(ctx.User.Mention)
+                    .AddField(GetText("word"), tuple.Word, true)
+                    .AddField(GetText("class"), tuple.WordType, true)
+                    .AddField(GetText("definition"), tuple.Definition)
+                    .WithOkColor();
 
-                    if (!string.IsNullOrWhiteSpace(tuple.Example))
-                        embed.AddField(efb => efb.WithName(GetText("example")).WithValue(tuple.Example));
+                if (!string.IsNullOrWhiteSpace(tuple.Example))
+                    embed.AddField(efb => efb.WithName(GetText("example")).WithValue(tuple.Example));
 
-                    return embed;
+                return embed;
             }
         }
         catch (Exception ex)
@@ -714,7 +712,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Revav([Remainder] IGuildUser? usr = null)
     {
         if (usr == null)
-            usr = (IGuildUser) ctx.User;
+            usr = (IGuildUser)ctx.User;
 
         var av = usr.RealAvatarUrl();
         if (av == null)
@@ -762,7 +760,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases]
     public async Task Color(params Color[] colors)
     {
-        if (!colors.Any())
+        if (colors.Length == 0)
             return;
 
         var colorObjects = colors.Take(10)
@@ -785,7 +783,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Avatar([Remainder] IGuildUser? usr = null)
     {
         if (usr == null)
-            usr = (IGuildUser) ctx.User;
+            usr = (IGuildUser)ctx.User;
 
         var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
@@ -898,7 +896,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         //    .WithFooter(efb => efb.WithText(GetText("recommendations", gameData.TotalRecommendations)));
         await ctx.Channel.SendMessageAsync($"https://store.steampowered.com/app/{appId}").ConfigureAwait(false);
     }
-    
+
     [Cmd, Aliases]
     public async Task ResolveToneTags([Remainder] string tag)
     {
@@ -915,12 +913,16 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var imgObj = await Service.DapiSearch(tag, type, ctx.Guild?.Id).ConfigureAwait(false);
 
         if (imgObj == null)
+        {
             await channel.SendErrorAsync($"{umsg.Author.Mention} {GetText("no_results")}").ConfigureAwait(false);
+        }
         else
+        {
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")
-                .WithImageUrl(imgObj.FileUrl)
-                .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
+                        .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")
+                        .WithImageUrl(imgObj.FileUrl)
+                        .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
+        }
     }
 
     public async Task<bool> ValidateQuery(IMessageChannel ch, string query)
@@ -935,5 +937,4 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         [JsonProperty("result_url")] public string ResultUrl { get; set; }
     }
-    
 }

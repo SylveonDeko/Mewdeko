@@ -66,7 +66,9 @@ public class ClubService : INService
         if (club == null ||
             club.Owner.UserId != from.Id ||
             !club.Users.Contains(newOwnerUser))
+        {
             return null;
+        }
 
         club.Owner.IsClubAdmin = true; // old owner will stay as admin
         newOwnerUser.IsClubAdmin = true;
@@ -85,7 +87,9 @@ public class ClubService : INService
 
         if (club == null || club.Owner.UserId != owner.Id ||
             !club.Users.Contains(adminUser))
+        {
             throw new InvalidOperationException();
+        }
 
         if (club.OwnerId == adminUser.Id)
             return true;
@@ -105,6 +109,7 @@ public class ClubService : INService
     public async Task<bool> SetClubIcon(ulong ownerUserId, Uri url)
     {
         if (url != null)
+        {
             using (var http = _httpFactory.CreateClient())
             using (var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
                        .ConfigureAwait(false))
@@ -112,6 +117,7 @@ public class ClubService : INService
                 if (!temp.IsImage() || temp.GetImageSize() > 11)
                     return false;
             }
+        }
 
         await using var uow = _db.GetDbContext();
         var club = uow.Clubs.GetByOwner(ownerUserId);
@@ -133,7 +139,7 @@ public class ClubService : INService
             return false;
 
         //incase club has # in it
-        var name = string.Concat(arr.Except(new[] {arr[^1]}));
+        var name = string.Concat(arr.Except(new[] { arr[^1] }));
 
         if (string.IsNullOrWhiteSpace(name))
             return false;
@@ -155,9 +161,11 @@ public class ClubService : INService
             || new LevelStats(du.TotalXp).Level < club.MinimumLevelReq
             || club.Bans.Any(x => x.UserId == du.Id)
             || club.Applicants.Any(x => x.UserId == du.Id))
+        {
             //user banned or a member of a club, or already applied,
             // or doesn't min minumum level requirement, can't apply
             return false;
+        }
 
         var app = new ClubApplicants
         {
@@ -180,8 +188,8 @@ public class ClubService : INService
         if (club == null)
             return false;
 
-        var applicant = club.Applicants.FirstOrDefault(x =>
-            x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+        var applicant = club.Applicants.Find(x =>
+            string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (applicant == null)
             return false;
 
@@ -270,15 +278,17 @@ public class ClubService : INService
         if (club == null)
             return false;
 
-        var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant())
-                  ?? club.Applicants.FirstOrDefault(x =>
-                      x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant())?.User;
+        var usr = club.Users.Find(x => string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))
+                  ?? club.Applicants.Find(x =>
+                      string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))?.User;
         if (usr == null)
             return false;
 
         if (club.OwnerId == usr.Id ||
             (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
+        {
             return false;
+        }
 
         club.Bans.Add(new ClubBans
         {
@@ -287,7 +297,7 @@ public class ClubService : INService
         });
         club.Users.Remove(usr);
 
-        var app = club.Applicants.FirstOrDefault(x => x.UserId == usr.Id);
+        var app = club.Applicants.Find(x => x.UserId == usr.Id);
         if (app != null)
             club.Applicants.Remove(app);
 
@@ -303,8 +313,8 @@ public class ClubService : INService
         if (club == null)
             return false;
 
-        var ban = club.Bans.FirstOrDefault(x =>
-            x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+        var ban = club.Bans.Find(x =>
+            string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (ban == null)
             return false;
 
@@ -321,8 +331,8 @@ public class ClubService : INService
         if (club == null)
             return false;
 
-        var usr = club.Users.FirstOrDefault(x =>
-            x.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+        var usr = club.Users.Find(x =>
+            string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (usr == null)
             return false;
 
@@ -330,7 +340,7 @@ public class ClubService : INService
             return false;
 
         club.Users.Remove(usr);
-        var app = club.Applicants.FirstOrDefault(x => x.UserId == usr.Id);
+        var app = club.Applicants.Find(x => x.UserId == usr.Id);
         if (app != null)
             club.Applicants.Remove(app);
         uow.SaveChanges();

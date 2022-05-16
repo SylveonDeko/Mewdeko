@@ -24,7 +24,7 @@ public static class ModalBuilderExtensions
         };
 
         input(tib);
-        
+
         builder.Components.ActionRows.RemoveAll(x => x.Components.Any(x => x.CustomId == customId));
         builder.Components.ActionRows.Add(new ActionRowBuilder().AddComponent(tib.Build()));
 

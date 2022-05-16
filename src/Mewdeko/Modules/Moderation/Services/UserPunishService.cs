@@ -37,8 +37,7 @@ public class UserPunishService : INService
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-
-    public ulong GetWarnlogChannel(ulong? id) 
+    public ulong GetWarnlogChannel(ulong? id)
         => _bot.GetGuildConfig(id.Value).WarnlogChannelId;
 
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
@@ -84,7 +83,7 @@ public class UserPunishService : INService
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        var p = ps.FirstOrDefault(x => x.Count == warnings);
+        var p = ps.Find(x => x.Count == warnings);
 
         if (p != null)
         {
@@ -107,34 +106,54 @@ public class UserPunishService : INService
         {
             case PunishmentAction.Mute:
                 if (minutes == 0)
+                {
                     await _mute.MuteUser(user, mod, reason: reason).ConfigureAwait(false);
+                }
                 else
+                {
                     await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), reason: reason)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+
                 break;
             case PunishmentAction.VoiceMute:
                 if (minutes == 0)
+                {
                     await _mute.MuteUser(user, mod, MuteType.Voice, reason).ConfigureAwait(false);
+                }
                 else
+                {
                     await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Voice, reason)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+
                 break;
             case PunishmentAction.ChatMute:
                 if (minutes == 0)
+                {
                     await _mute.MuteUser(user, mod, MuteType.Chat, reason).ConfigureAwait(false);
+                }
                 else
+                {
                     await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Chat, reason)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+
                 break;
             case PunishmentAction.Kick:
                 await user.KickAsync(reason).ConfigureAwait(false);
                 break;
             case PunishmentAction.Ban:
                 if (minutes == 0)
+                {
                     await guild.AddBanAsync(user, reason: reason).ConfigureAwait(false);
+                }
                 else
+                {
                     await _mute.TimedBan(user.Guild, user, TimeSpan.FromMinutes(minutes), reason)
-                        .ConfigureAwait(false);
+                                        .ConfigureAwait(false);
+                }
+
                 break;
             case PunishmentAction.Softban:
                 await guild.AddBanAsync(user, 7, $"Softban | {reason}").ConfigureAwait(false);
@@ -159,10 +178,14 @@ public class UserPunishService : INService
                 if (role is not null)
                 {
                     if (minutes == 0)
+                    {
                         await user.AddRoleAsync(role).ConfigureAwait(false);
+                    }
                     else
+                    {
                         await _mute.TimedRole(user, TimeSpan.FromMinutes(minutes), reason, role)
-                            .ConfigureAwait(false);
+                                                .ConfigureAwait(false);
+                    }
                 }
                 else
                 {
@@ -294,7 +317,7 @@ WHERE GuildId={guildId}
         {
             Count = number,
             Punishment = punish,
-            Time = (int?) time?.Time.TotalMinutes ?? 0,
+            Time = (int?)time?.Time.TotalMinutes ?? 0,
             RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         uow.SaveChanges();
@@ -309,7 +332,7 @@ WHERE GuildId={guildId}
 
         using var uow = _db.GetDbContext();
         var ps = uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
-        var p = ps.FirstOrDefault(x => x.Count == number);
+        var p = ps.Find(x => x.Count == number);
 
         if (p != null)
         {
@@ -415,9 +438,9 @@ WHERE GuildId={guildId}
     public Task<(EmbedBuilder, string)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
         string banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
-            (DiscordSocketClient) context.Client,
-            (SocketGuild) context.Guild,
-            (IGuildUser) context.User,
+            (DiscordSocketClient)context.Client,
+            (SocketGuild)context.Guild,
+            (IGuildUser)context.User,
             target,
             defaultMessage,
             banReason,

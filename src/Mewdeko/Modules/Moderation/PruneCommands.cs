@@ -22,12 +22,17 @@ public partial class Moderation
             var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
             if (parameter is "-s" or "--safe")
+            {
                 await Service
-                    .PurgeWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
-                    .ConfigureAwait(false);
+                                .PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
+                                .ConfigureAwait(false);
+            }
             else
-                await Service.PurgeWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id)
-                    .ConfigureAwait(false);
+            {
+                await Service.PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id)
+                                .ConfigureAwait(false);
+            }
+
             ctx.Message.DeleteAfter(3);
         }
 
@@ -60,17 +65,17 @@ public partial class Moderation
             {
                 case "-s":
                 case "--safe":
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.IsPinned)
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.IsPinned)
                         .ConfigureAwait(false);
                     return;
                 case "-nb":
                 case "--nobots":
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Author.IsBot)
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.Author.IsBot)
                         .ConfigureAwait(false);
                     return;
                 case "-ob":
                 case "--onlybots":
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Author.IsBot)
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Author.IsBot)
                         .ConfigureAwait(false);
                     break;
                 case "-b":
@@ -79,7 +84,7 @@ public partial class Moderation
                         return;
                     if (time.Time > _twoWeeks)
                         return;
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds);
                     break;
                 case "-a":
@@ -88,26 +93,26 @@ public partial class Moderation
                         return;
                     if (time.Time > _twoWeeks)
                         return;
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds);
                     break;
                 case "-he":
                 case "--hasembed":
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Embeds.Any());
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count > 0);
                     break;
                 case "-ne":
                 case "--noembed":
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Embeds.Any());
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count == 0);
                     break;
                 case "-c":
                 case "--contains":
                     if (input is null)
                         return;
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         x => x.Content.ToLowerInvariant().Contains(input));
                     break;
                 default:
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, _ => true).ConfigureAwait(false);
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, _ => true).ConfigureAwait(false);
                     break;
             }
         }
@@ -135,12 +140,16 @@ public partial class Moderation
             }
 
             if (parameter is "-s" or "--safe")
-                await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
-                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks && !m.IsPinned)
-                    .ConfigureAwait(false);
+            {
+                await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks && !m.IsPinned)
+                                .ConfigureAwait(false);
+            }
             else
-                await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
-                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks).ConfigureAwait(false);
+            {
+                await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                                m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks).ConfigureAwait(false);
+            }
         }
     }
 }

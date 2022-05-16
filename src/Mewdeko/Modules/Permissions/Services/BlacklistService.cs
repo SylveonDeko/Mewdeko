@@ -106,10 +106,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     public void Blacklist(BlacklistType type, ulong id, string? reason)
     {
         using var uow = _db.GetDbContext();
-        var item = new BlacklistEntry {ItemId = id, Type = type, Reason = reason ?? "No reason provided."};
+        var item = new BlacklistEntry { ItemId = id, Type = type, Reason = reason ?? "No reason provided." };
         uow.Blacklist.Add(item);
         uow.SaveChanges();
-            
+
         Reload();
     }
 
@@ -120,7 +120,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
             .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
         if (toRemove is not null)
-           uow.Blacklist.Remove(toRemove);
+            uow.Blacklist.Remove(toRemove);
 
         uow.SaveChanges();
 

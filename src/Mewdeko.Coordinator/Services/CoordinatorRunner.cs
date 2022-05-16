@@ -442,7 +442,7 @@ public sealed class CoordinatorRunner : BackgroundService
         }
     }
 
-    public static string GetConfigText() => 
+    public static string GetConfigText() =>
         File.ReadAllText(CONFIG_PATH);
 
     public void SetConfigText(string text)

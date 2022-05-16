@@ -67,6 +67,7 @@ public partial class Gambling
             }
 
             if (options.Bet > 0)
+            {
                 if (!await _cs.RemoveAsync(ctx.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
@@ -74,6 +75,7 @@ public partial class Gambling
                     game.Dispose();
                     return;
                 }
+            }
 
             game.OnGameStateUpdated += Game_OnGameStateUpdated;
             game.OnGameFailedToStart += GameOnGameFailedToStart;
@@ -82,10 +84,14 @@ public partial class Gambling
 
             game.Initialize();
             if (options.Bet == 0)
+            {
                 await ReplyConfirmLocalizedAsync("connect4_created").ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("connect4_created_bet", options.Bet + CurrencySign)
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
 
             Task ClientMessageReceived(SocketMessage arg)
             {
@@ -115,15 +121,17 @@ public partial class Gambling
                             return;
                         RepostCounter++;
                         if (RepostCounter == 0)
+                        {
                             try
                             {
-                                msg = await ctx.Channel.SendMessageAsync("", embed: (Embed) msg.Embeds.First())
+                                msg = await ctx.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First())
                                     .ConfigureAwait(false);
                             }
                             catch
                             {
                                 // ignored
                             }
+                        }
                     }
                 });
                 return Task.CompletedTask;
@@ -179,7 +187,6 @@ public partial class Gambling
                 .WithDescription(GetGameStateText(game))
                 .WithOkColor();
 
-
             if (msg == null)
                 msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             else
@@ -197,9 +204,7 @@ public partial class Gambling
             {
                 for (var j = 0; j < Connect4Game.NUMBER_OF_COLUMNS; j++)
                 {
-                    var cur = game.GameState[i + (j * Connect4Game.NUMBER_OF_ROWS) - 1];
-
-                    switch (cur)
+                    switch (game.GameState[i + (j * Connect4Game.NUMBER_OF_ROWS) - 1])
                     {
                         case Connect4Game.Field.Empty:
                             sb.Append("⚫"); //black circle

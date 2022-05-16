@@ -25,7 +25,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             await ctx.Interaction.SendEphemeralErrorAsync("This server does not have confessions enabled!");
             return;
         }
-        if (blacklists.Any())
+        if (blacklists.Length > 0)
         {
             if (blacklists.Contains(ctx.User.Id.ToString()))
             {
@@ -86,7 +86,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
-        if (blacklists.Any())
+        if (blacklists.Length > 0)
         {
             if (blacklists.Contains(user.Id.ToString()))
             {
@@ -103,7 +103,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = _bot.GetGuildConfig(ctx.Guild.Id).ConfessionBlacklist.Split(" ");
-        if (blacklists.Any())
+        if (blacklists.Length > 0)
         {
             if (!blacklists.Contains(user.Id.ToString()))
             {

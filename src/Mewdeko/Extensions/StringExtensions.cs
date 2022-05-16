@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
-using PokeApiNet;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,8 +11,7 @@ public static class StringExtensions
     private static readonly HashSet<char> _lettersAndDigits = new(Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
         .Concat(Enumerable.Range(97, 26))
-        .Select(x => (char) x));
-
+        .Select(x => (char)x));
 
     private static readonly Regex _filterRegex =
         new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
@@ -36,8 +34,7 @@ public static class StringExtensions
         _codePointRegex.Replace(input, me =>
         {
             var str = me.Groups["code"].Value;
-            var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
-            return newString;
+            return YamlHelper.UnescapeUnicodeCodePoint(str);
         });
 
     public static bool CheckIfMusicUrl(this string input) =>
@@ -53,18 +50,17 @@ public static class StringExtensions
             _ => true
         };
 
-    public static bool CheckIfNotEmbeddable(this string input) 
+    public static bool CheckIfNotEmbeddable(this string input)
         => input.EndsWith("gifv") || input.EndsWith("mp4");
-    public static string GetExtension(this string attachmentName) 
+    public static string GetExtension(this string attachmentName)
         => Path.GetExtension(attachmentName);
     public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 
     public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
-    
 
     public static string ToTitleCase(this string str)
     {
-        var tokens = str.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+        var tokens = str.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
         for (var i = 0; i < tokens.Length; i++)
         {
             var token = tokens[i];
@@ -115,16 +111,18 @@ public static class StringExtensions
 
         // Step 3
         for (var i = 1; i <= n; i++)
-            //Step 4
-        for (var j = 1; j <= m; j++)
         {
-            // Step 5
-            var cost = t[j - 1] == s[i - 1] ? 0 : 1;
+            //Step 4
+            for (var j = 1; j <= m; j++)
+            {
+                // Step 5
+                var cost = t[j - 1] == s[i - 1] ? 0 : 1;
 
-            // Step 6
-            d[i, j] = Math.Min(
-                Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                d[i - 1, j - 1] + cost);
+                // Step 6
+                d[i, j] = Math.Min(
+                    Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                    d[i - 1, j - 1] + cost);
+            }
         }
 
         // Step 7
@@ -142,7 +140,6 @@ public static class StringExtensions
     }
 
     public static bool IsDiscordInvite(this string str) => _filterRegex.IsMatch(str);
-
 
     public static string SanitizeMentions(this string str, bool sanitizeRoleMentions = false)
     {

@@ -10,7 +10,7 @@ public class HelixStreamsResponse
         [JsonPropertyName("cursor")]
         public string Cursor { get; set; }
     }
-    
+
     public class StreamData
     {
         [JsonPropertyName("id")]
@@ -55,7 +55,7 @@ public class HelixStreamsResponse
         [JsonPropertyName("is_mature")]
         public bool IsMature { get; set; }
     }
-    
+
     [JsonPropertyName("data")]
     public List<StreamData> Data { get; set; }
 

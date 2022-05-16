@@ -34,7 +34,7 @@ public partial class MoreSuggestionUpgrades : Migration
                 EmotePicked = builder.Column<int>(nullable: false),
                 DateAdded = builder.Column<DateTime>(nullable: false)
             }, constraints: table => table.PrimaryKey("PK_SuggestVotes", x => x.Id));
-        
+
         migrationBuilder.CreateTable("SuggestThreads",
             builder => new
             {

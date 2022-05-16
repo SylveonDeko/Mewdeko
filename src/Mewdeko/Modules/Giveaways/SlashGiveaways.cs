@@ -53,7 +53,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     {
         await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
-                      .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+                      .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
@@ -75,7 +75,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     {
         var eb = new EmbedBuilder().WithOkColor();
         var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
-        if (!gways.Any())
+        if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!");
         }
@@ -136,7 +136,6 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild);
     }
-    
 
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
@@ -180,7 +179,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     {
         await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
-                       .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
@@ -196,6 +195,5 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             await Service.GiveawayReroll(gway);
             await ctx.Channel.SendConfirmAsync("Giveaway ended!");
         }
-        
     }
 }

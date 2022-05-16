@@ -4,6 +4,6 @@ namespace Mewdeko.Database.Migrations;
 
 public partial class RenameToChatTriggers : Migration
 {
-    protected override void Up(MigrationBuilder migrationBuilder) 
+    protected override void Up(MigrationBuilder migrationBuilder)
         => migrationBuilder.RenameTable("CustomReactions", newName: "ChatTriggers");
 }

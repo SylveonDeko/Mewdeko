@@ -29,7 +29,7 @@ public class DownloadTracker : INService
 
             // means that this entry was just added - download the users
             if (added == now)
-                await guild.DownloadUsersAsync().ConfigureAwait(false);;
+                await guild.DownloadUsersAsync().ConfigureAwait(false);
         }
         finally
         {

@@ -31,5 +31,4 @@ public partial class SuggestStateIds : Migration
                              + "\n PRAGMA foreign_keys=on;");
         migrationBuilder.DropTable("Suggestions_Old");
     }
-    
 }

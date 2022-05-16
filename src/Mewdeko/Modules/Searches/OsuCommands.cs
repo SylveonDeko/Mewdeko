@@ -23,8 +23,7 @@ public partial class Searches
             _creds = creds;
             _httpFactory = factory;
         }
-        
-        
+
         [Cmd, Aliases]
         public async Task Osu(string user, [Remainder] string? mode = null)
         {
@@ -127,7 +126,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Osu5(string user, [Remainder] string? mode = null)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
             {
                 await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
@@ -216,7 +215,6 @@ public partial class Searches
                                  play.Countkatu + play.Count300 + play.Countgeki) * 300;
                     break;
             }
-
 
             return Math.Round(hitPoints / totalHits * 100, 2);
         }

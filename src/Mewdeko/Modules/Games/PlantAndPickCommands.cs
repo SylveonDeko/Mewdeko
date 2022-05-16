@@ -31,7 +31,7 @@ public partial class Games
         {
             if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-            var picked = await Service.PickAsync(ctx.Guild.Id, (ITextChannel) ctx.Channel, ctx.User.Id, pass);
+            var picked = await Service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
 
             if (picked > 0)
             {
@@ -40,7 +40,8 @@ public partial class Games
                 msg.DeleteAfter(10);
             }
 
-            if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+            if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+            {
                 try
                 {
                     _logService.AddDeleteIgnore(ctx.Message.Id);
@@ -50,6 +51,7 @@ public partial class Games
                 {
                     // ignored
                 }
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -68,7 +70,7 @@ public partial class Games
                 return;
             }
 
-            if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+            if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
             {
                 _logService.AddDeleteIgnore(ctx.Message.Id);
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
@@ -103,15 +105,18 @@ public partial class Games
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
                 var items = enabledIn.Skip(page * 9).Take(9);
                 if (!items.Any())
-                        return new PageBuilder().WithErrorColor()
+                {
+                    return new PageBuilder().WithErrorColor()
                             .WithDescription("-");
+                }
+
                 return items.Aggregate(new PageBuilder().WithOkColor(),
                         (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
             }

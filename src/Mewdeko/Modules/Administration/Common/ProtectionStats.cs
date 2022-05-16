@@ -23,7 +23,6 @@ public class AntiRaidStats
 
 public class AntiMassMentionStats
 {
-    
 }
 public class AntiSpamStats
 {

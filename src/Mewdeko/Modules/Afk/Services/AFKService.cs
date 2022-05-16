@@ -26,7 +26,6 @@ public class AfkService : INService, IReadyExecutor
         Mewdeko bot,
         IDataCache cache)
     {
-        
         _bot = bot;
         _cache = cache;
         _db = db;
@@ -36,7 +35,6 @@ public class AfkService : INService, IReadyExecutor
         Client.MessageUpdated += MessageUpdated;
         Client.UserIsTyping += UserTyping;
     }
-    
 
     public async Task OnReadyAsync()
     {
@@ -51,13 +49,13 @@ public class AfkService : INService, IReadyExecutor
             Log.Information("AFK Cached.");
         }
     }
-    
 
     private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
         _ = Task.Run(async () =>
         {
             if (user.Value is IGuildUser use)
+            {
                 if (GetAfkType(use.GuildId) is 2 or 4)
                     if (IsAfk(use.Guild, use))
                     {
@@ -81,6 +79,7 @@ public class AfkService : INService, IReadyExecutor
                             msg.DeleteAfter(5);
                         }
                     }
+            }
         });
         return Task.CompletedTask;
     }
@@ -95,6 +94,7 @@ public class AfkService : INService, IReadyExecutor
             if (msg.Author is IGuildUser user)
             {
                 if (GetAfkType(user.Guild.Id) is 3 or 4)
+                {
                     if (IsAfk(user.Guild, user))
                     {
                         var t = GetAfkMessage(user.Guild.Id, user.Id).Last();
@@ -118,12 +118,17 @@ public class AfkService : INService, IReadyExecutor
                             return;
                         }
                     }
+                }
 
                 if (msg.MentionedUsers.Count > 0 && !msg.Author.IsBot)
                 {
                     if (msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkremove")
                         || msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkrm")
-                        || msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afk")) return;
+                        || msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afk"))
+                    {
+                        return;
+                    }
+
                     if (GetDisabledAfkChannels(user.GuildId) is not "0" and not null)
                     {
                         var chans = GetDisabledAfkChannels(user.GuildId);
@@ -281,7 +286,6 @@ public class AfkService : INService, IReadyExecutor
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-
     public async Task AfkTimeoutSet(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
@@ -300,22 +304,22 @@ public class AfkService : INService, IReadyExecutor
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public string GetCustomAfkMessage(ulong? id) 
+    public string GetCustomAfkMessage(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkMessage;
 
-    public int GetAfkDel(ulong? id) 
+    public int GetAfkDel(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkDel;
 
-    private int GetAfkType(ulong? id) 
+    private int GetAfkType(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkType;
 
-    public int GetAfkLength(ulong? id) 
+    public int GetAfkLength(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkLength;
 
-    public string GetDisabledAfkChannels(ulong? id) 
+    public string GetDisabledAfkChannels(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkDisabledChannels;
 
-    private int GetAfkTimeout(ulong? id) 
+    private int GetAfkTimeout(ulong? id)
         => _bot.GetGuildConfig(id.Value).AfkTimeout;
 
     public async Task AfkSet(
@@ -324,11 +328,11 @@ public class AfkService : INService, IReadyExecutor
         string message,
         int timed)
     {
-        var afk = new Database.Models.Afk {GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed};
+        var afk = new Database.Models.Afk { GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed };
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk>(); 
+        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk>();
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current).ConfigureAwait(false);
     }
@@ -338,5 +342,4 @@ public class AfkService : INService, IReadyExecutor
         var e = _cache.GetAfkForGuild(gid);
         return e is null ? new List<Database.Models.Afk>() : e.Where(x => x.UserId == uid).ToList();
     }
-    
 }

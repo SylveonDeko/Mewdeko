@@ -16,7 +16,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole([Remainder] IRole role)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (role.Id == ctx.Guild.EveryoneRole.Id)
                 return;
 
@@ -60,7 +60,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole([Remainder] IRole role)
         {
-            var guser = (IGuildUser) ctx.User;
+            var guser = (IGuildUser)ctx.User;
             if (role.Id == ctx.Guild.EveryoneRole.Id)
                 return;
 

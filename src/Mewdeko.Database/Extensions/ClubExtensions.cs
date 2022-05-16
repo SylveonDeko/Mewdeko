@@ -15,7 +15,7 @@ public static class ClubExtensions
                 .AsQueryable();
     public static ClubInfo GetByOwner(this DbSet<ClubInfo> clubs, ulong userId)
         => Include(clubs).FirstOrDefault(c => c.Owner.UserId == userId);
-        
+
     public static ClubInfo GetByOwnerOrAdmin(this DbSet<ClubInfo> clubs, ulong userId)
         => Include(clubs).FirstOrDefault(c => c.Owner.UserId == userId
                                               || c.Users.Any(u => u.UserId == userId && u.IsClubAdmin));

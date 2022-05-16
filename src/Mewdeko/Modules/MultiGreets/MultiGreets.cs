@@ -27,13 +27,12 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         RandomGreet,
         Off
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task MultiGreetAdd ([Remainder] ITextChannel? channel = null)
+    public async Task MultiGreetAdd([Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
-        switch (added)
+        switch (Service.AddMultiGreet(ctx.Guild.Id, channel.Id))
         {
             case true:
                 await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!");
@@ -46,9 +45,9 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task MultiGreetRemove (int id)
+    public async Task MultiGreetRemove(int id)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No greet with that ID found!");
@@ -60,7 +59,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task MultiGreetRemove ([Remainder]ITextChannel channel)
+    public async Task MultiGreetRemove([Remainder] ITextChannel channel)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
         if (!greet.Any())
@@ -78,9 +77,9 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, StoopidTime time)
+    public async Task MultiGreetDelete(int id, StoopidTime time)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
@@ -90,27 +89,29 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         await Service.ChangeMgDelete(greet, Convert.ToInt32(time.Time.TotalSeconds));
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated MultiGreet #{id} to delete after {time.Time.Humanize()}.");
-
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, int howlong)
+    public async Task MultiGreetDelete(int id, int howlong)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
             return;
         }
-        
+
         await Service.ChangeMgDelete(greet, howlong);
         if (howlong > 0)
+        {
             await ctx.Channel.SendConfirmAsync(
-                $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+                        $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+        }
         else
+        {
             await ctx.Channel.SendConfirmAsync($"MultiGreet #{id} will no longer delete.");
-
+        }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
@@ -150,7 +151,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
      RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
@@ -190,9 +191,9 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task MultiGreetMessage(int id, [Remainder]string? message = null)
+    public async Task MultiGreetMessage(int id, [Remainder] string? message = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
@@ -235,7 +236,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     public async Task MultiGreetList()
     {
         var greets = Service.GetGreets(ctx.Guild.Id);
-        if (!greets.Any())
+        if (greets.Length == 0)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreets setup!");
         }
@@ -243,7 +244,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                         .AddUser(ctx.User)
                         .WithPageFactory(PageFactory)
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(greets.Length-1)
+                        .WithMaxPageIndex(greets.Length - 1)
                         .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
@@ -258,6 +259,5 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                                         $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor();
         }
-        
     }
 }

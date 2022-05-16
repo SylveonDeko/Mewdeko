@@ -117,6 +117,7 @@ public class TriviaGame
                     await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
                         .ConfigureAwait(false);
                     if (!_options.NoHint)
+                    {
                         try
                         {
                             await questionMessage.ModifyAsync(m =>
@@ -132,6 +133,7 @@ public class TriviaGame
                         {
                             Log.Warning(ex, "Error editing triva message");
                         }
+                    }
 
                     //timeout
                     await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
@@ -149,6 +151,7 @@ public class TriviaGame
             }
 
             if (!triviaCancelSource.IsCancellationRequested)
+            {
                 try
                 {
                     var embed = new EmbedBuilder().WithErrorColor()
@@ -166,6 +169,7 @@ public class TriviaGame
                 {
                     Log.Warning(ex, "Error sending trivia time's up message");
                 }
+            }
 
             await Task.Delay(5000).ConfigureAwait(false);
         }
@@ -186,6 +190,7 @@ public class TriviaGame
         var old = ShouldStopGame;
         ShouldStopGame = true;
         if (!old)
+        {
             try
             {
                 await Channel.SendConfirmAsync(GetText("trivia_game"), GetText("trivia_stopping"))
@@ -195,6 +200,7 @@ public class TriviaGame
             {
                 Log.Warning(ex, "Error sending trivia stopping message");
             }
+        }
     }
 
     private Task PotentialGuess(SocketMessage imsg)
@@ -211,7 +217,7 @@ public class TriviaGame
                 if (umsg?.Channel is not ITextChannel textChannel || textChannel.Guild != Guild)
                     return;
 
-                var guildUser = (IGuildUser) umsg.Author;
+                var guildUser = (IGuildUser)umsg.Author;
 
                 var guess = false;
                 await _guessLock.WaitAsync().ConfigureAwait(false);
@@ -231,7 +237,6 @@ public class TriviaGame
 
                 if (!guess) return;
                 triviaCancelSource.Cancel();
-
 
                 if (_options.WinRequirement != 0 && Users[guildUser] == _options.WinRequirement)
                 {

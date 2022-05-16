@@ -29,22 +29,26 @@ public partial class Games
         public async Task TypeStart(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
                 _ => new TypingGame(_games, _client, channel, Prefix, options));
 
             if (game.IsActive)
+            {
                 await channel.SendErrorAsync($"Contest already running in {game.Channel.Mention} channel.")
-                    .ConfigureAwait(false);
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await game.Start().ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task TypeStop()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             if (Service.RunningContests.TryRemove(channel.Guild.Id, out var game))
             {
                 await game.Stop().ConfigureAwait(false);
@@ -54,11 +58,10 @@ public partial class Games
             await channel.SendErrorAsync("No contest to stop on this channel.").ConfigureAwait(false);
         }
 
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
         public async Task Typeadd([Remainder] string text)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             if (string.IsNullOrWhiteSpace(text))
                 return;
 
@@ -70,14 +73,14 @@ public partial class Games
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Typelist(int page = 1)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
 
             if (page < 1)
                 return;
 
             var articles = _games.TypingArticles.Skip((page - 1) * 15).Take(15).ToArray();
 
-            if (!articles.Any())
+            if (articles.Length == 0)
             {
                 await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`")
                     .ConfigureAwait(false);

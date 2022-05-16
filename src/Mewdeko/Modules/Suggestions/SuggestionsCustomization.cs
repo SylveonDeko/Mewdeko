@@ -126,7 +126,7 @@ public partial class Suggestions
             else
                 await ctx.Channel.SendConfirmAsync($"Accept channel set to {channel.Mention}");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyChannel(ITextChannel? channel = null)
         {
@@ -136,7 +136,7 @@ public partial class Suggestions
             else
                 await ctx.Channel.SendConfirmAsync($"Deny channel set to {channel.Mention}");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ConsiderChannel(ITextChannel? channel = null)
         {
@@ -146,7 +146,7 @@ public partial class Suggestions
             else
                 await ctx.Channel.SendConfirmAsync($"Consider channel set to {channel.Mention}");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ImplementChannel(ITextChannel? channel = null)
         {
@@ -169,8 +169,7 @@ public partial class Suggestions
             await Service.SetImplementMessage(ctx.Guild, embed);
             await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
         }
-        
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestThreadsType(SuggestThreadType type)
         {
@@ -189,7 +188,6 @@ public partial class Suggestions
             await Service.SetSuggestButtonChannel(ctx.Guild, channel.Id);
             await Service.UpdateSuggestionButtonMessage(ctx.Guild, Service.GetSuggestButtonMessage(ctx.Guild), true);
             await ctx.Channel.SendConfirmAsync($"Suggest Button Channel set to {channel.Mention}");
-            
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -274,7 +272,7 @@ public partial class Suggestions
             await Service.SetArchiveOnImplement(ctx.Guild, !current);
             await ctx.Channel.SendConfirmAsync($"Archive on implement is now set to `{!current}`");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
         {
@@ -288,7 +286,7 @@ public partial class Suggestions
             await Service.SetDenyMessage(ctx.Guild, embed);
             await ctx.Channel.SendConfirmAsync("Sucessfully updated denied suggestion message!");
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ConsiderMessage([Remainder] string embed)
         {
@@ -333,6 +331,7 @@ public partial class Suggestions
 
             var emotes = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (IEmote)x.Value);
             foreach (var emoji in emotes)
+            {
                 try
                 {
                     await ctx.Message.AddReactionAsync(emoji);
@@ -342,6 +341,7 @@ public partial class Suggestions
                     await ctx.Channel.SendErrorAsync($"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.");
                     return;
                 }
+            }
 
             var list = emotes.Select(emote => emote.ToString()).ToList();
             await Service.SetSuggestionEmotes(ctx.Guild, string.Join(",", list));

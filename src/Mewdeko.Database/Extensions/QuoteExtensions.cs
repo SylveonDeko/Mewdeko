@@ -36,7 +36,7 @@ public static class QuoteExtensions
                             .Where(q => q.GuildId == guildId
                                         && q.Keyword == keyword
                                         && EF.Functions.Like(q.Text.ToUpper(), $"%{text.ToUpper()}%")
-                                // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
+                            // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
                             )
                             .ToListAsync())
                .OrderBy(_ => rngk.Next())

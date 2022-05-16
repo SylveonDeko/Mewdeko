@@ -43,13 +43,13 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     private readonly InteractiveService _interactivity;
 
-    public Administration(InteractiveService serv) 
+    public Administration(InteractiveService serv)
         => _interactivity = serv;
 
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
-        var sg = (SocketGuild) Context.Guild;
+        var sg = (SocketGuild)Context.Guild;
         if (sg.OwnerId == gu.Id ||
             gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
         {
@@ -62,7 +62,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
             .ConfigureAwait(false);
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]
     public async Task SetNick([Remainder] string? newNick = null)
     {
@@ -79,14 +79,18 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
         IEnumerable<IUser> users;
         if (option is not null && option.ToLower() == "-accage" && time1 is not null)
-            users = ((SocketGuild) ctx.Guild).Users.Where(c =>
-                c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
-                time.Time.TotalSeconds &&
-                DateTimeOffset.Now.Subtract(c.CreatedAt).TotalSeconds <= time1.Time.TotalSeconds);
+        {
+            users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                        c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
+                        time.Time.TotalSeconds &&
+                        DateTimeOffset.Now.Subtract(c.CreatedAt).TotalSeconds <= time1.Time.TotalSeconds);
+        }
         else
-            users = ((SocketGuild) ctx.Guild).Users.Where(c =>
-                c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
-                time.Time.TotalSeconds);
+        {
+            users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                        c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
+                        time.Time.TotalSeconds);
+        }
 
         if (!users.Any())
         {
@@ -125,6 +129,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
         var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..").ConfigureAwait(false);
         foreach (var i in users)
+        {
             try
             {
                 await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.").ConfigureAwait(false);
@@ -134,6 +139,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 errored++;
             }
+        }
 
         var eb = new EmbedBuilder()
             .WithDescription(
@@ -146,10 +152,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public async Task KickUnder(StoopidTime time, string? option = null)
     {
         await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
-        var users = ((SocketGuild) ctx.Guild).Users.Where(c =>
+        var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
             c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
         var guildUsers = users as SocketGuildUser[] ?? users.ToArray();
-        if (!guildUsers.Any())
+        if (guildUsers.Length == 0)
         {
             await ctx.Channel.SendErrorAsync("No users at or under that account age!").ConfigureAwait(false);
             return;
@@ -166,7 +172,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -185,6 +191,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
         var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..").ConfigureAwait(false);
         foreach (var i in guildUsers)
+        {
             try
             {
                 await i.KickAsync($"{ctx.User}|| Kicking users under specified join time.").ConfigureAwait(false);
@@ -194,6 +201,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 errored++;
             }
+        }
 
         var eb = new EmbedBuilder()
             .WithDescription(
@@ -201,7 +209,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .WithOkColor();
         await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
-
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageGuild)]
     public async Task PruneMembers(StoopidTime time, string e = "no")
@@ -242,7 +249,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         {
             ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
             var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)}).ConfigureAwait(false);
+                includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync("No users to prune.").ConfigureAwait(false);
@@ -262,7 +269,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
                 await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                    includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)}).ConfigureAwait(false);
+                    includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
@@ -364,11 +371,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(2)]
     public async Task Delmsgoncmd(List _)
     {
-        var guild = (SocketGuild) ctx.Guild;
+        var guild = (SocketGuild)ctx.Guild;
         var (enabled, channels) = Service.GetDelMsgOnCmdData(ctx.Guild.Id);
 
         var embed = new EmbedBuilder()
@@ -393,7 +400,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Delmsgoncmd(Server _ = Server.Server)
     {
@@ -407,11 +414,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
     }
 
-    [Cmd,  RequireContext(ContextType.Guild), 
+    [Cmd, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(0)]
     public Task Delmsgoncmd(Channel _, State s, ITextChannel ch) => Delmsgoncmd(_, s, ch.Id);
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
     {
@@ -440,7 +447,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.DeafenMembers), BotPerm(GuildPermission.DeafenMembers)]
     public async Task UnDeafen(params IGuildUser[] users)
     {
@@ -448,7 +455,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ReplyConfirmLocalizedAsync("undeafen").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task DelVoiChanl([Remainder] IVoiceChannel voiceChannel)
     {
@@ -456,7 +463,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ReplyConfirmLocalizedAsync("delvoich", Format.Bold(voiceChannel.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task CreatVoiChanl([Remainder] string channelName)
     {
@@ -464,7 +471,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), 
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task DelTxtChanl([Remainder] ITextChannel toDelete)
     {
@@ -484,7 +491,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task SetTopic([Remainder] string? topic = null)
     {
-        var channel = (ITextChannel) ctx.Channel;
+        var channel = (ITextChannel)ctx.Channel;
         topic ??= "";
         await channel.ModifyAsync(c => c.Topic = topic).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
@@ -494,7 +501,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task SetChanlName([Remainder] string name)
     {
-        var channel = (ITextChannel) ctx.Channel;
+        var channel = (ITextChannel)ctx.Channel;
         await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("set_channel_name").ConfigureAwait(false);
     }
@@ -503,7 +510,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
     public async Task NsfwToggle()
     {
-        var channel = (ITextChannel) ctx.Channel;
+        var channel = (ITextChannel)ctx.Channel;
         var isEnabled = channel.IsNsfw;
 
         await channel.ModifyAsync(c => c.IsNsfw = !isEnabled).ConfigureAwait(false);
@@ -516,13 +523,13 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(ChannelPermission.ManageMessages), Priority(0)]
-    public Task Edit(ulong messageId, [Remainder] string text) => Edit((ITextChannel) ctx.Channel, messageId, text);
+    public Task Edit(ulong messageId, [Remainder] string text) => Edit((ITextChannel)ctx.Channel, messageId, text);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Edit(ITextChannel channel, ulong messageId, [Remainder] string text)
     {
-        var userPerms = ((SocketGuildUser) ctx.User).GetPermissions(channel);
-        var botPerms = ((SocketGuild) ctx.Guild).CurrentUser.GetPermissions(channel);
+        var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
+        var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);
         if (!userPerms.Has(ChannelPermission.ManageMessages))
         {
             await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
@@ -540,15 +547,15 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages)]
-    public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel) ctx.Channel, messageId, time);
+    public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel)ctx.Channel, messageId, time);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) => await InternalMessageAction(channel, messageId, time).ConfigureAwait(false);
 
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {
-        var userPerms = ((SocketGuildUser) ctx.User).GetPermissions(channel);
-        var botPerms = ((SocketGuild) ctx.Guild).CurrentUser.GetPermissions(channel);
+        var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
+        var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);
         if (!userPerms.Has(ChannelPermission.ManageMessages))
         {
             await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
@@ -560,7 +567,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             await ReplyErrorLocalizedAsync("insuf_perms_i").ConfigureAwait(false);
             return;
         }
-
 
         var msg = await channel.GetMessageAsync(messageId).ConfigureAwait(false);
         if (msg == null)

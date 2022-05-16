@@ -55,8 +55,11 @@ public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
         var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services)
             .ConfigureAwait(false);
         if (cmd.IsSuccess)
-            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo) cmd.Values.First().Value).Name,
+        {
+            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name,
                 CommandOrCrInfo.Type.Normal));
+        }
+
         return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or custom reaction found.");
     }
 }

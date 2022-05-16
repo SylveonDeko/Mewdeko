@@ -37,7 +37,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         : this(DefaultConcurrencyLevel, DEFAULT_CAPACITY, true, EqualityComparer<T>.Default)
     {
     }
-    
+
     public ConcurrentHashSet(IEnumerable<T> collection)
         : this(collection, EqualityComparer<T>.Default)
     {
@@ -91,7 +91,6 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
         InitializeFromCollection(collection);
     }
-
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ConcurrentHashSet{T}" />
@@ -197,8 +196,10 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 AcquireAllLocks(ref acquiredLocks);
 
                 for (var i = 0; i < tables.CountPerLock.Length; i++)
+                {
                     if (tables.CountPerLock[i] != 0)
                         return false;
+                }
             }
             finally
             {
@@ -279,8 +280,10 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
             if (array.Length - count < arrayIndex ||
                 count < 0) //"count" itself or "count + arrayIndex" can overflow
+            {
                 throw new ArgumentException(
                     "The index is equal to or greater than the length of the array, or the number of elements in the set is greater than the available space from index to the end of the destination array.");
+            }
 
             CopyToItems(array, arrayIndex);
         }
@@ -521,10 +524,12 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
             // Make sure nobody resized the table while we were waiting for lock 0:
             if (tables1 != tables)
+            {
                 // We assume that since the table reference is different, it was already resized (or the budget
                 // was adjusted). If we ever decide to do table shrinking, or replace the table for other reasons,
                 // we will have to revisit this logic.
                 return;
+            }
 
             // Compute the (approx.) total size. Use an Int64 accumulation variable to avoid an overflow.
             long approxCount = 0;
@@ -632,8 +637,11 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         var elems = this.Where(predicate);
         var removed = 0;
         foreach (var elem in elems)
+        {
             if (TryRemove(elem))
                 removed++;
+        }
+
         return removed;
     }
 
@@ -678,10 +686,12 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     {
         var buckets = tables.Buckets;
         for (var i = 0; i < buckets.Length; i++)
-        for (var current = buckets[i]; current != null; current = current.Next)
         {
-            array[index] = current.Item;
-            index++; //this should never flow, CopyToItems is only called when there's no overflow risk
+            for (var current = buckets[i]; current != null; current = current.Next)
+            {
+                array[index] = current.Item;
+                index++; //this should never flow, CopyToItems is only called when there's no overflow risk
+            }
         }
     }
 

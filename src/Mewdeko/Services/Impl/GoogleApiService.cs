@@ -148,7 +148,7 @@ public class GoogleApiService : IGoogleApiService
         {"cy", "cy"},
         {"yi", "yi"}
     };
-    
+
     private readonly UrlshortenerService _sh;
 
     private readonly YouTubeService _yt;
@@ -185,7 +185,6 @@ public class GoogleApiService : IGoogleApiService
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
             $"https://www.youtube.com/watch?v={i.Id.VideoId}");
     }
-    
 
     public Task<string> ShortenUrl(Uri url) => ShortenUrl(url.ToString());
 
@@ -200,7 +199,7 @@ public class GoogleApiService : IGoogleApiService
 
         try
         {
-            var response = await _sh.Url.Insert(new Url {LongUrl = url}).ExecuteAsync().ConfigureAwait(false);
+            var response = await _sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync().ConfigureAwait(false);
             return response.Id;
         }
         catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.Forbidden)
@@ -213,7 +212,6 @@ public class GoogleApiService : IGoogleApiService
             return url;
         }
     }
-    
 
     public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
 
@@ -224,7 +222,10 @@ public class GoogleApiService : IGoogleApiService
 
         if (!_languageDictionary.ContainsKey(sourceLanguage) ||
             !_languageDictionary.ContainsKey(targetLanguage))
+        {
             throw new ArgumentException($"{nameof(sourceLanguage)}/{nameof(targetLanguage)}");
+        }
+
         var url = new Uri(
             $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
         using (var http = _httpFactory.CreateClient())

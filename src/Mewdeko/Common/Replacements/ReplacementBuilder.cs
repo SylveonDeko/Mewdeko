@@ -31,7 +31,7 @@ public class ReplacementBuilder
             .WithServer(client, g)
             .WithClient(client);
 
-    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient) ctx.Client);
+    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
     public ReplacementBuilder WithMention(DiscordSocketClient client)
     {
@@ -76,8 +76,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -106,8 +108,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -117,8 +121,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -128,8 +134,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -139,8 +147,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -150,8 +160,10 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
+            {
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+            }
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -178,7 +190,7 @@ public class ReplacementBuilder
 
     public ReplacementBuilder WithUser(IUser user)
     {
-        WithManyUsers(new[] {user});
+        WithManyUsers(new[] { user });
         return this;
     }
 
@@ -263,8 +275,10 @@ public class ReplacementBuilder
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
     {
         foreach (var provider in phProviders)
-        foreach (var ovr in provider.GetPlaceholders())
-            _reps.TryAdd(ovr.Name, ovr.Func);
+        {
+            foreach (var ovr in provider.GetPlaceholders())
+                _reps.TryAdd(ovr.Name, ovr.Func);
+        }
 
         return this;
     }

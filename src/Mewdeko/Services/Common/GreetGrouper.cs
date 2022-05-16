@@ -7,7 +7,6 @@ public class GreetGrouper<T>
 
     public GreetGrouper() => _group = new Dictionary<ulong, HashSet<T>>();
 
-
     /// <summary>
     ///     Creates a group, if group already exists, adds the specified user
     /// </summary>

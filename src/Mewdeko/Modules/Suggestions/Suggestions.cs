@@ -10,7 +10,6 @@ using Mewdeko.Modules.Suggestions.Services;
 namespace Mewdeko.Modules.Suggestions;
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
-    
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels)]
     public async Task SetSuggestChannel(ITextChannel? channel = null)
@@ -43,8 +42,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         int count = 0;
         if (emotes is not null and not "disable")
         {
-            var te = emotes.Split(",");
-            foreach (var i in te)
+            foreach (var i in emotes.Split(","))
             {
                 emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, ++count)}`");
             }
@@ -65,17 +63,17 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             .AddField("Suggestion", $"{suggest.Suggestion.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
             .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
             .AddField("Curerent State", (SuggestionsService.SuggestState)suggest.CurrentState)
-            .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody": $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
+            .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
             .AddField("State Change Count", suggest.StateChangeCount)
             .AddField("Emote Count", string.Join("\n", emoteCount));
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
     }
-    
+
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task SuggestClear()
     {
         var suggests = Service.Suggestions(ctx.Guild.Id);
-        if (!suggests.Any())
+        if (suggests.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There are no suggestions to clear.");
             return;
@@ -113,13 +111,11 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             message.DeleteAfter(5);
             return;
         }
-        
+
         await Service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient,
             suggestion, ctx.Channel as ITextChannel);
-        
     }
 
-    
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Deny(ulong sid, [Remainder] string? reason = null) =>

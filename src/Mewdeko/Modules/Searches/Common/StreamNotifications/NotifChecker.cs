@@ -58,120 +58,120 @@ public class NotifChecker
         return toReturn;
     }
 
-     public Task RunAsync()
-        => Task.Run(async () =>
-        {
-            while (true)
-            {
-                try
-                {
-                    var allStreamData = CacheGetAllData();
+    public Task RunAsync()
+       => Task.Run(async () =>
+       {
+           while (true)
+           {
+               try
+               {
+                   var allStreamData = CacheGetAllData();
 
-                    var oldStreamDataDict = allStreamData
-                                            // group by type
-                                            .GroupBy(entry => entry.Key.Type)
-                                            .ToDictionary(entry => entry.Key,
-                                                entry => entry.AsEnumerable()
-                                                              .ToDictionary(x => x.Key.Name, x => x.Value));
+                   var oldStreamDataDict = allStreamData
+                                           // group by type
+                                           .GroupBy(entry => entry.Key.Type)
+                                           .ToDictionary(entry => entry.Key,
+                                               entry => entry.AsEnumerable()
+                                                             .ToDictionary(x => x.Key.Name, x => x.Value));
 
-                    var newStreamData = await oldStreamDataDict
-                                              .Select(x =>
-                                              {
-                                                  // get all stream data for the streams of this type
-                                                  if (_streamProviders.TryGetValue(x.Key,
-                                                          out var provider))
-                                                  {
-                                                      return provider.GetStreamDataAsync(x.Value
-                                                          .Select(entry => entry.Key)
-                                                          .ToList());
-                                                  }
+                   var newStreamData = await oldStreamDataDict
+                                             .Select(x =>
+                                             {
+                                                 // get all stream data for the streams of this type
+                                                 if (_streamProviders.TryGetValue(x.Key,
+                                                         out var provider))
+                                                 {
+                                                     return provider.GetStreamDataAsync(x.Value
+                                                         .Select(entry => entry.Key)
+                                                         .ToList());
+                                                 }
 
-                                                  // this means there's no provider for this stream data, (and there was before?)
-                                                  return Task.FromResult<IReadOnlyCollection<StreamData>>(
-                                                      new List<StreamData>());
-                                              })
-                                              .WhenAll();
+                                                 // this means there's no provider for this stream data, (and there was before?)
+                                                 return Task.FromResult<IReadOnlyCollection<StreamData>>(
+                                                     new List<StreamData>());
+                                             })
+                                             .WhenAll();
 
-                    var newlyOnline = new List<StreamData>();
-                    var newlyOffline = new List<StreamData>();
-                    // go through all new stream data, compare them with the old ones
-                    foreach (var newData in newStreamData.SelectMany(x => x))
-                    {
-                        // update cached data
-                        var key = newData.CreateKey();
+                   var newlyOnline = new List<StreamData>();
+                   var newlyOffline = new List<StreamData>();
+                   // go through all new stream data, compare them with the old ones
+                   foreach (var newData in newStreamData.SelectMany(x => x))
+                   {
+                       // update cached data
+                       var key = newData.CreateKey();
 
-                        // compare old data with new data
-                        if (!oldStreamDataDict.TryGetValue(key.Type, out var typeDict)
-                            || !typeDict.TryGetValue(key.Name, out var oldData)
-                            || oldData is null)
-                        {
-                            CacheAddData(key, newData, true);
-                            continue;
-                        }
-                        
-                        // fill with last known game in case it's empty
-                        if (string.IsNullOrWhiteSpace(newData.Game))
-                            newData.Game = oldData.Game;
-                        
-                        CacheAddData(key, newData, true);
+                       // compare old data with new data
+                       if (!oldStreamDataDict.TryGetValue(key.Type, out var typeDict)
+                           || !typeDict.TryGetValue(key.Name, out var oldData)
+                           || oldData is null)
+                       {
+                           CacheAddData(key, newData, true);
+                           continue;
+                       }
 
-                        // if the stream is offline, we need to check if it was
-                        // marked as offline once previously
-                        // if it was, that means this is second time we're getting offline
-                        // status for that stream -> notify subscribers
-                        // Note: This is done because twitch api will sometimes return an offline status
-                        //       shortly after the stream is already online, which causes duplicate notifications.
-                        //       (stream is online -> stream is offline -> stream is online again (and stays online))
-                        //       This offlineBuffer will make it so that the stream has to be marked as offline TWICE
-                        //       before it sends an offline notification to the subscribers.
-                        var streamId = (key.Type, key.Name);
-                        if (!newData.IsLive && _offlineBuffer.Remove(streamId))
-                            newlyOffline.Add(newData);
-                        else if (newData.IsLive != oldData.IsLive)
-                        {
-                            if (newData.IsLive)
-                            {
-                                _offlineBuffer.Remove(streamId);
-                                newlyOnline.Add(newData);
-                            }
-                            else
-                            {
-                                _offlineBuffer.Add(streamId);
-                                // newlyOffline.Add(newData);
-                            }
-                        }
-                    }
+                       // fill with last known game in case it's empty
+                       if (string.IsNullOrWhiteSpace(newData.Game))
+                           newData.Game = oldData.Game;
 
-                    var tasks = new List<Task>
-                    {
+                       CacheAddData(key, newData, true);
+
+                       // if the stream is offline, we need to check if it was
+                       // marked as offline once previously
+                       // if it was, that means this is second time we're getting offline
+                       // status for that stream -> notify subscribers
+                       // Note: This is done because twitch api will sometimes return an offline status
+                       //       shortly after the stream is already online, which causes duplicate notifications.
+                       //       (stream is online -> stream is offline -> stream is online again (and stays online))
+                       //       This offlineBuffer will make it so that the stream has to be marked as offline TWICE
+                       //       before it sends an offline notification to the subscribers.
+                       var streamId = (key.Type, key.Name);
+                       if (!newData.IsLive && _offlineBuffer.Remove(streamId))
+                       {
+                           newlyOffline.Add(newData);
+                       }
+                       else if (newData.IsLive != oldData.IsLive)
+                       {
+                           if (newData.IsLive)
+                           {
+                               _offlineBuffer.Remove(streamId);
+                               newlyOnline.Add(newData);
+                           }
+                           else
+                           {
+                               _offlineBuffer.Add(streamId);
+                               // newlyOffline.Add(newData);
+                           }
+                       }
+                   }
+
+                   var tasks = new List<Task>
+                   {
                         Task.Delay(30_000)
-                    };
+                   };
 
-                    if (newlyOnline.Count > 0)
-                        tasks.Add(OnStreamsOnline(newlyOnline));
+                   if (newlyOnline.Count > 0)
+                       tasks.Add(OnStreamsOnline(newlyOnline));
 
-                    if (newlyOffline.Count > 0)
-                        tasks.Add(OnStreamsOffline(newlyOffline));
+                   if (newlyOffline.Count > 0)
+                       tasks.Add(OnStreamsOffline(newlyOffline));
 
-                    await Task.WhenAll(tasks);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Error getting stream notifications: {ErrorMessage}", ex.Message);
-                }
-            }
-        });
+                   await Task.WhenAll(tasks);
+               }
+               catch (Exception ex)
+               {
+                   Log.Error(ex, "Error getting stream notifications: {ErrorMessage}", ex.Message);
+               }
+           }
+       });
 
-
-     public bool CacheAddData(StreamDataKey key, StreamData data, bool replace)
-     {
-         var db = _multi.GetDatabase();
-         return db.HashSet(_key,
-             JsonConvert.SerializeObject(key),
-             JsonConvert.SerializeObject(data),
-             replace ? When.Always : When.NotExists);
-     }
-
+    public bool CacheAddData(StreamDataKey key, StreamData data, bool replace)
+    {
+        var db = _multi.GetDatabase();
+        return db.HashSet(_key,
+            JsonConvert.SerializeObject(key),
+            JsonConvert.SerializeObject(data),
+            replace ? When.Always : When.NotExists);
+    }
 
     public void CacheDeleteData(StreamDataKey key)
     {
@@ -197,24 +197,21 @@ public class NotifChecker
             .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
     }
 
-
     public async Task<StreamData?> GetStreamDataByUrlAsync(string url)
+    {
+        // loop through all providers and see which regex matches
+        foreach (var (_, provider) in _streamProviders)
         {
-            // loop through all providers and see which regex matches
-            foreach (var (_, provider) in _streamProviders)
-            {
-                var isValid = await provider.IsValidUrl(url);
-                if (!isValid)
-                    continue;
-                // if it's not a valid url, try another provider
-                var data = await provider.GetStreamDataByUrlAsync(url);
-                return data;
-            }
-
-            // if no provider found, return null
-            return null;
+            var isValid = await provider.IsValidUrl(url);
+            if (!isValid)
+                continue;
+            // if it's not a valid url, try another provider
+            return await provider.GetStreamDataByUrlAsync(url);
         }
 
+        // if no provider found, return null
+        return null;
+    }
 
     /// <summary>
     ///     Return currently available stream data, get new one if none available, and start tracking the stream.
@@ -227,7 +224,6 @@ public class NotifChecker
         EnsureTracked(data);
         return data;
     }
-
 
     /// <summary>
     ///     Make sure a stream is tracked using its stream data.
@@ -243,7 +239,6 @@ public class NotifChecker
         // because stream will be checked and events will fire in a loop. We don't want to override old state
         CacheAddData(data.CreateKey(), data, false);
     }
-
 
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
     // because stream will be checked and events will fire in a loop. We don't want to override old state

@@ -35,9 +35,9 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         if (message == null)
         {
             var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
-            if (!afkmsg.Any() || afkmsg.Last() == "")
+            if (!afkmsg.Any() || afkmsg.Last()?.Length == 0)
             {
-                await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
+                await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
                 await ctx.Interaction.SendEphemeralConfirmAsync("Afk message enabled!");
                 try
                 {
@@ -55,7 +55,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
+            await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
             await ctx.Interaction.SendEphemeralConfirmAsync("AFK Message has been disabled!");
             try
             {
@@ -77,13 +77,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message.EscapeQuotes(), 0);
+        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeQuotes(), 0);
         await ctx.Interaction.SendConfirmAsync($"AFK Message set to:\n{message}");
         await ctx.Guild.DownloadUsersAsync();
     }
 
-    [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), 
-     RequireContext(ContextType.Guild), 
+    [SlashCommand("message", "Allows you to set a custom embed for AFK messages."),
+     RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CustomAfkMessage(string embedCode)
     {
@@ -111,7 +111,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
         var afks = await Service.GetAfkUsers(ctx.Guild);
-        if (!afks.Any())
+        if (afks.Length == 0)
         {
             await ctx.Interaction.SendErrorAsync("There are no currently AFK users!");
             return;
@@ -131,9 +131,9 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-                return new PageBuilder().WithOkColor()
-                    .WithTitle($"{Format.Bold("Active AFKs")} - {afks.ToArray().Length}")
-                    .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20)));
+            return new PageBuilder().WithOkColor()
+                .WithTitle($"{Format.Bold("Active AFKs")} - {afks.ToArray().Length}")
+                .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20)));
         }
     }
 
@@ -172,8 +172,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
 
         await ctx.Interaction.SendConfirmAsync("Loading...");
-        var e = chans.Split(",");
-        foreach (var i in e)
+        foreach (var i in chans.Split(","))
         {
             var role = await ctx.Guild.GetTextChannelAsync(Convert.ToUInt64(i));
             mentions.Add(role.Mention);
@@ -188,8 +187,8 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
         await ctx.Interaction.DeleteOriginalResponseAsync();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);;
-        
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
@@ -229,23 +228,23 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         switch (ehm.ToLower())
         {
             case "onmessage":
-            {
-                await Service.AfkTypeSet(ctx.Guild, 3);
-                await ctx.Interaction.SendConfirmAsync("Afk will be disabled when a user sends a message.");
-            }
+                {
+                    await Service.AfkTypeSet(ctx.Guild, 3);
+                    await ctx.Interaction.SendConfirmAsync("Afk will be disabled when a user sends a message.");
+                }
                 break;
             case "ontype":
-            {
-                await Service.AfkTypeSet(ctx.Guild, 2);
-                await ctx.Interaction.SendConfirmAsync("Afk messages will be disabled when a user starts typing.");
-            }
+                {
+                    await Service.AfkTypeSet(ctx.Guild, 2);
+                    await ctx.Interaction.SendConfirmAsync("Afk messages will be disabled when a user starts typing.");
+                }
                 break;
             case "selfdisable":
-            {
-                await Service.AfkTypeSet(ctx.Guild, 1);
-                await ctx.Interaction.SendConfirmAsync(
-                    "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)");
-            }
+                {
+                    await Service.AfkTypeSet(ctx.Guild, 1);
+                    await ctx.Interaction.SendConfirmAsync(
+                        "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)");
+                }
                 break;
         }
     }
@@ -283,7 +282,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
             return;
         }
-        var chan = new[] {channel};
+        var chan = new[] { channel };
         var mentions = new List<string>();
         var toremove = new List<string>();
         var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
@@ -296,13 +295,15 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         var e = chans.Split(",");
         var list = e.ToList();
         foreach (var i in chan)
+        {
             if (e.Contains(i.Id.ToString()))
             {
                 toremove.Add(i.Id.ToString());
                 mentions.Add(i.Mention);
             }
+        }
 
-        if (!mentions.Any())
+        if (mentions.Count == 0)
         {
             await ctx.Interaction.SendErrorAsync("The channels you have specifed are not set to ignore Afk!");
             return;
@@ -328,7 +329,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
             return;
         }
-        var chan = new[] {channel};
+        var chan = new[] { channel };
         var list = new HashSet<string>();
         // ReSharper disable once CollectionNeverQueried.Local
         var newchans = new HashSet<string>();
@@ -363,7 +364,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
                 newchans.Add(i.Id.ToString());
             }
 
-            if (mentions.Any())
+            if (mentions.Count > 0)
             {
                 await ctx.Interaction.SendErrorAsync(
                     "No channels were added because the channels you specified are already in the list.");

@@ -27,7 +27,7 @@ public class ConfessionService : INService
     {
         var uow = _db.GetDbContext();
         var confessions = uow.Confessions.ForGuild(serverId);
-        if (confessions.Any())
+        if (confessions.Count > 0)
         {
             var guild = _client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
@@ -100,7 +100,6 @@ public class ConfessionService : INService
                                             .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
                                                 "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
                 await logChannel.SendMessageAsync(embed: eb2.Build());
-
             }
         }
         else
@@ -213,13 +212,13 @@ public class ConfessionService : INService
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public ulong GetConfessionLogChannel(ulong id) 
+    public ulong GetConfessionLogChannel(ulong id)
         => _bot.GetGuildConfig(id).ConfessionLogChannel;
 }
 
 public static class ConfessionExtensions
 {
-    public static List<ulong> GetConfessionBlacklists(this GuildConfig gc) 
+    public static List<ulong> GetConfessionBlacklists(this GuildConfig gc)
         => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist) ? new List<ulong>() : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
 
     public static void SetConfessionBlacklists(this GuildConfig gc, IEnumerable<ulong> blacklists) =>

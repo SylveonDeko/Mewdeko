@@ -4,7 +4,6 @@ public class Betroll
 {
     private readonly Random _rng;
 
-
     private readonly IOrderedEnumerable<GamblingConfig.BetRollConfig.Pair> _thresholdPairs;
 
     public Betroll(GamblingConfig.BetRollConfig settings)
@@ -19,11 +18,13 @@ public class Betroll
 
         var pair = _thresholdPairs.FirstOrDefault(x => x.WhenAbove < roll);
         if (pair is null)
+        {
             return new Result
             {
                 Multiplier = 0,
                 Roll = roll
             };
+        }
 
         return new Result
         {

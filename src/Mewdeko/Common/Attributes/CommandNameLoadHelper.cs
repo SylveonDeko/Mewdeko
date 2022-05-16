@@ -8,7 +8,6 @@ public static class CommandNameLoadHelper
     private static readonly IDeserializer _deserializer
         = new Deserializer();
 
-
     public static Lazy<Dictionary<string, string[]>> LazyCommandAliases
         = new(() => LoadCommandNames());
 
@@ -24,13 +23,11 @@ public static class CommandNameLoadHelper
             ? aliases.Skip(1).ToArray()
             : Array.Empty<string>();
 
-
     public static string GetCommandNameFor(string methodName, string? description = null)
     {
         methodName = methodName.ToLowerInvariant();
-        var toReturn = LazyCommandAliases.Value.TryGetValue(methodName, out var aliases) && aliases.Length > 0
+        return LazyCommandAliases.Value.TryGetValue(methodName, out var aliases) && aliases.Length > 0
             ? aliases[0]
             : methodName;
-        return toReturn;
     }
 }

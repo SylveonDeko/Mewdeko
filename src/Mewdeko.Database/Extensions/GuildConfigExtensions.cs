@@ -9,12 +9,12 @@ public static class GuildConfigExtensions
     public class GeneratingChannel
     {
         public ulong GuildId { get; set; }
-        public ulong ChannelId { get; set; } 
+        public ulong ChannelId { get; set; }
     }
 
     public static IEnumerable<GuildConfig> All(this DbSet<GuildConfig> set) => set.IncludeEverything().AsQueryable().ToArray();
 
-    public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId) 
+    public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
         => ctx.GuildConfigs
               .Include(x => x.ReactionRoleMessages)
               .ThenInclude(x => x.ReactionRoles)
@@ -55,7 +55,7 @@ public static class GuildConfigExtensions
 
         return config;
     }
-    
+
     public static IEnumerable<GuildConfig> Permissionsv2ForAll(this DbSet<GuildConfig> configs, List<ulong> include)
     {
         var query = configs.AsQueryable()
@@ -64,7 +64,7 @@ public static class GuildConfigExtensions
 
         return query.ToList();
     }
-    
+
     public static IEnumerable<GeneratingChannel> GetGeneratingChannels(this DbSet<GuildConfig> configs) =>
         configs
             .AsQueryable()
@@ -125,7 +125,7 @@ public static class GuildConfigExtensions
 
         return gc.XpSettings ?? (gc.XpSettings = new XpSettings());
     }
-    
+
     public static IEnumerable<GuildConfig> GetAllGuildConfigs(this DbSet<GuildConfig> configs, List<ulong> availableGuilds)
         => configs
            .IncludeEverything()
@@ -158,7 +158,7 @@ public static class GuildConfigExtensions
 
         return config;
     }
-    
+
     private static List<WarningPunishment> DefaultWarnPunishments =>
         new()
         {
@@ -173,12 +173,12 @@ public static class GuildConfigExtensions
                 Punishment = PunishmentAction.Ban
             }
         };
-    
+
     public static ulong GetCleverbotChannel(this DbSet<GuildConfig> set, ulong guildid) =>
         set.AsQueryable()
            .Where(x => x.GuildId == guildid)
            .Select(x => x.CleverbotChannel).Single();
-    
+
     private static IQueryable<GuildConfig> IncludeEverything(this DbSet<GuildConfig> config) =>
         config
             .AsQueryable()

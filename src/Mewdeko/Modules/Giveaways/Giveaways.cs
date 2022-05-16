@@ -49,7 +49,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
-                      .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+                      .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
@@ -71,7 +71,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         var eb = new EmbedBuilder().WithOkColor();
         var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
-        if (!gways.Any())
+        if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!");
         }
@@ -173,7 +173,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             await msg.ModifyAsync(x => x.Embed = erorrembed);
             return;
         }
-        chan = (ITextChannel) e.BestMatch;
+        chan = (ITextChannel)e.BestMatch;
         var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
@@ -249,7 +249,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             try
             {
                 var result = await reader1.ReadAsync(ctx, next, _servs);
-                host = (IUser) result.BestMatch;
+                host = (IUser)result.BestMatch;
             }
             catch
             {
@@ -257,7 +257,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                 return;
             }
         }
-        
+
         if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
         {
             await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
@@ -277,7 +277,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             parsed = Regex.Matches(next, @"(?<=<@&)?[0-9]{17,19}(?=>)?")
                           .Select(m => ulong.Parse(m.Value))
                           .Select(Context.Guild.GetRole).Where(x => x is not null).ToList();
-            if (parsed.Any()) break;
+            if (parsed.Count > 0) break;
             await msg.ModifyAsync(x => x.Embed = eb
                                                  .WithDescription("Looks like those roles were incorrect! Please try again!")
                                                  .Build());
@@ -330,7 +330,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
-                       .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
@@ -346,6 +346,5 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             await Service.GiveawayReroll(gway);
             await ctx.Channel.SendConfirmAsync("Giveaway ended!");
         }
-        
     }
 }

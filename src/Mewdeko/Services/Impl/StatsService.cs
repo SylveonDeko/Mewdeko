@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.Rest;
 using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
@@ -18,7 +17,6 @@ public class StatsService : IStatsService
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
     public const string BOT_VERSION = "6.1";
-
 
     private readonly DateTime _started;
 
@@ -39,8 +37,6 @@ public class StatsService : IStatsService
 
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
-
-
 
     private TimeSpan GetUptime() => DateTime.UtcNow - _started;
 
@@ -77,7 +73,6 @@ public class StatsService : IStatsService
         {
             try
             {
-
                 using var http = Factory.CreateClient();
                 using var content = new FormUrlEncodedContent(
                     new Dictionary<string, string>

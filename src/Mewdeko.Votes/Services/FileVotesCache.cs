@@ -13,17 +13,17 @@ public class FileVotesCache
     private const string TOPGG_FILE = "store/topgg.json";
     private const string DISCORDS_FILE = "store/discords.json";
 
-    private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim _locker = new(1, 1);
 
     public FileVotesCache()
     {
         if (!Directory.Exists("store"))
             Directory.CreateDirectory("store");
-            
-        if(!File.Exists(TOPGG_FILE))
+
+        if (!File.Exists(TOPGG_FILE))
             File.WriteAllText(TOPGG_FILE, "[]");
-            
-        if(!File.Exists(DISCORDS_FILE))
+
+        if (!File.Exists(DISCORDS_FILE))
             File.WriteAllText(DISCORDS_FILE, "[]");
     }
 
@@ -31,7 +31,7 @@ public class FileVotesCache
     {
         return AddNewVote(TOPGG_FILE, userId);
     }
-        
+
     public ITask AddNewDiscordsVote(string userId)
     {
         return AddNewVote(DISCORDS_FILE, userId);
@@ -44,7 +44,7 @@ public class FileVotesCache
         {
             var votes = await GetVotesAsync(file);
             votes.Add(userId);
-            await File.WriteAllTextAsync(file , JsonSerializer.Serialize(votes));
+            await File.WriteAllTextAsync(file, JsonSerializer.Serialize(votes));
         }
         finally
         {
@@ -54,14 +54,12 @@ public class FileVotesCache
 
     public async ITask<IList<Vote>> GetNewTopGgVotesAsync()
     {
-        var votes = await EvictTopggVotes();
-        return votes;
+        return await EvictTopggVotes();
     }
 
     public async ITask<IList<Vote>> GetNewDiscordsVotesAsync()
     {
-        var votes = await EvictDiscordsVotes();
-        return votes;
+        return await EvictDiscordsVotes();
     }
 
     private ITask<List<Vote>> EvictTopggVotes()
@@ -75,10 +73,9 @@ public class FileVotesCache
         await _locker.WaitAsync();
         try
         {
-
             var ids = await GetVotesAsync(file);
             await File.WriteAllTextAsync(file, "[]");
-                
+
             return ids?
                    .Select(x => (Ok: ulong.TryParse(x, out var r), Id: r))
                    .Where(x => x.Ok)
@@ -94,10 +91,9 @@ public class FileVotesCache
         }
     }
 
-    private async ITask<IList<string>> GetVotesAsync(string file)
+    private static async ITask<IList<string>> GetVotesAsync(string file)
     {
         await using var fs = File.Open(file, FileMode.Open);
-        var votes = await JsonSerializer.DeserializeAsync<List<string>>(fs);
-        return votes;
+        return await JsonSerializer.DeserializeAsync<List<string>>(fs);
     }
 }

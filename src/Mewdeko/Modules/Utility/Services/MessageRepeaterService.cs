@@ -35,7 +35,7 @@ public class MessageRepeaterService : INService
         await using var uow = _db.GetDbContext();
         var gcs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in gcs.Where(gc => (gc.GuildId >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
+        foreach (var gc in gcs.Where(gc => (gc.GuildId >> 22) % (ulong)_creds.TotalShards == (ulong)_client.ShardId))
         {
             try
             {
@@ -53,7 +53,6 @@ public class MessageRepeaterService : INService
                                                           .ToDictionary(x => x.Key, y => y.Value)
                                                           .ToConcurrent();
 
-
                 repeaters.TryAdd(gc.GuildId, idToRepeater);
             }
             catch (Exception ex)
@@ -70,9 +69,9 @@ public class MessageRepeaterService : INService
     {
         await using var uow = _db.GetDbContext();
         var gr = uow.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
-        var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
+        var toDelete = gr.Find(x => x.Id == r.Id);
         if (toDelete != null)
-           uow .Set<Repeater>().Remove(toDelete);
+            uow.Set<Repeater>().Remove(toDelete);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 

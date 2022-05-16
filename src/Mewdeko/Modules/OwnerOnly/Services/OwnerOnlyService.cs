@@ -70,8 +70,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         var sub = redis.GetSubscriber();
         if (_client.ShardId == 0)
+        {
             sub.Subscribe($"{_creds.RedisKey()}_reload_images",
                 delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
+        }
 
         sub.Subscribe($"{_creds.RedisKey()}_leave_guild", async (_, v) =>
         {
@@ -107,7 +109,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {
         var bs = _bss.Data;
-        if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Any())
+        if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Count > 0)
         {
             var title = $"{_strings.GetText("dm_from")} [{msg.Author}]({msg.Author.Id})";
 
@@ -116,14 +118,17 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             var toSend = msg.Content;
 
             if (msg.Attachments.Count > 0)
+            {
                 toSend +=
                     $"\n\n{Format.Code(attachamentsTxt)}:\n{string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl))}";
+            }
 
             if (bs.ForwardToAllOwners)
             {
                 var allOwnerChannels = ownerChannels.Values;
 
                 foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
+                {
                     try
                     {
                         await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
@@ -132,11 +137,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     {
                         Log.Warning("Can't contact owner with id {0}", ownerCh.Recipient.Id);
                     }
+                }
             }
             else
             {
                 var firstOwnerChannel = ownerChannels.Values.First();
                 if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
+                {
                     try
                     {
                         await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
@@ -145,6 +152,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     {
                         // ignored
                     }
+                }
             }
         }
     }
@@ -153,7 +161,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         await using var uow = _db.GetDbContext();
 
-        autoCommands = 
+        autoCommands =
             uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
@@ -164,8 +172,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     .ToConcurrent())
             .ToConcurrent();
 
-        var startupCommands = uow.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
-        foreach (var cmd in startupCommands)
+        foreach (var cmd in uow.AutoCommands.AsNoTracking().Where(x => x.Interval == 0))
+        {
             try
             {
                 await ExecuteCommand(cmd).ConfigureAwait(false);
@@ -174,6 +182,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             {
                 // ignored
             }
+        }
 
         if (_client.ShardId == 0)
         {
@@ -190,12 +199,16 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                                     .ToDictionary(x => x.Recipient.Id, x => x)
                                     .ToImmutableDictionary();
 
-            if (!ownerChannels.Any())
+            if (ownerChannels.Count == 0)
+            {
                 Log.Warning(
-                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+                                "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+            }
             else
+            {
                 Log.Information(
-                    $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+                                $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+            }
         }
     }
 
@@ -203,7 +216,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         try
         {
-            var state = (TimerState) objState;
+            var state = (TimerState)objState;
 
             if (!_bss.Data.RotateStatuses) return;
 
@@ -255,7 +268,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public async Task AddPlaying(ActivityType t, string status)
     {
         await using var uow = _db.GetDbContext();
-        var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
+        var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
         uow.Add(toAdd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -274,7 +287,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     }
 
     private Timer TimerFromAutoCommand(AutoCommand x) =>
-        new(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+        new(async obj => await ExecuteCommand((AutoCommand)obj).ConfigureAwait(false),
             x,
             x.Interval * 1000,
             x.Interval * 1000);
@@ -286,7 +299,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (cmd.GuildId is null)
                 return;
 
-            var guildShard = (int) ((cmd.GuildId.Value >> 22) % (ulong) _creds.TotalShards);
+            var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
             if (guildShard != _client.ShardId)
                 return;
             var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
@@ -305,7 +318,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         using (var uow = _db.GetDbContext())
         {
-           uow .AutoCommands.Add(cmd);
+            uow.AutoCommands.Add(cmd);
             uow.SaveChanges();
         }
 
@@ -323,7 +336,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        return 
+        return
             uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
@@ -334,14 +347,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetAutoCommands()
     {
         using var uow = _db.GetDbContext();
-        return 
+        return
             uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
             .OrderBy(x => x.Id)
             .ToList();
     }
-    
 
     public Task LeaveGuild(string guildStr)
     {
@@ -389,11 +401,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (cmd == null) return false;
         uow.Remove(cmd);
         if (autoCommands.TryGetValue(cmd.GuildId, out var autos))
+        {
             if (autos.TryRemove(cmd.Id, out var timer))
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
         uow.SaveChanges();
         return true;
-
     }
 
     public async Task<bool> SetAvatar(string img)
@@ -422,7 +436,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public void ClearStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        var toRemove = 
+        var toRemove =
             uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0);

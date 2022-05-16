@@ -12,11 +12,10 @@ public partial class Games
     [Group]
     public class ChatterBotCommands : MewdekoSubmodule<ChatterBotService>
     {
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task Cleverbot(ITextChannel? chan = null)
         {
-            var channel = chan ?? (ITextChannel) ctx.Channel;
+            var channel = chan ?? (ITextChannel)ctx.Channel;
             var cbid = Service.GetCleverbotChannel(ctx.Guild.Id);
             if (cbid != 0 && cbid == channel.Id)
             {

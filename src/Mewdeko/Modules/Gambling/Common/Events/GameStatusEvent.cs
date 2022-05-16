@@ -27,7 +27,7 @@ public class GameStatusEvent : ICurrencyEvent
     private readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
         .Concat(Enumerable.Range(97, 26))
-        .Select(x => (char) x)
+        .Select(x => (char)x)
         .ToArray();
 
     private readonly Timer _t;
@@ -115,7 +115,7 @@ public class GameStatusEvent : ICurrencyEvent
         var toAward = new List<ulong>();
         while (_toAward.TryDequeue(out var x)) toAward.Add(x);
 
-        if (!toAward.Any())
+        if (toAward.Count == 0)
             return;
 
         try
@@ -126,8 +126,10 @@ public class GameStatusEvent : ICurrencyEvent
                 true).ConfigureAwait(false);
 
             if (_isPotLimited)
+            {
                 await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
-                    new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
+                    new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
+            }
 
             Log.Information("Awarded {0} users {1} currency.{2}",
                 toAward.Count,
@@ -160,7 +162,9 @@ public class GameStatusEvent : ICurrencyEvent
                 || gu.IsBot // no bots
                 || message.Content != _code // code has to be the same
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5) // no recently created accounts
+            {
                 return;
+            }
             // there has to be money left in the pot
             // and the user wasn't rewarded
             if (_awardedUsers.Add(message.Author.Id) && TryTakeFromPot())
@@ -188,6 +192,7 @@ public class GameStatusEvent : ICurrencyEvent
     private bool TryTakeFromPot()
     {
         if (_isPotLimited)
+        {
             lock (_potLock)
             {
                 if (PotSize < _amount)
@@ -196,6 +201,7 @@ public class GameStatusEvent : ICurrencyEvent
                 PotSize -= _amount;
                 return true;
             }
+        }
 
         return true;
     }

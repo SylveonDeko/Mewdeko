@@ -69,7 +69,9 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 await ctx.Interaction.SendConfirmAsync($"Track {songNum} removed.");
             }
             else
+            {
                 await ctx.Interaction.SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.");
+            }
         }
     }
     [SlashCommand("autodisconnect", "Set the autodisconnect type"), RequireContext(ContextType.Guild), CheckPermissions]
@@ -119,13 +121,14 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         var plists = Service.GetPlaylists(ctx.User);
         switch (action)
         {
-
             case PlaylistAction.Show:
                 MusicPlaylist plist;
                 if (playlistOrSongName is null)
                 {
                     if (Service.GetDefaultPlaylist(ctx.User) is not null)
+                    {
                         plist = Service.GetDefaultPlaylist(ctx.User);
+                    }
                     else
                     {
                         await ctx.Interaction.SendErrorFollowupAsync(
@@ -242,7 +245,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
                     var plist3 = Service.GetPlaylists(ctx.User).Where(x => x.Name.ToLower() == playlistOrSongName);
                     var musicPlaylists = plist3 as MusicPlaylist[] ?? plist3.ToArray();
-                    if (!musicPlaylists.Any())
+                    if (musicPlaylists.Length == 0)
                     {
                         await ctx.Interaction.SendErrorFollowupAsync("A playlist with that name wasnt found!");
                         return;
@@ -272,7 +275,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         var player = _lavaNode.GetPlayer(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search.Tracks.FirstOrDefault());
-                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
+                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
                     }
 
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
@@ -329,7 +332,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         var player = _lavaNode.GetPlayer(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search.Tracks.FirstOrDefault());
-                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
+                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
                     }
 
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
@@ -355,7 +358,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     await ctx.Interaction.SendErrorFollowupAsync("You do not have any playlists!");
                     return;
                 }
-
 
                 var trysearch = queue.Where(x => x.Title.ToLower().Contains(playlistOrSongName?.ToLower() ?? "")).Take(20);
                 var advancedLavaTracks = trysearch as LavalinkTrack[] ?? trysearch.ToArray();
@@ -457,12 +459,15 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                             foreach (var _ in advancedLavaTracks)
                             {
                                 if (count1 >= 6)
+                                {
                                     components1.WithButton(count1++.ToString(), count1.ToString(), ButtonStyle.Primary,
-                                        row: 1);
+                                                                        row: 1);
+                                }
                                 else
+                                {
                                     components1.WithButton(count1++.ToString(), count1.ToString());
+                                }
                             }
-
 
                             await msg.DeleteAsync();
                             var msg2 = await ctx.Interaction.SendConfirmFollowupAsync(
@@ -587,7 +592,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-
         await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, voiceState.VoiceChannel.Id);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
@@ -624,7 +628,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await Service.QueueClear(ctx.Guild.Id);
     }
 
-
     [SlashCommand("queueplay", "Plays a song from a number in queue"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Play(int number)
     {
@@ -640,7 +643,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             }
         }
 
-        if (queue.Any())
+        if (queue.Count > 0)
         {
             var track = queue.ElementAt(number - 1);
             if (track.Source is null)
@@ -654,7 +657,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var e = await artworkService.ResolveAsync(track);
             var eb = new EmbedBuilder()
                      .WithDescription($"Playing {track.Title}")
-                     .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {((AdvancedTrackContext)track.Context).QueueUser}")
+                     .WithFooter($"Track {queue.IndexOf(track) + 1} | {track.Duration:hh\\:mm\\:ss} | {((AdvancedTrackContext)track.Context).QueueUser}")
                      .WithThumbnailUrl(e.AbsoluteUri)
                      .WithOkColor();
             await ctx.Interaction.RespondAsync(embed: eb.Build());
@@ -671,224 +674,231 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     {
         await ctx.Interaction.DeferAsync();
         int count;
-         if (!_lavaNode.HasPlayer(Context.Guild))
-         {
-             var vc = ctx.User as IVoiceState;
-             if (vc?.VoiceChannel is null)
-             {
-                 await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
-                 return;
-             }
+        if (!_lavaNode.HasPlayer(Context.Guild))
+        {
+            var vc = ctx.User as IVoiceState;
+            if (vc?.VoiceChannel is null)
+            {
+                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
+                return;
+            }
 
-             try
-             {
-                 await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vc.VoiceChannel.Id);
-                 if (vc.VoiceChannel is SocketStageChannel chan)
-                     try
-                     {
-                         await chan.BecomeSpeakerAsync();
-                     }
-                     catch
-                     {
-                         await ctx.Interaction.SendErrorAsync(
-                             "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.");
-                     }
-             }
-             catch
-             {
-                 await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
-                 return;
-             }
-         }
-         var player = _lavaNode.GetPlayer(ctx.Guild);
-         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
-             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
+            try
+            {
+                await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vc.VoiceChannel.Id);
+                if (vc.VoiceChannel is SocketStageChannel chan)
+                {
+                    try
+                    {
+                        await chan.BecomeSpeakerAsync();
+                    }
+                    catch
+                    {
+                        await ctx.Interaction.SendErrorAsync(
+                            "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.");
+                    }
+                }
+            }
+            catch
+            {
+                await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
+                return;
+            }
+        }
+        var player = _lavaNode.GetPlayer(ctx.Guild);
+        if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
+        {
+            if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
                  searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
-             {
-                 if (player is null)
-                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+            {
+                if (player is null)
+                {
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                          (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                 var searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
-                 var platform = Platform.Youtube;
-                 if (searchQuery.Contains("soundcloud.com"))
-                     platform = Platform.Soundcloud;
-                 if (searchQuery.CheckIfMusicUrl())
-                     platform = Platform.Url;
-                 if (searchQuery.Contains("twitch.tv"))
-                     platform = Platform.Twitch;
-                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks, platform);
-                 count = Service.GetQueue(ctx.Guild.Id).Count;
-                 if (searchResponse.PlaylistInfo.Name is not null)
-                 {
-                     var eb = new EmbedBuilder()
-                              .WithOkColor()
-                              .WithDescription(
-                                  $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
-                              .WithFooter($"{count} songs now in the queue");
-                     await ctx.Interaction.FollowupAsync(embed: eb.Build());
-                     if (player.State != PlayerState.Playing)
-                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
-                     return;
-                 }
-                 else
-                 {
-                     var artworkService = new ArtworkService();
-                     Uri art = null;
-                     try
-                     {
-                         art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault());
-                     }
-                     catch
-                     {
-                         //ignored
-                     }
-                     var eb = new EmbedBuilder()
-                              .WithOkColor()
-                              .WithThumbnailUrl(art?.AbsoluteUri)
-                              .WithDescription(
-                                  $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
-                     await ctx.Interaction.FollowupAsync(embed: eb.Build());
-                     if (player.State != PlayerState.Playing)
-                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
-                     return;
-                 }
-             }
+                }
 
-         if (searchQuery!.Contains("spotify"))
-         {
-             await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
-             return;
-         }
+                var searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
+                var platform = Platform.Youtube;
+                if (searchQuery.Contains("soundcloud.com"))
+                    platform = Platform.Soundcloud;
+                if (searchQuery.CheckIfMusicUrl())
+                    platform = Platform.Url;
+                if (searchQuery.Contains("twitch.tv"))
+                    platform = Platform.Twitch;
+                await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks, platform);
+                count = Service.GetQueue(ctx.Guild.Id).Count;
+                if (searchResponse.PlaylistInfo.Name is not null)
+                {
+                    var eb = new EmbedBuilder()
+                             .WithOkColor()
+                             .WithDescription(
+                                 $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
+                             .WithFooter($"{count} songs now in the queue");
+                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
+                    if (player.State != PlayerState.Playing)
+                        await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
+                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                    return;
+                }
+                else
+                {
+                    var artworkService = new ArtworkService();
+                    Uri art = null;
+                    try
+                    {
+                        art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault());
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
+                    var eb = new EmbedBuilder()
+                             .WithOkColor()
+                             .WithThumbnailUrl(art?.AbsoluteUri)
+                             .WithDescription(
+                                 $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
+                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
+                    if (player.State != PlayerState.Playing)
+                        await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
+                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                    return;
+                }
+            }
+        }
 
-         var searchResponse2 = await _lavaNode.GetTracksAsync(searchQuery, SearchMode.YouTube);
-         if (!searchResponse2.Any())
-         {
-             await ctx.Interaction.SendErrorAsync("Seems like I can't find that video, please try again.");
-             return;
-         }
+        if (searchQuery!.Contains("spotify"))
+        {
+            await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
+            return;
+        }
 
-         var components = new ComponentBuilder().WithButton("Play All", "all").WithButton("Select", "select")
-                                                .WithButton("Play First", "pf").WithButton("Cancel", "cancel", ButtonStyle.Danger);
-         var eb12 = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Would you like me to:")
-                    .WithDescription("Play all that I found\n" +
-                                     "Let you select from the top 5\n" +
-                                     "Just play the first thing I found");
-         var msg = await ctx.Interaction.FollowupAsync(embed: eb12.Build(), components: components.Build());
-         var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
-         switch (button)
-         {
-             case "all":
-                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse2.ToArray());
-                 count = Service.GetQueue(ctx.Guild.Id).Count;
-                 var track = searchResponse2.FirstOrDefault();
-                 var e = new ArtworkService();
-                 var info = await e.ResolveAsync(track);
-                 var eb1 = new EmbedBuilder()
-                           .WithOkColor()
-                           .WithDescription($"Added {track.Title} along with {searchResponse2.Count()} other tracks.")
-                           .WithThumbnailUrl(info.AbsoluteUri)
-                           .WithFooter($"{count} songs in queue");
-                 if (player.State != PlayerState.Playing)
-                 {
-                     await player.PlayAsync(track);
-                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
-                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-                         (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                 }
+        var searchResponse2 = await _lavaNode.GetTracksAsync(searchQuery, SearchMode.YouTube);
+        if (!searchResponse2.Any())
+        {
+            await ctx.Interaction.SendErrorAsync("Seems like I can't find that video, please try again.");
+            return;
+        }
 
-                 await msg.ModifyAsync(x =>
-                 {
-                     x.Components = null;
-                     x.Embed = eb1.Build();
-                 });
-                 break;
-             case "select":
-                 var tracks = searchResponse2.Take(5).ToArray();
-                 var count1 = 1;
-                 var eb = new EmbedBuilder()
-                          .WithDescription(string.Join("\n", tracks.Select(x => $"{count1++}. {x.Title} by {x.Author}")))
+        var components = new ComponentBuilder().WithButton("Play All", "all").WithButton("Select", "select")
+                                               .WithButton("Play First", "pf").WithButton("Cancel", "cancel", ButtonStyle.Danger);
+        var eb12 = new EmbedBuilder()
+                   .WithOkColor()
+                   .WithTitle("Would you like me to:")
+                   .WithDescription("Play all that I found\n" +
+                                    "Let you select from the top 5\n" +
+                                    "Just play the first thing I found");
+        var msg = await ctx.Interaction.FollowupAsync(embed: eb12.Build(), components: components.Build());
+        var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+        switch (button)
+        {
+            case "all":
+                await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse2.ToArray());
+                count = Service.GetQueue(ctx.Guild.Id).Count;
+                var track = searchResponse2.FirstOrDefault();
+                var e = new ArtworkService();
+                var info = await e.ResolveAsync(track);
+                var eb1 = new EmbedBuilder()
                           .WithOkColor()
-                          .WithTitle("Pick which one!");
-                 count1 = 0;
-                 var components1 = new ComponentBuilder();
-                 foreach (var _ in tracks)
-                 {
-                     var component =
-                         new ButtonBuilder(customId: (count1 + 1).ToString(), label: (count1 + 1).ToString());
-                     count1++;
-                     components1.WithButton(component);
-                 }
+                          .WithDescription($"Added {track.Title} along with {searchResponse2.Count()} other tracks.")
+                          .WithThumbnailUrl(info.AbsoluteUri)
+                          .WithFooter($"{count} songs in queue");
+                if (player.State != PlayerState.Playing)
+                {
+                    await player.PlayAsync(track);
+                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
+                }
 
-                 await msg.ModifyAsync(x =>
-                 {
-                     x.Components = components1.Build();
-                     x.Embed = eb.Build();
-                 });
-                 var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
-                 var chosen = tracks[int.Parse(input) - 1];
-                 var e1 = new ArtworkService();
-                 var info1 = await e1.ResolveAsync(chosen);
-                 await Service.Enqueue(ctx.Guild.Id, ctx.User, chosen);
-                 count = Service.GetQueue(ctx.Guild.Id).Count;
-                 eb1 = new EmbedBuilder()
-                       .WithOkColor()
-                       .WithDescription($"Added {chosen.Title} by {chosen.Author} to the queue.")
-                       .WithThumbnailUrl(info1.AbsoluteUri)
-                       .WithFooter($"{count} songs in queue");
-                 if (player.State != PlayerState.Playing)
-                 {
-                     await player.PlayAsync(chosen);
-                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/ 100.0F);
-                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-                         (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                 }
+                await msg.ModifyAsync(x =>
+                {
+                    x.Components = null;
+                    x.Embed = eb1.Build();
+                });
+                break;
+            case "select":
+                var tracks = searchResponse2.Take(5).ToArray();
+                var count1 = 1;
+                var eb = new EmbedBuilder()
+                         .WithDescription(string.Join("\n", tracks.Select(x => $"{count1++}. {x.Title} by {x.Author}")))
+                         .WithOkColor()
+                         .WithTitle("Pick which one!");
+                count1 = 0;
+                var components1 = new ComponentBuilder();
+                foreach (var _ in tracks)
+                {
+                    var component =
+                        new ButtonBuilder(customId: (count1 + 1).ToString(), label: (count1 + 1).ToString());
+                    count1++;
+                    components1.WithButton(component);
+                }
 
-                 await msg.ModifyAsync(x =>
-                 {
-                     x.Components = null;
-                     x.Embed = eb1.Build();
-                 });
-                 break;
-             case "pf":
-                 track = searchResponse2.FirstOrDefault();
-                 await Service.Enqueue(ctx.Guild.Id, ctx.User, track);
-                 var a = new ArtworkService();
-                 var info2 = await a.ResolveAsync(track);
-                 count = Service.GetQueue(ctx.Guild.Id).Count;
-                 eb1 = new EmbedBuilder()
-                       .WithOkColor()
-                       .WithDescription($"Added {track.Title} by {track.Author} to the queue.")
-                       .WithThumbnailUrl(info2.AbsoluteUri)
-                       .WithFooter($"{count} songs in queue");
-                 await msg.ModifyAsync(x =>
-                 {
-                     x.Embed = eb1.Build();
-                     x.Components = null;
-                 });
-                 if (player.State != PlayerState.Playing)
-                 {
-                     await player.PlayAsync(track);
-                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
-                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-                         (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                 }
+                await msg.ModifyAsync(x =>
+                {
+                    x.Components = components1.Build();
+                    x.Embed = eb.Build();
+                });
+                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+                var chosen = tracks[int.Parse(input) - 1];
+                var e1 = new ArtworkService();
+                var info1 = await e1.ResolveAsync(chosen);
+                await Service.Enqueue(ctx.Guild.Id, ctx.User, chosen);
+                count = Service.GetQueue(ctx.Guild.Id).Count;
+                eb1 = new EmbedBuilder()
+                      .WithOkColor()
+                      .WithDescription($"Added {chosen.Title} by {chosen.Author} to the queue.")
+                      .WithThumbnailUrl(info1.AbsoluteUri)
+                      .WithFooter($"{count} songs in queue");
+                if (player.State != PlayerState.Playing)
+                {
+                    await player.PlayAsync(chosen);
+                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
+                }
 
-                 break;
-             case "cancel":
-                 var eb13 = new EmbedBuilder()
-                            .WithDescription("Cancelled.")
-                            .WithErrorColor();
-                 await msg.ModifyAsync(x =>
-                 {
-                     x.Embed = eb13.Build();
-                     x.Components = null;
-                 });
-                 break;
-         }
+                await msg.ModifyAsync(x =>
+                {
+                    x.Components = null;
+                    x.Embed = eb1.Build();
+                });
+                break;
+            case "pf":
+                track = searchResponse2.FirstOrDefault();
+                await Service.Enqueue(ctx.Guild.Id, ctx.User, track);
+                var a = new ArtworkService();
+                var info2 = await a.ResolveAsync(track);
+                count = Service.GetQueue(ctx.Guild.Id).Count;
+                eb1 = new EmbedBuilder()
+                      .WithOkColor()
+                      .WithDescription($"Added {track.Title} by {track.Author} to the queue.")
+                      .WithThumbnailUrl(info2.AbsoluteUri)
+                      .WithFooter($"{count} songs in queue");
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = eb1.Build();
+                    x.Components = null;
+                });
+                if (player.State != PlayerState.Playing)
+                {
+                    await player.PlayAsync(track);
+                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
+                }
+
+                break;
+            case "cancel":
+                var eb13 = new EmbedBuilder()
+                           .WithDescription("Cancelled.")
+                           .WithErrorColor();
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = eb13.Build();
+                    x.Components = null;
+                });
+                break;
+        }
     }
 
     [SlashCommand("pause", "Pauses the current track"), RequireContext(ContextType.Guild), CheckPermissions]
@@ -922,7 +932,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        if (!Service.GetQueue(ctx.Guild.Id).Any())
+        if (Service.GetQueue(ctx.Guild.Id).Count == 0)
         {
             await ctx.Interaction.SendErrorAsync("There's nothing in queue.");
             return;
@@ -1048,7 +1058,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        await player.SetVolumeAsync(volume/100.0F);
+        await player.SetVolumeAsync(volume / 100.0F);
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.Volume = volume, volume);
         await ctx.Interaction.SendConfirmAsync($"Set the volume to {volume}");
     }
@@ -1077,20 +1087,20 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         {
             info = await artService.ResolveAsync(track);
         }
-        catch 
+        catch
         {
             //ignored
         }
         var eb = new EmbedBuilder()
                  .WithOkColor()
-                 .WithTitle($"Track #{qcount.IndexOf(track)+1}")
+                 .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
                  .WithDescription($"Now Playing {track.Title} by {track.Author}")
                  .WithThumbnailUrl(info?.AbsoluteUri)
                  .WithFooter(
                      await Service.GetPrettyInfo(player, ctx.Guild));
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
-    
+
     [SlashCommand("queue", "Lists all songs"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Queue()
     {
@@ -1124,7 +1134,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                    .WithOkColor();
         }
     }
-    
-    private AdvancedTrackContext GetContext (LavalinkTrack track) 
+
+    private static AdvancedTrackContext GetContext(LavalinkTrack track)
         => track.Context as AdvancedTrackContext;
 }

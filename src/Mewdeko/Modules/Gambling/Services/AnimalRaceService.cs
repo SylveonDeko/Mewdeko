@@ -10,6 +10,7 @@ public class AnimalRaceService : INService, IUnloadableService
     public Task Unload()
     {
         foreach (var kvp in AnimalRaces)
+        {
             try
             {
                 kvp.Value.Dispose();
@@ -18,6 +19,7 @@ public class AnimalRaceService : INService, IUnloadableService
             {
                 // ignored
             }
+        }
 
         return Task.CompletedTask;
     }

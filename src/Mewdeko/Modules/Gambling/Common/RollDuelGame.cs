@@ -110,7 +110,7 @@ public class RollDuelGame
                     Winner = P1;
                 else
                     Winner = P2;
-                var won = (long) (Amount * 2 * 0.98f);
+                var won = (long)(Amount * 2 * 0.98f);
                 await _cs.AddAsync(Winner, "Roll Duel win", won)
                     .ConfigureAwait(false);
 

@@ -45,7 +45,6 @@ public class Mewdeko
         if (shardId < 0)
             throw new ArgumentOutOfRangeException(nameof(shardId));
 
-
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
         _db = new DbService(Credentials.TotalShards);
@@ -74,7 +73,6 @@ public class Mewdeko
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
 
-
     public static Color OkColor { get; set; }
     public static Color ErrorColor { get; set; }
 
@@ -83,9 +81,7 @@ public class Mewdeko
     private IServiceProvider Services { get; set; }
     private IDataCache Cache { get; }
 
-
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
-
 
     public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
 
@@ -93,12 +89,10 @@ public class Mewdeko
     {
         using var uow = _db.GetDbContext();
         var cachedConfig = Cache.GetGuildConfig(guildId);
-        GuildConfig gc;
-        gc = cachedConfig ?? uow.ForGuildId(guildId);
-        return gc;
+        return cachedConfig ?? uow.ForGuildId(guildId);
     }
 
-    public void UpdateGuildConfig(ulong guildId, GuildConfig config) 
+    public void UpdateGuildConfig(ulong guildId, GuildConfig config)
         => Cache.AddOrUpdateGuildConfig(guildId, config);
 
     private void AddServices()
@@ -110,8 +104,7 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            var configs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId));
-            foreach (var config in configs)
+            foreach (var config in (IEnumerable<GuildConfig>)uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)))
             {
                 UpdateGuildConfig(config.GuildId, config);
             }
@@ -160,11 +153,15 @@ public class Mewdeko
             AllowAutoRedirect = false
         });
         if (Environment.GetEnvironmentVariable("MEWDEKO_IS_COORDINATED") != "1")
+        {
             s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
+        }
         else
+        {
             s.AddSingleton<RemoteGrpcCoordinator>()
-                .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
-                .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+                        .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
+                        .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+        }
 
         s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
                                   .AddClasses(classes => classes.AssignableToAny(
@@ -179,7 +176,6 @@ public class Mewdeko
                                   .WithSingletonLifetime()
         );
 
-
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
         //initialize Services
         Services = s.BuildServiceProvider();
@@ -190,7 +186,6 @@ public class Mewdeko
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
     }
-
 
     private IEnumerable<object> LoadTypeReaders(Assembly assembly)
     {
@@ -227,7 +222,6 @@ public class Mewdeko
             new TryParseTypeReader<Emote>(Emote.TryParse),
             new TryParseTypeReader<Emoji>(Emoji.TryParse));
 
-
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
         sw.Stop();
         Log.Information($"TypeReaders loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -241,10 +235,7 @@ public class Mewdeko
 
         Task SetClientReady()
         {
-            var _ = Task.Run(() =>
-            {
-                clientReady.TrySetResult(true);
-            });
+            var _ = Task.Run(() => clientReady.TrySetResult(true));
             return Task.CompletedTask;
         }
 
@@ -376,7 +367,6 @@ public class Mewdeko
 
         // start handling messages received in commandhandler
 
-
         HandleStatusChanges();
         Ready.TrySetResult(true);
         _ = Task.Run(ExecuteReadySubscriptions);
@@ -416,7 +406,6 @@ public class Mewdeko
         await RunAsync().ConfigureAwait(false);
         await Task.Delay(-1).ConfigureAwait(false);
     }
-
 
     private void HandleStatusChanges()
     {

@@ -25,7 +25,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
         public async Task ListQuotes(int page = 1, OrderType order = OrderType.Keyword)
         {
-            page -= 1;
+            page--;
             if (page < 0)
                 return;
 
@@ -36,14 +36,18 @@ public partial class Utility
             }
 
             var enumerable = quotes as Quote[] ?? quotes.ToArray();
-            if (enumerable.Any())
+            if (enumerable.Length > 0)
+            {
                 await ctx.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
-                        string.Join("\n",
-                            enumerable.Select(q =>
-                                $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
-                    .ConfigureAwait(false);
+                                    string.Join("\n",
+                                        enumerable.Select(q =>
+                                            $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
+                                .ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyErrorLocalizedAsync("quotes_page_none").ConfigureAwait(false);
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -160,7 +164,6 @@ public partial class Utility
 
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), out var embed, out var plainText))
             {
-
                 await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embed: embed?.Build())
                          .ConfigureAwait(false);
             }
@@ -199,7 +202,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteDelete(int id)
         {
-            var isAdmin = ((IGuildUser) ctx.Message.Author).GuildPermissions.Administrator;
+            var isAdmin = ((IGuildUser)ctx.Message.Author).GuildPermissions.Administrator;
 
             var success = false;
             string response;

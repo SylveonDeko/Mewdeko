@@ -14,7 +14,7 @@ public class PermValue
     {
         if (obj == null || GetType() != obj.GetType()) return false;
 
-        return Value == ((PermValue) obj).Value;
+        return Value == ((PermValue)obj).Value;
     }
 
     public override int GetHashCode() => Value.GetHashCode();

@@ -14,9 +14,8 @@ public abstract class ImageDownloader<T> : IImageDownloader
     {
         PropertyNameCaseInsensitive = true,
         NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString,
-            
     };
-        
+
     public Booru Booru { get; }
 
     public ImageDownloader(Booru booru, HttpClient http)
