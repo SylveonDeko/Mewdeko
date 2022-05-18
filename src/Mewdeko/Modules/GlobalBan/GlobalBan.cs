@@ -119,7 +119,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription(
                             "Scam Link Report submitted! Please join the support server below in case we need to contact you.");
                     var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
-                        url: "https://discord.gg/Mewdeko", style: ButtonStyle.Link);
+                        url: "https://discord.gg/mewdeko", style: ButtonStyle.Link);
                     await msg.ModifyAsync(x =>
                     {
                         x.Embed = eb3.Build();
@@ -202,7 +202,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription(
                             "Scammer Report submitted! Please join the support server below in case we need to contact you.");
                     var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
-                        url: "https://discord.gg/Mewdeko", style: ButtonStyle.Link);
+                        url: "https://discord.gg/mewdeko", style: ButtonStyle.Link);
                     await msg.ModifyAsync(x =>
                     {
                         x.Embed = eb3.Build();
@@ -292,7 +292,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription(
                             "Raid Report submitted! Please join the support server below in case we need to contact you.");
                     var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
-                        url: "https://discord.gg/Mewdeko", style: ButtonStyle.Link);
+                        url: "https://discord.gg/mewdeko", style: ButtonStyle.Link);
                     await msg.ModifyAsync(x =>
                     {
                         x.Embed = eb3.Build();
@@ -381,7 +381,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription(
                             "Perms Abuse Report submitted! Please join the support server below in case we need to contact you.");
                     var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
-                        url: "https://discord.gg/Mewdeko", style: ButtonStyle.Link);
+                        url: "https://discord.gg/mewdeko", style: ButtonStyle.Link);
                     await msg.ModifyAsync(x =>
                     {
                         x.Embed = eb3.Build();
