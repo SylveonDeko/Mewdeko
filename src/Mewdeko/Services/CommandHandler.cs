@@ -279,7 +279,7 @@ public class CommandHandler : INService
             var ctx = new SocketInteractionContext(_client, interaction);
             var blacklistService = _services.GetService<BlacklistService>();
             var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
-                url: "https://discord.gg/Mewdeko").Build();
+                url: "https://discord.gg/mewdeko").Build();
             foreach (var bl in blacklistService.BlacklistEntries)
             {
                 if (ctx.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == ctx.Guild.Id)
