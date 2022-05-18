@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -30,6 +31,7 @@ public class HelpService : ILateExecutor, INService
     private readonly GlobalPermissionService _perms;
     private readonly PermissionService _nPerms;
     private readonly IDataCache _cache;
+    private readonly InteractionService _interactionService;
 
     public HelpService(
         CommandHandler ch,
@@ -42,7 +44,8 @@ public class HelpService : ILateExecutor, INService
         CommandService cmds,
         GlobalPermissionService perms,
         PermissionService nPerms,
-        IDataCache cache)
+        IDataCache cache,
+        InteractionService interactionService)
     {
         _dpos = dpos;
         _strings = strings;
@@ -57,6 +60,7 @@ public class HelpService : ILateExecutor, INService
         _perms = perms;
         _nPerms = nPerms;
         _cache = cache;
+        _interactionService = interactionService;
         _ = ClearHelp();
     }
 
@@ -84,7 +88,7 @@ public class HelpService : ILateExecutor, INService
             $"\nDo `{_ch.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
             $"\nDo `{_ch.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
-            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/Mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
+            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(x => x is HelpDisabled)).Distinct();
         var count = 0;
         if (description)
@@ -172,7 +176,7 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/Mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build());
@@ -201,7 +205,7 @@ public class HelpService : ILateExecutor, INService
             };
             eb.AddField("How to look for commands",
                 $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
-            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/Mewdeko \nInvite Link: https://mewdeko.tech/invite");
+            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
             eb.WithThumbnailUrl(
                 "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
             eb.WithOkColor();
@@ -213,10 +217,11 @@ public class HelpService : ILateExecutor, INService
     public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
     {
         if (com.Attributes.Any(x => x is HelpDisabled))
-            throw new Exception("Help is disabled for this command.");
+            return new EmbedBuilder().WithDescription("Help is disabled for this command.");
         var prefix = _ch.GetPrefix(guild);
-
-        var str = string.Format("**`{0}`**", prefix + com.Aliases[0]);
+        var a = com.MethodName();
+        var potentialCommand = _interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
+        var str = $"**`{prefix + com.Aliases[0]}`**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
             str += string.Format(" **/ `{0}`**", prefix + alias);
@@ -230,7 +235,7 @@ public class HelpService : ILateExecutor, INService
             em.AddField("User Permissions", string.Join("\n", reqs));
         if (botReqs.Length > 0)
             em.AddField("Bot Permissions", string.Join("\n", botReqs));
-
+        em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"`/{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}`");
         em.AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(string.Join("\n",
                                 Array.ConvertAll(com.RealRemarksArr(_strings, guild?.Id, prefix),
                                     arg => Format.Code(arg))))
@@ -240,12 +245,10 @@ public class HelpService : ILateExecutor, INService
 
         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
             ?.OptionType;
-        if (opt != null)
-        {
-            var hs = GetCommandOptionHelp(opt);
-            if (!string.IsNullOrWhiteSpace(hs))
-                em.AddField(GetText("options", guild), hs);
-        }
+        if (opt == null) return em;
+        var hs = GetCommandOptionHelp(opt);
+        if (!string.IsNullOrWhiteSpace(hs))
+            em.AddField(GetText("options", guild), hs);
 
         return em;
     }
