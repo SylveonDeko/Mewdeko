@@ -1173,5 +1173,5 @@
     "ct_interaction_name_invalid": "Interaction names must be less than 32 characters and not be entirely blank space. Slash command names can only contain letters, numbers, and hyphens (-), in addition they must be all lowercase. Read [Discord's official documentation](https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-naming) for more information. If you want to change the interaction name without effecting normal trigger, run `/triggers interactions name`.",
     "ct_realname": "Real Name",
     "ct_interaction_description": "Application Command Description",
-    "ct_interaction_id": "Interaction ID (for debugging purposes [learn more](https://discord.dev/interactions/application-commands))"
+    "ct_interaction_id": "Application Command ID"
 }
