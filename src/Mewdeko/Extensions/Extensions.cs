@@ -435,4 +435,60 @@ public static class Extensions
 
         return addedTypes;
     }
+
+    public static SlashCommandOptionBuilder AddOptions(this SlashCommandOptionBuilder builder, IEnumerable<SlashCommandOptionBuilder> options)
+    {
+        foreach (var option in options)
+        {
+            builder.AddOption(option);
+        }
+
+        return builder;
+    }
+
+    public static string[] GetCtNames(this IApplicationCommand command)
+    {
+        var baseName = command.Name;
+        var sgs = command.Options.Where(x =>
+            x.Type is ApplicationCommandOptionType.SubCommand or ApplicationCommandOptionType.SubCommandGroup);
+
+        if (!sgs.Any()) return new[] {baseName};
+
+        var ctNames = new List<string>();
+        foreach (var sg in sgs)
+            if (sg.Type == ApplicationCommandOptionType.SubCommand)
+                ctNames.Add(baseName + " " + sg.Name);
+            else
+                ctNames.AddRange(sg.Options.Select(x => baseName + " " + sg.Name + " " + x.Name));
+
+        return ctNames.ToArray();
+    }
+
+    public static string GetRealName(this SocketInteraction interaction)
+    {
+        switch (interaction)
+        {
+            case SocketUserCommand uCmd:
+                return uCmd.Data.Name;
+            case SocketMessageCommand mCmd:
+                return mCmd.Data.Name;
+            default:
+                {
+                    if (interaction is not SocketSlashCommand sCmd) throw new ArgumentException("interaction is not a valid type");
+                    return (sCmd.Data.Name
+                            + " "
+                            + ((sCmd.Data.Options?.FirstOrDefault()?.Type is ApplicationCommandOptionType.SubCommand
+                                   or ApplicationCommandOptionType.SubCommandGroup
+                                   ? sCmd.Data.Options?.First().Name
+                                   : "")
+                               ?? "")
+                            + " "
+                            + (sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Type
+                               == ApplicationCommandOptionType.SubCommand
+                                ? sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Name
+                                : "")
+                            ?? "").Trim();
+                }
+        }
+    }
 }

@@ -130,6 +130,37 @@ public static class Extensions
                 (await cr.ResponseWithContextAsync(ctx, client, cr.ContainsAnywhere).ConfigureAwait(false))
                 .SanitizeMentions(sanitize)).ConfigureAwait(false);
     }
+    
+    public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers cr, SocketInteraction inter,
+        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
+    {
+        var channel = cr.DmResponse
+            ? await inter.User.CreateDMChannelAsync().ConfigureAwait(false)
+            : inter.Channel as IChannel;
+
+        if (SmartEmbed.TryParse(cr.Response, out var crembed, out var plainText))
+        {
+            var trigger = cr.Trigger.ResolveTriggerString(client);
+            var substringIndex = trigger.Length + 1;
+
+            var canMentionEveryone = (inter.User as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
+
+            var rep = new ReplacementBuilder()
+                .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
+                .Build();
+
+            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText );
+            if (sanitize)
+                plainText = plainText.SanitizeMentions();
+            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral).ConfigureAwait(false);
+            return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
+        }
+
+        await inter.RespondAsync(
+            (await cr.ResponseWithContextAsync(fakeMsg, client, cr.ContainsAnywhere).ConfigureAwait(false))
+            .SanitizeMentions(sanitize), ephemeral:ephemeral).ConfigureAwait(false);
+        return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WordPosition GetWordPosition(this ReadOnlySpan<char> str, in ReadOnlySpan<char> word)

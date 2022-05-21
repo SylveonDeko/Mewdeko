@@ -10,6 +10,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
@@ -276,24 +277,37 @@ public class CommandHandler : INService
     {
         _ = Task.Run(async () =>
         {
-            var ctx = new SocketInteractionContext(_client, interaction);
             var blacklistService = _services.GetService<BlacklistService>();
             var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
                 url: "https://discord.gg/mewdeko").Build();
             foreach (var bl in blacklistService.BlacklistEntries)
             {
-                if (ctx.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == ctx.Guild.Id)
+                if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
                 {
-                    await ctx.Interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components: cb);
+                    await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components: cb);
                     return;
                 }
 
-                if (bl.Type == BlacklistType.User && bl.ItemId == ctx.User.Id)
+                if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
                 {
-                    await ctx.Interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral: true, components: cb);
+                    await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral: true, components: cb);
                     return;
                 }
             }
+
+            if (interaction.Type == InteractionType.ApplicationCommand )
+            {
+                var ctS = _services.GetService<ChatTriggersService>();
+                var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
+                var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
+                if (trigger is not null)
+                {
+                    await ctS.RunInteractionTrigger(_client, interaction, trigger);
+                    return;
+                }
+            }
+
+            var ctx = new SocketInteractionContext(_client, interaction);
             await InteractionService.ExecuteCommandAsync(ctx, _services);
         });
         return Task.CompletedTask;

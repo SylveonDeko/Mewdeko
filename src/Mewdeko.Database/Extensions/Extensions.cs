@@ -12,7 +12,7 @@ public static class Extensions
             case 0:
                 return string.Empty;
             case <= 3:
-                return string.Concat(str.Select(_ => '.'));
+                return new string('.', maxLength);
         }
 
         if (str.Length < maxLength)
@@ -20,6 +20,6 @@ public static class Extensions
 
         if (hideDots)
             return string.Concat(str.Take(maxLength));
-        return $"{string.Concat(str.Take(maxLength - 3))}...";
+        return $"{string.Concat(str.Take(maxLength - 1))}…";
     }
 }
