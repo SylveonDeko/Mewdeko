@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Services.strings;

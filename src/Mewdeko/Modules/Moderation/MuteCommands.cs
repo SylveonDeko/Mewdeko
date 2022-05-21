@@ -2,7 +2,6 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Extensions;

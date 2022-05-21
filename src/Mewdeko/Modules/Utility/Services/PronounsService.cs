@@ -1,4 +1,3 @@
-using Mewdeko.Database;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -15,11 +14,11 @@ public class PronounsService : INService
     {
         await using var uow = _db.GetDbContext();
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
-        if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new(user.Pronouns, false);
+        if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
         using var client = new HttpClient();
         var result = await client.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
         var pronouns = JsonConvert.DeserializeObject<PronounDbResult>(result);
-        return new((pronouns?.Pronouns ?? "unspecified") switch
+        return new PronounSearchResult((pronouns?.Pronouns ?? "unspecified") switch
         {
             "unspecified" => "Unspecified",
             "hh" => "he/him",

@@ -22,11 +22,11 @@ public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
         res.EnsureSuccessStatusCode();
         var resString = await res.Content.ReadAsStringAsync(cancel);
         if (string.IsNullOrWhiteSpace(resString))
-            return new();
+            return new List<DapiImageObject>();
 
         var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, _serializerOptions);
         if (images is null or { Post: null })
-            return new();
+            return new List<DapiImageObject>();
 
         return images.Post.Where(x => x.FileUrl is not null).ToList();
     }

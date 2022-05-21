@@ -30,11 +30,11 @@ public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
         var claims = new List<Claim>();
 
         if (_conf[ConfKeys.DISCORDS_KEY].Trim() == Request.Headers["Authorization"].ToString().Trim())
-            claims.Add(new(DISCORDS_CLAIM, "true"));
+            claims.Add(new Claim(DISCORDS_CLAIM, "true"));
 
         if (_conf[ConfKeys.TOPGG_KEY] == Request.Headers["Authorization"].ToString().Trim())
             claims.Add(new Claim(TOPGG_CLAIM, "true"));
 
-        return Task.FromResult(AuthenticateResult.Success(new(new(new ClaimsIdentity(claims)), SCHEME_NAME)));
+        return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(new ClaimsIdentity(claims)), SCHEME_NAME)));
     }
 }

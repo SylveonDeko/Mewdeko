@@ -11,8 +11,11 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using MoreLinq;
+using MoreLinq.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -21,6 +24,17 @@ public class LogCommandService : INService
     public enum LogType
     {
         Other,
+        EventCreated,
+        RoleUpdated,
+        RoleCreated,
+        ServerUpdated,
+        ThreadCreated,
+        UserRoleAdded,
+        UserRoleRemoved,
+        UsernameUpdated,
+        NicknameUpdated,
+        ThreadDeleted,
+        ThreadUpdated,
         MessageUpdated,
         MessageDeleted,
         UserJoined,
@@ -36,6 +50,19 @@ public class LogCommandService : INService
         UserMuted
     }
 
+    public enum LogCategoryTypes
+    {
+        All,
+        Users,
+        Threads,
+        Roles,
+        Server,
+        Channel,
+        Messages,
+        Moderation,
+        None
+        
+    }
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
     private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new();
@@ -138,28 +165,196 @@ public class LogCommandService : INService
         return $"{time:HH:mm:ss}";
     }
 
-    public async Task LogServer(ulong guildId, ulong channelId, bool value)
+    public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
         await using var uow = _db.GetDbContext();
         var logSetting = uow.LogSettingsFor(guildId).LogSetting;
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
-        logSetting.LogOtherId =
-            logSetting.MessageUpdatedId =
-                logSetting.MessageDeletedId =
-                    logSetting.UserJoinedId =
-                        logSetting.UserLeftId =
-                            logSetting.UserBannedId =
-                                logSetting.UserUnbannedId =
-                                    logSetting.UserUpdatedId =
-                                        logSetting.ChannelCreatedId =
-                                            logSetting.ChannelDestroyedId =
-                                                logSetting.ChannelUpdatedId =
-                                                        logSetting.LogVoicePresenceId =
-                                                            logSetting.UserMutedId =
-                                                                logSetting.LogVoicePresenceTTSId =
-                                                                    value ? channelId : null;
+        switch (type)
+        {
+            case LogType.Other:
+                logSetting.LogOtherId = channelId;
+                break;
+            case LogType.EventCreated:
+                logSetting.EventCreatedId = channelId;
+                break;
+            case LogType.RoleUpdated:
+                logSetting.RoleUpdatedId = channelId;
+                break;
+            case LogType.RoleCreated:
+                logSetting.RoleCreatedId = channelId;
+                break;
+            case LogType.ServerUpdated:
+                logSetting.ServerUpdatedId = channelId;
+                break;
+            case LogType.ThreadCreated:
+                logSetting.ThreadCreatedId = channelId;
+                break;
+            case LogType.UserRoleAdded:
+                logSetting.UserRoleAddedId = channelId;
+                break;
+            case LogType.UserRoleRemoved:
+                logSetting.UserRoleRemovedId = channelId;
+                break;
+            case LogType.UsernameUpdated:
+                logSetting.UsernameUpdatedId = channelId;
+                break;
+            case LogType.NicknameUpdated:
+                logSetting.NicknameUpdatedId = channelId;
+                break;
+            case LogType.ThreadDeleted:
+                logSetting.ThreadDeletedId = channelId;
+                break;
+            case LogType.ThreadUpdated:
+                logSetting.ThreadUpdatedId = channelId;
+                break;
+            case LogType.MessageUpdated:
+                logSetting.MessageUpdatedId = channelId;
+                break;
+            case LogType.MessageDeleted:
+                logSetting.MessageDeletedId = channelId;
+                break;
+            case LogType.UserJoined:
+                logSetting.UserJoinedId = channelId;
+                break;
+            case LogType.UserLeft:
+                logSetting.UserLeftId = channelId;
+                break;
+            case LogType.UserBanned:
+                logSetting.UserBannedId = channelId;
+                break;
+            case LogType.UserUnbanned:
+                logSetting.UserUnbannedId = channelId;
+                break;
+            case LogType.UserUpdated:
+                logSetting.UserUpdatedId = channelId;
+                break;
+            case LogType.ChannelCreated:
+                logSetting.ChannelCreatedId = channelId;
+                break;
+            case LogType.ChannelDestroyed:
+                logSetting.ChannelDestroyedId = channelId;
+                break;
+            case LogType.ChannelUpdated:
+                logSetting.ChannelUpdatedId = channelId;
+                break;
+            case LogType.VoicePresence:
+                logSetting.LogVoicePresenceId = channelId;
+                break;
+            case LogType.VoicePresenceTts:
+                logSetting.LogVoicePresenceTTSId = channelId;
+                break;
+            case LogType.UserMuted:
+                logSetting.UserMutedId = channelId;
+                break;
+        }
+    }
+    public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
+    {
+        await using var uow = _db.GetDbContext();
+        var logSetting = uow.LogSettingsFor(guildId).LogSetting;
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
+        switch (categoryTypes)
+        {
+            case LogCategoryTypes.All:
+                logSetting.AvatarUpdatedId = channelId;
+                logSetting.ChannelCreatedId = channelId;
+                logSetting.ChannelDestroyedId = channelId;
+                logSetting.ChannelUpdatedId = channelId;
+                logSetting.EventCreatedId = channelId;
+                logSetting.LogOtherId = channelId;
+                logSetting.MessageDeletedId = channelId;
+                logSetting.MessageUpdatedId = channelId;
+                logSetting.NicknameUpdatedId = channelId;
+                logSetting.RoleCreatedId = channelId;
+                logSetting.RoleDeletedId = channelId;
+                logSetting.RoleUpdatedId = channelId;
+                logSetting.ServerUpdatedId = channelId;
+                logSetting.ThreadCreatedId = channelId;
+                logSetting.ThreadDeletedId = channelId;
+                logSetting.ThreadUpdatedId = channelId;
+                logSetting.UserBannedId = channelId;
+                logSetting.UserJoinedId = channelId;
+                logSetting.UserLeftId = channelId;
+                logSetting.UserMutedId = channelId;
+                logSetting.UsernameUpdatedId = channelId;
+                logSetting.UserUnbannedId = channelId;
+                logSetting.UserUpdatedId = channelId;
+                logSetting.LogUserPresenceId = channelId;
+                logSetting.LogVoicePresenceId = channelId;
+                logSetting.UserRoleAddedId = channelId;
+                logSetting.UserRoleRemovedId = channelId;
+                logSetting.LogVoicePresenceTTSId = channelId;
+                break;
+            case LogCategoryTypes.Users:
+                logSetting.NicknameUpdatedId = channelId;
+                logSetting.AvatarUpdatedId = channelId;
+                logSetting.UsernameUpdatedId = channelId;
+                logSetting.UserRoleAddedId = channelId;
+                logSetting.UserRoleRemovedId = channelId;
+                logSetting.LogVoicePresenceId = channelId;
+                break;
+            case LogCategoryTypes.Threads:
+                logSetting.ThreadCreatedId = channelId;
+                logSetting.ThreadDeletedId = channelId;
+                logSetting.ThreadUpdatedId = channelId;
+                break;
+            case LogCategoryTypes.Roles:
+                logSetting.RoleCreatedId = channelId;
+                logSetting.RoleDeletedId = channelId;
+                logSetting.RoleUpdatedId = channelId;
+                break;
+            case LogCategoryTypes.Server:
+                logSetting.ServerUpdatedId = channelId;
+                logSetting.EventCreatedId = channelId;
+                break;
+            case LogCategoryTypes.Channel:
+                logSetting.ChannelUpdatedId = channelId;
+                logSetting.ChannelCreatedId = channelId;
+                logSetting.ChannelDestroyedId = channelId;
+                break;
+            case LogCategoryTypes.Messages:
+                logSetting.MessageDeletedId = channelId;
+                logSetting.MessageUpdatedId = channelId;
+                break;
+            case LogCategoryTypes.Moderation:
+                logSetting.UserMutedId = channelId;
+                logSetting.UserBannedId = channelId;
+                logSetting.UserUnbannedId = channelId;
+                break;
+            case LogCategoryTypes.None:
+                logSetting.AvatarUpdatedId = 0;
+                logSetting.ChannelCreatedId = 0;
+                logSetting.ChannelDestroyedId = 0;
+                logSetting.ChannelUpdatedId = 0;
+                logSetting.EventCreatedId = 0;
+                logSetting.LogOtherId = 0;
+                logSetting.MessageDeletedId = 0;
+                logSetting.MessageUpdatedId = 0;
+                logSetting.NicknameUpdatedId = 0;
+                logSetting.RoleCreatedId = 0;
+                logSetting.RoleDeletedId = 0;
+                logSetting.RoleUpdatedId = 0;
+                logSetting.ServerUpdatedId = 0;
+                logSetting.ThreadCreatedId = 0;
+                logSetting.ThreadDeletedId = 0;
+                logSetting.ThreadUpdatedId = 0;
+                logSetting.UserBannedId = 0;
+                logSetting.UserJoinedId = 0;
+                logSetting.UserLeftId = 0;
+                logSetting.UserMutedId = 0;
+                logSetting.UsernameUpdatedId = 0;
+                logSetting.UserUnbannedId = 0;
+                logSetting.UserUpdatedId = 0;
+                logSetting.LogUserPresenceId = 0;
+                logSetting.LogVoicePresenceId = 0;
+                logSetting.UserRoleAddedId = 0;
+                logSetting.UserRoleRemovedId = 0;
+                logSetting.LogVoicePresenceTTSId = 0;
+                break;
+        }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await uow.SaveChangesAsync();
     }
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
@@ -168,6 +363,7 @@ public class LogCommandService : INService
         {
             try
             {
+                await using var uow = _db.GetDbContext();
                 if (uAfter is not SocketGuildUser guildUser)
                     return;
 
@@ -186,38 +382,40 @@ public class LogCommandService : INService
                     return;
                 }
 
-                var embed = new EmbedBuilder();
+                var embeds = new List<Embed>();
 
-                if (before.Username != guildUser.Username)
+                if (before.ToString() != guildUser.ToString())
                 {
-                    embed.WithTitle($"👥 {GetText(g, "username_changed")}")
-                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
-                        .AddField(fb => fb.WithName("New Name").WithValue($"{guildUser.Username}").WithIsInline(true))
-                        .WithFooter(fb => fb.WithText(CurrentTime(g)))
-                        .WithOkColor();
+                    var user = uow.GetOrCreateUser(guildUser);
+                    embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
+                        .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
+                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.DiscordUser.GetUsernames(guildUser.Id).Count+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
+                        .WithOkColor().Build());
+                    var names = user.Usernames.Split("@").ToList();
+                    names.Add(guildUser.ToString());
+                    user.Usernames = string.Join("@", names);
+                    uow.DiscordUser.Update(user);
+                    await uow.SaveChangesAsync();
                 }
                 else if (before.AvatarId != guildUser.AvatarId)
                 {
-                    embed.WithTitle($"👥{GetText(g, "avatar_changed")}")
-                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .WithFooter(fb => fb.WithText(CurrentTime(g)))
-                        .WithOkColor();
-
                     var bav = before.RealAvatarUrl();
-                    if (bav != null && bav.IsAbsoluteUri)
-                        embed.WithThumbnailUrl(bav.ToString());
+                    embeds.Add(new EmbedBuilder().WithTitle($"👥{GetText(g, "avatar_changed")}")
+                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
+                        .AddField("Old Avatar", "_ _")
+                        .WithImageUrl(bav.ToString())
+                        .WithFooter(fb => fb.WithText(CurrentTime(g)))
+                        .WithOkColor().Build());
 
                     var aav = guildUser.RealAvatarUrl();
-                    if (aav != null && aav.IsAbsoluteUri)
-                        embed.WithImageUrl(aav.ToString());
+                    embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor().Build());
                 }
                 else
                 {
                     return;
                 }
 
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+                await logChannel.SendMessageAsync(embeds: embeds.ToArray()).ConfigureAwait(false);
             }
             catch
             {
@@ -227,45 +425,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    public async Task<bool> Log(ulong gid, ulong? cid, LogType type /*, string options*/)
-    {
-        ulong? channelId;
-        await using (var uow = _db.GetDbContext())
-        {
-            var logSetting = uow.LogSettingsFor(gid).LogSetting;
-            GuildLogSettings.AddOrUpdate(gid, _ => logSetting, (_, _) => logSetting);
-            channelId = type switch
-            {
-                LogType.Other => logSetting.LogOtherId = logSetting.LogOtherId == null ? cid : default,
-                LogType.MessageUpdated => logSetting.MessageUpdatedId =
-                    logSetting.MessageUpdatedId == null ? cid : default,
-                LogType.MessageDeleted => logSetting.MessageDeletedId =
-                    logSetting.MessageDeletedId == null ? cid : default,
-                LogType.UserJoined => logSetting.UserJoinedId = logSetting.UserJoinedId == null ? cid : default,
-                LogType.UserLeft => logSetting.UserLeftId = logSetting.UserLeftId == null ? cid : default,
-                LogType.UserBanned => logSetting.UserBannedId = logSetting.UserBannedId == null ? cid : default,
-                LogType.UserUnbanned => logSetting.UserUnbannedId =
-                    logSetting.UserUnbannedId == null ? cid : default,
-                LogType.UserUpdated => logSetting.UserUpdatedId = logSetting.UserUpdatedId == null ? cid : default,
-                LogType.UserMuted => logSetting.UserMutedId = logSetting.UserMutedId == null ? cid : default,
-                LogType.ChannelCreated => logSetting.ChannelCreatedId =
-                    logSetting.ChannelCreatedId == null ? cid : default,
-                LogType.ChannelDestroyed => logSetting.ChannelDestroyedId =
-                    logSetting.ChannelDestroyedId == null ? cid : default,
-                LogType.ChannelUpdated => logSetting.ChannelUpdatedId =
-                    logSetting.ChannelUpdatedId == null ? cid : default,
-                LogType.VoicePresence => logSetting.LogVoicePresenceId =
-                    logSetting.LogVoicePresenceId == null ? cid : default,
-                LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId =
-                    logSetting.LogVoicePresenceTTSId == null ? cid : default,
-                _ => null
-            };
-
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        return channelId != null;
-    }
+    
     public async Task UpdateCommandLogChannel(IGuild guild, ulong id)
     {
         await using var uow = _db.GetDbContext();
@@ -484,17 +644,18 @@ public class LogCommandService : INService
 
     private Task Client_RoleDeleted(SocketRole socketRole)
     {
-        Serilog.Log.Information("Role deleted {RoleId}", socketRole.Id);
-        _memoryCache.Set(GetRoleDeletedKey(socketRole.Id),
-            true,
-            TimeSpan.FromMinutes(5));
+        _ = Task.Run(() =>
+        {
+#if DEBUG
+            Serilog.Log.Information("Role deleted {RoleId}", socketRole.Id);
+#endif
+            _memoryCache.Set(GetRoleDeletedKey(socketRole.Id), true, TimeSpan.FromMinutes(5));
+        });
         return Task.CompletedTask;
     }
 
-    private bool IsRoleDeleted(ulong roleId)
-    {
-        return _memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out var _);
-    }
+    private bool IsRoleDeleted(ulong roleId) 
+        => _memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out _);
 
     private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
@@ -520,20 +681,12 @@ public class LogCommandService : INService
                         .ConfigureAwait(false)) != null)
                 {
                     var embed = new EmbedBuilder().WithOkColor()
-                        .WithFooter(efb => efb.WithText(CurrentTime(cacheable.Value.Guild)))
                         .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
                     if (cacheable.Value.Nickname != after.Nickname)
                     {
-                        var channel = logChannel;
-                        var channel1 = logChannel;
                         var logChannel1 = logChannel;
                         embed.WithAuthor(eab => eab.WithName($"👥 {GetText(logChannel1.Guild, "nick_change")}"))
-                            .AddField(efb =>
-                                efb.WithName(GetText(channel.Guild, "old_nick"))
-                                    .WithValue($"{cacheable.Value.Nickname}#{cacheable.Value.Discriminator}"))
-                            .AddField(efb =>
-                                efb.WithName(GetText(channel1.Guild, "new_nick"))
-                                    .WithValue($"{after.Nickname}#{after.Discriminator}"));
+                             .WithDescription($"**Old Nickname**\n=> {cacheable.Value.Nickname ?? cacheable.Value.Username}\n**New Nickname**\n=> {after.Nickname ?? after.Username}\n**Changed On**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}");
 
                         await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                     }
@@ -738,13 +891,13 @@ public class LogCommandService : INService
                     return;
 
                 if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                    || logSetting.LogVoicePresenceTTSId == null)
+                    || logSetting.LogVoicePresenceId == null)
                 {
                     return;
                 }
 
                 ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTts)
+                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)
                         .ConfigureAwait(false)) == null)
                 {
                     return;
@@ -758,7 +911,7 @@ public class LogCommandService : INService
                 else if (afterVch == null)
                     str = GetText(logChannel.Guild, "log_vc_left", usr.Username, beforeVch.Name);
 
-                await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                await logChannel.SendConfirmAsync(str).ConfigureAwait(false);
             }
             catch
             {

@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Mewdeko.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Common.Acrophobia;

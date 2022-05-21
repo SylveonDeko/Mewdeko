@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Mewdeko.Common;
 using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling.Common;

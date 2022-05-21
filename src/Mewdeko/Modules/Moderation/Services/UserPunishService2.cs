@@ -1,6 +1,5 @@
 using Discord;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
