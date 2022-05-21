@@ -1,6 +1,4 @@
-﻿using Mewdeko.Common;
-
-namespace Mewdeko.Modules.Gambling.Common;
+﻿namespace Mewdeko.Modules.Gambling.Common;
 
 public class QuadDeck : Deck
 {

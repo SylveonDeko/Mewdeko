@@ -1,6 +1,5 @@
 using Discord.Interactions;
 using Discord.WebSocket;
-using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Searches.Services;

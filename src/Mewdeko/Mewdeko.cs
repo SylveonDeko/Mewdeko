@@ -8,12 +8,10 @@ using Fergun.Interactive;
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
 using MartineApiNet;
-using Mewdeko.Common;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -60,12 +58,15 @@ public class Mewdeko
             ShardId = shardId,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
-            LogGatewayIntentWarnings = false
+            LogGatewayIntentWarnings = false,
+            FormatUsersInBidirectionalUnicode = false
+
         });
         CommandService = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
             DefaultRunMode = RunMode.Async,
+            
         });
     }
 

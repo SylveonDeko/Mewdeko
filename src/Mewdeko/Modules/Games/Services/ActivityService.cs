@@ -1,4 +1,3 @@
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Modules.Games.Services;

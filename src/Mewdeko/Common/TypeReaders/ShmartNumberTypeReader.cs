@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.Extensions.DependencyInjection;

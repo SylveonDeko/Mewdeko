@@ -6,7 +6,6 @@ using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -486,7 +485,7 @@ public class CommandHandler : INService
     }
 
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
-        x => new(new List<IUserMessage> { usrMsg }), (_, y) =>
+        x => new ConcurrentQueue<IUserMessage>(new List<IUserMessage> { usrMsg }), (_, y) =>
         {
             y.Enqueue(usrMsg);
             return y;
@@ -503,7 +502,7 @@ public class CommandHandler : INService
             {
                 await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
             }
-            CommandParseQueue[channelId] = new();
+            CommandParseQueue[channelId] = new ConcurrentQueue<IUserMessage>();
             return true;
         }
         catch
