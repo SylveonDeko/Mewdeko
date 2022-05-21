@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+using Discord;
+using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using Swan;
 using System.Diagnostics;
@@ -6,9 +7,9 @@ using System.Diagnostics;
 namespace Mewdeko.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
-public sealed class RatelimitAttribute : PreconditionAttribute
+public sealed class InteractionRatelimitAttribute : PreconditionAttribute
 {
-    public RatelimitAttribute(int seconds)
+    public InteractionRatelimitAttribute(int seconds)
     {
         if (seconds <= 0)
             throw new ArgumentOutOfRangeException(nameof(seconds));
@@ -18,8 +19,7 @@ public sealed class RatelimitAttribute : PreconditionAttribute
 
     public int Seconds { get; }
 
-    public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
-        IServiceProvider services)
+    public override Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo commandInfo, IServiceProvider services)
     {
         var credService = services.GetRequiredService<IBotCredentials>();
         if (credService.IsOwner(context.User))
@@ -29,8 +29,11 @@ public sealed class RatelimitAttribute : PreconditionAttribute
 
         var cache = services.GetService<IDataCache>();
         Debug.Assert(cache != null, $"{nameof(cache)} != null");
-        var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
-
+        TimeSpan? rem = null;
+        if (context.Interaction.Data is IComponentInteractionData compData)
+            rem = cache.TryAddRatelimit(context.User.Id, $"app_command.{compData.CustomId.Split('$')[0]}", Seconds);
+        else if (context.Interaction.Data is IApplicationCommandInteractionData intData)
+            rem = cache.TryAddRatelimit(context.User.Id, $"app_command.{intData.Id}", Seconds);
         if (rem == null)
             return Task.FromResult(PreconditionResult.FromSuccess());
 

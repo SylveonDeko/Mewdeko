@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using LinqToDB.Common;
+
+namespace Mewdeko.Database.Models;
 
 public class ChatTriggers : DbEntity
 {
@@ -28,6 +30,14 @@ public class ChatTriggers : DbEntity
             : Reactions.Split("@@@");
 
     public bool IsGlobal() => GuildId is null or 0;
+
+    public ulong ApplicationCommandId { get; set; } = 0;
+    public string ApplicationCommandName { get; set; } = "";
+    public string ApplicationCommandDescription { get; set; } = "";
+    public CTApplicationCommandType ApplicationCommandType { get; set; } = CTApplicationCommandType.None;
+    public bool EphemeralResponse { get; set; } = false;
+
+    public string RealName => ApplicationCommandName.IsNullOrWhiteSpace() ? Trigger : ApplicationCommandName;
 }
 
 public class ReactionResponse : DbEntity
@@ -41,4 +51,12 @@ public enum CTRoleGrantType
     Sender,
     Mentioned,
     Both
+}
+
+public enum CTApplicationCommandType
+{
+    None,
+    Slash,
+    Message,
+    User
 }
