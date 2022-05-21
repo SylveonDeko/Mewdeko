@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Services.strings;
 using System.Text;

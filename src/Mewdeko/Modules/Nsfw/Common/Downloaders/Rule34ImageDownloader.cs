@@ -17,7 +17,7 @@ public class Rule34ImageDownloader : ImageDownloader<Rule34Object>
         var images = await _http.GetFromJsonAsync<List<Rule34Object>>(uri, _serializerOptions, cancel).ConfigureAwait(false);
 
         if (images is null)
-            return new();
+            return new List<Rule34Object>();
 
         return images
                .Where(img => !string.IsNullOrWhiteSpace(img.Image))

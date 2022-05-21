@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common;
-using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
+﻿using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
 using Newtonsoft.Json;
 using Serilog;
 using System.IO;

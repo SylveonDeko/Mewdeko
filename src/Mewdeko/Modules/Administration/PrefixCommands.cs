@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 
 namespace Mewdeko.Modules.Administration;

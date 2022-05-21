@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Extensions;
 using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.Nsfw.Common.Downloaders;
 using Microsoft.Extensions.Caching.Memory;
@@ -37,8 +36,8 @@ public class SearchImageCacher : INService
         // initialize new cache with empty values
         foreach (var type in Enum.GetValues<Booru>())
         {
-            _typeLocks[type] = new();
-            _usedTags[type] = new();
+            _typeLocks[type] = new object();
+            _usedTags[type] = new HashSet<string>();
         }
     }
 
@@ -103,7 +102,7 @@ public class SearchImageCacher : INService
                         var set = _cache.GetOrCreate<HashSet<ImageData>>(Key(type, tag), e =>
                         {
                             e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
-                            return new();
+                            return new HashSet<ImageData>();
                         });
 
                         if (set.Count < 100)
@@ -250,7 +249,7 @@ public class SearchImageCacher : INService
 #if DEBUG
                     Log.Information("Tag {0} yields no result on {1}, skipping.", tagStr, type);
 #endif
-                    return new();
+                    return new List<ImageData>();
                 }
 
                 page = _rng.Next(0, maxPage);
@@ -273,7 +272,7 @@ public class SearchImageCacher : INService
             return result;
         }
 
-        return new();
+        return new List<ImageData>();
     }
 
     private static IImageDownloader GetImageDownloader(Booru booru, HttpClient http)
@@ -322,7 +321,7 @@ public class SearchImageCacher : INService
                 type,
                 page,
                 ex.Message);
-            return new();
+            return new List<ImageData>();
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Serilog;

@@ -3,7 +3,6 @@ using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;

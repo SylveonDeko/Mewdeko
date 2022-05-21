@@ -4,7 +4,6 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
-using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Extensions;

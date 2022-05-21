@@ -1,9 +1,7 @@
 ﻿using Discord;
 using Discord.Webhook;
 using Discord.WebSocket;
-using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -24,8 +22,8 @@ public class MultiGreetService : INService
         this.client.UserJoined += DoMultiGreet;
     }
 
-    public MultiGreet[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
-    private MultiGreet[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
+    public MultiGreet?[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
+    private MultiGreet?[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
 
     private Task DoMultiGreet(SocketGuildUser user)
     {

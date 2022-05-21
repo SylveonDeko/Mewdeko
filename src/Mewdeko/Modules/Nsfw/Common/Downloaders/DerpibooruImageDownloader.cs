@@ -22,7 +22,7 @@ public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
 
         var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(_serializerOptions, cancel).ConfigureAwait(false);
         if (container?.Images is null)
-            return new();
+            return new List<DerpiImageObject>();
 
         return container.Images
                         .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))

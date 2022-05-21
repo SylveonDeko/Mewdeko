@@ -22,7 +22,7 @@ public class E621ImageDownloader : ImageDownloader<E621Object>
 
         var data = await res.Content.ReadFromJsonAsync<E621Response>(_serializerOptions, cancel).ConfigureAwait(false);
         if (data?.Posts is null)
-            return new();
+            return new List<E621Object>();
 
         return data.Posts
                    .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
