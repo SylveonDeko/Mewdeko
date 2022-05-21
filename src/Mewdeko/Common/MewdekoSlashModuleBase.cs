@@ -81,6 +81,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         embed.WithOkColor();
         var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
             .WithButton("No", "no", ButtonStyle.Danger);
+        if (!ctx.Interaction.HasResponded) await ctx.Interaction.DeferAsync(ephemeral).ConfigureAwait(false);
         var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build(), components: buttons.Build(), ephemeral: ephemeral)
             .ConfigureAwait(false);
         try

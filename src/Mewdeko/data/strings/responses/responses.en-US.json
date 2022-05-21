@@ -1165,5 +1165,13 @@
     "pronouns_report_button": "Report Pronouns",
     "pronouns_reported": "Pronouns reported, thanks for helping keep mewdeko safe.",
     "pronouns_cleared": "The user's pronouns have been cleared and cannot be recovered.",
-    "pronouns_cleared_self": "Your pronouns have been reset to the default value (pronoun db)."
+    "pronouns_cleared_self": "Your pronouns have been reset to the default value (pronoun db).",
+    "ct_interaction_bulk_update": "Updated {0} chat triggers.",
+    "ct_interaction_bulk_update_confirm": "Are you sure you want to update all interaction chat triggers? This may take a while or have unexpected consequences and should only be run if you are having issues.",
+    "ct_interaction_type_title": "Interaction Type",
+    "ct_interaction_type_body": "{0} [Learn More](https://mewdeko.tech/p/75726fe9-c8fb-4d0e-9588-b192301c2a91/)",
+    "ct_interaction_name_invalid": "Interaction names must be less than 32 characters and not be entirely blank space. Slash command names can only contain letters, numbers, and hyphens (-), in addition they must be all lowercase. Read [Discord's official documentation](https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-naming) for more information. If you want to change the interaction name without effecting normal trigger, run `/triggers interactions name`.",
+    "ct_realname": "Real Name",
+    "ct_interaction_description": "Application Command Description",
+    "ct_interaction_id": "Interaction ID (for debugging purposes [learn more](https://discord.dev/interactions/application-commands))"
 }
