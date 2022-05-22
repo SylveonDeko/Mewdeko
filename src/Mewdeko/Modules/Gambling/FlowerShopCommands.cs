@@ -1,15 +1,20 @@
-﻿using CommandLine.Text;
+﻿using Discord;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
 using Mewdeko.Database.Common;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.ComponentModel;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using UserExtensions = Discord.UserExtensions;
 
 namespace Mewdeko.Modules.Gambling;
 
