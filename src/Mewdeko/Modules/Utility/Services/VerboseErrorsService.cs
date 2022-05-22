@@ -47,6 +47,7 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .WithDescription(reason)
                 .AddField("Usages",
                     string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _ch.GetPrefix(channel.Guild))))
+                .WithFooter($"Run {_ch.GetPrefix(channel.Guild?.Id)}ve to disable these prompts.")
                 .WithErrorColor();
 
             await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()
