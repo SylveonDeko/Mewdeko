@@ -37,7 +37,7 @@ public class ChatTriggers : DbEntity
     public CTApplicationCommandType ApplicationCommandType { get; set; } = CTApplicationCommandType.None;
     public bool EphemeralResponse { get; set; } = false;
 
-    public string RealName => ApplicationCommandName.IsNullOrWhiteSpace() ? Trigger : ApplicationCommandName;
+    public string RealName => (ApplicationCommandName.IsNullOrWhiteSpace() ? Trigger : ApplicationCommandName).Trim();
 }
 
 public class ReactionResponse : DbEntity
