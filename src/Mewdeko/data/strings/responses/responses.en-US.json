@@ -1173,5 +1173,19 @@
     "ct_interaction_name_invalid": "Interaction names must be less than 32 characters and not be entirely blank space. Slash command names can only contain letters, numbers, and hyphens (-), in addition they must be all lowercase. Read [Discord's official documentation](https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-naming) for more information. If you want to change the interaction name without effecting normal trigger, run `/triggers interactions name`.",
     "ct_realname": "Real Name",
     "ct_interaction_description": "Application Command Description",
-    "ct_interaction_id": "Application Command ID"
+    "ct_interaction_id": "Application Command ID",
+    "ct_interr_duplicate": "Duplicate Interaction Name",
+    "ct_interr_duplicate_body": "Do to restrictions put in place by discord, multiple interactions cannot have the same name.\n\n**Effecting:**\n {0}",
+    "ct_interr_subcommand_match_parent": "Subcommand Match Parent",
+    "ct_interr_subcommand_match_parent_body": "Do to restrictions put in place by discord, a subcommand's parent must not be a command.\n\n**Effecting:**\n {0}",
+    "ct_interr_invalid_name": "Invalid Interaction Name effecting",
+    "ct_interr_invalid_name_body": "Do to restrictions put in place by discord, after trimming leading/trailing whitespace on an interactions name it must be less than 32 characters, and more than 1 character. If the interaction is a slash command, it must have less than 3 spaces, be all lowercase, and not contain any characters other than letters and -s. You can use the regex `^(?:[\\w-]{1,32} {0,1}){1,3}$` to test your slash command name.\n\n**Effecting:**\n {0}",
+    "ct_interr_too_many_children": "Too Many Children effecting",
+    "ct_interr_too_many_children_body": "Do to restrictions put in place by discord, interactions cannot have more than 25 children.\n\n**Effecting:**\n {0}",
+    "ct_interaction_errors_desc": "Run /triggers interactions errors to see the errors that have been encountered.",
+    "ct_interaction_errors_title": "OH NO! I cannot update your application command chat triggers!",
+    "ct_interaction_errors_none": "No errors where found.",
+    "ct_interaction_errors_none_desc": "If your application command chat triggers are not showing up in discord, try restarting your client (ctrl+r on desktop, force-stopping and re-opening the app from settings on mobile). If you still do not see the triggers you have encountered an error with our command validation. Please report it in the [official support server](https://discord.gg/Mewdeko).",
+    "ct_interaction_errors_info_title": "{0} Errors Found",
+    "ct_interaction_errors_info_desc": "The following errors were encountered when updating your application command chat triggers. If you need help resolving any of them, please stop by the [official support server](https://discord.gg/Mewdeko)."
 }

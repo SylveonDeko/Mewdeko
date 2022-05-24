@@ -1046,10 +1046,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         try
         {
             var gACCTs = GetChatTriggersFor(guildId);
+            if (GetACCTErrors(gACCTs)?.Any() ?? false)
+            {
+                props = null;
+                return false;
+            }
             var groups = gACCTs.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Slash)
                                .GroupBy(x => x.RealName);
             props = groups.Where(x => x.Key.Split(' ').Length == 1).SelectMany(x => x).Select(x =>
-                new SlashCommandBuilder().WithName(x.RealName.Split(' ')[0]).WithDescription(x.ApplicationCommandDescription)
+                new SlashCommandBuilder().WithName(x.RealName.Split(' ')[0]).WithDescription(x.ApplicationCommandDescription.IsNullOrWhiteSpace() ? "description" : x.ApplicationCommandDescription)
                                          .WithDMPermission(false)
                                          .WithDefaultMemberPermissions(
                                              _discordPermOverride.TryGetOverrides(guildId, x.Trigger, out var perms)
@@ -1065,7 +1070,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                                                              new SlashCommandOptionBuilder()
                                                                                  .WithName(x.RealName.Split(' ')[1])
                                                                                  .WithDescription(
-                                                                                     x.ApplicationCommandDescription)
+                                                                                     x.ApplicationCommandDescription.IsNullOrWhiteSpace() ? "description" : x.ApplicationCommandDescription)
                                                                                  .WithType(ApplicationCommandOptionType
                                                                                      .SubCommand)).ToArray())
                                                                          .Build() as ApplicationCommandProperties))
@@ -1123,5 +1128,51 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return false;
         
         return type is not CTApplicationCommandType.Slash || ValidCommandRegex.IsMatch(name);
+    }
+
+    public List<ChatTriggersInteractionError>? GetACCTErrors(ulong? guildId) =>
+        GetACCTErrors(GetChatTriggersFor(guildId));
+
+    public static List<ChatTriggersInteractionError>? GetACCTErrors(IEnumerable<CTModel> triggers)
+    {
+        triggers = triggers.Where(x => x.ApplicationCommandType != CTApplicationCommandType.None);
+        var errors = new List<ChatTriggersInteractionError>();
+        Dictionary<string, List<(string Name, int Id)>> totalChildren = new();
+        foreach (var trigger in triggers )
+        {
+            var triggerDepth = trigger.RealName.Split(' ').Length;
+            var parent = triggerDepth > 1 ? trigger.RealName.Split(' ')[..^1].Join(' ') : "";
+            if (!parent.IsNullOrWhiteSpace())
+            {
+                var value = totalChildren.GetValueOrDefault(parent, new());
+                totalChildren[parent] = value.Append((trigger.RealName, trigger.Id)).ToList();
+            }
+
+            if (!IsValidName(trigger.ApplicationCommandType, trigger.RealName))
+                errors.Add(new("invalid_name", new[] {trigger.Id}, new[] {trigger.RealName}));
+
+            foreach (var newTrigger in triggers.Where(x => x.Id != trigger.Id))
+            {
+                var newTriggerDepth = trigger.RealName.Split(' ').Length;
+                if (trigger.RealName == newTrigger.RealName)
+                    errors.Add(new("duplicate", new[] {trigger.Id, newTrigger.Id},
+                        new[] {trigger.RealName, newTrigger.RealName}));
+                switch (triggerDepth)
+                {
+                    case 1 when newTriggerDepth == 2 && newTrigger.RealName.Split(' ')[0] == trigger.RealName:
+                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
+                            new[] {trigger.RealName, newTrigger.RealName}));
+                        break;
+                    case 2 when newTriggerDepth == 3 && newTrigger.RealName.Split(' ')[..1].Join(' ') == trigger.RealName:
+                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
+                            new[] {trigger.RealName, newTrigger.RealName}));
+                        break;
+                }
+            }
+        }
+
+        totalChildren.Where(x => x.Value.Count > 25).ForEach(x => errors.Add(new("too_many_children",
+            x.Value.Select(y => y.Id).ToArray(), x.Value.Select(y => y.Name).ToArray())));
+        return errors.Any() ? errors : null;
     }
 }
