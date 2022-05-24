@@ -38,6 +38,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         var serialized = Service.ExportCrs(ctx.Guild?.Id);
         await using var stream = await serialized.ToStream().ConfigureAwait(false);
         await FollowupWithFileAsync(stream, "cts-export.yml").ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("import", "Imports Chat Triggers from a .yml file."),
@@ -54,6 +56,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(content))
         {
             await FollowupAsync(GetText("expr_import_no_input")).ConfigureAwait(false);
+            await FollowupWithTriggerStatus();
             return;
         }
 
@@ -61,10 +64,12 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (!succ)
         {
             await FollowupAsync(GetText("expr_import_invalid_data")).ConfigureAwait(false);
+            await FollowupWithTriggerStatus();
             return;
         }
 
         await FollowupAsync(GetText("expr_import_success")).ConfigureAwait(false);
+        await FollowupWithTriggerStatus();
     }
 
     // respond with a modal to support multiline responces.
@@ -81,12 +86,14 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(modal.Trigger) || string.IsNullOrWhiteSpace(modal.Message))
         {
             await RespondAsync("trigger_add_invalid").ConfigureAwait(false);
+            await FollowupWithTriggerStatus();
             return;
         }
 
         var ct = await Service.AddAsync(ctx.Guild?.Id, modal.Trigger, modal.Message, rgx).ConfigureAwait(false);
 
         await RespondAsync(embed: Service.GetEmbed(ct, ctx.Guild?.Id).Build()).ConfigureAwait(false);
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("edit", "Edit a chat trigger."),
@@ -103,6 +110,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                  .WithTitle("Chat Trigger Edit")
                  .UpdateTextInput("key", x => x.Value = trigger.Trigger)
                  .UpdateTextInput("message", x => x.Value = trigger.Response)).ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
     }
 
     [ModalInteraction("chat_trigger_edit:*,*", true),
@@ -130,6 +139,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             await RespondAsync(GetText("edit_fail")).ConfigureAwait(false);
         }
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("list", "List chat triggers."),
@@ -170,6 +181,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                                                                            return str;
                                                                        })));
         }
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("list-group", "List chat triggers.."),
@@ -209,6 +222,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                                                                 $"**{ct.Key.Trim().ToLowerInvariant()}** `x{ct.Count()}`")));
             }
         }
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("show", "Shows the responce of a chat trigger.")]
@@ -220,6 +235,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
         else
             await ctx.Interaction.RespondAsync(embed: Service.GetEmbed(found, ctx.Guild?.Id).Build()).ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("delete", "delete a chat trigger."),
@@ -241,6 +258,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
         }
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("react", "add a reaction chat trigger.."),
@@ -302,6 +321,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         var text = GetText("ctr_set", Format.Bold(id.ToString()), string.Join(',', succ.Select(x => x.ToString())));
         await message.ModifyAsync(x => x.Embed = new EmbedBuilder().WithOkColor().WithDescription(text).Build()).ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("toggle-option", "Edit chat trigger options."),
@@ -336,6 +357,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await ctx.Interaction.SendConfirmAsync(GetText("option_dissabled", Format.Code(option.ToString()),
                         Format.Code(id.ToString()))).ConfigureAwait(false);
         }
+        await FollowupWithTriggerStatus();
     }
 
     [SlashCommand("clear", "Clear all chat triggers."),
@@ -350,6 +372,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ConfirmLocalizedAsync(GetText("cleared", count)).ConfigureAwait(false);
         }
+        await FollowupWithTriggerStatus();
     }
 
     [Group("roles", "roles")]
@@ -368,6 +391,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             if (!role.CanManageRole(gUsr))
             {
                 await ReplyErrorLocalizedAsync("cant_manage_role").ConfigureAwait(false);
+                await FollowupWithTriggerStatus();
                 return;
             }
 
@@ -375,18 +399,22 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             if (ct is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+                await FollowupWithTriggerStatus();
                 return;
             }
 
             if (ct.GetRemovedRoles().Contains(role.Id))
             {
                 await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
+                await FollowupWithTriggerStatus();
                 return;
             }
 
             await Service.ToggleGrantedRole(ct, role.Id).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("ct_toggled_roll_grant", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+
+            await FollowupWithTriggerStatus();
         }
 
         [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user."),
@@ -421,6 +449,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await Service.ToggleRemovedRole(ct, role.Id).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("ct_toggled_roll_remove", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+
+            await FollowupWithTriggerStatus();
         }
 
         [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -438,6 +468,19 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             {
                 await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build());
             }
+
+            await FollowupWithTriggerStatus();
+        }
+
+        private async Task FollowupWithTriggerStatus()
+        {
+            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            if (!(errors?.Any() ?? false)) return;
+            var embed = new EmbedBuilder()
+                        .WithTitle(GetText("ct_interaction_errors_title"))
+                        .WithDescription(GetText("ct_interaction_errors_desc"))
+                        .WithErrorColor();
+            await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true);
         }
     }
 
@@ -452,6 +495,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             #if DEBUG
             await RespondAsync("This command is disabled in debug builds because it will clear **all** commands.").ConfigureAwait(false);
+            await FollowupWithTriggerStatus();
             return;
             #endif
             if (await PromptUserConfirmAsync(GetText("ct_interaction_bulk_update_confirm"), ctx.User.Id)
@@ -461,6 +505,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 var count = await Service.RegisterTriggersToGuildAsync(ctx.Guild).ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("ct_interaction_bulk_update", count).ConfigureAwait(false);
             }
+
+            await FollowupWithTriggerStatus();
         }
 
         [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
@@ -496,6 +542,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                     .ConfigureAwait(false);
             }
+
+            await FollowupWithTriggerStatus();
         }
 
         [SlashCommand("name", "Sets the name of the interaction."),
@@ -515,6 +563,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                     .ConfigureAwait(false);
             }
+
+            await FollowupWithTriggerStatus();
         }
         
         [SlashCommand("description", "Sets the description of the interaction."),
@@ -534,6 +584,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                     .ConfigureAwait(false);
             }
+
+            await FollowupWithTriggerStatus();
         }
         
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
@@ -553,6 +605,53 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                     .ConfigureAwait(false);
             }
+
+            await FollowupWithTriggerStatus();
         }
+
+        private async Task FollowupWithTriggerStatus()
+        {
+            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            if (!(errors?.Any() ?? false)) return;
+            var embed = new EmbedBuilder()
+                        .WithTitle(GetText("ct_interaction_errors_title"))
+                        .WithDescription(GetText("ct_interaction_errors_desc"))
+                        .WithErrorColor();
+            await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true);
+        }
+
+        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
+        private async Task Errors()
+        {
+            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            var eb = new EmbedBuilder();
+            var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
+            if (errors?.Any() ?? false)
+            {
+                eb.WithFields(errors.Select(x =>
+                      new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
+                          GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(x => $" - {x}").Join('\n')))))
+                  .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
+                  .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
+            }
+            else
+            {
+                eb.WithOkColor().WithTitle(GetText("ct_interaction_errors_none"))
+                  .WithDescription(GetText("ct_interaction_errors_none_desc"));
+            }
+
+            await RespondAsync(embed: eb.Build(), components: cb.Build());
+        }
+    }
+
+    private async Task FollowupWithTriggerStatus()
+    {
+        var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+        if (!(errors?.Any() ?? false)) return;
+        var embed = new EmbedBuilder()
+            .WithTitle(GetText("ct_interaction_errors_title"))
+            .WithDescription(GetText("ct_interaction_errors_desc"))
+            .WithErrorColor();
+        await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true);
     }
 }
