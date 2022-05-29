@@ -13,6 +13,7 @@ public sealed class CheckPermissions : PreconditionAttribute
     public override Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
         ICommandInfo executingCommand, IServiceProvider services)
     {
+        if (context.Guild is null) return Task.FromResult(PreconditionResult.FromSuccess());
         var commandname = executingCommand.MethodName.ToLower() switch
         {
             "addhighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
