@@ -3,7 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Services;

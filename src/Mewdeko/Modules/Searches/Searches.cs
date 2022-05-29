@@ -9,7 +9,7 @@ using GScraper.Google;
 using MartineApiNet;
 using MartineApiNet.Enums;
 using MartineApiNet.Models.Images;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;

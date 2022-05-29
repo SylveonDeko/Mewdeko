@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp;

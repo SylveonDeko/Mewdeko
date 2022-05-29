@@ -5,7 +5,7 @@ using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.SlashCommands;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class CheckPermissions : PreconditionAttribute

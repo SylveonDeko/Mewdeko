@@ -330,7 +330,7 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk>();
+        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk?>();
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current).ConfigureAwait(false);
     }

@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Commands;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;

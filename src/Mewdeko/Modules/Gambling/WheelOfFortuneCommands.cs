@@ -1,5 +1,5 @@
 ﻿using Discord;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;

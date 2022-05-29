@@ -80,15 +80,15 @@ public class RedisCache : IDataCache
                 { id, objectList }
             });
 
-    public List<Afk> GetAfkForGuild(ulong id)
+    public List<Afk?>? GetAfkForGuild(ulong id)
     {
-        var customers = new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis);
+        var customers = new RedisDictionary<ulong, List<Afk?>?>($"{_redisKey}_afk", Redis);
         return customers[id];
     }
 
-    public Task AddAfkToCache(ulong id, List<Afk> newAfk)
+    public Task AddAfkToCache(ulong id, List<Afk?> newAfk)
     {
-        var customers = new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis);
+        var customers = new RedisDictionary<ulong, List<Afk?>>($"{_redisKey}_afk", Redis);
         customers.Remove(id);
         customers.Add(id, newAfk);
         return Task.CompletedTask;
@@ -102,9 +102,9 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
-    public Task AddHighlightToCache(ulong id, List<Highlights> newHighlight)
+    public Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight)
     {
-        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
+        var customers = new RedisDictionary<ulong, List<Highlights?>>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
@@ -147,37 +147,37 @@ public class RedisCache : IDataCache
         var value = db.StringGet($"{_redisKey}_ignoredchannels_{guildId}_{userId}");
         return JsonConvert.DeserializeObject<string>(value);
     }
-    public Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight)
+    public Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight)
     {
-        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
+        var customers = new RedisDictionary<ulong, List<Highlights?>>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
 
-    public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlight)
+    public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlight)
     {
-        var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
+        var customers = new RedisDictionary<ulong, List<HighlightSettings?>>($"{_redisKey}_highlightSettings", Redis);
         customers.Remove(id);
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
 
-    public Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
+    public Task<List<SnipeStore>>? GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
         return Task.FromResult(customers[id]);
     }
 
-    public List<Highlights> GetHighlightsForGuild(ulong id)
+    public List<Highlights?>? GetHighlightsForGuild(ulong id)
     {
-        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
+        var customers = new RedisDictionary<ulong, List<Highlights?>?>($"{_redisKey}_highlights", Redis);
         return customers[id];
     }
 
-    public List<HighlightSettings> GetHighlightSettingsForGuild(ulong id)
+    public List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id)
     {
-        var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
+        var customers = new RedisDictionary<ulong, List<HighlightSettings?>?>($"{_redisKey}_highlightSettings", Redis);
         return customers[id];
     }
 

@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Interactions;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;

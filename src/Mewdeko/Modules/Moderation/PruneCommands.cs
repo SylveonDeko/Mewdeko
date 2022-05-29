@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;

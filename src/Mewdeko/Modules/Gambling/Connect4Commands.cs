@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Connect4;
@@ -45,7 +45,7 @@ public partial class Gambling
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         MewdekoOptionsAttribute(typeof(Connect4Game.Options))]
+         MewdekoOptions(typeof(Connect4Game.Options))]
         public async Task Connect4(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new Connect4Game.Options(), args);

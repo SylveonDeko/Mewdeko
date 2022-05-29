@@ -4,7 +4,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;

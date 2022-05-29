@@ -5,7 +5,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;

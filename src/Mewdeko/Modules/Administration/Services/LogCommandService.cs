@@ -2,7 +2,6 @@
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko.Common.Collections;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -11,8 +10,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using MoreLinq;
-using MoreLinq.Extensions;
 using System.Collections.Concurrent;
 using System.Threading;
 using Embed = Discord.Embed;

@@ -4,13 +4,12 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.MultiGreets.Services;
-using System.Net;
 using System.Net.Http;
 
 namespace Mewdeko.Modules.MultiGreets;
