@@ -157,7 +157,7 @@ public partial class Gambling
         public async Task NRoll([Remainder] string range)
         {
             int rolled;
-            if (range.Contains("-"))
+            if (range.Contains('-'))
             {
                 var arr = range.Split('-')
                     .Take(2)
