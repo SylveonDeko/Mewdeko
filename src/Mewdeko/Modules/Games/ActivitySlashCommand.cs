@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Interactions;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Services;
 

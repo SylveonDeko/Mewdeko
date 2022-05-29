@@ -4,7 +4,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
@@ -625,11 +625,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         var rng = new MewdekoRandom();
         var arr = await Task.Run(() => socketGuild.Users
-            .Where(u => u.Activities?.FirstOrDefault()?.Name.ToUpperInvariant() == game)
-            .Select(u => u.Username)
-            .OrderBy(_ => rng.Next())
-            .Take(60)
-            .ToArray()).ConfigureAwait(false);
+                                                  .Where(x => x.Activities.Any())
+                                                  .Where(u =>  u.Activities.FirstOrDefault().Name.ToUpperInvariant().Contains(game))
+                                                  .OrderBy(_ => rng.Next())
+                                                  .ToArray()).ConfigureAwait(false);
 
         var i = 0;
         if (arr.Length == 0)
@@ -638,9 +637,27 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
         else
         {
-            await ctx.Channel.SendConfirmAsync(
-                                 $"```css\n{string.Join("\n", arr.GroupBy(_ => i++ / 2).Select(ig => string.Concat(ig.Select(el => $"• {el,-27}"))))}\n```")
-                        .ConfigureAwait(false);
+            
+            var paginator = new LazyPaginatorBuilder()
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(arr.Length / 20)
+                            .WithDefaultEmotes()
+                            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                            .Build();
+            
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                TimeSpan.FromMinutes(60));
+            
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                var pagebuilder = new PageBuilder().WithOkColor()
+                                            .WithDescription(string.Join("\n", arr.Skip(page * 20).Take(20).Select(x => $"{(i++)+1}. {x.Username}#{x.Discriminator} `{x.Id}`: `{(x.Activities.FirstOrDefault() is CustomStatusGame cs ? cs.State : x.Activities.FirstOrDefault().Name)}`")));
+                return pagebuilder;
+            }
+                
         }
     }
 

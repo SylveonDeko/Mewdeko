@@ -2,7 +2,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
@@ -28,6 +28,9 @@ public partial class Utility
                                        .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
                                        .AddField("Is Managed", role.IsManaged)
                                        .AddField("Permissions", string.Join(",", role.Permissions))
+                                       .AddField("Creation Date", role.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"))
+                                       .AddField("Position", role.Position)
+                                       .AddField("ID", role.Id)
                                        .WithThumbnailUrl(role.GetIconUrl());
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
