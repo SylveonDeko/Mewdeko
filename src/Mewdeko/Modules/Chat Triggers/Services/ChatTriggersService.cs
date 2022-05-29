@@ -979,7 +979,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 : Array.Empty<CTModel>();
         }
 
-        return Array.Empty<CTModel>();
+        lock (_gcrWriteLock)
+        {
+            return globalReactions;
+        }
     }
 
     public async Task ToggleGrantedRole(CTModel ct, ulong rId)
