@@ -9,7 +9,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using JikanDotNet;
 using MartineApiNet;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using NekosBestApiNet;

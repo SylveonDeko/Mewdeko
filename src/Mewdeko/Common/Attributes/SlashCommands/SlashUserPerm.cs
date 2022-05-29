@@ -4,7 +4,7 @@ using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.SlashCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class SlashUserPermAttribute : PreconditionAttribute

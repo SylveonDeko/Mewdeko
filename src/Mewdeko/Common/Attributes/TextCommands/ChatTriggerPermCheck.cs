@@ -3,7 +3,7 @@ using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.TextCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class ChatTriggerPermCheck : PreconditionAttribute

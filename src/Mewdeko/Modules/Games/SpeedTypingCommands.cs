@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
@@ -24,7 +24,7 @@ public partial class Games
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         MewdekoOptionsAttribute(typeof(TypingGame.Options))]
+         MewdekoOptions(typeof(TypingGame.Options))]
         public async Task TypeStart(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
