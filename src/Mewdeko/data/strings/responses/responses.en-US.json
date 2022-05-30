@@ -1187,5 +1187,11 @@
     "ct_interaction_errors_none": "No errors where found.",
     "ct_interaction_errors_none_desc": "If your application command chat triggers are not showing up in discord, try restarting your client (ctrl+r on desktop, force-stopping and re-opening the app from settings on mobile). If you still do not see the triggers you have encountered an error with our command validation. Please report it in the [official support server](https://discord.gg/Mewdeko).",
     "ct_interaction_errors_info_title": "{0} Errors Found",
-    "ct_interaction_errors_info_desc": "The following errors were encountered when updating your application command chat triggers. If you need help resolving any of them, please stop by the [official support server](https://discord.gg/Mewdeko)."
+    "ct_interaction_errors_info_desc": "The following errors were encountered when updating your application command chat triggers. If you need help resolving any of them, please stop by the [official support server](https://discord.gg/Mewdeko).",
+    "ct_role_add_enabled": "The role {0} will be added when the trigger {1} is run.",
+    "ct_role_add_disabled": "The role {0} will no longer be added when the trigger {1} is run.",
+    "ct_role_remove_enabled": "The role {0} will be removed when the trigger {1} is run.",
+    "ct_role_remove_disabled": "The role {0} will no longer be removed when the trigger {1} is run.",
+    "ct_role_toggle_enabled": "The role {0} will be toggled on all effected users when the trigger {1} is run.",
+    "ct_role_toggle_disabled": "The role {0} will no longer be toggled on all effected users when the trigger {1} is run."
 }
