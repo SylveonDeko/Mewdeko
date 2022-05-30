@@ -15,4 +15,13 @@ public static class ChatTriggersExtensions
            .Where(x => x != 0)
            .Distinct()
            .ToList();
+
+    public static bool IsRemoved(this ChatTriggers trigger, ulong roleId) =>
+        trigger.RemovedRoles?.Contains(roleId.ToString()) ?? false;
+    public static bool IsGranted(this ChatTriggers trigger, ulong roleId) =>
+        trigger.GrantedRoles?.Contains(roleId.ToString()) ?? false;
+
+    public static bool IsToggled(this ChatTriggers trigger, ulong roleId) =>
+        trigger.IsGranted(roleId) && trigger.IsRemoved(roleId);
+
 }

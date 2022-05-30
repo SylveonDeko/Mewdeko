@@ -359,22 +359,28 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             return;
         }
 
-        var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
-        if (cr is null)
+        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+
+
+        if (ct is null)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
             return;
         }
 
-        if (cr.GetRemovedRoles().Contains(role.Id))
-        {
-            await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
-            return;
-        }
+        var toggleDisabled = ct.IsToggled(role.Id);
 
-        await Service.ToggleGrantedRole(cr, role.Id).ConfigureAwait(false);
+        await Service.ToggleGrantedRole(ct, role.Id).ConfigureAwait(false);
 
-        await ReplyConfirmLocalizedAsync("ct_toggled_roll_grant", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+        var str = toggleDisabled
+            ? "ct_role_toggle_disabled"
+            : ct.IsToggled(role.Id)
+                ? "ct_role_toggle_enabled"
+                : ct.IsGranted(role.Id)
+                    ? "ct_role_add_enabled"
+                    : "ct_role_add_disabled";
+
+        await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -389,21 +395,25 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             return;
         }
 
-        var cr = Service.GetChatTriggers(ctx.Guild?.Id, id);
-        if (cr is null)
+        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (ct is null)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
             return;
         }
 
-        if (cr.GetGrantedRoles().Contains(role.Id))
-        {
-            await ReplyErrorLocalizedAsync("ct_roll_add_remove").ConfigureAwait(false);
-            return;
-        }
+        var toggleDisabled = ct.IsToggled(role.Id);
 
-        await Service.ToggleRemovedRole(cr, role.Id).ConfigureAwait(false);
+        await Service.ToggleRemovedRole(ct, role.Id).ConfigureAwait(false);
 
-        await ReplyConfirmLocalizedAsync("ct_toggled_roll_remove", Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+        var str = toggleDisabled
+            ? "ct_role_toggle_disabled"
+            : ct.IsToggled(role.Id)
+                ? "ct_role_toggle_enabled"
+                : ct.IsRemoved(role.Id)
+                    ? "ct_role_remove_enabled"
+                    : "cr_role_remove_disabled";
+
+        await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 }

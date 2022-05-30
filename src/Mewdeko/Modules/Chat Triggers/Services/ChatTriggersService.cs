@@ -228,7 +228,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     {
                         var baseRoles = user.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
                         var roles = baseRoles.Where(x => !ct.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
-                        roles.AddRange(ct.GetGrantedRoles());
+                        roles.AddRange(ct.GetGrantedRoles().Where(x => !user.RoleIds.Contains(x)));
                         // difference is caused by @everyone
                         if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))
                             await user.ModifyAsync(x => x.RoleIds = new(roles));
@@ -348,7 +348,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     {
                         var baseRoles = user.RoleIds.Where(x => x != guildUser.Guild?.EveryoneRole.Id).ToList();
                         var roles = baseRoles.Where(x => !ct.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
-                        roles.AddRange(ct.GetGrantedRoles());
+                        roles.AddRange(ct.GetGrantedRoles().Where(x => !user.RoleIds.Contains(x)));
                         
                         // difference is caused by @everyone
                         if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))

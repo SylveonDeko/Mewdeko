@@ -20,8 +20,8 @@ public class ChatTriggers : DbEntity
     public bool AllowTarget { get; set; }
     public string Reactions { get; set; }
 
-    public string GrantedRoles { get; set; }
-    public string RemovedRoles { get; set; }
+    public string GrantedRoles { get; set; } = "";
+    public string RemovedRoles { get; set; } = "";
     public CTRoleGrantType RoleGrantType { get; set; }
 
     public string[] GetReactions() =>
