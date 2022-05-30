@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using AngleSharp.Text;
+using Discord;
 using Discord.WebSocket;
 using LinqToDB.Common;
 using Mewdeko.Common;
@@ -1044,55 +1045,89 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return eb;
     }
 
-    public bool TryGetApplicationCommandProperties(ulong guildId, out ApplicationCommandProperties[]? props)
+    private record TriggerChildGrouping(string Name, CTModel? Triggers, List<TriggerChildGrouping>? Children);
+
+    public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildID)
+    {
+
+        var props = new List<ApplicationCommandProperties>();
+        var groups = new List<TriggerChildGrouping>();
+
+        var triggers = GetChatTriggersFor(guildID);
+
+        if (GetACCTErrors(triggers)?.Any() ?? false)
+        {
+            throw new InvalidOperationException("ACCTs cannot be build when ACCT errors are detected.");
+        }
+
+        if (triggers.Length == 0)
+            return props;
+        groups = triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Slash
+                                     && x.RealName.Split(' ').Length == 1)
+                         .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
+        triggers.Where(x =>
+            x.ApplicationCommandType == CTApplicationCommandType.Slash && x.RealName.Split(' ').Length == 2).ForEach(
+            x =>
+            {
+                if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
+                    groups.First(y => y.Name == x.RealName.Split(' ').First()).Children
+                          .Add(new(x.RealName.Split(' ').Last(), x, null));
+                else
+                    groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>
+                    {
+                        new(x.RealName.Split(' ').Last(), x, null)
+                    }));
+            });
+
+        triggers.Where(x =>
+            x.ApplicationCommandType == CTApplicationCommandType.Slash && x.RealName.Split(' ').Length == 3).Select(
+            x =>
+            {
+                TriggerChildGrouping group = null;
+                if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
+                    group = groups.First(y => y.Name == x.RealName.Split(' ').First());
+                else
+                {
+                    groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>()));
+                    group = groups.First(y => y.Name == x.RealName.Split(' ').First());
+                }
+
+                return (Triggers: x, Group: group);
+            }).Select(x =>
+        {
+            TriggerChildGrouping group = null;
+            var groups = x.Group.Children;
+            if (groups.Any(y => y.Name == x.Triggers.RealName.Split(' ')[1]))
+                group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
+            else
+            {
+                groups.Add(new(x.Triggers.RealName.Split(' ')[1], null, new()));
+                group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
+            }
+
+            return (Triggers: x.Triggers, Group: group);
+        }).ForEach(x => x.Group.Children.Add(new(x.Triggers.RealName, x.Triggers, null)));
+
+        props = groups.Select(x => new SlashCommandBuilder()
+            .WithName(x.Name)
+            .WithDescription((x.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : x.Triggers!.ApplicationCommandDescription)
+            .AddOptions(x.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : (x.Children.Select(y => new SlashCommandOptionBuilder()
+                .WithName(y.Name)
+                .WithDescription((y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : y.Triggers!.ApplicationCommandDescription)
+                .WithType(y.Triggers is null ? ApplicationCommandOptionType.SubCommandGroup : ApplicationCommandOptionType.SubCommand)
+                .AddOptions(y.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : y.Children.Select(z => new SlashCommandOptionBuilder()
+                    .WithName(z.Name.Split(' ')[2])
+                    .WithDescription((z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : z.Triggers!.ApplicationCommandDescription)
+                    .WithType(ApplicationCommandOptionType.SubCommand)).ToArray()))).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
+
+        return props;
+    }
+
+    public bool TryGetApplicationCommandProperties(ulong guildId, out List<ApplicationCommandProperties>? props)
     {
         try
         {
-            var gACCTs = GetChatTriggersFor(guildId);
-            if (GetACCTErrors(gACCTs)?.Any() ?? false)
-            {
-                props = null;
-                return false;
-            }
-            var groups = gACCTs.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Slash)
-                               .GroupBy(x => x.RealName);
-            props = groups.Where(x => x.Key.Split(' ').Length == 1).SelectMany(x => x).Select(x =>
-                new SlashCommandBuilder().WithName(x.RealName.Split(' ')[0]).WithDescription(x.ApplicationCommandDescription.IsNullOrWhiteSpace() ? "description" : x.ApplicationCommandDescription)
-                                         .WithDMPermission(false)
-                                         .WithDefaultMemberPermissions(
-                                             _discordPermOverride.TryGetOverrides(guildId, x.Trigger, out var perms)
-                                                 ? perms
-                                                 : GuildPermission.SendMessages)
-                                         .Build() as ApplicationCommandProperties).ToArray();
-            var l2Groups = groups.Where(x => x.Key.Split(' ').Length == 2).GroupBy(x => x.Key.Split(' ')[1]);
-            props = props.Concat(l2Groups.SelectMany(x => x).Select(x => new SlashCommandBuilder()
-                                                                         .WithName(x.Key.Split(' ')[0])
-                                                                         .WithDescription("description")
-                                                                         .WithDMPermission(false)
-                                                                         .AddOptions(x.Select(x =>
-                                                                             new SlashCommandOptionBuilder()
-                                                                                 .WithName(x.RealName.Split(' ')[1])
-                                                                                 .WithDescription(
-                                                                                     x.ApplicationCommandDescription.IsNullOrWhiteSpace() ? "description" : x.ApplicationCommandDescription)
-                                                                                 .WithType(ApplicationCommandOptionType
-                                                                                     .SubCommand)).ToArray())
-                                                                         .Build() as ApplicationCommandProperties))
-                         .ToArray(); ;
-            props = props.Concat(gACCTs.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Message).Select(
-                x => new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false)
-                                                .WithDefaultMemberPermissions(
-                                                    _discordPermOverride.TryGetOverrides(guildId, x.Trigger,
-                                                        out var perms)
-                                                        ? perms
-                                                        : GuildPermission.SendMessages)
-                                                .Build() as ApplicationCommandProperties)).ToArray();
-            props = props.Concat(gACCTs.Where(x => x.ApplicationCommandType == CTApplicationCommandType.User).Select(
-                x => new UserCommandBuilder().WithName(x.RealName).WithDMPermission(false)
-                                             .WithDefaultMemberPermissions(
-                                                 _discordPermOverride.TryGetOverrides(guildId, x.Trigger, out var perms)
-                                                     ? perms
-                                                     : GuildPermission.SendMessages)
-                                             .Build() as ApplicationCommandProperties)).ToArray();
+            props = GetApplicationCommandProperties(guildId);
             return true;
         }
         catch

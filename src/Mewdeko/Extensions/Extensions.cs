@@ -436,15 +436,15 @@ public static class Extensions
         return addedTypes;
     }
 
-    public static SlashCommandOptionBuilder AddOptions(this SlashCommandOptionBuilder builder, IEnumerable<SlashCommandOptionBuilder> options)
-    {
-        foreach (var option in options)
-        {
-            builder.AddOption(option);
-        }
-
-        return builder;
-    }
+    // public static SlashCommandOptionBuilder AddOptions(this SlashCommandOptionBuilder builder, IEnumerable<SlashCommandOptionBuilder> options)
+    // {
+    //     foreach (var option in options)
+    //     {
+    //         builder.AddOption(option);
+    //     }
+    //
+    //     return builder;
+    // }
 
     public static string[] GetCtNames(this IApplicationCommand command)
     {
