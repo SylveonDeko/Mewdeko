@@ -1146,7 +1146,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         foreach (var prop in props)
             cmd.Add(await guild.CreateApplicationCommandAsync(prop));
         #else
-        var cmd = await guild.BulkOverwriteApplicationCommandsAsync(props).ConfigureAwait(false);
+        var cmd = await guild.BulkOverwriteApplicationCommandsAsync(props.ToArray()).ConfigureAwait(false);
         #endif
         if (cmd is null)
             return false;
