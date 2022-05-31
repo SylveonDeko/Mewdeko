@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Mewdeko.Common;
 using Mewdeko.Common.Modals;
 using Mewdeko.Extensions;
 

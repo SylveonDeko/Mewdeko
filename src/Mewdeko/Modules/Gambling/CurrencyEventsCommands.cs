@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
@@ -25,7 +24,7 @@ public partial class Gambling
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         MewdekoOptionsAttribute(typeof(EventOptions)), OwnerOnly]
+         MewdekoOptions(typeof(EventOptions)), OwnerOnly]
         public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
         {
             var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);

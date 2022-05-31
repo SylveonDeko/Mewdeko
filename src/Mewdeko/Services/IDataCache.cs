@@ -11,23 +11,23 @@ public interface IDataCache
     ILocalDataCache LocalData { get; }
 
     Task CacheAfk(ulong id, List<Afk> objectList);
-    List<Afk> GetAfkForGuild(ulong id);
+    List<Afk?>? GetAfkForGuild(ulong id);
     Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
     Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
-    Task AddAfkToCache(ulong id, List<Afk> newAfk);
+    Task AddAfkToCache(ulong id, List<Afk?> newAfk);
     Task CacheHighlights(ulong id, List<Highlights> highlights);
     void AddOrUpdateGuildConfig(ulong id, GuildConfig guildConfig);
     void DeleteGuildConfig(ulong id);
     GuildConfig? GetGuildConfig(ulong id);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
-    Task AddHighlightToCache(ulong id, List<Highlights> newHighlight);
-    Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight);
+    Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight);
+    Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight);
     Task<RedisResult> ExecuteRedisCommand(string command);
-    Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlightSetting);
+    Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlightSetting);
     Task<bool> TryAddHighlightStaggerUser(ulong id);
-    List<Highlights> GetHighlightsForGuild(ulong id);
-    List<HighlightSettings> GetHighlightSettingsForGuild(ulong id);
-    Task<List<SnipeStore>> GetSnipesForGuild(ulong id);
+    List<Highlights?>? GetHighlightsForGuild(ulong id);
+    List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id);
+    Task<List<SnipeStore>>? GetSnipesForGuild(ulong id);
     Task SetGuildSettingInt(ulong guildId, string setting, int value);
     Task<int> GetGuildSettingInt(ulong guildId, string setting);
     Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);

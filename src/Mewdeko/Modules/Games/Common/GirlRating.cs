@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common;
-using Serilog;
+﻿using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;

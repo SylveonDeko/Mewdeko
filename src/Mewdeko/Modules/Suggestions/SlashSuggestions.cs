@@ -1,8 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
 using Mewdeko.Extensions;
@@ -59,16 +58,16 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         switch (state)
         {
             case "accept":
-                await Accept(sugId, modal.Reason);
+                await Accept(sugId, modal.Reason.EscapeQuotes());
                 break;
             case "deny":
-                await Deny(sugId, modal.Reason);
+                await Deny(sugId, modal.Reason.EscapeQuotes());
                 break;
             case "consider":
-                await Consider(sugId, modal.Reason);
+                await Consider(sugId, modal.Reason.EscapeQuotes());
                 break;
             case "implement":
-                await Implemented(sugId, modal.Reason);
+                await Implemented(sugId, modal.Reason.EscapeQuotes());
                 break;
         }
     }

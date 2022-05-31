@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using SixLabors.ImageSharp;

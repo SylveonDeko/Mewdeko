@@ -3,7 +3,7 @@ using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.SlashCommands;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class PermRoleCheck : PreconditionAttribute
 {

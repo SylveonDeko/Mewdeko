@@ -1,6 +1,4 @@
-﻿using Mewdeko.Common;
-
-namespace Mewdeko.Services;
+﻿namespace Mewdeko.Services;
 
 public interface IImageCache
 {

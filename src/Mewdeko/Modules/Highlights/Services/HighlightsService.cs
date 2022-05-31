@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -162,7 +161,7 @@ public class HighlightsService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         uow.Highlights.Add(toadd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights>();
+        var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights?>();
         current.Add(toadd);
         await _cache.AddHighlightToCache(guildId, current);
     }
@@ -183,7 +182,7 @@ public class HighlightsService : INService, IReadyExecutor
             };
             uow.HighlightSettings.Add(toadd);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
         }
@@ -191,7 +190,7 @@ public class HighlightsService : INService, IReadyExecutor
         toupdate.HighlightsOn = enabled;
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
     }
@@ -215,7 +214,7 @@ public class HighlightsService : INService, IReadyExecutor
             toadd.IgnoredChannels = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
             return ignored;
@@ -234,7 +233,7 @@ public class HighlightsService : INService, IReadyExecutor
         toupdate.IgnoredChannels = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
         return ignored;
@@ -260,7 +259,7 @@ public class HighlightsService : INService, IReadyExecutor
             toadd.IgnoredUsers = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
             await _cache.AddHighlightSettingToCache(guildId, current1);
             return ignored;
@@ -279,18 +278,18 @@ public class HighlightsService : INService, IReadyExecutor
         toupdate.IgnoredUsers = string.Join(" ", toedit);
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
         await _cache.AddHighlightSettingToCache(guildId, current);
         return ignored;
     }
 
-    public async Task RemoveHighlight(Database.Models.Highlights toremove)
+    public async Task RemoveHighlight(Database.Models.Highlights? toremove)
     {
         await using var uow = _db.GetDbContext();
         uow.Highlights.Remove(toremove);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetHighlightsForGuild(toremove.GuildId) ?? new List<Database.Models.Highlights>();
+        var current = _cache.GetHighlightsForGuild(toremove.GuildId) ?? new List<Database.Models.Highlights?>();
         if (current.Count > 0)
         {
             toremove.Id = 0;
@@ -299,24 +298,24 @@ public class HighlightsService : INService, IReadyExecutor
         await _cache.RemoveHighlightFromCache(toremove.GuildId, current);
     }
 
-    public List<Database.Models.Highlights> GetForGuild(ulong guildId)
+    public List<Database.Models.Highlights?> GetForGuild(ulong guildId)
     {
         var cache = _cache.GetHighlightsForGuild(guildId);
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
-        var highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
-        if (highlights.Count == 0) return new List<Database.Models.Highlights>();
+        List<Database.Models.Highlights?> highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
+        if (highlights.Count == 0) return new List<Database.Models.Highlights?>();
         _cache.AddHighlightToCache(guildId, highlights);
         return highlights;
     }
 
-    public IEnumerable<HighlightSettings> GetSettingsForGuild(ulong guildId)
+    public IEnumerable<HighlightSettings?> GetSettingsForGuild(ulong guildId)
     {
         var cache = _cache.GetHighlightSettingsForGuild(guildId);
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
-        var highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
-        if (highlightSettings.Count == 0) return new List<HighlightSettings>();
+        List<HighlightSettings?> highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
+        if (highlightSettings.Count == 0) return new List<HighlightSettings?>();
         _cache.AddHighlightSettingToCache(guildId, highlightSettings);
         return highlightSettings;
     }

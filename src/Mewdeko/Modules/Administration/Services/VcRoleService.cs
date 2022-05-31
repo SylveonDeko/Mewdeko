@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;

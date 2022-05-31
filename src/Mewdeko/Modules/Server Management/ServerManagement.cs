@@ -1,8 +1,7 @@
 using Discord;
 using Discord.Commands;
 using Discord.Net;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Server_Management.Services;
 using System.Net.Http;

@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using Mewdeko.Common;
 using Mewdeko.Extensions;
 using System.Collections.Immutable;
 using System.Threading;

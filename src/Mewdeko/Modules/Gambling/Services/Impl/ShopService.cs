@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database;
-using Mewdeko.Database.Common;
+﻿using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;

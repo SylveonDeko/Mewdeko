@@ -1871,6 +1871,10 @@ log:
     Toggles logging event. Disables it if it is active anywhere on the server.
     Enables if it isn't active. Use `{0}logevents` to see a list of all events
     you can subscribe to.
+logcategory:
+  args:
+    - Users
+  desc: Placeholder until command is done
 logevents:
   args:
     - ''

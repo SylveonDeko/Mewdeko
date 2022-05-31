@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Gambling.Common.AnimalRacing;
 

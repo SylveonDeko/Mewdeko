@@ -1,5 +1,4 @@
 ﻿using Discord.WebSocket;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Modules.GlobalBan.Services;

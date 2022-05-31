@@ -1,10 +1,12 @@
-﻿using Discord;
+﻿
+
+#nullable enable
+using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
@@ -28,8 +30,6 @@ using System.Text.RegularExpressions;
 using Color = SixLabors.ImageSharp.Color;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;
-
-#nullable enable
 namespace Mewdeko.Extensions;
 
 public static class Extensions
