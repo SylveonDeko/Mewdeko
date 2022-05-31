@@ -1,8 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Confessions.Services;
 

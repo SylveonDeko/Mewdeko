@@ -1,11 +1,13 @@
-﻿using Mewdeko.Database.Models;
+﻿
+
+#nullable enable
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Newtonsoft.Json;
 using Serilog;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
-
-#nullable enable
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class PicartoProvider : Provider
@@ -66,7 +68,7 @@ public class PicartoProvider : Provider
         {
             try
             {
-                http.DefaultRequestHeaders.Accept.Add(new("application/json"));
+                http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 // get id based on the username
                 var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
 

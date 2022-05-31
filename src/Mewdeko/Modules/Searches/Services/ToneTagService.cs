@@ -1,5 +1,4 @@
 using Discord;
-using Mewdeko.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -34,7 +33,7 @@ public class ToneTagService
             else success.Add(tt);
         });
 
-        return new(success, rawTags.Where(x => !fails.Contains(x)).ToList(), fails);
+        return new ParseResult(success, rawTags.Where(x => !fails.Contains(x)).ToList(), fails);
     }
 
     public EmbedBuilder GetEmbed(ParseResult result, IGuild? guild = null)

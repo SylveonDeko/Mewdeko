@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common;
-using System.Threading;
+﻿using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Common;
 

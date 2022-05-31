@@ -4,8 +4,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;
@@ -18,8 +17,13 @@ namespace Mewdeko.Modules.MultiGreets;
 public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 {
     private readonly InteractiveService _interactivity;
+    private readonly HttpClient _httpClient;
 
-    public MultiGreets(InteractiveService interactivity) => this._interactivity = interactivity;
+    public MultiGreets(InteractiveService interactivity, HttpClient httpClient)
+    {
+        this._interactivity = interactivity;
+        _httpClient = _httpClient;
+    }
 
     public enum MultiGreetTypes
     {
@@ -173,8 +177,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     "The avatar url used is not a direct url or is invalid! Please use a different url.");
                 return;
             }
-            var http = new HttpClient();
-            using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
+            using var sr = await _httpClient.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
                                      .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();

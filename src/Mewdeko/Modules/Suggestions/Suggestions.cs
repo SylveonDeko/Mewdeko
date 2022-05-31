@@ -2,8 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
 

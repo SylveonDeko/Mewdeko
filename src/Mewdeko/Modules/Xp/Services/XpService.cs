@@ -1,9 +1,7 @@
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common;
 using Mewdeko.Common.Collections;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -763,7 +761,7 @@ public class XpService : INService, IUnloadableService
         {
             var username = stats.User.Username;
             var fontSize = (int)(template.User.Name.FontSize * 0.9);
-            var size = TextMeasurer.Measure($"{username}", new(_fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
+            var size = TextMeasurer.Measure($"{username}", new TextOptions(_fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
             var scale = 400f / size.Width;
             var font = scale >= 1
                 ? _fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)

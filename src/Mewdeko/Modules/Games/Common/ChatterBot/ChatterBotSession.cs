@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Extensions;
 using Newtonsoft.Json;
 using System.Net.Http;
 

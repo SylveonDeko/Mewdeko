@@ -370,7 +370,7 @@ public sealed class CoordinatorRunner : BackgroundService
                     }
                 }
 
-                shardStatuses[shardId] = new(
+                shardStatuses[shardId] = new ShardStatus(
                     shardId,
                     DateTime.UtcNow,
                     statusObj.GuildCount,

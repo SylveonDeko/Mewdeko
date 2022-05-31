@@ -1,10 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Extensions;
 using Serilog;
@@ -332,7 +330,7 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk>();
+        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk?>();
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current).ConfigureAwait(false);
     }

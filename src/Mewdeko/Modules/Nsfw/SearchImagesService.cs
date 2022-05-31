@@ -1,5 +1,3 @@
-using Mewdeko.Common;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;

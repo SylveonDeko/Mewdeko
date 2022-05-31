@@ -4,7 +4,7 @@ using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.TextCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class UserPermAttribute : PreconditionAttribute

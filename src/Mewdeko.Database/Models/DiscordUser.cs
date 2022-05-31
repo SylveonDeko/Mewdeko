@@ -29,4 +29,6 @@ public class DiscordUser : DbEntity
     public string Pronouns { get; set; }
     public string PronounsClearedReason { get; set; }
     public bool PronounsDisabled { get; set; }
+    public string Usernames { get; set; }
+    public string Nicknames { get; set; }
 }

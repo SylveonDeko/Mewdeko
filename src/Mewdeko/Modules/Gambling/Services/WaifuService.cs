@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;

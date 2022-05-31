@@ -1,6 +1,4 @@
-﻿using Mewdeko.Common;
-
-namespace Mewdeko.Modules.Games.Common.Trivia;
+﻿namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaQuestionPool
 {
