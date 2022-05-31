@@ -294,7 +294,7 @@ public class CommandHandler : INService
                 }
             }
 
-            if (interaction.Type == InteractionType.ApplicationCommand )
+            if (interaction.Type == InteractionType.ApplicationCommand)
             {
                 var ctS = _services.GetService<ChatTriggersService>();
                 var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
