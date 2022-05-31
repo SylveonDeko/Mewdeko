@@ -1,7 +1,6 @@
 using Discord;
 using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -158,7 +157,7 @@ public partial class Gambling
         public async Task NRoll([Remainder] string range)
         {
             int rolled;
-            if (range.Contains("-"))
+            if (range.Contains('-'))
             {
                 var arr = range.Split('-')
                     .Take(2)

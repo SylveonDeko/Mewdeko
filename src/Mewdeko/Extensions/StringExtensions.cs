@@ -21,7 +21,7 @@ public static class StringExtensions
         = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
 
-    public static readonly Regex _userMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
+    public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
 
     public static string PadBoth(this string str, int length)
     {
@@ -52,8 +52,6 @@ public static class StringExtensions
 
     public static bool CheckIfNotEmbeddable(this string input)
         => input.EndsWith("gifv") || input.EndsWith("mp4");
-    public static string GetExtension(this string attachmentName)
-        => Path.GetExtension(attachmentName);
     public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 
     public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
@@ -153,9 +151,9 @@ public static class StringExtensions
 
     public static string SanitizeRoleMentions(this string str) => str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
 
-    public static string RemoveUserMentions(this string str) => _userMentionsRegex.Replace(str, "");
+    public static string RemoveUserMentions(this string str) => UserMentionsRegex.Replace(str, "");
 
-    public static IEnumerable<ulong> GetUserMentions(this string str) => _userMentionsRegex.Matches(str)
+    public static IEnumerable<ulong> GetUserMentions(this string str) => UserMentionsRegex.Matches(str)
         .Select(x => x.Groups["id"]).SelectMany(x => x.Captures).Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
         .Where(x => x is not 0).Distinct();
 
@@ -173,5 +171,5 @@ public static class StringExtensions
 
     public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
 
-    public static string EscapeQuotes(this string txt) => txt.Replace("\"", "''");
+    public static string EscapeQuotes(this string txt) => txt.Replace("\"", "\\\"");
 }

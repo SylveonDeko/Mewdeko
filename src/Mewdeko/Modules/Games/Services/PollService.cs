@@ -1,5 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database;
+using Discord;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
@@ -45,7 +44,7 @@ public class PollService : INService
 
     public static Poll CreatePoll(ulong guildId, ulong channelId, string input, PollType type)
     {
-        if (string.IsNullOrWhiteSpace(input) || !input.Contains(";"))
+        if (string.IsNullOrWhiteSpace(input) || !input.Contains(';'))
             return null;
         var data = input.Split(';');
         if (data.Length < 3)

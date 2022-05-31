@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.TextCommands;
 
 public static class CommandNameLoadHelper
 {

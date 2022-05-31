@@ -818,12 +818,13 @@ lockdown:
   - lockall
 log:
   - log
+logcategory:
+  - logcategory
+  - logc
 logevents:
   - logevents
 logignore:
   - logignore
-logserver:
-  - logserver
 loop:
   - loop
   - repeat

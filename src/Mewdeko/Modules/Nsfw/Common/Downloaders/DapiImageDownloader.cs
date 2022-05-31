@@ -30,10 +30,10 @@ public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
     {
         // up to 2 tags allowed on danbooru
         if (tags.Length > 2)
-            return new();
+            return new List<DapiImageObject>();
 
         if (!await AllTagsValid(tags, cancel).ConfigureAwait(false))
-            return new();
+            return new List<DapiImageObject>();
 
         var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
 
@@ -41,7 +41,7 @@ public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
         var imageObjects = await _http.GetFromJsonAsync<DapiImageObject[]>(uri, _serializerOptions, cancel)
                                       .ConfigureAwait(false);
         if (imageObjects is null)
-            return new();
+            return new List<DapiImageObject>();
         return imageObjects
                .Where(x => x.FileUrl is not null)
                .ToList();

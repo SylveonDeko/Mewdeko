@@ -1,8 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Mewdeko.Modules.Games.Services;
@@ -29,7 +28,7 @@ public partial class Games
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0),
-         MewdekoOptionsAttribute(typeof(TriviaOptions))]
+         MewdekoOptions(typeof(TriviaOptions))]
         public Task Trivia(params string[] args) => InternalTrivia(args);
 
         public async Task InternalTrivia(params string[] args)

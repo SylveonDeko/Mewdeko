@@ -4,7 +4,6 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;

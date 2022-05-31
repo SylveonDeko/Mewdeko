@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.TextCommands;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-public sealed class OwnerOnlyAttribute : PreconditionAttribute
+public sealed class OfficialServerModAttribute : PreconditionAttribute
 {
     public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context,
         CommandInfo executingCommand, IServiceProvider services)
@@ -12,8 +12,8 @@ public sealed class OwnerOnlyAttribute : PreconditionAttribute
         var creds = services.GetService<IBotCredentials>();
 
         return Task.FromResult(
-            creds != null && (creds.IsOwner(context.User) || context.Client.CurrentUser.Id == context.User.Id)
+            creds != null && (creds.IsOfficialMod(context.User) || context.Client.CurrentUser.Id == context.User.Id)
                 ? PreconditionResult.FromSuccess()
-                : PreconditionResult.FromError("Not owner"));
+                : PreconditionResult.FromError("Not Mod In Official Support"));
     }
 }

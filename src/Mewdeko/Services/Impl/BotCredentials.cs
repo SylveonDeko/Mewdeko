@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Mewdeko.Common;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;

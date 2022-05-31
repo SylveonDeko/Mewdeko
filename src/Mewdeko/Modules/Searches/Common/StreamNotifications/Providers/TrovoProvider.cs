@@ -79,7 +79,7 @@ If you are experiencing ratelimits, you should create your own application at: h
             }
 
             _failingStreams.TryRemove(data.Username, out _);
-            return new()
+            return new StreamData
             {
                 IsLive = data.IsLive,
                 Game = data.CategoryName,

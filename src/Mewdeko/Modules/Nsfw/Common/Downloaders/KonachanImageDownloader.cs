@@ -19,7 +19,7 @@ public sealed class KonachanImageDownloader : ImageDownloader<DapiImageObject>
         var imageObjects = await _http.GetFromJsonAsync<DapiImageObject[]>(uri, _serializerOptions, cancel)
                                       .ConfigureAwait(false);
         if (imageObjects is null)
-            return new();
+            return new List<DapiImageObject>();
         return imageObjects
                .Where(x => x.FileUrl is not null)
                .ToList();

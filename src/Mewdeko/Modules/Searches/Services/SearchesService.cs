@@ -4,8 +4,6 @@ using Discord;
 using Discord.WebSocket;
 using GTranslate.Translators;
 using Html2Markdown;
-using Mewdeko.Common;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;

@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.TextCommands;
 
 public class BotPermAttribute : RequireBotPermissionAttribute
 {

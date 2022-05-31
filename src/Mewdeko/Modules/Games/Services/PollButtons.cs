@@ -1,5 +1,4 @@
 ﻿using Discord.Interactions;
-using Mewdeko.Common;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
 

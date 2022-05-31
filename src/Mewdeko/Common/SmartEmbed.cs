@@ -6,7 +6,7 @@ namespace Mewdeko.Common;
 
 public class SmartEmbed
 {
-    public static bool TryParse(string input, out EmbedBuilder? embed, out string plainText)
+    public static bool TryParse(string input, out EmbedBuilder? embed, out string? plainText)
     {
         CrEmbed crembed;
         embed = null;
