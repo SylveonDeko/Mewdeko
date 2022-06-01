@@ -86,23 +86,16 @@ public class FeedsService : INService
                                 if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                                 {
                                     var previewElement = atomFeedItem.Element.Elements()
-                                                            .FirstOrDefault(x => x.Name.LocalName == "preview");
+                                                                     .FirstOrDefault(x => x.Name.LocalName == "preview")
+                                                         ?? atomFeedItem.Element.Elements()
+                                                                        .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
 
-                                    if (previewElement == null)
+                                    var urlAttribute = previewElement?.Attribute("url");
+                                    if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                                             && Uri.IsWellFormedUriString(urlAttribute.Value,
+                                                                 UriKind.Absolute))
                                     {
-                                        previewElement = atomFeedItem.Element.Elements()
-                                                            .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-                                    }
-
-                                    if (previewElement != null)
-                                    {
-                                        var urlAttribute = previewElement.Attribute("url");
-                                        if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
-                                                                 && Uri.IsWellFormedUriString(urlAttribute.Value,
-                                                                     UriKind.Absolute))
-                                        {
-                                            return urlAttribute.Value;
-                                        }
+                                        return urlAttribute.Value;
                                     }
                                 }
                                 if (feedItem.SpecificItem is not MediaRssFeedItem mediaRssFeedItem
@@ -164,15 +157,12 @@ public class FeedsService : INService
                                     .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
                             }
 
-                            if (previewElement != null)
+                            var urlAttribute = previewElement?.Attribute("url");
+                            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                                     && Uri.IsWellFormedUriString(urlAttribute.Value,
+                                                         UriKind.Absolute))
                             {
-                                var urlAttribute = previewElement.Attribute("url");
-                                if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
-                                                         && Uri.IsWellFormedUriString(urlAttribute.Value,
-                                                             UriKind.Absolute))
-                                {
-                                    embed.WithImageUrl(urlAttribute.Value);
-                                }
+                                embed.WithImageUrl(urlAttribute.Value);
                             }
                         }
 
@@ -192,7 +182,7 @@ public class FeedsService : INService
                             if (feed1.Message is "-" or null)
                                 allSendTasks.Add(channel.EmbedAsync(embed));
                             else
-                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embed: builder?.Build()));
+                                allSendTasks.Add(channel.SendMessageAsync(content, embed: builder.Build()));
                         }
                     }
                 }
@@ -206,7 +196,7 @@ public class FeedsService : INService
         }
     }
 
-    public async Task TestRss(FeedSub sub, ITextChannel channel)
+    public static async Task TestRss(FeedSub sub, ITextChannel channel)
     {
         var feed = await FeedReader.ReadAsync(sub.Url);
         var (feedItem, _) = feed.Items
@@ -261,13 +251,10 @@ public class FeedsService : INService
         {
             var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
             if (previewElement == null) previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-            if (previewElement != null)
+            var urlAttribute = previewElement?.Attribute("url");
+            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
             {
-                var urlAttribute = previewElement.Attribute("url");
-                if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
-                {
-                    embed.WithImageUrl(urlAttribute.Value);
-                }
+                embed.WithImageUrl(urlAttribute.Value);
             }
         }
 
@@ -276,7 +263,7 @@ public class FeedsService : INService
         if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
         var (builder, content) = await GetFeedEmbed(repbuilder.Replace(sub.Message));
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
-        else await channel.SendMessageAsync(content ?? "", embed: builder?.Build());
+        else await channel.SendMessageAsync(content, embed: builder.Build());
     }
     private static Task<(EmbedBuilder builder, string content)> GetFeedEmbed(string message)
         => SmartEmbed.TryParse(message, out var embed, out var content) ? Task.FromResult((embed, content)) : Task.FromResult<(EmbedBuilder, string)>((null, message));
@@ -305,7 +292,7 @@ public class FeedsService : INService
         var gc = uow.ForGuildId(guildId,
             set => set.Include(x => x.FeedSubs));
 
-        if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
+        if (gc.FeedSubs.Any(x => string.Equals(x.Url, fs.Url, StringComparison.CurrentCultureIgnoreCase)))
             return false;
         if (gc.FeedSubs.Count >= 10) return false;
 

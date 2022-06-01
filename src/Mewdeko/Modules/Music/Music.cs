@@ -127,7 +127,7 @@ public class Music : MewdekoModuleBase<MusicService>
         switch (action)
         {
             case PlaylistAction.Show:
-                MusicPlaylist plist;
+                MusicPlaylist? plist;
                 if (playlistOrSongName is null)
                 {
                     if (Service.GetDefaultPlaylist(ctx.User) is not null)
@@ -144,7 +144,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 else
                 {
                     plist = Service.GetPlaylists(ctx.User)
-                                   .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower())!;
+                                   .FirstOrDefault(x => string.Equals(x.Name, playlistOrSongName, StringComparison.CurrentCultureIgnoreCase))!;
                 }
 
                 var songcount = 1;
@@ -250,7 +250,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     }
 
                     var plist3 = Service.GetPlaylists(ctx.User).Where(x => x.Name.ToLower() == playlistOrSongName);
-                    var musicPlaylists = plist3 as MusicPlaylist[] ?? plist3.ToArray();
+                    var musicPlaylists = plist3 as MusicPlaylist?[] ?? plist3.ToArray();
                     if (musicPlaylists.Length == 0)
                     {
                         await ctx.Channel.SendErrorAsync("A playlist with that name wasnt found!");
@@ -279,7 +279,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             await Service.Enqueue(ctx.Guild.Id, ctx.User, search, platform);
                         }
 
-                        var player = _lavaNode.GetPlayer(ctx.Guild);
+                        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search);
                         await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100);
@@ -336,7 +336,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         var search = await _lavaNode.GetTrackAsync(i.Query);
                         if (search is not null)
                             await Service.Enqueue(ctx.Guild.Id, ctx.User, search);
-                        var player = _lavaNode.GetPlayer(ctx.Guild);
+                        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search);
                         await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100);
@@ -374,7 +374,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     var msg = await ctx.Channel.SendConfirmAsync(
                         "Please type the name of the playlist you wanna save this to!");
                     var nmsg = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
+                    var plists6 = plists5.FirstOrDefault(x => string.Equals(x.Name.ToLower(), nmsg.ToLower(), StringComparison.OrdinalIgnoreCase));
                     if (plists6 is not null)
                     {
                         var currentContext =
@@ -423,7 +423,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             msg = await ctx.Channel.SendConfirmAsync(
                                 "Please type the name of the playlist you wanna save this to!");
                             var nmsg1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                            var plists7 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg1.ToLower());
+                            var plists7 = plists5.FirstOrDefault(x => string.Equals(x.Name.ToLower(), nmsg1.ToLower(), StringComparison.OrdinalIgnoreCase));
                             if (plists7 is not null)
                             {
                                 var toadd = advancedLavaTracks.Select(x => new PlaylistSong
@@ -486,7 +486,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             msg = await ctx.Channel.SendConfirmAsync(
                                 "Please type the name of the playlist you wanna save this to!");
                             var nmsg = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                            var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
+                            var plists6 = plists5.FirstOrDefault(x => string.Equals(x.Name, nmsg, StringComparison.CurrentCultureIgnoreCase));
                             if (plists6 is not null)
                             {
                                 var currentContext = track.Context as AdvancedTrackContext;
@@ -586,7 +586,8 @@ public class Music : MewdekoModuleBase<MusicService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Join()
     {
-        if (_lavaNode.HasPlayer(Context.Guild))
+        var currentUser = await ctx.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
+        if (_lavaNode.GetPlayer<MusicPlayer>(Context.Guild) != null && currentUser.VoiceChannel != null)
         {
             await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!");
             return;
@@ -722,7 +723,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 return;
             }
         }
-        var player = _lavaNode.GetPlayer(ctx.Guild);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild);
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
         {
             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||

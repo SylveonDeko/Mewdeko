@@ -77,7 +77,7 @@ public partial class Searches
                 await ReplyErrorLocalizedAsync("feed_out_of_range");
                 return;
             }
-            await Service.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel);
+            await FeedsService.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel);
         }
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
