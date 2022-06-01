@@ -278,11 +278,11 @@ public class MusicService : INService
         if (queue.Count == 0)
             return false;
         var player = _lavaNode.GetPlayer(guild.Id);
-        var toRemove = queue.ElementAt(trackNum - 1);
+        var toRemove = queue?.ElementAt(trackNum - 1);
         var curTrack = GetCurrentTrack(player, guild);
         if (toRemove is null)
             return false;
-        var toReplace = queue.ElementAt(queue.IndexOf(curTrack) + 1);
+        var toReplace = queue?.ElementAt(queue.IndexOf(curTrack) + 1);
         if (curTrack == toRemove && toReplace is not null)
         {
             await player.PlayAsync(toReplace);
@@ -381,17 +381,18 @@ public class MusicService : INService
 
     public Task QueueClear(ulong guildid)
     {
-        Queues[guildid].Clear();
+        if (!Queues.TryGetValue(guildid, out var queue)) return Task.CompletedTask;
+        queue.Clear();
         return Task.CompletedTask;
     }
     public async Task<int> GetVolume(ulong guildid) => (await GetSettingsInternalAsync(guildid)).Volume;
 
-    public MusicPlaylist GetDefaultPlaylist(IUser user)
+    public MusicPlaylist? GetDefaultPlaylist(IUser user)
     {
         using var uow = _db.GetDbContext();
         return uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
     }
-    public IEnumerable<MusicPlaylist> GetPlaylists(IUser user)
+    public IEnumerable<MusicPlaylist?> GetPlaylists(IUser user)
     {
         using var uow = _db.GetDbContext();
         var a = uow.MusicPlaylists.GetPlaylistsByUser(user.Id);

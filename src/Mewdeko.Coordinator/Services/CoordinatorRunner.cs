@@ -336,7 +336,7 @@ public sealed class CoordinatorRunner : BackgroundService
                 savedState = JsonSerializer.Deserialize<CoordState>(File.ReadAllText(GRACEFUL_STATE_PATH));
 
                 if (savedState is null)
-                    throw new Exception("Old state is null?!");
+                    throw new ArgumentException("Old state is null?!");
             }
             catch (Exception ex)
             {

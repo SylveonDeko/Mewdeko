@@ -40,7 +40,7 @@ public class SearchImageCacher
         blacklistedTags = blacklistedTags.Select(t => t.ToLowerInvariant()).ToHashSet();
 
         if (tags.Any(x => blacklistedTags.Contains(x)))
-            throw new Exception("One of the specified tags is blacklisted");
+            throw new ArgumentException("One of the specified tags is blacklisted");
 
         if (type == DapiSearchType.E621)
         {
