@@ -13,14 +13,14 @@
     </ItemGroup>
 
 <!--    DO NOT DELETE   -->
-    <ItemGroup>
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.WebSocket/Discord.Net.WebSocket.csproj" />
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Rest/Discord.Net.Rest.csproj" />
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Core/Discord.Net.Core.csproj" />
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Webhook/Discord.Net.Webhook.csproj" />
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Interactions/Discord.Net.Interactions.csproj" />
-        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Commands/Discord.Net.Commands.csproj" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.WebSocket/Discord.Net.WebSocket.csproj" />-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Rest/Discord.Net.Rest.csproj" />-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Core/Discord.Net.Core.csproj" />-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Webhook/Discord.Net.Webhook.csproj" />-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Interactions/Discord.Net.Interactions.csproj" />-->
+<!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Commands/Discord.Net.Commands.csproj" />-->
+<!--    </ItemGroup>-->
 <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
 
     <ItemGroup>
@@ -31,6 +31,12 @@
         <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.101" />
 <!--        <PackageReference Include="Discord.Net" Version="3.6.1" />-->
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.WebSocket/Discord.Net.WebSocket.csproj" />
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Rest/Discord.Net.Rest.csproj" />
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Core/Discord.Net.Core.csproj" />
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Webhook/Discord.Net.Webhook.csproj" />
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Interactions/Discord.Net.Interactions.csproj" />
+        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Commands/Discord.Net.Commands.csproj" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
         <PackageReference Include="Fergun.Interactive" Version="1.5.4" />
         <PackageReference Include="GScraper" Version="1.0.2" />
