@@ -180,7 +180,7 @@ public class PermissionService : ILateBlocker, INService
 
             Cache.TryGetValue(guildId, out pc);
             if (pc == null)
-                throw new Exception("Cache is null.");
+                throw new ArgumentException("Cache is null.");
         }
 
         return pc;
