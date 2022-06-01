@@ -24,15 +24,6 @@ public static class LogSetup
         Console.OutputEncoding = Encoding.UTF8;
     }
 
-    private static ConsoleTheme GetTheme()
-    {
-        if (Environment.OSVersion.Platform == PlatformID.Unix)
-            return AnsiConsoleTheme.Code;
-#if DEBUG
-        return AnsiConsoleTheme.Code;
-#endif
-#pragma warning disable CS0162 // Unreachable code detected
-        return ConsoleTheme.None;
-#pragma warning restore CS0162 // Unreachable code detected
-    }
+    private static ConsoleTheme GetTheme() 
+        => Environment.OSVersion.Platform == PlatformID.Unix ? AnsiConsoleTheme.Code : ConsoleTheme.None;
 }

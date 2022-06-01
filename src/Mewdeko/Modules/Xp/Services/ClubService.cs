@@ -184,10 +184,8 @@ public class ClubService : INService
         discordUser = null;
         using var uow = _db.GetDbContext();
         var club = uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId);
-        if (club == null)
-            return false;
 
-        var applicant = club.Applicants.Find(x =>
+        var applicant = club?.Applicants.Find(x =>
             string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (applicant == null)
             return false;
@@ -309,10 +307,8 @@ public class ClubService : INService
     {
         using var uow = _db.GetDbContext();
         club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
-        if (club == null)
-            return false;
 
-        var ban = club.Bans.Find(x =>
+        var ban = club?.Bans.Find(x =>
             string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (ban == null)
             return false;
@@ -327,10 +323,8 @@ public class ClubService : INService
     {
         using var uow = _db.GetDbContext();
         club = uow.Clubs.GetByOwnerOrAdmin(kickerId);
-        if (club == null)
-            return false;
 
-        var usr = club.Users.Find(x =>
+        var usr = club?.Users.Find(x =>
             string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (usr == null)
             return false;

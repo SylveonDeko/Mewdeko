@@ -1274,7 +1274,7 @@ public class LogCommandService : INService
 
     private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
     {
-        var id = logChannelType switch
+        ulong? id = logChannelType switch
         {
             LogType.Other => logSetting.LogOtherId,
             LogType.MessageUpdated => logSetting.MessageUpdatedId,
@@ -1290,24 +1290,21 @@ public class LogCommandService : INService
             LogType.VoicePresence => logSetting.LogVoicePresenceId,
             LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId,
             LogType.UserMuted => logSetting.UserMutedId,
-            _ => null
+            _ => 0
         };
 
-        if (id is null or 0)
+        if (id is 0 or null)
         {
             UnsetLogSetting(guild.Id, logChannelType);
             return null;
         }
 
-        var channel = await guild.GetTextChannelAsync(id.Value).ConfigureAwait(false);
+        var channel = await guild.GetTextChannelAsync(id.GetValueOrDefault()).ConfigureAwait(false);
 
-        if (channel == null)
-        {
-            UnsetLogSetting(guild.Id, logChannelType);
-            return null;
-        }
+        if (channel != null) return channel;
+        UnsetLogSetting(guild.Id, logChannelType);
+        return null;
 
-        return channel;
     }
 
     private void UnsetLogSetting(ulong guildId, LogType logChannelType)
@@ -1317,46 +1314,46 @@ public class LogCommandService : INService
         switch (logChannelType)
         {
             case LogType.Other:
-                newLogSetting.LogOtherId = null;
+                newLogSetting.LogOtherId = 0;
                 break;
             case LogType.MessageUpdated:
-                newLogSetting.MessageUpdatedId = null;
+                newLogSetting.MessageUpdatedId = 0;
                 break;
             case LogType.MessageDeleted:
-                newLogSetting.MessageDeletedId = null;
+                newLogSetting.MessageDeletedId = 0;
                 break;
             case LogType.UserJoined:
-                newLogSetting.UserJoinedId = null;
+                newLogSetting.UserJoinedId = 0;
                 break;
             case LogType.UserLeft:
-                newLogSetting.UserLeftId = null;
+                newLogSetting.UserLeftId = 0;
                 break;
             case LogType.UserBanned:
-                newLogSetting.UserBannedId = null;
+                newLogSetting.UserBannedId = 0;
                 break;
             case LogType.UserUnbanned:
-                newLogSetting.UserUnbannedId = null;
+                newLogSetting.UserUnbannedId = 0;
                 break;
             case LogType.UserUpdated:
-                newLogSetting.UserUpdatedId = null;
+                newLogSetting.UserUpdatedId = 0;
                 break;
             case LogType.UserMuted:
-                newLogSetting.UserMutedId = null;
+                newLogSetting.UserMutedId = 0;
                 break;
             case LogType.ChannelCreated:
-                newLogSetting.ChannelCreatedId = null;
+                newLogSetting.ChannelCreatedId = 0;
                 break;
             case LogType.ChannelDestroyed:
-                newLogSetting.ChannelDestroyedId = null;
+                newLogSetting.ChannelDestroyedId = 0;
                 break;
             case LogType.ChannelUpdated:
-                newLogSetting.ChannelUpdatedId = null;
+                newLogSetting.ChannelUpdatedId = 0;
                 break;
             case LogType.VoicePresence:
-                newLogSetting.LogVoicePresenceId = null;
+                newLogSetting.LogVoicePresenceId = 0;
                 break;
             case LogType.VoicePresenceTts:
-                newLogSetting.LogVoicePresenceTTSId = null;
+                newLogSetting.LogVoicePresenceTTSId = 0;
                 break;
         }
 
