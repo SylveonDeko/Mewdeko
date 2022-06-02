@@ -360,6 +360,28 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus();
     }
 
+    [SlashCommand("valid-types", "Change the valid types of the trigger"),
+     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    public async Task ChatTriggerValidType(
+        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
+        [Summary("type", "The type to enable/disable.")] ChatTriggerType type,
+        [Summary("enabled", "Should the type be enabled?")] bool enabled)
+    {
+        var res = await Service.SetValidTriggerType(ctx.Guild?.Id, id, type, enabled).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
     [SlashCommand("clear", "Clear all chat triggers."),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task CtsClear()
@@ -374,6 +396,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
         await FollowupWithTriggerStatus();
     }
+
 
     [Group("roles", "roles")]
     public class Roles : MewdekoSlashModuleBase<ChatTriggersService>
@@ -495,28 +518,6 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     [Group("interactions", "interactions")]
     public class Interactions : MewdekoSlashModuleBase<ChatTriggersService>
     {
-        // This command has a high cooldown because it could cause a guild-wide
-        // lock of command updates for 24 hours if abused. 
-        [SlashCommand("update-all", "Resolves sync issues with all interaction chat triggers."),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions, InteractionRatelimit(60)]
-        public async Task ForceUpdateAll()
-        {
-            #if DEBUG
-            await RespondAsync("This command is disabled in debug builds because it will clear **all** commands.").ConfigureAwait(false);
-            await FollowupWithTriggerStatus();
-            return;
-            #endif
-            if (await PromptUserConfirmAsync(GetText("ct_interaction_bulk_update_confirm"), ctx.User.Id)
-                    .ConfigureAwait(false))
-            {
-                var triggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
-                var count = await Service.RegisterTriggersToGuildAsync(ctx.Guild).ConfigureAwait(false);
-                await ReplyConfirmLocalizedAsync("ct_interaction_bulk_update", count).ConfigureAwait(false);
-            }
-
-            await FollowupWithTriggerStatus();
-        }
-
         [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCommandType(
