@@ -31,6 +31,7 @@ public class ChatTriggers : DbEntity
 
     public bool IsGlobal() => GuildId is null or 0;
 
+    public ChatTriggerType ValidTriggerTypes { get; set; } = ChatTriggerType.All;
     public ulong ApplicationCommandId { get; set; } = 0;
     public string ApplicationCommandName { get; set; } = "";
     public string ApplicationCommandDescription { get; set; } = "";
@@ -59,4 +60,15 @@ public enum CTApplicationCommandType
     Slash,
     Message,
     User
+}
+
+[Flags]
+public enum ChatTriggerType
+{
+    Message = 1,
+    Interaction = 2,
+    All = Message | Interaction
+    // additional shifts are placeholders for planned types:
+    // 3: ReactionChatTriggers
+    // 4: ButtonChatTriggers
 }

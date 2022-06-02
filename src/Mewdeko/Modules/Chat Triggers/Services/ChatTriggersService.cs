@@ -136,6 +136,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return false;
         if (await _cmdCds.TryBlock(guild, msg.Author, ct.Trigger))
             return false;
+        if (!ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Message))
+            return false;
 
         try
         {
@@ -252,6 +254,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public async Task<bool> RunInteractionTrigger(DiscordSocketClient client, SocketInteraction inter, CTModel ct)
     {
+        if (!ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction))
+            return false;
         try
         {
             var fakeMsg = new MewdekoUserMessage()
@@ -469,7 +473,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ready = true;
     }
 
-    private CTModel TryGetChatTriggers(IUserMessage umsg)
+    private CTModel? TryGetChatTriggers(IUserMessage umsg)
     {
         if (!ready)
             return null;
@@ -492,7 +496,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private CTModel MatchChatTriggers(string content, CTModel[] crs)
+    private CTModel? MatchChatTriggers(string content, CTModel[] crs)
     {
         var result = new List<CTModel>(1);
         for (var i = 0; i < crs.Length; i++)
@@ -969,6 +973,30 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
+    
+    public async Task<CTModel?> SetValidTriggerType(ulong? guildID, int id, ChatTriggerType type, bool enabled)
+    {
+        await using var uow = _db.GetDbContext();
+        var ct = uow.ChatTriggers.GetById(id);
+
+        if (ct == null || ct.GuildId != guildID)
+            return null;
+
+        switch (enabled)
+        {
+            case true when !ct.ValidTriggerTypes.HasFlag(type):
+                ct.ValidTriggerTypes |= type;
+                break;
+            case false when ct.ValidTriggerTypes.HasFlag(type):
+                ct.ValidTriggerTypes ^= type;
+                break;
+        }
+
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildID, ct).ConfigureAwait(false);
+
+        return ct;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public CTModel[] GetChatTriggersFor(ulong? maybeGuildId)
@@ -1042,6 +1070,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             eb.AddField(_strings.GetText("ct_interaction_description", gId), ct.ApplicationCommandDescription);
         if (ct.ApplicationCommandId != 0)
             eb.AddField(_strings.GetText("ct_interaction_id", gId), ct.ApplicationCommandId.ToString());
+        if (ct.ValidTriggerTypes != ChatTriggerType.All)
+            eb.AddField(_strings.GetText("ct_valid_fields", gId), ct.ValidTriggerTypes.ToString());
         return eb;
     }
 
@@ -1063,6 +1093,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (triggers.Length == 0)
             return props;
         groups = triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Slash
+                                     && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
                                      && x.RealName.Split(' ').Length == 1)
                          .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
         triggers.Where(x =>
@@ -1073,27 +1104,26 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     groups.First(y => y.Name == x.RealName.Split(' ').First()).Children
                           .Add(new(x.RealName.Split(' ').Last(), x, null));
                 else
-                    groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>
-                    {
-                        new(x.RealName.Split(' ').Last(), x, null)
-                    }));
+                    groups.Add(new(x.RealName.Split(' ').First(), null,
+                        new List<TriggerChildGrouping> {new(x.RealName.Split(' ').Last(), x, null)}));
             });
 
         triggers.Where(x =>
-            x.ApplicationCommandType == CTApplicationCommandType.Slash && x.RealName.Split(' ').Length == 3).Select(
-            x =>
+            x.ApplicationCommandType == CTApplicationCommandType.Slash
+            && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
+            && x.RealName.Split(' ').Length == 3).Select(x =>
+        {
+            TriggerChildGrouping group = null;
+            if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
+                group = groups.First(y => y.Name == x.RealName.Split(' ').First());
+            else
             {
-                TriggerChildGrouping group = null;
-                if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
-                    group = groups.First(y => y.Name == x.RealName.Split(' ').First());
-                else
-                {
-                    groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>()));
-                    group = groups.First(y => y.Name == x.RealName.Split(' ').First());
-                }
+                groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>()));
+                group = groups.First(y => y.Name == x.RealName.Split(' ').First());
+            }
 
-                return (Triggers: x, Group: group);
-            }).Select(x =>
+            return (Triggers: x, Group: group);
+        }).Select(x =>
         {
             TriggerChildGrouping group = null;
             var groups = x.Group.Children;
