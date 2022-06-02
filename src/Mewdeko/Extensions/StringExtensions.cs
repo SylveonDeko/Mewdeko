@@ -20,7 +20,21 @@ public static class StringExtensions
     private static readonly Regex _codePointRegex
         = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
-
+    public static string GenerateSecureString(int length)
+    {
+        const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ 
+        var sb = new StringBuilder();
+        var rnd = new Random();
+ 
+        for (var i = 0; i < length; i++)
+        {
+            var index = rnd.Next(chars.Length);
+            sb.Append(chars[index]);
+        }
+ 
+        return sb.ToString();
+    }
     public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
 
     public static string PadBoth(this string str, int length)

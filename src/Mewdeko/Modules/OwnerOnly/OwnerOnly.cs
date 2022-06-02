@@ -1,3 +1,4 @@
+using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
@@ -7,6 +8,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Extensions;
@@ -21,6 +23,8 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.OwnerOnly;
 [OwnerOnly]
@@ -44,6 +48,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IDataCache _cache;
     private readonly CommandService _commandService;
     private readonly IServiceProvider _services;
+    private readonly IBotCredentials _credentials;
 
     public OwnerOnly(
         DiscordSocketClient client,
@@ -55,7 +60,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         DbService db,
         IDataCache cache,
         CommandService commandService,
-        IServiceProvider services)
+        IServiceProvider services,
+        IBotCredentials credentials)
     {
         _interactivity = serv;
         _client = client;
@@ -67,6 +73,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _cache = cache;
         _commandService = commandService;
         _services = services;
+        _credentials = credentials;
     }
 
     [Cmd, Aliases]
@@ -112,42 +119,72 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public async Task SaveChat(int cnt)
+    public async Task SaveChat(StoopidTime time, ITextChannel channel = null)
     {
-        var msgs = new List<IMessage>(cnt);
-        await ctx.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
+        if (!Directory.Exists(_credentials.ChatSavePath))
+        {
+            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.");
+            return;
+        }
+        var secureString = StringExtensions.GenerateSecureString(10);
+        try
+        {
+            Directory.CreateDirectory($"{_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}");
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}");
+            return;
+        }
+        if (time.Time.Days > 3)
+        {
+            await ctx.Channel.SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.");
+            return;
+        }
+        using var process = new Process();
+        process.StartInfo = new ProcessStartInfo
+        {
+            Arguments = $"../ChatExporter/DiscordChatExporter.Cli.dll export -t {_credentials.Token} -c {channel?.Id ?? ctx.Channel.Id} --after {DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH:mm:ssZ} --output \"{_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html\" --media true",
+            FileName = "dotnet",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            CreateNoWindow = true
+        };
+        using (ctx.Channel.EnterTypingState())
+        {
+            process.Start();
 
-        var title = $"Chatlog-{ctx.Guild.Name}/#{ctx.Channel.Name}-{DateTime.Now}.txt";
-        var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-            .Select(g => new
+            // Synchronously read the standard output of the spawned process.
+            var reader = process.StandardOutput;
+
+            var output = await reader.ReadToEndAsync();
+            if (output.Length > 2000)
             {
-                date = g.Key,
-                messages = g.OrderBy(x => x.CreatedAt).Select(s =>
+                var chunkSize = 1988;
+                var stringLength = output.Length;
+                for (var i = 0; i < stringLength; i += chunkSize)
                 {
-                    var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
-                    if (string.IsNullOrWhiteSpace(s.ToString()))
-                    {
-                        if (s.Attachments.Count > 0)
-                        {
-                            msg += $"FILES_UPLOADED: {string.Join("\n", s.Attachments.Select(x => x.Url))}";
-                        }
-                        else if (s.Embeds.Count > 0)
-                        {
-                            msg +=
-                                                        $"EMBEDS: {string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"))}";
-                        }
-                    }
-                    else
-                    {
-                        msg += s.ToString();
-                    }
+                    if (i + chunkSize > stringLength) chunkSize = stringLength - i;
+                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
+                    await process.WaitForExitAsync();
+                }
+            }
+            else if (string.IsNullOrEmpty(output))
+            {
+                await ctx.Channel.SendMessageAsync("```The output was blank```");
+            }
+            else
+            {
+                await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
+            }
+        }
 
-                    return msg;
-                })
-            });
-        await using var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
-            .ConfigureAwait(false);
-        await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
+        await process.WaitForExitAsync();
+        if (_client.CurrentUser.Id is 752236274261426212)
+            await ctx.User.SendConfirmAsync(
+                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html");
+        else
+            await ctx.Channel.SendConfirmAsync($"Your chat log is here: {_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}");
     }
 
     [Cmd, Aliases]
@@ -972,6 +1009,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await msg.ModifyAsync(x => x.Embed = embed.Build());
     }
 }
+
 
 public sealed class EvaluationEnvironment
 {
