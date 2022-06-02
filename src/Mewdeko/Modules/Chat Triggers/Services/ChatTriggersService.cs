@@ -260,7 +260,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             var fakeMsg = new MewdekoUserMessage()
             {
-                Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
+                    Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
             };
             
             if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
@@ -306,8 +306,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             if (!ct.NoRespond)
                 sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
 
-            var reactions = ct.GetReactions();
-            foreach (var reaction in reactions)
+            foreach (var reaction in ct.GetReactions())
             {
                 try
                 {
@@ -1150,6 +1149,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     .WithDescription((z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : z.Triggers!.ApplicationCommandDescription)
                     .WithType(ApplicationCommandOptionType.SubCommand)).ToArray()))).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
+        triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Message).ForEach(x =>
+            props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
+
+        triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.User).ForEach(x =>
+            props.Add(new UserCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
         return props;
     }
 

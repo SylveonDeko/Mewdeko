@@ -146,6 +146,12 @@ public static class Extensions
 
             var rep = new ReplacementBuilder()
                 .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
+                .WithOverride("%target%", () => inter switch
+                {
+                    IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
+                    IUserCommandInteraction uData => uData.Data.User.Mention,
+                    _ => "%target%"
+                })
                 .Build();
 
             SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText );
