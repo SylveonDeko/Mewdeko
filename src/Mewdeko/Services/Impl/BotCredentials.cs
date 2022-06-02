@@ -10,7 +10,6 @@ namespace Mewdeko.Services.Impl;
 public class BotCredentials : IBotCredentials
 {
     private readonly string _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
-    private readonly FileSystemWatcher _watcher;
 
     public BotCredentials()
     {
@@ -31,11 +30,11 @@ public class BotCredentials : IBotCredentials
         }
 
         UpdateCredentials(null, null);
-        _watcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
-        _watcher.NotifyFilter = NotifyFilters.LastWrite;
-        _watcher.Filter = "*.json";
-        _watcher.EnableRaisingEvents = true;
-        _watcher.Changed += UpdateCredentials;
+        var watcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
+        watcher.NotifyFilter = NotifyFilters.LastWrite;
+        watcher.Filter = "*.json";
+        watcher.EnableRaisingEvents = true;
+        watcher.Changed += UpdateCredentials;
     }
 
     public void UpdateCredentials(object ae, FileSystemEventArgs _)
@@ -77,6 +76,7 @@ public class BotCredentials : IBotCredentials
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
             StatcordKey = data[nameof(StatcordKey)];
+            ChatSavePath = data[nameof(ChatSavePath)];
             if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
 
@@ -157,6 +157,7 @@ public class BotCredentials : IBotCredentials
     public DbConfig Db { get; set; }
     public int TotalShards { get; set; }
     public string CarbonKey { get; set; }
+    public string ChatSavePath { get; set; }
     public string PatreonAccessToken { get; set; }
     public string ShardRunCommand { get; set; }
     public string ShardRunArguments { get; set; }
@@ -216,6 +217,7 @@ public class BotCredentials : IBotCredentials
         public string TrovoClientId { get; } = "";
         public string TwitchClientId { get; } = "";
         public string CleverbotApiKey { get; } = "";
+        
         public string CarbonKey { get; } = "";
         public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
         public int TotalShards { get; } = 1;
@@ -239,6 +241,7 @@ public class BotCredentials : IBotCredentials
         public ulong ConfessionReportChannelId { get; set; } = 942825117820530709;
         public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
+        public string ChatSavePath { get; set; } = "/usr/share/nginx/cdn/chatlogs/";
 
         [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
 

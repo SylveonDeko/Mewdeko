@@ -11,29 +11,21 @@ public interface IBotCredentials
     string StatcordKey { get; }
     ImmutableArray<ulong> OfficialMods { get; }
     string MashapeKey { get; }
-    string PatreonAccessToken { get; }
-    string CarbonKey { get; }
     string SpotifyClientId { get; }
     string SpotifyClientSecret { get; }
-
-    DbConfig Db { get; }
     string OsuApiKey { get; }
+    string ChatSavePath { get; }
     int TotalShards { get; }
     string TwitchClientSecret { get; }
     string TrovoClientId { get; }
-    string ShardRunCommand { get; }
-    string ShardRunArguments { get; }
-    string PatreonCampaignId { get; }
     string CleverbotApiKey { get; }
     RestartConfig RestartCommand { get; }
-    string VotesUrl { get; }
     string VotesToken { get; }
     string BotListToken { get; }
     string TwitchClientId { get; }
     string RedisOptions { get; }
     string LocationIqApiKey { get; }
     string TimezoneDbApiKey { get; }
-    string CoinmarketcapApiKey { get; }
 
     bool IsOwner(IUser u);
     bool IsOfficialMod(IUser u);
