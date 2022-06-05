@@ -87,18 +87,18 @@ public static class Extensions
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere);
 
-    public static async Task<IUserMessage> Send(this Database.Models.ChatTriggers cr, IUserMessage ctx,
+    public static async Task<IUserMessage> Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
         DiscordSocketClient client, bool sanitize)
     {
-        var channel = cr.DmResponse
+        var channel = ct.DmResponse
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
             : ctx.Channel;
 
-        if (SmartEmbed.TryParse(cr.Response, out var crembed, out var plainText))
+        if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
-            var trigger = cr.Trigger.ResolveTriggerString(client);
+            var trigger = ct.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length;
-            if (cr.ContainsAnywhere)
+            if (ct.ContainsAnywhere)
             {
                 var pos = ctx.Content.AsSpan().GetWordPosition(trigger);
                 if (pos == WordPosition.Start)
@@ -118,15 +118,15 @@ public static class Extensions
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText);
+            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            return await channel.SendMessageAsync(plainText, embed: crembed?.Build()).ConfigureAwait(false);
+            return await channel.SendMessageAsync(plainText, embed: crembed?.Build(), components:components.Build()).ConfigureAwait(false);
         }
 
         return await channel
             .SendMessageAsync(
-                (await cr.ResponseWithContextAsync(ctx, client, cr.ContainsAnywhere).ConfigureAwait(false))
+                (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
                 .SanitizeMentions(sanitize)).ConfigureAwait(false);
     }
     
@@ -137,7 +137,7 @@ public static class Extensions
             ? await inter.User.CreateDMChannelAsync().ConfigureAwait(false)
             : inter.Channel as IChannel;
 
-        if (SmartEmbed.TryParse(cr.Response, out var crembed, out var plainText))
+        if (SmartEmbed.TryParse(cr.Response, cr.GuildId, out var crembed, out var plainText, out var components))
         {
             var trigger = cr.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length + 1;
@@ -154,10 +154,10 @@ public static class Extensions
                 })
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText );
+            SmartEmbed.TryParse(rep.Replace(cr.Response), cr.GuildId, out crembed, out plainText, out components );
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral).ConfigureAwait(false);
+            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral, components:components.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 

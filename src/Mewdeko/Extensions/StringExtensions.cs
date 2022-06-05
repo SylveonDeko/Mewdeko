@@ -186,4 +186,18 @@ public static class StringExtensions
     public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
 
     public static string EscapeQuotes(this string txt) => txt.Replace("\"", "\\\"");
+
+    public static bool TryFormat(string data, object[] args, out string output)
+    {
+        output = null;
+        try
+        {
+            output = string.Format(data, args);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

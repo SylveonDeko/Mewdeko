@@ -736,6 +736,16 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
 
+    public CTModel? GetGuildOrGlobalTriggers(ulong? guildId, int id)
+    {
+        using var uow = _db.GetDbContext();
+        var ct = uow.ChatTriggers.GetById(id);
+        if (ct == null || (ct.GuildId != guildId && ct.GuildId is not 0 or null))
+            return null;
+
+        return ct;
+    }
+
     public int DeleteAllChatTriggers(ulong guildId)
     {
         using var uow = _db.GetDbContext();

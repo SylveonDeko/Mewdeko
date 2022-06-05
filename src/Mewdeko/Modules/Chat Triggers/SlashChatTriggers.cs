@@ -28,9 +28,17 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         _clientFactory = clientFactory;
     }
 
+    [ComponentInteraction("trigger.*.runin.*$*", true), CheckPermissions]
+    public async Task TriggerRunInHandler(int triggerId, ulong? guildId, string _)
+    {
+        guildId ??= 0;
+        var ct = Service.GetChatTriggers(guildId, triggerId);
+        await Service.RunInteractionTrigger(ctx.Client as DiscordSocketClient, ctx.Interaction as SocketInteraction, ct);
+    }
+
     [SlashCommand("export", "Exports Chat Triggers into a .yml file."),
-    RequireContext(ContextType.Guild), InteractionChatTriggerPermCheck(GuildPermission.Administrator),
-    CheckPermissions]
+     RequireContext(ContextType.Guild), InteractionChatTriggerPermCheck(GuildPermission.Administrator),
+     CheckPermissions]
     public async Task CtsExport()
     {
         await DeferAsync().ConfigureAwait(false);

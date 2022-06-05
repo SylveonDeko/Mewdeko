@@ -159,8 +159,8 @@ public class HelpService : ILateExecutor, INService
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
 
-        return SmartEmbed.TryParse(settings.DmHelpText, out var embed, out var plainText)
-            ? msg.Channel.EmbedAsync(embed, plainText)
+        return SmartEmbed.TryParse(settings.DmHelpText, guild?.Id, out var embed, out var plainText, out var components)
+            ? msg.Channel.SendMessageAsync(plainText, embed: embed.Build(), components:components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
 

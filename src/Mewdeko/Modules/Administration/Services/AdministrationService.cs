@@ -197,12 +197,13 @@ public class AdministrationService : INService
             .WithDefault(context)
             .Build();
 
-        if (SmartEmbed.TryParse(rep.Replace(text), out var embed, out var plainText))
+        if (SmartEmbed.TryParse(rep.Replace(text), context.Guild?.Id, out var embed, out var plainText, out var components))
         {
             await umsg.ModifyAsync(x =>
             {
                 x.Embed = embed?.Build();
                 x.Content = plainText?.SanitizeMentions();
+                x.Components = components.Build();
             }).ConfigureAwait(false);
         }
         else
@@ -211,6 +212,7 @@ public class AdministrationService : INService
             {
                 x.Content = text.SanitizeMentions();
                 x.Embed = null;
+                x.Components = null;
             }).ConfigureAwait(false);
         }
     }

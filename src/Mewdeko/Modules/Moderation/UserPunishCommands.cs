@@ -444,11 +444,11 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
-                    if (embedBuilder is not null && item2 is not null)
+                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                        await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components.Build());
                     }
                 }
                 catch
@@ -496,11 +496,11 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
-                    if (embedBuilder is not null && item2 is not null)
+                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                        await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components.Build());
                     }
                 }
                 catch
@@ -570,11 +570,11 @@ public partial class Moderation : MewdekoModule
             try
             {
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
-                if (embedBuilder is not null && item2 is not null)
+                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                    await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components.Build());
                 }
             }
             catch
@@ -607,11 +607,11 @@ public partial class Moderation : MewdekoModule
             try
             {
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
-                if (embedBuilder is not null && item2 is not null)
+                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
+                    await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components.Build());
                 }
             }
             catch
