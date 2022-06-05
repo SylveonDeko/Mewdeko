@@ -120,7 +120,7 @@ public class SuggestionsService : INService
                 return;
             }
 
-            if (SmartEmbed.TryParse(GetSuggestButtonMessage(channel.Guild), out var embed, out var plainText))
+            if (SmartEmbed.TryParse(GetSuggestButtonMessage(channel.Guild), channel.GuildId, out var embed, out var plainText, out _))
             {
                 try
                 {
@@ -516,7 +516,7 @@ public class SuggestionsService : INService
             var message = await channel.GetMessageAsync(messageId);
             if (message is null)
             {
-                if (SmartEmbed.TryParse(code, out var embed, out var plainText))
+                if (SmartEmbed.TryParse(code, channel.GuildId, out var embed, out var plainText, out _))
                 {
                     var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
@@ -557,7 +557,7 @@ public class SuggestionsService : INService
             }
             else
             {
-                if (SmartEmbed.TryParse(code, out var embed, out var plainText))
+                if (SmartEmbed.TryParse(code, channel.GuildId, out var embed, out var plainText, out _))
                 {
                     await ((IUserMessage)message).ModifyAsync(x =>
                     {
@@ -1105,7 +1105,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
                                                    .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
                                                    .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), out var embed, out var plainText);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
             if (GetArchiveOnDeny(guild))
             {
                 var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
@@ -1437,7 +1437,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
                                                    .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
                                                    .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), out var embed, out var plainText);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
             if (GetArchiveOnConsider(guild))
             {
                 var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
@@ -1771,7 +1771,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
                                                    .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
                                                    .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), out var embed, out var plainText);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
             if (GetArchiveOnImplement(guild))
             {
                 var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
@@ -2101,7 +2101,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
                                                    .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
                                                    .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), out var embed, out var plainText);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
             if (GetArchiveOnAccept(guild))
             {
                 var threadChannel = await guild.GetThreadChannelAsync(GetThreadByMessage(suggest.MessageId));
@@ -2345,7 +2345,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.message%", () => suggestion.SanitizeMentions(true))
                                                    .WithOverride("%suggest.number%", () => sugnum1.ToString()).WithOverride("%suggest.user.name%", () => user.Username)
                                                    .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), out var embed, out var plainText);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), guild.Id, out var embed, out var plainText, out _);
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             IUserMessage msg;
             if (!ebe)

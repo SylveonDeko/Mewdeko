@@ -306,6 +306,11 @@ public class CommandHandler : INService
                 }
             }
 
+            // filter webhook interactions
+            // if (interaction is IComponentInteraction compInter
+            //     && compInter.Message.Author.IsWebhook
+            //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
+
             var ctx = new SocketInteractionContext(_client, interaction);
             await InteractionService.ExecuteCommandAsync(ctx, _services);
         });

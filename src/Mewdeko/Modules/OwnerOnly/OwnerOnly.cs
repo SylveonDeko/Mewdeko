@@ -789,9 +789,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!");
                 return;
             }
-            if (SmartEmbed.TryParse(rep.Replace(msg), out var embed, out var plainText))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embed: embed?.Build());
+                await potentialUser.SendMessageAsync(plainText, embed: embed?.Build(), components:components.Build());
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
                 return;
             }
@@ -809,9 +809,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         var channel = await potentialServer.GetTextChannelAsync(to);
         if (channel is not null)
         {
-            if (SmartEmbed.TryParse(rep.Replace(msg), out var embed, out var plainText))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText, out var components))
             {
-                await channel.SendMessageAsync(plainText, embed: embed?.Build());
+                await channel.SendMessageAsync(plainText, embed: embed?.Build(), components:components?.Build());
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
                 return;
             }
@@ -827,9 +827,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.");
             return;
         }
-        if (SmartEmbed.TryParse(rep.Replace(msg), out var embed1, out var plainText1))
+        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1, out var components1 ))
         {
-            await channel.SendMessageAsync(plainText1, embed: embed1?.Build());
+            await channel.SendMessageAsync(plainText1, embed: embed1?.Build(), components:components1?.Build());
             await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}");
             return;
         }

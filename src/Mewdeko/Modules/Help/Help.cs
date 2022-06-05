@@ -42,7 +42,7 @@ public class Help : MewdekoModuleBase<HelpService>
         _lazyClientId = new AsyncLazy<ulong>(async () => (await client.GetApplicationInfoAsync()).Id);
     }
 
-    public async Task<(string plainText, EmbedBuilder embed)> GetHelpStringEmbed()
+    public async Task<(string plainText, EmbedBuilder embed, ComponentBuilder? components)> GetHelpStringEmbed()
     {
         var botSettings = _bss.Data;
         if (string.IsNullOrWhiteSpace(botSettings.HelpText) || botSettings.HelpText == "-")
@@ -57,11 +57,11 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithOverride("%bot.prefix%", () => Prefix)
             .Build();
 
-        if (SmartEmbed.TryParse(r.Replace(botSettings.HelpText), out var embed, out var plainText))
-            return (plainText, embed);
+        if (SmartEmbed.TryParse(r.Replace(botSettings.HelpText), ctx.Guild?.Id, out var embed, out var plainText, out var components))
+            return (plainText, embed, components);
         var eb = new EmbedBuilder().WithOkColor()
                                    .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
-        return (plainText, eb);
+        return (plainText, eb, null);
     }
 
     [Cmd, Aliases]

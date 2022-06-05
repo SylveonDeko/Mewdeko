@@ -204,9 +204,9 @@ public class RepeatRunner
                 .Build();
 
             IMessage newMsg;
-            if (SmartEmbed.TryParse(rep.Replace(toSend), out var embed, out var plainText))
+            if (SmartEmbed.TryParse(rep.Replace(toSend), Channel.GuildId, out var embed, out var plainText, out var components))
             {
-                newMsg = await Channel.SendMessageAsync(plainText, embed: embed?.Build());
+                newMsg = await Channel.SendMessageAsync(plainText, embed: embed?.Build(), components:components.Build());
             }
             else
             {
