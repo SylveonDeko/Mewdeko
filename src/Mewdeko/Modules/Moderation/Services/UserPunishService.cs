@@ -489,7 +489,11 @@ WHERE GuildId={guildId}
         // otherwise, treat template as a regular string with replacements
         else
         {
-            SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components);
+            if (SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components)
+                && (embed is not null || components is not null || plainText is not null))
+                return Task.FromResult((embed, plainText, components));
+            return Task.FromResult<(EmbedBuilder?, string?, ComponentBuilder?)>((
+                new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)), null, null));
         }
 
         return Task.FromResult((embed, plainText, components));
