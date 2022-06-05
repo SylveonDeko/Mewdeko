@@ -574,7 +574,7 @@ public partial class Moderation : MewdekoModule
                 if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components.Build());
+                    await userChannel.SendMessageAsync(message, embed: embedBuilder?.Build(), components:components?.Build());
                 }
             }
             catch
