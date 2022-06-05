@@ -196,17 +196,14 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                     await msg.DeleteAsync();
                     var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient).WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
-                    if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
+                    if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
-                        await ctx.Channel.SendMessageAsync(plainText,
-                            embed: embedData?.Build());
+                        await ctx.Channel.SendMessageAsync(plainText, embed: embedData?.Build(),
+                            components: cb.Build());
                         return;
                     }
-                    else
-                    {
-                        await ctx.Channel.SendMessageAsync(content);
-                        return;
-                    }
+                    await ctx.Channel.SendMessageAsync(content);
+                    return;
                 case "regular":
                     await msg.DeleteAsync();
                     await ctx.Channel.SendConfirmAsync(greet.Message);

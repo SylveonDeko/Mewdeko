@@ -81,25 +81,25 @@ public class RoleGreetService : INService
                 continue;
             }
             var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
+            if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
             {
                 if (embedData is not null && plainText is not "")
                 {
-                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
+                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components:components.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is null && plainText is not null)
                 {
-                    var msg = await channel.SendMessageAsync(plainText);
+                    var msg = await channel.SendMessageAsync(plainText, components:components.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is not null && plainText is "")
                 {
-                    var msg = await channel.SendMessageAsync(embed: embedData.Build());
+                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), components:components.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
@@ -136,11 +136,11 @@ public class RoleGreetService : INService
                 continue;
             }
             var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
+            if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText, out var components))
             {
                 if (embedData is not null && plainText is not "")
                 {
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() });
+                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components:components.Build());
                     if (i.DeleteTime > 0)
                         (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }

@@ -236,7 +236,8 @@ public static class Extensions
     // public static string RealRemarks(this CommandInfo cmd, IBotStrings strings, string prefix)
     //     => string.Join('\n', cmd.RealRemarksArr(strings, prefix));
 
-    public static string GetFullUsage(string commandName, string args, string prefix) => $"{prefix}{commandName} {string.Format(args, prefix)}";
+    public static string GetFullUsage(string commandName, string args, string prefix) =>
+        $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] {prefix}, out var output) ? output : args)}";
 
     public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
     {

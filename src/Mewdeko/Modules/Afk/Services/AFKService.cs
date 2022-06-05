@@ -183,7 +183,9 @@ public class AfkService : INService, IReadyExecutor
                                            // ReSharper disable once PossibleInvalidOperationException
                                            $"{(DateTime.UtcNow - GetAfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}")
                                        .Build();
-                        var ebe = SmartEmbed.TryParse(replacer.Replace(customafkmessage), out var embed, out var plainText);
+                        var ebe = SmartEmbed.TryParse(replacer.Replace(customafkmessage),
+                            (msg.Channel as ITextChannel)?.GuildId, out var embed, out var plainText,
+                            out var components);
                         if (!ebe)
                         {
                             var a = await msg.Channel.SendMessageAsync(replacer.Replace(customafkmessage).SanitizeMentions(true)).ConfigureAwait(false);
@@ -192,7 +194,7 @@ public class AfkService : INService, IReadyExecutor
                             return;
                         }
                         var b = await msg.Channel.SendMessageAsync(plainText,
-                            embed: embed?.Build()).ConfigureAwait(false);
+                            embed: embed?.Build(), components:components.Build()).ConfigureAwait(false);
                         if (afkdel > 0)
                             b.DeleteAfter(afkdel);
                     }

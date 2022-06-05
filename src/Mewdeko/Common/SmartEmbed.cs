@@ -6,11 +6,12 @@ namespace Mewdeko.Common;
 
 public class SmartEmbed
 {
-    public static bool TryParse(string input, out EmbedBuilder? embed, out string? plainText)
+    public static bool TryParse(string input, ulong? guildId, out EmbedBuilder? embed, out string? plainText, out ComponentBuilder? components)
     {
         CrEmbed crembed;
         embed = null;
         plainText = string.Empty;
+        components = null;
         if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{')) return false;
 
         try
@@ -39,6 +40,7 @@ public class SmartEmbed
 
             embed = !newEmbed.IsEmbedValid ? null : newEmbed.ToEmbed();
             plainText = newEmbed.Content;
+            components = crembed.GetComponents(guildId);
             return true;
         }
         if (crembed is { Fields.Length: > 0 })
@@ -55,6 +57,7 @@ public class SmartEmbed
 
         embed = !crembed.IsEmbedValid ? null : crembed.ToEmbed();
         plainText = crembed.PlainText;
+        components = crembed.GetComponents(guildId);
         return true;
     }
 }

@@ -433,7 +433,7 @@ WHERE GuildId={guildId}
         uow.SaveChanges();
     }
 
-    public Task<(EmbedBuilder, string)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
+    public Task<(EmbedBuilder?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
         string banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient)context.Client,
@@ -444,7 +444,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public Task<(EmbedBuilder, string)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public Task<(EmbedBuilder?, string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -468,6 +468,7 @@ WHERE GuildId={guildId}
             .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
             .Build();
         EmbedBuilder embed;
+        ComponentBuilder components;
         string plainText;
         // if template isn't set, use the old message style
         if (string.IsNullOrWhiteSpace(template))
@@ -478,25 +479,19 @@ WHERE GuildId={guildId}
                 description = defaultMessage
             });
 
-            SmartEmbed.TryParse(replacer.Replace(template), out embed, out plainText);
+            SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components);
         }
         // if template is set to "-" do not dm the user
         else if (template == "-")
         {
-            return Task.FromResult<(EmbedBuilder, string)>((null, null));
+            return Task.FromResult<(EmbedBuilder, string, ComponentBuilder)>((null, null, null));
         }
         // otherwise, treat template as a regular string with replacements
         else
         {
-            template = JsonConvert.SerializeObject(new
-            {
-                color = Mewdeko.ErrorColor.RawValue,
-                description = replacer.Replace(template)
-            });
-
-            SmartEmbed.TryParse(replacer.Replace(template), out embed, out plainText);
+            SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components);
         }
 
-        return Task.FromResult((embed, plainText));
+        return Task.FromResult((embed, plainText, components));
     }
 }

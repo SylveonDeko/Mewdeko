@@ -1,4 +1,6 @@
 using Discord;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Chat_Triggers.Services;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
@@ -15,6 +17,7 @@ public class CrEmbed
     public string Image { get; set; }
     public CrEmbedField[] Fields { get; set; }
     public uint Color { get; set; } = 7458112;
+    public CrEmbedTrigger[] Triggers { get; set; }
 
     public bool IsValid =>
         IsEmbedValid || !string.IsNullOrWhiteSpace(PlainText);
@@ -74,6 +77,17 @@ public class CrEmbed
 
         return embed;
     }
+
+    public ComponentBuilder GetComponents(ulong? guildId)
+    {
+        guildId ??= 0;
+        var cb = new ComponentBuilder();
+
+        Triggers?.Select((x, y) => (Triggers: x, Pos: y)).ForEach(x => cb.WithButton(x.Triggers.DisplayName,
+            $"trigger.{x.Triggers.Id}.runin.{guildId}${x.Pos}", x.Triggers.Style));
+
+        return cb;
+    }
 }
 
 public class CrEmbedField
@@ -107,4 +121,11 @@ public class CrEmbedAuthor
     }
 
     public string Url { get; set; }
+}
+
+public class CrEmbedTrigger
+{
+    public string DisplayName { get; set; }
+    public int Id { get; set; }
+    public ButtonStyle Style { get; set; }
 }

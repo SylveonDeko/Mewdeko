@@ -59,11 +59,11 @@ public class GreetSettingsService : INService
         var rep = new ReplacementBuilder()
                   .WithDefault(user, chan, user.Guild, _client)
                   .Build();
-        if (SmartEmbed.TryParse(rep.Replace(conf.BoostMessage), out var embed, out var plainText))
+        if (SmartEmbed.TryParse(rep.Replace(conf.BoostMessage), user.Guild?.Id, out var embed, out var plainText, out var components))
         {
             try
             {
-                var toDelete = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                var toDelete = await chan.SendMessageAsync(plainText, embed: embed?.Build(), components:components.Build());
                 if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
             catch (Exception ex)
@@ -252,20 +252,20 @@ public class GreetSettingsService : INService
                   .Build();
         var lh = GetLeaveHook(channel.GuildId);
 
-        if (SmartEmbed.TryParse(rep.Replace(conf.ChannelByeMessageText), out var embed, out var plainText))
+        if (SmartEmbed.TryParse(rep.Replace(conf.ChannelByeMessageText), channel.GuildId, out var embed, out var plainText, out var components))
         {
             try
             {
                 if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                 {
-                    var toDelete = await channel.SendMessageAsync(plainText, embed: embed?.Build()).ConfigureAwait(false);
+                    var toDelete = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components:components.Build()).ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                 }
                 else
                 {
                     var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
                     var embeds = new List<Embed> { embed?.Build() };
-                    var toDelete = await webhook.SendMessageAsync(plainText, embeds: embeds)
+                    var toDelete = await webhook.SendMessageAsync(plainText, embeds: embeds, components:components.Build())
                                                 .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
                     {
@@ -323,13 +323,15 @@ public class GreetSettingsService : INService
                   .WithManyUsers(users)
                   .Build();
         var gh = GetGreetHook(channel.GuildId);
-        if (SmartEmbed.TryParse(rep.Replace(conf.ChannelGreetMessageText), out var embed, out var plainText))
+        if (SmartEmbed.TryParse(rep.Replace(conf.ChannelGreetMessageText), channel.GuildId, out var embed, out var plainText, out var components))
         {
             try
             {
                 if (string.IsNullOrEmpty(gh) || gh == 0.ToString())
                 {
-                    var toDelete = await channel.SendMessageAsync(plainText, embed: embed?.Build()).ConfigureAwait(false);
+                    var toDelete = await channel
+                                         .SendMessageAsync(plainText, embed: embed?.Build(),
+                                             components: components.Build()).ConfigureAwait(false);
                     if (conf.AutoDeleteGreetMessagesTimer > 0)
                         toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
                 }
@@ -337,8 +339,9 @@ public class GreetSettingsService : INService
                 {
                     var webhook = new DiscordWebhookClient(GetGreetHook(channel.GuildId));
                     var embeds = new List<Embed> { embed?.Build() };
-                    var toDelete = await webhook.SendMessageAsync(plainText, embeds: embeds)
-                                                .ConfigureAwait(false);
+                    var toDelete = await webhook
+                                         .SendMessageAsync(plainText, embeds: embeds, components: components.Build())
+                                         .ConfigureAwait(false);
                     if (conf.AutoDeleteGreetMessagesTimer > 0)
                     {
                         var msg = await channel.GetMessageAsync(toDelete) as IUserMessage;
@@ -389,11 +392,11 @@ public class GreetSettingsService : INService
                   .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                   .Build();
 
-        if (SmartEmbed.TryParse(rep.Replace(conf.DmGreetMessageText), out var embed, out var plainText))
+        if (SmartEmbed.TryParse(rep.Replace(conf.DmGreetMessageText), user.GuildId, out var embed, out var plainText, out var components))
         {
             try
             {
-                await channel.SendMessageAsync(plainText, embed: embed?.Build()).ConfigureAwait(false);
+                await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: components.Build()).ConfigureAwait(false);
             }
             catch
             {
