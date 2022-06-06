@@ -180,9 +180,9 @@ public class FeedsService : INService
                                 continue;
                             var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild?.Id);
                             if (feed1.Message is "-" or null)
-                                allSendTasks.Add(channel.SendMessageAsync(embed: builder.Build(), components:components.Build()));
+                                allSendTasks.Add(channel.SendMessageAsync(embed: builder.Build(), components:components?.Build()));
                             else
-                                allSendTasks.Add(channel.SendMessageAsync(content, embed: builder.Build(), components:components.Build()));
+                                allSendTasks.Add(channel.SendMessageAsync(content, embed: builder.Build(), components:components?.Build()));
                         }
                     }
                 }
@@ -263,7 +263,7 @@ public class FeedsService : INService
         if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
         var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId);
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
-        else await channel.SendMessageAsync(content, embed: builder.Build(), components:components.Build());
+        else await channel.SendMessageAsync(content, embed: builder.Build(), components:components?.Build());
     }
 
     private static Task<(EmbedBuilder builder, string content, ComponentBuilder components)> GetFeedEmbed(
