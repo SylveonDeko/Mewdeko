@@ -254,124 +254,129 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public async Task<bool> RunInteractionTrigger(DiscordSocketClient client, SocketInteraction inter, CTModel ct)
     {
-        if (!ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction))
-            return false;
-        try
+        switch (inter)
         {
-            var fakeMsg = new MewdekoUserMessage()
-            {
-                    Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
-            };
-            
-            if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
-            
-            if (inter.Channel is IGuildChannel {Guild: SocketGuild guild})
-            {
-                var pc = _perms.GetCacheFor(guild.Id);
-                if (!pc.Permissions.CheckPermissions(fakeMsg, ct.Trigger, "ActualChatTriggers",
-                        out var index))
+            case SocketCommandBase when !ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction):
+            case SocketMessageComponent when !ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Button):
+                return false;
+            default:
+                try
                 {
-                    if (pc.Verbose)
+                    var fakeMsg = new MewdekoUserMessage()
                     {
-                        var returnMsg = _strings.GetText("perm_prevent", guild.Id,
-                            index + 1,
-                            Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), guild)));
+                        Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
+                    };
+
+                    if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
+
+                    if (inter.Channel is IGuildChannel {Guild: SocketGuild guild})
+                    {
+                        var pc = _perms.GetCacheFor(guild.Id);
+                        if (!pc.Permissions.CheckPermissions(fakeMsg, ct.Trigger, "ActualChatTriggers",
+                                out var index))
+                        {
+                            if (pc.Verbose)
+                            {
+                                var returnMsg = _strings.GetText("perm_prevent", guild.Id,
+                                    index + 1,
+                                    Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), guild)));
+                                try
+                                {
+                                    await fakeMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
+
+                                Log.Information(returnMsg);
+                            }
+
+                            return true;
+                        }
+
+                        if (_discordPermOverride.TryGetOverrides(guild.Id, ct.Trigger, out var perms))
+                        {
+                            var user = inter.User as IGuildUser;
+                            if (!user.GuildPermissions.Has(perms.Value))
+                            {
+                                Log.Information($"Chat Trigger {ct.Trigger} Blocked for {inter.User} in {guild} due to them missing {perms}.");
+                                return false;
+                            }
+                        }
+                    }
+
+                    IUserMessage sentMsg = null;
+                    if (!ct.NoRespond)
+                        sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
+
+                    foreach (var reaction in ct.GetReactions())
+                    {
                         try
                         {
-                            await fakeMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                            if (!ct.ReactToTrigger && !ct.NoRespond)
+                                await sentMsg.AddReactionAsync(reaction.ToIEmote());
+                            else
+                                await sentMsg.AddReactionAsync(reaction.ToIEmote());
                         }
                         catch
                         {
-                            // ignored
+                            Log.Warning("Unable to add reactions to message {Message} in server {GuildId}", sentMsg.Id,
+                                ct.GuildId);
+                            break;
                         }
 
-                        Log.Information(returnMsg);
+                        await Task.Delay(1000);
+                    }
+
+                    if (ct.GuildId is not null && inter.User is IGuildUser guildUser)
+                    {
+                        List<ulong> effectedUsers = new();
+                        effectedUsers = inter is SocketUserCommand uCMD
+                            ? ct.RoleGrantType switch
+                            {
+                                CTRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
+                                CTRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
+                                CTRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
+                                _ => new List<ulong>()
+                            }
+                            : ct.RoleGrantType switch
+                            {
+                                CTRoleGrantType.Mentioned => new(),
+                                CTRoleGrantType.Sender => new List<ulong> {inter.User.Id},
+                                CTRoleGrantType.Both => new List<ulong> {inter.User.Id},
+                                _ => new List<ulong>()
+                            };
+
+                        foreach (var userId in effectedUsers)
+                        {
+                            var user = await guildUser.Guild.GetUserAsync(userId);
+                            try
+                            {
+                                var baseRoles = user.RoleIds.Where(x => x != guildUser.Guild?.EveryoneRole.Id).ToList();
+                                var roles = baseRoles.Where(x => !ct.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
+                                roles.AddRange(ct.GetGrantedRoles().Where(x => !user.RoleIds.Contains(x)));
+
+                                // difference is caused by @everyone
+                                if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))
+                                    await user.ModifyAsync(x => x.RoleIds = new(roles));
+                            }
+                            catch
+                            {
+                                Log.Warning("Unable to modify the roles of {User} in {GuildId}", guildUser.Id, ct.GuildId);
+                            }
+                        }
                     }
 
                     return true;
                 }
-
-                if (_discordPermOverride.TryGetOverrides(guild.Id, ct.Trigger, out var perms))
+                catch (Exception ex)
                 {
-                    var user = inter.User as IGuildUser;
-                    if (!user.GuildPermissions.Has(perms.Value))
-                    {
-                        Log.Information($"Chat Trigger {ct.Trigger} Blocked for {inter.User} in {guild} due to them missing {perms}.");
-                        return false;
-                    }
-                }
-            }
-
-            IUserMessage sentMsg = null;
-            if (!ct.NoRespond)
-                sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
-
-            foreach (var reaction in ct.GetReactions())
-            {
-                try
-                {
-                    if (!ct.ReactToTrigger && !ct.NoRespond)
-                        await sentMsg.AddReactionAsync(reaction.ToIEmote());
-                    else
-                        await sentMsg.AddReactionAsync(reaction.ToIEmote());
-                }
-                catch
-                {
-                    Log.Warning("Unable to add reactions to message {Message} in server {GuildId}", sentMsg.Id,
-                        ct.GuildId);
-                    break;
+                    Log.Warning(ex.Message);
                 }
 
-                await Task.Delay(1000);
-            }
-
-            if (ct.GuildId is not null && inter.User is IGuildUser guildUser)
-            {
-                List<ulong> effectedUsers = new();
-                effectedUsers = inter is SocketUserCommand uCMD
-                    ? ct.RoleGrantType switch
-                    {
-                        CTRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
-                        CTRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
-                        CTRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
-                        _ => new List<ulong>()
-                    }
-                    : ct.RoleGrantType switch
-                    {
-                        CTRoleGrantType.Mentioned => new(),
-                        CTRoleGrantType.Sender => new List<ulong> {inter.User.Id},
-                        CTRoleGrantType.Both => new List<ulong> {inter.User.Id},
-                        _ => new List<ulong>()
-                    };
-
-                foreach (var userId in effectedUsers)
-                {
-                    var user = await guildUser.Guild.GetUserAsync(userId);
-                    try
-                    {
-                        var baseRoles = user.RoleIds.Where(x => x != guildUser.Guild?.EveryoneRole.Id).ToList();
-                        var roles = baseRoles.Where(x => !ct.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
-                        roles.AddRange(ct.GetGrantedRoles().Where(x => !user.RoleIds.Contains(x)));
-                        
-                        // difference is caused by @everyone
-                        if (baseRoles.Any(x => !roles.Contains(x)) || roles.Any(x => !baseRoles.Contains(x)))
-                            await user.ModifyAsync(x => x.RoleIds = new(roles));
-                    }
-                    catch
-                    {
-                        Log.Warning("Unable to modify the roles of {User} in {GuildId}", guildUser.Id, ct.GuildId);
-                    }
-                }
-            }
-
-            return true;
+                return false;
         }
-        catch (Exception ex)
-        {
-            Log.Warning(ex.Message);
-        }
-
-        return false;
     }
     
     public string ExportCrs(ulong? guildId)
@@ -1079,7 +1084,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             eb.AddField(_strings.GetText("ct_interaction_description", gId), ct.ApplicationCommandDescription);
         if (ct.ApplicationCommandId != 0)
             eb.AddField(_strings.GetText("ct_interaction_id", gId), ct.ApplicationCommandId.ToString());
-        if (ct.ValidTriggerTypes != ChatTriggerType.All)
+        if (ct.ValidTriggerTypes != (ChatTriggerType)0b1111)
             eb.AddField(_strings.GetText("ct_valid_fields", gId), ct.ValidTriggerTypes.ToString());
         return eb;
     }
