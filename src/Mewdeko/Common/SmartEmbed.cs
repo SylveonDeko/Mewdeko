@@ -26,7 +26,7 @@ public class SmartEmbed
         {
             var newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
 
-            if (newEmbed.Embed.Fields is { Count: > 0 })
+            if (newEmbed.Embed?.Fields is { Count: > 0 })
             {
                 foreach (var f in newEmbed.Embed.Fields)
                 {
