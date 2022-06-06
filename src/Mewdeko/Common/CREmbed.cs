@@ -1,4 +1,5 @@
 using Discord;
+using LinqToDB.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ public class CrEmbed
     public string Image { get; set; }
     public CrEmbedField[] Fields { get; set; }
     public uint Color { get; set; } = 7458112;
-    public CrEmbedTrigger[] Triggers { get; set; }
+    public CrEmbedButton[] Buttons { get; set; }
 
     public bool IsValid =>
         IsEmbedValid || !string.IsNullOrWhiteSpace(PlainText);
@@ -80,13 +81,32 @@ public class CrEmbed
 
     public ComponentBuilder GetComponents(ulong? guildId)
     {
-        guildId ??= 0;
         var cb = new ComponentBuilder();
 
-        Triggers?.Select((x, y) => (Triggers: x, Pos: y)).ForEach(x => cb.WithButton(x.Triggers.DisplayName,
-            $"trigger.{x.Triggers.Id}.runin.{guildId}${x.Pos}", x.Triggers.Style));
+        Buttons?.Select((x, y) => (Triggers: x, Pos: y))
+                .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
 
         return cb;
+    }
+
+    public static ButtonBuilder GetButton(CrEmbedButton btn, int pos, ulong guildId)
+    {
+        var bb = new ButtonBuilder();
+        if (btn.Url.IsNullOrWhiteSpace() && btn.Id == 0)
+            bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace() && btn.Id != 0)
+            bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (btn.Url.IsNullOrWhiteSpace() && btn.Style == ButtonStyle.Link)
+            bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (btn.DisplayName.IsNullOrWhiteSpace())
+            bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://")&& !btn.Url.StartsWith("http://")&& !btn.Url.StartsWith("discord://"))
+            bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace())
+            bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
+        else
+            bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}");
+        return bb;
     }
 }
 
@@ -123,9 +143,10 @@ public class CrEmbedAuthor
     public string Url { get; set; }
 }
 
-public class CrEmbedTrigger
+public class CrEmbedButton
 {
     public string DisplayName { get; set; }
     public int Id { get; set; }
-    public ButtonStyle Style { get; set; }
+    public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
+    public string Url { get; set; }
 }
