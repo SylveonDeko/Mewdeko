@@ -22,7 +22,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     public MultiGreets(InteractiveService interactivity, HttpClient httpClient)
     {
         this._interactivity = interactivity;
-        _httpClient = _httpClient;
+        _httpClient = httpClient;
     }
 
     public enum MultiGreetTypes
