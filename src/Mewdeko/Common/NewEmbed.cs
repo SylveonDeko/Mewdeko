@@ -71,51 +71,51 @@ public class NewEmbed
         IsEmbedValid || !string.IsNullOrWhiteSpace(Content);
 
     public bool IsEmbedValid =>
-        !string.IsNullOrWhiteSpace(Embed.Description) ||
-        !string.IsNullOrWhiteSpace(Embed.Url) ||
-        Embed.Thumbnail != null ||
-        Embed.Image != null ||
-        (Embed.Footer != null && (!string.IsNullOrWhiteSpace(Embed.Footer.Text) || !string.IsNullOrWhiteSpace(Embed.Footer.IconUrl))) ||
-        Embed.Fields is { Count: > 0 };
+        !string.IsNullOrWhiteSpace(Embed?.Description) ||
+        !string.IsNullOrWhiteSpace(Embed?.Url) ||
+        Embed?.Thumbnail != null ||
+        Embed?.Image != null ||
+        (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) || !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
+        Embed?.Fields is { Count: > 0 };
 
     public EmbedBuilder ToEmbed()
     {
         var embed = new EmbedBuilder();
 
-        if (!string.IsNullOrWhiteSpace(Embed.Title))
-            embed.WithTitle(Embed.Title);
-        if (!string.IsNullOrWhiteSpace(Embed.Description))
-            embed.WithDescription(Embed.Description);
-        if (Embed.Url != null && Uri.IsWellFormedUriString(Embed.Url, UriKind.Absolute))
-            embed.WithUrl(Embed.Url);
+        if (!string.IsNullOrWhiteSpace(Embed?.Title))
+            embed.WithTitle(Embed?.Title);
+        if (!string.IsNullOrWhiteSpace(Embed?.Description))
+            embed.WithDescription(Embed?.Description);
+        if (Embed?.Url != null && Uri.IsWellFormedUriString(Embed?.Url, UriKind.Absolute))
+            embed.WithUrl(Embed?.Url);
         embed.WithColor(new Color(Embed.Color));
-        if (Embed.Footer != null)
+        if (Embed?.Footer != null)
         {
             embed.WithFooter(efb =>
             {
-                efb.WithText(Embed.Footer.Text);
-                if (Uri.IsWellFormedUriString(Embed.Footer.IconUrl, UriKind.Absolute))
-                    efb.WithIconUrl(Embed.Footer.IconUrl);
+                efb.WithText(Embed?.Footer.Text);
+                if (Uri.IsWellFormedUriString(Embed?.Footer.IconUrl, UriKind.Absolute))
+                    efb.WithIconUrl(Embed?.Footer.IconUrl);
             });
         }
 
-        if (Embed.Thumbnail != null && Uri.IsWellFormedUriString(Embed.Thumbnail.Url, UriKind.Absolute))
-            embed.WithThumbnailUrl(Embed.Thumbnail.Url);
-        if (Embed.Image != null && Uri.IsWellFormedUriString(Embed.Image.Url, UriKind.Absolute))
-            embed.WithImageUrl(Embed.Image.Url);
-        if (Embed.Author != null && !string.IsNullOrWhiteSpace(Embed.Author.Name))
+        if (Embed?.Thumbnail != null && Uri.IsWellFormedUriString(Embed?.Thumbnail.Url, UriKind.Absolute))
+            embed.WithThumbnailUrl(Embed?.Thumbnail.Url);
+        if (Embed?.Image != null && Uri.IsWellFormedUriString(Embed?.Image.Url, UriKind.Absolute))
+            embed.WithImageUrl(Embed?.Image.Url);
+        if (Embed?.Author != null && !string.IsNullOrWhiteSpace(Embed?.Author.Name))
         {
-            if (!Uri.IsWellFormedUriString(Embed.Author.IconUrl, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(Embed?.Author.IconUrl, UriKind.Absolute))
                 Embed.Author.IconUrl = null;
-            if (!Uri.IsWellFormedUriString(Embed.Author.Url, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(Embed?.Author.Url, UriKind.Absolute))
                 Embed.Author.Url = null;
 
-            embed.WithAuthor(Embed.Author.Name, Embed.Author.IconUrl, Embed.Author.Url);
+            embed.WithAuthor(Embed?.Author.Name, Embed?.Author.IconUrl, Embed?.Author.Url);
         }
 
-        if (Embed.Fields == null) return embed;
+        if (Embed?.Fields == null) return embed;
         {
-            foreach (var f in Embed.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
+            foreach (var f in Embed?.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
                 embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
         }
 
