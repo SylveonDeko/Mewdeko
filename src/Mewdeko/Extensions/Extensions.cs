@@ -1,14 +1,11 @@
 ﻿
 
 #nullable enable
-using Discord;
 using Discord.Commands;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;

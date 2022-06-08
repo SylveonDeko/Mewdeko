@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Common.ModuleBehaviors;
+﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 public interface IInputTransformer
 {

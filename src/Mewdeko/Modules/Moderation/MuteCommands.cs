@@ -1,10 +1,7 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using PermValue = Discord.PermValue;

@@ -1,7 +1,5 @@
-﻿using Discord;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using Mewdeko.Common.Modals;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 

@@ -1,5 +1,4 @@
-﻿using Mewdeko.Extensions;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common.Hangman;

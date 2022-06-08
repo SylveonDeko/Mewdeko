@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Common.TypeReaders;

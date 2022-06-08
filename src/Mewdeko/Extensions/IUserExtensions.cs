@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Models;
-using System.IO;
+﻿using System.IO;
 
 namespace Mewdeko.Extensions;
 

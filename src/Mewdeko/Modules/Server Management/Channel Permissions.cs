@@ -1,8 +1,5 @@
-using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Server_Management;
 

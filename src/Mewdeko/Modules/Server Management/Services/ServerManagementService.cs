@@ -1,6 +1,3 @@
-using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Server_Management.Services;

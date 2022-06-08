@@ -1,8 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Xp.Common;
+﻿using Mewdeko.Modules.Xp.Common;
 using System.Net.Http;
 
 namespace Mewdeko.Modules.Xp.Services;

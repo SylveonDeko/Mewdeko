@@ -1,14 +1,9 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
 
@@ -132,13 +127,13 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                 await ctx.Channel.SendConfirmAsync("RandomGreet enabled!");
                 break;
             case MultiGreetTypes.Off:
-                await Service.SetMultiGreetType(ctx.Guild, 3);
+                await Service.SetMultiGreetType(ctx.Guild, 2);
                 await ctx.Channel.SendConfirmAsync("MultiGreets Disabled!");
                 break;
         }
     }
 
-    [Cmd, Alias, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task MultiGreetGreetBots(int num, bool enabled)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);

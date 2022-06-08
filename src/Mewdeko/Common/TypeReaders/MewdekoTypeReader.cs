@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 
 // ReSharper disable UnusedTypeParameter
 

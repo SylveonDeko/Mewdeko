@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database.Models;
-using Mewdeko.Modules.Xp.Services;
+﻿using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp.Extensions;
 

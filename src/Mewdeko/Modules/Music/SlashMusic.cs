@@ -1,7 +1,5 @@
 ﻿#nullable enable
-using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Lavalink4NET;
@@ -11,9 +9,6 @@ using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
 

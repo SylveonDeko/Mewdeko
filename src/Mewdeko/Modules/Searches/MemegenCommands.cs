@@ -2,7 +2,6 @@ using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Immutable;
 using System.Net.Http;
