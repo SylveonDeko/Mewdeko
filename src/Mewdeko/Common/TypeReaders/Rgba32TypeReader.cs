@@ -1,6 +1,6 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using SixLabors.ImageSharp;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Common.TypeReaders;
 

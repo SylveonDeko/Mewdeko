@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;

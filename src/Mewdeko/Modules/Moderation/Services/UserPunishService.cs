@@ -1,11 +1,5 @@
-using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

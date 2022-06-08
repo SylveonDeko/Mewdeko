@@ -1,16 +1,11 @@
 ﻿using AngleSharp.Text;
-using Discord;
-using Discord.WebSocket;
 using LinqToDB.Common;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
 using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
 using Mewdeko.Common.DiscordImplementations;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;

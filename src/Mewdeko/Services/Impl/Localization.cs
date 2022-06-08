@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Services.Settings;
+﻿using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Globalization;

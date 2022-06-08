@@ -1,5 +1,4 @@
-﻿using Mewdeko.Extensions;
-using Mewdeko.Modules.Nsfw.Common;
+﻿using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.Nsfw.Common.Downloaders;
 using Microsoft.Extensions.Caching.Memory;
 using Serilog;

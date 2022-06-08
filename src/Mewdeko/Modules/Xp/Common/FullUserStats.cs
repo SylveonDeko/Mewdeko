@@ -1,6 +1,4 @@
-﻿using Mewdeko.Database.Models;
-
-namespace Mewdeko.Modules.Xp.Common;
+﻿namespace Mewdeko.Modules.Xp.Common;
 
 public class FullUserStats
 {

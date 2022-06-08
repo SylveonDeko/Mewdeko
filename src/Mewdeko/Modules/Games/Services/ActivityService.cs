@@ -1,5 +1,3 @@
-using Mewdeko.Database.Extensions;
-
 namespace Mewdeko.Modules.Games.Services;
 
 public class ActivityService : INService

@@ -1,7 +1,4 @@
-using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
 using Mewdeko.Services.strings;
 using System.Text.RegularExpressions;
 

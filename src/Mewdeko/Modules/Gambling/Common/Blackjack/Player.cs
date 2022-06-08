@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Modules.Gambling.Common.Blackjack;
+﻿namespace Mewdeko.Modules.Gambling.Common.Blackjack;
 
 public abstract class Player
 {

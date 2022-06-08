@@ -1,10 +1,6 @@
-using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility;

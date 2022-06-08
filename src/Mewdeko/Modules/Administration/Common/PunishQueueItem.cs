@@ -1,7 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Models;
-
-namespace Mewdeko.Modules.Administration.Common;
+﻿namespace Mewdeko.Modules.Administration.Common;
 
 public class PunishQueueItem
 {

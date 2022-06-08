@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using System.Collections.Immutable;

@@ -1,6 +1,4 @@
-﻿using Mewdeko.Database.Models;
-
-namespace Mewdeko.Modules.Permissions.Common;
+﻿namespace Mewdeko.Modules.Permissions.Common;
 
 public class OldPermissionCache
 {

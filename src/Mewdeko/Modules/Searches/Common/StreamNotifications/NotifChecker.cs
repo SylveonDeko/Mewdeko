@@ -1,7 +1,5 @@
 #nullable enable
 using Mewdeko.Database.Common;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Newtonsoft.Json;

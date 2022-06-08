@@ -1,12 +1,7 @@
 ﻿using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
-using Discord;
-using Discord.WebSocket;
 using GTranslate.Translators;
 using Html2Markdown;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;

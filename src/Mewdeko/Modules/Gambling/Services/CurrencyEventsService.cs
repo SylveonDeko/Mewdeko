@@ -1,7 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Models;
-using Mewdeko.Modules.Gambling.Common.Events;
+﻿using Mewdeko.Modules.Gambling.Common.Events;
 using Serilog;
 using System.Collections.Concurrent;
 

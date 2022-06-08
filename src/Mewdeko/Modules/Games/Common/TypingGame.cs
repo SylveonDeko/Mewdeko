@@ -1,7 +1,4 @@
 ﻿using CommandLine;
-using Discord;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Services;
 using Serilog;
 using System.Diagnostics;

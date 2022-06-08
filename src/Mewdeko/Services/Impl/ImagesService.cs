@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
-using Mewdeko.Extensions;
 using Serilog;
 using StackExchange.Redis;
 using System.IO;

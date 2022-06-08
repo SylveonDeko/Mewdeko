@@ -1,5 +1,4 @@
 ﻿using Mewdeko.Database.Common;
-using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 

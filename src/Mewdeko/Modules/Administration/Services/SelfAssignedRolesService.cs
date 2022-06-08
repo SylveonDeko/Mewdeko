@@ -1,7 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Modules.Xp.Common;
+﻿using Mewdeko.Modules.Xp.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;

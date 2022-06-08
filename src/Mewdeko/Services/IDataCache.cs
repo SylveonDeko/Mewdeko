@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database.Models;
-using Mewdeko.Modules.Utility.Common;
+﻿using Mewdeko.Modules.Utility.Common;
 using StackExchange.Redis;
 
 namespace Mewdeko.Services;
