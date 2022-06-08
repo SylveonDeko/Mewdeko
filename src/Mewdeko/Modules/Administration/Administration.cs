@@ -9,6 +9,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using System.Xml.Serialization;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -593,5 +594,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
 
         await ctx.OkAsync().ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
+    public async Task RenameChannel(IGuildChannel channel, [Remainder] string name)
+    {
+        await channel.ModifyAsync(x => x.Name = name);
+        await ConfirmLocalizedAsync("channel_renamed");
     }
 }

@@ -1165,6 +1165,9 @@ removeroles:
 removeusersfromrole:
   - removeusersfromrole
   - rufr
+renamechannel:
+  - renamechannel
+  - channelrename
 renameemote:
   - renameemote
   - emoterename
