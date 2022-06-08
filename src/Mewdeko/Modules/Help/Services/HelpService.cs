@@ -1,11 +1,8 @@
 ﻿using CommandLine;
-using Discord;
 using Discord.Commands;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;

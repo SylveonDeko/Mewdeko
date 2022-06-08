@@ -1,12 +1,8 @@
-using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Modules.Highlights;

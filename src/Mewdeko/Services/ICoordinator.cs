@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Services;
+﻿namespace Mewdeko.Services;
 
 public interface ICoordinator
 {

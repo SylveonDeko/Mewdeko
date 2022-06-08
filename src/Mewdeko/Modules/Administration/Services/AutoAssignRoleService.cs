@@ -1,11 +1,6 @@
 ﻿using Discord.Net;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Serilog;
 using System.Net;
-using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -130,13 +125,13 @@ public sealed class AutoAssignRoleService : INService
     {
         var broles = _bot.GetGuildConfig(role.Guild.Id).AutoBotRoleIds;
         var roles = _bot.GetGuildConfig(role.Guild.Id).AutoAssignRoleId;
-        if (roles is not null
+        if (!string.IsNullOrWhiteSpace(roles)
             && roles.Split(" ").Select(ulong.Parse).Contains(role.Id))
         {
             await ToggleAarAsync(role.Guild.Id, role.Id).ConfigureAwait(false);
         }
 
-        if (broles is not null
+        if (!string.IsNullOrWhiteSpace(broles)
             && broles.Split(" ").Select(ulong.Parse).Contains(role.Id))
         {
             await ToggleAabrAsync(role.Guild.Id, role.Id).ConfigureAwait(false);

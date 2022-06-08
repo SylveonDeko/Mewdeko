@@ -1,7 +1,4 @@
-using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Common.Autocompleters;
 

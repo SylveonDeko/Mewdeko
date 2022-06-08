@@ -1,8 +1,4 @@
-using Discord;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Threading;

@@ -1,14 +1,8 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Common;
+﻿using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
-using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Administration.Services;
 

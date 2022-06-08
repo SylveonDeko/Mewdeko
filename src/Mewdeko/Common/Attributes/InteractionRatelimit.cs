@@ -1,4 +1,3 @@
-using Discord;
 using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using Swan;

@@ -1,7 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Serilog;
+﻿using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 

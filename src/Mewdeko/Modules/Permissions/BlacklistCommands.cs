@@ -1,8 +1,6 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;

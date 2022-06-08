@@ -1,12 +1,6 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
 using System.Text.RegularExpressions;
-using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Highlights.Services;
 

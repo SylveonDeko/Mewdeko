@@ -1,7 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using System.Threading;
+﻿using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common;
 

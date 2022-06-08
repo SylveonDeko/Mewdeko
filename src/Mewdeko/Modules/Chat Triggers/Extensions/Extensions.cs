@@ -1,9 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.Html.Dom;
-using Discord;
-using Discord.WebSocket;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Extensions;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 

@@ -1,7 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Modules.Gambling.Common;
+﻿using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Microsoft.EntityFrameworkCore;
 

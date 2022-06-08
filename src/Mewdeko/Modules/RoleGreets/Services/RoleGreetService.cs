@@ -1,12 +1,4 @@
-﻿using Discord;
-using Discord.Webhook;
-using Discord.WebSocket;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-
-namespace Mewdeko.Modules.RoleGreets.Services;
+﻿namespace Mewdeko.Modules.RoleGreets.Services;
 
 public class RoleGreetService : INService
 {

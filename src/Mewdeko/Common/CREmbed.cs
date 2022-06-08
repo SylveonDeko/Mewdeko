@@ -1,6 +1,4 @@
-using Discord;
 using LinqToDB.Common;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Newtonsoft.Json;
 

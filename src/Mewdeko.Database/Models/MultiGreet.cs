@@ -8,4 +8,5 @@ public class MultiGreet : DbEntity
     public bool GreetBots { get; set; }
     public int DeleteTime { get; set; } = 1;
     public string WebhookUrl { get; set; }
+    public bool Disabled { get; set; }
 }

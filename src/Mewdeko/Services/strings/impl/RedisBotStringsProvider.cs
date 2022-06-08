@@ -1,6 +1,4 @@
-﻿using Discord.WebSocket;
-using Mewdeko.Extensions;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 using System.Web;
 
 namespace Mewdeko.Services.strings.impl;
