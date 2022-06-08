@@ -1,4 +1,3 @@
-using Mewdeko.Extensions;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Utility.Services;

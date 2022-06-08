@@ -1,8 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Models;
-
-namespace Mewdeko.Modules.Permissions.Common;
+﻿namespace Mewdeko.Modules.Permissions.Common;
 
 public static class PermissionExtensions
 {

@@ -1,10 +1,7 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using System.Text;
 

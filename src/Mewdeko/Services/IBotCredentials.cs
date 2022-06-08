@@ -1,5 +1,4 @@
-﻿using Discord;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 namespace Mewdeko.Services;
 

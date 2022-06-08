@@ -1,6 +1,4 @@
 ﻿using Discord.Interactions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Games.Services;
 

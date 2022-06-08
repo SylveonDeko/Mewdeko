@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database.Models;
-using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+﻿using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;

@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Common.TypeReaders.Models;
 
 namespace Mewdeko.Common.TypeReaders;

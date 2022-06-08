@@ -1,7 +1,5 @@
-﻿using Discord;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
-using Mewdeko.Extensions;
 using System.Net.Http;
 using Image = Discord.Image;
 

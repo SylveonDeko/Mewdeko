@@ -1,5 +1,3 @@
-using Discord;
-using Mewdeko.Database.Extensions;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Common;

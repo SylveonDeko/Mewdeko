@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Common.Collections;
-using Mewdeko.Database.Models;
+﻿using Mewdeko.Common.Collections;
 using System.Collections.Concurrent;
 using System.Threading;
 

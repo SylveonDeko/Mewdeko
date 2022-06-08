@@ -1,5 +1,4 @@
-﻿using Discord;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Immutable;

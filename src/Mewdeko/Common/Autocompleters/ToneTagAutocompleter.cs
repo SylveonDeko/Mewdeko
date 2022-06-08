@@ -1,4 +1,3 @@
-using Discord;
 using Discord.Interactions;
 using Mewdeko.Modules.Searches.Services;
 

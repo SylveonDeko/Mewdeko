@@ -1,5 +1,3 @@
-using Discord;
-
 namespace Mewdeko.Common.DiscordImplementations;
 
 public class MewdekoUserMessage : IUserMessage

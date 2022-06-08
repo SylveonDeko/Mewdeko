@@ -1,5 +1,3 @@
-using Discord;
-
 namespace Mewdeko.Extensions;
 
 public static class MessageExtensions

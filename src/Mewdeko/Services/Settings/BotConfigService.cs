@@ -1,5 +1,4 @@
-﻿using Discord;
-using Mewdeko.Common.Configs;
+﻿using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
 using SixLabors.ImageSharp.PixelFormats;
 

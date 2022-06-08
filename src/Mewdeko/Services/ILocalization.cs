@@ -1,5 +1,4 @@
-﻿using Discord;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Globalization;
 
 namespace Mewdeko.Services;

@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;

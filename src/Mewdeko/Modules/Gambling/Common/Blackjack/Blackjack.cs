@@ -1,5 +1,4 @@
-﻿using Discord;
-using Serilog;
+﻿using Serilog;
 using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Common.Blackjack;
