@@ -1,7 +1,4 @@
-﻿using Discord;
-using Mewdeko.Database.Models;
-
-namespace Mewdeko.Modules.Music.Common;
+﻿namespace Mewdeko.Modules.Music.Common;
 
 public class AdvancedTrackContext
 {

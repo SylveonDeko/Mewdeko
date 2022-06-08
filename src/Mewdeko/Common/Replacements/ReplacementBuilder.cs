@@ -1,6 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;

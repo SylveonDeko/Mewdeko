@@ -1,11 +1,5 @@
-﻿using Discord;
-using Discord.Net;
-using Discord.WebSocket;
+﻿using Discord.Net;
 using LinqToDB;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;

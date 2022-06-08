@@ -1,13 +1,9 @@
 using Amazon.S3;
 using Amazon.S3.Model;
-using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;

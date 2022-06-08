@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Modules.Xp.Services;
+﻿namespace Mewdeko.Modules.Xp.Services;
 
 public class UserCacheItem
 {

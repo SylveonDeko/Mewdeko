@@ -1,9 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Gambling.Services;
+﻿using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Services.Impl;
 

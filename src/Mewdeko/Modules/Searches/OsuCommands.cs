@@ -1,7 +1,5 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;

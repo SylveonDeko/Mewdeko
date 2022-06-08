@@ -1,17 +1,11 @@
 using AngleSharp.Dom;
-using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;

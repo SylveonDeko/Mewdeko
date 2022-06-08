@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;

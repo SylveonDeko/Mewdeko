@@ -1,10 +1,5 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Humanizer;
+﻿using Humanizer;
 using Mewdeko.Common.Collections;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
@@ -20,44 +15,44 @@ public class LogCommandService : INService
 {
     public enum LogType
     {
-        Other,
-        EventCreated,
-        RoleUpdated,
-        RoleCreated,
-        ServerUpdated,
-        ThreadCreated,
-        UserRoleAdded,
-        UserRoleRemoved,
-        UsernameUpdated,
-        NicknameUpdated,
-        ThreadDeleted,
-        ThreadUpdated,
-        MessageUpdated,
-        MessageDeleted,
-        UserJoined,
-        UserLeft,
-        UserBanned,
-        UserUnbanned,
-        UserUpdated,
         ChannelCreated,
         ChannelDestroyed,
         ChannelUpdated,
+        EventCreated,
+        MessageDeleted,
+        MessageUpdated,
+        NicknameUpdated,
+        Other,
+        RoleCreated,
+        RoleUpdated,
+        ServerUpdated,
+        ThreadCreated,
+        ThreadDeleted,
+        ThreadUpdated,
+        UserBanned,
+        UserJoined,
+        UserLeft,
+        UserMuted,
+        UserRoleAdded,
+        UserRoleRemoved,
+        UserUnbanned,
+        UserUpdated,
+        UsernameUpdated,
         VoicePresence,
         VoicePresenceTts,
-        UserMuted
     }
 
     public enum LogCategoryTypes
     {
         All,
-        Users,
-        Threads,
-        Roles,
-        Server,
         Channel,
         Messages,
         Moderation,
-        None
+        None,
+        Roles,
+        Server,
+        Threads,
+        Users,
         
     }
     private readonly DiscordSocketClient _client;
@@ -68,8 +63,6 @@ public class LogCommandService : INService
     private readonly Mewdeko _bot;
 
     private readonly GuildTimezoneService _tz;
-
-    public readonly Timer ClearTimer;
 
     public LogCommandService(DiscordSocketClient client, IBotStrings strings,
         DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz,
@@ -108,9 +101,7 @@ public class LogCommandService : INService
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
-#if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
-#endif
         _client.ChannelCreated += Client_ChannelCreated;
         _client.ChannelDestroyed += Client_ChannelDestroyed;
         _client.ChannelUpdated += Client_ChannelUpdated;
@@ -120,11 +111,19 @@ public class LogCommandService : INService
         mute.UserUnmuted += MuteCommands_UserUnmuted;
         //_client.ThreadCreated += ThreadCreated;
         prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
+        _client.GuildMemberUpdated += AddNickname;
 
-        ClearTimer = new Timer(_ => _ignoreMessageIds.Clear(), null, TimeSpan.FromHours(1),
-            TimeSpan.FromHours(1));
+        _ = RunCacheClear();
     }
 
+    public async Task RunCacheClear()
+    {
+        var timer = new PeriodicTimer(TimeSpan.FromHours(1));
+        while (await timer.WaitForNextTickAsync())
+        {
+            _ignoreMessageIds.Clear();
+        }
+    }
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
@@ -151,6 +150,21 @@ public class LogCommandService : INService
         return removed > 0;
     }
 
+    private Task AddNickname(Cacheable<SocketGuildUser, ulong> unused, SocketGuildUser socketGuildUser)
+    {
+        _ = Task.Run(async () =>
+        {
+            await using var uow = _db.GetDbContext();
+            uow.Nicknames.Add(new Nicknames()
+            {
+                GuildId = socketGuildUser.Guild.Id,
+                UserId = socketGuildUser.Id,
+                Nickname = socketGuildUser.Nickname
+            });
+            await uow.SaveChangesAsync();
+        });
+        return Task.CompletedTask;
+    }
     private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
 
     private string CurrentTime(IGuild? g)
@@ -245,6 +259,8 @@ public class LogCommandService : INService
                 logSetting.UserMutedId = channelId;
                 break;
         }
+
+        await uow.SaveChangesAsync();
     }
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
@@ -356,7 +372,7 @@ public class LogCommandService : INService
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -433,7 +449,7 @@ public class LogCommandService : INService
     }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -480,7 +496,7 @@ public class LogCommandService : INService
 
     private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -524,7 +540,7 @@ public class LogCommandService : INService
 
     private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -573,7 +589,7 @@ public class LogCommandService : INService
     public Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection,
         params IGuildUser[] users)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -681,9 +697,10 @@ public class LogCommandService : INService
                         .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
                     if (cacheable.Value.Nickname != after.Nickname)
                     {
+                        await using var uow = _db.GetDbContext();
                         var logChannel1 = logChannel;
                         embed.WithAuthor(eab => eab.WithName($"👥 {GetText(logChannel1.Guild, "nick_change")}"))
-                             .WithDescription($"**Old Nickname**\n=> {cacheable.Value.Nickname ?? cacheable.Value.Username}\n**New Nickname**\n=> {after.Nickname ?? after.Username}\n**Changed On**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}");
+                             .WithDescription($"**Old Nickname**\n=> {cacheable.Value.Nickname ?? cacheable.Value.Username}\n**New Nickname**\n=> {after.Nickname ?? after.Username}\n**Nickname Chnaged Count**\n=> {uow.Nicknames.GetNicknames(after.Id, cacheable.Value.Guild.Id).Count()}\n**Changed On**\n=> {TimestampTag.FromDateTime(DateTime.UtcNow)}");
 
                         await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                     }
@@ -730,7 +747,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelUpdated(IChannel cbefore, IChannel cafter)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -794,7 +811,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelDestroyed(IChannel ich)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -836,7 +853,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelCreated(IChannel ich)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -874,7 +891,7 @@ public class LogCommandService : INService
 
     private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -920,7 +937,7 @@ public class LogCommandService : INService
 
     private Task Client_UserLeft(SocketGuild guild, SocketUser user)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -962,7 +979,7 @@ public class LogCommandService : INService
 
     private Task Client_UserJoined(IGuildUser usr)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1007,7 +1024,7 @@ public class LogCommandService : INService
 
     private Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1046,7 +1063,7 @@ public class LogCommandService : INService
 
     private Task Client_UserBanned(IUser usr, IGuild guild)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1074,7 +1091,7 @@ public class LogCommandService : INService
                 {
                     embed
                     .AddField("Banned by", bannedby.User)
-                    .AddField("Reason", bannedby.Reason == null ? bannedby.Reason : "None");
+                    .AddField("Reason", bannedby.Reason ?? "None" );
                 }
 
                 embed.AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
@@ -1098,7 +1115,7 @@ public class LogCommandService : INService
     private Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
         Cacheable<IMessageChannel, ulong> channel)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             if (channel.Value is not ITextChannel chan)
                 return;
@@ -1154,7 +1171,7 @@ public class LogCommandService : INService
 
     private Task Client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1212,7 +1229,7 @@ public class LogCommandService : INService
     private Task Client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1290,74 +1307,28 @@ public class LogCommandService : INService
             LogType.VoicePresence => logSetting.LogVoicePresenceId,
             LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId,
             LogType.UserMuted => logSetting.UserMutedId,
+            LogType.EventCreated => logSetting.EventCreatedId,
+            LogType.NicknameUpdated => logSetting.NicknameUpdatedId,
+            LogType.RoleCreated => logSetting.RoleCreatedId,
+            LogType.RoleUpdated => logSetting.RoleUpdatedId,
+            LogType.ServerUpdated => logSetting.ServerUpdatedId,
+            LogType.ThreadCreated => logSetting.ThreadCreatedId,
+            LogType.ThreadDeleted => logSetting.ThreadDeletedId,
+            LogType.ThreadUpdated => logSetting.ThreadUpdatedId,
+            LogType.UsernameUpdated => logSetting.UsernameUpdatedId,
+            LogType.UserRoleAdded => logSetting.UserRoleAddedId,
+            LogType.UserRoleRemoved => logSetting.UserRoleRemovedId,
             _ => 0
         };
 
         if (id is 0 or null)
         {
-            UnsetLogSetting(guild.Id, logChannelType);
+            await SetLogChannel(guild.Id, id.GetValueOrDefault(), logChannelType);
             return null;
         }
 
         var channel = await guild.GetTextChannelAsync(id.GetValueOrDefault()).ConfigureAwait(false);
 
-        if (channel != null) return channel;
-        UnsetLogSetting(guild.Id, logChannelType);
-        return null;
-
-    }
-
-    private void UnsetLogSetting(ulong guildId, LogType logChannelType)
-    {
-        using var uow = _db.GetDbContext();
-        var newLogSetting = uow.LogSettingsFor(guildId).LogSetting;
-        switch (logChannelType)
-        {
-            case LogType.Other:
-                newLogSetting.LogOtherId = 0;
-                break;
-            case LogType.MessageUpdated:
-                newLogSetting.MessageUpdatedId = 0;
-                break;
-            case LogType.MessageDeleted:
-                newLogSetting.MessageDeletedId = 0;
-                break;
-            case LogType.UserJoined:
-                newLogSetting.UserJoinedId = 0;
-                break;
-            case LogType.UserLeft:
-                newLogSetting.UserLeftId = 0;
-                break;
-            case LogType.UserBanned:
-                newLogSetting.UserBannedId = 0;
-                break;
-            case LogType.UserUnbanned:
-                newLogSetting.UserUnbannedId = 0;
-                break;
-            case LogType.UserUpdated:
-                newLogSetting.UserUpdatedId = 0;
-                break;
-            case LogType.UserMuted:
-                newLogSetting.UserMutedId = 0;
-                break;
-            case LogType.ChannelCreated:
-                newLogSetting.ChannelCreatedId = 0;
-                break;
-            case LogType.ChannelDestroyed:
-                newLogSetting.ChannelDestroyedId = 0;
-                break;
-            case LogType.ChannelUpdated:
-                newLogSetting.ChannelUpdatedId = 0;
-                break;
-            case LogType.VoicePresence:
-                newLogSetting.LogVoicePresenceId = 0;
-                break;
-            case LogType.VoicePresenceTts:
-                newLogSetting.LogVoicePresenceTTSId = 0;
-                break;
-        }
-
-        GuildLogSettings.AddOrUpdate(guildId, newLogSetting, (_, _) => newLogSetting);
-        uow.SaveChanges();
+        return channel;
     }
 }

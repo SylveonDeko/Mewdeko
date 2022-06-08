@@ -1,11 +1,5 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 

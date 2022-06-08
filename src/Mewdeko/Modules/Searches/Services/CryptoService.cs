@@ -1,5 +1,4 @@
-﻿using Mewdeko.Extensions;
-using Mewdeko.Modules.Searches.Common;
+﻿using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
 using System.Net.Http;

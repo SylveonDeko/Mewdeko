@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Services;
 
 namespace Mewdeko.Modules.Searches;

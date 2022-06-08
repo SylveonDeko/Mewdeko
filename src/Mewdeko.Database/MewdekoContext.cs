@@ -49,6 +49,7 @@ public class MewdekoContext : DbContext
     public DbSet<WaifuInfo> WaifuInfo { get; set; }
     public DbSet<Warning> Warnings { get; set; }
     public DbSet<UserXpStats> UserXpStats { get; set; }
+    public DbSet<Nicknames> Nicknames { get; set; }
     public DbSet<Poll> Poll { get; set; }
     public DbSet<ClubInfo> Clubs { get; set; }
     public DbSet<CommandCooldown> CommandCooldown { get; set; }

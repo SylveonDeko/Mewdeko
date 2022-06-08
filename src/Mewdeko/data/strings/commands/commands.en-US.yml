@@ -21,7 +21,7 @@ acceptmessage:
   desc: >-
     Allows you to set the message sent when a suggestion is accepted. Use the
     embed builder at https://eb.mewdeko.tech and the placeholders at
-    https://mewdeko.tech/placeholders.
+    https://blog.mewdeko.tech/placeholders.
 aclist:
   args:
     - ''
@@ -46,7 +46,7 @@ addchattrigger:
     Add a Chat Trigger with a trigger and a response. Running this command in
     server requires the Administration permission. Running this command in DM is
     Bot Owner only and adds a new global Chat Trigger. Guide here:
-    https://mewdeko.tech/chattriggers
+    https://blog.mewdeko.tech/chattriggers
 addchattriggerregex:
   args:
     - \d{3,}cats you have lots of cats
@@ -55,7 +55,7 @@ addchattriggerregex:
     Add a Chat Trigger with a regex trigger and a response. Running this command
     in server requires the Administration permission. Running this command in DM
     is Bot Owner only and adds a new global Chat Trigger. Guide here:
-    https://mewdeko.tech/chattriggers
+    https://blog.mewdeko.tech/chattriggers
 addemote:
   args:
     - name emote
@@ -503,7 +503,7 @@ boostmsg:
   desc: >-
     Sets a new boost announcement message. Type `%user.mention%` if you want to
     show the name the user who left. Full list of placeholders can be found here
-    <https://mewdeko.tech/placeholders/> Using this command with no message will
+    <https://blog.mewdeko.tech/placeholders/> Using this command with no message will
     show the current boost message. You can use embed json from
     <https://eb.mewdeko.tech/> instead of a regular text, if you want the
     message to be embedded.
@@ -552,7 +552,7 @@ byemsg:
     Sets a new leave announcement message. Type `%user.mention%` if you want to
     show the name the user who left. Type `%id%` to show id. Using this command
     with no message will show the current bye message. You can use make embeds
-    using https://eb.Mewdeko.tech/ instead of regular text, if you want the
+    using https://eb.mewdeko.tech/ instead of regular text, if you want the
     message to be embedded.
 byetest:
   args:
@@ -910,7 +910,7 @@ considermessage:
   desc: >-
     Allows you to set the message sent when a suggestion is considered.Use the
     embed builder at https://eb.mewdeko.tech and the placeholders at
-    https://mewdeko.tech/placeholders.
+    https://blog.mewdeko.tech/placeholders.
 convert:
   args:
     - m km 1000
@@ -1181,7 +1181,7 @@ denymessage:
   desc: >-
     Allows you to set the message sent when a suggestion is denied. Use the
     embed builder at https://eb.mewdeko.tech and the placeholders at
-    https://mewdeko.tech/placeholders.
+    https://blog.mewdeko.tech/placeholders.
 derpibooru:
   args:
     - yuri+kissing
@@ -1343,7 +1343,7 @@ feedmessage:
     - 1 embedcode
   desc: >-
     Add a custom message to a certain feed. Find the number using {0}feeds. You
-    can use https://eb.mewdeko.tech along with https://mewdeko.tech/placeholders
+    can use https://eb.mewdeko.tech along with https://blog.mewdeko.tech/placeholders
     to make cool embeds with this.
 feedremove:
   args:
@@ -1532,7 +1532,7 @@ greethook:
     Allows you to set a webhook used for welcome messages. You can either upload
     an image to use or use a image url. Type disable to disable webhook greets.
     set the message used for greets using the greetmsg command together with
-    https://eb.mewdeko.tech/ and https://mewdeko.tech/placeholders
+    https://eb.mewdeko.tech/ and https://blog.mewdeko.tech/placeholders
 greetmsg:
   args:
     - Welcome, %user.mention%.
@@ -1540,7 +1540,7 @@ greetmsg:
     Sets a new join announcement message which will be shown in the server's
     channel. Type `%user.mention%` if you want to mention the new member. Using
     it with no message will show the current greet message. You can use make
-    embeds  using https://eb.Mewdeko.tech/ instead of regular text, if you want
+    embeds  using https://eb.mewdeko.tech/ instead of regular text, if you want
     the message to be embedded.
 greettest:
   args:
@@ -1680,7 +1680,7 @@ implementmessage:
   desc: >-
     Allows you to set the message sent when a suggestion is implemented. Use the
     embed builder at https://eb.mewdeko.tech and the placeholders at
-    https://mewdeko.tech/placeholders.
+    https://blog.mewdeko.tech/placeholders.
 inrole:
   args:
     - RoleName
@@ -1794,7 +1794,7 @@ leavehook:
     Allows you to set a webhook used for leave messages. You can either upload
     an image to use or use a image url. Type disable to disable webhook greets.
     set the message used for leaves using the byemsg command together with
-    https://eb.mewdeko.tech/ and https://mewdeko.tech/placeholders
+    https://eb.mewdeko.tech/ and https://blog.mewdeko.tech/placeholders
 leaveserver:
   args:
     - '123123123123'
@@ -2027,7 +2027,7 @@ multigreetmessage:
   desc: >-
     Gets or sets a MultiGreet message for a given MultiGreet ID. To set a custom
     embed use https://eb.mewdeko.tech together with
-    https://mewdeko.tech/placeholders
+    https://blog.mewdeko.tech/placeholders
 multigreetremove:
   args:
     - '1'
@@ -2656,7 +2656,7 @@ repeatmessage:
   desc: >-
     Set's a repeaters message after it has been made. You can use this with
     [embeds](https://eb.mewdeko.tech) and
-    [placeholders](https://mewdeko.tech/placeholders)
+    [placeholders](https://blog.mewdeko.tech/placeholders)
 repeatredun:
   args:
     - '1'
@@ -2776,7 +2776,7 @@ rolegreetmessage:
   desc: >-
     Gets or sets a roleGreet message for a given RoleGreet ID. To set a custom
     embed use https://eb.mewdeko.tech together with
-    https://mewdeko.tech/placeholders
+    https://blog.mewdeko.tech/placeholders
 rolegreetremove:
   args:
     - '1'

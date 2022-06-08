@@ -1,6 +1,4 @@
-﻿using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Modules.Gambling.Common;
+﻿using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 using Mewdeko.Modules.Gambling.Connect4;
 using Microsoft.EntityFrameworkCore;

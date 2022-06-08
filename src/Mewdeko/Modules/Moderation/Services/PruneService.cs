@@ -1,6 +1,4 @@
-﻿using Discord;
-using Mewdeko.Common.Collections;
-using Mewdeko.Extensions;
+﻿using Mewdeko.Common.Collections;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

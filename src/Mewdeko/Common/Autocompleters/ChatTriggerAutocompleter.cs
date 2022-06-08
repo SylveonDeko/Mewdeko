@@ -1,6 +1,4 @@
-using Discord;
 using Discord.Interactions;
-using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 
 namespace Mewdeko.Common.Autocompleters;

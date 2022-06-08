@@ -1,12 +1,7 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;

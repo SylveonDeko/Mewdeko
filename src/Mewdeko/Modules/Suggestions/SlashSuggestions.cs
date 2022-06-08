@@ -1,10 +1,7 @@
-﻿using Discord;
-using Discord.Interactions;
-using Discord.WebSocket;
+﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;

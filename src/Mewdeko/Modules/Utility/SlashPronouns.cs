@@ -1,12 +1,7 @@
-using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,4 @@
-﻿using Mewdeko.Extensions;
-
-namespace Mewdeko.Common.PubSub;
+﻿namespace Mewdeko.Common.PubSub;
 
 public class EventPubSub : IPubSub
 {

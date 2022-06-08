@@ -1,7 +1,4 @@
 ﻿using Mewdeko.Database.Common;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Gambling.Services.Impl;
