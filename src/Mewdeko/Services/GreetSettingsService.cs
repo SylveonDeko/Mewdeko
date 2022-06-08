@@ -1,11 +1,4 @@
-﻿using Discord;
-using Discord.Webhook;
-using Discord.WebSocket;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Services.Common;
+﻿using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;

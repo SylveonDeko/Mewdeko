@@ -1,7 +1,6 @@
 ﻿
 
 #nullable enable
-using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Newtonsoft.Json;
 using Serilog;

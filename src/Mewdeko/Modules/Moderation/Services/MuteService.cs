@@ -1,9 +1,4 @@
-using Discord;
-using Discord.WebSocket;
 using Mewdeko.Common.Collections;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;

@@ -1,5 +1,4 @@
 using Discord.Interactions;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Searches.Services;

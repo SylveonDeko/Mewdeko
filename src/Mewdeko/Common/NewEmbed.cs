@@ -1,5 +1,4 @@
-﻿using Discord;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
 

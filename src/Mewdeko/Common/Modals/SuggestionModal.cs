@@ -1,4 +1,3 @@
-using Discord;
 using Discord.Interactions;
 
 namespace Mewdeko.Common.Modals;

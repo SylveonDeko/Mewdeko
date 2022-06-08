@@ -1,10 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-
-namespace Mewdeko.Modules.Confessions.Services;
+﻿namespace Mewdeko.Modules.Confessions.Services;
 
 public class ConfessionService : INService
 {

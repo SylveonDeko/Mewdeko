@@ -1,5 +1,3 @@
-using Discord;
-using Mewdeko.Extensions;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using System.IO;

@@ -1,10 +1,6 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Lavalink4NET.Artwork;
+﻿using Lavalink4NET.Artwork;
 using Lavalink4NET.Events;
 using Lavalink4NET.Player;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 
 #nullable enable
 

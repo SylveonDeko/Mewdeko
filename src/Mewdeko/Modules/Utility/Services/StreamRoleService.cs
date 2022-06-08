@@ -1,10 +1,6 @@
-﻿using Discord;
-using Discord.Net;
-using Discord.WebSocket;
+﻿using Discord.Net;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;

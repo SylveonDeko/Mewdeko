@@ -1,26 +1,178 @@
-﻿using Discord;
-using Discord.Webhook;
-using Discord.WebSocket;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-
-namespace Mewdeko.Modules.MultiGreets.Services;
+﻿namespace Mewdeko.Modules.MultiGreets.Services;
 
 public class MultiGreetService : INService
 {
     private readonly DbService _db;
-    private DiscordSocketClient client;
     private readonly Mewdeko _bot;
 
     public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
-        this.client = client;
+        var client1 = client;
         _bot = bot;
         _db = db;
-        this.client.UserJoined += DoMultiGreet;
+        client1.UserJoined += DoMultiGreet;
+        _ = Task.Run(async () =>
+        {
+            while (true)
+            {
+                var (multiGreets, user) = await _multiGreetQueue.Reader.ReadAsync();
+                var multiGreetType = GetMultiGreetType(user.Guild.Id);
+                var replacer = new ReplacementBuilder().WithUser(user).WithClient(client1).WithServer(client1, user.Guild).Build();
+                switch (multiGreetType)
+                {
+                    case 2:
+                        continue;
+                    case 1:
+                        var multiGreet = multiGreets.GetRandomElement();
+                        var done = false;
+                        do
+                        {
+                            var content = replacer.Replace(multiGreet.Message);
+                            if (!string.IsNullOrWhiteSpace(multiGreet.WebhookUrl))
+                            {
+                                var webhook = new DiscordWebhookClient(multiGreet.WebhookUrl);
+                                if (webhook is null)
+                                {
+                                    await SetMultiGreetDisabledState(multiGreet, true);
+                                    multiGreet = multiGreets.GetRandomElement();
+                                    continue;
+                                }
+
+                                if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
+                                {
+                                    if (embedData is not null && plainText is not "")
+                                    {
+                                        var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components: components?.Build());
+                                        if (multiGreet.DeleteTime > 0)
+                                            (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
+                                        done = true;
+                                    }
+
+                                    else if (embedData is null && plainText is not null)
+                                    {
+                                        var msg = await webhook.SendMessageAsync(plainText, components: components?.Build());
+                                        if (multiGreet.DeleteTime > 0)
+                                            (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
+                                        done = true;
+                                    }
+
+                                    else if (embedData is null || plainText is not "") continue;
+
+                                    {
+                                        var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() }, components: components?.Build());
+                                        if (multiGreet.DeleteTime > 0)
+                                            (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
+                                        done = true;
+                                    }
+                                }
+                                else
+                                {
+                                    var msg = await webhook.SendMessageAsync(content, components: components?.Build());
+                                    if (multiGreet.DeleteTime > 0)
+                                        (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
+                                    done = true;
+                                }
+                            }
+                            else
+                            {
+                                if (user.IsBot && !multiGreet.GreetBots)
+                                    continue;
+                                var channel = user.Guild.GetTextChannel(multiGreet.ChannelId);
+                                if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
+                                {
+                                    if (embedData is not null && plainText is not "")
+                                    {
+                                        var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components: components?.Build(),
+                                            options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
+                                        if (multiGreet.DeleteTime > 0)
+                                            msg.DeleteAfter(multiGreet.DeleteTime);
+                                        done = true;
+                                    }
+
+                                    else if (embedData is null && plainText is not null)
+                                    {
+                                        var msg = await channel.SendMessageAsync(plainText, components: components?.Build(),
+                                            options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
+                                        if (multiGreet.DeleteTime > 0)
+                                            msg.DeleteAfter(multiGreet.DeleteTime);
+                                        done = true;
+                                    }
+
+                                    else if (embedData is not null && plainText is "")
+                                    {
+                                        var msg = await channel.SendMessageAsync(embed: embedData.Build(), components: components?.Build(),
+                                            options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
+                                        if (multiGreet.DeleteTime > 0)
+                                            msg.DeleteAfter(multiGreet.DeleteTime);
+                                        done = true;
+                                    }
+                                }
+                                else
+                                {
+                                    var msg = await channel.SendMessageAsync(content, components: components?.Build(),
+                                        options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
+                                    if (multiGreet.DeleteTime > 0)
+                                        msg.DeleteAfter(multiGreet.DeleteTime);
+                                    done = true;
+                                }
+                            }
+                        } while (done);
+
+                        break;
+                    case 0:
+                        {
+                            foreach (var i in multiGreets)
+                            {
+                                if (user.IsBot && !i.GreetBots)
+                                    continue;
+                                var channel = user.Guild.GetTextChannel(i.ChannelId);
+                                if (channel is null)
+                                {
+                                    await SetMultiGreetDisabledState(i, true);
+                                    continue;
+                                }
+
+                                var content = replacer.Replace(i.Message);
+                                if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components))
+                                {
+                                    if (embedData is not null && plainText is not "")
+                                    {
+                                        var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components: components?.Build());
+                                        if (i.DeleteTime > 0)
+                                            msg.DeleteAfter(i.DeleteTime);
+                                    }
+
+                                    if (embedData is null && plainText is not null)
+                                    {
+                                        var msg = await channel.SendMessageAsync(plainText, components: components?.Build());
+                                        if (i.DeleteTime > 0)
+                                            msg.DeleteAfter(i.DeleteTime);
+                                    }
+
+                                    if (embedData is not null && plainText is "")
+                                    {
+                                        var msg = await channel.SendMessageAsync(embed: embedData.Build(), components: components?.Build());
+                                        if (i.DeleteTime > 0)
+                                            msg.DeleteAfter(i.DeleteTime);
+                                    }
+                                }
+                                else
+                                {
+                                    var msg = await channel.SendMessageAsync(content, components: components?.Build());
+                                    if (i.DeleteTime > 0)
+                                        msg.DeleteAfter(i.DeleteTime);
+                                }
+                            }
+
+                            break;
+                        }
+                }
+            }
+        });
     }
+
+    private readonly Channel<(MultiGreet[], SocketGuildUser)> _multiGreetQueue = Channel.CreateBounded<(MultiGreet[], SocketGuildUser)>(
+        new BoundedChannelOptions(5) { FullMode = BoundedChannelFullMode.DropOldest, SingleReader = true, SingleWriter = false });
 
     public MultiGreet?[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
     private MultiGreet?[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
@@ -31,205 +183,9 @@ public class MultiGreetService : INService
         {
             var greets = GetGreets(user.Guild.Id);
             if (greets.Length == 0) return;
-            if (GetMultiGreetType(user.Guild.Id) == 3)
-                return;
-            if (GetMultiGreetType(user.Guild.Id) == 1)
-            {
-                var random = new Random();
-                var index = random.Next(greets.Length);
-                await HandleRandomGreet(greets[index], user);
-                return;
-            }
-            var webhooks = greets.Where(x => x.WebhookUrl is not null)
-                                 .Select(x => new DiscordWebhookClient(x.WebhookUrl));
-            if (greets.Length > 0)
-                await HandleChannelGreets(greets, user);
-            if (webhooks.Any())
-                await HandleWebhookGreets(greets, user);
+            await _multiGreetQueue.Writer.WriteAsync((greets, user));
         });
         return Task.CompletedTask;
-    }
-
-    public async Task HandleRandomGreet(MultiGreet greet, SocketGuildUser user)
-    {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
-        if (greet.WebhookUrl is not null)
-        {
-            if (user.IsBot && !greet.GreetBots)
-                return;
-            var webhook = new DiscordWebhookClient(greet.WebhookUrl);
-            var content = replacer.Replace(greet.Message);
-            if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
-            {
-                if (embedData is not null && plainText is not null)
-                {
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components:components?.Build());
-                    if (greet.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
-                }
-
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await webhook.SendMessageAsync(plainText, components:components?.Build());
-                    if (greet.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
-                }
-
-                if (embedData is not null && plainText is "")
-                {
-                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() }, components:components?.Build());
-                    if (greet.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
-                }
-            }
-            else
-            {
-                var msg = await webhook.SendMessageAsync(content, components:components?.Build());
-                if (greet.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
-            }
-        }
-        else
-        {
-            if (user.IsBot && !greet.GreetBots)
-                return;
-            var channel = user.Guild.GetTextChannel(greet.ChannelId);
-            var content = replacer.Replace(greet.Message);
-            if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
-            {
-                if (embedData is not null && plainText is not "")
-                {
-                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components:components?.Build(), options: new RequestOptions
-                    {
-                        RetryMode = RetryMode.RetryRatelimit
-                    });
-                    if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(greet.DeleteTime);
-                }
-
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await channel.SendMessageAsync(plainText, components:components?.Build(), options: new RequestOptions
-                    {
-                        RetryMode = RetryMode.RetryRatelimit
-                    });
-                    if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(greet.DeleteTime);
-                }
-
-                if (embedData is not null && plainText is "")
-                {
-                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), components:components?.Build(), options: new RequestOptions
-                    {
-                        RetryMode = RetryMode.RetryRatelimit
-                    });
-                    if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(greet.DeleteTime);
-                }
-            }
-            else
-            {
-                var msg = await channel.SendMessageAsync(content, components:components?.Build(), options: new RequestOptions
-                {
-                    RetryMode = RetryMode.RetryRatelimit
-                });
-                if (greet.DeleteTime > 0)
-                    msg.DeleteAfter(greet.DeleteTime);
-            }
-        }
-    }
-    private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
-    {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
-        foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
-        {
-            if (user.IsBot && !i.GreetBots)
-                continue;
-            if (i.WebhookUrl is not null) continue;
-            var channel = user.Guild.GetTextChannel(i.ChannelId);
-            if (channel is null)
-            {
-                await RemoveMultiGreetInternal(i);
-                continue;
-            }
-            var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, channel?.Guild.Id, out var embedData, out var plainText, out var components))
-            {
-                if (embedData is not null && plainText is not "")
-                {
-                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        msg.DeleteAfter(i.DeleteTime);
-                }
-
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await channel.SendMessageAsync(plainText, components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        msg.DeleteAfter(i.DeleteTime);
-                }
-
-                if (embedData is not null && plainText is "")
-                {
-                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        msg.DeleteAfter(i.DeleteTime);
-                }
-            }
-            else
-            {
-                var msg = await channel.SendMessageAsync(content, components:components?.Build());
-                if (i.DeleteTime > 0)
-                    msg.DeleteAfter(i.DeleteTime);
-            }
-        }
-    }
-    private async Task HandleWebhookGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
-    {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
-        foreach (var i in multiGreets)
-        {
-            if (user.IsBot && !i.GreetBots)
-                continue;
-            if (i.WebhookUrl is null) continue;
-            var webhook = new DiscordWebhookClient(i.WebhookUrl);
-            var content = replacer.Replace(i.Message);
-            var channel = user.Guild.GetTextChannel(i.ChannelId);
-            if (channel is null)
-            {
-                await RemoveMultiGreetInternal(i);
-                continue;
-            }
-            if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText, out var components))
-            {
-                if (embedData is not null && plainText is not "")
-                {
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
-                }
-
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await webhook.SendMessageAsync(plainText, components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
-                }
-
-                if (embedData is null || plainText is not "") continue;
-                {
-                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() }, components:components?.Build());
-                    if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
-                }
-            }
-            else
-            {
-                var msg = await webhook.SendMessageAsync(content, components:components?.Build());
-                if (i.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
-            }
-        }
     }
 
     public async Task SetMultiGreetType(IGuild guild, int type)
@@ -242,6 +198,7 @@ public class MultiGreetService : INService
     }
 
     public int GetMultiGreetType(ulong? id) => _bot.GetGuildConfig(id.Value).MultiGreetType;
+
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
         if (GetForChannel(channelId).Length == 5)
@@ -287,12 +244,21 @@ public class MultiGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    public async Task SetMultiGreetDisabledState(MultiGreet greet, bool disabled)
+    {
+        await using var uow = _db.GetDbContext();
+        greet.Disabled = disabled;
+        uow.MultiGreets.Update(greet);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+    }
+
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
         await using var uow = _db.GetDbContext();
         uow.MultiGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
+
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
         await using var uow = _db.GetDbContext();

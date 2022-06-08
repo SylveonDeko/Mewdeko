@@ -1,10 +1,8 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration;

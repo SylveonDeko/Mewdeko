@@ -1,6 +1,4 @@
-﻿using Mewdeko.Extensions;
-
-namespace Mewdeko.Modules.Games.Common.Hangman;
+﻿namespace Mewdeko.Modules.Games.Common.Hangman;
 
 public class HangmanObject
 {

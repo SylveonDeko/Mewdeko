@@ -1,5 +1,4 @@
-﻿using Mewdeko.Extensions;
-using Serilog;
+﻿using Serilog;
 using StackExchange.Redis;
 
 namespace Mewdeko.Common.PubSub;

@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Modules.Gambling.Common;
+﻿namespace Mewdeko.Modules.Gambling.Common;
 
 public class CurrencyRaffleGame
 {

@@ -1,12 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Extensions;
 using Newtonsoft.Json.Linq;
 using NHentaiAPI;
 using Refit;

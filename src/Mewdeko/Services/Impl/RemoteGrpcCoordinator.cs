@@ -1,10 +1,7 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;
-using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Services.Impl;

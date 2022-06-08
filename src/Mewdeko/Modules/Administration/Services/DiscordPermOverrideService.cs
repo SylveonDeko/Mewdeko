@@ -1,10 +1,6 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using PreconditionResult = Discord.Commands.PreconditionResult;

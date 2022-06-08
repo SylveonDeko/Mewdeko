@@ -1,10 +1,5 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Humanizer;
+﻿using Humanizer;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Afk.Services;
