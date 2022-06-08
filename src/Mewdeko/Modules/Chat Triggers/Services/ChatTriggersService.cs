@@ -1,5 +1,6 @@
 ﻿using AngleSharp.Text;
 using Discord;
+using Discord.Webhook;
 using Discord.WebSocket;
 using LinqToDB.Common;
 using Mewdeko.Common;
@@ -987,7 +988,52 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
-    
+
+    public async Task<(CTModel? Trigger, bool Valid)> SetCrosspostingWebhookUrl(ulong? guildId, int id, string webhookUrl, bool bypassTest = false)
+    {
+        if (!bypassTest)
+        {
+            try
+            {
+                using var client = new DiscordWebhookClient(webhookUrl);
+                await client.SendMessageAsync("Test of chat trigger crossposting webhook!");
+            }
+            catch
+            {
+                return (null, false);
+            }
+        }
+
+        await using var uow = _db.GetDbContext();
+        var ct = uow.ChatTriggers.GetById(id);
+
+        if (ct == null || ct.GuildId != guildId)
+            return (null, true);
+
+        ct.CrosspostingWebhookUrl = webhookUrl;
+        ct.CrosspostingChannelId = 0ul;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+
+        return (ct, true);
+    }
+
+    public async Task<CTModel?> SetCrosspostingChannelId(ulong? guildId, int id, ulong channelId)
+    {
+        await using var uow = _db.GetDbContext();
+        var ct = uow.ChatTriggers.GetById(id);
+
+        if (ct == null || ct.GuildId != guildId)
+            return null;
+
+        ct.CrosspostingWebhookUrl = "";
+        ct.CrosspostingChannelId = channelId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+
+        return ct;
+    }
+
     public async Task<CTModel?> SetValidTriggerType(ulong? guildID, int id, ChatTriggerType type, bool enabled)
     {
         await using var uow = _db.GetDbContext();
@@ -1068,7 +1114,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .AddField(efb => efb.WithName(_strings.GetText("trigger", gId)).WithValue(ct.Trigger.TrimTo(1024)))
             .AddField(efb =>
                 efb.WithName(_strings.GetText("response", gId))
-                    .WithValue($"{(ct.Response + "\n```css\n" + ct.Response).TrimTo(1024)}```"));
+                    .WithValue($"{(ct.Response + "\n```css\n" + ct.Response).TrimTo(1024 - 11)}```"));
         var reactions = ct.GetReactions();
         if (reactions.Length >= 1)
             eb.AddField(_strings.GetText("trigger_reactions", gId), string.Concat(reactions));
@@ -1086,6 +1132,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             eb.AddField(_strings.GetText("ct_interaction_id", gId), ct.ApplicationCommandId.ToString());
         if (ct.ValidTriggerTypes != (ChatTriggerType)0b1111)
             eb.AddField(_strings.GetText("ct_valid_fields", gId), ct.ValidTriggerTypes.ToString());
+
         return eb;
     }
 

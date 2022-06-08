@@ -1,11 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.Html.Dom;
 using Discord;
+using Discord.Webhook;
 using Discord.WebSocket;
+using LinqToDB.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Extensions;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Configuration = AngleSharp.Configuration;
 
 namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
@@ -121,25 +124,49 @@ public static class Extensions
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            return await channel.SendMessageAsync(plainText, embed: crembed?.Build(), components:components.Build()).ConfigureAwait(false);
+            
+            if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
+                await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
+                            .SendMessageAsync(plainText, embed: crembed?.Build());
+            else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
+                    await whClient.SendMessageAsync(plainText,
+                        embeds: crembed is not null ? new[] {crembed?.Build()} : null);
+                }
+                catch (TaskCanceledException) { /* ignored */ }
+            }
+            return await channel.SendMessageAsync(plainText, embed: crembed?.Build(), components:components?.Build()).ConfigureAwait(false);
         }
 
-        return await channel
-            .SendMessageAsync(
-                (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
-                .SanitizeMentions(sanitize)).ConfigureAwait(false);
+        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
+            .SanitizeMentions(sanitize);
+        if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
+            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context);
+        else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
+        {
+            try
+            {
+                using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
+                await whClient.SendMessageAsync(context);
+            }
+            catch (TaskCanceledException) { /* ignored */ }
+        }
+        return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
     
-    public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers cr, SocketInteraction inter,
+    public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {
-        var channel = cr.DmResponse
+        var channel = ct.DmResponse
             ? await inter.User.CreateDMChannelAsync().ConfigureAwait(false)
             : inter.Channel as IChannel;
 
-        if (SmartEmbed.TryParse(cr.Response, cr.GuildId, out var crembed, out var plainText, out var components))
+        if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
-            var trigger = cr.Trigger.ResolveTriggerString(client);
+            var trigger = ct.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length + 1;
 
             var canMentionEveryone = (inter.User as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
@@ -154,16 +181,41 @@ public static class Extensions
                 })
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(cr.Response), cr.GuildId, out crembed, out plainText, out components );
+            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components );
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral, components:components.Build()).ConfigureAwait(false);
+            if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
+                await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
+                            .SendMessageAsync(plainText, embed: crembed?.Build(), components: components?.Build());
+            else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
+                    await whClient.SendMessageAsync(plainText,
+                        embeds: crembed is not null ? new[] {crembed?.Build()} : null);
+                }
+                catch (TaskCanceledException) { /* ignored */ }
+            }
+            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 
-        await inter.RespondAsync(
-            (await cr.ResponseWithContextAsync(fakeMsg, client, cr.ContainsAnywhere).ConfigureAwait(false))
-            .SanitizeMentions(sanitize), ephemeral:ephemeral).ConfigureAwait(false);
+        var context = (await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere).ConfigureAwait(false))
+            .SanitizeMentions(sanitize);
+        if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
+            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context);
+        else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
+        {
+            try
+            {
+                using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
+                await whClient.SendMessageAsync(context);
+            }
+            catch (TaskCanceledException) { /* ignored */ }
+        }
+
+        await inter.RespondAsync(context, ephemeral:ephemeral).ConfigureAwait(false);
         return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
     }
 
