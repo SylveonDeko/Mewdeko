@@ -37,6 +37,8 @@ public class ChatTriggers : DbEntity
     public string ApplicationCommandDescription { get; set; } = "";
     public CTApplicationCommandType ApplicationCommandType { get; set; } = CTApplicationCommandType.None;
     public bool EphemeralResponse { get; set; } = false;
+    public ulong CrosspostingChannelId { get; set; } = 0;
+    public string CrosspostingWebhookUrl { get; set; } = "";
 
     public string RealName => (ApplicationCommandName.IsNullOrWhiteSpace() ? Trigger : ApplicationCommandName).Trim();
 }

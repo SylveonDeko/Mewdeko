@@ -405,6 +405,47 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus();
     }
 
+    [Group("crossposting", "crossposting")]
+    public class Crossposting : MewdekoSlashModuleBase<ChatTriggersService>
+    {
+        [SlashCommand("webhook", "crosspost triggers using a webhook"), InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+        public async Task CtCpSetWebhook
+        (
+            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
+            [Summary("webhook-url", "What webhook do you want to crosspost messages with?")] string webhookUlr
+        )
+        {
+            var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUlr, false);
+            if (res.Valid == false)
+            {
+                await ReplyErrorLocalizedAsync("ct_webhook_invalid");
+                return;
+            }
+            if (res.Trigger is null)
+            {
+                await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+                return;
+            }
+            await RespondAsync(embed: Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
+        }
+        [SlashCommand("channel", "crosspost triggers to a channel"), InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+        public async Task CtCpSetChannel
+        (
+            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
+            [Summary("channel", "What channels do you want to crosspost messages to?")] ITextChannel channel
+        )
+        {
+            var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id);
+            if (res is null)
+            {
+                await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+                return;
+            }
+            await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
+        }
+    }
 
     [Group("roles", "roles")]
     public class Roles : MewdekoSlashModuleBase<ChatTriggersService>

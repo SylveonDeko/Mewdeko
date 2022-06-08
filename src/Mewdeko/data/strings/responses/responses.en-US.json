@@ -1194,5 +1194,7 @@
     "ct_role_remove_disabled": "The role {0} will no longer be removed when the trigger {1} is run.",
     "ct_role_toggle_enabled": "The role {0} will be toggled on all effected users when the trigger {1} is run.",
     "ct_role_toggle_disabled": "The role {0} will no longer be toggled on all effected users when the trigger {1} is run.",
-    "ct_valid_fields": "Valid Trigger Types"
+    "ct_valid_fields": "Valid Trigger Types",
+    "ct_webhook_invalid": "I could not find that webhook. Make sure it is usable, and you copied the full url.",
+    "channel_renamed": "Channel Renamed"
 }

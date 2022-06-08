@@ -4052,3 +4052,8 @@ youtube:
   args:
     - query
   desc: Searches youtubes and shows the first result
+renamechannel:
+  args:
+    - \#general cute-cat-chat
+  desc: >-
+    Renames a channel.
