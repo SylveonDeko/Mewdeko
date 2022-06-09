@@ -13,6 +13,12 @@ public class ExportedTriggers
     public bool Rtt { get; set; }
     public bool Nr { get; set; }
     public bool Rgx { get; set; }
+    public CtRoleGrantType Rgt { get; set; }
+    public ChatTriggerType VTypes { get; set; }
+    public string AcName { get; set; }
+    public string AcDesc { get; set; }
+    public CtApplicationCommandType Act { get; set; }
+    public bool Eph { get; set; }
 
     public static ExportedTriggers FromModel(Database.Models.ChatTriggers ct) =>
         new()
@@ -29,6 +35,13 @@ public class ExportedTriggers
             Rtt = ct.ReactToTrigger,
             Nr = ct.NoRespond,
             rRole = ct.GetRemovedRoles(),
-            aRole = ct.GetGrantedRoles()
+            aRole = ct.GetGrantedRoles(),
+            Rgt = ct.RoleGrantType,
+            VTypes = ct.ValidTriggerTypes,
+            AcName = ct.ApplicationCommandName,
+            AcDesc = ct.ApplicationCommandDescription,
+            Act = ct.ApplicationCommandType,
+            Eph = ct.EphemeralResponse,
+
         };
 }
