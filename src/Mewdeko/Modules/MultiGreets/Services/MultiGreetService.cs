@@ -172,7 +172,7 @@ public class MultiGreetService : INService
     }
 
     private readonly Channel<(MultiGreet[], SocketGuildUser)> _multiGreetQueue = Channel.CreateBounded<(MultiGreet[], SocketGuildUser)>(
-        new BoundedChannelOptions(5) { FullMode = BoundedChannelFullMode.DropOldest, SingleReader = true, SingleWriter = false });
+        new BoundedChannelOptions(int.MaxValue) { FullMode = BoundedChannelFullMode.DropOldest, SingleReader = true, SingleWriter = false });
 
     public MultiGreet?[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
     private MultiGreet?[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
