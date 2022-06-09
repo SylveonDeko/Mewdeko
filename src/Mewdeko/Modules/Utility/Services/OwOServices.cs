@@ -64,6 +64,7 @@ public class OWOServices
 
     public static string OWOIfy(string input)
     {
+        input ??= "";
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));
         input = string.Join(' ', input.Split(' ')
             .Select(x => x.Length > 4 && x.Last() is 'y' or 'Y' ? $"{x} {x}" : x)   // duplicate words ending in 'y'

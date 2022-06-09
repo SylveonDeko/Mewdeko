@@ -47,7 +47,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private const string MENTION_PH = "%bot.mention%";
 
     private const string PREPEND_EXPORT =
-        @"# Keys are triggers, Each key has a LIST of custom reactions in the following format:
+        @"# WARNING: crossposting information is not saved.
+# Keys are triggers, Each key has a LIST of custom reactions in the following format:
 # - res: Response string
 #   react: 
 #     - <List
@@ -426,7 +427,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                         NoRespond = ct.Nr,
                                         IsRegex = ct.Rgx,
                                         GrantedRoles = string.Join("@@@", ct.aRole.Select(x => x.ToString())),
-                                        RemovedRoles = string.Join("@@@", ct.rRole.Select(x => x.ToString()))
+                                        RemovedRoles = string.Join("@@@", ct.rRole.Select(x => x.ToString())),
+                                        ReactToTrigger = ct.Rtt,
+                                        RoleGrantType = ct.Rgt,
+                                        ValidTriggerTypes = ct.VTypes,
+                                        ApplicationCommandName = ct.AcName,
+                                        ApplicationCommandDescription = ct.AcDesc,
+                                        ApplicationCommandType = ct.Act,
+                                        EphemeralResponse = ct.Eph
                                     }));
         }
 
