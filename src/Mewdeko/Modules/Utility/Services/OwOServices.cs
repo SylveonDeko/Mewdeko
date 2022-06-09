@@ -75,7 +75,7 @@ public class OWOServices
 
         // use the same random logic for strings based on value to produce consistent results when re-run
         int seed = (int)input.Sum(x => char.GetNumericValue(x));
-        Console.WriteLine(seed);
+        // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
         if (seed % 10 == 1)
             input = $"{Prefixes[(seed % Prefixes.Length) - 1]} {input}";
         else if (seed % 20 == 1)

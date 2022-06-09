@@ -218,9 +218,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 var effectedUsers = ct.RoleGrantType switch
                 {
-                    CTRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
-                    CTRoleGrantType.Sender => new List<ulong> { msg.Author.Id },
-                    CTRoleGrantType.Both => Enumerable.Append(msg.Content.GetUserMentions().Take(4), msg.Author.Id),
+                    CtRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
+                    CtRoleGrantType.Sender => new List<ulong> { msg.Author.Id },
+                    CtRoleGrantType.Both => Enumerable.Append(msg.Content.GetUserMentions().Take(4), msg.Author.Id),
                     _ => new List<ulong>()
                 };
 
@@ -336,16 +336,16 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         effectedUsers = inter is SocketUserCommand uCMD
                             ? ct.RoleGrantType switch
                             {
-                                CTRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
-                                CTRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
-                                CTRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
+                                CtRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
+                                CtRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
+                                CtRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
                                 _ => new List<ulong>()
                             }
                             : ct.RoleGrantType switch
                             {
-                                CTRoleGrantType.Mentioned => new(),
-                                CTRoleGrantType.Sender => new List<ulong> {inter.User.Id},
-                                CTRoleGrantType.Both => new List<ulong> {inter.User.Id},
+                                CtRoleGrantType.Mentioned => new(),
+                                CtRoleGrantType.Sender => new List<ulong> {inter.User.Id},
+                                CtRoleGrantType.Both => new List<ulong> {inter.User.Id},
                                 _ => new List<ulong>()
                             };
 
@@ -519,7 +519,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             // if the trigger depends on user mentions to grant roles
             // those should be removed
-            if (ct.RoleGrantType is CTRoleGrantType.Mentioned or CTRoleGrantType.Both)
+            if (ct.RoleGrantType is CtRoleGrantType.Mentioned or CtRoleGrantType.Both)
             {
                 content = content.RemoveUserMentions().Trim();
             }
@@ -593,7 +593,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         // handle interaction updates
-        if (ct.ApplicationCommandType == CTApplicationCommandType.None) return;
+        if (ct.ApplicationCommandType == CtApplicationCommandType.None) return;
         
         var guild = _client.GetGuild(guildId);
         await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
@@ -913,7 +913,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return null;
     }
 
-    public async Task<CTModel?> SetRoleGrantType(ulong? guildId, int id, CTRoleGrantType type)
+    public async Task<CTModel?> SetRoleGrantType(ulong? guildId, int id, CtRoleGrantType type)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
@@ -929,7 +929,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
 
-    public async Task<CTModel?> SetInteractionType(ulong? guildId, int id, CTApplicationCommandType type)
+    public async Task<CTModel?> SetInteractionType(ulong? guildId, int id, CtApplicationCommandType type)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
@@ -1132,7 +1132,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             eb.AddField(_strings.GetText("ct_interaction_id", gId), ct.ApplicationCommandId.ToString());
         if (ct.ValidTriggerTypes != (ChatTriggerType)0b1111)
             eb.AddField(_strings.GetText("ct_valid_fields", gId), ct.ValidTriggerTypes.ToString());
-
+        if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
+            eb.AddField(_strings.GetText("ct_crossposting", gId), _strings.GetText("ct_crossposting_webhook"));
+        if (ct.CrosspostingChannelId != 0)
+            eb.AddField(_strings.GetText("ct_crossposting", gId),
+                _strings.GetText("ct_crossposting_channel", gId, ct.CrosspostingChannelId));
         return eb;
     }
 
@@ -1153,12 +1157,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         if (triggers.Length == 0)
             return props;
-        groups = triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Slash
+        groups = triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Slash
                                      && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
                                      && x.RealName.Split(' ').Length == 1)
                          .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
         triggers.Where(x =>
-            x.ApplicationCommandType == CTApplicationCommandType.Slash && x.RealName.Split(' ').Length == 2).ForEach(
+            x.ApplicationCommandType == CtApplicationCommandType.Slash && x.RealName.Split(' ').Length == 2).ForEach(
             x =>
             {
                 if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
@@ -1170,7 +1174,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             });
 
         triggers.Where(x =>
-            x.ApplicationCommandType == CTApplicationCommandType.Slash
+            x.ApplicationCommandType == CtApplicationCommandType.Slash
             && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
             && x.RealName.Split(' ').Length == 3).Select(x =>
         {
@@ -1211,10 +1215,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     .WithDescription((z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : z.Triggers!.ApplicationCommandDescription)
                     .WithType(ApplicationCommandOptionType.SubCommand)).ToArray()))).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
-        triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.Message).ForEach(x =>
+        triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Message).ForEach(x =>
             props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
 
-        triggers.Where(x => x.ApplicationCommandType == CTApplicationCommandType.User).ForEach(x =>
+        triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.User).ForEach(x =>
             props.Add(new UserCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
         return props;
     }
@@ -1256,12 +1260,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public static readonly Regex ValidCommandRegex = new(@"^(?:[\w-]{1,32} {0,1}){1,3}$", RegexOptions.Compiled);
     
-    public static bool IsValidName(CTApplicationCommandType type, string name)
+    public static bool IsValidName(CtApplicationCommandType type, string name)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Length is > 32 or < 1)
             return false;
         
-        return type is not CTApplicationCommandType.Slash || ValidCommandRegex.IsMatch(name);
+        return type is not CtApplicationCommandType.Slash || ValidCommandRegex.IsMatch(name);
     }
 
     public List<ChatTriggersInteractionError>? GetACCTErrors(ulong? guildId) =>
@@ -1269,7 +1273,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public static List<ChatTriggersInteractionError>? GetACCTErrors(IEnumerable<CTModel> triggers)
     {
-        triggers = triggers.Where(x => x.ApplicationCommandType != CTApplicationCommandType.None);
+        triggers = triggers.Where(x => x.ApplicationCommandType != CtApplicationCommandType.None);
         var errors = new List<ChatTriggersInteractionError>();
         Dictionary<string, List<(string Name, int Id)>> totalChildren = new();
         foreach (var trigger in triggers )
