@@ -196,7 +196,9 @@ public class ProtectionService : INService
 
     private Task HandleAntiSpam(SocketMessage arg)
     {
-        if (arg is not SocketUserMessage msg || msg.Author.IsBot)
+        if (arg is not SocketUserMessage msg
+            || msg.Author.IsBot
+            || msg.Author is IGuildUser {GuildPermissions.Administrator: true})
             return Task.CompletedTask;
 
         if (msg.Channel is not ITextChannel channel)

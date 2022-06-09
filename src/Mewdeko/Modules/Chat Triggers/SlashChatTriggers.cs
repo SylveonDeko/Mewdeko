@@ -229,7 +229,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus();
     }
 
-    [SlashCommand("show", "Shows the responce of a chat trigger.")]
+    [SlashCommand("show", "Shows the responce of a chat trigger."),
+     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task ShowChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var found = Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -531,7 +532,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
         public async Task ChatTriggerRoleGrantType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
-            [Summary("mode", "How should roles be added when the trigger is used.")] CTRoleGrantType type)
+            [Summary("mode", "How should roles be added when the trigger is used.")] CtRoleGrantType type)
         {
             var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
 
@@ -567,7 +568,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         public async Task SetCommandType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("type", "The type of command, use 'none' to disable commands in their entirety.")]
-            CTApplicationCommandType type)
+            CtApplicationCommandType type)
         {
             var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
             if (ct is null)
@@ -577,7 +578,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             }
             
             // validate the name based on type
-            if (type != CTApplicationCommandType.None && !ChatTriggersService.IsValidName(type,
+            if (type != CtApplicationCommandType.None && !ChatTriggersService.IsValidName(type,
                     string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName)) 
             {
                 await ReplyErrorLocalizedAsync("ct_interaction_name_invalid").ConfigureAwait(false);
