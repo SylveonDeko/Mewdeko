@@ -188,7 +188,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task ShowChatTrigger(int id)
     {
         var found = Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -279,7 +279,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
-    public async Task ChatTriggerRoleGrantType(int id, CTRoleGrantType type)
+    public async Task ChatTriggerRoleGrantType(int id, CtRoleGrantType type)
     {
         var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
 

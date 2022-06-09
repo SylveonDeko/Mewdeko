@@ -22,7 +22,7 @@ public class ChatTriggers : DbEntity
 
     public string GrantedRoles { get; set; } = "";
     public string RemovedRoles { get; set; } = "";
-    public CTRoleGrantType RoleGrantType { get; set; }
+    public CtRoleGrantType RoleGrantType { get; set; }
 
     public string[] GetReactions() =>
         string.IsNullOrWhiteSpace(Reactions)
@@ -35,7 +35,7 @@ public class ChatTriggers : DbEntity
     public ulong ApplicationCommandId { get; set; } = 0;
     public string ApplicationCommandName { get; set; } = "";
     public string ApplicationCommandDescription { get; set; } = "";
-    public CTApplicationCommandType ApplicationCommandType { get; set; } = CTApplicationCommandType.None;
+    public CtApplicationCommandType ApplicationCommandType { get; set; } = CtApplicationCommandType.None;
     public bool EphemeralResponse { get; set; } = false;
     public ulong CrosspostingChannelId { get; set; } = 0;
     public string CrosspostingWebhookUrl { get; set; } = "";
@@ -49,14 +49,14 @@ public class ReactionResponse : DbEntity
     public string Text { get; set; }
 }
 
-public enum CTRoleGrantType
+public enum CtRoleGrantType
 {
     Sender,
     Mentioned,
     Both
 }
 
-public enum CTApplicationCommandType
+public enum CtApplicationCommandType
 {
     None,
     Slash,
