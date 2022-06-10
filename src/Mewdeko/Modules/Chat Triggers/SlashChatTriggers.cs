@@ -408,13 +408,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         public async Task CtCpSetWebhook
         (
             [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-            [Summary("webhook-url", "What webhook do you want to crosspost messages with?")] string webhookUlr
+            [Summary("webhook-url", "What webhook do you want to crosspost messages with?")] string webhookUrl
         )
         {
-            var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUlr, false);
+            var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl, false);
             if (res.Valid == false)
             {
-                await ReplyErrorLocalizedAsync("ct_webhook_invalid");
+                await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
                 return;
             }
             if (res.Trigger is null)
@@ -424,8 +424,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             }
             await RespondAsync(embed: Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                 .ConfigureAwait(false);
+
+            await FollowupWithTriggerStatus();
         }
-        [SlashCommand("channel", "crosspost triggers to a channel"), InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+
+        [SlashCommand("channel", "crosspost triggers to a channel"),
+         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions,
+         RequireContext(ContextType.Guild)]
         public async Task CtCpSetChannel
         (
             [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -438,8 +443,22 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
                 return;
             }
+
             await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                 .ConfigureAwait(false);
+
+            await FollowupWithTriggerStatus();
+        }
+
+        private async Task FollowupWithTriggerStatus()
+        {
+            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            if (!(errors?.Any() ?? false)) return;
+            var embed = new EmbedBuilder()
+                        .WithTitle(GetText("ct_interaction_errors_title"))
+                        .WithDescription(GetText("ct_interaction_errors_desc"))
+                        .WithErrorColor();
+            await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true);
         }
     }
 
@@ -565,7 +584,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
-        public async Task SetCommandType(
+        public async Task SetCtInterType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("type", "The type of command, use 'none' to disable commands in their entirety.")]
             CtApplicationCommandType type)
@@ -602,7 +621,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         [SlashCommand("name", "Sets the name of the interaction."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
-        public async Task SetName(
+        public async Task SetCtInterName(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("name", "The name of the interaction.")] string name)
         {
@@ -623,7 +642,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         
         [SlashCommand("description", "Sets the description of the interaction."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
-        public async Task SetDescription(
+        public async Task SetCtInterDesc(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("description", "The description of the interaction.")] string description)
         {
@@ -644,7 +663,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
-        public async Task ToggleEphemeral(
+        public async Task ToggleCtInterEphemeral(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
         {
@@ -675,7 +694,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
-        private async Task Errors()
+        private async Task CtInterErrors()
         {
             var errors = Service.GetACCTErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
