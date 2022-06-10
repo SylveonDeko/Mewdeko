@@ -23,8 +23,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         _clientFactory = clientFactory;
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
         _ = ctx.Channel.TriggerTypingAsync();
@@ -34,8 +33,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.SendFileAsync(stream, "crs-export.yml");
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsImport([Remainder] string? input = null)
     {
         input = input?.Trim();
@@ -66,6 +64,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             using var client = _clientFactory.CreateClient();
             input = await client.GetStringAsync(input);
         }
+
         var succ = await Service.ImportCrsAsync((ctx.User as IGuildUser), input);
         if (!succ)
         {
@@ -106,7 +105,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.EditAsync(ctx.Guild?.Id, id, message, null).ConfigureAwait(false);
         if (cr != null)
-            await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("edited_chat_trig"))).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                     .ConfigureAwait(false);
         else
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
@@ -116,37 +116,31 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
-        var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(chatTriggers.Length / 20)
-                        .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+        var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                  .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                  .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
+                                                  .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                            .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("chat_triggers"))
-                                                    .WithDescription(string.Join("\n",
-                                                        chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20)
-                                                                       .Take(20).Select(cr =>
-                                                                       {
-                                                                           var str = $"`#{cr.Id}` {cr.Trigger}";
-                                                                           if (cr.AutoDeleteTrigger) str = $"🗑{str}";
-                                                                           if (cr.DmResponse) str = $"📪{str}";
-                                                                           var reactions = cr.GetReactions();
-                                                                           if (reactions.Length > 0)
-                                                                           {
-                                                                               str =
-                                                                                   $"{str} // {string.Join(" ", reactions)}";
-                                                                           }
+            return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("chat_triggers")).WithDescription(
+                string.Join("\n", chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20).Take(20).Select(cr =>
+                {
+                    var str = $"`#{cr.Id}` {cr.Trigger}";
+                    if (cr.AutoDeleteTrigger) str = $"🗑{str}";
+                    if (cr.DmResponse) str = $"📪{str}";
+                    var reactions = cr.GetReactions();
+                    if (reactions.Length > 0)
+                    {
+                        str = $"{str} // {string.Join(" ", reactions)}";
+                    }
 
-                                                                           return str;
-                                                                       })));
+                    return str;
+                })));
         }
     }
 
@@ -161,29 +155,23 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
         else
         {
-            var ordered = chatTriggers
-                .GroupBy(cr => cr.Trigger)
-                .OrderBy(cr => cr.Key)
-                .ToList();
+            var ordered = chatTriggers.GroupBy(cr => cr.Trigger).OrderBy(cr => cr.Key).ToList();
 
-            var paginator = new LazyPaginatorBuilder()
-                .AddUser(ctx.User)
-                .WithPageFactory(PageFactory)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(chatTriggers.Length / 20)
-                .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                .Build();
+            var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                      .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                      .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
+                                                      .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
-                return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("name"))
-                                                        .WithDescription(string.Join("\r\n",
-                                                            ordered.Skip(page * 20).Take(20).Select(cr =>
-                                                                $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`")));
+                return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("name")).WithDescription(
+                    string.Join("\r\n",
+                        ordered.Skip(page * 20).Take(20).Select(cr =>
+                            $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`")));
             }
         }
     }
@@ -309,6 +297,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
             return;
         }
+
         var (success, newVal) = await Service.ToggleCrOptionAsync(ct, option).ConfigureAwait(false);
         if (!success)
         {
@@ -319,22 +308,22 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (newVal)
         {
             await ReplyConfirmLocalizedAsync("option_enabled", Format.Code(option.ToString()),
-                        Format.Code(id.ToString())).ConfigureAwait(false);
+                Format.Code(id.ToString())).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("option_disabled", Format.Code(option.ToString()),
-                        Format.Code(id.ToString())).ConfigureAwait(false);
+                Format.Code(id.ToString())).ConfigureAwait(false);
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-    ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
-        if (await PromptUserConfirmAsync(new EmbedBuilder()
-                    .WithTitle("Chat triggers clear")
-                    .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id)
+        if (await PromptUserConfirmAsync(
+                    new EmbedBuilder().WithTitle("Chat triggers clear")
+                                      .WithDescription("This will delete all chat triggers on this server."),
+                    ctx.User.Id)
                 .ConfigureAwait(false))
         {
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
@@ -342,8 +331,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-        ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtrGrantToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -367,19 +355,14 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         await Service.ToggleGrantedRole(ct, role.Id).ConfigureAwait(false);
 
-        var str = toggleDisabled
-            ? "ct_role_toggle_disabled"
-            : ct.IsToggled(role.Id)
-                ? "ct_role_toggle_enabled"
-                : ct.IsGranted(role.Id)
-                    ? "ct_role_add_enabled"
-                    : "ct_role_add_disabled";
+        var str = toggleDisabled ? "ct_role_toggle_disabled" :
+            ct.IsToggled(role.Id) ? "ct_role_toggle_enabled" :
+            ct.IsGranted(role.Id) ? "ct_role_add_enabled" : "ct_role_add_disabled";
 
         await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-        ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtrRemoveToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -401,14 +384,190 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         await Service.ToggleRemovedRole(ct, role.Id).ConfigureAwait(false);
 
-        var str = toggleDisabled
-            ? "ct_role_toggle_disabled"
-            : ct.IsToggled(role.Id)
-                ? "ct_role_toggle_enabled"
-                : ct.IsRemoved(role.Id)
-                    ? "ct_role_remove_enabled"
-                    : "cr_role_remove_disabled";
+        var str = toggleDisabled ? "ct_role_toggle_disabled" :
+            ct.IsToggled(role.Id) ? "ct_role_toggle_enabled" :
+            ct.IsRemoved(role.Id) ? "ct_role_remove_enabled" : "cr_role_remove_disabled";
 
         await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task ChatTriggerValidType(int id, ChatTriggerType type, bool enabled)
+    {
+        var res = await Service.SetValidTriggerType(ctx.Guild?.Id, id, type, enabled).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel
+                     .SendMessageAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                     .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtCpSetWebhook(int id, string webhookUrl)
+    {
+        var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl, false);
+        if (res.Valid == false)
+        {
+            await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
+            return;
+        }
+
+        if (res.Trigger is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                 .ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtCpSetChannel(int id, ITextChannel channel)
+    {
+        var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id);
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                 .ConfigureAwait(false);
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task SetCtInterType(int id, CtApplicationCommandType type)
+    {
+        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        if (ct is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+            return;
+        }
+
+        // validate the name based on type
+        if (type != CtApplicationCommandType.None
+            && !ChatTriggersService.IsValidName(type,
+                string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName))
+        {
+            await ReplyErrorLocalizedAsync("ct_interaction_name_invalid").ConfigureAwait(false);
+            return;
+        }
+
+        var res = await Service.SetInteractionType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                     .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task SetCtInterName(int id, string name)
+    {
+        var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                     .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task SetCtInterDesc(int id, string description)
+    {
+        var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                     .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task ToggleCtInterEphemeral(int id, bool ephemeral)
+    {
+        var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                .ConfigureAwait(false);
+        }
+
+        await FollowupWithTriggerStatus();
+    }
+
+    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtInterErrors()
+    {
+        var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+        var eb = new EmbedBuilder();
+        var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
+        if (errors?.Any() ?? false)
+        {
+            eb.WithFields(errors.Select(x =>
+                  new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
+                      GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(x => $" - {x}").Join('\n')))))
+              .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
+              .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
+        }
+        else
+        {
+            eb.WithOkColor().WithTitle(GetText("ct_interaction_errors_none"))
+              .WithDescription(GetText("ct_interaction_errors_none_desc"));
+        }
+
+        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build());
+    }
+
+    public async Task FollowupWithTriggerStatus()
+    {
+        var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+        if (!(errors?.Any() ?? false)) return;
+        var embed = new EmbedBuilder()
+                    .WithTitle(GetText("ct_interaction_errors_title"))
+                    .WithDescription(GetText("ct_interaction_errors_desc"))
+                    .WithErrorColor();
+        await ctx.Channel.EmbedAsync(embed);
     }
 }
