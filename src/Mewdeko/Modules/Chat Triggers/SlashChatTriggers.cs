@@ -663,7 +663,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
-        public async Task ToggleCtInterEphemeral(
+        public async Task CtInterEphemeral(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
         {
