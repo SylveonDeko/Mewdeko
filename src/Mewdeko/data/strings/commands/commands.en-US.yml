@@ -4099,7 +4099,7 @@ ctintererrors:
   args:
     - ' '
   desc: >-
-    Shows errors in chat trigger interactions
+    Shows common errors in chat trigger application commands.
 chattriggervalidtype:
   args:
     - 1234 Message true
@@ -4112,4 +4112,4 @@ ctinterephemeral:
     - 1234 true
     - 1234 false
   desc: >-
-    Makes chat triggers from buttons or embeds use an ephemeral message.
+    Makes chat triggers from buttons or application commands use an ephemeral message.
