@@ -4057,3 +4057,59 @@ renamechannel:
     - \#general cute-cat-chat
   desc: >-
     Renames a channel.
+chattriggerscrosspostwebhook:
+  args:
+    - 1234 https://discord.com/...
+  desc: >-
+    Sends chat triggers messages to a webhook, in addition to the normal response 
+    location. This will delete a crossposting channel set with `{0}ctcpsetchannel`
+chattriggerscrosspostchannel:
+  args:
+    - 1234 \#mod-logs
+  desc: >-
+    Sends chat triggers messages to a channel, in addition to the normal response 
+    location. This will delete a crossposting webhook set with `{0}ctcpsetwebhook`
+setctintertype:
+  args:
+    - None
+    - Slash
+    - Message
+    - User
+  desc: >-
+    Sets the type of a chat triggers application commands, slash commands are shown when 
+    a user types `/`, Message commands are shown when a user right-clicks or long-taps 
+    a message, and user commands are when when a user right-clicks or long-taps a user.
+setctintername:
+  args:
+    - 1234 roles cat-lover
+    - 1234 meow
+    - 1234 cats are cute
+    - 1234 tag no-arch-btw
+  desc: >-
+    sets the name of a chat trigger application command.
+setctinterdesc:
+  args:
+    - 1234 Gives you the cat lover role.
+    - 1234 trrrr mrrrrrrrppp
+    - 1234 your a cool cat
+    - 1234 why the spam???? why????????
+  desc: >-
+    sets the description of a chat trigger application command.
+ctintererrors:
+  args:
+    - ' '
+  desc: >-
+    Shows common errors in chat trigger application commands.
+chattriggervalidtype:
+  args:
+    - 1234 Message true
+    - 1234 Interaction false
+    - 1234 Button true
+  desc: >- 
+    Enables or disables triggers used in the specified context.
+ctinterephemeral:
+  args:
+    - 1234 true
+    - 1234 false
+  desc: >-
+    Makes chat triggers from buttons or application commands use an ephemeral message.

@@ -1856,3 +1856,42 @@ yomama:
 youtube:
   - youtube
   - yt
+ctcpsetwebhook:
+  - chattriggerscrosspostwebhook
+  - ctcpwh
+  - ctcpwebhook
+  - ctcrosspostwebhook
+  - ctcrosspostwh
+ctcpsetchannel:
+  - chattriggerscrosspostchannel
+  - ctcpch
+  - ctcpchannel
+  - ctcrosspostchannel
+  - ctcrosspostch
+setctintertype:
+  - setctintertype
+  - ctitype
+  - ctintertype
+setctintername:
+  - setctintername
+  - ctiname
+  - ctintername
+  - setctrealname
+  - ctrealname
+  - ctrn
+setctinterdesc:
+  - setctinterdesc
+  - ctidesc
+  - ctinterdesc
+ctintererrors:
+  - ctintererrors
+  - ctierrors
+  - ctie
+chattriggervalidtype:
+  - chattriggervalidtype
+  - ctvalidtype
+  - ctvt
+ctinterephemeral:
+  - ctinterephemeral
+  - ctiephemeral
+  - ctieph
