@@ -75,7 +75,7 @@ public class FilterService : IEarlyBehavior, INService
 
         client.MessageUpdated += (oldData, newMsg, channel) =>
         {
-            var _ = Task.Run(() =>
+            _ = Task.Factory.StartNew(() =>
             {
                 var guild = (channel as ITextChannel)?.Guild;
 
@@ -83,7 +83,7 @@ public class FilterService : IEarlyBehavior, INService
                     return Task.CompletedTask;
 
                 return RunBehavior(null, guild, usrMsg);
-            });
+            }, TaskCreationOptions.LongRunning);
             return Task.CompletedTask;
         };
     }

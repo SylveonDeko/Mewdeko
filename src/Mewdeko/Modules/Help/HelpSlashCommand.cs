@@ -180,7 +180,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 Author = ctx.User,
                 Channel = ctx.Channel
             });
-            _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+            _ = Task.Factory.StartNew(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id), TaskCreationOptions.LongRunning).ConfigureAwait(false);
             return;
         }
 
@@ -198,7 +198,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             Channel = ctx.Channel
         };
         _ch.AddCommandToParseQueue(msg);
-        _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        _ = Task.Factory.StartNew(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id), TaskCreationOptions.LongRunning).ConfigureAwait(false);
         return;
     }
     [ComponentInteraction("toggle-descriptions:*,*", true)]

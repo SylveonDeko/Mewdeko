@@ -92,7 +92,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         finally
         {
             if (delete)
-                _ = Task.Run(() => msg.DeleteAsync());
+                _ = Task.Factory.StartNew(async () => await msg.DeleteAsync());
         }
     }
 

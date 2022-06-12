@@ -180,27 +180,25 @@ public class VcRoleService : INService
 
         var oldVc = oldState.VoiceChannel;
         var newVc = newState.VoiceChannel;
-        var _ = Task.Run(() =>
+        var _ = Task.Factory.StartNew(() =>
         {
             try
             {
                 if (oldVc == newVc) return;
-                ulong guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
+                var guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
 
-                if (VcRoles.TryGetValue(guildId, out var guildVcRoles))
-                {
-                    //remove old
-                    if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out var role))
-                        Assign(false, gusr, role);
-                    //add new
-                    if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role)) Assign(true, gusr, role);
-                }
+                if (!VcRoles.TryGetValue(guildId, out var guildVcRoles)) return;
+                //remove old
+                if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out var role))
+                    Assign(false, gusr, role);
+                //add new
+                if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role)) Assign(true, gusr, role);
             }
             catch (Exception ex)
             {
                 Log.Warning(ex, "Error in VcRoleService VoiceStateUpdate");
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

@@ -52,7 +52,7 @@ public class SuggestionsService : INService
 
     private Task RepostButton(SocketMessage arg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             IEnumerable<IMessage> messages;
             if (arg.Channel is not ITextChannel channel)
@@ -142,13 +142,13 @@ public class SuggestionsService : INService
             }
 
             _repostChecking.Remove(channel.Id);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var message = await arg1.GetOrDownloadAsync();
             if (message is null)
@@ -201,13 +201,13 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync();
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var message = await arg1.GetOrDownloadAsync();
             if (message is null)
@@ -260,13 +260,13 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync();
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task MessageRecieved(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Channel is not ITextChannel chan)
                 return;
@@ -357,7 +357,7 @@ public class SuggestionsService : INService
                     //ignored
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

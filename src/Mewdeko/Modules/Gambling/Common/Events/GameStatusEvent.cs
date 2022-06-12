@@ -152,7 +152,7 @@ public class GameStatusEvent : ICurrencyEvent
 
     private Task HandleMessage(SocketMessage message)
     {
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             if (message.Author is not IGuildUser gu // no unknown users, as they could be bots, or alts
                 || gu.IsBot // no bots
@@ -181,7 +181,7 @@ public class GameStatusEvent : ICurrencyEvent
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

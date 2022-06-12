@@ -61,7 +61,7 @@ public partial class Games
 
             Task ClientMessageReceived(SocketMessage arg)
             {
-                var _ = Task.Run(async () =>
+                var _ = Task.Factory.StartNew(async () =>
                 {
                     if (arg.Channel.Id != ctx.Channel.Id)
                         return;
@@ -76,7 +76,7 @@ public partial class Games
                     {
                         // ignored
                     }
-                });
+                }, TaskCreationOptions.LongRunning);
                 return Task.CompletedTask;
             }
 
