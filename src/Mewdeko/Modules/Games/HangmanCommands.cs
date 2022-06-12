@@ -66,12 +66,12 @@ public partial class Games
 
             Task ClientMessageReceived(SocketMessage msg)
             {
-                var _ = Task.Run(() =>
+                var _ = Task.Factory.StartNew(() =>
                 {
                     if (ctx.Channel.Id == msg.Channel.Id && !msg.Author.IsBot)
                         return hm.Input(msg.Author.Id, msg.Author.ToString(), msg.Content);
                     return Task.CompletedTask;
-                });
+                }, TaskCreationOptions.LongRunning);
                 return Task.CompletedTask;
             }
         }

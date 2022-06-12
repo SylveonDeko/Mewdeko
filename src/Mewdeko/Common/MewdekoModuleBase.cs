@@ -75,7 +75,7 @@ public abstract class MewdekoModule : ModuleBase
         }
         finally
         {
-            var _ = Task.Run(() => msg.DeleteAsync());
+            var _ = Task.Factory.StartNew(async () => await msg.DeleteAsync(), TaskCreationOptions.LongRunning);
         }
     }
 

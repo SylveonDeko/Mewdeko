@@ -45,7 +45,7 @@ public class AfkService : INService, IReadyExecutor
 
     private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (user.Value is IGuildUser use)
             {
@@ -73,13 +73,13 @@ public class AfkService : INService, IReadyExecutor
                         }
                     }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task MessageReceived(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Author.IsBot)
                 return;
@@ -195,7 +195,7 @@ public class AfkService : INService, IReadyExecutor
                     }
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -239,7 +239,7 @@ public class AfkService : INService, IReadyExecutor
 
     private Task MessageUpdated(Cacheable<IMessage, ulong> msg, SocketMessage msg2, ISocketMessageChannel t)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var message = await msg.GetOrDownloadAsync();
             if (message is null)
@@ -250,7 +250,7 @@ public class AfkService : INService, IReadyExecutor
                 return;
 
             await MessageReceived(msg2);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

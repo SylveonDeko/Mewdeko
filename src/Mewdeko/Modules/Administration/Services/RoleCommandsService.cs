@@ -25,7 +25,7 @@ public class RoleCommandsService : INService
     private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -60,7 +60,7 @@ public class RoleCommandsService : INService
                             .Select(x => gusr.Guild.GetRole(x))
                             .Where(x => x != null);
 
-                        var __ = Task.Run(async () =>
+                        var __ = Task.Factory.StartNew(async () =>
                         {
                             try
                             {
@@ -110,7 +110,7 @@ public class RoleCommandsService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
 
         return Task.CompletedTask;
     }
@@ -118,7 +118,7 @@ public class RoleCommandsService : INService
     private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -155,8 +155,7 @@ public class RoleCommandsService : INService
             {
                 // ignored
             }
-        });
-
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

@@ -28,7 +28,7 @@ public class StreamRoleService : INService, IUnloadableService
 
         _client.GuildMemberUpdated += Client_GuildMemberUpdated;
 
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -38,7 +38,7 @@ public class StreamRoleService : INService, IUnloadableService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
     }
 
     public Task Unload()
@@ -49,12 +49,12 @@ public class StreamRoleService : INService, IUnloadableService
 
     private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             //if user wasn't streaming or didn't have a game status at all
             if (_guildSettings.TryGetValue(after.Guild.Id, out var setting))
                 await RescanUser(after, setting).ConfigureAwait(false);
-        });
+        }, TaskCreationOptions.LongRunning);
 
         return Task.CompletedTask;
     }
