@@ -520,7 +520,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
-    public async Task ToggleCtInterEphemeral(int id, bool ephemeral)
+    public async Task CtInterEphemeral(int id, bool ephemeral)
     {
         var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
 
