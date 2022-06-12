@@ -26,7 +26,7 @@ public class WebhookController : ControllerBase
         _logger = logger;
         _votesCache = votesCache;
         _conf = conf;
-        this.Events = events;
+        Events = events;
     }
 
     [HttpPost("/discordswebhook")]
@@ -51,12 +51,12 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             await _votesCache.AddNewTopggVote(data.User);
             await Events.InvokeTopGg(data);
             await SendWebhook(ulong.Parse(data.User), "Top.GG");
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.FromResult<IActionResult>(Ok());
     }
 

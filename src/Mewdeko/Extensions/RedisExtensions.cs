@@ -19,33 +19,33 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     private static T Deserialize<T>(string serialized) => JsonConvert.DeserializeObject<T>(serialized);
 
-    public void Add(TKey key, TValue value) => GetRedisDb().HashSet(_redisKey, RedisDictionary<TKey, TValue>.Serialize(key), RedisDictionary<TKey, TValue>.Serialize(value));
+    public void Add(TKey key, TValue value) => GetRedisDb().HashSet(_redisKey, Serialize(key), Serialize(value));
 
-    public bool ContainsKey(TKey key) => GetRedisDb().HashExists(_redisKey, RedisDictionary<TKey, TValue>.Serialize(key));
+    public bool ContainsKey(TKey key) => GetRedisDb().HashExists(_redisKey, Serialize(key));
 
-    public bool Remove(TKey key) => GetRedisDb().HashDelete(_redisKey, RedisDictionary<TKey, TValue>.Serialize(key));
+    public bool Remove(TKey key) => GetRedisDb().HashDelete(_redisKey, Serialize(key));
 
     public bool TryGetValue(TKey key, out TValue value)
     {
-        var redisValue = GetRedisDb().HashGet(_redisKey, RedisDictionary<TKey, TValue>.Serialize(key));
+        var redisValue = GetRedisDb().HashGet(_redisKey, Serialize(key));
         if (redisValue.IsNull)
         {
             value = default(TValue);
             return false;
         }
-        value = RedisDictionary<TKey, TValue>.Deserialize<TValue>(redisValue.ToString());
+        value = Deserialize<TValue>(redisValue.ToString());
         return true;
     }
-    public ICollection<TValue> Values => new Collection<TValue>(GetRedisDb().HashValues(_redisKey).Select(h => RedisDictionary<TKey, TValue>.Deserialize<TValue>(h.ToString())).ToList());
+    public ICollection<TValue> Values => new Collection<TValue>(GetRedisDb().HashValues(_redisKey).Select(h => Deserialize<TValue>(h.ToString())).ToList());
 
-    public ICollection<TKey> Keys => new Collection<TKey>(GetRedisDb().HashKeys(_redisKey).Select(h => RedisDictionary<TKey, TValue>.Deserialize<TKey>(h.ToString())).ToList());
+    public ICollection<TKey> Keys => new Collection<TKey>(GetRedisDb().HashKeys(_redisKey).Select(h => Deserialize<TKey>(h.ToString())).ToList());
 
     public TValue this[TKey key]
     {
         get
         {
-            var redisValue = GetRedisDb().HashGet(_redisKey, RedisDictionary<TKey, TValue>.Serialize(key));
-            return redisValue.IsNull ? default(TValue) : RedisDictionary<TKey, TValue>.Deserialize<TValue>(redisValue.ToString());
+            var redisValue = GetRedisDb().HashGet(_redisKey, Serialize(key));
+            return redisValue.IsNull ? default(TValue) : Deserialize<TValue>(redisValue.ToString());
         }
         set => Add(key, value);
     }
@@ -53,7 +53,7 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     public void Clear() => GetRedisDb().KeyDelete(_redisKey);
 
-    public bool Contains(KeyValuePair<TKey, TValue> item) => GetRedisDb().HashExists(_redisKey, RedisDictionary<TKey, TValue>.Serialize(item.Key));
+    public bool Contains(KeyValuePair<TKey, TValue> item) => GetRedisDb().HashExists(_redisKey, Serialize(item.Key));
 
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => GetRedisDb().HashGetAll(_redisKey).CopyTo(array, arrayIndex);
 
@@ -69,7 +69,7 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         foreach (var hashKey in db.HashKeys(_redisKey))
         {
             var redisValue = db.HashGet(_redisKey, hashKey);
-            yield return new KeyValuePair<TKey, TValue>(RedisDictionary<TKey, TValue>.Deserialize<TKey>(hashKey.ToString()), RedisDictionary<TKey, TValue>.Deserialize<TValue>(redisValue.ToString()));
+            yield return new KeyValuePair<TKey, TValue>(Deserialize<TKey>(hashKey.ToString()), Deserialize<TValue>(redisValue.ToString()));
         }
     }
     IEnumerator IEnumerable.GetEnumerator()
@@ -78,5 +78,5 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     }
     public void AddMultiple(IEnumerable<KeyValuePair<TKey, TValue>> items) =>
         GetRedisDb()
-            .HashSet(_redisKey, items.Select(i => new HashEntry(RedisDictionary<TKey, TValue>.Serialize(i.Key), RedisDictionary<TKey, TValue>.Serialize(i.Value))).ToArray());
+            .HashSet(_redisKey, items.Select(i => new HashEntry(Serialize(i.Key), Serialize(i.Value))).ToArray());
 }

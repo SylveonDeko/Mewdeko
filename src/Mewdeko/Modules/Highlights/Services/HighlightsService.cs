@@ -61,12 +61,12 @@ public class HighlightsService : INService, IReadyExecutor
 
     private Task StaggerHighlights(SocketMessage message)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             await _highlightQueue.Writer.WriteAsync((message, completionSource));
             return await completionSource.Task;
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

@@ -51,7 +51,7 @@ public class ChatterBotService : INService
 
     public Task MessageRecieved(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Author.IsBot)
                 return;
@@ -90,7 +90,7 @@ public class ChatterBotService : INService
             {
                 Log.Warning(ex, "Error in cleverbot");
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

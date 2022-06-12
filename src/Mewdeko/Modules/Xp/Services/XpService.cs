@@ -417,7 +417,7 @@ public class XpService : INService, IUnloadableService
         if (socketUser is not SocketGuildUser user || user.IsBot)
             return Task.CompletedTask;
 
-        var _ = Task.Run(() =>
+        var _ = Task.Factory.StartNew(() =>
         {
             if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
@@ -431,7 +431,7 @@ public class XpService : INService, IUnloadableService
                 // it because it wasn't in any new channel. So we need to get rid of it.
                 UserLeftVoiceChannel(user, before.VoiceChannel);
             }
-        });
+        }, TaskCreationOptions.LongRunning);
 
         return Task.CompletedTask;
     }
@@ -538,7 +538,7 @@ public class XpService : INService, IUnloadableService
         if (arg.Author is not SocketGuildUser user || user.IsBot)
             return Task.CompletedTask;
 
-        var _ = Task.Run(() =>
+        var _ = Task.Factory.StartNew(() =>
         {
             if (!ShouldTrackXp(user, arg.Channel.Id))
                 return;
@@ -556,7 +556,7 @@ public class XpService : INService, IUnloadableService
                 User = user,
                 XpAmount = e
             });
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

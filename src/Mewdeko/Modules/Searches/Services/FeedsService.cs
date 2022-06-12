@@ -35,7 +35,7 @@ public class FeedsService : INService
 
         _client = client;
 
-        var _ = Task.Run(TrackFeeds);
+        var _ = Task.Factory.StartNew(TrackFeeds, TaskCreationOptions.LongRunning);
     }
 
     public async Task<EmbedBuilder> TrackFeeds()

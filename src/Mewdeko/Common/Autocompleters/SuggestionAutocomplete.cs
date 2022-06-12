@@ -15,7 +15,7 @@ public class SuggestionAutocompleter : AutocompleteHandler
     {
         var content = (string)interaction.Data.Current.Value;
 
-        return Task<AutocompletionResult>.FromResult(AutocompletionResult.FromSuccess(_suggest.Suggestions(context.Guild?.Id ?? 0)
+        return Task.FromResult(AutocompletionResult.FromSuccess(_suggest.Suggestions(context.Guild?.Id ?? 0)
                                                                                                    .Where(x => $"{x.SuggestionId}{x.Suggestion}".Contains(content))
                                                                                                    .OrderByDescending(x => x.Suggestion.StartsWith(content))
                                                                                                    .ThenByDescending(x => x.SuggestionId.ToString().StartsWith(content))

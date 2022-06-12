@@ -172,7 +172,7 @@ public class PlantPickService : INService
         if (!GenerationChannels.Contains(channel.Id))
             return Task.CompletedTask;
 
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -226,7 +226,7 @@ public class PlantPickService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

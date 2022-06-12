@@ -22,7 +22,7 @@ public sealed class AutoAssignRoleService : INService
     {
         _bot = bot;
         _db = db;
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             while (true)
             {
@@ -115,7 +115,7 @@ public sealed class AutoAssignRoleService : INService
                     }
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
 
         client.UserJoined += OnClientOnUserJoined;
         client.RoleDeleted += OnClientRoleDeleted;

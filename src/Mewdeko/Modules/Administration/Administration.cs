@@ -578,11 +578,11 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
         else if (time.Time <= TimeSpan.FromDays(7))
         {
-            var _ = Task.Run(async () =>
+            var _ = Task.Factory.StartNew(async () =>
             {
                 await Task.Delay(time.Time).ConfigureAwait(false);
                 await msg.DeleteAsync().ConfigureAwait(false);
-            });
+            }, TaskCreationOptions.LongRunning);
         }
         else
         {
