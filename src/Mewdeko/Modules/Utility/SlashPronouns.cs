@@ -1,6 +1,5 @@
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
-using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.Utility.Services;
@@ -91,22 +90,22 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
     }
 
-    [ComponentInteraction("pronouns_clear:*,*", true), OwnerOnly]
+    [ComponentInteraction("pronouns_clear:*,*", true), RequireOwner]
     public async Task ClearPronouns(string sId, string sDisable) =>
         await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>(
             $"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns"));
 
-    [ComponentInteraction("pronouns_blacklist:*", true), OwnerOnly]
+    [ComponentInteraction("pronouns_blacklist:*", true), RequireOwner]
     public async Task BlacklistPronouns(string sId) =>
         await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
             x => x.WithTitle("Blacklist User and Clear Pronouns"));
 
-    [ComponentInteraction("pronouns_blacklist_guild:*", true), OwnerOnly]
+    [ComponentInteraction("pronouns_blacklist_guild:*", true), RequireOwner]
     public async Task BlacklistGuildPronouns(string sId) =>
         await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null,
             x => x.WithTitle("Blacklist Guild"));
 
-    [ModalInteraction("pronouns_fcb_g:*", true), OwnerOnly]
+    [ModalInteraction("pronouns_fcb_g:*", true), RequireOwner]
     public async Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
     {
         var id = ulong.Parse(sId);
@@ -114,7 +113,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await RespondAsync("blacklisted the server");
     }
 
-    [ModalInteraction("pronouns_fc_action:*,*,*", true), OwnerOnly]
+    [ModalInteraction("pronouns_fc_action:*,*,*", true), RequireOwner]
     public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFcbModal modal)
     {
         ulong userId = ulong.Parse(sId);
@@ -178,11 +177,11 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("pronouns_reportdm:*", true)]
+    [ComponentInteraction("pronouns_reportdm:*", true), RequireOwner]
     public async Task DmUser(string uIdStr) =>
         await ctx.Interaction.RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"));
 
-    [ModalInteraction("pronouns_reportdm_modal:*", true)]
+    [ModalInteraction("pronouns_reportdm_modal:*", true), RequireOwner]
     public async Task DmUserModal(string uIdStr, DmUserModal modal)
     {
         try
