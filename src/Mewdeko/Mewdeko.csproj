@@ -6,6 +6,7 @@
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <OutputType>exe</OutputType>
         <Nullable>enable</Nullable>
+        <EnablePreviewFeatures>True</EnablePreviewFeatures>
     </PropertyGroup>
 
     <ItemGroup>
