@@ -1070,7 +1070,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public CTModel[] GetChatTriggersFor(ulong? maybeGuildId)
     {
-        if (maybeGuildId is { } guildId)
+        if (maybeGuildId is { } guildId and not 0)
         {
             return newGuildReactions.TryGetValue(guildId, out var cts)
                 ? cts
