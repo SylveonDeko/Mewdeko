@@ -91,7 +91,7 @@ public sealed class Connect4Game : IDisposable
     {
         if (CurrentPhase != Phase.Joining)
             return;
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             await Task.Delay(15000).ConfigureAwait(false);
             await _locker.WaitAsync().ConfigureAwait(false);
@@ -109,7 +109,7 @@ public sealed class Connect4Game : IDisposable
             {
                 _locker.Release();
             }
-        });
+        }, TaskCreationOptions.LongRunning);
     }
 
     public async Task<bool> Join(ulong userId, string userName, int bet)

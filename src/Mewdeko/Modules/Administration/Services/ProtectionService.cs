@@ -58,7 +58,7 @@ public class ProtectionService : INService
         bot.JoinedGuild += _bot_JoinedGuild;
         _client.LeftGuild += _client_LeftGuild;
 
-        _ = Task.Run(RunQueue);
+        _ = Task.Factory.StartNew(RunQueue, TaskCreationOptions.LongRunning);
     }
 
     public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
@@ -89,12 +89,12 @@ public class ProtectionService : INService
 
     private Task _client_LeftGuild(SocketGuild guild)
     {
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             TryStopAntiRaid(guild.Id);
             TryStopAntiSpam(guild.Id);
             await TryStopAntiAlt(guild.Id).ConfigureAwait(false);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -141,7 +141,7 @@ public class ProtectionService : INService
         if (maybeStats is null && maybeAlts is null)
             return Task.CompletedTask;
 
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (maybeAlts is { } alts)
             {
@@ -190,7 +190,7 @@ public class ProtectionService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -203,7 +203,7 @@ public class ProtectionService : INService
 
         if (msg.Channel is not ITextChannel channel)
             return Task.CompletedTask;
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -239,7 +239,7 @@ public class ProtectionService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

@@ -11,7 +11,7 @@ public class MultiGreetService : INService
         _bot = bot;
         _db = db;
         client1.UserJoined += DoMultiGreet;
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             while (true)
             {
@@ -168,7 +168,7 @@ public class MultiGreetService : INService
                         }
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
     }
 
     private readonly Channel<(MultiGreet[], SocketGuildUser)> _multiGreetQueue = Channel.CreateBounded<(MultiGreet[], SocketGuildUser)>(
@@ -179,12 +179,12 @@ public class MultiGreetService : INService
 
     private Task DoMultiGreet(SocketGuildUser user)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var greets = GetGreets(user.Guild.Id);
             if (greets.Length == 0) return;
             await _multiGreetQueue.Writer.WriteAsync((greets, user));
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

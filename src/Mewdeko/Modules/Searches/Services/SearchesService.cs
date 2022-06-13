@@ -81,7 +81,7 @@ public class SearchesService : INService, IUnloadableService
         //translate commands
         client.MessageReceived += msg =>
         {
-            var _ = Task.Run(async () =>
+            var _ = Task.Factory.StartNew(async () =>
             {
                 try
                 {
@@ -118,7 +118,7 @@ public class SearchesService : INService, IUnloadableService
                 {
                     // ignored
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
             return Task.CompletedTask;
         };
 

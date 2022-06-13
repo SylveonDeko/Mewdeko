@@ -82,7 +82,7 @@ public class GreetSettingsService : INService
 
     private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> optOldUser, SocketGuildUser newUser)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             // if user is a new booster
             // or boosted again the same server
@@ -97,7 +97,7 @@ public class GreetSettingsService : INService
                 return;
 
             await TriggerBoostMessage(conf, newUser);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -117,7 +117,7 @@ public class GreetSettingsService : INService
 
     private Task UserLeft(SocketGuild guild, SocketUser usr)
     {
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -142,7 +142,7 @@ public class GreetSettingsService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -415,7 +415,7 @@ public class GreetSettingsService : INService
 
     private Task UserJoined(IGuildUser user)
     {
-        var _ = Task.Run(async () =>
+        var _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -462,7 +462,7 @@ public class GreetSettingsService : INService
             {
                 // ignored
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

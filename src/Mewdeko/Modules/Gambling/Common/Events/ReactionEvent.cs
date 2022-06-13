@@ -149,7 +149,7 @@ public class ReactionEvent : ICurrencyEvent
     private Task HandleReaction(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> ch, SocketReaction r)
     {
-        var _ = Task.Run(() =>
+        var _ = Task.Factory.StartNew(() =>
         {
             if (emote.Name != r.Emote.Name)
                 return;
@@ -174,7 +174,7 @@ public class ReactionEvent : ICurrencyEvent
                 if (_isPotLimited && PotSize < _amount)
                     PotEmptied = true;
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
