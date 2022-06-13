@@ -76,12 +76,17 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                  .WithButton("Clear Pronouns", $"pronouns_clear:{user.UserId},false", ButtonStyle.Danger)
                  .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{user.UserId},true", ButtonStyle.Danger)
                  .WithButton("Blacklist User", $"pronouns_blacklist:{user.UserId}", ButtonStyle.Danger)
+                 .WithButton("DM User", $"pronouns_reportdm:{user.UserId}", ButtonStyle.Danger)
                  .WithButton("Reporter", "reporter_row", ButtonStyle.Secondary, disabled: true, row: 1)
                  .WithButton("Clear Pronouns", $"pronouns_clear:{reporter.UserId},false", ButtonStyle.Danger, row: 1)
-                 .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger, row: 1)
+                 .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger,
+                     row: 1)
                  .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
+                 .WithButton("DM User", $"pronouns_reportdm:{reporter.UserId}", ButtonStyle.Danger, row:1)
                  .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
-                 .WithButton("Blacklist guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2);
+                 .WithButton("Blacklist Guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2)
+                 .WithButton("DM Guild Owner", $"pronouns_reportdm:{ctx.Guild.OwnerId}", ButtonStyle.Danger, row: 2);
+
         await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
     }
@@ -171,5 +176,28 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
         user.Pronouns = pronouns;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
+    }
+
+    [ComponentInteraction("pronouns_reportdm:*", true)]
+    public async Task DmUser(string uIdStr) =>
+        await ctx.Interaction.RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"));
+
+    [ModalInteraction("pronouns_reportdm_modal:*", true)]
+    public async Task DmUserModal(string uIdStr, DmUserModal modal)
+    {
+        try
+        {
+            var user = await ctx.Client.GetUserAsync(ulong.Parse(uIdStr));
+            var channel = await user.CreateDMChannelAsync();
+            if (SmartEmbed.TryParse(modal.Message, ctx.Guild.Id, out var eb, out var txt, out var cb))
+                await channel.SendMessageAsync(txt, embed: eb.Build(), components: cb.Build());
+            else
+                await channel.SendMessageAsync(modal.Message);
+            await RespondAsync($"sent a dm to <@{ulong.Parse(uIdStr)}>");
+        }
+        catch
+        {
+            await RespondAsync("Failed to dm user.");
+        }
     }
 }
