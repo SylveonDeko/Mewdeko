@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Gambling.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.Gambling.Services;
 
 public interface IShopService
 {

@@ -4,6 +4,7 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Modules.Gambling.Services;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 

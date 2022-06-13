@@ -24,6 +24,7 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Searches;

@@ -10,6 +10,7 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using MoreLinq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Help.Services;
 

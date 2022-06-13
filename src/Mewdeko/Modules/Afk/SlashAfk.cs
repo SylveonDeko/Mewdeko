@@ -5,6 +5,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Afk.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Afk;
 [Group("afk", "Set or Manage AFK")]

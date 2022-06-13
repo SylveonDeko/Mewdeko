@@ -9,3 +9,8 @@ global using Mewdeko.Database.Extensions;
 global using Mewdeko.Database.Models;
 global using Mewdeko.Extensions;
 global using System.Threading.Channels;
+global using Mewdeko.Services;
+global using System;
+global using System.Collections;
+global using System.Collections.Generic;
+global using System.Linq;

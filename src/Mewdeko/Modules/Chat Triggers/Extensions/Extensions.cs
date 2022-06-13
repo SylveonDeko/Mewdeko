@@ -8,6 +8,7 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Extensions;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Configuration = AngleSharp.Configuration;
 
 namespace Mewdeko.Modules.Chat_Triggers.Extensions;

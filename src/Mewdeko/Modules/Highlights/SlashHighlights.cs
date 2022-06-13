@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Highlights.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Highlights;
 

@@ -1,6 +1,7 @@
 ﻿using Lavalink4NET.Artwork;
 using Lavalink4NET.Events;
 using Lavalink4NET.Player;
+using System.Threading.Tasks;
 
 #nullable enable
 

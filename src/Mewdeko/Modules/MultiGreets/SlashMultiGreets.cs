@@ -5,6 +5,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.MultiGreets;
 [Group("multigreets", "Set or manage MultiGreets.")]

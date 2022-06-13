@@ -14,6 +14,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
+using System.Threading.Tasks;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;

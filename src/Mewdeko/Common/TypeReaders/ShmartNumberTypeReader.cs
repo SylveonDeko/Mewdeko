@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NCalc;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.TypeReaders;
 

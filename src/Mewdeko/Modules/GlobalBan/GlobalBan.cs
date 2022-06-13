@@ -2,6 +2,7 @@
 using Discord.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.GlobalBan.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.GlobalBan;
 

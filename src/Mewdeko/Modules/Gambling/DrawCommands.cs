@@ -5,6 +5,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;

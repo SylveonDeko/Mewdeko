@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

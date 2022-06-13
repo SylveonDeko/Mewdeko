@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.MultiGreets.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.MultiGreets.Services;
 
 public class MultiGreetService : INService
 {

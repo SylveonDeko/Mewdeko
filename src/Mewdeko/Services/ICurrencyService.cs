@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Services;
 
 public interface ICurrencyService : INService
 {

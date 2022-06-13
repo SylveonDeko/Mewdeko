@@ -24,6 +24,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;

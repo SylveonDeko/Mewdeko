@@ -1,6 +1,7 @@
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Games.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 [Group("games", "Some of mewdekos games!")]
