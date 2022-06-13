@@ -15,6 +15,7 @@ using StackExchange.Redis;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 

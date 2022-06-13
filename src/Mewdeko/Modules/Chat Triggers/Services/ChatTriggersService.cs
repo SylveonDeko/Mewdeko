@@ -23,6 +23,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using CTModel = Mewdeko.Database.Models.ChatTriggers;

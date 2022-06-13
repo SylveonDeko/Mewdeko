@@ -1,6 +1,7 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Autocompleters;
 

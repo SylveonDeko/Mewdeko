@@ -1,6 +1,7 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Starboard.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Starboard;
 [Group("starboard", "Manage the starboard!")]

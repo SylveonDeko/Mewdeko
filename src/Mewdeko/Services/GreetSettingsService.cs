@@ -2,6 +2,7 @@
 using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Services;

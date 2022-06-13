@@ -10,6 +10,7 @@ using Lavalink4NET.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music;
 public class Music : MewdekoModuleBase<MusicService>

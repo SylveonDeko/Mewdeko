@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Common.ChatterBot;
 

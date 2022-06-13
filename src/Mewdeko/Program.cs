@@ -1,9 +1,3 @@
-global using Mewdeko.Services;
-global using System;
-global using System.Collections;
-global using System.Collections.Generic;
-global using System.Linq;
-global using System.Threading.Tasks;
 using Serilog;
 using System.IO;
 using System.Net.Http;
@@ -32,7 +26,7 @@ if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
 {
     var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/970711443672543252/Mewdeko.db");
     var client = new HttpClient();
-    var response = client.GetAsync(uri).Result;
+    var response = await client.GetAsync(uri);
     await using var fs = new FileStream(
         Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db"),
         FileMode.CreateNew);
@@ -42,4 +36,5 @@ Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
+
 await new Mewdeko.Mewdeko(shardId).RunAndBlockAsync();
