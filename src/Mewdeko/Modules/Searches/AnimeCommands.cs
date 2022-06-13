@@ -378,19 +378,17 @@ public partial class Searches
 
             async Task<PageBuilder> PageFactory(int page)
             {
+                var data = result.Data.Skip(page).FirstOrDefault();
                 await Task.CompletedTask;
                 return new PageBuilder()
-                       .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
-                       .AddField("First Publish Date",
-                           result.Data.Skip(page).FirstOrDefault()?.Published!)
-                       .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
-                       .AddField("Is Still Active",
-                           result.Data.Skip(page).FirstOrDefault()?.Publishing!)
-                       .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
-                       .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
-                       .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
-                       .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP
-                                           .MaximumImageUrl!).WithColor(Mewdeko.OkColor);
+                       .WithTitle(Format.Bold($"{data?.Title}"))
+                       .AddField("First Publish Date", data?.Published!)
+                       .AddField("Volumes", data?.Volumes!)
+                       .AddField("Is Still Active", data?.Publishing!)
+                       .AddField("Score", data?.Score!)
+                       .AddField("Url", data?.Url!)
+                       .WithDescription(data?.Background!)
+                       .WithImageUrl(data?.Images.WebP.MaximumImageUrl!).WithColor(Mewdeko.OkColor);
             }
         }
     }

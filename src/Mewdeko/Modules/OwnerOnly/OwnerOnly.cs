@@ -620,7 +620,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(allShardStrings.Length - 1)
+            .WithMaxPageIndex(allShardStrings.Length / 25)
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
