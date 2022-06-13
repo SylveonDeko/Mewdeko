@@ -1,6 +1,9 @@
 ﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System.Reflection;
 
 namespace Mewdeko.Database;
 
@@ -36,11 +39,23 @@ public class DbService
     public async void Setup()
     {
         await using var context = new MewdekoContext(_options);
-        if ((await context.Database.GetPendingMigrationsAsync()).Any())
+        var toApply = (await context.Database.GetPendingMigrationsAsync()).ToList();
+        if (toApply.Any())
         {
             var mContext = new MewdekoContext(_migrateOptions);
             await mContext.Database.MigrateAsync();
             await mContext.SaveChangesAsync();
+
+            var env = Assembly.GetExecutingAssembly();
+            var pmhs = env.GetTypes().Where(t => t.GetInterfaces().Any(i => i == typeof(IPostMigrationHandler))).ToList();
+            foreach (var id in toApply)
+            {
+                var pmhToRuns = pmhs?.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
+                foreach (var pmh in pmhToRuns)
+                {
+                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] {id, mContext});
+                }
+            }
             await mContext.DisposeAsync();
         }
 
