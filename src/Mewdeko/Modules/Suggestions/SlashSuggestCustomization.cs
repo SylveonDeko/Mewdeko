@@ -1,6 +1,7 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Suggestions.Services;
+using System.Threading.Tasks;
 using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Suggestions;

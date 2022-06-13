@@ -5,6 +5,7 @@ using Mewdeko.Modules.Gambling.Common.AnimalRacing;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Games.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 

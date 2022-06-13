@@ -2,6 +2,7 @@
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Suggestions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions;
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>

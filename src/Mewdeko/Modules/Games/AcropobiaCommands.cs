@@ -3,6 +3,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Services;
 using System.Collections.Immutable;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 

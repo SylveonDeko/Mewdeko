@@ -5,6 +5,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 

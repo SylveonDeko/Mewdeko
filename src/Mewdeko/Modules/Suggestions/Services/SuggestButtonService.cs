@@ -1,5 +1,6 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Common.Modals;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 

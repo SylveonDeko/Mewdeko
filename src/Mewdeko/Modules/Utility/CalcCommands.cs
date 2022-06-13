@@ -2,6 +2,7 @@
 using Mewdeko.Common.Attributes.TextCommands;
 using NCalc;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 

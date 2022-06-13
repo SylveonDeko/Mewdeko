@@ -2,6 +2,7 @@
 using Mewdeko.Modules.Games.Services;
 using Serilog;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Common;
 

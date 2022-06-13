@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Highlights.Services;
 

@@ -8,6 +8,7 @@ using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Net;
+using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Administration;

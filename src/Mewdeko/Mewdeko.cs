@@ -24,6 +24,7 @@ using StackExchange.Redis;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -53,7 +54,6 @@ public class Mewdeko
             ShardId = shardId,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
-            LogGatewayIntentWarnings = false,
             FormatUsersInBidirectionalUnicode = false
 
         });
@@ -363,7 +363,7 @@ public class Mewdeko
 
         // start handling messages received in commandhandler
 
-        HandleStatusChanges();
+        _ = Task.Factory.StartNew(HandleStatusChanges, TaskCreationOptions.LongRunning);
         Ready.TrySetResult(true);
         _ = Task.Factory.StartNew(ExecuteReadySubscriptions, TaskCreationOptions.LongRunning);
         Log.Information("Shard {ShardId} ready", Client.ShardId);
@@ -405,7 +405,7 @@ public class Mewdeko
 
     private void HandleStatusChanges()
     {
-        var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
+        var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         // ReSharper disable once AsyncVoidLambda
         sub.Subscribe($"{Client.CurrentUser.Id}_status.game_set", async (_, game) =>
         {

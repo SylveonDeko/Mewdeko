@@ -2,6 +2,7 @@
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.TypeReaders;
 

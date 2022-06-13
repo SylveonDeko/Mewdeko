@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.GlobalBan.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.GlobalBan.Services;
 
 public class GlobalBanService : INService
 {

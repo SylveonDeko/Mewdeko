@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 
 public class WheelOfFortuneGame
 {

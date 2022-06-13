@@ -6,6 +6,7 @@ using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Afk.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Afk;
 

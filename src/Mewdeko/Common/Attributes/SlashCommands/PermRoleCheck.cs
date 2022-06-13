@@ -1,6 +1,7 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Attributes.SlashCommands;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]

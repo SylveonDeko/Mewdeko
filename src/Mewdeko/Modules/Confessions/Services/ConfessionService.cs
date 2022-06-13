@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Confessions.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.Confessions.Services;
 
 public class ConfessionService : INService
 {

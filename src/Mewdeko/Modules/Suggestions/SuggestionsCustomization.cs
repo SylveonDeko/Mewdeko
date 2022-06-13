@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Suggestions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions;
 
