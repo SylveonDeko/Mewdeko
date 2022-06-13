@@ -61,7 +61,7 @@ public partial class Administration
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(overrides.Count)
+                .WithMaxPageIndex(overrides.Count / 9)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
