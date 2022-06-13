@@ -23,14 +23,17 @@ public class StarboardService : INService, IReadyExecutor
 
     private List<StarboardPosts> starboardPosts;
 
-    public Task OnReadyAsync() =>
-        Task.FromResult(_ = Task.Run(() =>
+    public Task OnReadyAsync()
+    {
+        _ = Task.Factory.StartNew(() =>
         {
             using var uow = _db.GetDbContext();
             var all = uow.Starboard.All().ToList();
             starboardPosts = all.Count > 0 ? all : new List<StarboardPosts>();
             Log.Information("Starboard Posts Cached.");
-        }));
+        }, TaskCreationOptions.LongRunning);
+        return Task.CompletedTask;
+    }
 
     private async Task AddStarboardPost(ulong messageId, ulong postId)
     {
@@ -199,7 +202,7 @@ public class StarboardService : INService, IReadyExecutor
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
@@ -366,14 +369,14 @@ public class StarboardService : INService, IReadyExecutor
                 var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build());
                 await AddStarboardPost(message.Id, msg.Id);
             }
-        });
+        }, TaskCreationOptions.LongRunning);
 
         return Task.CompletedTask;
     }
 
     private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
@@ -540,7 +543,7 @@ public class StarboardService : INService, IReadyExecutor
                     }
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

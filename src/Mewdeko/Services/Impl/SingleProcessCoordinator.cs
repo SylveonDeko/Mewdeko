@@ -24,11 +24,11 @@ public class SingleProcessCoordinator : ICoordinator
         }
 
         Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             await Task.Delay(2000);
             Die();
-        });
+        }, TaskCreationOptions.LongRunning);
         return true;
     }
 

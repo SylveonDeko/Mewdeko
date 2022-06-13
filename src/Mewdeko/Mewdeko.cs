@@ -177,7 +177,7 @@ public class Mewdeko
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
-        _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
+        _ = Task.Factory.StartNew(() => LoadTypeReaders(typeof(Mewdeko).Assembly), TaskCreationOptions.LongRunning);
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -231,7 +231,7 @@ public class Mewdeko
 
         Task SetClientReady()
         {
-            var _ = Task.Run(() => clientReady.TrySetResult(true));
+            var _ = Task.Factory.StartNew(() => clientReady.TrySetResult(true), TaskCreationOptions.LongRunning);
             return Task.CompletedTask;
         }
 
@@ -267,7 +267,7 @@ public class Mewdeko
 
     private Task Client_LeftGuild(SocketGuild arg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             try
             {
@@ -284,13 +284,13 @@ public class Mewdeko
             }
 
             Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task Client_JoinedGuild(SocketGuild arg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             await arg.DownloadUsersAsync();
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
@@ -314,7 +314,7 @@ public class Mewdeko
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
             await chan.SendMessageAsync(embed: eb.Build());
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -365,7 +365,7 @@ public class Mewdeko
 
         HandleStatusChanges();
         Ready.TrySetResult(true);
-        _ = Task.Run(ExecuteReadySubscriptions);
+        _ = Task.Factory.StartNew(ExecuteReadySubscriptions, TaskCreationOptions.LongRunning);
         Log.Information("Shard {ShardId} ready", Client.ShardId);
     }
 
