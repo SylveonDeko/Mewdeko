@@ -3,6 +3,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;

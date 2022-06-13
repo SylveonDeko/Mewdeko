@@ -6,6 +6,7 @@ using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Services;
 

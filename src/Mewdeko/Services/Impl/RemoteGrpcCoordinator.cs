@@ -3,6 +3,7 @@ using Grpc.Net.Client;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Services.Impl;
 

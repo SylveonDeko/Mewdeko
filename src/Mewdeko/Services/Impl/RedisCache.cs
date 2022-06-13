@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Net;
+using System.Threading.Tasks;
+
 // ReSharper disable CollectionNeverQueried.Local
 
 namespace Mewdeko.Services.Impl;

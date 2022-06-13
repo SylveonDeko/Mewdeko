@@ -4,6 +4,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 

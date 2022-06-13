@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using System.Collections.Immutable;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Common.Acrophobia;
 

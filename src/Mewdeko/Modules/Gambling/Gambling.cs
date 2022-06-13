@@ -6,6 +6,7 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using System.Globalization;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 

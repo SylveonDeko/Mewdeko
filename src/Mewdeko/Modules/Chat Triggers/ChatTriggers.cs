@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 

@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Games.Common.ChatterBot;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.Games.Common.ChatterBot;
 
 public interface IChatterBotSession
 {

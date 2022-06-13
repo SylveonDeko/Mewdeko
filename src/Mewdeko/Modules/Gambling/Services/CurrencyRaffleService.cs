@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Modules.Gambling.Common;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

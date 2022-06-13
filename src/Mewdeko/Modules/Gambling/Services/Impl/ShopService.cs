@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Database.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services.Impl;
 

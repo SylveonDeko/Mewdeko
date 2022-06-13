@@ -2,6 +2,7 @@
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using System.Collections.Immutable;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
