@@ -149,7 +149,7 @@ public sealed class AcrophobiaGame : IDisposable
                     }
 
                     ++_submissions[toVoteFor];
-                    var _ = Task.Run(() => OnUserVoted(userName));
+                    var _ = Task.Factory.StartNew(() => OnUserVoted(userName), TaskCreationOptions.LongRunning);
                     return true;
             }
 

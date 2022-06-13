@@ -163,7 +163,7 @@ public class HelpService : ILateExecutor, INService
 
     private Task HandlePing(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>")
             {
@@ -178,7 +178,7 @@ public class HelpService : ILateExecutor, INService
                     await chan.SendMessageAsync(embed: eb.Build());
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 

@@ -94,7 +94,7 @@ public partial class Gambling
                 if (ctx.Channel.Id != arg.Channel.Id)
                     return Task.CompletedTask;
 
-                var _ = Task.Run(async () =>
+                var _ = Task.Factory.StartNew(async () =>
                 {
                     var success = false;
                     if (int.TryParse(arg.Content, out var col))
@@ -129,7 +129,7 @@ public partial class Gambling
                             }
                         }
                     }
-                });
+                }, TaskCreationOptions.LongRunning);
                 return Task.CompletedTask;
             }
 

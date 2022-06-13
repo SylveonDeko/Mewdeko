@@ -74,7 +74,7 @@ public class CommandHandler : INService
 
     public Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (!result.IsSuccess)
             {
@@ -166,12 +166,12 @@ public class CommandHandler : INService
 
                 await channel.SendMessageAsync(embed: eb.Build());
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
     private Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (!result.IsSuccess)
             {
@@ -264,12 +264,12 @@ public class CommandHandler : INService
 
                 await channel.SendMessageAsync(embed: eb.Build());
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var blacklistService = _services.GetService<BlacklistService>();
             var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
@@ -308,7 +308,7 @@ public class CommandHandler : INService
 
             var ctx = new SocketInteractionContext(_client, interaction);
             await InteractionService.ExecuteCommandAsync(ctx, _services);
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -396,7 +396,7 @@ public class CommandHandler : INService
 
     private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             Log.Information(
                 "Command Executed after "
@@ -440,13 +440,13 @@ public class CommandHandler : INService
 
                 await restTextChannel.SendMessageAsync(embed: eb.Build());
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
             Log.Warning($"Command Errored after {errorafter}\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
@@ -470,7 +470,7 @@ public class CommandHandler : INService
 
                 await restChannel.SendMessageAsync(embed: eb.Build());
             }
-        });
+        }, TaskCreationOptions.LongRunning);
     }
 
     public Task MessageReceivedHandler(SocketMessage msg)
@@ -487,7 +487,7 @@ public class CommandHandler : INService
                 return Task.CompletedTask;
 
             AddCommandToParseQueue(usrMsg);
-            _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
+            _ = Task.Factory.StartNew(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id), TaskCreationOptions.LongRunning);
         }
         catch (Exception ex)
         {
@@ -538,23 +538,21 @@ public class CommandHandler : INService
         //highest priority. :thinking:
         foreach (var beh in EarlyBehaviors)
         {
-            if (await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false))
+            if (!await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false)) continue;
+            switch (beh.BehaviorType)
             {
-                switch (beh.BehaviorType)
-                {
-                    case ModuleBehaviorType.Blocker:
-                        Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
-                            usrMsg.Content, beh.GetType().Name);
-                        break;
-                    case ModuleBehaviorType.Executor:
-                        Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
-                            usrMsg.Content,
-                            beh.GetType().Name, usrMsg.Author.Id);
-                        break;
-                }
-
-                return;
+                case ModuleBehaviorType.Blocker:
+                    Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
+                        usrMsg.Content, beh.GetType().Name);
+                    break;
+                case ModuleBehaviorType.Executor:
+                    Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
+                        usrMsg.Content,
+                        beh.GetType().Name, usrMsg.Author.Id);
+                    break;
             }
+
+            return;
         }
 
         var exec2 = Environment.TickCount - execTime;

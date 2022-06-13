@@ -124,7 +124,7 @@ public class UtilityService : INService
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (!GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
 
@@ -152,14 +152,14 @@ public class UtilityService : INService
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes);
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     private Task MsgStore2(Cacheable<IMessage, ulong> optMsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (ch is not ITextChannel)
                 return;
@@ -190,13 +190,13 @@ public class UtilityService : INService
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes);
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
     public Task MsgReciev2(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Author.IsBot) return;
             if (msg.Channel is SocketDMChannel) return;
@@ -211,7 +211,7 @@ public class UtilityService : INService
                 await Task.Delay(200);
                 await msg.AddReactionAsync(emote2);
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 
@@ -223,7 +223,7 @@ public class UtilityService : INService
 
     public Task MsgReciev(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Factory.StartNew(async () =>
         {
             if (msg.Channel is SocketTextChannel t)
             {
@@ -278,7 +278,7 @@ public class UtilityService : INService
                     }
                 }
             }
-        });
+        }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
 }
