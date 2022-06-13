@@ -3,6 +3,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Highlights.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Highlights;
 

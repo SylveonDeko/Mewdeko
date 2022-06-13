@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Swan;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 

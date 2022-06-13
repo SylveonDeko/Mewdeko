@@ -1,5 +1,6 @@
 using Discord.Interactions;
 using Mewdeko.Modules.Searches.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Autocompleters;
 

@@ -3,6 +3,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Mewdeko.Modules.Gambling.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 

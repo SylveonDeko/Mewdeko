@@ -6,6 +6,7 @@ using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.RoleGreets.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.RoleGreets;
 [Group("rolegreets", "Set or manage RoleGreets.")]

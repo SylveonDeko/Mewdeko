@@ -8,6 +8,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using Swan;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Moderation;
 

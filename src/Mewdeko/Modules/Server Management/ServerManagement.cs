@@ -3,6 +3,7 @@ using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Server_Management.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;

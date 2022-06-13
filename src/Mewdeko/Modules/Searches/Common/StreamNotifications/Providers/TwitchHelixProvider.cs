@@ -3,6 +3,7 @@ using Serilog;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TwitchLib.Api;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;

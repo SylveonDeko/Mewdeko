@@ -2,6 +2,7 @@
 using Serilog;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace Mewdeko.Modules.Searches.Common;

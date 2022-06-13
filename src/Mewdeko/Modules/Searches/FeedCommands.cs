@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Services;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 

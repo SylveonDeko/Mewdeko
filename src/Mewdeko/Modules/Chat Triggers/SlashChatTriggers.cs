@@ -7,6 +7,7 @@ using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Chat_Triggers;

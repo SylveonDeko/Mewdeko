@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Modules.Utility.Common;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 

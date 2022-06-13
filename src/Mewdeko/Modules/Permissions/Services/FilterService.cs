@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 

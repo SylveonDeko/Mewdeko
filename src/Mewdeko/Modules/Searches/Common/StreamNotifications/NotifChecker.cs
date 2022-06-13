@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications;
 
