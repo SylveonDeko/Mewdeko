@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading.Tasks;
 using CultureInfoConverter = Mewdeko.Common.JsonConverters.CultureInfoConverter;
 using Rgba32Converter = Mewdeko.Common.JsonConverters.Rgba32Converter;
 

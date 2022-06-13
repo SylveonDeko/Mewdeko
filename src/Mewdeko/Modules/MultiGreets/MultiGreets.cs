@@ -6,6 +6,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.MultiGreets;
 

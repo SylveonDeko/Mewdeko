@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Mewdeko.Common.DiscordImplementations;
 
 public class MewdekoUserMessage : IUserMessage

@@ -2,6 +2,7 @@
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Attributes.SlashCommands;
 

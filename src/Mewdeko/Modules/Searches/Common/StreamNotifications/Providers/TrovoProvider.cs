@@ -3,6 +3,7 @@ using Serilog;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 

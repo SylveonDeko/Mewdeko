@@ -7,6 +7,7 @@ using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Help;
 

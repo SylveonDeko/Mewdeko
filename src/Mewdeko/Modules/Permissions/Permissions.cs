@@ -6,6 +6,7 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions;
 

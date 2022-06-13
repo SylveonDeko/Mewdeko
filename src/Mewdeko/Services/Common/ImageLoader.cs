@@ -3,6 +3,7 @@ using Serilog;
 using StackExchange.Redis;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Services.Common;
 
@@ -26,20 +27,16 @@ public class ImageLoader
 
     private async Task<byte[]> GetImageData(Uri uri)
     {
-        if (uri.IsFile)
+        if (!uri.IsFile) return await _http.GetByteArrayAsync(uri);
+        try
         {
-            try
-            {
-                return await File.ReadAllBytesAsync(uri.LocalPath);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Failed reading image bytes");
-                return null;
-            }
+            return await File.ReadAllBytesAsync(uri.LocalPath);
         }
-
-        return await _http.GetByteArrayAsync(uri);
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Failed reading image bytes");
+            return null;
+        }
     }
 
     private async Task HandleJArray(JArray arr, string key)

@@ -4,6 +4,7 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Connect4;
 using Mewdeko.Modules.Gambling.Services;
 using System.Text;
+using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Gambling;

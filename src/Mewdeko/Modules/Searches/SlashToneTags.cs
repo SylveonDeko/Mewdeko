@@ -2,6 +2,7 @@ using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Searches.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 

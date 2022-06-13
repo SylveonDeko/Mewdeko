@@ -10,6 +10,7 @@ using Serilog;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 

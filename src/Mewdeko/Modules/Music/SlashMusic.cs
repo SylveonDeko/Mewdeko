@@ -11,6 +11,7 @@ using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music;
 [Group("music", "Play Music!")]

@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.RoleGreets.Services;
+﻿using System.Threading.Tasks;
+
+namespace Mewdeko.Modules.RoleGreets.Services;
 
 public class RoleGreetService : INService
 {

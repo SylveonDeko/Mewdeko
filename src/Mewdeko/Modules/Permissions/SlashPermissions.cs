@@ -6,6 +6,7 @@ using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using System.Threading.Tasks;
 using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Permissions;

@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Afk.Services;
 

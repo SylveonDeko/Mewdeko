@@ -4,6 +4,7 @@ using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 

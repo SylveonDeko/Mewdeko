@@ -3,6 +3,7 @@ using Discord.Interactions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 

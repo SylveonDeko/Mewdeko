@@ -5,6 +5,7 @@ using Mewdeko.Modules.Music.Common;
 using SpotifyAPI.Web;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music.Services;
 

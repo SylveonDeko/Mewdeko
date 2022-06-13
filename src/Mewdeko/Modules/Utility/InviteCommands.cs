@@ -4,6 +4,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 

@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Swan;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Help;
 

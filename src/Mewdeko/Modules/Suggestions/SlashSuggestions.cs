@@ -3,6 +3,7 @@ using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Suggestions.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions;
 [Group("suggestions", "Send or manage suggestions!")]

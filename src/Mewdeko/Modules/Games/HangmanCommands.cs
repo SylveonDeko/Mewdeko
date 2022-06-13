@@ -3,6 +3,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
 using Mewdeko.Modules.Games.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 

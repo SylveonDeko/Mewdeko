@@ -3,6 +3,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Giveaways.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Giveaways;
 [Group("giveaways", "Create or manage giveaways!")]
