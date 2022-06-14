@@ -732,7 +732,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 CtField.NoRespond => ct.NoRespond = !ct.NoRespond,
                 _ => newVal
             };
-
+            uow.ChatTriggers.Update(ct);
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
