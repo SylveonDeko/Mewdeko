@@ -17,15 +17,12 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
     {
         await DeferAsync();
         ulong.TryParse(userid, out var id);
-        if (ctx.User.Id != id)
-            return;
         var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
             image = await _martineApi.RedditApi.GetRandomMeme();
             await Task.Delay(500);
         }
-
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder { Name = $"u/{image.Data.Author.Name}" },
@@ -34,6 +31,11 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
             ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
+        if (ctx.User.Id != id)
+        {
+            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true);
+            return;
+        }
         await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build());
     }
 
@@ -42,8 +44,6 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
     {
         await DeferAsync();
         ulong.TryParse(userId, out var id);
-        if (ctx.User.Id != id)
-            return;
 
         var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
@@ -60,6 +60,11 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
             ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
+        if (ctx.User.Id != id)
+        {
+            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true);
+            return;
+        }
         await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build());
     }
 }
