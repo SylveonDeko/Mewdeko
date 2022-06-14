@@ -25,6 +25,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TwitchLib.Api.Helix.Models.Extensions.ReleasedExtensions;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Searches;
@@ -68,6 +69,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await Task.Delay(500);
         }
 
+        var button = new ComponentBuilder().WithButton("Another!", $"meme:{ctx.User.Id}");
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -83,7 +85,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
-        await msg.ModifyAsync(x => x.Embed = em.Build());
+        await msg.ModifyAsync(x =>
+        {
+            x.Embed = em.Build();
+            x.Components = button.Build();
+        });
     }
 
     [Cmd, Aliases]
@@ -100,7 +106,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await msg.ModifyAsync(x => x.Embed = emt.Build());
             return;
         }
-
+        var button = new ComponentBuilder().WithButton("Another!", $"randomreddit:{subreddit}.{ctx.User.Id}");
         RedditPost image;
         try
         {
@@ -129,7 +135,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
-        await msg.ModifyAsync(x => x.Embed = em.Build());
+        await msg.ModifyAsync(x =>
+        {
+            x.Embed = em.Build();
+            x.Components = button.Build();
+        });
     }
 
     [Cmd, Aliases]
