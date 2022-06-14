@@ -90,6 +90,17 @@ public partial class Administration
                 LogType.VoicePresence => l.LogVoicePresenceId,
                 LogType.VoicePresenceTts => l.LogVoicePresenceTTSId,
                 LogType.UserMuted => l.UserMutedId,
+                LogType.EventCreated => l.EventCreatedId,
+                LogType.NicknameUpdated => l.NicknameUpdatedId,
+                LogType.RoleCreated => l.RoleCreatedId,
+                LogType.RoleUpdated => l.RoleUpdatedId,
+                LogType.ServerUpdated => l.ServerUpdatedId,
+                LogType.ThreadCreated => l.ThreadCreatedId,
+                LogType.ThreadDeleted => l.ThreadDeletedId,
+                LogType.ThreadUpdated => l.ThreadUpdatedId,
+                LogType.UsernameUpdated => l.UsernameUpdatedId,
+                LogType.UserRoleAdded => l.UserRoleAddedId,
+                LogType.UserRoleRemoved => l.UserRoleRemovedId,
                 _ => null
             };
 
