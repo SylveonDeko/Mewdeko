@@ -490,7 +490,7 @@ public class SuggestionsService : INService
     public async Task SuggestReset(IGuild guild)
     {
         await using var uow = _db.GetDbContext();
-        await uow.Suggestions.DeleteAsync();
+        await uow.Suggestions.Where(x => x.GuildId == guild.Id).DeleteAsync();
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.sugnum = 1;
         await uow.SaveChangesAsync();
