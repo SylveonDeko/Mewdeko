@@ -33,6 +33,7 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 bot.yml
+xp.yml
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
