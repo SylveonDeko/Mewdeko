@@ -181,7 +181,6 @@ public class LogCommandService : INService
     {
         await using var uow = _db.GetDbContext();
         var logSetting = uow.LogSettingsFor(guildId).LogSetting;
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (type)
         {
             case LogType.Other:
@@ -262,12 +261,12 @@ public class LogCommandService : INService
         }
 
         await uow.SaveChangesAsync();
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var uow = _db.GetDbContext();
         var logSetting = uow.LogSettingsFor(guildId).LogSetting;
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (categoryTypes)
         {
             case LogCategoryTypes.All:
@@ -369,6 +368,7 @@ public class LogCommandService : INService
         }
 
         await uow.SaveChangesAsync();
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
