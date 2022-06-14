@@ -50,7 +50,7 @@
         <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
         <PackageReference Include="Google.Protobuf" Version="3.20.1" />
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.45.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.45.0">
+        <PackageReference Include="Grpc.Tools" Version="2.46.3">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
