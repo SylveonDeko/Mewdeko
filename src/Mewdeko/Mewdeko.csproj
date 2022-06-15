@@ -94,7 +94,7 @@
         <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
         <PackageReference Include="StackExchange.Redis" Version="2.5.61" />
-        <PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.2.22152.2" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.5.22301.12" />
         <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
         <PackageReference Include="System.Threading.Channels" Version="7.0.0-preview.2.22152.2" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
