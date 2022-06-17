@@ -48,8 +48,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
         var sg = (SocketGuild)Context.Guild;
-        if (sg.OwnerId == gu.Id ||
-            gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
+        if (sg.OwnerId == gu.Id || gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
         {
             await ReplyErrorLocalizedAsync("insuf_perms_i").ConfigureAwait(false);
             return;
@@ -57,8 +56,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
-        await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
-            .ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]

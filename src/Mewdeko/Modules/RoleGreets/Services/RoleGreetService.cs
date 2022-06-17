@@ -79,7 +79,7 @@ public class RoleGreetService : INService
             {
                 if (embedData is not null && plainText is not "")
                 {
-                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components:components?.Build());
+                    var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
@@ -93,7 +93,7 @@ public class RoleGreetService : INService
 
                 if (embedData is not null && plainText is "")
                 {
-                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), components:components?.Build());
+                    var msg = await channel.SendMessageAsync(embeds: embedData, components:components?.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
@@ -134,7 +134,7 @@ public class RoleGreetService : INService
             {
                 if (embedData is not null && plainText is not "")
                 {
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components:components?.Build());
+                    var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components:components?.Build());
                     if (i.DeleteTime > 0)
                         (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }
@@ -148,7 +148,7 @@ public class RoleGreetService : INService
 
                 if (embedData is not null && plainText is "")
                 {
-                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() }, components:components?.Build());
+                    var msg = await webhook.SendMessageAsync(embeds: embedData, components:components?.Build());
                     if (i.DeleteTime > 0)
                         (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }

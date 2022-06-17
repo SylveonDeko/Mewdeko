@@ -57,7 +57,7 @@ public class Embed
 
     [JsonProperty("footer")] public Footer Footer { get; set; }
 
-    [JsonProperty("fields")] public List<Field> Fields { get; set; }
+    [JsonProperty("fields")] public List<Field>? Fields { get; set; }
 }
 
 public class NewEmbed
@@ -65,9 +65,10 @@ public class NewEmbed
     [JsonProperty("content")] public string Content { get; set; }
 
     [JsonProperty("embed")] public Embed Embed { get; set; }
+    [JsonProperty("embeds")] public Embed[]? Embeds { get; set; }
 
-    public bool IsValid =>
-        IsEmbedValid || !string.IsNullOrWhiteSpace(Content);
+    public bool IsValid 
+        => (Embeds is not null || IsEmbedValid || string.IsNullOrWhiteSpace(Content)) && (Embeds is not null || IsEmbedValid);
 
     public bool IsEmbedValid =>
         !string.IsNullOrWhiteSpace(Embed?.Description) ||
@@ -77,47 +78,53 @@ public class NewEmbed
         (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) || !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
         Embed?.Fields is { Count: > 0 };
 
-    public EmbedBuilder ToEmbed()
+    public Discord.Embed[] ToEmbedArray(Embed[] embeds)
     {
-        var embed = new EmbedBuilder();
-
-        if (!string.IsNullOrWhiteSpace(Embed?.Title))
-            embed.WithTitle(Embed?.Title);
-        if (!string.IsNullOrWhiteSpace(Embed?.Description))
-            embed.WithDescription(Embed?.Description);
-        if (Embed?.Url != null && Uri.IsWellFormedUriString(Embed?.Url, UriKind.Absolute))
-            embed.WithUrl(Embed?.Url);
-        embed.WithColor(new Color(Embed.Color));
-        if (Embed?.Footer != null)
+        var toReturn = new List<Discord.Embed>();
+        foreach (var i in embeds)
         {
-            embed.WithFooter(efb =>
+            var embed = new EmbedBuilder();
+
+            if (!string.IsNullOrWhiteSpace(i?.Title))
+                embed.WithTitle(i?.Title);
+            if (!string.IsNullOrWhiteSpace(i?.Description))
+                embed.WithDescription(i?.Description);
+            if (i?.Url != null && Uri.IsWellFormedUriString(i?.Url, UriKind.Absolute))
+                embed.WithUrl(i?.Url);
+            embed.WithColor(new Color(i.Color));
+            if (i?.Footer != null)
             {
-                efb.WithText(Embed?.Footer.Text);
-                if (Uri.IsWellFormedUriString(Embed?.Footer.IconUrl, UriKind.Absolute))
-                    efb.WithIconUrl(Embed?.Footer.IconUrl);
-            });
+                embed.WithFooter(efb =>
+                {
+                    efb.WithText(i?.Footer.Text);
+                    if (Uri.IsWellFormedUriString(i?.Footer.IconUrl, UriKind.Absolute))
+                        efb.WithIconUrl(i?.Footer.IconUrl);
+                });
+            }
+
+            if (i?.Thumbnail != null && Uri.IsWellFormedUriString(i?.Thumbnail.Url, UriKind.Absolute))
+                embed.WithThumbnailUrl(i?.Thumbnail.Url);
+            if (i?.Image != null && Uri.IsWellFormedUriString(i?.Image.Url, UriKind.Absolute))
+                embed.WithImageUrl(i?.Image.Url);
+            if (i?.Author != null && !string.IsNullOrWhiteSpace(i?.Author.Name))
+            {
+                if (!Uri.IsWellFormedUriString(i?.Author.IconUrl, UriKind.Absolute))
+                    i.Author.IconUrl = null;
+                if (!Uri.IsWellFormedUriString(i?.Author.Url, UriKind.Absolute))
+                    i.Author.Url = null;
+
+                embed.WithAuthor(i?.Author.Name, i?.Author.IconUrl, i?.Author.Url);
+            }
+
+            if (i?.Fields != null)
+            {
+                foreach (var f in i?.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
+                    embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+            }
+            else
+                toReturn.Add(embed.Build());
         }
 
-        if (Embed?.Thumbnail != null && Uri.IsWellFormedUriString(Embed?.Thumbnail.Url, UriKind.Absolute))
-            embed.WithThumbnailUrl(Embed?.Thumbnail.Url);
-        if (Embed?.Image != null && Uri.IsWellFormedUriString(Embed?.Image.Url, UriKind.Absolute))
-            embed.WithImageUrl(Embed?.Image.Url);
-        if (Embed?.Author != null && !string.IsNullOrWhiteSpace(Embed?.Author.Name))
-        {
-            if (!Uri.IsWellFormedUriString(Embed?.Author.IconUrl, UriKind.Absolute))
-                Embed.Author.IconUrl = null;
-            if (!Uri.IsWellFormedUriString(Embed?.Author.Url, UriKind.Absolute))
-                Embed.Author.Url = null;
-
-            embed.WithAuthor(Embed?.Author.Name, Embed?.Author.IconUrl, Embed?.Author.Url);
-        }
-
-        if (Embed?.Fields == null) return embed;
-        {
-            foreach (var f in Embed?.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
-                embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
-        }
-
-        return embed;
+        return toReturn.ToArray();
     }
 }

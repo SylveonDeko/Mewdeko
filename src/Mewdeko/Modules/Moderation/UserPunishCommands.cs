@@ -444,7 +444,7 @@ public partial class Moderation : MewdekoModule
                     if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components?.Build());
+                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
                     }
                 }
                 catch
@@ -496,7 +496,7 @@ public partial class Moderation : MewdekoModule
                     if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(message, embed: embedBuilder.Build(), components:components?.Build());
+                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
                     }
                 }
                 catch
@@ -570,7 +570,7 @@ public partial class Moderation : MewdekoModule
                 if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(message, embed: embedBuilder?.Build(), components:components?.Build());
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
                 }
             }
             catch
@@ -607,7 +607,7 @@ public partial class Moderation : MewdekoModule
                 if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(message, embed: embedBuilder?.Build(), components:components?.Build());
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
                 }
             }
             catch
@@ -683,7 +683,7 @@ public partial class Moderation : MewdekoModule
             {
                 try
                 {
-                    await dmChannel.SendMessageAsync(crEmbed.Item2, embed: crEmbed.Item1.Build());
+                    await dmChannel.SendMessageAsync(crEmbed.Item2, embeds: crEmbed.Item1, components:crEmbed.Item3?.Build());
                 }
                 catch (Exception)
                 {

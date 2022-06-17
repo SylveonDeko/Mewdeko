@@ -128,18 +128,18 @@ public static class Extensions
             
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embed: crembed?.Build());
+                            .SendMessageAsync(plainText, embeds: crembed);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
                 {
                     using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                     await whClient.SendMessageAsync(plainText,
-                        embeds: crembed is not null ? new[] {crembed?.Build()} : null);
+                        embeds: crembed);
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
-            return await channel.SendMessageAsync(plainText, embed: crembed?.Build(), components:components?.Build()).ConfigureAwait(false);
+            return await channel.SendMessageAsync(plainText, embeds: crembed, components:components?.Build()).ConfigureAwait(false);
         }
 
         var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
@@ -187,18 +187,18 @@ public static class Extensions
                 plainText = plainText.SanitizeMentions();
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embed: crembed?.Build(), components: components?.Build());
+                            .SendMessageAsync(plainText, embeds: crembed, components: components?.Build());
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
                 {
                     using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                     await whClient.SendMessageAsync(plainText,
-                        embeds: crembed is not null ? new[] {crembed?.Build()} : null);
+                        embeds: crembed);
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
-            await inter.RespondAsync(plainText, embed: crembed?.Build(), ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
+            await inter.RespondAsync(plainText, embeds: crembed, ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 

@@ -786,7 +786,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             }
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embed: embed?.Build(), components:components.Build());
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components:components.Build());
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
                 return;
             }
@@ -806,7 +806,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         {
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText, out var components))
             {
-                await channel.SendMessageAsync(plainText, embed: embed?.Build(), components:components?.Build());
+                await channel.SendMessageAsync(plainText, embeds: embed, components:components?.Build());
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
                 return;
             }
@@ -824,7 +824,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
         if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1, out var components1 ))
         {
-            await channel.SendMessageAsync(plainText1, embed: embed1?.Build(), components:components1?.Build());
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components:components1?.Build());
             await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}");
             return;
         }
