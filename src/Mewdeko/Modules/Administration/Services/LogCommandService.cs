@@ -16,6 +16,7 @@ public class LogCommandService : INService
 {
     public enum LogType
     {
+        AvatarUpdated,
         ChannelCreated,
         ChannelDestroyed,
         ChannelUpdated,
@@ -25,6 +26,7 @@ public class LogCommandService : INService
         NicknameUpdated,
         Other,
         RoleCreated,
+        RoleDeleted,
         RoleUpdated,
         ServerUpdated,
         ThreadCreated,
@@ -113,6 +115,7 @@ public class LogCommandService : INService
         //_client.ThreadCreated += ThreadCreated;
         prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
         _client.GuildMemberUpdated += AddNickname;
+        _client.UserUpdated += AddUsername;
 
         _ = RunCacheClear();
     }
@@ -150,7 +153,6 @@ public class LogCommandService : INService
 
         return removed > 0;
     }
-
     private Task AddNickname(Cacheable<SocketGuildUser, ulong> unused, SocketGuildUser socketGuildUser)
     {
         _ = Task.Factory.StartNew(async () =>
@@ -161,6 +163,21 @@ public class LogCommandService : INService
                 GuildId = socketGuildUser.Guild.Id,
                 UserId = socketGuildUser.Id,
                 Nickname = socketGuildUser.Nickname
+            });
+            await uow.SaveChangesAsync();
+        }, TaskCreationOptions.LongRunning);
+        return Task.CompletedTask;
+    }
+
+    public Task AddUsername(SocketUser socketUser, SocketUser user)
+    {
+        _ = Task.Factory.StartNew(async () =>
+        {
+            await using var uow = _db.GetDbContext();
+            uow.Usernames.Add(new Usernames()
+            {
+                UserId = user.Id,
+                Username = user.ToString()
             });
             await uow.SaveChangesAsync();
         }, TaskCreationOptions.LongRunning);
@@ -181,6 +198,7 @@ public class LogCommandService : INService
     {
         await using var uow = _db.GetDbContext();
         var logSetting = uow.LogSettingsFor(guildId).LogSetting;
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (type)
         {
             case LogType.Other:
@@ -261,12 +279,12 @@ public class LogCommandService : INService
         }
 
         await uow.SaveChangesAsync();
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var uow = _db.GetDbContext();
         var logSetting = uow.LogSettingsFor(guildId).LogSetting;
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (categoryTypes)
         {
             case LogCategoryTypes.All:
@@ -368,7 +386,6 @@ public class LogCommandService : INService
         }
 
         await uow.SaveChangesAsync();
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)

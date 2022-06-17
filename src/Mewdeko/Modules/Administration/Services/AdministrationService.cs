@@ -196,7 +196,7 @@ public class AdministrationService : INService
         {
             await umsg.ModifyAsync(x =>
             {
-                x.Embed = embed?.Build();
+                x.Embeds = embed;
                 x.Content = plainText?.SanitizeMentions();
                 x.Components = components.Build();
             }).ConfigureAwait(false);

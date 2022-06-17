@@ -74,6 +74,7 @@ public class MewdekoContext : DbContext
     public DbSet<BanTemplate> BanTemplates { get; set; }
     public DbSet<DiscordPermOverride> DiscordPermOverrides { get; set; }
     public DbSet<DiscordUser> DiscordUser { get; set; }
+    public DbSet<Usernames> Usernames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
