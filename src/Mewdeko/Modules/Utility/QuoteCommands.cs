@@ -68,7 +68,7 @@ public partial class Utility
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
                 await ctx.Channel.SendMessageAsync($"`#{quote.Id}` 📣 {plainText?.SanitizeAllMentions()}",
-                    embed: embed?.Build(), components: components?.Build()).ConfigureAwait(false);
+                    embeds: embed, components: components?.Build()).ConfigureAwait(false);
                 return;
             }
 
@@ -157,7 +157,7 @@ public partial class Utility
 
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
-                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embed: embed?.Build(), components:components?.Build())
+                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed, components:components?.Build())
                          .ConfigureAwait(false);
             }
             else

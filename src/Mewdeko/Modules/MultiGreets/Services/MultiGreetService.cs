@@ -44,7 +44,7 @@ public class MultiGreetService : INService
                                 {
                                     if (embedData is not null && plainText is not "")
                                     {
-                                        var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() }, components: components?.Build());
+                                        var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
                                         if (multiGreet.DeleteTime > 0)
                                             (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
                                         done = true;
@@ -61,7 +61,7 @@ public class MultiGreetService : INService
                                     else if (embedData is null || plainText is not "") continue;
 
                                     {
-                                        var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() }, components: components?.Build());
+                                        var msg = await webhook.SendMessageAsync(embeds: embedData, components: components?.Build());
                                         if (multiGreet.DeleteTime > 0)
                                             (await user.Guild.GetTextChannel(multiGreet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(multiGreet.DeleteTime.ToString()));
                                         done = true;
@@ -84,7 +84,7 @@ public class MultiGreetService : INService
                                 {
                                     if (embedData is not null && plainText is not "")
                                     {
-                                        var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components: components?.Build(),
+                                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build(),
                                             options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
                                         if (multiGreet.DeleteTime > 0)
                                             msg.DeleteAfter(multiGreet.DeleteTime);
@@ -102,7 +102,7 @@ public class MultiGreetService : INService
 
                                     else if (embedData is not null && plainText is "")
                                     {
-                                        var msg = await channel.SendMessageAsync(embed: embedData.Build(), components: components?.Build(),
+                                        var msg = await channel.SendMessageAsync(embeds: embedData, components: components?.Build(),
                                             options: new RequestOptions { RetryMode = RetryMode.RetryRatelimit });
                                         if (multiGreet.DeleteTime > 0)
                                             msg.DeleteAfter(multiGreet.DeleteTime);
@@ -139,7 +139,7 @@ public class MultiGreetService : INService
                                 {
                                     if (embedData is not null && plainText is not "")
                                     {
-                                        var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), components: components?.Build());
+                                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
                                         if (i.DeleteTime > 0)
                                             msg.DeleteAfter(i.DeleteTime);
                                     }
@@ -153,7 +153,7 @@ public class MultiGreetService : INService
 
                                     if (embedData is not null && plainText is "")
                                     {
-                                        var msg = await channel.SendMessageAsync(embed: embedData.Build(), components: components?.Build());
+                                        var msg = await channel.SendMessageAsync(embeds: embedData, components: components?.Build());
                                         if (i.DeleteTime > 0)
                                             msg.DeleteAfter(i.DeleteTime);
                                     }

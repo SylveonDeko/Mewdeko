@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Threading;
 using System.Threading.Tasks;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
@@ -428,7 +429,7 @@ WHERE GuildId={guildId}
         uow.SaveChanges();
     }
 
-    public Task<(EmbedBuilder?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
         string banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient)context.Client,
@@ -439,7 +440,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public Task<(EmbedBuilder?, string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -462,7 +463,7 @@ WHERE GuildId={guildId}
             .WithOverride("%ban.reason%", () => banReason)
             .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
             .Build();
-        EmbedBuilder embed;
+        Embed[] embed;
         ComponentBuilder components;
         string plainText;
         // if template isn't set, use the old message style
@@ -479,7 +480,7 @@ WHERE GuildId={guildId}
         // if template is set to "-" do not dm the user
         else if (template == "-")
         {
-            return Task.FromResult<(EmbedBuilder, string, ComponentBuilder)>((null, null, null));
+            return Task.FromResult<(Embed[], string, ComponentBuilder)>((null, null, null));
         }
         // otherwise, treat template as a regular string with replacements
         else
@@ -487,8 +488,8 @@ WHERE GuildId={guildId}
             if (SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components)
                 && (embed is not null || components is not null || plainText is not null))
                 return Task.FromResult((embed, plainText, components));
-            return Task.FromResult<(EmbedBuilder?, string?, ComponentBuilder?)>((
-                new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)), null, null));
+            return Task.FromResult<(Embed[], string?, ComponentBuilder?)>((
+                new []{new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build()}, null, null));
         }
 
         return Task.FromResult((embed, plainText, components));

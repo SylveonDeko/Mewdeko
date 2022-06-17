@@ -1,4 +1,6 @@
 ﻿using Discord.Commands;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
@@ -16,9 +18,9 @@ public abstract class MewdekoModule : ModuleBase
     public ILocalization Localization { get; set; }
     public SuggestionsService SugServ { get; set; }
     public UserPunishService UPun { get; set; }
-    public ServerManagementService Sms { get; set; }
     public UserPunishService2 UPun2 { get; set; }
     public MuteService MServ { get; set; }
+    public InteractiveService InteractiveService { get; set; }
 
     public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
     public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
@@ -116,7 +118,6 @@ public abstract class MewdekoModule : ModuleBase
 
         return input == "Yes";
     }
-
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
@@ -163,7 +164,6 @@ public abstract class MewdekoModule : ModuleBase
             }
         }
     }
-
     public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
@@ -199,81 +199,6 @@ public abstract class MewdekoModule : ModuleBase
                     //Exclude
                 }
             });
-        }
-    }
-    public async Task<string> NextMessageWithButtonAsync(string message, ulong userId, ITextChannel chan)
-    {
-        var eb = new EmbedBuilder().WithOkColor().WithDescription(message);
-        var component = new ComponentBuilder().WithButton("Cancel", "cancel", ButtonStyle.Danger).Build();
-        var msg = await chan.SendMessageAsync(embed: eb.Build(), components: component).ConfigureAwait(false);
-        var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient)ctx.Client;
-        try
-        {
-            dsc.InteractionCreated += CheckCancel;
-            dsc.MessageReceived += Interaction;
-            if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
-                userInputTask.Task)
-            {
-                return null;
-            }
-
-            return await userInputTask.Task.ConfigureAwait(false);
-        }
-        finally
-        {
-            dsc.MessageReceived -= Interaction;
-            dsc.ButtonExecuted -= CheckCancel;
-        }
-
-        Task Interaction(SocketMessage arg)
-        {
-            Task.Run(() =>
-            {
-                if (arg.Author.Id != userId || arg.Channel.Id != chan.Id) return Task.CompletedTask;
-                userInputTask.TrySetResult(arg.Content);
-                try
-                {
-                    arg.DeleteAsync();
-                    msg.DeleteAsync();
-                }
-                catch
-                {
-                    //Exclude
-                }
-
-                return Task.CompletedTask;
-            });
-            return Task.CompletedTask;
-        }
-
-        Task CheckCancel(SocketInteraction arg)
-        {
-            if (arg is SocketMessageComponent c)
-            {
-                Task.Run(() =>
-                {
-                    if (c.Channel.Id != chan.Id || c.User.Id != userId || c.Message.Id != msg.Id)
-                    {
-                        c.DeferAsync();
-                        return Task.CompletedTask;
-                    }
-
-                    if (c.Data.CustomId == "yes")
-                    {
-                        c.DeferAsync();
-                        userInputTask.TrySetResult("Yes");
-                        return Task.CompletedTask;
-                    }
-
-                    c.DeferAsync();
-                    userInputTask.TrySetResult(c.Data.CustomId);
-                    msg.DeleteAsync();
-                    return Task.CompletedTask;
-                });
-            }
-
-            return Task.CompletedTask;
         }
     }
 }

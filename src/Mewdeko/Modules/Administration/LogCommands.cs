@@ -16,6 +16,11 @@ public partial class Administration
         public async Task LogCategory(LogCategoryTypes type, ITextChannel channel = null)
         {
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
+            if (type == LogCategoryTypes.None)
+            {
+                await ctx.Channel.SendConfirmAsync($"Logging has been disabled.");
+                return;
+            }
             if (channel is null)
             {
                 await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been disabled.");
@@ -67,7 +72,7 @@ public partial class Administration
             var str = string.Join("\n", Enum.GetNames(typeof(LogType)).OrderBy(x => x).Select(x =>
             {
                 var val = l == null ? null : GetLogProperty(l, Enum.Parse<LogType>(x));
-                return val != null ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
+                return val != 0 ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
             }));
 
             await ctx.Channel.SendConfirmAsync($"{Format.Bold(GetText("log_events"))}\n{str}").ConfigureAwait(false);
@@ -94,6 +99,7 @@ public partial class Administration
                 LogType.NicknameUpdated => l.NicknameUpdatedId,
                 LogType.RoleCreated => l.RoleCreatedId,
                 LogType.RoleUpdated => l.RoleUpdatedId,
+                LogType.RoleDeleted => l.RoleDeletedId,
                 LogType.ServerUpdated => l.ServerUpdatedId,
                 LogType.ThreadCreated => l.ThreadCreatedId,
                 LogType.ThreadDeleted => l.ThreadDeletedId,
@@ -101,6 +107,7 @@ public partial class Administration
                 LogType.UsernameUpdated => l.UsernameUpdatedId,
                 LogType.UserRoleAdded => l.UserRoleAddedId,
                 LogType.UserRoleRemoved => l.UserRoleRemovedId,
+                LogType.AvatarUpdated => l.AvatarUpdatedId,
                 _ => null
             };
 

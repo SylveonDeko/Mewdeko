@@ -18,7 +18,7 @@ public static class MessageChannelExtensions
             eb.WithUrl(url);
         if (!string.IsNullOrWhiteSpace(footer))
             eb.WithFooter(efb => efb.WithText(footer));
-        return ch.SendMessageAsync("", embed: eb.Build());
+        return ch.SendMessageAsync(embed: eb.Build());
     }
 
     public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error) => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build(), components: new ComponentBuilder()
@@ -32,7 +32,7 @@ public static class MessageChannelExtensions
             eb.WithUrl(url);
         if (!string.IsNullOrWhiteSpace(footer))
             eb.WithFooter(efb => efb.WithText(footer));
-        return ch.SendMessageAsync("", embed: eb.Build());
+        return ch.SendMessageAsync(embed: eb.Build());
     }
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());

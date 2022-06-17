@@ -189,7 +189,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
             var user = await ctx.Client.GetUserAsync(ulong.Parse(uIdStr));
             var channel = await user.CreateDMChannelAsync();
             if (SmartEmbed.TryParse(modal.Message, ctx.Guild.Id, out var eb, out var txt, out var cb))
-                await channel.SendMessageAsync(txt, embed: eb.Build(), components: cb.Build());
+                await channel.SendMessageAsync(txt, embeds: eb, components: cb.Build());
             else
                 await channel.SendMessageAsync(modal.Message);
             await RespondAsync($"sent a dm to <@{ulong.Parse(uIdStr)}>");

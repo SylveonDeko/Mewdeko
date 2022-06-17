@@ -4,10 +4,15 @@ namespace Mewdeko.Common;
 
 public class SmartEmbed
 {
-    public static bool TryParse(string input, ulong? guildId, out EmbedBuilder? embed, out string? plainText, out ComponentBuilder? components)
+    public static bool TryParse(
+        string input,
+        ulong? guildId,
+        out Discord.Embed[]? embeds,
+        out string? plainText,
+        out ComponentBuilder? components)
     {
         CrEmbed crembed;
-        embed = null;
+        embeds = Array.Empty<Discord.Embed>();
         plainText = string.Empty;
         components = null;
         if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{')) return false;
@@ -20,6 +25,7 @@ public class SmartEmbed
         {
             return false;
         }
+
         if (!crembed.IsValid)
         {
             var newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
@@ -33,14 +39,35 @@ public class SmartEmbed
                 }
             }
 
-            if (newEmbed is { IsValid: false })
-                return false;
+            if (newEmbed.Embeds is not null && newEmbed.Embeds.Any(x => x.Fields is not null))
+            {
+                foreach (var f in newEmbed.Embeds.Select(x => x.Fields).Where(y => y is not null))
+                {
+                    foreach (var ff in f)
+                    {
+                        ff.Name = ff.Name.TrimTo(256);
+                        ff.Value = ff.Value.TrimTo(1024);
+                    }
+                }
+            }
 
-            embed = !newEmbed.IsEmbedValid ? null : newEmbed.ToEmbed();
+            if (newEmbed is { IsValid: false })
+                    return false;
+
+            if (newEmbed.Embed is not null)
+            {
+                embeds = newEmbed.ToEmbedArray(new[] { newEmbed.Embed });
+            }
+            else if (newEmbed.Embeds.Any())
+            {
+                embeds = newEmbed.ToEmbedArray(newEmbed.Embeds);
+            }
+
             plainText = newEmbed.Content;
             components = crembed.GetComponents(guildId);
             return true;
         }
+
         if (crembed is { Fields.Length: > 0 })
         {
             foreach (var f in crembed.Fields)
@@ -53,7 +80,7 @@ public class SmartEmbed
         if (crembed is { IsValid: false })
             return false;
 
-        embed = !crembed.IsEmbedValid ? null : crembed.ToEmbed();
+        embeds = new[] { crembed.ToEmbed().Build() };
         plainText = crembed.PlainText;
         components = crembed.GetComponents(guildId);
         return true;

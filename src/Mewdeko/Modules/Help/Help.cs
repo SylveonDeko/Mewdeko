@@ -39,28 +39,6 @@ public class Help : MewdekoModuleBase<HelpService>
         _lazyClientId = new AsyncLazy<ulong>(async () => (await client.GetApplicationInfoAsync()).Id);
     }
 
-    public async Task<(string plainText, EmbedBuilder embed, ComponentBuilder? components)> GetHelpStringEmbed()
-    {
-        var botSettings = _bss.Data;
-        if (string.IsNullOrWhiteSpace(botSettings.HelpText) || botSettings.HelpText == "-")
-            return default;
-
-        var clientId = await _lazyClientId.Value;
-        var r = new ReplacementBuilder()
-            .WithDefault(Context)
-            .WithOverride("{0}", () => clientId.ToString())
-            .WithOverride("{1}", () => Prefix)
-            .WithOverride("%prefix%", () => Prefix)
-            .WithOverride("%bot.prefix%", () => Prefix)
-            .Build();
-
-        if (SmartEmbed.TryParse(r.Replace(botSettings.HelpText), ctx.Guild?.Id, out var embed, out var plainText, out var components))
-            return (plainText, embed, components);
-        var eb = new EmbedBuilder().WithOkColor()
-                                   .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
-        return (plainText, eb, null);
-    }
-
     [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
     {

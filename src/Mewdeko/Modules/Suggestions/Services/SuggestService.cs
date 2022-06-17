@@ -119,7 +119,7 @@ public class SuggestionsService : INService
             {
                 try
                 {
-                    var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
+                    var toadd = await channel.SendMessageAsync(plainText, embeds: embed, components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     _repostChecking.Remove(channel.Id);
                 }
@@ -513,7 +513,7 @@ public class SuggestionsService : INService
             {
                 if (SmartEmbed.TryParse(code, channel.GuildId, out var embed, out var plainText, out _))
                 {
-                    var toadd = await channel.SendMessageAsync(plainText, embed: embed?.Build(), components: GetSuggestButton(channel.Guild).Build());
+                    var toadd = await channel.SendMessageAsync(plainText, embeds: embed, components: GetSuggestButton(channel.Guild).Build());
                     await SetSuggestionButtonId(channel.Guild, toadd.Id);
                     return;
                 }
@@ -556,7 +556,7 @@ public class SuggestionsService : INService
                 {
                     await ((IUserMessage)message).ModifyAsync(x =>
                     {
-                        x.Embed = embed?.Build();
+                        x.Embeds = embed;
                         x.Content = plainText;
                         x.Components = GetSuggestButton(channel.Guild).Build();
                     });
@@ -1178,12 +1178,12 @@ public class SuggestionsService : INService
                     await message.ModifyAsync(x =>
                     {
                         x.Content = plainText;
-                        x.Embed = embed?.Build();
+                        x.Embeds = embed;
                     });
                 }
                 else
                 {
-                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    var toReplace = await chan.SendMessageAsync(plainText, embeds: embed);
                     await using var uow = _db.GetDbContext();
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1218,7 +1218,7 @@ public class SuggestionsService : INService
                                 }
                             }
 
-                            var toSet = await denyChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            var toSet = await denyChannel.SendMessageAsync(plainText, embeds: embed);
                             await UpdateStateMessageId(suggest, toSet.Id);
                         }
                     }
@@ -1510,12 +1510,12 @@ public class SuggestionsService : INService
                     await message.ModifyAsync(x =>
                     {
                         x.Content = plainText;
-                        x.Embed = embed?.Build();
+                        x.Embeds = embed;
                     });
                 }
                 else
                 {
-                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    var toReplace = await chan.SendMessageAsync(plainText, embeds: embed);
                     await using var uow = _db.GetDbContext();
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1550,7 +1550,7 @@ public class SuggestionsService : INService
                                 }
                             }
 
-                            var toSet = await considerChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            var toSet = await considerChannel.SendMessageAsync(plainText, embeds: embed);
                             await UpdateStateMessageId(suggest, toSet.Id);
                         }
                     }
@@ -1844,12 +1844,12 @@ public class SuggestionsService : INService
                     await message.ModifyAsync(x =>
                     {
                         x.Content = plainText;
-                        x.Embed = embed?.Build();
+                        x.Embeds = embed;
                     });
                 }
                 else
                 {
-                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    var toReplace = await chan.SendMessageAsync(plainText, embeds: embed);
                     await using var uow = _db.GetDbContext();
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1884,7 +1884,7 @@ public class SuggestionsService : INService
                                 }
                             }
 
-                            var toSet = await implementChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            var toSet = await implementChannel.SendMessageAsync(plainText, embeds: embed);
                             await UpdateStateMessageId(suggest, toSet.Id);
                         }
                     }
@@ -2174,12 +2174,12 @@ public class SuggestionsService : INService
                     await message.ModifyAsync(x =>
                     {
                         x.Content = plainText;
-                        x.Embed = embed?.Build();
+                        x.Embeds = embed;
                     });
                 }
                 else
                 {
-                    var toReplace = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    var toReplace = await chan.SendMessageAsync(plainText, embeds: embed);
                     await using var uow = _db.GetDbContext();
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -2214,7 +2214,7 @@ public class SuggestionsService : INService
                                 }
                             }
 
-                            var toSet = await acceptChannel.SendMessageAsync(plainText, embed: embed?.Build());
+                            var toSet = await acceptChannel.SendMessageAsync(plainText, embeds: embed);
                             await UpdateStateMessageId(suggest, toSet.Id);
                         }
                     }
@@ -2353,9 +2353,9 @@ public class SuggestionsService : INService
             else
             {
                 if (GetEmoteMode(guild) == 1)
-                    msg = await chan.SendMessageAsync(plainText, embed: embed?.Build(), components: builder.Build());
+                    msg = await chan.SendMessageAsync(plainText, embeds: embed, components: builder.Build());
                 else
-                    msg = await chan.SendMessageAsync(plainText, embed: embed?.Build());
+                    msg = await chan.SendMessageAsync(plainText, embeds: embed);
             }
 
             if (GetEmoteMode(guild) == 0)
