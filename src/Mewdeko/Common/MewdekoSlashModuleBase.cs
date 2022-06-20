@@ -14,17 +14,8 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public IBotStrings Strings { get; set; }
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
-    public SuggestionsService SugServ { get; set; }
-    public UserPunishService UPun { get; set; }
-    public ServerManagementService Sms { get; set; }
-    public UserPunishService2 UPun2 { get; set; }
-    public MuteService MServ { get; set; }
 
     public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
-    public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
-    public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
-    public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
-    public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
     // ReSharper disable once InconsistentNaming
     protected IInteractionContext ctx => Context;
