@@ -960,8 +960,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             return;
         }
 
-        Exception rex = null;
-        ScriptState<object> css = null;
+        Exception rex;
+        ScriptState<object> css = default;
         var sw2 = Stopwatch.StartNew();
         try
         {

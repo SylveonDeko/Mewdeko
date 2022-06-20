@@ -21,13 +21,11 @@ public class PurgeService : INService
 
         try
         {
-            IMessage[] msgs;
-            IMessage lastMessage = null;
-            msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate)
-                .Take(amount).ToArray();
+            IMessage[] msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate)
+                                                                                                       .Take(amount).ToArray();
             while (amount > 0 && msgs.Length > 0)
             {
-                lastMessage = msgs[^1];
+                var lastMessage = msgs[^1];
 
                 var bulkDeletable = new List<IMessage>();
                 var singleDeletable = new List<IMessage>();

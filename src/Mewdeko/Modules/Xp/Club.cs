@@ -15,10 +15,7 @@ public partial class Xp
     {
         private readonly InteractiveService _interactivity;
 
-        public Club(InteractiveService serv)
-        {
-            _interactivity = serv;
-        }
+        public Club(InteractiveService serv) => _interactivity = serv;
 
         [Cmd, Aliases]
         public async Task ClubTransfer([Remainder] IUser newOwner)

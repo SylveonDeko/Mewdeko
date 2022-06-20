@@ -7,7 +7,6 @@ using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
@@ -393,7 +392,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await DeferAsync().ConfigureAwait(false);
         if (await PromptUserConfirmAsync(new EmbedBuilder()
                     .WithTitle("Chat triggers clear")
-                    .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id, false).ConfigureAwait(false))
+                    .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id).ConfigureAwait(false))
         {
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ConfirmLocalizedAsync(GetText("cleared", count)).ConfigureAwait(false);
@@ -411,8 +410,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("webhook-url", "What webhook do you want to crosspost messages with?")] string webhookUrl
         )
         {
-            var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl, false);
-            if (res.Valid == false)
+            var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl);
+            if (!res.Valid)
             {
                 await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
                 return;

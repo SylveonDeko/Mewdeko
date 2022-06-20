@@ -42,7 +42,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RateGirl(IGuildUser usr)
     {
-        var dbUser = DiscordUserExtensions.GetOrCreateUser(_db, usr);
+        var dbUser = _db.GetOrCreateUser(usr);
         if (dbUser.IsDragon)
         {
             var eb = new EmbedBuilder()

@@ -355,7 +355,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var url = Service.GetRandomImageUrl(tag);
         return ctx.Channel.EmbedAsync(new EmbedBuilder()
             .WithOkColor()
-            .WithImageUrl(url));
+            .WithImageUrl(url.ToString()));
     }
 
     // done in 3.0

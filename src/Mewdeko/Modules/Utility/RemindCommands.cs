@@ -115,7 +115,7 @@ public partial class Utility
             if (--index < 0)
                 return;
 
-            Reminder rem = null;
+            Reminder? rem = null;
             await using (var uow = _db.GetDbContext())
             {
                 var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)

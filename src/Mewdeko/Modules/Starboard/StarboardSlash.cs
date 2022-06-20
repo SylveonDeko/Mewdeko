@@ -9,10 +9,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
     private readonly GuildSettingsService _guildSettings;
 
-    public StarboardSlash(GuildSettingsService guildSettings)
-    {
-        _guildSettings = guildSettings;
-    }
+    public StarboardSlash(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
 
     [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStarboard(ITextChannel? chn = null)
@@ -69,10 +66,9 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         }
 
         var emote = emoteText.ToIEmote();
-        IUserMessage msg = null;
+        var msg = await ctx.Interaction.SendConfirmFollowupAsync("Testing emote...");
         try
         {
-            msg = await ctx.Interaction.SendConfirmFollowupAsync("Testing emote...");
             await msg.AddReactionAsync(emote);
         }
         catch

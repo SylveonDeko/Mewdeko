@@ -24,10 +24,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
             Reload();
     }
 
-    public string GetText(string localeName, string key)
-    {
-        return _redis.GetDatabase().HashGet($"{_creds.RedisKey()}:responses:{localeName}", key);
-    }
+    public string GetText(string localeName, string key) => _redis.GetDatabase().HashGet($"{_creds.RedisKey()}:responses:{localeName}", key);
 
     public CommandStrings GetCommandStrings(string localeName, string commandName)
     {

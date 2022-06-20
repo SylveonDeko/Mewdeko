@@ -29,7 +29,7 @@ public class CommandHandler : INService
     private readonly Mewdeko _bot;
     private readonly BotConfigService _bss;
     private readonly DiscordSocketClient _client;
-    public readonly CommandService CommandService;
+    private readonly CommandService _commandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
     public static ulong CommandLogChannelId { get; set; }
@@ -55,7 +55,7 @@ public class CommandHandler : INService
         _gss = gss;
         _strings = strngs;
         _client = client;
-        CommandService = commandService;
+        _commandService = commandService;
         _bss = bss;
         _bot = bot;
         _db = db;
@@ -610,7 +610,7 @@ public class CommandHandler : INService
         string input, IServiceProvider services,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
-        var searchResult = CommandService.Search(context, input);
+        var searchResult = _commandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);
 

@@ -216,11 +216,9 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                             embeds: embedData, components:cb.Build());
                         return;
                     }
-                    else
-                    {
-                        await ctx.Channel.SendMessageAsync(content);
-                        return;
-                    }
+
+                    await ctx.Channel.SendMessageAsync(content);
+                    return;
                 case "regular":
                     await msg.DeleteAsync();
                     await ctx.Channel.SendConfirmAsync(greet.Message);

@@ -13,10 +13,7 @@ public partial class Utility
     {
         private readonly GuildSettingsService _guildSettings;
 
-        public CalcCommands(GuildSettingsService guildSettings)
-        {
-            _guildSettings = guildSettings;
-        }
+        public CalcCommands(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
 
         [Cmd, Aliases]
         public async Task Calculate([Remainder] string expression)

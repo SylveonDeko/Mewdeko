@@ -1,8 +1,8 @@
 ﻿using LinqToDB.Common;
+using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
-using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;
@@ -64,7 +64,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
-    private readonly CommandHandler _cmd;
     private readonly CmdCdService _cmdCds;
     private readonly TypedKey<bool> _crsReloadedKey = new("crs.reloaded");
 
@@ -83,7 +82,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly IBotStrings _strings;
     private readonly GuildSettingsService _guildSettings;
 
-    // it is perfectly fine to have global customreactions as an array
+    // it is perfectly fine to have global chattriggers as an array
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
     // 2. only need write locks for this as we'll rebuild+replace the array on every edit
     // 3. there's never many of them (at most a thousand, usually < 100)
@@ -108,7 +107,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         _db = db;
         _client = client;
         _perms = perms;
-        _cmd = cmd;
         _strings = strings;
         _bot = bot;
         _cmdCds = cmdCds;
@@ -183,7 +181,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 }
             }
 
-            IUserMessage sentMsg = null;
+            IUserMessage? sentMsg = null;
             if (!ct.NoRespond)
                 sentMsg = await ct.Send(msg, _client, false).ConfigureAwait(false);
 
@@ -222,7 +220,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 {
                     CtRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
                     CtRoleGrantType.Sender => new List<ulong> { msg.Author.Id },
-                    CtRoleGrantType.Both => Enumerable.Append(msg.Content.GetUserMentions().Take(4), msg.Author.Id),
+                    CtRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id),
                     _ => new List<ulong>()
                 };
 
@@ -265,7 +263,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             default:
                 try
                 {
-                    var fakeMsg = new MewdekoUserMessage()
+                    var fakeMsg = new MewdekoUserMessage
                     {
                         Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
                     };
@@ -309,7 +307,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         }
                     }
 
-                    IUserMessage sentMsg = null;
+                    IUserMessage? sentMsg = null;
                     if (!ct.NoRespond)
                         sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
 
@@ -1187,19 +1185,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
             && x.RealName.Split(' ').Length == 3).Select(x =>
         {
-            TriggerChildGrouping group = null;
+            TriggerChildGrouping group;
             if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
                 group = groups.First(y => y.Name == x.RealName.Split(' ').First());
             else
             {
-                groups.Add(new(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>()));
+                groups.Add(new TriggerChildGrouping(x.RealName.Split(' ').First(), null, new List<TriggerChildGrouping>()));
                 group = groups.First(y => y.Name == x.RealName.Split(' ').First());
             }
 
             return (Triggers: x, Group: group);
         }).Select(x =>
         {
-            TriggerChildGrouping group = null;
+            TriggerChildGrouping group;
             var groups = x.Group.Children;
             if (groups.Any(y => y.Name == x.Triggers.RealName.Split(' ')[1]))
                 group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
@@ -1209,7 +1207,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
             }
 
-            return (Triggers: x.Triggers, Group: group);
+            return (x.Triggers, Group: group);
         }).ForEach(x => x.Group.Children.Add(new(x.Triggers.RealName, x.Triggers, null)));
 
         props = groups.Select(x => new SlashCommandBuilder()

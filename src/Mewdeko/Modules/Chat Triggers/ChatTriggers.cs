@@ -414,8 +414,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtCpSetWebhook(int id, string webhookUrl)
     {
-        var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl, false);
-        if (res.Valid == false)
+        var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl);
+        if (!res.Valid)
         {
             await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
             return;

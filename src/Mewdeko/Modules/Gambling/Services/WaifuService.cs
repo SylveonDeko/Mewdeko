@@ -229,7 +229,7 @@ public class WaifuService : INService
 
     public async Task<(DiscordUser, bool, TimeSpan?)> ChangeAffinityAsync(IUser user, IGuildUser? target)
     {
-        DiscordUser oldAff = null;
+        DiscordUser? oldAff = null;
         var success = false;
         TimeSpan? remaining = null;
         await using (var uow = _db.GetDbContext())

@@ -189,7 +189,7 @@ public partial class Gambling
                         var images = _images.Dice;
                         using var imgOne = Image.Load<Rgba32>(images[1]);
                         using var imgZero = Image.Load<Rgba32>(images[0]);
-                        return new Image<Rgba32>[] { imgOne, imgZero }.Merge();
+                        return new[] { imgOne, imgZero }.Merge();
                     }
                 default:
                     return Image.Load<Rgba32>(_images.Dice[num]);

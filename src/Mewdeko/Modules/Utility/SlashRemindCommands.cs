@@ -105,7 +105,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
         }
 
-        var rem = new Reminder()
+        var rem = new Reminder
         {
             ChannelId = targetId,
             IsPrivate = isPrivate,
@@ -186,7 +186,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         if (--index < 0)
             return;
 
-        Reminder rem = null;
+        Reminder? rem = null;
         await using (var uow = _db.GetDbContext())
         {
             var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
