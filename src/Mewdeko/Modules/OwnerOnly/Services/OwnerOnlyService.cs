@@ -28,6 +28,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly IHttpClientFactory _httpFactory;
     private readonly Replacer _rep;
     private readonly IBotStrings _strings;
+    private readonly GuildSettingsService _guildSettings;
 
 #pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
@@ -39,7 +40,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
-        BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot)
+        BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot,
+        GuildSettingsService guildSettings)
     {
         var redis = cache.Redis;
         _cmdHandler = cmdHandler;
@@ -49,6 +51,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         _creds = creds;
         _cache = cache;
         _bot = bot;
+        _guildSettings = guildSettings;
         var imgs = cache.LocalImages;
         _httpFactory = factory;
         _bss = bss;
@@ -296,7 +299,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
             if (guildShard != _client.ShardId)
                 return;
-            var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
+            var prefix = _guildSettings.GetPrefix(cmd.GuildId);
             //if someone already has .die as their startup command, ignore it
             if (cmd.CommandText.StartsWith($"{prefix}die", StringComparison.InvariantCulture))
                 return;
@@ -325,6 +328,15 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 return TimerFromAutoCommand(cmd);
             });
         }
+    }
+    public string SetDefaultPrefix(string prefix)
+    {
+        if (string.IsNullOrWhiteSpace(prefix))
+            throw new ArgumentNullException(nameof(prefix));
+
+        _bss.ModifyConfig(bs => bs.Prefix = prefix);
+
+        return prefix;
     }
 
     public IEnumerable<AutoCommand> GetStartupCommands()

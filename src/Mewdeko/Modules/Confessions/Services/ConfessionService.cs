@@ -7,11 +7,14 @@ public class ConfessionService : INService
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
     private readonly Mewdeko _bot;
-    public ConfessionService(DbService db, Mewdeko bot, DiscordSocketClient client)
+    private readonly GuildSettingsService _guildSettings;
+    public ConfessionService(DbService db, Mewdeko bot, DiscordSocketClient client,
+        GuildSettingsService guildSettings)
     {
         _db = db;
         _bot = bot;
         _client = client;
+        _guildSettings = guildSettings;
     }
 
     public async Task SendConfession(
@@ -27,7 +30,7 @@ public class ConfessionService : INService
             var guild = _client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
             var currentUser = guild.GetUser(_client.CurrentUser.Id);
-            var confessionChannel = guild.GetTextChannel(_bot.GetGuildConfig(serverId).ConfessionChannel);
+            var confessionChannel = guild.GetTextChannel(_guildSettings.GetGuildConfig(serverId).ConfessionChannel);
             if (confessionChannel is null)
             {
                 if (ctx is not null)
@@ -179,11 +182,11 @@ public class ConfessionService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetConfessionChannel(ulong id)
-        => _bot.GetGuildConfig(id).ConfessionChannel;
+        => _guildSettings.GetGuildConfig(id).ConfessionChannel;
 
     public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
@@ -195,7 +198,7 @@ public class ConfessionService : INService
 
         gc.SetConfessionBlacklists(blacklists);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
@@ -204,11 +207,11 @@ public class ConfessionService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionLogChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetConfessionLogChannel(ulong id)
-        => _bot.GetGuildConfig(id).ConfessionLogChannel;
+        => _guildSettings.GetGuildConfig(id).ConfessionLogChannel;
 }
 
 public static class ConfessionExtensions

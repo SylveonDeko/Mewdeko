@@ -19,10 +19,11 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
-
-    public Permissions(DbService db, InteractiveService inter)
+    private readonly GuildSettingsService _guildSettings;
+    public Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
     {
         _interactivity = inter;
+        _guildSettings = guildSettings;
         _db = db;
     }
 
@@ -127,7 +128,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return new PageBuilder().WithDescription(string.Join("\n",
                 perms.Skip(page * 10).Take(10).Select(p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -157,7 +158,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {
@@ -204,7 +205,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 }
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
-                        Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)ctx.Guild)),
+                        Format.Code(fromPerm.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
                         ++from,
                         ++to)
                     .ConfigureAwait(false);

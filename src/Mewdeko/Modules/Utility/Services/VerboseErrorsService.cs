@@ -11,6 +11,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly DbService _db;
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
+    private readonly GuildSettingsService _guildSettings;
 
     public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch,
         IBotStrings strings)
@@ -44,8 +45,8 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .WithTitle("Command Error")
                 .WithDescription(reason)
                 .AddField("Usages",
-                    string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _ch.GetPrefix(channel.Guild))))
-                .WithFooter($"Run {_ch.GetPrefix(channel.Guild?.Id)}ve to disable these prompts.")
+                    string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _guildSettings.GetPrefix(channel.Guild))))
+                .WithFooter($"Run {_guildSettings.GetPrefix(channel.Guild?.Id)}ve to disable these prompts.")
                 .WithErrorColor();
 
             await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()

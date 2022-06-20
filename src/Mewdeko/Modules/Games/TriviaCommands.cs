@@ -15,13 +15,16 @@ public partial class Games
         private readonly DiscordSocketClient _client;
         private readonly ICurrencyService _cs;
         private readonly GamesConfigService _gamesConfig;
+        private readonly GuildSettingsService _guildSettings;
 
         public TriviaCommands(DiscordSocketClient client, IDataCache cache, ICurrencyService cs,
-            GamesConfigService gamesConfig)
+            GamesConfigService gamesConfig,
+            GuildSettingsService guildSettings)
         {
             _cache = cache;
             _cs = cs;
             _gamesConfig = gamesConfig;
+            _guildSettings = guildSettings;
             _client = client;
         }
 
@@ -38,7 +41,7 @@ public partial class Games
             var config = _gamesConfig.Data;
             if (config.Trivia.MinimumWinReq > 0 && config.Trivia.MinimumWinReq > opts.WinRequirement) return;
             var trivia = new TriviaGame(Strings, _client, config, _cache, _cs, channel.Guild, channel, opts,
-                $"{Prefix}tq");
+                $"{_guildSettings.GetPrefix(ctx.Guild)}tq");
             if (Service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
             {
                 try

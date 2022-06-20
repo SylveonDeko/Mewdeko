@@ -5,12 +5,12 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 public class MultiGreetService : INService
 {
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _guildSettings;
 
-    public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko bot)
+    public MultiGreetService(DbService db, DiscordSocketClient client, GuildSettingsService guildSettings)
     {
         var client1 = client;
-        _bot = bot;
+        _guildSettings = guildSettings;
         _db = db;
         client1.UserJoined += DoMultiGreet;
         _ = Task.Factory.StartNew(async () =>
@@ -196,10 +196,10 @@ public class MultiGreetService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public int GetMultiGreetType(ulong? id) => _bot.GetGuildConfig(id.Value).MultiGreetType;
+    public int GetMultiGreetType(ulong? id) => _guildSettings.GetGuildConfig(id.Value).MultiGreetType;
 
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {

@@ -6,12 +6,13 @@ namespace Mewdeko.Modules.Administration.Services;
 public class GameVoiceChannelService : INService
 {
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _guildSettings;
 
-    public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public GameVoiceChannelService(DiscordSocketClient client, DbService db,
+        GuildSettingsService guildSettings)
     {
         _db = db;
-        _bot = bot;
+        _guildSettings = guildSettings;
 
         client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         client.GuildMemberUpdated += _client_GuildMemberUpdated;
@@ -25,7 +26,7 @@ public class GameVoiceChannelService : INService
             {
                 if (after is null)
                     return;
-                if (_bot.GetGuildConfig(after.Guild.Id).GameVoiceChannel != after?.VoiceChannel?.Id)
+                if (_guildSettings.GetGuildConfig(after.Guild.Id).GameVoiceChannel != after?.VoiceChannel?.Id)
                     return;
                 //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
@@ -54,12 +55,12 @@ public class GameVoiceChannelService : INService
         if (gc.GameVoiceChannel == vchId)
         {
             id = gc.GameVoiceChannel = null;
-            _bot.UpdateGuildConfig(guildId, gc);
+            _guildSettings.UpdateGuildConfig(guildId, gc);
         }
         else
         {
             id = gc.GameVoiceChannel = vchId;
-            _bot.UpdateGuildConfig(guildId, gc);
+            _guildSettings.UpdateGuildConfig(guildId, gc);
         }
 
         uow.SaveChanges();
@@ -84,7 +85,7 @@ public class GameVoiceChannelService : INService
                     return;
                 }
 
-                if (_bot.GetGuildConfig(gUser.Guild.Id).GameVoiceChannel != newState.VoiceChannel.Id ||
+                if (_guildSettings.GetGuildConfig(gUser.Guild.Id).GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
                 {
                     return;

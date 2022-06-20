@@ -19,10 +19,10 @@ namespace Mewdeko.Modules.Gambling.Services;
 public class PlantPickService : INService
 {
     private readonly DiscordSocketClient _client;
-    private readonly CommandHandler _cmdHandler;
     private readonly ICurrencyService _cs;
     private readonly DbService _db;
     private readonly FontProvider _fonts;
+    private readonly GuildSettingsService _guildSettings;
 
     public readonly ConcurrentHashSet<ulong> GenerationChannels;
     private readonly GamblingConfigService _gss;
@@ -32,18 +32,18 @@ public class PlantPickService : INService
     private readonly SemaphoreSlim _pickLock = new(1, 1);
 
     public PlantPickService(DbService db, CommandHandler cmd, IBotStrings strings,
-        IDataCache cache, FontProvider fonts, ICurrencyService cs,
-        CommandHandler cmdHandler, DiscordSocketClient client, GamblingConfigService gss)
+        IDataCache cache, FontProvider fonts, ICurrencyService cs, DiscordSocketClient client, GamblingConfigService gss,
+        GuildSettingsService guildSettings)
     {
         _db = db;
         _strings = strings;
         _images = cache.LocalImages;
         _fonts = fonts;
         _cs = cs;
-        _cmdHandler = cmdHandler;
         _rng = new MewdekoRandom();
         _client = client;
         _gss = gss;
+        _guildSettings = guildSettings;
 
         cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
         using var uow = db.GetDbContext();
@@ -198,7 +198,7 @@ public class PlantPickService : INService
 
                     if (dropAmount > 0)
                     {
-                        var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
+                        var prefix = _guildSettings.GetPrefix(channel.Guild.Id);
                         var toSend = dropAmount == 1
                             ? $"{GetText(channel.GuildId, "curgen_sn", config.Currency.Sign)} {GetText(channel.GuildId, "pick_sn", prefix)}"
                             : $"{GetText(channel.GuildId, "curgen_pl", dropAmount, config.Currency.Sign)} {GetText(channel.GuildId, "pick_pl", prefix)}";
@@ -300,7 +300,7 @@ public class PlantPickService : INService
         try
         {
             // get the text
-            var prefix = _cmdHandler.GetPrefix(gid);
+            var prefix = _guildSettings.GetPrefix(gid);
             var msgToSend = GetText(gid,
                 "planted",
                 Format.Bold(user),

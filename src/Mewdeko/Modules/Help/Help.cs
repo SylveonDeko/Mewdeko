@@ -6,7 +6,6 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Newtonsoft.Json;
 using Swan;
@@ -18,25 +17,24 @@ namespace Mewdeko.Modules.Help;
 
 public class Help : MewdekoModuleBase<HelpService>
 {
-    private readonly BotConfigService _bss;
     private readonly CommandService _cmds;
     private readonly InteractiveService _interactive;
-    private readonly AsyncLazy<ulong> _lazyClientId;
     private readonly GlobalPermissionService _perms;
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
+    private readonly GuildSettingsService _guildSettings;
 
-    public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
-        IServiceProvider services, DiscordSocketClient client, IBotStrings strings,
-        InteractiveService serv)
+    public Help(GlobalPermissionService perms, CommandService cmds,
+        IServiceProvider services, IBotStrings strings,
+        InteractiveService serv,
+        GuildSettingsService guildSettings)
     {
         _interactive = serv;
+        _guildSettings = guildSettings;
         _cmds = cmds;
-        _bss = bss;
         _perms = perms;
         _services = services;
         _strings = strings;
-        _lazyClientId = new AsyncLazy<ulong>(async () => (await client.GetApplicationInfoAsync()).Id);
     }
 
     [Cmd, Aliases]
@@ -55,7 +53,7 @@ public class Help : MewdekoModuleBase<HelpService>
             foreach (var i in cmds)
             {
                 cmdnames += $"\n{i.Name}";
-                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, Prefix).Truncate(50)}";
+                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, _guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
             var eb = new EmbedBuilder()
                      .WithOkColor()
@@ -136,7 +134,7 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             await Task.CompletedTask;
             var transformed = groups.Select(x => x.ElementAt(page).Where(x => !x.Attributes.Any(x => x is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{_guildSettings.GetPrefix(ctx.Guild) + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -160,7 +158,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{Prefix}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{_guildSettings.GetPrefix(ctx.Guild)}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
@@ -216,12 +214,12 @@ public class Help : MewdekoModuleBase<HelpService>
                         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(attribute =>
                             attribute is MewdekoOptionsAttribute))?.OptionType;
                         if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
-
+                        var prefix = _guildSettings.GetPrefix(ctx.Guild);
                         return new CommandJsonObject
                         {
-                            Aliases = com.Aliases.Select(alias => Prefix + alias).ToArray(),
-                            Description = com.RealSummary(_strings, ctx.Guild?.Id, Prefix),
-                            Usage = com.RealRemarksArr(_strings, ctx.Guild?.Id, Prefix),
+                            Aliases = com.Aliases.Select(alias => prefix + alias).ToArray(),
+                            Description = com.RealSummary(_strings, ctx.Guild?.Id, prefix),
+                            Usage = com.RealRemarksArr(_strings, ctx.Guild?.Id, prefix),
                             Submodule = com.Module.Name,
                             Module = com.Module.GetTopLevelModule().Name,
                             Options = optHelpStr,

@@ -10,20 +10,21 @@ public class UserPunishService2 : INService
 {
     private readonly DbService _db;
     private readonly MuteService _mute;
-    private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _guildSettings;
 
-    public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
+    public UserPunishService2(MuteService mute, DbService db,
+        GuildSettingsService guildSettings)
     {
         _mute = mute;
         _db = db;
-        _bot = bot;
+        _guildSettings = guildSettings;
 
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
     public ulong GetMWarnlogChannel(ulong? id)
-        => _bot.GetGuildConfig(id.Value).MiniWarnlogChannelId;
+        => _guildSettings.GetGuildConfig(id.Value).MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
@@ -31,7 +32,7 @@ public class UserPunishService2 : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MiniWarnlogChannelId = channel.Id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)

@@ -19,6 +19,7 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly LavalinkNode _lavaNode;
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
+    private readonly GuildSettingsService _guildSettings;
 
     public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
         DiscordSocketClient client)
@@ -935,7 +936,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         await player.PauseAsync();
-        await ctx.Channel.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
+        await ctx.Channel.SendConfirmAsync($"Paused player. Do {_guildSettings.GetPrefix(ctx.Guild)}pause again to resume.");
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]

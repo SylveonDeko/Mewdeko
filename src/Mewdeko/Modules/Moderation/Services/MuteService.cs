@@ -29,14 +29,14 @@ public class MuteService : INService
 
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
     public string[] Uroles;
+    private readonly GuildSettingsService _guildSettings;
 
-    public MuteService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings)
     {
         _client = client;
         _db = db;
-        _bot = bot;
+        _guildSettings = guildSettings;
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
@@ -245,7 +245,7 @@ public class MuteService : INService
     }
 
     public int GetRemoveOnMute(ulong? id)
-        => _bot.GetGuildConfig(id.Value).removeroles;
+        => _guildSettings.GetGuildConfig(id.Value).removeroles;
 
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
@@ -261,7 +261,7 @@ public class MuteService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.removeroles = yesno;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,

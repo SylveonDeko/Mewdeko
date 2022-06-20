@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using SixLabors.ImageSharp;
 using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 

@@ -13,10 +13,12 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
         private readonly GamesService _games;
+        private readonly GuildSettingsService _guildSettings;
 
-        public SpeedTypingCommands(DiscordSocketClient client, GamesService games)
+        public SpeedTypingCommands(DiscordSocketClient client, GamesService games, GuildSettingsService guildSettings)
         {
             _games = games;
+            _guildSettings = guildSettings;
             _client = client;
         }
 
@@ -28,7 +30,7 @@ public partial class Games
             var channel = (ITextChannel)ctx.Channel;
 
             var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
-                _ => new TypingGame(_games, _client, channel, Prefix, options));
+                _ => new TypingGame(_games, _client, channel, _guildSettings.GetPrefix(ctx.Guild), options));
 
             if (game.IsActive)
             {

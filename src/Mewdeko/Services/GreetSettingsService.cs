@@ -3,7 +3,6 @@ using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Embed = Discord.Embed;
 
 namespace Mewdeko.Services;
 
@@ -12,19 +11,19 @@ public class GreetSettingsService : INService
     private readonly BotConfigService _bss;
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _gss;
 
     private readonly GreetGrouper<IGuildUser> _greets = new();
 
-    public GreetSettingsService(DiscordSocketClient client, Mewdeko bot, DbService db,
+    public GreetSettingsService(DiscordSocketClient client, GuildSettingsService gss, DbService db,
         BotConfigService bss)
     {
         _db = db;
         _client = client;
-        _bot = bot;
+        _gss = gss;
         _bss = bss;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => _client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
             gc
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));
@@ -32,7 +31,7 @@ public class GreetSettingsService : INService
         _client.UserJoined += UserJoined;
         _client.UserLeft += UserLeft;
 
-        bot.JoinedGuild += Bot_JoinedGuild;
+        client.JoinedGuild += Bot_JoinedGuild;
         _client.LeftGuild += Client_LeftGuild;
 
         _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
@@ -108,11 +107,11 @@ public class GreetSettingsService : INService
         return Task.CompletedTask;
     }
 
-    private Task Bot_JoinedGuild(GuildConfig gc)
+    private Task Bot_JoinedGuild(IGuild guild)
     {
-        GuildConfigsCache.AddOrUpdate(gc.GuildId,
-            GreetSettings.Create(gc),
-            delegate { return GreetSettings.Create(gc); });
+        GuildConfigsCache.AddOrUpdate(guild.Id,
+            GreetSettings.Create(_gss.GetGuildConfig(guild.Id)),
+            delegate { return GreetSettings.Create(_gss.GetGuildConfig(guild.Id)); });
         return Task.CompletedTask;
     }
 
@@ -157,7 +156,7 @@ public class GreetSettingsService : INService
 
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         uow.SaveChanges();
         return conf.SendBoostMessage;
     }
@@ -170,7 +169,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.BoostMessageDeleteAfter = timer;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -178,7 +177,7 @@ public class GreetSettingsService : INService
     }
 
     public string GetBoostMessage(ulong gid)
-        => _bot.GetGuildConfig(gid).BoostMessage;
+        => _gss.GetGuildConfig(gid).BoostMessage;
 
     public async Task<bool> SetBoost(ulong guildId, ulong channelId, bool? value = null)
     {
@@ -186,7 +185,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         var enabled = conf.SendBoostMessage = value ?? !conf.SendBoostMessage;
         conf.BoostMessageChannelId = channelId;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -201,7 +200,7 @@ public class GreetSettingsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.GreetHook = url;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _gss.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetWebLeaveUrl(IGuild guild, string url)
@@ -210,7 +209,7 @@ public class GreetSettingsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.LeaveHook = url;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _gss.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetDmGreetMsg(ulong id)
@@ -226,10 +225,10 @@ public class GreetSettingsService : INService
     }
 
     public string GetGreetHook(ulong? gid)
-        => _bot.GetGuildConfig(gid.Value).GreetHook;
+        => _gss.GetGuildConfig(gid.Value).GreetHook;
 
     public string GetLeaveHook(ulong? gid)
-        => _bot.GetGuildConfig(gid.Value).LeaveHook;
+        => _gss.GetGuildConfig(gid.Value).LeaveHook;
 
     private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user) => ByeUsers(conf, channel, new[] { user });
 
@@ -548,7 +547,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         conf.ChannelGreetMessageText = message;
         greetMsgEnabled = conf.SendChannelGreetMessage;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -563,7 +562,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -584,7 +583,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         conf.DmGreetMessageText = message;
         greetMsgEnabled = conf.SendDmGreetMessage;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -600,7 +599,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.SendChannelByeMessage = value ?? !conf.SendChannelByeMessage;
         conf.ByeMessageChannelId = channelId;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -621,7 +620,7 @@ public class GreetSettingsService : INService
         var conf = uow.ForGuildId(guildId, set => set);
         conf.ChannelByeMessageText = message;
         byeMsgEnabled = conf.SendChannelByeMessage;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -638,7 +637,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         conf.AutoDeleteByeMessagesTimer = timer;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _gss.UpdateGuildConfig(guildId, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
@@ -653,7 +652,7 @@ public class GreetSettingsService : INService
         await using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(id, set => set);
         conf.AutoDeleteGreetMessagesTimer = timer;
-        _bot.UpdateGuildConfig(id, conf);
+        _gss.UpdateGuildConfig(id, conf);
         var toAdd = GreetSettings.Create(conf);
         GuildConfigsCache.AddOrUpdate(id, toAdd, (_, _) => toAdd);
 
