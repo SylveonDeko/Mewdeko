@@ -1,6 +1,7 @@
 using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
 using System.Threading.Tasks;
 
@@ -12,8 +13,13 @@ public partial class Utility
     public class InfoCommands : MewdekoSubmodule<UtilityService>
     {
         private readonly DiscordSocketClient _client;
+        private readonly MuteService _muteService;
 
-        public InfoCommands(DiscordSocketClient client) => _client = client;
+        public InfoCommands(DiscordSocketClient client, MuteService muteService)
+        {
+            _client = client;
+            _muteService = muteService;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
@@ -262,7 +268,7 @@ public partial class Utility
 
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
-                embed.AddField("Is Server Muted", user.GetRoles().Contains(MuteRole));
+                embed.AddField("Is Server Muted", user.GetRoles().Contains((await _muteService.GetMuteRole(ctx.Guild))));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();

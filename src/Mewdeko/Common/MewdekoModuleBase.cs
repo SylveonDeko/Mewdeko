@@ -16,17 +16,8 @@ public abstract class MewdekoModule : ModuleBase
     public IBotStrings Strings { get; set; }
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
-    public SuggestionsService SugServ { get; set; }
-    public UserPunishService UPun { get; set; }
-    public UserPunishService2 UPun2 { get; set; }
-    public MuteService MServ { get; set; }
-    public InteractiveService InteractiveService { get; set; }
 
     public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
-    public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
-    public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
-    public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
-    public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
     // ReSharper disable once InconsistentNaming
     protected ICommandContext ctx => Context;
@@ -84,7 +75,8 @@ public abstract class MewdekoModule : ModuleBase
 
     public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
     {
-        var curUser = ((SocketGuild)ctx.Guild).CurrentUser;
+
+        var curUser = await ctx.Guild.GetCurrentUserAsync();
         var ownerId = Context.Guild.OwnerId;
         var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
         var targetMaxRole = target.GetRoles().Max(r => r.Position);
