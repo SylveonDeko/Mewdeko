@@ -18,12 +18,8 @@ public class SuggestionsService : INService
     private readonly List<ulong> _spamCheck;
     private readonly GuildSettingsService _guildSettings;
 
-    public readonly CommandHandler CmdHandler;
-
     public SuggestionsService(
         DbService db,
-        Mewdeko bot,
-        CommandHandler cmd,
         DiscordSocketClient client,
         AdministrationService aserv,
         PermissionService permserv,
@@ -34,7 +30,6 @@ public class SuggestionsService : INService
         _repostChecking = new List<ulong>();
         _spamCheck = new List<ulong>();
         Adminserv = aserv;
-        CmdHandler = cmd;
         Client = client;
         client.MessageReceived += MessageRecieved;
         client.ReactionAdded += UpdateCountOnReact;
@@ -931,7 +926,7 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
-        string rs = reason ?? "none";
+        var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         if (suggest is null)
         {
@@ -1069,11 +1064,7 @@ public class SuggestionsService : INService
         }
         else
         {
-            string sug;
-            if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
-            else
-                sug = suggest.Suggestion;
+            var sug = suggest.Suggestion ?? (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             if (chan is null)
             {
@@ -1092,7 +1083,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                                                    .WithOverride("%suggest.user.name%", () => suguse.Username)
                                                    .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.user%", user.ToString)
                                                    .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
                                                    .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
                                                    .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
@@ -1260,11 +1251,7 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
-        string rs;
-        if (reason == null)
-            rs = "none";
-        else
-            rs = reason;
+        var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         if (suggest.Suggestion is null)
         {
@@ -1402,11 +1389,7 @@ public class SuggestionsService : INService
         }
         else
         {
-            string sug;
-            if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()!.Description;
-            else
-                sug = suggest.Suggestion;
+            var sug = suggest.Suggestion ?? (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()!.Description;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             if (chan is null)
             {
@@ -1592,11 +1575,7 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
-        string rs;
-        if (reason == null)
-            rs = "none";
-        else
-            rs = reason;
+        var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         if (suggest.Suggestion is null)
         {
@@ -1734,11 +1713,7 @@ public class SuggestionsService : INService
         }
         else
         {
-            string sug;
-            if (suggest.Suggestion == null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
-            else
-                sug = suggest.Suggestion;
+            var sug = suggest.Suggestion ?? (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault()?.Description;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             if (chan is null)
             {
@@ -1758,7 +1733,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                                                    .WithOverride("%suggest.user.name%", () => suguse.Username)
                                                    .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.user%", user.ToString)
                                                    .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
                                                    .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
                                                    .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
@@ -2064,11 +2039,7 @@ public class SuggestionsService : INService
         }
         else
         {
-            string sug;
-            if (suggest.Suggestion is null)
-                sug = (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault().Description;
-            else
-                sug = suggest.Suggestion;
+            var sug = suggest.Suggestion ?? (await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).GetMessageAsync(suggest.MessageId)).Embeds.FirstOrDefault().Description;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             if (chan is null)
             {
@@ -2088,7 +2059,7 @@ public class SuggestionsService : INService
                                                    .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
                                                    .WithOverride("%suggest.user.name%", () => suguse.Username)
                                                    .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                                                   .WithOverride("%suggest.mod.user%", () => user.ToString())
+                                                   .WithOverride("%suggest.mod.user%", user.ToString)
                                                    .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
                                                    .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
                                                    .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())

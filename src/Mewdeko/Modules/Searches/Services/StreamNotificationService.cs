@@ -184,7 +184,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         lock (_shardLock)
         {
             var key = info.Key;
-            if (_trackCounter.ContainsKey(key))
+            if (_trackCounter.TryGetValue(key, out _))
             {
                 _trackCounter[key].Add(info.GuildId);
             }
