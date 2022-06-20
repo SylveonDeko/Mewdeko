@@ -37,24 +37,24 @@ public partial class Moderation
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
                 return;
-
-            if (MWarnlogChannel == channel.Id)
+            var mWarnlogChannel = Service.GetMWarnlogChannel(ctx.Guild.Id);
+            if (mWarnlogChannel == channel.Id)
             {
                 await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!");
                 return;
             }
 
-            if (MWarnlogChannel == 0)
+            if (mWarnlogChannel == 0)
             {
                 await Service.SetMWarnlogChannelId(ctx.Guild, channel);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
                 await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}");
                 return;
             }
 
-            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
             await Service.SetMWarnlogChannelId(ctx.Guild, channel);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
             await ctx.Channel.SendConfirmAsync(
                 $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
         }
@@ -107,7 +107,7 @@ public partial class Moderation
                                 Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
             }
 
-            if (MWarnlogChannel != 0)
+            if (Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
             {
                 var uow = _db.GetDbContext();
                 var warnings = uow.Warnings2
@@ -116,7 +116,7 @@ public partial class Moderation
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).Humanize() : " ";
                 var punishaction = condition ? punishment.Punishment.ToString() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                var channel = await ctx.Guild.GetTextChannelAsync(Service.GetMWarnlogChannel(ctx.Guild.Id));
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                     .WithThumbnailUrl(user.RealAvatarUrl().ToString())
                     .WithTitle($"Mini Warned by: {ctx.User}")

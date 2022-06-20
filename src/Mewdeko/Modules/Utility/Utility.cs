@@ -315,7 +315,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                         .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
+                         .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id && x.Edited == 0);
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!");

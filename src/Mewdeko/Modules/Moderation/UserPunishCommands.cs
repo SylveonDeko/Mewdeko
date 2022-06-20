@@ -41,24 +41,24 @@ public partial class Moderation : MewdekoModule
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
                 return;
-
-            if (WarnlogChannel == channel.Id)
+            var warnlogChannel = Service.GetWarnlogChannel(ctx.Guild.Id);
+            if (warnlogChannel == channel.Id)
             {
                 await ctx.Channel.SendErrorAsync("This is already your warnlog channel!");
                 return;
             }
 
-            if (WarnlogChannel == 0)
+            if (warnlogChannel == 0)
             {
                 await Service.SetWarnlogChannelId(ctx.Guild, channel);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
                 await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {warnChannel.Mention}");
                 return;
             }
 
-            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
+            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
             await Service.SetWarnlogChannelId(ctx.Guild, channel);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
+            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
             await ctx.Channel.SendConfirmAsync(
                 $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
         }
@@ -139,7 +139,7 @@ public partial class Moderation : MewdekoModule
             if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(embed);
-            if (WarnlogChannel != 0)
+            if (Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
                 var uow = Db.GetDbContext();
                 var warnings = uow.Warnings
@@ -148,7 +148,7 @@ public partial class Moderation : MewdekoModule
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
                 var punishaction = condition ? punishment.Punishment.Humanize() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
+                var channel = await ctx.Guild.GetTextChannelAsync(Service.GetWarnlogChannel(ctx.Guild.Id));
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                     .WithThumbnailUrl(user.RealAvatarUrl().ToString())
                     .WithTitle($"Warned by: {ctx.User}")
