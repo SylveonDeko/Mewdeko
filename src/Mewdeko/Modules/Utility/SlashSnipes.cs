@@ -16,11 +16,13 @@ public partial class Utility
     {
         private readonly DiscordSocketClient _client;
         private readonly InteractiveService _interactivity;
+        private readonly GuildSettingsService _guildSettings;
 
-        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService)
+        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService, GuildSettingsService guildSettings)
         {
             _client = client;
             _interactivity = interactiveService;
+            _guildSettings = guildSettings;
         }
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
@@ -116,7 +118,7 @@ public partial class Utility
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!");
                 return;
             }
 
@@ -163,7 +165,7 @@ public partial class Utility
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!");
                 return;
             }
 

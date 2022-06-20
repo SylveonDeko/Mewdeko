@@ -11,24 +11,22 @@ namespace Mewdeko.Modules.Games.Services;
 public class ChatterBotService : INService
 {
     private readonly DiscordSocketClient _client;
-    private readonly CommandHandler _cmd;
     private readonly BlacklistService _blacklistService;
     private readonly IBotCredentials _creds;
-    private readonly Mewdeko _bot;
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
+    private readonly GuildSettingsService _guildSettings;
     public List<ulong> LimitUser = new();
 
-    public ChatterBotService(DiscordSocketClient client,
-        Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
+    public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
         IBotCredentials creds, DbService db,
-        BlacklistService blacklistService)
+        BlacklistService blacklistService,
+        GuildSettingsService guildSettings)
     {
         _db = db;
         _blacklistService = blacklistService;
+        _guildSettings = guildSettings;
         _client = client;
-        _bot = bot;
-        _cmd = cmd;
         _creds = creds;
         _httpFactory = factory;
         _client.MessageReceived += MessageRecieved;
@@ -45,10 +43,10 @@ public class ChatterBotService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public ulong GetCleverbotChannel(ulong id) => _bot.GetGuildConfig(id).CleverbotChannel;
+    public ulong GetCleverbotChannel(ulong id) => _guildSettings.GetGuildConfig(id).CleverbotChannel;
 
     public Task MessageRecieved(SocketMessage msg)
     {
@@ -140,7 +138,7 @@ public class ChatterBotService : INService
             message = msg.Content[normalMention.Length..].Trim();
         else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
             message = msg.Content[nickMention.Length..].Trim();
-        else if (msg.Content.StartsWith(_cmd.GetPrefix(channel.Guild)))
+        else if (msg.Content.StartsWith(_guildSettings.GetPrefix(channel.Guild)))
             return null;
         else
             message = msg.Content;

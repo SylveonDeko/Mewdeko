@@ -1,9 +1,4 @@
 ﻿using Discord.Commands;
-using Fergun.Interactive;
-using Fergun.Interactive.Pagination;
-using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Modules.Server_Management.Services;
-using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -14,10 +9,7 @@ public abstract class MewdekoModule : ModuleBase
 {
     protected CultureInfo CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
-    public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
-
-    public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
 
     // ReSharper disable once InconsistentNaming
     protected ICommandContext ctx => Context;

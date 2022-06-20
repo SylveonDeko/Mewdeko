@@ -14,8 +14,13 @@ public partial class Administration
     public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
     {
         private readonly InteractiveService _interactivity;
+        private readonly GuildSettingsService _guildSettings;
 
-        public SelfAssignedRolesCommands(InteractiveService serv) => _interactivity = serv;
+        public SelfAssignedRolesCommands(InteractiveService serv, GuildSettingsService guildSettings)
+        {
+            _interactivity = serv;
+            _guildSettings = guildSettings;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
@@ -24,9 +29,9 @@ public partial class Administration
             var newVal = Service.ToggleAdSarm(ctx.Guild.Id);
 
             if (newVal)
-                await ReplyConfirmLocalizedAsync("adsarm_enable", Prefix).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_enable", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("adsarm_disable", Prefix).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_disable", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

@@ -29,6 +29,7 @@ public class HelpService : ILateExecutor, INService
     private readonly PermissionService _nPerms;
     private readonly IDataCache _cache;
     private readonly InteractionService _interactionService;
+    private readonly GuildSettingsService _guildSettings;
 
     public HelpService(
         CommandHandler ch,
@@ -42,7 +43,8 @@ public class HelpService : ILateExecutor, INService
         GlobalPermissionService perms,
         PermissionService nPerms,
         IDataCache cache,
-        InteractionService interactionService)
+        InteractionService interactionService,
+        GuildSettingsService guildSettings)
     {
         _dpos = dpos;
         _strings = strings;
@@ -58,6 +60,7 @@ public class HelpService : ILateExecutor, INService
         _nPerms = nPerms;
         _cache = cache;
         _interactionService = interactionService;
+        _guildSettings = guildSettings;
         _ = ClearHelp();
     }
 
@@ -82,8 +85,8 @@ public class HelpService : ILateExecutor, INService
         embed.WithTitle("Mewdeko Help");
         embed.WithOkColor();
         embed.WithDescription(
-            $"\nDo `{_ch.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
-            $"\nDo `{_ch.GetPrefix(guild)}cmds category` to see the commands in that module." +
+            $"\nDo `{_guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
+            $"\nDo `{_guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(x => x is HelpDisabled)).Distinct();
@@ -173,7 +176,7 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{_guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build());
@@ -194,7 +197,7 @@ public class HelpService : ILateExecutor, INService
                 return;
 
             var e = guild.DefaultChannel;
-            var px = _ch.GetPrefix(guild);
+            var px = _guildSettings.GetPrefix(guild);
             var eb = new EmbedBuilder
             {
                 Description =
@@ -215,7 +218,7 @@ public class HelpService : ILateExecutor, INService
     {
         if (com.Attributes.Any(x => x is HelpDisabled))
             return new EmbedBuilder().WithDescription("Help is disabled for this command.");
-        var prefix = _ch.GetPrefix(guild);
+        var prefix = _guildSettings.GetPrefix(guild);
         var a = com.MethodName();
         var potentialCommand = _interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
         var str = $"**`{prefix + com.Aliases[0]}`**";

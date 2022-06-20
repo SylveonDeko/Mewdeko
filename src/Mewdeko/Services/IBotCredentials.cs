@@ -25,6 +25,7 @@ public interface IBotCredentials
     string RedisOptions { get; }
     string LocationIqApiKey { get; }
     string TimezoneDbApiKey { get; }
+    ulong ConfessionReportChannelId { get; }
 
     bool IsOwner(IUser u);
     bool IsOfficialMod(IUser u);

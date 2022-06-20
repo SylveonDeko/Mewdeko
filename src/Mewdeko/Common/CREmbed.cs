@@ -1,5 +1,4 @@
 using LinqToDB.Common;
-using Mewdeko.Modules.Chat_Triggers.Services;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Common;

@@ -21,11 +21,14 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     private readonly MewdekoRandom _rng;
     private readonly InteractiveService _interactivity;
     private readonly MartineApi _martineApi;
+    private readonly GuildSettingsService _guildSettings;
     public static List<RedditCache> Cache { get; set; } = new();
 
-    public Nsfw(IHttpClientFactory factory, InteractiveService interactivity, MartineApi martineApi)
+    public Nsfw(IHttpClientFactory factory, InteractiveService interactivity, MartineApi martineApi,
+        GuildSettingsService guildSettings)
     {
         _martineApi = martineApi;
+        _guildSettings = guildSettings;
         _interactivity = interactivity;
         _httpFactory = factory;
         _rng = new MewdekoRandom();
@@ -124,7 +127,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         catch (ApiException)
         {
             await ctx.Channel.SendErrorAsync(
-                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {Prefix}vote.");
+                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {_guildSettings.GetPrefix(ctx.Guild)}vote.");
         }
     }
 

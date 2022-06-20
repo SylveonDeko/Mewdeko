@@ -3,7 +3,6 @@ using Discord.Net;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;

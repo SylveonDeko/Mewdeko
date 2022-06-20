@@ -14,15 +14,16 @@ public sealed class AutoAssignRoleService : INService
             SingleReader = true,
             SingleWriter = false
         });
-    private readonly Mewdeko _bot;
 
     //guildid/roleid
     private readonly DbService _db;
+    private readonly GuildSettingsService _guildSettings;
 
-    public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
+    public AutoAssignRoleService(DiscordSocketClient client, DbService db,
+        GuildSettingsService guildSettings)
     {
-        _bot = bot;
         _db = db;
+        _guildSettings = guildSettings;
         _ = Task.Factory.StartNew(async () =>
         {
             while (true)
@@ -124,8 +125,8 @@ public sealed class AutoAssignRoleService : INService
 
     private async Task OnClientRoleDeleted(SocketRole role)
     {
-        var broles = _bot.GetGuildConfig(role.Guild.Id).AutoBotRoleIds;
-        var roles = _bot.GetGuildConfig(role.Guild.Id).AutoAssignRoleId;
+        var broles = _guildSettings.GetGuildConfig(role.Guild.Id).AutoBotRoleIds;
+        var roles = _guildSettings.GetGuildConfig(role.Guild.Id).AutoAssignRoleId;
         if (!string.IsNullOrWhiteSpace(roles)
             && roles.Split(" ").Select(ulong.Parse).Contains(role.Id))
         {
@@ -159,7 +160,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableRoles(roles);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -169,7 +170,7 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
         gc.AutoAssignRoleId = "";
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -179,7 +180,7 @@ public sealed class AutoAssignRoleService : INService
 
         var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableBotRoles(newRoles);
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -193,7 +194,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableBotRoles(roles);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -203,7 +204,7 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
         gc.AutoBotRoleIds = " ";
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -212,13 +213,13 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableRoles(newRoles);
-        _bot.UpdateGuildConfig(guildId, gc);
+        _guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public IEnumerable<ulong> TryGetNormalRoles(ulong guildId, out List<ulong> roles)
     {
-        var tocheck = _bot.GetGuildConfig(guildId).AutoAssignRoleId;
+        var tocheck = _guildSettings.GetGuildConfig(guildId).AutoAssignRoleId;
         if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
             roles = new List<ulong>();
         else
@@ -228,7 +229,7 @@ public sealed class AutoAssignRoleService : INService
 
     public IEnumerable<ulong> TryGetBotRoles(ulong guildId, out List<ulong> roles)
     {
-        var tocheck = _bot.GetGuildConfig(guildId).AutoBotRoleIds;
+        var tocheck = _guildSettings.GetGuildConfig(guildId).AutoBotRoleIds;
         if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
             roles = new List<ulong>();
         else

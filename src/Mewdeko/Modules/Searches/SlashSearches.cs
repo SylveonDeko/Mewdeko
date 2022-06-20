@@ -1,5 +1,4 @@
 using Discord.Interactions;
-using LinqToDB.Tools;
 using MartineApiNet;
 using MartineApiNet.Enums;
 using Mewdeko.Modules.Searches.Services;

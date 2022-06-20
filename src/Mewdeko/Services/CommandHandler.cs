@@ -41,15 +41,18 @@ public class CommandHandler : INService
     public IEnumerable<ILateBlocker> LateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
     public readonly InteractionService InteractionService;
+    private readonly GuildSettingsService _gss;
 
     public ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
     public ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
-        InteractionService interactionService)
+        InteractionService interactionService,
+        GuildSettingsService gss)
     {
         InteractionService = interactionService;
+        _gss = gss;
         _strings = strngs;
         _client = client;
         CommandService = commandService;
@@ -106,7 +109,7 @@ public class CommandHandler : INService
                     if (info.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
-                    var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                    var gc = _gss.GetGuildConfig(ctx.Guild.Id);
                     if (gc.CommandLogChannel is 0) return;
                     var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
                     if (channel is null)
@@ -152,7 +155,7 @@ public class CommandHandler : INService
                 if (info.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
-                var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                var gc = _gss.GetGuildConfig(ctx.Guild.Id);
                 if (gc.CommandLogChannel is 0) return;
                 var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
                 if (channel is null)
@@ -204,7 +207,7 @@ public class CommandHandler : INService
                     if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
-                    var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                    var gc = _gss.GetGuildConfig(ctx.Guild.Id);
                     if (gc.CommandLogChannel is 0) return;
                     var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
                     if (channel is null)
@@ -250,7 +253,7 @@ public class CommandHandler : INService
                 if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
-                var gc = _bot.GetGuildConfig(ctx.Guild.Id);
+                var gc = _gss.GetGuildConfig(ctx.Guild.Id);
                 if (gc.CommandLogChannel is 0) return;
                 var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
                 if (channel is null)
@@ -313,15 +316,6 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    public string GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
-
-    public string GetPrefix(ulong? id = null)
-    {
-        if (id is null)
-            return _bss.GetSetting("prefix");
-        return _bot.GetGuildConfig(id.Value).Prefix ??= _bss.GetSetting("prefix");
-    }
-
     public string SetDefaultPrefix(string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
@@ -331,21 +325,7 @@ public class CommandHandler : INService
 
         return prefix;
     }
-
-    public string SetPrefix(IGuild guild, string prefix)
-    {
-        if (string.IsNullOrWhiteSpace(prefix))
-            throw new ArgumentNullException(nameof(prefix));
-        if (guild == null)
-            throw new ArgumentNullException(nameof(guild));
-
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
-        gc.Prefix = prefix;
-        uow.SaveChanges();
-        _bot.UpdateGuildConfig(guild.Id, gc);
-        return prefix;
-    }
+    
 
     public void AddServices(IServiceCollection services)
     {
@@ -426,7 +406,7 @@ public class CommandHandler : INService
             }
 
             if (channel?.Guild is null) return;
-            var guildChannel = _bot.GetGuildConfig(channel.Guild.Id).CommandLogChannel;
+            var guildChannel = _gss.GetGuildConfig(channel.Guild.Id).CommandLogChannel;
             if (guildChannel == 0) return;
             var toSend = await _client.Rest.GetChannelAsync(guildChannel);
             if (toSend is RestTextChannel restTextChannel)
@@ -445,8 +425,7 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
-    {
+    private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints) =>
         _ = Task.Factory.StartNew(async () =>
         {
             var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
@@ -472,7 +451,6 @@ public class CommandHandler : INService
                 await restChannel.SendMessageAsync(embed: eb.Build());
             }
         }, TaskCreationOptions.LongRunning);
-    }
 
     public Task MessageReceivedHandler(SocketMessage msg)
     {
@@ -572,7 +550,7 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
-        var prefix = GetPrefix(guild?.Id);
+        var prefix = _gss.GetPrefix(guild?.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
             messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ") ||
@@ -606,7 +584,7 @@ public class CommandHandler : INService
                 LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                 if (guild != null)
                 {
-                    var perms = new PermissionService(_client, _db, this, _strings);
+                    var perms = new PermissionService(_client, _db, _strings, _gss);
                     var pc = perms.GetCacheFor(guild.Id);
                     if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                         await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);

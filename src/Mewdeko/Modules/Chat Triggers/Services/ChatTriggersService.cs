@@ -1,17 +1,8 @@
-﻿using AngleSharp.Text;
-using Discord;
-using Discord.Webhook;
-using Discord.WebSocket;
-using LinqToDB.Common;
-using Mewdeko.Common;
+﻿using LinqToDB.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
-using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
 using Mewdeko.Common.DiscordImplementations;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;
@@ -90,6 +81,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly IPubSub _pubSub;
     private readonly Random _rng;
     private readonly IBotStrings _strings;
+    private readonly GuildSettingsService _guildSettings;
 
     // it is perfectly fine to have global customreactions as an array
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
@@ -100,11 +92,18 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private bool ready;
 
-    public ChatTriggersService(PermissionService perms, DbService db, IBotStrings strings,
+    public ChatTriggersService(
+        PermissionService perms,
+        DbService db,
+        IBotStrings strings,
         Mewdeko bot,
-        DiscordSocketClient client, CommandHandler cmd, GlobalPermissionService gperm, CmdCdService cmdCds,
+        DiscordSocketClient client,
+        CommandHandler cmd,
+        GlobalPermissionService gperm,
+        CmdCdService cmdCds,
         IPubSub pubSub,
-        DiscordPermOverrideService discordPermOverride)
+        DiscordPermOverrideService discordPermOverride,
+        GuildSettingsService guildSettings)
     {
         _db = db;
         _client = client;
@@ -116,6 +115,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         _gperm = gperm;
         _pubSub = pubSub;
         _discordPermOverride = discordPermOverride;
+        _guildSettings = guildSettings;
         _rng = new MewdekoRandom();
 
         _pubSub.Sub(_crsReloadedKey, OnCrsShouldReload);
@@ -156,7 +156,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     {
                         var returnMsg = _strings.GetText("perm_prevent", sg.Id,
                             index + 1,
-                            Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)));
+                            Format.Bold(pc.Permissions[index].GetCommand(_guildSettings.GetPrefix(guild), sg)));
                         try
                         {
                             await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
@@ -282,7 +282,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             {
                                 var returnMsg = _strings.GetText("perm_prevent", guild.Id,
                                     index + 1,
-                                    Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), guild)));
+                                    Format.Bold(pc.Permissions[index].GetCommand(_guildSettings.GetPrefix(guild), guild)));
                                 try
                                 {
                                     await fakeMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);

@@ -14,9 +14,9 @@ public class SuggestionsService : INService
     private readonly PermissionService _perms;
     public readonly DiscordSocketClient Client;
     public readonly AdministrationService Adminserv;
-    private readonly Mewdeko _bot;
     private readonly List<ulong> _repostChecking;
     private readonly List<ulong> _spamCheck;
+    private readonly GuildSettingsService _guildSettings;
 
     public readonly CommandHandler CmdHandler;
 
@@ -26,9 +26,11 @@ public class SuggestionsService : INService
         CommandHandler cmd,
         DiscordSocketClient client,
         AdministrationService aserv,
-        PermissionService permserv)
+        PermissionService permserv,
+        GuildSettingsService guildSettings)
     {
         _perms = permserv;
+        _guildSettings = guildSettings;
         _repostChecking = new List<ulong>();
         _spamCheck = new List<ulong>();
         Adminserv = aserv;
@@ -39,7 +41,6 @@ public class SuggestionsService : INService
         client.ReactionRemoved += UpdateCountOnRemoveReact;
         client.MessageReceived += RepostButton;
         _db = db;
-        _bot = bot;
     }
 
     public enum SuggestState
@@ -275,7 +276,7 @@ public class SuggestionsService : INService
                 return;
             _spamCheck.Add(chan.Id);
             var guild = chan?.Guild;
-            var prefix = CmdHandler.GetPrefix(guild);
+            var prefix = _guildSettings.GetPrefix(guild);
             if (guild != null && !msg.Author.IsBot && !msg.Content.StartsWith(prefix))
             {
                 if (chan.Id != GetSuggestionChannel(guild.Id))
@@ -362,11 +363,11 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-    public ulong GetSNum(ulong? id) => _bot.GetGuildConfig(id.Value).sugnum;
-    public int GetMaxLength(ulong? id) => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
-    public int GetMinLength(ulong? id) => _bot.GetGuildConfig(id.Value).MinSuggestLength;
+    public ulong GetSNum(ulong? id) => _guildSettings.GetGuildConfig(id.Value).sugnum;
+    public int GetMaxLength(ulong? id) => _guildSettings.GetGuildConfig(id.Value).MaxSuggestLength;
+    public int GetMinLength(ulong? id) => _guildSettings.GetGuildConfig(id.Value).MinSuggestLength;
 
-    public string GetEmotes(ulong? id) => _bot.GetGuildConfig(id.Value).SuggestEmotes;
+    public string GetEmotes(ulong? id) => _guildSettings.GetGuildConfig(id.Value).SuggestEmotes;
 
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
@@ -392,7 +393,7 @@ public class SuggestionsService : INService
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public Task<(ulong, ulong)> GetRepostedMessageAndChannel(SuggestionsModel suggestions, IGuild guild)
@@ -414,7 +415,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestEmotes = parsedEmotes;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonColor(IGuild guild, int colorNum)
@@ -423,7 +424,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonColor = colorNum;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
@@ -434,7 +435,7 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.SuggestButtonMessageId = messageId;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            _bot.UpdateGuildConfig(guild.Id, gc);
+            _guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
         catch (Exception e)
         {
@@ -449,7 +450,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.sugchan = channel;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetMinLength(IGuild guild, int minLength)
@@ -458,7 +459,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MinSuggestLength = minLength;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetMaxLength(IGuild guild, int maxLength)
@@ -467,7 +468,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MaxSuggestLength = maxLength;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ComponentBuilder GetSuggestButton(IGuild guild)
@@ -584,7 +585,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonLabel(IGuild guild, string message)
@@ -593,7 +594,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonName = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
@@ -602,7 +603,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetAcceptMessage(IGuild guild, string message)
@@ -611,7 +612,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AcceptMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetDenyMessage(IGuild guild, string message)
@@ -620,7 +621,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.DenyMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetImplementMessage(IGuild guild, string message)
@@ -629,7 +630,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ImplementMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UpdateSuggestState(SuggestionsModel suggestionsModel, int state, ulong stateChangeId)
@@ -656,7 +657,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestionThreadType = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
@@ -665,7 +666,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConsiderMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task Sugnum(IGuild guild, ulong num)
@@ -674,7 +675,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.sugnum = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetArchiveOnDeny(IGuild guild, bool value)
@@ -683,7 +684,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnDeny = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnAccept(IGuild guild, bool value)
     {
@@ -691,7 +692,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnAccept = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnConsider(IGuild guild, bool value)
     {
@@ -699,7 +700,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnConsider = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnImplement(IGuild guild, bool value)
     {
@@ -707,7 +708,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnImplement = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
@@ -715,7 +716,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.EmoteMode = mode;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetAcceptChannel(IGuild guild, ulong channelId)
@@ -724,7 +725,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AcceptChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetDenyChannel(IGuild guild, ulong channelId)
@@ -733,7 +734,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.DenyChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetConsiderChannel(IGuild guild, ulong channelId)
@@ -742,7 +743,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ConsiderChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetImplementChannel(IGuild guild, ulong channelId)
@@ -751,7 +752,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.ImplementChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonChannel(IGuild guild, ulong channelId)
@@ -760,7 +761,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonEmote(IGuild guild, string emote)
@@ -769,7 +770,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonEmote = emote;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonRepostThreshold(IGuild guild, int repostThreshold)
@@ -778,7 +779,7 @@ public class SuggestionsService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonRepostThreshold = repostThreshold;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
@@ -856,7 +857,7 @@ public class SuggestionsService : INService
     {
         var tup = new Emoji("\uD83D\uDC4D");
         var tdown = new Emoji("\uD83D\uDC4E");
-        var emotes = _bot.GetGuildConfig(guild.Id).SuggestEmotes;
+        var emotes = _guildSettings.GetGuildConfig(guild.Id).SuggestEmotes;
         if (emotes is null or "disabled")
         {
             return num == 1 ? tup : tdown;
@@ -864,60 +865,60 @@ public class SuggestionsService : INService
 
         return emotes.Split(",")[num - 1].ToIEmote();
     }
-    public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
+    public ulong GetSuggestionChannel(ulong? id) => _guildSettings.GetGuildConfig(id.Value).sugchan;
 
-    public string GetSuggestionMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestMessage;
+    public string GetSuggestionMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestMessage;
 
-    public string GetAcceptMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).AcceptMessage;
+    public string GetAcceptMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).AcceptMessage;
 
-    public string GetDenyMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).DenyMessage;
+    public string GetDenyMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).DenyMessage;
 
-    public string GetImplementMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ImplementMessage;
+    public string GetImplementMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ImplementMessage;
 
-    public string GetConsiderMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
+    public string GetConsiderMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ConsiderMessage;
 
-    public int GetThreadType(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
+    public int GetThreadType(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestionThreadType;
 
-    public int GetEmoteMode(IGuild guild) => _bot.GetGuildConfig(guild.Id).EmoteMode;
+    public int GetEmoteMode(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).EmoteMode;
 
-    public ulong GetConsiderChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).ConsiderChannel;
+    public ulong GetConsiderChannel(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ConsiderChannel;
 
-    public ulong GetAcceptChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).AcceptChannel;
+    public ulong GetAcceptChannel(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).AcceptChannel;
 
-    public ulong GetImplementChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).ImplementChannel;
+    public ulong GetImplementChannel(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ImplementChannel;
 
-    public ulong GetDenyChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).DenyChannel;
+    public ulong GetDenyChannel(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).DenyChannel;
 
-    public bool GetArchiveOnDeny(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnDeny;
+    public bool GetArchiveOnDeny(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ArchiveOnDeny;
 
-    public bool GetArchiveOnAccept(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnAccept;
+    public bool GetArchiveOnAccept(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ArchiveOnAccept;
 
-    public bool GetArchiveOnConsider(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnConsider;
+    public bool GetArchiveOnConsider(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ArchiveOnConsider;
 
-    public bool GetArchiveOnImplement(IGuild guild) => _bot.GetGuildConfig(guild.Id).ArchiveOnImplement;
+    public bool GetArchiveOnImplement(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ArchiveOnImplement;
 
-    public string GetSuggestButtonName(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonName;
+    public string GetSuggestButtonName(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonName;
 
-    public ulong GetSuggestButtonChannel(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonChannel;
+    public ulong GetSuggestButtonChannel(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonChannel;
 
-    public string GetSuggestButtonEmote(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonEmote;
+    public string GetSuggestButtonEmote(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonEmote;
 
-    public string GetSuggestButtonMessage(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonMessage;
+    public string GetSuggestButtonMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonMessage;
 
-    public int GetSuggestButtonRepost(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonRepostThreshold;
+    public int GetSuggestButtonRepost(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonRepostThreshold;
 
-    public ulong GetSuggestButtonMessageId(IGuild guild) => _bot.GetGuildConfig(guild.Id).SuggestButtonMessageId;
+    public ulong GetSuggestButtonMessageId(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonMessageId;
 
-    public ButtonStyle GetSuggestButtonColor(IGuild guild) => (ButtonStyle)_bot.GetGuildConfig(guild.Id).SuggestButtonColor;
+    public ButtonStyle GetSuggestButtonColor(IGuild guild) => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).SuggestButtonColor;
 
     public ButtonStyle GetButtonStyle(IGuild guild, int id) =>
         id switch
         {
-            1 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote1Style,
-            2 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote2Style,
-            3 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote3Style,
-            4 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote4Style,
-            5 => (ButtonStyle)_bot.GetGuildConfig(guild.Id).Emote5Style,
+            1 => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).Emote1Style,
+            2 => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).Emote2Style,
+            3 => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).Emote3Style,
+            4 => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).Emote4Style,
+            5 => (ButtonStyle)_guildSettings.GetGuildConfig(guild.Id).Emote5Style,
             _ => ButtonStyle.Secondary
         };
 

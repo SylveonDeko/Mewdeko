@@ -1,4 +1,3 @@
-using AngleSharp.Dom;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
@@ -13,7 +12,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Globalization;
@@ -44,6 +42,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly CommandService _commandService;
     private readonly IServiceProvider _services;
     private readonly IBotCredentials _credentials;
+    private readonly GuildSettingsService _guildSettings;
 
     public OwnerOnly(
         DiscordSocketClient client,
@@ -56,7 +55,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         IDataCache cache,
         CommandService commandService,
         IServiceProvider services,
-        IBotCredentials credentials)
+        IBotCredentials credentials,
+        GuildSettingsService guildSettings)
     {
         _interactivity = serv;
         _client = client;
@@ -69,6 +69,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _commandService = commandService;
         _services = services;
         _credentials = credentials;
+        _guildSettings = guildSettings;
     }
 
     [Cmd, Aliases]
@@ -338,12 +339,12 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            await ReplyConfirmLocalizedAsync("defprefix_current", CmdHandler.GetPrefix()).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("defprefix_current", _guildSettings.GetPrefix()).ConfigureAwait(false);
             return;
         }
 
-        var oldPrefix = CmdHandler.GetPrefix();
-        var newPrefix = CmdHandler.SetDefaultPrefix(prefix);
+        var oldPrefix = _guildSettings.GetPrefix();
+        var newPrefix = Service.SetDefaultPrefix(prefix);
 
         await ReplyConfirmLocalizedAsync("defprefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
             .ConfigureAwait(false);
@@ -392,7 +393,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{Prefix}restart", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser)ctx.User;
@@ -423,9 +424,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
             return;
-        var command = _commandService.Search(cmdText.Replace(Prefix, "").Split(" ")[0]);
+        var command = _commandService.Search(cmdText.Replace(_guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
         if (!command.IsSuccess)
             return;
         foreach (var i in command.Commands)

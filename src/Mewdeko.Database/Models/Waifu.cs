@@ -20,12 +20,12 @@ public class WaifuInfo : DbEntity
     public override string ToString()
     {
         var claimer = "no one";
-        var status = "";
+        string status;
 
         var waifuUsername = Waifu.Username.TrimTo(20);
         var claimerUsername = Claimer?.Username.TrimTo(20);
 
-        if (ClaimerId != null) claimer = $"{claimerUsername}#{Claimer.Discriminator}";
+        if (ClaimerId != null) claimer = $"{claimerUsername}#{Claimer?.Discriminator}";
         if (AffinityId == null)
         {
             status = $"... but {waifuUsername}'s heart is empty";
@@ -60,7 +60,7 @@ public class WaifuLbResult
     public override string ToString()
     {
         var claimer = "no one";
-        var status = "";
+        string status;
 
         var waifuUsername = Username.TrimTo(20);
         var claimerUsername = Claimer?.TrimTo(20);
