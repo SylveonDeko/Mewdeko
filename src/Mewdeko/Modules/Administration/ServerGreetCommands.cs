@@ -11,8 +11,13 @@ public partial class Administration
     public class ServerGreetCommands : MewdekoSubmodule<GreetSettingsService>
     {
         private readonly IHttpClientFactory _httpFactory;
+        private readonly GuildSettingsService _guildSettings;
 
-        public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
+        public ServerGreetCommands(IHttpClientFactory fact, GuildSettingsService guildSettings)
+        {
+            _httpFactory = fact;
+            _guildSettings = guildSettings;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
@@ -77,7 +82,7 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("boostmsg_new").ConfigureAwait(false);
             if (!sendBoostEnabled)
-                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"{Prefix}boost").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"{_guildSettings.GetPrefix(ctx.Guild)}boost").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -129,7 +134,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                                        $"Set the greet webhook and enabled webhook greets. Please use {_guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.");
                 }
             }
 
@@ -153,7 +158,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                                        $"Set the greet webhook and enabled webhook greets. Please use {_guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.");
                 }
             }
 
@@ -170,7 +175,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.").ConfigureAwait(false);
+                                        $"Set the greet webhook and enabled webhook greets. Please use {_guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.").ConfigureAwait(false);
                 }
             }
         }
@@ -212,7 +217,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {_guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.");
                 }
             }
 
@@ -236,7 +241,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {_guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.");
                 }
             }
 
@@ -253,7 +258,7 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                                        $"Set the leave webhook and enabled webhook leaves. Please use {_guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.");
                 }
             }
         }
@@ -288,7 +293,7 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("greetmsg_new").ConfigureAwait(false);
             if (!sendGreetEnabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -325,7 +330,7 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("greetdmmsg_new").ConfigureAwait(false);
             if (!sendGreetEnabled)
-                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{Prefix}greetdm`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -362,7 +367,7 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("byemsg_new").ConfigureAwait(false);
             if (!sendByeEnabled)
-                await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}bye`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -385,7 +390,7 @@ public partial class Administration
 
             await Service.ByeTest((ITextChannel)Context.Channel, user);
             var enabled = Service.GetByeEnabled(Context.Guild.Id);
-            if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
+            if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}bye`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -396,7 +401,7 @@ public partial class Administration
             await Service.BoostTest(ctx.Channel as ITextChannel, user);
             var enabled = Service.GetBoostEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -408,7 +413,7 @@ public partial class Administration
             await Service.GreetTest((ITextChannel)Context.Channel, user);
             var enabled = Service.GetGreetEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -425,7 +430,7 @@ public partial class Administration
                 await Context.WarningAsync().ConfigureAwait(false);
             var enabled = Service.GetGreetDmEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{Prefix}greetdm`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{_guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
         }
     }
 }

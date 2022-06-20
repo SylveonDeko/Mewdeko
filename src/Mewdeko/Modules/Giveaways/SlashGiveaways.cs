@@ -11,10 +11,12 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
 {
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
+    private readonly GuildSettingsService _guildSettings;
 
-    public SlashGiveaways(DbService db, InteractiveService interactiveService)
+    public SlashGiveaways(DbService db, InteractiveService interactiveService, GuildSettingsService guildSettings)
     {
         _interactivity = interactiveService;
+        _guildSettings = guildSettings;
         _db = db;
     }
 
@@ -184,7 +186,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{Prefix}greroll {messageid}` to reroll!");
+                $"This giveaway has already ended! Plase use `{_guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!");
         }
         else
         {

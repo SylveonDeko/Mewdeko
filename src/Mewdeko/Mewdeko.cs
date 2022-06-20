@@ -16,6 +16,7 @@ using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
+using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -42,6 +43,8 @@ public class Mewdeko
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
         _db = new DbService(Credentials.TotalShards);
+        _guildSettingsService = new GuildSettingsService(Cache, _db, null);
+        
 
         if (shardId == 0) _db.Setup();
 
@@ -65,9 +68,9 @@ public class Mewdeko
             
         });
     }
-
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
+    private readonly GuildSettingsService _guildSettingsService;
     private CommandService CommandService { get; }
 
     public static Color OkColor { get; set; }
@@ -81,16 +84,7 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
     public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
-
-    public GuildConfig GetGuildConfig(ulong guildId)
-    {
-        using var uow = _db.GetDbContext();
-        var cachedConfig = Cache.GetGuildConfig(guildId);
-        return cachedConfig ?? uow.ForGuildId(guildId);
-    }
-
-    public void UpdateGuildConfig(ulong guildId, GuildConfig config)
-        => Cache.AddOrUpdateGuildConfig(guildId, config);
+    
 
     private void AddServices()
     {
@@ -103,7 +97,7 @@ public class Mewdeko
         {
             foreach (var config in (IEnumerable<GuildConfig>)uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)))
             {
-                UpdateGuildConfig(config.GuildId, config);
+                _guildSettingsService.UpdateGuildConfig(config.GuildId, config);
             }
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             gs2.Stop();
@@ -127,6 +121,7 @@ public class Mewdeko
                 .AddSingleton<InteractionService>()
                 .AddSingleton<Localization>()
                 .AddSingleton<MusicService>()
+                .AddSingleton<BotConfigService>()
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()

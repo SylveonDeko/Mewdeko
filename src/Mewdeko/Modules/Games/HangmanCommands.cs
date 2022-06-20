@@ -13,14 +13,19 @@ public partial class Games
     public class HangmanCommands : MewdekoSubmodule<GamesService>
     {
         private readonly DiscordSocketClient _client;
+        private readonly GuildSettingsService _guildSettings;
 
-        public HangmanCommands(DiscordSocketClient client) => _client = client;
+        public HangmanCommands(DiscordSocketClient client, GuildSettingsService guildSettings)
+        {
+            _client = client;
+            _guildSettings = guildSettings;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangmanlist() =>
             await ctx.Channel
                      .SendConfirmAsync(
-                         $"{Format.Code(GetText("hangman_types", Prefix))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
+                         $"{Format.Code(GetText("hangman_types", _guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")

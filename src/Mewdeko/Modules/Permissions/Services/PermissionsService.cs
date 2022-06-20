@@ -11,20 +11,20 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class PermissionService : ILateBlocker, INService
 {
-    private readonly CommandHandler _cmd;
 
     private readonly DbService _db;
     public readonly IBotStrings Strings;
+    private readonly GuildSettingsService _guildSettings;
 
     public PermissionService(
         DiscordSocketClient client,
         DbService db,
-        CommandHandler cmd,
-        IBotStrings strings)
+        IBotStrings strings,
+        GuildSettingsService guildSettings)
     {
         _db = db;
-        _cmd = cmd;
         Strings = strings;
+        _guildSettings = guildSettings;
 
         using var uow = _db.GetDbContext();
         foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
@@ -70,7 +70,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                                      Format.Bold(pc.Permissions[index]
-                                                   .GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
+                                                   .GetCommand(_guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                                  .ConfigureAwait(false);
                 }
                 catch
@@ -152,7 +152,7 @@ public class PermissionService : ILateBlocker, INService
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                         Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
+                         Format.Bold(pc.Permissions[index].GetCommand(_guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                      .ConfigureAwait(false);
         }
         catch

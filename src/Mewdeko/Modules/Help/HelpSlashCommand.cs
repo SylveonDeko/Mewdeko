@@ -18,6 +18,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     private readonly IServiceProvider _serviceProvider;
     private readonly GlobalPermissionService _permissionService;
     private readonly CommandService _cmds;
+    private readonly GuildSettingsService _guildSettings;
     private readonly CommandHandler _ch;
 
     public HelpSlashCommand(
@@ -25,13 +26,15 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         InteractiveService interactivity,
         IServiceProvider serviceProvider,
         CommandService cmds,
-        CommandHandler ch)
+        CommandHandler ch,
+        GuildSettingsService guildSettings)
     {
         _permissionService = permissionService;
         _interactivity = interactivity;
         _serviceProvider = serviceProvider;
         _cmds = cmds;
         _ch = ch;
+        _guildSettings = guildSettings;
     }
 
     [SlashCommand("help", "Shows help on how to use the bot")]
@@ -111,7 +114,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         {
             await Task.CompletedTask;
             var transformed = groups.Select(x => x.ElementAt(page).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{_guildSettings.GetPrefix(ctx.Guild) + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -135,7 +138,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{Prefix}h commandname` to see info on that command")
+                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(_guildSettings.GetPrefix(ctx.Guild))}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{_guildSettings.GetPrefix(ctx.Guild)}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
@@ -177,7 +180,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         {
             _ch.AddCommandToParseQueue(new MewdekoUserMessage()
             {
-                Content = _ch.GetPrefix(ctx.Guild) + command,
+                Content = _guildSettings.GetPrefix(ctx.Guild) + command,
                 Author = ctx.User,
                 Channel = ctx.Channel
             });
@@ -194,7 +197,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await DeferAsync();
         var msg = new MewdekoUserMessage
         {
-            Content = $"{_ch.GetPrefix(ctx.Guild)}{command} {modal.Args}",
+            Content = $"{_guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}",
             Author = ctx.User,
             Channel = ctx.Channel
         };

@@ -1,7 +1,6 @@
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;

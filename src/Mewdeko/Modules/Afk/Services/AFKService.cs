@@ -12,16 +12,19 @@ public class AfkService : INService, IReadyExecutor
     public readonly DiscordSocketClient Client;
     private readonly Mewdeko _bot;
     private readonly IDataCache _cache;
+    private readonly GuildSettingsService _guildSettings;
 
     public AfkService(
         DbService db,
         DiscordSocketClient client,
         CommandHandler handle,
         Mewdeko bot,
-        IDataCache cache)
+        IDataCache cache,
+        GuildSettingsService guildSettings)
     {
         _bot = bot;
         _cache = cache;
+        _guildSettings = guildSettings;
         _db = db;
         Client = client;
         _cmd = handle;
@@ -116,9 +119,10 @@ public class AfkService : INService, IReadyExecutor
 
                 if (msg.MentionedUsers.Count > 0 && !msg.Author.IsBot)
                 {
-                    if (msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkremove")
-                        || msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkrm")
-                        || msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afk"))
+                    var prefix = _guildSettings.GetPrefix(user.Guild);
+                    if (msg.Content.Contains($"{prefix}afkremove")
+                        || msg.Content.Contains($"{prefix}afkrm")
+                        || msg.Content.Contains($"{prefix}afk"))
                     {
                         return;
                     }
@@ -213,7 +217,7 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkMessage = afkMessage;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task TimedAfk(
@@ -261,7 +265,7 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkType = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkDelSet(IGuild guild, int num)
@@ -270,7 +274,7 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkDel = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkLengthSet(IGuild guild, int num)
@@ -279,7 +283,7 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkLength = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkTimeoutSet(IGuild guild, int num)
@@ -288,7 +292,7 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkTimeout = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkDisabledSet(IGuild guild, string num)
@@ -297,26 +301,26 @@ public class AfkService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.AfkDisabledChannels = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetCustomAfkMessage(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkMessage;
+        => _guildSettings.GetGuildConfig(id.Value).AfkMessage;
 
     public int GetAfkDel(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkDel;
+        => _guildSettings.GetGuildConfig(id.Value).AfkDel;
 
     private int GetAfkType(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkType;
+        => _guildSettings.GetGuildConfig(id.Value).AfkType;
 
     public int GetAfkLength(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkLength;
+        => _guildSettings.GetGuildConfig(id.Value).AfkLength;
 
     public string GetDisabledAfkChannels(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkDisabledChannels;
+        => _guildSettings.GetGuildConfig(id.Value).AfkDisabledChannels;
 
     private int GetAfkTimeout(ulong? id)
-        => _bot.GetGuildConfig(id.Value).AfkTimeout;
+        => _guildSettings.GetGuildConfig(id.Value).AfkTimeout;
 
     public async Task AfkSet(
         IGuild guild,

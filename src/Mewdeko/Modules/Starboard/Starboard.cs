@@ -7,6 +7,13 @@ namespace Mewdeko.Modules.Starboard;
 
 public class Starboard : MewdekoSubmodule<StarboardService>
 {
+    private readonly GuildSettingsService _guildSettings;
+
+    public Starboard(GuildSettingsService guildSettings)
+    {
+        _guildSettings = guildSettings;
+    }
+
     public enum WhitelistMode
     {
         Whitelist = 0,
@@ -87,11 +94,11 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
         {
-            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {Prefix}swm)");
+            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {_guildSettings.GetPrefix(ctx.Guild)}swm)");
         }
         else
         {
-            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {Prefix}swm)");
+            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {_guildSettings.GetPrefix(ctx.Guild)}swm)");
         }
     }
 

@@ -13,6 +13,13 @@ public partial class ServerManagement
     [Group]
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
+        private readonly GuildSettingsService _guildSettings;
+
+        public RoleCommands(GuildSettingsService guildSettings)
+        {
+            _guildSettings = guildSettings;
+        }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAll(IRole role)
@@ -164,7 +171,7 @@ public partial class ServerManagement
             if (list == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No job with that ID exists, please check the list again with `{Prefix}rolejobs`");
+                    $"No job with that ID exists, please check the list again with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`");
                 return;
             }
 
@@ -339,7 +346,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -415,7 +422,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -490,7 +497,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -565,7 +572,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -643,7 +650,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -720,7 +727,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -796,7 +803,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -872,7 +879,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 
@@ -950,7 +957,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{_guildSettings.GetPrefix(ctx.Guild)}rolejobs`.");
                 return;
             }
 

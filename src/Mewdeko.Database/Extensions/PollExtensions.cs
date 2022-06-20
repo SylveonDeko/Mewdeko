@@ -17,18 +17,18 @@ public static class PollExtensions
                               .Include(x => x.Answers)
                               .Include(x => x.Votes)
                               .FirstOrDefault(x => x.Id == id);
-        if (p.Votes != null)
+        if (p?.Votes != null)
         {
             ctx.RemoveRange(p.Votes);
             p.Votes.Clear();
         }
 
-        if (p.Answers != null)
+        if (p?.Answers != null)
         {
             ctx.RemoveRange(p.Answers);
             p.Answers.Clear();
         }
 
-        ctx.Remove(p);
+        ctx.Remove(p!);
     }
 }

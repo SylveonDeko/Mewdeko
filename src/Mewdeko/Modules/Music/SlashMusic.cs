@@ -21,12 +21,15 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     private readonly LavalinkNode _lavaNode;
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
+    private readonly GuildSettingsService _guildSettings;
 
     public SlashMusic(LavalinkNode lava, InteractiveService interactive, DbService dbService,
-        DiscordSocketClient client)
+        DiscordSocketClient client,
+        GuildSettingsService guildSettings)
     {
         _db = dbService;
         _client = client;
+        _guildSettings = guildSettings;
         _interactivity = interactive;
         _lavaNode = lava;
     }
@@ -911,7 +914,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
 
         await player.PauseAsync();
-        await ctx.Interaction.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
+        await ctx.Interaction.SendConfirmAsync($"Paused player. Do {_guildSettings.GetPrefix(ctx.Guild.Id)}pause again to resume.");
     }
 
     [SlashCommand("shuffle", "Shuffles the current queue"), RequireContext(ContextType.Guild), CheckPermissions]

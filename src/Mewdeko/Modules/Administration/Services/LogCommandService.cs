@@ -64,14 +64,17 @@ public class LogCommandService : INService
     private readonly IMemoryCache _memoryCache;
     private readonly IBotStrings _strings;
     private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _guildSettings;
 
     private readonly GuildTimezoneService _tz;
 
     public LogCommandService(DiscordSocketClient client, IBotStrings strings,
         DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz,
-        IMemoryCache memoryCache, Mewdeko bot)
+        IMemoryCache memoryCache, Mewdeko bot,
+        GuildSettingsService guildSettings)
     {
         _bot = bot;
+        _guildSettings = guildSettings;
         _client = client;
         _memoryCache = memoryCache;
         _strings = strings;
@@ -463,7 +466,7 @@ public class LogCommandService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.CommandLogChannel = id;
         await uow.SaveChangesAsync();
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {

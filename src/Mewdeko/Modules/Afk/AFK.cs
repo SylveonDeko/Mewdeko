@@ -14,10 +14,12 @@ public class Afk : MewdekoModuleBase<AfkService>
 {
     private readonly InteractiveService _interactivity;
     private readonly DiscordSocketClient _client;
-    public Afk(InteractiveService serv, DiscordSocketClient client)
+    private readonly GuildSettingsService _guildSettings;
+    public Afk(InteractiveService serv, DiscordSocketClient client, GuildSettingsService guildSettings)
     {
         _interactivity = serv;
         _client = client;
+        _guildSettings = guildSettings;
     }
 
     public enum AfkTypeEnum
@@ -150,7 +152,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
         {
             await ctx.Channel.SendErrorAsync(
-                $"You already have a regular afk set! Please disable it by doing {Prefix}afk and try again").ConfigureAwait(false);
+                $"You already have a regular afk set! Please disable it by doing {_guildSettings.GetPrefix(ctx.Guild)}afk and try again").ConfigureAwait(false);
             return;
         }
 

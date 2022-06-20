@@ -1,6 +1,5 @@
 ﻿using Discord.Net;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;

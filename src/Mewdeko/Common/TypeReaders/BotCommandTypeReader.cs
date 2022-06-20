@@ -16,9 +16,9 @@ public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
         IServiceProvider services)
     {
         var cmds = services.GetService<CommandService>();
-        var cmdHandler = services.GetService<CommandHandler>();
+        var guildSettingsService = services.GetService<GuildSettingsService>();
         input = input.ToUpperInvariant();
-        var prefix = cmdHandler?.GetPrefix(context.Guild);
+        var prefix = guildSettingsService?.GetPrefix(context.Guild);
         if (input.StartsWith(prefix?.ToUpperInvariant()!))
             input = input[prefix.Length..];
         var cmd = cmds?.Commands.FirstOrDefault(c =>

@@ -18,15 +18,18 @@ public partial class Gambling
         private readonly DiscordSocketClient _client;
         private readonly ICurrencyService _cs;
         private readonly GamesConfigService _gamesConf;
+        private readonly GuildSettingsService _guildSettings;
 
         private IUserMessage raceMessage;
 
         public AnimalRacingCommands(ICurrencyService cs, DiscordSocketClient client,
-            GamblingConfigService gamblingConf, GamesConfigService gamesConf) : base(gamblingConf)
+            GamblingConfigService gamblingConf, GamesConfigService gamesConf,
+            GuildSettingsService guildSettings) : base(gamblingConf)
         {
             _cs = cs;
             _client = client;
             _gamesConf = gamesConf;
+            _guildSettings = guildSettings;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -87,7 +90,7 @@ public partial class Gambling
 
             return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                 GetText("animal_race_starting", options.StartTime),
-                footer: GetText("animal_race_join_instr", Prefix));
+                footer: GetText("animal_race_join_instr", _guildSettings.GetPrefix(ctx.Guild)));
         }
 
         private Task Ar_OnStarted(AnimalRace race)

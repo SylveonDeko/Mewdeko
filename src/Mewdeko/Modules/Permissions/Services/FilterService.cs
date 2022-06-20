@@ -22,15 +22,15 @@ public class FilterService : IEarlyBehavior, INService
     private readonly TypedKey<AutoBanEntry[]> _blPubKey = new("autobanword.reload");
     private readonly DiscordSocketClient _client;
     public IReadOnlyList<AutoBanEntry> Blacklist;
-    public AdministrationService Ass;
-    public UserPunishService Upun;
-    private readonly Mewdeko _bot;
+    public readonly AdministrationService Ass;
+    public readonly UserPunishService Upun;
+    private readonly GuildSettingsService _gss;
 
     public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IPubSub pubSub,
-        UserPunishService upun2, IBotStrings strng, AdministrationService ass)
+        UserPunishService upun2, IBotStrings strng, AdministrationService ass,
+        GuildSettingsService gss)
     {
         _db = db;
-        _bot = bot;
         _client = client;
         _pubSub = pubSub;
         Upun = upun2;
@@ -38,6 +38,7 @@ public class FilterService : IEarlyBehavior, INService
         Reload(false);
         _pubSub.Sub(_blPubKey, OnReload);
         Ass = ass;
+        _gss = gss;
         using (var uow = db.GetDbContext())
         {
             var ids = client.GetGuildIds();
@@ -158,7 +159,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    public int GetInvWarn(ulong? id) => _bot.GetGuildConfig(id.Value).invwarn;
+    public int GetInvWarn(ulong? id) => _gss.GetGuildConfig(id.Value).invwarn;
 
     public async Task InvWarn(IGuild guild, string yesnt)
     {
@@ -178,11 +179,11 @@ public class FilterService : IEarlyBehavior, INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            _bot.UpdateGuildConfig(guild.Id, gc);
+            _gss.UpdateGuildConfig(guild.Id, gc);
         }
     }
 
-    public int GetFw(ulong? id) => _bot.GetGuildConfig(id.Value).fwarn;
+    public int GetFw(ulong? id) => _gss.GetGuildConfig(id.Value).fwarn;
 
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
@@ -202,7 +203,7 @@ public class FilterService : IEarlyBehavior, INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            _bot.UpdateGuildConfig(guild.Id, gc);
+            _gss.UpdateGuildConfig(guild.Id, gc);
         }
     }
 

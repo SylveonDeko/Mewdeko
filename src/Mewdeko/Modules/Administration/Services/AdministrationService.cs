@@ -10,20 +10,21 @@ public class AdministrationService : INService
 {
     private readonly DbService _db;
     private readonly LogCommandService _logService;
-    private readonly Mewdeko _bot;
+    private readonly GuildSettingsService _guildSettings;
 
     public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
-        LogCommandService logService)
+        LogCommandService logService,
+        GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
-        _bot = bot;
         _db = db;
         _logService = logService;
+        _guildSettings = guildSettings;
 
         DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
-            .Where(g => g.DeleteMessageOnCommand)
-            .Select(g => g.GuildId));
+                                                               .Where(g => g.DeleteMessageOnCommand)
+                                                               .Select(g => g.GuildId));
 
         DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(gc
             .SelectMany(x => x.DelMsgOnCmdChannels)
@@ -41,7 +42,7 @@ public class AdministrationService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task MemberRoleSet(IGuild guild, ulong role)
@@ -50,12 +51,12 @@ public class AdministrationService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public ulong GetStaffRole(ulong id) => _bot.GetGuildConfig(id).StaffRole;
+    public ulong GetStaffRole(ulong id) => _guildSettings.GetGuildConfig(id).StaffRole;
 
-    public ulong GetMemberRole(ulong id) => _bot.GetGuildConfig(id).MemberRole;
+    public ulong GetMemberRole(ulong id) => _guildSettings.GetGuildConfig(id).MemberRole;
 
     public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
     {
@@ -114,7 +115,7 @@ public class AdministrationService : INService
         using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-        _bot.UpdateGuildConfig(guildId, conf);
+        _guildSettings.UpdateGuildConfig(guildId, conf);
         uow.SaveChanges();
 
         return enabled;

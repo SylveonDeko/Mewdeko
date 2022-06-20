@@ -12,12 +12,15 @@ public class GiveawayService : INService, IReadyExecutor
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
     private readonly Mewdeko _bot;
-    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds, Mewdeko bot)
+    private readonly GuildSettingsService _guildSettings;
+    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds, Mewdeko bot,
+        GuildSettingsService guildSettings)
     {
         _client = client;
         _db = db;
         _creds = creds;
         _bot = bot;
+        _guildSettings = guildSettings;
     }
 
     public async Task OnReadyAsync()
@@ -60,11 +63,11 @@ public class GiveawayService : INService, IReadyExecutor
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _bot.UpdateGuildConfig(guild.Id, gc);
+        _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetGiveawayEmote(ulong? id)
-        => _bot.GetGuildConfig(id.Value).GiveawayEmote;
+        => _guildSettings.GetGuildConfig(id.Value).GiveawayEmote;
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = _db.GetDbContext();

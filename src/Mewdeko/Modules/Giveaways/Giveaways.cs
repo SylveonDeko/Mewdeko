@@ -14,10 +14,13 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     private readonly IServiceProvider _servs;
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
+    private readonly GuildSettingsService _guildSettings;
 
-    public Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService)
+    public Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService,
+        GuildSettingsService guildSettings)
     {
         _interactivity = interactiveService;
+        _guildSettings = guildSettings;
         _db = db;
         _servs = servs;
     }
@@ -335,7 +338,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{Prefix}greroll {messageid}` to reroll!");
+                $"This giveaway has already ended! Plase use `{_guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!");
         }
         else
         {

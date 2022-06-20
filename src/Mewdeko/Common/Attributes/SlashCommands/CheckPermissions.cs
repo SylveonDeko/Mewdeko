@@ -25,7 +25,7 @@ public sealed class CheckPermissions : PreconditionAttribute
             _ => executingCommand.MethodName.ToLower()
         };
         var perms = services.GetService<PermissionService>();
-        var cmhandl = services.GetService<CommandHandler>();
+        var guildSettingsService = services.GetService<GuildSettingsService>();
         var groupname = executingCommand.MethodName switch
         {
             "Confess" => "Confessions",
@@ -40,6 +40,6 @@ public sealed class CheckPermissions : PreconditionAttribute
             pc.Permissions != null && pc.Permissions.CheckSlashPermissions(groupname, commandname, context.User, context.Channel, out index)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError(perms.Strings.GetText("perm_prevent", context.Guild.Id, index + 1,
-                    Format.Bold(pc.Permissions[index].GetCommand(cmhandl.GetPrefix(context.Guild), context.Guild as SocketGuild)))));
+                    Format.Bold(pc.Permissions[index].GetCommand(guildSettingsService.GetPrefix(context.Guild), context.Guild as SocketGuild)))));
     }
 }

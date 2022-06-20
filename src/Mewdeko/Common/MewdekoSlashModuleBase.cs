@@ -1,7 +1,4 @@
 using Discord.Interactions;
-using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Modules.Server_Management.Services;
-using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -14,8 +11,6 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public IBotStrings Strings { get; set; }
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
-
-    public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
 
     // ReSharper disable once InconsistentNaming
     protected IInteractionContext ctx => Context;
