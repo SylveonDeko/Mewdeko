@@ -56,7 +56,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [ComponentInteraction("helpselect", true)]
     public async Task HelpSlash(string[] selected)
     {
-        var currentmsg = HelpService.GetUserMessage(ctx.User) ?? new MewdekoUserMessage()
+        var currentmsg = HelpService.GetUserMessage(ctx.User) ?? new MewdekoUserMessage
         {
             Content = "help",
             Author = ctx.User
@@ -178,7 +178,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
         if (com.Parameters.Count == 0)
         {
-            _ch.AddCommandToParseQueue(new MewdekoUserMessage()
+            _ch.AddCommandToParseQueue(new MewdekoUserMessage
             {
                 Content = _guildSettings.GetPrefix(ctx.Guild) + command,
                 Author = ctx.User,
@@ -203,7 +203,6 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         };
         _ch.AddCommandToParseQueue(msg);
         _ = Task.Factory.StartNew(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id), TaskCreationOptions.LongRunning).ConfigureAwait(false);
-        return;
     }
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)

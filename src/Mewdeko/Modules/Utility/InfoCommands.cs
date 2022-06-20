@@ -94,7 +94,7 @@ public partial class Utility
             if (usr is null)
             {
                 var chans = await ctx.Guild.GetTextChannelsAsync();
-                IUserMessage message = null;
+                IUserMessage? message = null;
                 foreach (var i in chans)
                 {
                     var e = await i.GetMessageAsync(id);

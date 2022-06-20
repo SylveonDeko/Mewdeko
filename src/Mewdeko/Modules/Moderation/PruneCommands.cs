@@ -39,7 +39,7 @@ public partial class Moderation
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
         public async Task Purge(int count, string? parameter = null, string? input = null)
         {
-            StoopidTime time = null;
+            StoopidTime? time = null;
             try
             {
                 time = StoopidTime.FromInput(input);

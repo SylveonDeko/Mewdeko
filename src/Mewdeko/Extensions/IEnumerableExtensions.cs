@@ -33,7 +33,7 @@ public static class EnumerableExtensions
 
     public static void Move<T>(this List<T> list, T item, int newIndex)
     {
-        if (item == null) return;
+        if (Equals(item, default(T))) return;
         var oldIndex = list.IndexOf(item);
         if (oldIndex <= -1) return;
         list.RemoveAt(oldIndex);

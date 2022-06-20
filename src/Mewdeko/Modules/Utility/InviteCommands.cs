@@ -42,7 +42,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task InviteInfo(string text)
         {
-            RestGuild guild = null;
+            RestGuild? guild = null;
             var invinfo = await _client.Rest.GetInviteAsync(text);
             try
             {

@@ -5,6 +5,7 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Serilog;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -161,7 +162,7 @@ public class LogCommandService : INService
         _ = Task.Factory.StartNew(async () =>
         {
             await using var uow = _db.GetDbContext();
-            uow.Nicknames.Add(new Nicknames()
+            uow.Nicknames.Add(new Nicknames
             {
                 GuildId = socketGuildUser.Guild.Id,
                 UserId = socketGuildUser.Id,
@@ -177,7 +178,7 @@ public class LogCommandService : INService
         _ = Task.Factory.StartNew(async () =>
         {
             await using var uow = _db.GetDbContext();
-            uow.Usernames.Add(new Usernames()
+            uow.Usernames.Add(new Usernames
             {
                 UserId = user.Id,
                 Username = user.ToString()
@@ -515,8 +516,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
-    {
+    private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType, string reason) =>
         _ = Task.Factory.StartNew(async () =>
         {
             try
@@ -557,10 +557,8 @@ public class LogCommandService : INService
                 // ignored
             }
         }, TaskCreationOptions.LongRunning);
-    }
 
-    private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
-    {
+    private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType, string reason) =>
         _ = Task.Factory.StartNew(async () =>
         {
             try
@@ -591,9 +589,9 @@ public class LogCommandService : INService
                 };
 
                 var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
-                    .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                    .WithFooter(fb => fb.WithText($"{CurrentTime(usr.Guild)}"))
-                    .WithOkColor();
+                                              .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
+                                              .WithFooter(fb => fb.WithText($"{CurrentTime(usr.Guild)}"))
+                                              .WithOkColor();
 
                 if (!string.IsNullOrWhiteSpace(reason))
                     embed.WithDescription(reason);
@@ -605,7 +603,6 @@ public class LogCommandService : INService
                 // ignored
             }
         }, TaskCreationOptions.LongRunning);
-    }
 
     public Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection,
         params IGuildUser[] users)
@@ -681,7 +678,7 @@ public class LogCommandService : INService
         _ = Task.Factory.StartNew(() =>
         {
 #if DEBUG
-            Serilog.Log.Information("Role deleted {RoleId}", socketRole.Id);
+            Log.Information("Role deleted {RoleId}", socketRole.Id);
 #endif
             _memoryCache.Set(GetRoleDeletedKey(socketRole.Id), true, TimeSpan.FromMinutes(5));
         }, TaskCreationOptions.LongRunning);

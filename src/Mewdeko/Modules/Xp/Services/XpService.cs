@@ -644,7 +644,7 @@ public class XpService : INService, IUnloadableService
     public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
     {
         DiscordUser du;
-        UserXpStats stats = null;
+        UserXpStats stats;
         int totalXp;
         int globalRank;
         int guildRank;

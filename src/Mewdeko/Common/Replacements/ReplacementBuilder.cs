@@ -2,8 +2,6 @@
 using Mewdeko.Modules.Administration.Services;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
-using StringExtensions = Mewdeko.Extensions.StringExtensions;
-using UserExtensions = Mewdeko.Extensions.UserExtensions;
 
 namespace Mewdeko.Common.Replacements;
 
@@ -47,7 +45,7 @@ public class ReplacementBuilder
         /*OBSOLETE*/
         _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
         _reps.TryAdd("%time%",
-            () => DateTime.Now.ToString($"HH:mm {StringExtensions.GetInitials(TimeZoneInfo.Local.StandardName)}"));
+            () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
 
         /*NEW*/
         _reps.TryAdd("%bot.status%", () => client.Status.ToString());
@@ -55,10 +53,10 @@ public class ReplacementBuilder
         _reps.TryAdd("%bot.name%", () => client.CurrentUser.Username);
         _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
         _reps.TryAdd("%bot.time%",
-            () => DateTime.Now.ToString($"HH:mm {StringExtensions.GetInitials(TimeZoneInfo.Local.StandardName)}"));
+            () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
         _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
         _reps.TryAdd("%bot.id%", () => client.CurrentUser.Id.ToString());
-        _reps.TryAdd("%bot.avatar%", () => UserExtensions.RealAvatarUrl(client.CurrentUser).ToString());
+        _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl().ToString());
 
         WithStats(client);
         return this;
@@ -81,7 +79,7 @@ public class ReplacementBuilder
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
-                to).ToString("HH:mm ") + StringExtensions.GetInitials(to.StandardName);
+                to).ToString("HH:mm ") + to.StandardName.GetInitials();
         });
         /*NEW*/
         _reps.TryAdd("%server.icon%", () => g == null ? "DM" : $"{g.IconUrl}?size=2048");
@@ -165,7 +163,7 @@ public class ReplacementBuilder
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
-                to).ToString("HH:mm ") + StringExtensions.GetInitials(to.StandardName);
+                to).ToString("HH:mm ") + to.StandardName.GetInitials();
         });
         return this;
     }
@@ -200,7 +198,7 @@ public class ReplacementBuilder
         _reps.TryAdd("%username%", () => string.Join(" ", users.Select(user => user.Username)));
         _reps.TryAdd("%userdiscrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%useravatar%",
-            () => string.Join(" ", users.Select(user => UserExtensions.RealAvatarUrl(user).ToString())));
+            () => string.Join(" ", users.Select(user => user.RealAvatarUrl().ToString())));
         _reps.TryAdd("%id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         _reps.TryAdd("%uid%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         /*NEW*/
@@ -212,7 +210,7 @@ public class ReplacementBuilder
                 users.Select(async user => (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048))));
         _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%user.avatar%",
-            () => string.Join(" ", users.Select(user => UserExtensions.RealAvatarUrl(user).ToString())));
+            () => string.Join(" ", users.Select(user => user.RealAvatarUrl().ToString())));
         _reps.TryAdd("%user.id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         _reps.TryAdd("%user.created_time%",
             () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("HH:mm"))));

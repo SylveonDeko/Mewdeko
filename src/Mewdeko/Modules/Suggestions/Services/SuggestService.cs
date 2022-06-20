@@ -2451,7 +2451,7 @@ public class SuggestionsService : INService
         var tocheck = uow.SuggestVotes.FirstOrDefault(x => x.MessageId == messageId && x.UserId == userId);
         if (tocheck is null)
         {
-            var toadd = new SuggestVotes() { EmotePicked = emotePicked, MessageId = messageId, UserId = userId };
+            var toadd = new SuggestVotes { EmotePicked = emotePicked, MessageId = messageId, UserId = userId };
             uow.SuggestVotes.Add(toadd);
             await uow.SaveChangesAsync();
         }
@@ -2466,7 +2466,7 @@ public class SuggestionsService : INService
     public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
     {
         await using var uow = _db.GetDbContext();
-        uow.SuggestThreads.Add(new SuggestThreads() { MessageId = messageId, ThreadChannelId = threadChannelId });
+        uow.SuggestThreads.Add(new SuggestThreads { MessageId = messageId, ThreadChannelId = threadChannelId });
         await uow.SaveChangesAsync();
     }
 

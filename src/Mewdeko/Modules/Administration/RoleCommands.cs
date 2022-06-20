@@ -58,7 +58,7 @@ public partial class Administration
                     }
 
                     var role = (IRole)roleResult.BestMatch;
-                    if (role.Position > Extensions.Extensions.GetRoles(((IGuildUser)ctx.User)).Select(r => r.Position).Max()
+                    if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
                         && ctx.User.Id != ctx.Guild.OwnerId)
                     {
                         return null;
@@ -161,7 +161,7 @@ public partial class Administration
                     var rr = rrs.Skip(page).FirstOrDefault();
                     var g = ctx.Guild;
                     var ch = await g.GetTextChannelAsync(rr.ChannelId);
-                    IUserMessage msg = null;
+                    IUserMessage? msg = null;
                     if (ch is not null)
                         msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;
                     var eb = new PageBuilder().WithOkColor();

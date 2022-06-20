@@ -21,19 +21,19 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         Reload(false);
         _pubSub.Sub(_blPubKey, OnReload);
         client.JoinedGuild += CheckBlacklist;
-        BlacklistEntries.Add(new BlacklistEntry()
+        BlacklistEntries.Add(new BlacklistEntry
         {
             DateAdded = DateTime.Now,
             ItemId = 967780813741625344,
             Type = BlacklistType.User
         });
-        BlacklistEntries.Add(new BlacklistEntry()
+        BlacklistEntries.Add(new BlacklistEntry
         {
             DateAdded = DateTime.UtcNow,
             ItemId = 930096051900280882,
             Type = BlacklistType.User
         });
-        BlacklistEntries.Add(new BlacklistEntry()
+        BlacklistEntries.Add(new BlacklistEntry
         {
             DateAdded = DateTime.UtcNow,
             ItemId = 767459211373314118,

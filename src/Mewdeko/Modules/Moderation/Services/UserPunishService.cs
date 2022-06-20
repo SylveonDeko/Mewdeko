@@ -195,7 +195,7 @@ public class UserPunishService : INService
             case PunishmentAction.Timeout:
                 try
                 {
-                    await user.SetTimeOutAsync(TimeSpan.FromMinutes(minutes), new RequestOptions() { AuditLogReason = reason });
+                    await user.SetTimeOutAsync(TimeSpan.FromMinutes(minutes), new RequestOptions { AuditLogReason = reason });
                 }
                 catch
                 {

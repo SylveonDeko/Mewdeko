@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;
+
 namespace Mewdeko.Extensions;
 
 public static class Extensions

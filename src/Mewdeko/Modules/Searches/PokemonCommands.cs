@@ -18,7 +18,7 @@ public partial class Searches
         public async Task Pokemon([Remainder] string name)
         {
             var isShiny = false;
-            Pokemon poke = null;
+            Pokemon? poke = null;
             if (name.ToLower().Contains("shiny"))
             {
                 isShiny = true;

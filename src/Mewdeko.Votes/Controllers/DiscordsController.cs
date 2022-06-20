@@ -1,10 +1,10 @@
 ﻿using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Votes.Controllers;
 
