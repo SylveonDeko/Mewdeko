@@ -10,7 +10,7 @@ public static class ModalBuilderExtensions
         var components = builder.Components.ActionRows.SelectMany(x => x.Components).ToList();
         var comp = components.First(x => x.CustomId == customId) as TextInputComponent;
 
-        var tib = new TextInputBuilder()
+        var tib = new TextInputBuilder
         {
             CustomId = customId,
             Label = comp.Label,

@@ -48,8 +48,8 @@ public class Help : MewdekoModuleBase<HelpService>
         }
         else
         {
-            string cmdnames = null;
-            string cmdremarks = null;
+            string? cmdnames = null;
+            string? cmdremarks = null;
             foreach (var i in cmds)
             {
                 cmdnames += $"\n{i.Name}";

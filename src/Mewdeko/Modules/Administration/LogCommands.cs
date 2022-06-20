@@ -18,7 +18,7 @@ public partial class Administration
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
             if (type == LogCategoryTypes.None)
             {
-                await ctx.Channel.SendConfirmAsync($"Logging has been disabled.");
+                await ctx.Channel.SendConfirmAsync("Logging has been disabled.");
                 return;
             }
             if (channel is null)

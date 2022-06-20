@@ -1,5 +1,5 @@
 namespace Mewdeko.Common.Attributes.TextCommands;
-[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class HelpDisabled : Attribute
 {
 }

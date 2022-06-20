@@ -25,10 +25,8 @@ public partial class Gambling
         private readonly ICurrencyService _cs;
 
         public WheelOfFortuneCommands(ICurrencyService cs, GamblingConfigService gamblingConfService)
-            : base(gamblingConfService)
-        {
+            : base(gamblingConfService) =>
             _cs = cs;
-        }
 
         [Cmd, Aliases]
         public async Task WheelOfFortune(ShmartNumber amount)

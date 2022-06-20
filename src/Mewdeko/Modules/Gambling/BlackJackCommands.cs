@@ -23,10 +23,8 @@ public partial class Gambling
         private IUserMessage msg;
 
         public BlackJackCommands(ICurrencyService cs,
-            GamblingConfigService gamblingConf) : base(gamblingConf)
-        {
+            GamblingConfigService gamblingConf) : base(gamblingConf) =>
             _cs = cs;
-        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task BlackJack(ShmartNumber amount)

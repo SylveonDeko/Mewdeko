@@ -260,21 +260,19 @@ public class HelpService : ILateExecutor, INService
         return string.Join("\n", strs);
     }
 
-    public static List<string> GetCommandOptionHelpList(Type opt)
-    {
-        return opt.GetProperties()
-                      .Select(x => Array.Find(x.GetCustomAttributes(true), a => a is OptionAttribute))
-                      .Where(x => x != null).Cast<OptionAttribute>().Select(x =>
-                      {
-                          var toReturn = $"`--{x.LongName}`";
+    public static List<string> GetCommandOptionHelpList(Type opt) =>
+        opt.GetProperties()
+           .Select(x => Array.Find(x.GetCustomAttributes(true), a => a is OptionAttribute))
+           .Where(x => x != null).Cast<OptionAttribute>().Select(x =>
+           {
+               var toReturn = $"`--{x.LongName}`";
 
-                          if (!string.IsNullOrWhiteSpace(x.ShortName))
-                              toReturn += $" (`-{x.ShortName}`)";
+               if (!string.IsNullOrWhiteSpace(x.ShortName))
+                   toReturn += $" (`-{x.ShortName}`)";
 
-                          toReturn += $"   {x.HelpText}  ";
-                          return toReturn;
-                      }).ToList();
-    }
+               toReturn += $"   {x.HelpText}  ";
+               return toReturn;
+           }).ToList();
 
     public static string[] GetCommandRequirements(CommandInfo cmd, GuildPermission? overrides = null)
     {

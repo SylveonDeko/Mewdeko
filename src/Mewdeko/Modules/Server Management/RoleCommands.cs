@@ -15,10 +15,7 @@ public partial class ServerManagement
     {
         private readonly GuildSettingsService _guildSettings;
 
-        public RoleCommands(GuildSettingsService guildSettings)
-        {
-            _guildSettings = guildSettings;
-        }
+        public RoleCommands(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]

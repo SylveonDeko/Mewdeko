@@ -99,7 +99,7 @@ public class SearchImageCacher : INService
                 {
                     if (typeUsedTags.Contains(tag))
                     {
-                        var set = _cache.GetOrCreate<HashSet<ImageData>>(Key(type, tag), e =>
+                        var set = _cache.GetOrCreate(Key(type, tag), e =>
                         {
                             e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
                             return new HashSet<ImageData>();

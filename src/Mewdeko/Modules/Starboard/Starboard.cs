@@ -9,10 +9,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
 {
     private readonly GuildSettingsService _guildSettings;
 
-    public Starboard(GuildSettingsService guildSettings)
-    {
-        _guildSettings = guildSettings;
-    }
+    public Starboard(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
 
     public enum WhitelistMode
     {

@@ -143,9 +143,8 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                 "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.");
             return;
         }
-        ITextChannel chan = null;
-        var winners = 0;
-        string prize;
+
+        int winners;
         //string blacklistroles;
         //string blacklistusers;
         string reqroles;
@@ -172,7 +171,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             await msg.ModifyAsync(x => x.Embed = erorrembed);
             return;
         }
-        chan = (ITextChannel)e.BestMatch;
+        var chan = (ITextChannel)e.BestMatch;
         var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
@@ -216,7 +215,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         }
 
         await msg.ModifyAsync(x => x.Embed = eb.WithDescription("What is the prize/item?").Build());
-        prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        var prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         await msg.ModifyAsync(x =>
             x.Embed = eb.WithDescription("How long will this giveaway last? Use the format 1mo,2d,3m,4s").Build());
         next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);

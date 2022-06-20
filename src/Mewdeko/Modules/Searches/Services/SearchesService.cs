@@ -332,7 +332,7 @@ public class SearchesService : INService, IUnloadableService
         }
     }
 
-    public string GetRandomImageUrl(ImageTag tag)
+    public Uri GetRandomImageUrl(ImageTag tag)
     {
         var subpath = tag.ToString().ToLowerInvariant();
 
@@ -345,7 +345,7 @@ public class SearchesService : INService, IUnloadableService
             _ => 100
         };
 
-        return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png";
+        return new Uri($"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png");
     }
 
     public static async Task<string> Translate(string langs, string? text = null)

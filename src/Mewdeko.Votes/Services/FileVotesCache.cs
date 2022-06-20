@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using MorseCode.ITask;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
-using MorseCode.ITask;
 
 namespace Mewdeko.Votes.Services;
 
@@ -27,15 +27,9 @@ public class FileVotesCache
             File.WriteAllText(DISCORDS_FILE, "[]");
     }
 
-    public ITask AddNewTopggVote(string userId)
-    {
-        return AddNewVote(TOPGG_FILE, userId);
-    }
+    public ITask AddNewTopggVote(string userId) => AddNewVote(TOPGG_FILE, userId);
 
-    public ITask AddNewDiscordsVote(string userId)
-    {
-        return AddNewVote(DISCORDS_FILE, userId);
-    }
+    public ITask AddNewDiscordsVote(string userId) => AddNewVote(DISCORDS_FILE, userId);
 
     private async ITask AddNewVote(string file, string userId)
     {
@@ -52,15 +46,9 @@ public class FileVotesCache
         }
     }
 
-    public async ITask<IList<Vote>> GetNewTopGgVotesAsync()
-    {
-        return await EvictTopggVotes();
-    }
+    public async ITask<IList<Vote>> GetNewTopGgVotesAsync() => await EvictTopggVotes();
 
-    public async ITask<IList<Vote>> GetNewDiscordsVotesAsync()
-    {
-        return await EvictDiscordsVotes();
-    }
+    public async ITask<IList<Vote>> GetNewDiscordsVotesAsync() => await EvictDiscordsVotes();
 
     private ITask<List<Vote>> EvictTopggVotes()
         => EvictVotes(TOPGG_FILE);
