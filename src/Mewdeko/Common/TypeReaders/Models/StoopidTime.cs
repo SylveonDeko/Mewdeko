@@ -12,7 +12,7 @@ public class StoopidTime
     public string Input { get; set; }
     public TimeSpan Time { get; set; }
 
-    public static StoopidTime FromInput(string input)
+    public static StoopidTime? FromInput(string input)
     {
         var m = _regex.Match(input);
 

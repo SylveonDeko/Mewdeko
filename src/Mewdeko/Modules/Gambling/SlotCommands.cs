@@ -65,7 +65,7 @@ public partial class Gambling
             for (var i = 0; i < tests; i++)
             {
                 var res = SlotMachine.Pull();
-                if (dict.ContainsKey(res.Multiplier))
+                if (dict.TryGetValue(res.Multiplier, out _))
                     dict[res.Multiplier]++;
                 else
                     dict.Add(res.Multiplier, 1);
