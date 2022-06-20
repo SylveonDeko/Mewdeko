@@ -24,7 +24,7 @@ public class MusicPlayer : LavalinkPlayer
     {
         var queue = musicService.GetQueue(args.Player.GuildId);
         var track = queue.Find(x => x.Identifier == args.Player.CurrentTrack.Identifier);
-        LavalinkTrack nextTrack = null;
+        LavalinkTrack? nextTrack = null;
         try
         {
             nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);

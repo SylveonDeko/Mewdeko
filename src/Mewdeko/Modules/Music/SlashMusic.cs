@@ -761,7 +761,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 }
         }
 
-        if (searchQuery!.Contains("spotify"))
+        if (searchQuery.Contains("spotify"))
         {
             await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
             return;
@@ -981,6 +981,10 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     {
         var time = StoopidTime.FromInput(input);
         if (time is null)
+        {
+            await ctx.Interaction.SendErrorAsync("Invalid time.");
+            return;
+        }
         {
             await ctx.Interaction.SendErrorAsync("Invalid time.");
             return;

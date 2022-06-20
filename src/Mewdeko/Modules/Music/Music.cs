@@ -22,10 +22,12 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly GuildSettingsService _guildSettings;
 
     public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
-        DiscordSocketClient client)
+        DiscordSocketClient client,
+        GuildSettingsService guildSettings)
     {
         _db = dbService;
         _client = client;
+        _guildSettings = guildSettings;
         _interactivity = interactive;
         _lavaNode = lava;
     }
@@ -540,7 +542,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (!string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is not null)
                 {
                     var plist4 = Service.GetPlaylists(ctx.User)
-                                        .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower());
+                                        .FirstOrDefault(x => String.Equals(x.Name, playlistOrSongName, StringComparison.CurrentCultureIgnoreCase));
                     if (plist4 is null)
                     {
                         await ctx.Channel.SendErrorAsync(
@@ -564,7 +566,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (!string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is null)
                 {
                     var plist4 = Service.GetPlaylists(ctx.User)
-                                        .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower());
+                                        .FirstOrDefault(x => String.Equals(x.Name, playlistOrSongName, StringComparison.CurrentCultureIgnoreCase));
                     if (plist4 is null)
                     {
                         await ctx.Channel.SendErrorAsync(
