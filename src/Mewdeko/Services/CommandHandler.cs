@@ -325,7 +325,7 @@ public class CommandHandler : INService
 
         return prefix;
     }
-    
+
 
     public void AddServices(IServiceCollection services)
     {

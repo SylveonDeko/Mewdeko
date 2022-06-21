@@ -24,16 +24,16 @@ public static class StringExtensions
     public static string GenerateSecureString(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
- 
+
         var sb = new StringBuilder();
         var rnd = new Random();
- 
+
         for (var i = 0; i < length; i++)
         {
             var index = rnd.Next(chars.Length);
             sb.Append(chars[index]);
         }
- 
+
         return sb.ToString();
     }
     public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);

@@ -57,7 +57,7 @@ public class LogCommandService : INService
         Server,
         Threads,
         Users,
-        
+
     }
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
@@ -424,7 +424,7 @@ public class LogCommandService : INService
                     var user = uow.GetOrCreateUser(guildUser);
                     embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
                         .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.DiscordUser.GetUsernames(guildUser.Id).Count+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
+                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.DiscordUser.GetUsernames(guildUser.Id).Count + 1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
                         .WithOkColor().Build());
                     var names = user.Usernames.Split("@").ToList();
                     names.Add(guildUser.ToString());
@@ -460,7 +460,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    
+
     public async Task UpdateCommandLogChannel(IGuild guild, ulong id)
     {
         await using var uow = _db.GetDbContext();
@@ -685,7 +685,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private bool IsRoleDeleted(ulong roleId) 
+    private bool IsRoleDeleted(ulong roleId)
         => _memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out _);
 
     private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
@@ -1109,7 +1109,7 @@ public class LogCommandService : INService
                 {
                     embed
                     .AddField("Banned by", bannedby.User)
-                    .AddField("Reason", bannedby.Reason ?? "None" );
+                    .AddField("Reason", bannedby.Reason ?? "None");
                 }
 
                 embed.AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))

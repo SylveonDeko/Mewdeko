@@ -213,7 +213,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
                         await ctx.Channel.SendMessageAsync(plainText,
-                            embeds: embedData, components:cb.Build());
+                            embeds: embedData, components: cb.Build());
                         return;
                     }
 

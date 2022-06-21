@@ -161,7 +161,7 @@ public class HelpService : ILateExecutor, INService
             return Task.CompletedTask;
 
         return SmartEmbed.TryParse(settings.DmHelpText, guild?.Id, out var embed, out var plainText, out var components)
-            ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build())
+            ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
 

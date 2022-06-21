@@ -121,7 +121,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task Log(LogType type, ITextChannel channel = null)
         {
-            await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0 , type).ConfigureAwait(false);
+            await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
             if (channel is not null)
             {
                 await ctx.Channel.SendConfirmAsync($"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}").ConfigureAwait(false);

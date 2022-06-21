@@ -6,7 +6,7 @@ public partial class SlashChatTriggers : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.AddColumn<ulong>("ApplicationCommandId", "ChatTriggers", nullable: false, defaultValue:0);
+        migrationBuilder.AddColumn<ulong>("ApplicationCommandId", "ChatTriggers", nullable: false, defaultValue: 0);
         migrationBuilder.AddColumn<int>("ApplicationCommandType", "ChatTriggers", nullable: false, defaultValue: 0);
         migrationBuilder.AddColumn<bool>("EphemeralResponse", "ChatTriggers", nullable: false, defaultValue: false);
         migrationBuilder.AddColumn<string>("ApplicationCommandName", "ChatTriggers", nullable: false, defaultValue: "");

@@ -265,12 +265,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 {
                     var fakeMsg = new MewdekoUserMessage
                     {
-                        Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
+                        Author = inter.User,
+                        Content = ct.Trigger,
+                        Channel = inter.Channel,
                     };
 
                     if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
 
-                    if (inter.Channel is IGuildChannel {Guild: SocketGuild guild})
+                    if (inter.Channel is IGuildChannel { Guild: SocketGuild guild })
                     {
                         var pc = _perms.GetCacheFor(guild.Id);
                         if (!pc.Permissions.CheckPermissions(fakeMsg, ct.Trigger, "ActualChatTriggers",
@@ -336,16 +338,16 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         effectedUsers = inter is SocketUserCommand uCMD
                             ? ct.RoleGrantType switch
                             {
-                                CtRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
-                                CtRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
-                                CtRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
+                                CtRoleGrantType.Mentioned => new List<ulong> { uCMD.Data.Member.Id },
+                                CtRoleGrantType.Sender => new List<ulong> { uCMD.User.Id },
+                                CtRoleGrantType.Both => new List<ulong> { uCMD.User.Id, uCMD.Data.Member.Id },
                                 _ => new List<ulong>()
                             }
                             : ct.RoleGrantType switch
                             {
                                 CtRoleGrantType.Mentioned => new(),
-                                CtRoleGrantType.Sender => new List<ulong> {inter.User.Id},
-                                CtRoleGrantType.Both => new List<ulong> {inter.User.Id},
+                                CtRoleGrantType.Sender => new List<ulong> { inter.User.Id },
+                                CtRoleGrantType.Both => new List<ulong> { inter.User.Id },
                                 _ => new List<ulong>()
                             };
 
@@ -379,7 +381,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 return false;
         }
     }
-    
+
     public string ExportCrs(ulong? guildId)
     {
         var crs = GetChatTriggersFor(guildId);
@@ -601,7 +603,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // handle interaction updates
         if (ct.ApplicationCommandType == CtApplicationCommandType.None) return;
-        
+
         var guild = _client.GetGuild(guildId);
         await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
     }
@@ -844,7 +846,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .Where(x => x.GuildId == gc.GuildId)
             .ToArrayAsync();
     }
-    
+
     public async Task<CTModel?> AddAsync(ulong? guildId, string key, string message, bool regex)
     {
         key = key.ToLowerInvariant();
@@ -900,7 +902,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
 
-    
+
     public async Task<CTModel?> DeleteAsync(ulong? guildId, int id)
     {
         await using var uow = _db.GetDbContext();
@@ -950,7 +952,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
-    
+
     public async Task<CTModel?> SetInteractionName(ulong? guildID, int id, string name)
     {
         await using var uow = _db.GetDbContext();
@@ -965,7 +967,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
-    
+
     public async Task<CTModel?> SetInteractionDescription(ulong? guildID, int id, string description)
     {
         await using var uow = _db.GetDbContext();
@@ -980,7 +982,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
-    
+
     public async Task<CTModel?> SetInteractionEphemeral(ulong? guildID, int id, bool ephemeral)
     {
         await using var uow = _db.GetDbContext();
@@ -1177,7 +1179,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                           .Add(new(x.RealName.Split(' ').Last(), x, null));
                 else
                     groups.Add(new(x.RealName.Split(' ').First(), null,
-                        new List<TriggerChildGrouping> {new(x.RealName.Split(' ').Last(), x, null)}));
+                        new List<TriggerChildGrouping> { new(x.RealName.Split(' ').Last(), x, null) }));
             });
 
         triggers.Where(x =>
@@ -1248,13 +1250,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         if (!TryGetApplicationCommandProperties(guild.Id, out var props) || props is null)
             return false;
-        #if DEBUG
+#if DEBUG
         var cmd = new List<IApplicationCommand>();
         foreach (var prop in props)
             cmd.Add(await guild.CreateApplicationCommandAsync(prop));
-        #else
+#else
         var cmd = await guild.BulkOverwriteApplicationCommandsAsync(props.ToArray()).ConfigureAwait(false);
-        #endif
+#endif
         if (cmd is null)
             return false;
         await using var uow = _db.GetDbContext();
@@ -1266,12 +1268,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     }
 
     public static readonly Regex ValidCommandRegex = new(@"^(?:[\w-]{1,32} {0,1}){1,3}$", RegexOptions.Compiled);
-    
+
     public static bool IsValidName(CtApplicationCommandType type, string name)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Length is > 32 or < 1)
             return false;
-        
+
         return type is not CtApplicationCommandType.Slash || ValidCommandRegex.IsMatch(name);
     }
 
@@ -1283,7 +1285,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         triggers = triggers.Where(x => x.ApplicationCommandType != CtApplicationCommandType.None);
         var errors = new List<ChatTriggersInteractionError>();
         Dictionary<string, List<(string Name, int Id)>> totalChildren = new();
-        foreach (var trigger in triggers )
+        foreach (var trigger in triggers)
         {
             var triggerDepth = trigger.RealName.Split(' ').Length;
             var parent = triggerDepth > 1 ? trigger.RealName.Split(' ')[..^1].Join(' ') : "";
@@ -1294,23 +1296,23 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             if (!IsValidName(trigger.ApplicationCommandType, trigger.RealName))
-                errors.Add(new("invalid_name", new[] {trigger.Id}, new[] {trigger.RealName}));
+                errors.Add(new("invalid_name", new[] { trigger.Id }, new[] { trigger.RealName }));
 
             foreach (var newTrigger in triggers.Where(x => x.Id != trigger.Id))
             {
                 var newTriggerDepth = trigger.RealName.Split(' ').Length;
                 if (trigger.RealName == newTrigger.RealName)
-                    errors.Add(new("duplicate", new[] {trigger.Id, newTrigger.Id},
-                        new[] {trigger.RealName, newTrigger.RealName}));
+                    errors.Add(new("duplicate", new[] { trigger.Id, newTrigger.Id },
+                        new[] { trigger.RealName, newTrigger.RealName }));
                 switch (triggerDepth)
                 {
                     case 1 when newTriggerDepth == 2 && newTrigger.RealName.Split(' ')[0] == trigger.RealName:
-                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
-                            new[] {trigger.RealName, newTrigger.RealName}));
+                        errors.Add(new("subcommand_match_parent", new[] { trigger.Id, newTrigger.Id },
+                            new[] { trigger.RealName, newTrigger.RealName }));
                         break;
                     case 2 when newTriggerDepth == 3 && newTrigger.RealName.Split(' ')[..1].Join(' ') == trigger.RealName:
-                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
-                            new[] {trigger.RealName, newTrigger.RealName}));
+                        errors.Add(new("subcommand_match_parent", new[] { trigger.Id, newTrigger.Id },
+                            new[] { trigger.RealName, newTrigger.RealName }));
                         break;
                 }
             }

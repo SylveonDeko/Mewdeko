@@ -176,7 +176,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                     var content = replacer.Replace(greet.Message);
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
-                        await ctx.Interaction.FollowupAsync(plainText, embeds: embedData, components:cb.Build());
+                        await ctx.Interaction.FollowupAsync(plainText, embeds: embedData, components: cb.Build());
                     }
                     else
                     {

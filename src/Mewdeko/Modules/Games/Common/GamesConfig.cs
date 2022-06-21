@@ -42,14 +42,14 @@ public sealed class GamesConfig
     [Comment("List of animals which will be used for the animal race game (.race)")]
     public List<RaceAnimal> RaceAnimals { get; set; } = new()
     {
-        new RaceAnimal {Icon = "🐼", Name = "Panda"},
-        new RaceAnimal {Icon = "🐻", Name = "Bear"},
-        new RaceAnimal {Icon = "🐧", Name = "Pengu"},
-        new RaceAnimal {Icon = "🐨", Name = "Koala"},
-        new RaceAnimal {Icon = "🐬", Name = "Dolphin"},
-        new RaceAnimal {Icon = "🐞", Name = "Ladybird"},
-        new RaceAnimal {Icon = "🦀", Name = "Crab"},
-        new RaceAnimal {Icon = "🦄", Name = "Unicorn"}
+        new RaceAnimal { Icon = "🐼", Name = "Panda" },
+        new RaceAnimal { Icon = "🐻", Name = "Bear" },
+        new RaceAnimal { Icon = "🐧", Name = "Pengu" },
+        new RaceAnimal { Icon = "🐨", Name = "Koala" },
+        new RaceAnimal { Icon = "🐬", Name = "Dolphin" },
+        new RaceAnimal { Icon = "🐞", Name = "Ladybird" },
+        new RaceAnimal { Icon = "🦀", Name = "Crab" },
+        new RaceAnimal { Icon = "🦄", Name = "Unicorn" }
     };
 }
 

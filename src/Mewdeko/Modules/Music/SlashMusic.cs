@@ -707,58 +707,58 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         if (!Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute) || !searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
             searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
         {
-                if (player is null)
-                {
-                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-                         (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                }
+            if (player is null)
+            {
+                await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                     (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
+            }
 
-                var searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
-                var platform = Platform.Youtube;
-                if (searchQuery.Contains("soundcloud.com"))
-                    platform = Platform.Soundcloud;
-                if (searchQuery.CheckIfMusicUrl())
-                    platform = Platform.Url;
-                if (searchQuery.Contains("twitch.tv"))
-                    platform = Platform.Twitch;
-                await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks, platform);
-                count = Service.GetQueue(ctx.Guild.Id).Count;
-                if (searchResponse.PlaylistInfo.Name is not null)
+            var searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
+            var platform = Platform.Youtube;
+            if (searchQuery.Contains("soundcloud.com"))
+                platform = Platform.Soundcloud;
+            if (searchQuery.CheckIfMusicUrl())
+                platform = Platform.Url;
+            if (searchQuery.Contains("twitch.tv"))
+                platform = Platform.Twitch;
+            await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks, platform);
+            count = Service.GetQueue(ctx.Guild.Id).Count;
+            if (searchResponse.PlaylistInfo.Name is not null)
+            {
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithDescription(
+                             $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
+                         .WithFooter($"{count} songs now in the queue");
+                await ctx.Interaction.FollowupAsync(embed: eb.Build());
+                if (player.State != PlayerState.Playing)
+                    await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
+                await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                return;
+            }
+            else
+            {
+                var artworkService = new ArtworkService();
+                var art = new Uri(null);
+                try
                 {
-                    var eb = new EmbedBuilder()
-                             .WithOkColor()
-                             .WithDescription(
-                                 $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
-                             .WithFooter($"{count} songs now in the queue");
-                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
-                    if (player.State != PlayerState.Playing)
-                        await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
-                    return;
+                    art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault());
                 }
-                else
+                catch
                 {
-                    var artworkService = new ArtworkService();
-                    var art = new Uri(null);
-                    try
-                    {
-                        art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault());
-                    }
-                    catch
-                    {
-                        //ignored
-                    }
-                    var eb = new EmbedBuilder()
-                             .WithOkColor()
-                             .WithThumbnailUrl(art?.AbsoluteUri)
-                             .WithDescription(
-                                 $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
-                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
-                    if (player.State != PlayerState.Playing)
-                        await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                    await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
-                    return;
+                    //ignored
                 }
+                var eb = new EmbedBuilder()
+                         .WithOkColor()
+                         .WithThumbnailUrl(art?.AbsoluteUri)
+                         .WithDescription(
+                             $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
+                await ctx.Interaction.FollowupAsync(embed: eb.Build());
+                if (player.State != PlayerState.Playing)
+                    await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
+                await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id) / 100.0F);
+                return;
+            }
         }
 
         if (searchQuery.Contains("spotify"))

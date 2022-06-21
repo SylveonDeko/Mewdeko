@@ -366,7 +366,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     [SlashCommand("valid-types", "Change the valid types of the trigger"),
      InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task ChatTriggerValidType(
-        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
+        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
         [Summary("type", "The type to enable/disable.")] ChatTriggerType type,
         [Summary("enabled", "Should the type be enabled?")] bool enabled)
     {
@@ -594,15 +594,15 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
                 return;
             }
-            
+
             // validate the name based on type
             if (type != CtApplicationCommandType.None && !ChatTriggersService.IsValidName(type,
-                    string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName)) 
+                    string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName))
             {
                 await ReplyErrorLocalizedAsync("ct_interaction_name_invalid").ConfigureAwait(false);
                 return;
             }
-            
+
             var res = await Service.SetInteractionType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
 
             if (res is null)
@@ -625,7 +625,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("name", "The name of the interaction.")] string name)
         {
             var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -638,7 +638,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
             await FollowupWithTriggerStatus();
         }
-        
+
         [SlashCommand("description", "Sets the description of the interaction."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterDesc(
@@ -646,7 +646,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("description", "The description of the interaction.")] string description)
         {
             var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -659,7 +659,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
             await FollowupWithTriggerStatus();
         }
-        
+
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
         public async Task CtInterEphemeral(
@@ -667,7 +667,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
         {
             var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -697,7 +697,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             var errors = Service.GetACCTErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
-            var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
+            var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko", emote: Emote.Parse("<:IconInvite:778931752835088426>"));
             if (errors?.Any() ?? false)
             {
                 eb.WithFields(errors.Select(x =>

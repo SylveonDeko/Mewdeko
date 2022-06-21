@@ -169,7 +169,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
                 plainText = plainText.SanitizeMentions(true);
-            await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build())
+            await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build())
                 .ConfigureAwait(false);
         }
         else

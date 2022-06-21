@@ -216,7 +216,7 @@ public class BotCredentials : IBotCredentials
         public string TrovoClientId { get; } = "";
         public string TwitchClientId { get; } = "";
         public string CleverbotApiKey { get; } = "";
-        
+
         public string CarbonKey { get; } = "";
         public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
         public int TotalShards { get; } = 1;

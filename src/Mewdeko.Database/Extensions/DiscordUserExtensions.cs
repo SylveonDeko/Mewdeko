@@ -65,7 +65,7 @@ public static class DiscordUserExtensions
              .OrderByDescending(c => c.CurrencyAmount)
              .ToList();
 
-    public static List<string> GetUsernames(this DbSet<DiscordUser> user, ulong userId) 
+    public static List<string> GetUsernames(this DbSet<DiscordUser> user, ulong userId)
         => user.AsQueryable().FirstOrDefault(x => x.UserId == userId)?.Usernames.Split("@").ToList();
 
     public static long GetUserCurrency(this DbSet<DiscordUser> users, ulong userId) =>

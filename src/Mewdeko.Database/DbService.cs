@@ -53,7 +53,7 @@ public class DbService
                 var pmhToRuns = pmhs?.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
                 foreach (var pmh in pmhToRuns)
                 {
-                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] {id, mContext});
+                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] { id, mContext });
                 }
             }
             await mContext.DisposeAsync();

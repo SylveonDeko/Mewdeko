@@ -15,29 +15,30 @@ public static class Extensions
     private static Dictionary<Regex, Func<Match, Task<string>>> RegexPlaceholders { get; } = new()
     {
         {
-            _imgRegex, async match =>
-            {
-                var tag = match.Groups["tag"].ToString();
-                if (string.IsNullOrWhiteSpace(tag))
-                    return "";
+            _imgRegex,
+            async match =>
+ {
+     var tag = match.Groups["tag"].ToString();
+     if (string.IsNullOrWhiteSpace(tag))
+         return "";
 
-                var fullQueryLink = $"http://imgur.com/search?q={tag}";
-                var config = Configuration.Default.WithDefaultLoader();
-                using var document =
-                    await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
-                var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
+     var fullQueryLink = $"http://imgur.com/search?q={tag}";
+     var config = Configuration.Default.WithDefaultLoader();
+     using var document =
+         await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
+     var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
 
-                if (elems.Length == 0)
-                    return "";
+     if (elems.Length == 0)
+         return "";
 
-                var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
-                    ?.FirstOrDefault() as IHtmlImageElement;
+     var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
+         ?.FirstOrDefault() as IHtmlImageElement;
 
-                if (img?.Source == null)
-                    return "";
+     if (img?.Source == null)
+         return "";
 
-                return $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
-            }
+     return $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
+ }
         }
     };
 
@@ -120,7 +121,7 @@ public static class Extensions
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            
+
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
                             .SendMessageAsync(plainText, embeds: crembed);
@@ -134,7 +135,7 @@ public static class Extensions
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
-            return await channel.SendMessageAsync(plainText, embeds: crembed, components:components?.Build()).ConfigureAwait(false);
+            return await channel.SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
         }
 
         var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
@@ -152,7 +153,7 @@ public static class Extensions
         }
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
-    
+
     public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {
@@ -177,7 +178,7 @@ public static class Extensions
                 })
                 .Build();
 
-            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components );
+            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
@@ -193,7 +194,7 @@ public static class Extensions
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
-            await inter.RespondAsync(plainText, embeds: crembed, ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
+            await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 
@@ -211,7 +212,7 @@ public static class Extensions
             catch (TaskCanceledException) { /* ignored */ }
         }
 
-        await inter.RespondAsync(context, ephemeral:ephemeral).ConfigureAwait(false);
+        await inter.RespondAsync(context, ephemeral: ephemeral).ConfigureAwait(false);
         return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
     }
 

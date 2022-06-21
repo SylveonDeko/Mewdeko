@@ -199,7 +199,7 @@ public class ProtectionService : INService
     {
         if (arg is not SocketUserMessage msg
             || msg.Author.IsBot
-            || msg.Author is IGuildUser {GuildPermissions.Administrator: true})
+            || msg.Author is IGuildUser { GuildPermissions.Administrator: true })
             return Task.CompletedTask;
 
         if (msg.Channel is not ITextChannel channel)
