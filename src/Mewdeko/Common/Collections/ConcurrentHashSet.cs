@@ -1,4 +1,4 @@
-﻿// License MIT
+// License MIT
 // Source: https://github.com/i3arnon/ConcurrentHashSet
 
 using System.Diagnostics;
@@ -239,7 +239,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     /// <returns>true if the <see cref="ConcurrentHashSet{T}" /> contains the item; otherwise, false.</returns>
     public bool Contains(T item)
     {
-        if (item == null) return false;
+        if (object.Equals(item, default(T))) return false;
         var hashcode = _comparer.GetHashCode(item);
 
         // We must capture the _buckets field in a local variable. It is set to a new table on each table resize.
