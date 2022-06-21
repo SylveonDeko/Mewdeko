@@ -44,7 +44,7 @@ public class Mewdeko
         Cache = new RedisCache(Credentials, shardId);
         _db = new DbService(Credentials.TotalShards);
         _guildSettingsService = new GuildSettingsService(Cache, _db, null);
-        
+
 
         if (shardId == 0) _db.Setup();
 
@@ -65,7 +65,7 @@ public class Mewdeko
         {
             CaseSensitiveCommands = false,
             DefaultRunMode = RunMode.Async,
-            
+
         });
     }
     public BotCredentials Credentials { get; }
@@ -84,7 +84,7 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
     public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
-    
+
 
     private void AddServices()
     {

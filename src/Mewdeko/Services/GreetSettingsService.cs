@@ -56,7 +56,7 @@ public class GreetSettingsService : INService
         {
             try
             {
-                var toDelete = await chan.SendMessageAsync(plainText, embeds: embed, components:components?.Build());
+                var toDelete = await chan.SendMessageAsync(plainText, embeds: embed, components: components?.Build());
                 if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
             catch (Exception ex)
@@ -251,13 +251,13 @@ public class GreetSettingsService : INService
             {
                 if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                 {
-                    var toDelete = await channel.SendMessageAsync(plainText, embeds: embed, components:components?.Build()).ConfigureAwait(false);
+                    var toDelete = await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build()).ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                 }
                 else
                 {
                     var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
-                    var toDelete = await webhook.SendMessageAsync(plainText, embeds: embed, components:components?.Build())
+                    var toDelete = await webhook.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
                                                 .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
                     {

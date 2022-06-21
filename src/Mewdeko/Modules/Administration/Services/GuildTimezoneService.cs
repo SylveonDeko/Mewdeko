@@ -54,7 +54,7 @@ public class GuildTimezoneService : INService
         return (x.GuildId, Timezone: tz);
     }
 
-    public TimeZoneInfo? GetTimeZoneOrDefault(ulong guildId) 
+    public TimeZoneInfo? GetTimeZoneOrDefault(ulong guildId)
         => _timezones.TryGetValue(guildId, out var tz) ? tz : null;
 
     public void SetTimeZone(ulong guildId, TimeZoneInfo? tz)

@@ -67,7 +67,7 @@ public class NewEmbed
     [JsonProperty("embed")] public Embed? Embed { get; set; }
     [JsonProperty("embeds")] public Embed[]? Embeds { get; set; }
 
-    public bool IsValid 
+    public bool IsValid
         => (Embeds is not null || IsEmbedValid || string.IsNullOrWhiteSpace(Content)) && (Embeds is not null || IsEmbedValid);
 
     public bool IsEmbedValid =>

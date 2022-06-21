@@ -19,7 +19,7 @@ public class YamlSeria : IConfigSeria
         _serializer = Yaml.Serializer;
         _deserializer = Yaml.Deserializer;
     }
-    
+
     public string Serialize<T>(T? obj)
     {
         try

@@ -14,7 +14,7 @@ public class GuildSettingsService : INService
         _db = db;
         _bss = bss;
     }
-    
+
     public string SetPrefix(IGuild guild, string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
@@ -29,7 +29,7 @@ public class GuildSettingsService : INService
         UpdateGuildConfig(guild.Id, gc);
         return prefix;
     }
-    
+
     public string? GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
 
     public string? GetPrefix(ulong? id = null)
@@ -38,7 +38,7 @@ public class GuildSettingsService : INService
             return _bss.GetSetting("prefix");
         return GetGuildConfig(id.Value).Prefix ??= _bss.GetSetting("prefix");
     }
-    
+
     public GuildConfig GetGuildConfig(ulong guildId)
     {
         using var uow = _db.GetDbContext();

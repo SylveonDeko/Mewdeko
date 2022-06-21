@@ -489,7 +489,7 @@ WHERE GuildId={guildId}
                 && (embed is not null || components is not null || plainText is not null))
                 return Task.FromResult((embed, plainText, components));
             return Task.FromResult<(Embed[], string?, ComponentBuilder?)>((
-                new []{new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build()}, null, null));
+                new[] { new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build() }, null, null));
         }
 
         return Task.FromResult((embed, plainText, components));

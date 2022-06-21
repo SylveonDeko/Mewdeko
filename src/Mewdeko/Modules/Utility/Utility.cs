@@ -626,7 +626,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var rng = new MewdekoRandom();
         var arr = await Task.Run(() => socketGuild.Users
                                                   .Where(x => x.Activities.Any())
-                                                  .Where(u =>  u.Activities.FirstOrDefault().Name.ToUpperInvariant().Contains(game))
+                                                  .Where(u => u.Activities.FirstOrDefault().Name.ToUpperInvariant().Contains(game))
                                                   .OrderBy(_ => rng.Next())
                                                   .ToArray()).ConfigureAwait(false);
 
@@ -637,7 +637,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
         else
         {
-            
+
             var paginator = new LazyPaginatorBuilder()
                             .AddUser(ctx.User)
                             .WithPageFactory(PageFactory)
@@ -646,18 +646,18 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             .WithDefaultEmotes()
                             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                             .Build();
-            
+
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                 TimeSpan.FromMinutes(60));
-            
+
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
                 var pagebuilder = new PageBuilder().WithOkColor()
-                                            .WithDescription(string.Join("\n", arr.Skip(page * 20).Take(20).Select(x => $"{(i++)+1}. {x.Username}#{x.Discriminator} `{x.Id}`: `{(x.Activities.FirstOrDefault() is CustomStatusGame cs ? cs.State : x.Activities.FirstOrDefault().Name)}`")));
+                                            .WithDescription(string.Join("\n", arr.Skip(page * 20).Take(20).Select(x => $"{(i++) + 1}. {x.Username}#{x.Discriminator} `{x.Id}`: `{(x.Activities.FirstOrDefault() is CustomStatusGame cs ? cs.State : x.Activities.FirstOrDefault().Name)}`")));
                 return pagebuilder;
             }
-                
+
         }
     }
 

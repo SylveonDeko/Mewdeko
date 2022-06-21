@@ -234,7 +234,7 @@ public static class Extensions
     //     => string.Join('\n', cmd.RealRemarksArr(strings, prefix));
 
     public static string GetFullUsage(string commandName, string args, string? prefix) =>
-        $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] {prefix}, out var output) ? output : args)}";
+        $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] { prefix }, out var output) ? output : args)}";
 
     public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
     {
@@ -313,7 +313,7 @@ public static class Extensions
     public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
         (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
             u.RoleIds.Contains(role.Id));
-    
+
 
     public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
     {
@@ -442,7 +442,7 @@ public static class Extensions
         var sgs = command.Options.Where(x =>
             x.Type is ApplicationCommandOptionType.SubCommand or ApplicationCommandOptionType.SubCommandGroup);
 
-        if (!sgs.Any()) return new[] {baseName};
+        if (!sgs.Any()) return new[] { baseName };
 
         var ctNames = new List<string>();
         foreach (var sg in sgs)

@@ -188,7 +188,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 var user = _client.GetUser(id);
                 return user == null ? Task.FromResult<IDMChannel?>(null) : user.CreateDMChannelAsync();
             })).ConfigureAwait(false);
-            
+
             ownerChannels = channels.Where(x => x is not null)
                                     .ToDictionary(x => x.Recipient.Id, x => x)
                                     .ToImmutableDictionary();

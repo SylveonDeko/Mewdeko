@@ -191,7 +191,7 @@ public class AfkService : INService, IReadyExecutor
                             return;
                         }
                         var b = await msg.Channel.SendMessageAsync(plainText,
-                            embeds: embed, components:components.Build()).ConfigureAwait(false);
+                            embeds: embed, components: components.Build()).ConfigureAwait(false);
                         if (afkdel > 0)
                             b.DeleteAfter(afkdel);
                     }
