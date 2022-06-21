@@ -12,10 +12,10 @@ public class FeedsService : INService
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
 
-    private readonly ConcurrentDictionary<string, DateTime> _lastPosts =
+    private readonly ConcurrentDictionary<string?, DateTime> _lastPosts =
         new();
 
-    private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
+    private readonly ConcurrentDictionary<string?, HashSet<FeedSub>> _subs;
 
     public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
     {
@@ -175,10 +175,9 @@ public class FeedsService : INService
                             if (channel is null)
                                 continue;
                             var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild?.Id);
-                            if (feed1.Message is "-" or null)
-                                allSendTasks.Add(channel.SendMessageAsync(embeds: builder, components:components?.Build()));
-                            else
-                                allSendTasks.Add(channel.SendMessageAsync(content, embeds: builder, components:components?.Build()));
+                            allSendTasks.Add(feed1.Message is "-" or null
+                                ? channel.SendMessageAsync(embeds: builder, components: components?.Build())
+                                : channel.SendMessageAsync(content, embeds: builder, components: components?.Build()));
                         }
                     }
                 }
@@ -262,14 +261,14 @@ public class FeedsService : INService
         else await channel.SendMessageAsync(content, embeds: builder, components:components?.Build());
     }
 
-    private static Task<(Embed[] builder, string content, ComponentBuilder components)> GetFeedEmbed(
-        string message,
+    private static Task<(Embed[]? builder, string? content, ComponentBuilder? components)> GetFeedEmbed(
+        string? message,
         ulong? guildId) =>
         SmartEmbed.TryParse(message, guildId, out var embed, out var content, out var components)
             ? Task.FromResult((embed, content, components))
             : Task.FromResult<(Embed[], string, ComponentBuilder)>((null, message, null));
 
-    public List<FeedSub> GetFeeds(ulong guildId)
+    public List<FeedSub?> GetFeeds(ulong guildId)
     {
         using var uow = _db.GetDbContext();
         return uow.ForGuildId(guildId,

@@ -56,7 +56,7 @@ public partial class Gambling
                 _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
 
-        private string GetReactionDescription(long amount, long potSize)
+        private string? GetReactionDescription(long amount, long potSize)
         {
             var potSizeStr = Format.Bold(potSize == 0
                 ? $"∞{CurrencySign}"
@@ -67,7 +67,7 @@ public partial class Gambling
                 potSizeStr);
         }
 
-        private string GetGameStatusDescription(long amount, long potSize)
+        private string? GetGameStatusDescription(long amount, long potSize)
         {
             var potSizeStr = Format.Bold(potSize == 0
                 ? $"∞{CurrencySign}"

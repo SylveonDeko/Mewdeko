@@ -5,17 +5,17 @@ namespace Mewdeko.Common;
 
 public class CrEmbed
 {
-    public CrEmbedAuthor Author { get; set; }
-    public string PlainText { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Url { get; set; }
-    public CrEmbedFooter Footer { get; set; }
-    public string Thumbnail { get; set; }
-    public string Image { get; set; }
-    public CrEmbedField[] Fields { get; set; }
+    public CrEmbedAuthor? Author { get; set; }
+    public string? PlainText { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public string? Url { get; set; }
+    public CrEmbedFooter? Footer { get; set; }
+    public string? Thumbnail { get; set; }
+    public string? Image { get; set; }
+    public CrEmbedField[]? Fields { get; set; }
     public uint Color { get; set; } = 7458112;
-    public CrEmbedButton[] Buttons { get; set; }
+    public CrEmbedButton[]? Buttons { get; set; }
 
     public bool IsValid =>
         IsEmbedValid || !string.IsNullOrWhiteSpace(PlainText);
@@ -26,7 +26,7 @@ public class CrEmbed
         !string.IsNullOrWhiteSpace(Url) ||
         !string.IsNullOrWhiteSpace(Thumbnail) ||
         !string.IsNullOrWhiteSpace(Image) ||
-        (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
+        (Footer is not null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
         Fields is { Length: > 0 };
 
     public EmbedBuilder ToEmbed()

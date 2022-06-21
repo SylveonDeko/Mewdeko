@@ -189,7 +189,7 @@ public partial class Suggestions
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-        public async Task SuggestButtonMessage([Remainder] string toSet)
+        public async Task SuggestButtonMessage([Remainder] string? toSet)
         {
             if (toSet == "-")
             {

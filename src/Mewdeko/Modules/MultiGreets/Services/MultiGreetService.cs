@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+// ReSharper disable RedundantAssignment
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 

@@ -83,7 +83,7 @@ public partial class Administration
         public async Task VcRoleList()
         {
             var guild = (SocketGuild)ctx.Guild;
-            string text;
+            string? text;
             if (Service.VcRoles.TryGetValue(ctx.Guild.Id, out var roles))
             {
                 if (roles.Count == 0)

@@ -75,7 +75,7 @@ public partial class Searches
                 return;
             }
 
-            var langarr = langs.ToLowerInvariant().Split('>');
+            string?[] langarr = langs.ToLowerInvariant().Split('>');
             if (langarr.Length != 2)
                 return;
             var from = langarr[0];

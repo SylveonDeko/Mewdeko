@@ -170,7 +170,7 @@ public class RemindService : INService
 
     public struct RemindObject
     {
-        public string What { get; set; }
+        public string? What { get; set; }
         public TimeSpan Time { get; set; }
     }
 }

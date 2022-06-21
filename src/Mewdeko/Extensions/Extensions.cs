@@ -10,7 +10,6 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -47,17 +46,17 @@ public static class Extensions
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
 
-    public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message)
+    public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string? message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build()).ConfigureAwait(false);
 
     public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true).ConfigureAwait(false);
 
-    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message)
+    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string? message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build()).ConfigureAwait(false);
 
-    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message)
+    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build()).ConfigureAwait(false);
 
@@ -193,7 +192,7 @@ public static class Extensions
     /// </summary>
     public static string RedisKey(this IBotCredentials bc) => bc.Token[..10];
 
-    public static async Task<string> ReplaceAsync(this Regex regex, string input,
+    public static async Task<string?> ReplaceAsync(this Regex regex, string? input,
         Func<Match, Task<string>> replacementFn)
     {
         var sb = new StringBuilder();
@@ -219,23 +218,22 @@ public static class Extensions
 
     public static bool IsAuthor(this IMessage msg, IDiscordClient client) => msg.Author?.Id == client.CurrentUser.Id;
 
-    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) => string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
+    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) => string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
 
-    public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
+    public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
-    public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
+    public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
 
     public static string MethodName(this CommandInfo cmd) =>
-        ((Cmd)cmd.Attributes.FirstOrDefault(x => x is Cmd)!)
-        ?.MethodName
+        ((Cmd)cmd.Attributes.FirstOrDefault(x => x is Cmd))?.MethodName
         ?? cmd.Name;
     // public static string RealRemarks(this CommandInfo cmd, IBotStrings strings, string prefix)
     //     => string.Join('\n', cmd.RealRemarksArr(strings, prefix));
 
-    public static string GetFullUsage(string commandName, string args, string prefix) =>
+    public static string GetFullUsage(string commandName, string args, string? prefix) =>
         $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] {prefix}, out var output) ? output : args)}";
 
     public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
@@ -315,15 +313,7 @@ public static class Extensions
     public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
         (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
             u.RoleIds.Contains(role.Id));
-
-    /// <summary>
-    ///     Adds fallback fonts to <see cref="TextOptions" />
-    /// </summary>
-    /// <param name="opts"><see cref="TextOptions" /> to which fallback fonts will be added to</param>
-    /// <param name="fallback">List of fallback Font Families to add</param>
-    /// <returns>The same <see cref="TextOptions" /> to allow chaining</returns>
-    public static TextOptions WithFallbackFonts(this TextOptions opts, List<FontFamily> fallback)
-        => opts.WithFallbackFonts(fallback);
+    
 
     public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
     {

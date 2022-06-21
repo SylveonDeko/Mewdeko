@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.strings;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Autocompleters;
@@ -9,15 +8,11 @@ namespace Mewdeko.Common.Autocompleters;
 public class ModuleAutoCompleter : AutocompleteHandler
 {
     private CommandService Commands { get; }
-    private CommandHandler CommandHandler { get; }
     private GlobalPermissionService Perms { get; }
-    private IBotStrings Strings { get; }
-    public ModuleAutoCompleter(CommandService commands, GlobalPermissionService perms, IBotStrings strings, CommandHandler commandHandler)
+    public ModuleAutoCompleter(CommandService commands, GlobalPermissionService perms)
     {
         Commands = commands;
         Perms = perms;
-        Strings = strings;
-        CommandHandler = commandHandler;
     }
 
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services) =>

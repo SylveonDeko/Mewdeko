@@ -265,7 +265,7 @@ public class StarboardService : INService, IReadyExecutor
                     content = newMessage.Embeds.Count > 0 ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
                     imageurl = newMessage.Attachments.Count > 0
                         ? newMessage.Attachments.FirstOrDefault().ProxyUrl
-                        : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                        : newMessage.Embeds?.Select(x => x.Image).FirstOrDefault()?.ProxyUrl;
                     break;
                 default:
                     content = newMessage.Content;
@@ -437,7 +437,7 @@ public class StarboardService : INService, IReadyExecutor
                     content = newMessage.Embeds.Count > 0 ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
                     imageurl = newMessage.Attachments.Count > 0
                         ? newMessage.Attachments.FirstOrDefault().ProxyUrl
-                        : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                        : newMessage.Embeds?.Select(x => x.Image).FirstOrDefault()?.ProxyUrl;
                     break;
                 default:
                     content = newMessage.Content;
@@ -560,7 +560,7 @@ public class StarboardService : INService, IReadyExecutor
         var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id)).GetPermissions(channel);
         if (!permissions.ManageMessages)
             return;
-        var maybePost = starboardPosts?.FirstOrDefault(x => x.MessageId == msg.Id);
+        var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == msg.Id);
         if (maybePost is null)
             return;
 

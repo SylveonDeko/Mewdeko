@@ -23,7 +23,7 @@ public class GreetSettingsService : INService
         _gss = gss;
         _bss = bss;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => _client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => _client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
             gc
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));
@@ -37,7 +37,7 @@ public class GreetSettingsService : INService
         _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
     }
 
-    public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
+    public ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
     public bool GroupGreets => _bss.Data.GroupGreets;
 
     private async Task TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
@@ -146,7 +146,7 @@ public class GreetSettingsService : INService
         return Task.CompletedTask;
     }
 
-    public bool SetBoostMessage(ulong guildId, string message)
+    public bool SetBoostMessage(ulong guildId, string? message)
     {
         message = message?.SanitizeMentions();
 
@@ -535,7 +535,7 @@ public class GreetSettingsService : INService
         return enabled;
     }
 
-    public bool SetGreetMessage(ulong guildId, ref string message)
+    public bool SetGreetMessage(ulong guildId, ref string? message)
     {
         message = message?.SanitizeMentions();
 
@@ -571,7 +571,7 @@ public class GreetSettingsService : INService
         return enabled;
     }
 
-    public bool SetGreetDmMessage(ulong guildId, ref string message)
+    public bool SetGreetDmMessage(ulong guildId, ref string? message)
     {
         message = message?.SanitizeMentions();
 
@@ -608,7 +608,7 @@ public class GreetSettingsService : INService
         return enabled;
     }
 
-    public bool SetByeMessage(ulong guildId, ref string message)
+    public bool SetByeMessage(ulong guildId, ref string? message)
     {
         message = message?.SanitizeMentions();
 
@@ -722,7 +722,7 @@ public class GreetSettingsService : INService
 public class GreetSettings
 {
     public bool SendBoostMessage { get; set; }
-    public string BoostMessage { get; set; }
+    public string? BoostMessage { get; set; }
     public int BoostMessageDeleteAfter { get; set; }
     public ulong BoostMessageChannelId { get; set; }
 
@@ -733,13 +733,13 @@ public class GreetSettings
     public ulong ByeMessageChannelId { get; set; }
 
     public bool SendDmGreetMessage { get; set; }
-    public string DmGreetMessageText { get; set; }
+    public string? DmGreetMessageText { get; set; }
 
     public bool SendChannelGreetMessage { get; set; }
-    public string ChannelGreetMessageText { get; set; }
+    public string? ChannelGreetMessageText { get; set; }
 
     public bool SendChannelByeMessage { get; set; }
-    public string ChannelByeMessageText { get; set; }
+    public string? ChannelByeMessageText { get; set; }
 
     public static GreetSettings Create(GuildConfig g) =>
         new()

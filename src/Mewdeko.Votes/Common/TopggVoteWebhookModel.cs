@@ -23,7 +23,7 @@ public class TopggVoteWebhookModel
     public bool Weekend { get; set; } = false;
 
     /// <summary>
-    /// Query string params found on the /bot/:ID/vote page. Example: ?a=1&b=2.
+    /// Query string params found on the /bot/:ID/vote page. Example: ?a=2.
     /// </summary>
     public string Query { get; set; }
 }

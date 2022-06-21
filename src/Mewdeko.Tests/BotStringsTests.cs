@@ -31,11 +31,9 @@ public class CommandStringsTests
             var commandName = entry.Value[0];
 
             var cmdStrings = strings.GetCommandStrings(culture.Name, commandName);
-            if (cmdStrings is null)
-            {
-                isSuccess = false;
-                TestContext.Out.WriteLine($"{commandName} doesn't exist in commands.en-US.yml");
-            }
+            if (cmdStrings is not null) continue;
+            isSuccess = false;
+            TestContext.Out.WriteLine($"{commandName} doesn't exist in commands.en-US.yml");
         }
         Assert.IsTrue(isSuccess);
     }

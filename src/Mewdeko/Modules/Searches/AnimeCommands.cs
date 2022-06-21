@@ -145,7 +145,7 @@ public partial class Searches
         }
         [Cmd, Aliases]
         [Priority(0)]
-        public async Task Mal([Remainder] string name)
+        public async Task Mal([Remainder] string? name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return;
@@ -156,7 +156,7 @@ public partial class Searches
             using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
             {
                 var imageElem = document.QuerySelector("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
-                var imageUrl = ((IHtmlImageElement)imageElem)?.Source ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
+                var imageUrl = ((IHtmlImageElement)imageElem).Source ?? "https://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
 
                 var stats = document.QuerySelectorAll("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-right > div#statistics > div.user-statistics-stats > div.stats > div.clearfix > ul.stats-status > li > span").Select(x => x.InnerHtml).ToList();
 
@@ -382,14 +382,14 @@ public partial class Searches
                 var data = result.Data.Skip(page).FirstOrDefault();
                 await Task.CompletedTask;
                 return new PageBuilder()
-                       .WithTitle(Format.Bold($"{data?.Title}"))
-                       .AddField("First Publish Date", data?.Published!)
-                       .AddField("Volumes", data?.Volumes!)
-                       .AddField("Is Still Active", data?.Publishing!)
-                       .AddField("Score", data?.Score!)
-                       .AddField("Url", data?.Url!)
-                       .WithDescription(data?.Background!)
-                       .WithImageUrl(data?.Images.WebP.MaximumImageUrl!).WithColor(Mewdeko.OkColor);
+                       .WithTitle(Format.Bold($"{data.Title}"))
+                       .AddField("First Publish Date", data.Published)
+                       .AddField("Volumes", data.Volumes)
+                       .AddField("Is Still Active", data.Publishing)
+                       .AddField("Score", data.Score)
+                       .AddField("Url", data.Url)
+                       .WithDescription(data.Background)
+                       .WithImageUrl(data.Images.WebP.MaximumImageUrl!).WithColor(Mewdeko.OkColor);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 public class CommentAttribute : Attribute
 {
-    public CommentAttribute(string comment) => Comment = comment;
+    public CommentAttribute(string? comment) => Comment = comment;
 
-    public string Comment { get; }
+    public string? Comment { get; }
 }

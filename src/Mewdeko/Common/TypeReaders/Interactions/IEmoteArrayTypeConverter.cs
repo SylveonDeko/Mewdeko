@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Mewdeko.Common.TypeReaders.Interactions;
 
-public class IEmoteArrayTypeConverter<T> : MewdekoTypeReader<IEmote[]>
+public class EmoteArrayTypeConverter : MewdekoTypeReader<IEmote[]>
 {
-    private IBotStrings _strings { get; set; }
+    private IBotStrings Strings { get; set; }
 
-    public IEmoteArrayTypeConverter(DiscordSocketClient client, InteractionService cmds, IBotStrings strings) : base(client, cmds) => _strings = strings;
+    public EmoteArrayTypeConverter(DiscordSocketClient client, InteractionService cmds, IBotStrings strings) : base(client, cmds) => Strings = strings;
 
     public override bool CanConvertTo(Type type) => type.IsArray && type.GetElementType() == typeof(IEmote);
 
@@ -19,7 +19,7 @@ public class IEmoteArrayTypeConverter<T> : MewdekoTypeReader<IEmote[]>
             .Select(x => x.TryToIEmote(out var value) ? value : null)
             .Where(x => x is not null);
         if (!emotes.Any())
-            return Task.FromResult(TypeConverterResult.FromError(InteractionCommandError.ConvertFailed, _strings.GetText("emote_reader_none_found", context.Guild?.Id)));
+            return Task.FromResult(TypeConverterResult.FromError(InteractionCommandError.ConvertFailed, Strings.GetText("emote_reader_none_found", context.Guild?.Id)));
         return Task.FromResult(TypeConverterResult.FromSuccess(emotes.ToArray()));
     }
 }

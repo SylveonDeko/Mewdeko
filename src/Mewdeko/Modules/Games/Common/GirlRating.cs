@@ -59,5 +59,5 @@ public class GirlRating
     public double Hot { get; }
     public string Advice { get; }
 
-    public AsyncLazy<Stream> Stream { get; }
+    public AsyncLazy<Stream?> Stream { get; }
 }

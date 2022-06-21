@@ -34,7 +34,7 @@ public class GameStatusEvent : ICurrencyEvent
     private readonly object _potLock = new();
 
     private readonly object _stopLock = new();
-    private IUserMessage msg;
+    private IUserMessage? msg;
 
     public GameStatusEvent(DiscordSocketClient client, ICurrencyService cs, SocketGuild g, ITextChannel ch,
         EventOptions opt, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc)
@@ -85,7 +85,7 @@ public class GameStatusEvent : ICurrencyEvent
             _client.SetGameAsync(null);
 #pragma warning restore CS4014
             _t.Change(Timeout.Infinite, Timeout.Infinite);
-            _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
+            _timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
                 var _ = msg.DeleteAsync();

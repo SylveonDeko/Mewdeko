@@ -72,7 +72,7 @@ public class ChatterBotService : INService
                     return;
                 }
 
-                if (message == null || cbs == null)
+                if (string.IsNullOrEmpty(message) || cbs.Equals(default))
                     return;
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
                 if (cleverbotExecuted)

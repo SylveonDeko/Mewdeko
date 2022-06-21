@@ -92,7 +92,7 @@ public static class StringExtensions
     /// <param name="num"></param>
     /// <param name="es"></param>
     /// <returns>String with the correct singular/plural form</returns>
-    public static string SnPl(this string str, int? num, bool es = false)
+    public static string SnPl(this string? str, int? num, bool es = false)
     {
         if (str == null)
             throw new ArgumentNullException(nameof(str));
@@ -102,7 +102,7 @@ public static class StringExtensions
     }
 
     //http://www.dotnetperls.com/levenshtein
-    public static int LevenshteinDistance(this string s, string t)
+    public static int LevenshteinDistance(this string? s, string t)
     {
         var n = s.Length;
         var m = t.Length;
@@ -154,7 +154,7 @@ public static class StringExtensions
 
     public static bool IsDiscordInvite(this string str) => _filterRegex.IsMatch(str);
 
-    public static string SanitizeMentions(this string str, bool sanitizeRoleMentions = false)
+    public static string SanitizeMentions(this string? str, bool sanitizeRoleMentions = false)
     {
         str = str.Replace("@everyone", "@everyοne", StringComparison.InvariantCultureIgnoreCase)
             .Replace("@here", "@һere", StringComparison.InvariantCultureIgnoreCase);
@@ -164,7 +164,7 @@ public static class StringExtensions
         return str;
     }
 
-    public static string SanitizeRoleMentions(this string str) => str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
+    public static string SanitizeRoleMentions(this string? str) => str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
 
     public static string RemoveUserMentions(this string str) => UserMentionsRegex.Replace(str, "");
 
@@ -172,7 +172,7 @@ public static class StringExtensions
         .Select(x => x.Groups["id"]).SelectMany(x => x.Captures).Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
         .Where(x => x is not 0).Distinct();
 
-    public static string SanitizeAllMentions(this string str) => str.SanitizeMentions().SanitizeRoleMentions();
+    public static string SanitizeAllMentions(this string? str) => str.SanitizeMentions().SanitizeRoleMentions();
 
     public static string ToBase64(this string plainText)
     {

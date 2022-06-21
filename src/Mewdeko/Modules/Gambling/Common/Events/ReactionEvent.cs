@@ -28,7 +28,7 @@ public class ReactionEvent : ICurrencyEvent
 
     private readonly object _stopLock = new();
     private IEmote emote;
-    private IUserMessage msg;
+    private IUserMessage? msg;
 
     public ReactionEvent(DiscordSocketClient client, ICurrencyService cs,
         SocketGuild g, ITextChannel ch, EventOptions opt, GamblingConfig config,
@@ -81,7 +81,7 @@ public class ReactionEvent : ICurrencyEvent
             _client.MessageDeleted -= OnMessageDeleted;
             _client.ReactionAdded -= HandleReaction;
             _t.Change(Timeout.Infinite, Timeout.Infinite);
-            _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
+            _timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
                 var _ = msg.DeleteAsync();

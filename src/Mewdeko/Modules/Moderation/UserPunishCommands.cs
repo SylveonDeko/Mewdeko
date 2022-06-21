@@ -125,7 +125,7 @@ public partial class Moderation : MewdekoModule
 
             var embed = new EmbedBuilder()
                 .WithOkColor();
-            if (punishment == null)
+            if (punishment.Id is 0)
             {
                 embed.WithDescription(GetText("user_warned",
                                 Format.Bold(user.ToString())));
@@ -403,7 +403,7 @@ public partial class Moderation : MewdekoModule
         {
             var ps = Service.WarnPunishList(ctx.Guild.Id);
 
-            string list;
+            string? list;
             if (ps.Length > 0)
             {
                 list = string.Join("\n",
@@ -665,7 +665,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
         public Task BanMessageTest(StoopidTime duration, [Remainder] string? reason = null) => InternalBanMessageTest(reason, duration.Time);
 
-        private async Task InternalBanMessageTest(string reason, TimeSpan? duration)
+        private async Task InternalBanMessageTest(string? reason, TimeSpan? duration)
         {
             var dmChannel = await ctx.User.CreateDMChannelAsync();
             var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);

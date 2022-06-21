@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class FilterService : IEarlyBehavior, INService
 {
-    private readonly CultureInfo _cultureInfo = new("en-US");
+    private readonly CultureInfo? _cultureInfo = new("en-US");
     private readonly DbService _db;
     private readonly IPubSub _pubSub;
 
@@ -26,7 +26,7 @@ public class FilterService : IEarlyBehavior, INService
     public readonly UserPunishService Upun;
     private readonly GuildSettingsService _gss;
 
-    public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IPubSub pubSub,
+    public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
         GuildSettingsService gss)
     {
@@ -151,7 +151,7 @@ public class FilterService : IEarlyBehavior, INService
         Reload();
     }
 
-    public ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
+    public ConcurrentHashSet<string?>? FilteredWordsForChannel(ulong channelId, ulong guildId)
     {
         var words = new ConcurrentHashSet<string>();
         if (WordFilteringChannels.Contains(channelId))
@@ -226,7 +226,7 @@ public class FilterService : IEarlyBehavior, INService
         uow.SaveChanges();
     }
 
-    public ConcurrentHashSet<string> FilteredWordsForServer(ulong guildId)
+    public ConcurrentHashSet<string>? FilteredWordsForServer(ulong guildId)
     {
         var words = new ConcurrentHashSet<string>();
         if (WordFilteringServers.Contains(guildId))
@@ -234,7 +234,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    protected string GetText(string key, params object[] args) => Strings.GetText(key, _cultureInfo, args);
+    protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, _cultureInfo, args);
 
     public async Task<bool> FilterBannedWords(IGuild? guild, IUserMessage? msg)
     {

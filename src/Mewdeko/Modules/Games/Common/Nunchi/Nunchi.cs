@@ -94,8 +94,8 @@ public sealed class NunchiGame : IDisposable
             }, null, KILL_TIMEOUT, KILL_TIMEOUT);
 
             CurrentPhase = Phase.Playing;
-            var _ = OnGameStarted?.Invoke(this);
-            var __ = OnRoundStarted?.Invoke(this, CurrentNumber);
+            var _ = OnGameStarted.Invoke(this);
+            var __ = OnRoundStarted.Invoke(this, CurrentNumber);
             return true;
         }
         finally
@@ -134,19 +134,19 @@ public sealed class NunchiGame : IDisposable
                     {
                         killTimer.Change(Timeout.Infinite, Timeout.Infinite);
                         CurrentPhase = Phase.Ended;
-                        var _ = OnGameEnded?.Invoke(this, userTuple.Name);
+                        var _ = OnGameEnded.Invoke(this, userTuple.Name);
                     }
                     else // else just start the new round without the user who was the last
                     {
                         var failure = participants.Except(_passed).First();
 
-                        OnUserGuessed?.Invoke(this);
+                        await OnUserGuessed.Invoke(this);
                         EndRound(failure);
                         return;
                     }
                 }
 
-                OnUserGuessed?.Invoke(this);
+                await OnUserGuessed.Invoke(this);
             }
             else
             {
@@ -169,12 +169,12 @@ public sealed class NunchiGame : IDisposable
         if (failure != null)
             participants.Remove(failure.Value); // remove the dude who failed from the list of players
 
-        var __ = OnRoundEnded?.Invoke(this, failure);
+        var __ = OnRoundEnded.Invoke(this, failure);
         if (participants.Count <= 1) // means we have a winner or everyone was booted out
         {
             killTimer.Change(Timeout.Infinite, Timeout.Infinite);
             CurrentPhase = Phase.Ended;
-            var _ = OnGameEnded?.Invoke(this, participants.Count > 0 ? participants.First().Name : null);
+            var _ = OnGameEnded.Invoke(this, participants.Count > 0 ? participants.First().Name : null);
             return;
         }
 
@@ -183,7 +183,7 @@ public sealed class NunchiGame : IDisposable
         {
             await Task.Delay(NEXT_ROUND_TIMEOUT).ConfigureAwait(false);
             CurrentPhase = Phase.Playing;
-            var ___ = OnRoundStarted?.Invoke(this, CurrentNumber);
+            var ___ = OnRoundStarted.Invoke(this, CurrentNumber);
         });
     }
 }

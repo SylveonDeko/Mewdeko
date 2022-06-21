@@ -55,7 +55,7 @@ public class SearchImageCacher : INService
     private async Task<bool> UpdateImagesInternalAsync(string[] tags, bool forceExplicit, Booru type, CancellationToken cancel)
     {
         var images = await DownloadImagesAsync(tags, forceExplicit, type, cancel).ConfigureAwait(false);
-        if (images is null || images.Count == 0)
+        if (!images.Any())
         {
             // Log.Warning("Got no images for {0}, tags: {1}", type, string.Join(", ", tags));
             return false;
@@ -115,7 +115,7 @@ public class SearchImageCacher : INService
         return true;
     }
 
-    private ImageData QueryLocal(string[] tags, Booru type, HashSet<string> blacklistedTags)
+    private ImageData? QueryLocal(string[] tags, Booru type, IReadOnlySet<string> blacklistedTags)
     {
         var setList = new List<HashSet<ImageData>>();
 
@@ -194,7 +194,7 @@ public class SearchImageCacher : INService
         }
     }
 
-    public async Task<ImageData> GetImageNew(string?[] tags, bool forceExplicit, Booru type,
+    public async Task<ImageData?> GetImageNew(string?[] tags, bool forceExplicit, Booru type,
         HashSet<string> blacklistedTags, CancellationToken cancel)
     {
         // make sure tags are proper
@@ -216,7 +216,7 @@ public class SearchImageCacher : INService
         if (image is not null)
             return image;
 
-        var success = false;
+        bool success;
         try
         {
             // if image is not found, update the cache and query again
@@ -227,21 +227,19 @@ public class SearchImageCacher : INService
             return default;
         }
 
-        if (!success)
-            return default;
-        return QueryLocal(tags, type, blacklistedTags);
+        return !success ? default : QueryLocal(tags, type, blacklistedTags);
     }
 
     private readonly ConcurrentDictionary<(Booru, string), int> _maxPages = new();
 
-    public async Task<List<ImageData>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, CancellationToken cancel)
+    public async Task<List<ImageData?>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, CancellationToken cancel)
     {
         var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
 
         var attempt = 0;
         while (attempt++ <= 10)
         {
-            var page = 0;
+            int page;
             if (_maxPages.TryGetValue((type, tagStr), out var maxPage))
             {
                 if (maxPage == 0)

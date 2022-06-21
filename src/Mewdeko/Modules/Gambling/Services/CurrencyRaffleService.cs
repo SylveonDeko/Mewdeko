@@ -19,7 +19,7 @@ public class CurrencyRaffleService : INService
 
     public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new();
 
-    public async Task<(CurrencyRaffleGame, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user,
+    public async Task<(CurrencyRaffleGame?, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user,
         long amount, bool mixed, Func<IUser, long, Task> onEnded)
     {
         await _locker.WaitAsync().ConfigureAwait(false);

@@ -5,7 +5,7 @@ namespace Mewdeko.Common;
 public class SmartEmbed
 {
     public static bool TryParse(
-        string input,
+        string? input,
         ulong? guildId,
         out Discord.Embed[]? embeds,
         out string? plainText,

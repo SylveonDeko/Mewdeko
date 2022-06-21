@@ -166,7 +166,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         }
     }
 
-    private async Task<byte[]> GetImageData(Uri uri)
+    private async Task<byte[]?> GetImageData(Uri uri)
     {
         if (uri.IsFile)
         {

@@ -14,9 +14,10 @@ public class RoleGreetService : INService
         _client.GuildMemberUpdated += DoRoleGreet;
     }
 
-    public RoleGreet[] GetGreets(ulong roleId) => _db.GetDbContext().RoleGreets.ForRoleId(roleId);
+    public RoleGreet[]? GetGreets(ulong roleId) => _db.GetDbContext().RoleGreets.ForRoleId(roleId);
 
-    public RoleGreet[] GetListGreets(ulong guildId) =>
+    // ReSharper disable once ReturnTypeCanBeNotNullable
+    public RoleGreet[]? GetListGreets(ulong guildId) =>
         _db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
     private Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)

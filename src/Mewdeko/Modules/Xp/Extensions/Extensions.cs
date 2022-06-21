@@ -8,7 +8,7 @@ public static class Extensions
     {
         const int baseXp = XpService.XP_REQUIRED_LVL_1;
 
-        var required = baseXp;
+        int required;
         var totalXp = 0;
         var lvl = 1;
         while (true)

@@ -43,7 +43,7 @@ public static class Extensions
 
     private static string ResolveTriggerString(this string str, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
-    private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx,
+    private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
         DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
     {
         var substringIndex = resolvedTrigger.Length;
@@ -81,7 +81,7 @@ public static class Extensions
         return str;
     }
 
-    public static Task<string> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
+    public static Task<string?> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
         DiscordSocketClient client, bool containsAnywhere) =>
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere);
@@ -156,26 +156,19 @@ public static class Extensions
     public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {
-        var channel = ct.DmResponse
-            ? await inter.User.CreateDMChannelAsync().ConfigureAwait(false)
-            : inter.Channel as IChannel;
 
         if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
-            var trigger = ct.Trigger.ResolveTriggerString(client);
-            var substringIndex = trigger.Length + 1;
-
-            var canMentionEveryone = (inter.User as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
 
             var rep = new ReplacementBuilder()
-                .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
-                .WithOverride("%target%", () => inter switch
-                {
-                    IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
-                    IUserCommandInteraction uData => uData.Data.User.Mention,
-                    _ => "%target%"
-                })
-                .Build();
+                      .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
+                      .WithOverride("%target%", () => inter switch
+                      {
+                          IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
+                          IUserCommandInteraction uData => uData.Data.User.Mention,
+                          _ => "%target%"
+                      })
+                      .Build();
 
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components );
             if (sanitize)

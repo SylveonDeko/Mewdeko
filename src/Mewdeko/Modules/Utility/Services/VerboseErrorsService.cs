@@ -14,9 +14,11 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly GuildSettingsService _guildSettings;
 
     public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch,
-        IBotStrings strings)
+        IBotStrings strings,
+        GuildSettingsService guildSettings)
     {
         _strings = strings;
+        _guildSettings = guildSettings;
         _db = db;
         _ch = ch;
         using var uow = db.GetDbContext();

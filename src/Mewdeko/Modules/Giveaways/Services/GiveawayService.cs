@@ -11,15 +11,13 @@ public class GiveawayService : INService, IReadyExecutor
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
     private readonly GuildSettingsService _guildSettings;
-    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds, Mewdeko bot,
+    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds,
         GuildSettingsService guildSettings)
     {
         _client = client;
         _db = db;
         _creds = creds;
-        _bot = bot;
         _guildSettings = guildSettings;
     }
 

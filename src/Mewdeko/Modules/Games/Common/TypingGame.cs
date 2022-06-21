@@ -12,12 +12,12 @@ public class TypingGame
     private readonly DiscordSocketClient _client;
     private readonly GamesService _games;
     private readonly Options _options;
-    private readonly string _prefix;
+    private readonly string? _prefix;
     private readonly List<ulong> _finishedUserIds;
     private readonly Stopwatch _sw;
 
     public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel,
-        string prefix, Options options)
+        string? prefix, Options options)
     {
         _games = games;
         _client = client;
@@ -30,8 +30,8 @@ public class TypingGame
         _finishedUserIds = new List<ulong>();
     }
 
-    public ITextChannel Channel { get; }
-    public string CurrentSentence { get; private set; }
+    public ITextChannel? Channel { get; }
+    public string? CurrentSentence { get; private set; }
     public bool IsActive { get; private set; }
 
     public async Task<bool> Stop()
@@ -112,7 +112,7 @@ public class TypingGame
         }
     }
 
-    public string GetRandomSentence()
+    public string? GetRandomSentence()
     {
         if (_games.TypingArticles.Count > 0)
             return _games.TypingArticles[new MewdekoRandom().Next(0, _games.TypingArticles.Count)].Text;

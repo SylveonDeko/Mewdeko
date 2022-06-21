@@ -198,7 +198,7 @@ public partial class Utility
             var isAdmin = ((IGuildUser)ctx.Message.Author).GuildPermissions.Administrator;
 
             var success = false;
-            string response;
+            string? response;
             await using (var uow = _db.GetDbContext())
             {
                 var q = uow.Quotes.GetById(id);

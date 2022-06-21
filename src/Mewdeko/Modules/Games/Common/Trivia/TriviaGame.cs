@@ -18,7 +18,7 @@ public class TriviaGame
     private readonly TriviaOptions _options;
 
     private readonly TriviaQuestionPool _questionPool;
-    private readonly string _quitCommand;
+    private readonly string? _quitCommand;
     private readonly IBotStrings _strings;
     private int timeoutCount;
 
@@ -26,7 +26,7 @@ public class TriviaGame
 
     public TriviaGame(IBotStrings strings, DiscordSocketClient client, GamesConfig config,
         IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
-        TriviaOptions options, string quitCommand)
+        TriviaOptions options, string? quitCommand)
     {
         _questionPool = new TriviaQuestionPool(cache);
         _strings = strings;
@@ -51,7 +51,7 @@ public class TriviaGame
     public bool GameActive { get; private set; }
     public bool ShouldStopGame { get; private set; }
 
-    private string GetText(string key, params object[] replacements) => _strings.GetText(key, Channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) => _strings.GetText(key, Channel.GuildId, replacements);
 
     public async Task StartGame()
     {
@@ -64,7 +64,7 @@ public class TriviaGame
 
             // load question
             CurrentQuestion = _questionPool.GetRandomQuestion(OldQuestions);
-            if (string.IsNullOrWhiteSpace(CurrentQuestion?.Answer) ||
+            if (string.IsNullOrWhiteSpace(CurrentQuestion.Answer) ||
                 string.IsNullOrWhiteSpace(CurrentQuestion.Question))
             {
                 await Channel.SendErrorAsync(GetText("trivia_game"), GetText("failed_loading_question"))
@@ -277,7 +277,7 @@ public class TriviaGame
         return Task.CompletedTask;
     }
 
-    public string GetLeaderboard()
+    public string? GetLeaderboard()
     {
         if (Users.Count == 0)
             return GetText("no_results");

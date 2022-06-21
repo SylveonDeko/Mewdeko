@@ -182,7 +182,7 @@ public class AdministrationService : INService
         }
     }
 
-    public static async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)
+    public static async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string? text)
     {
         var msg = await chanl.GetMessageAsync(messageId);
 

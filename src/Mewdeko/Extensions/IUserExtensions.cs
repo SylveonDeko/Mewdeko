@@ -31,7 +31,7 @@ public static class UserExtensions
             .SendMessageAsync("", embed: eb.Build()).ConfigureAwait(false);
     }
 
-    public static async Task<IUserMessage> SendErrorAsync(this IUser user, string error) =>
+    public static async Task<IUserMessage> SendErrorAsync(this IUser user, string? error) =>
         await (await user.CreateDMChannelAsync().ConfigureAwait(false))
               .SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build())
               .ConfigureAwait(false);
@@ -56,7 +56,7 @@ public static class UserExtensions
             : new Uri(usr.GetAvatarUrl(ImageFormat.Auto, size));
 
     // This method is only used for the xp card
-    public static Uri RealAvatarUrl(this DiscordUser usr) =>
+    public static Uri? RealAvatarUrl(this DiscordUser usr) =>
         usr.AvatarId == null
             ? null
             : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)

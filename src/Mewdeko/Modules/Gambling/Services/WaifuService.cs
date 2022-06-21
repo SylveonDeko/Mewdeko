@@ -135,7 +135,7 @@ public class WaifuService : INService
         return true;
     }
 
-    public async Task<(WaifuInfo, bool, WaifuClaimResult)> ClaimWaifuAsync(IUser user, IUser target, int amount)
+    public async Task<(WaifuInfo, bool, WaifuClaimResult)> ClaimWaifuAsync(IUser user, IUser? target, int amount)
     {
         var settings = _gss.Data;
         WaifuClaimResult result;
@@ -227,7 +227,7 @@ public class WaifuService : INService
         return (w, isAffinity, result);
     }
 
-    public async Task<(DiscordUser, bool, TimeSpan?)> ChangeAffinityAsync(IUser user, IGuildUser? target)
+    public async Task<(DiscordUser?, bool, TimeSpan?)> ChangeAffinityAsync(IUser user, IGuildUser? target)
     {
         DiscordUser? oldAff = null;
         var success = false;

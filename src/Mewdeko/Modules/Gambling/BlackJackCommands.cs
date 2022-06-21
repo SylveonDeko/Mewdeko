@@ -20,7 +20,7 @@ public partial class Gambling
         }
 
         private readonly ICurrencyService _cs;
-        private IUserMessage msg;
+        private IUserMessage? msg;
 
         public BlackJackCommands(ICurrencyService cs,
             GamblingConfigService gamblingConf) : base(gamblingConf) =>

@@ -17,8 +17,8 @@ public class SingleProcessCoordinator : ICoordinator
 
     public bool RestartBot()
     {
-        if (string.IsNullOrWhiteSpace(_creds.RestartCommand?.Cmd)
-            || string.IsNullOrWhiteSpace(_creds.RestartCommand?.Args))
+        if (string.IsNullOrWhiteSpace(_creds.RestartCommand.Cmd)
+            || string.IsNullOrWhiteSpace(_creds.RestartCommand.Args))
         {
             Log.Error("You must set RestartCommand.Cmd and RestartCommand.Args in creds.yml");
             return false;

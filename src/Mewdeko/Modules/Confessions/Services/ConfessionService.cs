@@ -6,13 +6,11 @@ public class ConfessionService : INService
 {
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
-    private readonly Mewdeko _bot;
     private readonly GuildSettingsService _guildSettings;
-    public ConfessionService(DbService db, Mewdeko bot, DiscordSocketClient client,
+    public ConfessionService(DbService db, DiscordSocketClient client,
         GuildSettingsService guildSettings)
     {
         _db = db;
-        _bot = bot;
         _client = client;
         _guildSettings = guildSettings;
     }

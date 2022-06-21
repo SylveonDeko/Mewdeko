@@ -17,31 +17,7 @@ public sealed class BotConfig
         ForwardMessages = false;
         ForwardToAllOwners = false;
         DmHelpText = @"{""description"": ""Type `%prefix%h` for help.""}";
-        HelpText = @"{
-  ""title"": ""To invite me to your server, use this link"",
-  ""description"": ""https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303"",
-  ""color"": 53380,
-  ""thumbnail"": ""https://i.imgur.com/nKYyqMK.png"",
-  ""fields"": [
-    {
-      ""name"": ""Useful help commands"",
-      ""value"": ""`%bot.prefix%modules` Lists all bot modules.
-`%prefix%h CommandName` Shows some help about a specific command.
-`%prefix%commands ModuleName` Lists all commands in a module."",
-      ""inline"": false
-    },
-    {
-      ""name"": ""List of all Commands"",
-      ""value"": ""https://Mewdeko.bot/commands"",
-      ""inline"": false
-    },
-    {
-      ""name"": ""Mewdeko Support Server"",
-      ""value"": ""https://discord.Mewdeko.bot/ "",
-      ""inline"": true
-    }
-  ]
-}";
+        HelpText = @"change this in bot.yml";
         Blocked = new BlockedConfig();
         Prefix = ".";
         RotateStatuses = false;
@@ -59,7 +35,7 @@ and copy the hex code fo your selected color (marked as #)")]
     public ColorConfig Color { get; set; }
 
     [Comment("Default bot language. It has to be in the list of supported languages (.langli)")]
-    public CultureInfo DefaultLocale { get; set; }
+    public CultureInfo? DefaultLocale { get; set; }
 
     [Comment(@"Style in which executed commands will show up in the console.
 Allowed values: Simple, Normal, None")]
@@ -83,13 +59,13 @@ or all owners? (this might cause the bot to lag if there's a lot of owners speci
     [Comment(@"When a user DMs the bot with a message which is not a command
 they will receive this message. Leave empty for no response. The string which will be sent whenever someone DMs the bot.
 Supports embeds. How it looks: https://puu.sh/B0BLV.png"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
-    public string DmHelpText { get; set; }
+    public string? DmHelpText { get; set; }
 
     [Comment(@"This is the response for the .h command"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string HelpText { get; set; }
 
     [Comment(@"List of modules and commands completely blocked on the bot")]
-    public BlockedConfig Blocked { get; set; }
+    public BlockedConfig? Blocked { get; set; }
 
     [Comment(@"Which string will be used to recognize the commands")]
     public string Prefix { get; set; }
@@ -130,12 +106,12 @@ public class BlockedConfig
 {
     public BlockedConfig()
     {
-        Modules = new HashSet<string>();
-        Commands = new HashSet<string>();
+        Modules = new HashSet<string?>();
+        Commands = new HashSet<string?>();
     }
 
-    public HashSet<string> Commands { get; set; }
-    public HashSet<string> Modules { get; set; }
+    public HashSet<string?>? Commands { get; set; }
+    public HashSet<string?>? Modules { get; set; }
 }
 
 public class ColorConfig

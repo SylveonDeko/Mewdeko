@@ -17,7 +17,7 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
 
         SearchType = type;
         Rating = obj.Rating;
-        Tags = new HashSet<string>((obj.Tags ?? obj.TagString).Split(' '));
+        Tags = new HashSet<string>((obj?.Tags ?? obj.TagString).Split(' '));
     }
 
     public ImageCacherObject(string url, DapiSearchType type, string tags, string rating)

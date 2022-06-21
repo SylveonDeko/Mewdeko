@@ -129,7 +129,7 @@ public partial class Administration
                     rolesStr.AppendLine($"\t\t\t\t ⟪{groupNameText}⟫");
                     foreach (var (model, role) in kvp.AsEnumerable())
                     {
-                        if (role == null)
+                        if (role.Name is null)
                         {
                         }
                         else

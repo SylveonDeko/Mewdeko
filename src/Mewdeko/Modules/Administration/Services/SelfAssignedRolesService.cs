@@ -217,7 +217,7 @@ public class SelfAssignedRolesService : INService
     public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string>
         GroupNames) GetRoles(IGuild guild)
     {
-        var exclusive = false;
+        bool exclusive;
 
         IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
         IDictionary<int, string> groupNames;
@@ -229,10 +229,10 @@ public class SelfAssignedRolesService : INService
             var roleModels = uow.SelfAssignableRoles.GetFromGuild(guild.Id);
             roles = roleModels
                 .Select(x => (Model: x, Role: guild.GetRole(x.RoleId)));
-            uow.SelfAssignableRoles.RemoveRange(roles.Where(x => x.Role == null).Select(x => x.Model).ToArray());
+            uow.SelfAssignableRoles.RemoveRange(roles.Where(x => x.Role.Name == null).Select(x => x.Model).ToArray());
             uow.SaveChanges();
         }
 
-        return (exclusive, roles.Where(x => x.Role != null), groupNames);
+        return (exclusive, roles.Where(x => x.Role.Name != null), groupNames);
     }
 }

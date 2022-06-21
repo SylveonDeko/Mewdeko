@@ -97,6 +97,7 @@ public partial class Moderation
                 return;
             }
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (punishment == null)
             {
                 await ReplyConfirmLocalizedAsync("user_warned", Format.Bold(user.ToString())).ConfigureAwait(false);
@@ -355,7 +356,7 @@ public partial class Moderation
         {
             var ps = Service.WarnPunishList(ctx.Guild.Id);
 
-            string list;
+            string? list;
             if (ps.Length > 0)
             {
                 list = string.Join("\n",

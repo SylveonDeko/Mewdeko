@@ -24,7 +24,7 @@ public class Localization : ILocalization
         var cultureInfoNames = gc
             .ToDictionary(x => x.GuildId, x => x.Locale);
 
-        GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo>(cultureInfoNames.ToDictionary(x => x.Key,
+        GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo?>(cultureInfoNames.ToDictionary(x => x.Key,
             x =>
             {
                 CultureInfo cultureInfo = null;
@@ -58,12 +58,12 @@ public class Localization : ILocalization
             }).Where(x => x.Value != null));
     }
 
-    public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
-    public CultureInfo DefaultCultureInfo => _bss.Data.DefaultLocale;
+    public ConcurrentDictionary<ulong, CultureInfo?> GuildCultureInfos { get; }
+    public CultureInfo? DefaultCultureInfo => _bss.Data.DefaultLocale;
 
-    public void SetGuildCulture(IGuild guild, CultureInfo ci) => SetGuildCulture(guild.Id, ci);
+    public void SetGuildCulture(IGuild guild, CultureInfo? ci) => SetGuildCulture(guild.Id, ci);
 
-    public void SetGuildCulture(ulong guildId, CultureInfo ci)
+    public void SetGuildCulture(ulong guildId, CultureInfo? ci)
     {
         if (ci.Name == _bss.Data.DefaultLocale.Name)
         {
@@ -94,13 +94,13 @@ public class Localization : ILocalization
         }
     }
 
-    public void SetDefaultCulture(CultureInfo ci) => _bss.ModifyConfig(bs => bs.DefaultLocale = ci);
+    public void SetDefaultCulture(CultureInfo? ci) => _bss.ModifyConfig(bs => bs.DefaultLocale = ci);
 
     public void ResetDefaultCulture() => SetDefaultCulture(CultureInfo.CurrentCulture);
 
-    public CultureInfo GetCultureInfo(IGuild? guild) => GetCultureInfo(guild?.Id);
+    public CultureInfo? GetCultureInfo(IGuild? guild) => GetCultureInfo(guild?.Id);
 
-    public CultureInfo GetCultureInfo(ulong? guildId)
+    public CultureInfo? GetCultureInfo(ulong? guildId)
     {
         if (guildId is null || !GuildCultureInfos.TryGetValue(guildId.Value, out var info) || info is null)
             return _bss.Data.DefaultLocale;
