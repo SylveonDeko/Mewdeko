@@ -1,4 +1,4 @@
-﻿using Mewdeko.Services.Settings;
+using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Globalization;
@@ -27,7 +27,7 @@ public class Localization : ILocalization
         GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo>(cultureInfoNames.ToDictionary(x => x.Key,
             x =>
             {
-                CultureInfo cultureInfo = null;
+                CultureInfo? cultureInfo = null;
                 try
                 {
                     switch (x.Value)

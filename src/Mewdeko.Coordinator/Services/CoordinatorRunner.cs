@@ -1,4 +1,4 @@
-﻿using Mewdeko.Coordinator.Shared;
+using Mewdeko.Coordinator.Shared;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
@@ -357,7 +357,7 @@ public sealed class CoordinatorRunner : BackgroundService
             for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
             {
                 var statusObj = savedState.StatusObjects[shardId];
-                Process p = null;
+                Process? p = null;
                 if (statusObj.Pid is { } pid)
                 {
                     try

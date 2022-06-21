@@ -401,7 +401,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 // This should be a rare occurrence.
                 if (tables1 != tables) continue;
 
-                Node previous = null;
+                Node? previous = null;
                 for (var current = tables1.Buckets[bucketNo]; current != null; current = current.Next)
                 {
                     Debug.Assert(
@@ -453,7 +453,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 if (tables1 != tables) continue;
 
                 // Try to find this item in the bucket
-                Node previous = null;
+                Node? previous = null;
                 for (var current = tables1.Buckets[bucketNo]; current != null; current = current.Next)
                 {
                     Debug.Assert(
