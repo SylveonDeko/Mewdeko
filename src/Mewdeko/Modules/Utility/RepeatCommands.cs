@@ -143,19 +143,19 @@ public partial class Utility
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(-1)]
-        public Task Repeat([Remainder] string message) => Repeat(null, null, message);
+        public Task Repeat([Remainder] string? message) => Repeat(null, null, message);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(0)]
-        public Task Repeat(StoopidTime interval, [Remainder] string message) => Repeat(null, interval, message);
+        public Task Repeat(StoopidTime interval, [Remainder] string? message) => Repeat(null, interval, message);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(1)]
-        public Task Repeat(GuildDateTime dt, [Remainder] string message) => Repeat(dt, null, message);
+        public Task Repeat(GuildDateTime dt, [Remainder] string? message) => Repeat(dt, null, message);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(2)]
-        public async Task Repeat(GuildDateTime? dt, StoopidTime? interval, [Remainder] string message)
+        public async Task Repeat(GuildDateTime? dt, StoopidTime? interval, [Remainder] string? message)
         {
             if (!Service.RepeaterReady)
                 return;
@@ -256,7 +256,7 @@ public partial class Utility
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
-        public async Task RepeatMessage(int index, [Remainder] string text)
+        public async Task RepeatMessage(int index, [Remainder] string? text)
         {
             if (!Service.RepeaterReady)
                 return;
@@ -295,7 +295,7 @@ public partial class Utility
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
-        public async Task RepeatChannel(int index, [Remainder] ITextChannel textChannel)
+        public async Task RepeatChannel(int index, [Remainder] ITextChannel? textChannel)
         {
             if (!Service.RepeaterReady)
                 return;

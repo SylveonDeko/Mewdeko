@@ -110,8 +110,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null,
             x => x
                  .WithTitle("Chat Trigger Edit")
-                 .UpdateTextInput("key", x => x.Value = trigger.Trigger)
-                 .UpdateTextInput("message", x => x.Value = trigger.Response)).ConfigureAwait(false);
+                 .UpdateTextInput("key", textInputBuilder => textInputBuilder.Value = trigger.Trigger)
+                 .UpdateTextInput("message", textInputBuilder => textInputBuilder.Value = trigger.Response)).ConfigureAwait(false);
 
         await FollowupWithTriggerStatus();
     }
@@ -193,7 +193,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
-        if (chatTriggers == null || chatTriggers.Length == 0)
+        if (!chatTriggers.Any())
         {
             await ctx.Interaction.SendErrorAsync("no_found").ConfigureAwait(false);
         }
@@ -451,7 +451,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
                         .WithTitle(GetText("ct_interaction_errors_title"))
@@ -568,7 +568,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
                         .WithTitle(GetText("ct_interaction_errors_title"))
@@ -683,7 +683,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
                         .WithTitle(GetText("ct_interaction_errors_title"))
@@ -693,16 +693,17 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
+        // ReSharper disable once UnusedMember.Local
         private async Task CtInterErrors()
         {
-            var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
             var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
             if (errors?.Any() ?? false)
             {
                 eb.WithFields(errors.Select(x =>
                       new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
-                          GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(x => $" - {x}").Join('\n')))))
+                          GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(s => $" - {s}").Join('\n')))))
                   .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
                   .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
             }
@@ -718,7 +719,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
     private async Task FollowupWithTriggerStatus()
     {
-        var errors = Service.GetACCTErrors(ctx.Guild?.Id);
+        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
         if (!(errors?.Any() ?? false)) return;
         var embed = new EmbedBuilder()
             .WithTitle(GetText("ct_interaction_errors_title"))

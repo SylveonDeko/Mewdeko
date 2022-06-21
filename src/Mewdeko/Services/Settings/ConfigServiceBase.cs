@@ -70,7 +70,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
 
     public IReadOnlyList<string> GetSettableProps() => _propSetters.Keys.ToList();
 
-    public string GetSetting(string prop)
+    public string? GetSetting(string prop)
     {
         prop = prop.ToLowerInvariant();
         if (!_propSelectors.TryGetValue(prop, out var selector) ||
@@ -82,13 +82,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         return printer(selector());
     }
 
-    public string GetComment(string prop)
-    {
-        if (_propComments.TryGetValue(prop, out var comment))
-            return comment;
-
-        return null;
-    }
+    public string? GetComment(string prop) => _propComments.TryGetValue(prop, out var comment) ? comment : null;
 
     public bool SetSetting(string prop, string newValue)
     {

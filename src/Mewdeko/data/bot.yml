@@ -35,7 +35,8 @@ helpText: |-
 blocked:
   commands:
     - internalboobs
-  modules: []
+  modules:
+    - ''
 # Which string will be used to recognize the commands
 prefix: .
 # Toggles whether your bot will group greet/bye messages into a single message every 5 seconds.
@@ -51,6 +52,6 @@ groupGreets: false
 # Whether the bot will rotate through all specified statuses.
 # This setting can be changed via .rots command.
 # See RotatingStatuses submodule in Administration.
-rotateStatuses: true
+rotateStatuses: false
 # Used for global command logs
 commandLogChannel: 967698079748862012

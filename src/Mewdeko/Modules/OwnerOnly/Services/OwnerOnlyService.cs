@@ -186,13 +186,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
             {
                 var user = _client.GetUser(id);
-                if (user == null)
-                    return Task.FromResult<IDMChannel>(null);
-
-                return user.CreateDMChannelAsync();
+                return user == null ? Task.FromResult<IDMChannel?>(null) : user.CreateDMChannelAsync();
             })).ConfigureAwait(false);
-
-            ownerChannels = channels.Where(x => x != null)
+            
+            ownerChannels = channels.Where(x => x is not null)
                                     .ToDictionary(x => x.Recipient.Id, x => x)
                                     .ToImmutableDictionary();
 
@@ -242,7 +239,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
     }
 
-    public async Task<string> RemovePlayingAsync(int index)
+    public async Task<string?> RemovePlayingAsync(int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
@@ -370,7 +367,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool RestartBot()
     {
         var cmd = _creds.RestartCommand;
-        if (string.IsNullOrWhiteSpace(cmd?.Cmd)) return false;
+        if (string.IsNullOrWhiteSpace(cmd.Cmd)) return false;
 
         Restart();
         return true;

@@ -433,7 +433,7 @@ public class Mewdeko
         }, CommandFlags.FireAndForget);
     }
 
-    public async Task SetGameAsync(string game, ActivityType type)
+    public async Task SetGameAsync(string? game, ActivityType type)
     {
         var obj = new { Name = game, Activity = type };
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();

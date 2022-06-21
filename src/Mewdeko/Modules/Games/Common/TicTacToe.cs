@@ -18,14 +18,14 @@ public class TicTacToe
     private readonly Options _options;
     private readonly int?[,] _state;
     private readonly IBotStrings _strings;
-    private readonly IGuildUser[] _users;
+    private readonly IGuildUser?[] _users;
     private int curUserIndex;
     private Phase phase;
 
-    private IUserMessage previousMessage;
+    private IUserMessage? previousMessage;
     private Timer timeoutTimer;
 
-    private IGuildUser winner;
+    private IGuildUser? winner;
 
     public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
         IGuildUser firstUser, Options options)
@@ -49,7 +49,7 @@ public class TicTacToe
 
     public event Action<TicTacToe> OnEnded;
 
-    private string GetText(string key, params object[] replacements) => _strings.GetText(key, _channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) => _strings.GetText(key, _channel.GuildId, replacements);
 
     public string GetState()
     {
@@ -105,7 +105,7 @@ public class TicTacToe
             _ => "⬛"
         };
 
-    public async Task Start(IGuildUser user)
+    public async Task Start(IGuildUser? user)
     {
         if (phase is Phase.Started or Phase.Ended)
         {
@@ -132,7 +132,7 @@ public class TicTacToe
                     return;
 
                 phase = Phase.Ended;
-                if (_users[1] != null)
+                if (_users[1].Username != null)
                 {
                     winner = _users[curUserIndex ^= 1];
                     var del = previousMessage?.DeleteAsync();
@@ -148,7 +148,7 @@ public class TicTacToe
                     }
                 }
 
-                OnEnded?.Invoke(this);
+                OnEnded.Invoke(this);
             }
             catch
             {
@@ -242,14 +242,14 @@ public class TicTacToe
                         reason = GetText("ttt_matched_three");
                         winner = _users[curUserIndex];
                         _client.MessageReceived -= Client_MessageReceived;
-                        OnEnded?.Invoke(this);
+                        OnEnded.Invoke(this);
                     }
                     else if (IsDraw())
                     {
                         reason = GetText("ttt_a_draw");
                         phase = Phase.Ended;
                         _client.MessageReceived -= Client_MessageReceived;
-                        OnEnded?.Invoke(this);
+                        OnEnded.Invoke(this);
                     }
 
                     await Task.Run(async () =>

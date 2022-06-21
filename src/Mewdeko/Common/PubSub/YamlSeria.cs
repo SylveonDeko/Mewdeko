@@ -19,19 +19,24 @@ public class YamlSeria : IConfigSeria
         _serializer = Yaml.Serializer;
         _deserializer = Yaml.Deserializer;
     }
-
-#pragma warning disable CS8633
-    public string Serialize<T>(T obj)
-#pragma warning restore CS8633
-        where T : notnull
+    
+    public string Serialize<T>(T? obj)
     {
-        var escapedOutput = _serializer.Serialize(obj);
-        return _codePointRegex.Replace(escapedOutput,
-            me =>
-            {
-                var str = me.Groups["code"].Value;
-                return YamlHelper.UnescapeUnicodeCodePoint(str);
-            });
+        try
+        {
+            var escapedOutput = _serializer.Serialize(obj);
+            return _codePointRegex.Replace(escapedOutput,
+                me =>
+                {
+                    var str = me.Groups["code"].Value;
+                    return YamlHelper.UnescapeUnicodeCodePoint(str);
+                });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public T Deserialize<T>(string data)

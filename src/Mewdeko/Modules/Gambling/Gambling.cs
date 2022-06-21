@@ -45,7 +45,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
     private readonly InteractiveService _interactivity;
 
-    private IUserMessage rdMsg;
+    private IUserMessage? rdMsg;
 
     public Gambling(DbService db, ICurrencyService currency,
         IDataCache cache, DiscordSocketClient client,
@@ -234,7 +234,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
         var embed = new EmbedBuilder()
             .WithTitle(GetText("transactions",
-                ((SocketGuild)ctx.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
+                ((SocketGuild)ctx.Guild).GetUser(userId)?.ToString() ?? $"{userId}"))
             .WithOkColor();
 
         var desc = "";
@@ -579,7 +579,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             }
         }
 
-        string msg;
+        string? msg;
         if (pick == mewdekoPick)
         {
             await _cs.AddAsync(ctx.User.Id,

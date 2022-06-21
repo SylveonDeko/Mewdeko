@@ -465,7 +465,7 @@ public partial class Gambling
             }
         }
 
-        public string EntryToString(ShopEntry entry)
+        public string? EntryToString(ShopEntry entry)
         {
             switch (entry.Type)
             {

@@ -12,7 +12,7 @@ public class LocalBotStringsProvider : IBotStringsProvider
         Reload();
     }
 
-    public string GetText(string localeName, string key)
+    public string GetText(string localeName, string? key)
     {
         if (responseStrings.TryGetValue(localeName, out var langStrings)
             && langStrings.TryGetValue(key, out var text))
@@ -29,7 +29,7 @@ public class LocalBotStringsProvider : IBotStringsProvider
         commandStrings = _source.GetCommandStrings();
     }
 
-    public CommandStrings GetCommandStrings(string localeName, string commandName)
+    public CommandStrings? GetCommandStrings(string localeName, string commandName)
     {
         if (commandStrings.TryGetValue(localeName, out var langStrings)
             && langStrings.TryGetValue(commandName, out var strings))

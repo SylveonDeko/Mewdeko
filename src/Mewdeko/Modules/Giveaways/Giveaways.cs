@@ -194,6 +194,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         catch
         {
             await msg.ModifyAsync(x => x.Embed = erorrembed);
+            // ReSharper disable once RedundantAssignment
             tries++;
             return;
         }

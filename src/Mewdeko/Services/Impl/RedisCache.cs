@@ -163,7 +163,7 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
-    public Task<List<SnipeStore>>? GetSnipesForGuild(ulong id)
+    public Task<List<SnipeStore>?> GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{_redisKey}_snipes", Redis);
         return Task.FromResult(customers[id]);
@@ -335,7 +335,7 @@ public class RedisCache : IDataCache
         var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
         return JsonConvert.DeserializeObject<string>(toget);
     }
-    public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory,
+    public async Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory,
         TParam param, TimeSpan expiry) where TOut : class
     {
         var db = Redis.GetDatabase();

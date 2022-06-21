@@ -16,18 +16,15 @@ public class UserPunishService : INService
     private readonly DbService _db;
     private readonly MuteService _mute;
     private readonly DiscordSocketClient _client;
-    private readonly Mewdeko _bot;
     private readonly GuildSettingsService _guildSettings;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
-        Mewdeko bot,
         DiscordSocketClient client,
         GuildSettingsService guildSettings)
     {
         _mute = mute;
         _db = db;
         _blacklistService = blacklistService;
-        _bot = bot;
         _client = client;
         _guildSettings = guildSettings;
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
@@ -387,7 +384,7 @@ WHERE GuildId={guildId}
         return (bans, missing);
     }
 
-    public string GetBanTemplate(ulong guildId)
+    public string? GetBanTemplate(ulong guildId)
     {
         using var uow = _db.GetDbContext();
         var template = uow.BanTemplates
@@ -432,8 +429,8 @@ WHERE GuildId={guildId}
         uow.SaveChanges();
     }
 
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
-        string banReason, TimeSpan? duration) =>
+    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string? defaultMessage,
+        string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient)context.Client,
             (SocketGuild)context.Guild,
@@ -444,7 +441,7 @@ WHERE GuildId={guildId}
             duration);
 
     public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
-        IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
+        IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
 

@@ -121,12 +121,12 @@ public sealed class AnimalRace : IDisposable
                     await _currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
             }
 
-            OnStartingFailed?.Invoke(this);
+            await OnStartingFailed.Invoke(this);
             CurrentPhase = Phase.Ended;
             return;
         }
 
-        var _ = OnStarted?.Invoke(this);
+        _ = OnStarted.Invoke(this);
         await Task.Run(async () =>
         {
             var rng = new MewdekoRandom();
@@ -144,7 +144,7 @@ public sealed class AnimalRace : IDisposable
 
                 FinishedUsers.AddRange(finished);
 
-                OnStateUpdate?.Invoke(this);
+                await OnStateUpdate.Invoke(this);
                 await Task.Delay(2500).ConfigureAwait(false);
             }
 
@@ -155,7 +155,7 @@ public sealed class AnimalRace : IDisposable
                                .ConfigureAwait(false);
             }
 
-            OnEnded?.Invoke(this);
+            await OnEnded.Invoke(this);
         });
     }
 }

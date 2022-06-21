@@ -29,7 +29,7 @@ public class CommandMapService : IInputTransformer, INService
         _db = db;
     }
 
-    public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new();
+    public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; }
 
     public async Task<string> TransformInput(IGuild? guild, IMessageChannel channel, IUser user, string input)
     {

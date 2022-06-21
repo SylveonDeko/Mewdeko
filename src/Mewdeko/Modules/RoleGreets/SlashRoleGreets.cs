@@ -33,7 +33,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!");
@@ -45,7 +45,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     [SlashCommand("remove", "Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(int id)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("No greet with that ID found!");
@@ -78,7 +78,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!");
@@ -100,7 +100,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     [SlashCommand("disable", "Disable a RoleGreet using its Id"), Aliases, RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!");
@@ -113,7 +113,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
      RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!");
@@ -156,7 +156,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
     public async Task RoleGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync();
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Interaction.SendErrorFollowupAsync("No RoleGreet found for that Id!");

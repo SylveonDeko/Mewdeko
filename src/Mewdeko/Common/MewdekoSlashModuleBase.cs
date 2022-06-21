@@ -7,7 +7,7 @@ namespace Mewdeko.Common;
 
 public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 {
-    protected CultureInfo CultureInfo { get; set; }
+    protected CultureInfo? CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
@@ -17,41 +17,41 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 
     public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild);
 
-    protected string GetText(string key) => Strings.GetText(key, CultureInfo);
+    protected string? GetText(string? key) => Strings.GetText(key, CultureInfo);
 
-    protected string GetText(string key, params object[] args) => Strings.GetText(key, CultureInfo, args);
+    protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
 
-    public async Task ErrorLocalizedAsync(string textKey, params object[] args)
+    public async Task ErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false);
     }
 
-    public async Task ReplyErrorLocalizedAsync(string textKey, params object[] args)
+    public async Task ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);
     }
 
-    public async Task EphemeralReplyErrorLocalizedAsync(string textKey, params object[] args)
+    public async Task EphemeralReplyErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         await ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);
     }
 
-    public async Task ConfirmLocalizedAsync(string textKey, params object[] args)
+    public async Task ConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         await ctx.Interaction.SendConfirmAsync(text).ConfigureAwait(false);
     }
 
-    public Task ReplyConfirmLocalizedAsync(string textKey, params object[] args)
+    public Task ReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Interaction.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public Task EphemeralReplyConfirmLocalizedAsync(string textKey, params object[] args)
+    public Task EphemeralReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Interaction.SendEphemeralConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");

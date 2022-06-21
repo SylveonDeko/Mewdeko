@@ -133,7 +133,7 @@ public class Help : MewdekoModuleBase<HelpService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var transformed = groups.Select(x => x.ElementAt(page).Where(x => !x.Attributes.Any(x => x is HelpDisabled)).Select(commandInfo =>
+            var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
                     $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{_guildSettings.GetPrefix(ctx.Guild) + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();

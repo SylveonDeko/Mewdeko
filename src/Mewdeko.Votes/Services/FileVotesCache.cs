@@ -9,7 +9,6 @@ namespace Mewdeko.Votes.Services;
 
 public class FileVotesCache
 {
-    private const string STATS_FILE = "store/stats.json";
     private const string TOPGG_FILE = "store/topgg.json";
     private const string DISCORDS_FILE = "store/discords.json";
 

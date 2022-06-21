@@ -491,7 +491,7 @@ public class SuggestionsService : INService
         gc.sugnum = 1;
         await uow.SaveChangesAsync();
     }
-    public async Task UpdateSuggestionButtonMessage(IGuild guild, string code, bool bypasschannelcheck = false)
+    public async Task UpdateSuggestionButtonMessage(IGuild guild, string? code, bool bypasschannelcheck = false)
     {
         var toGet = GetSuggestButtonChannel(guild);
         if (toGet is 0 && !bypasschannelcheck)
@@ -574,7 +574,7 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task SetSuggestButtonMessage(IGuild guild, string message)
+    public async Task SetSuggestButtonMessage(IGuild guild, string? message)
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guild.Id, set => set);
@@ -862,15 +862,15 @@ public class SuggestionsService : INService
     }
     public ulong GetSuggestionChannel(ulong? id) => _guildSettings.GetGuildConfig(id.Value).sugchan;
 
-    public string GetSuggestionMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestMessage;
+    public string? GetSuggestionMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestMessage;
 
-    public string GetAcceptMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).AcceptMessage;
+    public string? GetAcceptMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).AcceptMessage;
 
-    public string GetDenyMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).DenyMessage;
+    public string? GetDenyMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).DenyMessage;
 
-    public string GetImplementMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ImplementMessage;
+    public string? GetImplementMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ImplementMessage;
 
-    public string GetConsiderMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ConsiderMessage;
+    public string? GetConsiderMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).ConsiderMessage;
 
     public int GetThreadType(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestionThreadType;
 
@@ -898,7 +898,7 @@ public class SuggestionsService : INService
 
     public string GetSuggestButtonEmote(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonEmote;
 
-    public string GetSuggestButtonMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonMessage;
+    public string? GetSuggestButtonMessage(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonMessage;
 
     public int GetSuggestButtonRepost(IGuild guild) => _guildSettings.GetGuildConfig(guild.Id).SuggestButtonRepostThreshold;
 

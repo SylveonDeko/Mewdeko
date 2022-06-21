@@ -14,7 +14,7 @@ public class Replacer
         _regex = regex;
     }
 
-    public string Replace(string input)
+    public string? Replace(string? input)
     {
         if (string.IsNullOrWhiteSpace(input))
             return input;

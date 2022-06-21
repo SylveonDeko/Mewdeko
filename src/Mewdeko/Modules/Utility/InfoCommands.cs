@@ -214,14 +214,7 @@ public partial class Utility
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;
             var userbanner = (await _client.Rest.GetUserAsync(user.Id)).GetBannerUrl(size: 2048);
-            string serverUserType;
-            if (user.GuildPermissions.ManageMessages)
-                serverUserType = "Helper";
-            if (user.GuildPermissions.BanMembers)
-                serverUserType = "Moderator";
-            if (user.GuildPermissions.Administrator)
-                serverUserType = "Administrator";
-            else serverUserType = "Regular User";
+            var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
 
             var embed = new EmbedBuilder()
                 .AddField("Username", user.ToString())
@@ -243,7 +236,7 @@ public partial class Utility
             }
 
             var av = user.RealAvatarUrl();
-            if (av != null && av.IsAbsoluteUri)
+            if (av.IsAbsoluteUri)
             {
                 if (userbanner is not null)
                 {
@@ -268,7 +261,7 @@ public partial class Utility
 
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
-                embed.AddField("Is Server Muted", user.GetRoles().Contains((await _muteService.GetMuteRole(ctx.Guild))));
+                embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();

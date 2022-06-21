@@ -8,7 +8,6 @@ namespace Mewdeko.Modules.Afk.Services;
 public class AfkService : INService, IReadyExecutor
 {
     private readonly DbService _db;
-    private readonly CommandHandler _cmd;
     public readonly DiscordSocketClient Client;
     private readonly Mewdeko _bot;
     private readonly IDataCache _cache;
@@ -17,7 +16,6 @@ public class AfkService : INService, IReadyExecutor
     public AfkService(
         DbService db,
         DiscordSocketClient client,
-        CommandHandler handle,
         Mewdeko bot,
         IDataCache cache,
         GuildSettingsService guildSettings)
@@ -27,7 +25,6 @@ public class AfkService : INService, IReadyExecutor
         _guildSettings = guildSettings;
         _db = db;
         Client = client;
-        _cmd = handle;
         Client.MessageReceived += MessageReceived;
         Client.MessageUpdated += MessageUpdated;
         Client.UserIsTyping += UserTyping;
@@ -234,7 +231,7 @@ public class AfkService : INService, IReadyExecutor
     public bool IsAfk(IGuild guild, IGuildUser user)
     {
         var afkmsg = GetAfkMessage(guild.Id, user.Id);
-        if (afkmsg is null)
+        if (!afkmsg.Any())
             return false;
         var result = afkmsg.LastOrDefault();
         if (result is null)

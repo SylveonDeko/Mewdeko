@@ -10,8 +10,8 @@ namespace Mewdeko.Services.strings.impl;
 /// </summary>
 public class LocalFileStringsSource : IStringsSource
 {
-    private readonly string _commandsPath = "data/strings/commands";
-    private readonly string _responsesPath = "data/strings/responses";
+    private readonly string _commandsPath;
+    private readonly string _responsesPath;
 
     public LocalFileStringsSource(string responsesPath = "data/strings/responses",
         string commandsPath = "data/strings/commands")

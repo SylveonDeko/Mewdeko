@@ -220,20 +220,14 @@ public sealed class AutoAssignRoleService : INService
     public IEnumerable<ulong> TryGetNormalRoles(ulong guildId, out List<ulong> roles)
     {
         var tocheck = _guildSettings.GetGuildConfig(guildId).AutoAssignRoleId;
-        if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
-            roles = new List<ulong>();
-        else
-            roles = tocheck.Split(" ").Select(ulong.Parse).ToList();
+        roles = string.IsNullOrWhiteSpace(tocheck) ? new List<ulong>() : tocheck.Split(" ").Select(ulong.Parse).ToList();
         return roles;
     }
 
     public IEnumerable<ulong> TryGetBotRoles(ulong guildId, out List<ulong> roles)
     {
         var tocheck = _guildSettings.GetGuildConfig(guildId).AutoBotRoleIds;
-        if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
-            roles = new List<ulong>();
-        else
-            roles = tocheck.Split(" ").Select(ulong.Parse).ToList();
+        roles = string.IsNullOrWhiteSpace(tocheck) ? new List<ulong>() : tocheck.Split(" ").Select(ulong.Parse).ToList();
         return roles;
     }
 }

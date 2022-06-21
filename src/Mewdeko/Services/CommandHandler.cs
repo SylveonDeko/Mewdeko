@@ -478,7 +478,7 @@ public class CommandHandler : INService
     }
 
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
-        x => new ConcurrentQueue<IUserMessage>(new List<IUserMessage> { usrMsg }), (_, y) =>
+        _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage> { usrMsg }), (_, y) =>
         {
             y.Enqueue(usrMsg);
             return y;
@@ -508,7 +508,7 @@ public class CommandHandler : INService
         }
     }
 
-    private async Task TryRunCommand(IGuild guild, IChannel channel, IUserMessage usrMsg)
+    private async Task TryRunCommand(IGuild? guild, IChannel channel, IUserMessage usrMsg)
     {
         var execTime = Environment.TickCount;
 
@@ -579,7 +579,7 @@ public class CommandHandler : INService
                 return;
             }
 
-            if (error != null)
+            if (!string.IsNullOrEmpty(error))
             {
                 LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                 if (guild != null)

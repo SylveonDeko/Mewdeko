@@ -242,13 +242,13 @@ public partial class Administration
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        private string GetAntiAltString(AntiAltStats alt) =>
+        private string? GetAntiAltString(AntiAltStats alt) =>
             GetText("anti_alt_status",
                 Format.Bold(alt.MinAge.ToString(@"dd\d\ hh\h\ mm\m\ ")),
                 Format.Bold(alt.Action.ToString()),
                 Format.Bold(alt.Counter.ToString()));
 
-        private string GetAntiSpamString(AntiSpamStats stats)
+        private string? GetAntiSpamString(AntiSpamStats stats)
         {
             var settings = stats.AntiSpamSettings;
             var ignoredString = string.Join(", ", settings.IgnoredChannels.Select(c => $"<#{c.ChannelId}>"));
@@ -265,7 +265,7 @@ public partial class Administration
                 ignoredString);
         }
 
-        private string GetAntiRaidString(AntiRaidStats stats)
+        private string? GetAntiRaidString(AntiRaidStats stats)
         {
             var actionString = Format.Bold(stats.AntiRaidSettings.Action.ToString());
 

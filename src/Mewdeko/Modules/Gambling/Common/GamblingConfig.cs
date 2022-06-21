@@ -56,10 +56,10 @@ Set 0 for unlimited")]
     public class CurrencyConfig
     {
         [Comment(@"What is the emoji/character which represents the currency")]
-        public string Sign { get; set; } = "🌸";
+        public string? Sign { get; set; } = "🌸";
 
         [Comment(@"What is the name of the currency")]
-        public string Name { get; set; } = "Mewdeko Flower";
+        public string? Name { get; set; } = "Mewdeko Flower";
     }
 
     public class TimelyConfig
@@ -92,7 +92,7 @@ setting to 0 or less will disable this feature")]
         [Comment(@"When betroll is played, user will roll a number 0-100.
 This setting will describe which multiplier is used for when the roll is higher than the given number.
 Doesn't have to be ordered.")]
-        public Pair[] Pairs { get; set; } = Array.Empty<Pair>();
+        public Pair[] Pairs { get; set; }
 
         public class Pair
         {
@@ -219,7 +219,7 @@ default is 0.02, which is 2%")]
         public MultipliersData Multipliers { get; set; } = new();
 
         [Comment(@"List of items available for gifting.")]
-        public List<WaifuItemModel> Items { get; set; } = new();
+        public List<WaifuItemModel> Items { get; set; }
 
 
         public class MultipliersData

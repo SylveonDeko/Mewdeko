@@ -18,7 +18,6 @@ public class GamblingService : INService
     private readonly ICurrencyService _cs;
     private readonly DbService _db;
     private readonly IBotCredentials _creds;
-    private readonly Mewdeko _bot;
 
     private readonly GamblingConfigService _gss;
 
@@ -27,7 +26,6 @@ public class GamblingService : INService
         IBotCredentials creds)
     {
         _db = db;
-        _bot = bot;
         _cs = cs;
         _client = client;
         _cache = cache;

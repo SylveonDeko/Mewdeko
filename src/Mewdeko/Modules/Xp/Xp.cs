@@ -335,7 +335,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    private string GetNotifLocationString(XpNotificationLocation loc)
+    private string? GetNotifLocationString(XpNotificationLocation loc)
     {
         if (loc == XpNotificationLocation.Channel) return GetText("xpn_notif_channel");
 

@@ -10,8 +10,8 @@ public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
     protected GamblingModuleBase(GamblingConfigService gambService) => _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
 
     protected GamblingConfig Config => _lazyConfig.Value;
-    protected string CurrencySign => Config.Currency.Sign;
-    protected string CurrencyName => Config.Currency.Name;
+    protected string? CurrencySign => Config.Currency.Sign;
+    protected string? CurrencyName => Config.Currency.Name;
 
     private async Task<bool> InternalCheckBet(long amount)
     {

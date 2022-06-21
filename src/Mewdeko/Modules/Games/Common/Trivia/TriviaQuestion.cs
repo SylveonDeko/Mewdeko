@@ -16,7 +16,7 @@ public class TriviaQuestion
         new Tuple<int, int>(22, 3)
     };
 
-    private string cleanAnswer;
+    private string? cleanAnswer;
 
     public TriviaQuestion(string q, string a, string c, string? img = null, string? answerImage = null)
     {

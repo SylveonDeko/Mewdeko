@@ -55,7 +55,7 @@ public class SearchesService : INService, IUnloadableService
     private readonly IImageCache _imgs;
     private readonly List<string> _nsfwreddits;
     private readonly MewdekoRandom _rng;
-    private readonly List<string> _yomamaJokes;
+    private readonly List<string?> _yomamaJokes;
 
     private readonly object _yomamaLock = new();
     private int yomamaJokeIndex;
@@ -241,7 +241,7 @@ public class SearchesService : INService, IUnloadableService
         return bg.ToStream().ToArray();
     }
 
-    public Task<WeatherData> GetWeatherDataAsync(string query)
+    public Task<WeatherData?> GetWeatherDataAsync(string query)
     {
         query = query.Trim().ToLowerInvariant();
 
@@ -257,12 +257,9 @@ public class SearchesService : INService, IUnloadableService
         try
         {
             var data = await http.GetStringAsync(
-                $"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
+                $"https://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
 
-            if (data == null)
-                return null;
-
-            return JsonConvert.DeserializeObject<WeatherData>(data);
+            return string.IsNullOrEmpty(data) ? null : JsonConvert.DeserializeObject<WeatherData>(data);
         }
         catch (Exception ex)
         {
@@ -357,7 +354,7 @@ public class SearchesService : INService, IUnloadableService
         return translation.Translation;
     }
 
-    public Task<ImageCacherObject> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
+    public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
         bool isExplicit = false)
     {
         tag ??= "";
@@ -428,14 +425,14 @@ public class SearchesService : INService, IUnloadableService
 
     public void ClearCache()
     {
-        foreach (var c in _imageCacher) c.Value?.Clear();
+        foreach (var c in _imageCacher) c.Value.Clear();
     }
 
     public bool NsfwCheck(string reddit) => _nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
 
-    public Task<string> GetYomamaJoke()
+    public Task<string?> GetYomamaJoke()
     {
-        string joke;
+        string? joke;
         lock (_yomamaLock)
         {
             if (yomamaJokeIndex >= _yomamaJokes.Count)
@@ -458,7 +455,7 @@ public class SearchesService : INService, IUnloadableService
         // }
     }
 
-    public async Task<(string Setup, string Punchline)> GetRandomJoke()
+    public async Task<(string? Setup, string Punchline)> GetRandomJoke()
     {
         using var http = _httpFactory.CreateClient();
         var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke");
@@ -466,7 +463,7 @@ public class SearchesService : INService, IUnloadableService
         return (resObj.setup, resObj.punchline);
     }
 
-    public async Task<string> GetChuckNorrisJoke()
+    public async Task<string?> GetChuckNorrisJoke()
     {
         using var http = _httpFactory.CreateClient();
         var response = await http.GetStringAsync(new Uri("https://api.icndb.com/jokes/random/"))
@@ -474,7 +471,7 @@ public class SearchesService : INService, IUnloadableService
         return $"{JObject.Parse(response)["value"]["joke"]} 😆";
     }
 
-    public async Task<MtgData> GetMtgCardAsync(string search)
+    public async Task<MtgData?> GetMtgCardAsync(string search)
     {
         search = search.Trim().ToLowerInvariant();
         var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_mtg_{search}",
@@ -482,10 +479,7 @@ public class SearchesService : INService, IUnloadableService
             search,
             TimeSpan.FromDays(1)).ConfigureAwait(false);
 
-        if (data == null || data.Length == 0)
-            return null;
-
-        return data[_rng.Next(0, data.Length)];
+        return !data.Any() ? null : data[_rng.Next(0, data.Length)];
     }
 
     private async Task<MtgData[]> GetMtgCardFactory(string search)
@@ -540,7 +534,7 @@ public class SearchesService : INService, IUnloadableService
         return await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
-    public Task<HearthstoneCardData> GetHearthstoneCardDataAsync(string name)
+    public Task<HearthstoneCardData?> GetHearthstoneCardDataAsync(string name)
     {
         name = name.ToLowerInvariant();
         return _cache.GetOrAddCachedDataAsync($"Mewdeko_hearthstone_{name}",
@@ -584,7 +578,7 @@ public class SearchesService : INService, IUnloadableService
         }
     }
 
-    public Task<OmdbMovie> GetMovieDataAsync(string name)
+    public Task<OmdbMovie?> GetMovieDataAsync(string name)
     {
         name = name.Trim().ToLowerInvariant();
         return _cache.GetOrAddCachedDataAsync($"Mewdeko_movie_{name}",
@@ -593,7 +587,7 @@ public class SearchesService : INService, IUnloadableService
             TimeSpan.FromDays(1));
     }
 
-    private async Task<OmdbMovie> GetMovieDataFactory(string name)
+    private async Task<OmdbMovie?> GetMovieDataFactory(string name)
     {
         using var http = _httpFactory.CreateClient();
         var res = await http.GetStringAsync($"https://omdbapi.nadeko.bot/?t={name.Trim().Replace(' ', '+')}&y=&plot=full&r=json").ConfigureAwait(false);
@@ -645,7 +639,7 @@ public class SearchesService : INService, IUnloadableService
             //await db.KeyExpireAsync("steam_game_ids", TimeSpan.FromHours(24), CommandFlags.FireAndForget).ConfigureAwait(false);
         }, default(string), TimeSpan.FromHours(24));
 
-        if (gamesMap == null)
+        if (!gamesMap.Any())
             return -1;
 
         query = query.Trim();
@@ -678,7 +672,7 @@ public class SearchesService : INService, IUnloadableService
         //return gameData;
     }
 
-    public async Task<GoogleSearchResultData> GoogleSearchAsync(string query)
+    public async Task<GoogleSearchResultData?> GoogleSearchAsync(string query)
     {
         query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
 
@@ -734,7 +728,7 @@ public class SearchesService : INService, IUnloadableService
             fullQueryLink,
             totalResults);
     }
-    public async Task<GoogleSearchResultData> DuckDuckGoSearchAsync(string query)
+    public async Task<GoogleSearchResultData?> DuckDuckGoSearchAsync(string query)
     {
         query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
 

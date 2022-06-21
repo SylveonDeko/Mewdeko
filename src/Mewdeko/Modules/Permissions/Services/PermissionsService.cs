@@ -93,7 +93,7 @@ public class PermissionService : ILateBlocker, INService
             var permRole = pc.PermRole;
             if (!ulong.TryParse(permRole, out var rid))
                 rid = 0;
-            string returnMsg;
+            string? returnMsg;
             IRole role;
             if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
             {
@@ -163,23 +163,18 @@ public class PermissionService : ILateBlocker, INService
         return true;
     }
 
-    public PermissionCache GetCacheFor(ulong guildId)
+    public PermissionCache? GetCacheFor(ulong guildId)
     {
-        if (!Cache.TryGetValue(guildId, out var pc))
+        if (Cache.TryGetValue(guildId, out var pc)) return pc;
+        using (var uow = _db.GetDbContext())
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var config = uow.ForGuildId(guildId,
-                    set => set.Include(x => x.Permissions));
-                UpdateCache(config);
-            }
-
-            Cache.TryGetValue(guildId, out pc);
-            if (pc == null)
-                throw new ArgumentException("Cache is null.");
+            var config = uow.ForGuildId(guildId,
+                set => set.Include(x => x.Permissions));
+            UpdateCache(config);
         }
 
-        return pc;
+        Cache.TryGetValue(guildId, out pc);
+        return pc ?? null;
     }
 
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)

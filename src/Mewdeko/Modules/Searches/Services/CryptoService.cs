@@ -20,7 +20,7 @@ public class CryptoService : INService
         _httpFactory = httpFactory;
     }
 
-    public async Task<(CryptoResponseData Data, CryptoResponseData Nearest)> GetCryptoData(string name)
+    public async Task<(CryptoResponseData? Data, CryptoResponseData? Nearest)> GetCryptoData(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return (null, null);
 
@@ -28,7 +28,7 @@ public class CryptoService : INService
         var cryptos = await CryptoData().ConfigureAwait(false);
 
         var crypto = cryptos
-            ?.FirstOrDefault(x => x.Id.ToUpperInvariant() == name || x.Name.ToUpperInvariant() == name
+            .FirstOrDefault(x => x.Id.ToUpperInvariant() == name || x.Name.ToUpperInvariant() == name
                                                                   || x.Symbol.ToUpperInvariant() == name);
 
         (CryptoResponseData Elem, int Distance)? nearest = null;

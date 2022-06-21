@@ -27,7 +27,7 @@ public interface IDataCache
     Task<bool> TryAddHighlightStaggerUser(ulong id);
     List<Highlights?>? GetHighlightsForGuild(ulong id);
     List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id);
-    Task<List<SnipeStore>>? GetSnipesForGuild(ulong id);
+    Task<List<SnipeStore>?> GetSnipesForGuild(ulong id);
     Task SetGuildSettingInt(ulong guildId, string setting, int value);
     Task<int> GetGuildSettingInt(ulong guildId, string setting);
     Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);
@@ -46,7 +46,7 @@ public interface IDataCache
     bool TryGetEconomy(out string data);
     void SetEconomy(string data);
 
-    Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param,
+    Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory, TParam param,
         TimeSpan expiry) where TOut : class;
 
     DateTime GetLastCurrencyDecay();

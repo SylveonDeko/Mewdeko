@@ -13,7 +13,7 @@ public class BotStrings : IBotStrings
     /// <summary>
     ///     Used as failsafe in case response key doesn't exist in the selected or default language.
     /// </summary>
-    private readonly CultureInfo _usCultureInfo = new("en-US");
+    private readonly CultureInfo? _usCultureInfo = new("en-US");
 
     public BotStrings(ILocalization loc, IBotStringsProvider stringsProvider)
     {
@@ -21,11 +21,12 @@ public class BotStrings : IBotStrings
         _stringsProvider = stringsProvider;
     }
 
-    public string GetText(string key, ulong? guildId = null, params object[] data) => GetText(key, _localization.GetCultureInfo(guildId), data);
+    public string? GetText(string? key, ulong? guildId = null, params object?[] data) => GetText(key, _localization.GetCultureInfo(guildId), data);
 
-    public string GetText(string key, CultureInfo cultureInfo, params object[] data)
+    public string? GetText(string? key, CultureInfo? cultureInfo, params object?[] data)
     {
-        if (cultureInfo.Name == "owo") data = data.Select(x => OWOServices.OWOIfy(x.ToString())).ToArray();
+        // ReSharper disable once CoVariantArrayConversion
+        if (cultureInfo.Name == "owo") data = data.Select(x => OwoServices.OwoIfy(x.ToString())).ToArray();
         try
         {
             return string.Format(GetText(key, cultureInfo), data);
@@ -44,15 +45,15 @@ public class BotStrings : IBotStrings
 
     public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) => GetCommandStrings(commandName, _localization.GetCultureInfo(guildId));
 
-    public CommandStrings GetCommandStrings(string commandName, CultureInfo cultureInfo)
+    public CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
     {
         var cmdStrings = _stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
         if (cmdStrings is not null) return cmdStrings;
         if (cultureInfo.Name == "owo")
         {
             cmdStrings = _stringsProvider.GetCommandStrings("en-US", commandName);
-            cmdStrings.Desc = OWOServices.OWOIfy(cmdStrings.Desc);
-            cmdStrings.Args = cmdStrings.Args.Select(x => OWOServices.OWOIfy(x)).ToArray();
+            cmdStrings.Desc = OwoServices.OwoIfy(cmdStrings.Desc);
+            cmdStrings.Args = cmdStrings.Args.Select(x => OwoServices.OwoIfy(x)).ToArray();
         }
         if (cultureInfo.Name != _usCultureInfo.Name) return GetCommandStrings(commandName, _usCultureInfo);
         Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
@@ -67,16 +68,16 @@ public class BotStrings : IBotStrings
 
     public void Reload() => _stringsProvider.Reload();
 
-    private string GetString(string key, CultureInfo cultureInfo) => _stringsProvider.GetText(cultureInfo.Name, key);
+    private string? GetString(string? key, CultureInfo? cultureInfo) => _stringsProvider.GetText(cultureInfo.Name, key);
 
-    public string GetText(string key, CultureInfo cultureInfo)
+    public string GetText(string? key, CultureInfo? cultureInfo)
     {
         var text = GetString(key, cultureInfo);
 
         if (string.IsNullOrWhiteSpace(text))
         {
             if (cultureInfo.Name == "owo")
-                return OWOServices.OWOIfy(GetString(key, _usCultureInfo));
+                return OwoServices.OwoIfy(GetString(key, _usCultureInfo));
             Log.Warning(
                 "'{Key}' key is missing from '{LanguageName}' response strings. You may ignore this message", key,
                 cultureInfo.Name);

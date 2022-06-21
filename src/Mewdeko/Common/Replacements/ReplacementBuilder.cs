@@ -13,7 +13,7 @@ public class ReplacementBuilder
     private readonly DiscordSocketClient _client;
 
     private readonly ConcurrentDictionary<Regex, Func<Match, string>> _regex = new();
-    private readonly ConcurrentDictionary<string, Func<string>> _reps = new();
+    private readonly ConcurrentDictionary<string, Func<string?>> _reps = new();
 
     public ReplacementBuilder(DiscordSocketClient? client = null)
     {
@@ -258,7 +258,7 @@ public class ReplacementBuilder
         return this;
     }
 
-    public ReplacementBuilder WithOverride(string key, Func<string> output)
+    public ReplacementBuilder WithOverride(string key, Func<string?> output)
     {
         _reps.AddOrUpdate(key, output, delegate { return output; });
         return this;

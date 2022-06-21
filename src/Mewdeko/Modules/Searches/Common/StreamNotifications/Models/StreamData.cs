@@ -5,7 +5,7 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 public record StreamData
 {
     public FollowedStream.FType StreamType { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public string UniqueName { get; set; }
     public int Viewers { get; set; }
     public string Title { get; set; }

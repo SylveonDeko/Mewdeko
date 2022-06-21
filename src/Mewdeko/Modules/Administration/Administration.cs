@@ -103,7 +103,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex((users?.Count() / 20) ?? 1)
+                .WithMaxPageIndex(users.Count() / 20)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
@@ -522,10 +522,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(ChannelPermission.ManageMessages), Priority(0)]
-    public Task Edit(ulong messageId, [Remainder] string text) => Edit((ITextChannel)ctx.Channel, messageId, text);
+    public Task Edit(ulong messageId, [Remainder] string? text) => Edit((ITextChannel)ctx.Channel, messageId, text);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
-    public async Task Edit(ITextChannel channel, ulong messageId, [Remainder] string text)
+    public async Task Edit(ITextChannel channel, ulong messageId, [Remainder] string? text)
     {
         var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
         var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);

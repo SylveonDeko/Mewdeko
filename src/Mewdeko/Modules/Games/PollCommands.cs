@@ -101,7 +101,7 @@ public partial class Games
                 .ConfigureAwait(false);
         }
 
-        public EmbedBuilder GetStats(Poll poll, string title)
+        public EmbedBuilder GetStats(Poll poll, string? title)
         {
             var results = poll.Votes.GroupBy(kvp => kvp.VoteIndex)
                 .ToDictionary(x => x.Key, x => x.Sum(_ => 1));

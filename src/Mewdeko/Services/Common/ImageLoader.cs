@@ -55,8 +55,7 @@ public class ImageLoader
                 }
             });
 
-        var vals = Array.Empty<byte[]>();
-        vals = await Task.WhenAll(tasks).ConfigureAwait(false);
+        var vals = await Task.WhenAll(tasks).ConfigureAwait(false);
         if (vals.Any(x => x == null))
             vals = vals.Where(x => x != null).ToArray();
 

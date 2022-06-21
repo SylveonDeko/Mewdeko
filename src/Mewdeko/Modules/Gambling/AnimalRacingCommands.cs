@@ -20,7 +20,7 @@ public partial class Gambling
         private readonly GamesConfigService _gamesConf;
         private readonly GuildSettingsService _guildSettings;
 
-        private IUserMessage raceMessage;
+        private IUserMessage? raceMessage;
 
         public AnimalRacingCommands(ICurrencyService cs, DiscordSocketClient client,
             GamblingConfigService gamblingConf, GamesConfigService gamesConf,

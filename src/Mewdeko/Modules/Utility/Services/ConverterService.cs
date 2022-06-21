@@ -39,7 +39,7 @@ public class ConverterService : INService, IUnloadableService
 
     public Task Unload()
     {
-        _currencyUpdater?.Change(Timeout.Infinite, Timeout.Infinite);
+        _currencyUpdater.Change(Timeout.Infinite, Timeout.Infinite);
         return Task.CompletedTask;
     }
 

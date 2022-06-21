@@ -23,13 +23,11 @@ public partial class Administration
 
         private readonly IServiceProvider _services;
         private readonly InteractiveService _interactivity;
-        private readonly DbService _db;
 
-        public RoleCommands(IServiceProvider services, InteractiveService intserv, DbService db)
+        public RoleCommands(IServiceProvider services, InteractiveService intserv)
         {
             _services = services;
             _interactivity = intserv;
-            _db = db;
         }
 
         public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)

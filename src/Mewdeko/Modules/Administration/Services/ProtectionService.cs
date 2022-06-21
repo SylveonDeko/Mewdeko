@@ -269,7 +269,7 @@ public class ProtectionService : INService
         _ = OnAntiProtectionTriggered(action, pt, gus);
     }
 
-    public async Task<AntiRaidStats> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds,
+    public async Task<AntiRaidStats?> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds,
         PunishmentAction action, int minutesDuration)
     {
         var g = _client.GetGuild(guildId);
@@ -420,7 +420,7 @@ public class ProtectionService : INService
         return added;
     }
 
-    public (AntiSpamStats, AntiRaidStats, AntiAltStats) GetAntiStats(ulong guildId)
+    public (AntiSpamStats?, AntiRaidStats?, AntiAltStats?) GetAntiStats(ulong guildId)
     {
         _antiRaidGuilds.TryGetValue(guildId, out var antiRaidStats);
         _antiSpamGuilds.TryGetValue(guildId, out var antiSpamStats);
