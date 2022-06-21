@@ -13,6 +13,7 @@ public class GuildTimezoneService : INService
         using var uow = db.GetDbContext();
         _timezones = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId))
             .Select(GetTimzezoneTuple)
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             .Where(x => x.Timezone != null)
             .ToDictionary(x => x.GuildId, x => x.Timezone)
             .ToConcurrent();
@@ -35,7 +36,7 @@ public class GuildTimezoneService : INService
         return Task.CompletedTask;
     }
 
-    private static (ulong GuildId, TimeZoneInfo Timezone) GetTimzezoneTuple(GuildConfig x)
+    private static (ulong GuildId, TimeZoneInfo? Timezone) GetTimzezoneTuple(GuildConfig x)
     {
         TimeZoneInfo tz;
         try
@@ -53,12 +54,8 @@ public class GuildTimezoneService : INService
         return (x.GuildId, Timezone: tz);
     }
 
-    public TimeZoneInfo GetTimeZoneOrDefault(ulong guildId)
-    {
-        if (_timezones.TryGetValue(guildId, out var tz))
-            return tz;
-        return null;
-    }
+    public TimeZoneInfo? GetTimeZoneOrDefault(ulong guildId) 
+        => _timezones.TryGetValue(guildId, out var tz) ? tz : null;
 
     public void SetTimeZone(ulong guildId, TimeZoneInfo? tz)
     {

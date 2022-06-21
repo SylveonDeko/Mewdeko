@@ -49,7 +49,7 @@ public class GamesService : INService, IUnloadableService
 
     public IReadOnlyList<string> EightBallResponses => _gamesConfig.Data.EightBallResponses;
 
-    public List<TypingArticle> TypingArticles { get; } = new();
+    public List<TypingArticle> TypingArticles { get; }
 
     //channelId, game
     public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new();
@@ -106,7 +106,7 @@ public class GamesService : INService, IUnloadableService
 
     public string GetEightballResponse(string _) => EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
 
-    public TypingArticle RemoveTypingArticle(int index)
+    public TypingArticle? RemoveTypingArticle(int index)
     {
         var articles = TypingArticles;
         if (index < 0 || index >= articles.Count)

@@ -70,7 +70,7 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
-        public async Task BoostMsg([Remainder] string text)
+        public async Task BoostMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -281,7 +281,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetMsg([Remainder] string text)
+        public async Task GreetMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -355,7 +355,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task ByeMsg([Remainder] string text)
+        public async Task ByeMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {

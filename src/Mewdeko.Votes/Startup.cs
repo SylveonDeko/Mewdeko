@@ -35,7 +35,7 @@ public class Startup
             .AddAuthorization(opts =>
             {
                 opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SCHEME_NAME)
-                                     .RequireAssertion(x => false)
+                                     .RequireAssertion(_ => false)
                                      .Build();
                 opts.AddPolicy(Policies.DISCORDS_AUTH, policy => policy.RequireClaim(AuthHandler.DISCORDS_CLAIM));
                 opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TOPGG_CLAIM));

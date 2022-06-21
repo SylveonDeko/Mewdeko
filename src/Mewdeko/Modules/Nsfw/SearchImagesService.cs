@@ -47,11 +47,11 @@ public class SearchImagesService : ISearchImagesService, INService
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
 
-    private Task<UrlReply> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default) => GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
+    private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default) => GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
 
     private static bool IsValidTag(string tag) => tag.All(x => x != '+' && x != '?' && x != '/'); // tags mustn't contain + or ? or /
 
-    private async Task<UrlReply> GetNsfwImageAsync(
+    private async Task<UrlReply?> GetNsfwImageAsync(
         ulong guildId,
         string[] tags,
         bool forceExplicit,
@@ -132,34 +132,34 @@ public class SearchImagesService : ISearchImagesService, INService
         }
     }
 
-    public Task<UrlReply> Gelbooru(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Gelbooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Gelbooru);
 
-    public Task<UrlReply> Danbooru(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Danbooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Danbooru);
 
-    public Task<UrlReply> Konachan(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Konachan(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Konachan);
 
-    public Task<UrlReply> Yandere(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Yandere(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Yandere);
 
-    public Task<UrlReply> Rule34(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Rule34(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Rule34);
 
-    public Task<UrlReply> E621(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> E621(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.E621);
 
-    public Task<UrlReply> DerpiBooru(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> DerpiBooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Derpibooru);
 
-    public Task<UrlReply> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Safebooru);
 
-    public Task<UrlReply> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
+    public Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
 
-    public async Task<UrlReply> Hentai(ulong? guildId, bool forceExplicit, string[] tags)
+    public async Task<UrlReply?> Hentai(ulong? guildId, bool forceExplicit, string[] tags)
     {
         var providers = new[] {
             Booru.Danbooru,
@@ -199,7 +199,7 @@ public class SearchImagesService : ISearchImagesService, INService
         };
     }
 
-    public async Task<UrlReply> Boobs()
+    public async Task<UrlReply?> Boobs()
     {
         try
         {
@@ -261,7 +261,7 @@ public class SearchImagesService : ISearchImagesService, INService
         }
     }
 
-    public async Task<UrlReply> Butts()
+    public async Task<UrlReply?> Butts()
     {
         try
         {

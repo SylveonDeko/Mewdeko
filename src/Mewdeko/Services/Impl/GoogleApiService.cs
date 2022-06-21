@@ -16,7 +16,7 @@ public class GoogleApiService : IGoogleApiService
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
-    private readonly Dictionary<string, string> _languageDictionary = new()
+    private readonly Dictionary<string?, string> _languageDictionary = new()
     {
         {"afrikaans", "af"},
         {"albanian", "sq"},
@@ -214,9 +214,9 @@ public class GoogleApiService : IGoogleApiService
         }
     }
 
-    public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
+    public IEnumerable<string?> Languages => _languageDictionary.Keys.OrderBy(x => x);
 
-    public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
+    public async Task<string> Translate(string sourceText, string? sourceLanguage, string? targetLanguage)
     {
         await Task.Yield();
         string text;
@@ -239,7 +239,7 @@ public class GoogleApiService : IGoogleApiService
         return string.Concat(JArray.Parse(text)[0].Select(x => x[0]));
     }
 
-    private string ConvertToLanguageCode(string language)
+    private string ConvertToLanguageCode(string? language)
     {
         _languageDictionary.TryGetValue(language, out var mode);
         return mode;

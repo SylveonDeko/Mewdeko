@@ -843,7 +843,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
+        IEnumerable<Emote?> tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 
         var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
@@ -878,7 +878,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Roll([Remainder] string roll)
     {
-        var result = new RollResult();
+        RollResult result;
         try
         {
             result = RollCommandService.ParseRoll(roll);
@@ -919,5 +919,5 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
     [Cmd, Aliases]
     public async Task OwoIfy([Remainder] string input)
-        => await ctx.Channel.SendMessageAsync(OWOServices.OWOIfy(input).SanitizeMentions(true));
+        => await ctx.Channel.SendMessageAsync(OwoServices.OwoIfy(input).SanitizeMentions(true));
 }

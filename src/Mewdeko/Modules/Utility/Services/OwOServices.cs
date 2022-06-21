@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Utility.Services;
-public class OWOServices
+public class OwoServices
 {
     // data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js
     public static readonly Dictionary<string, string> Defaults = new()
@@ -62,20 +62,20 @@ public class OWOServices
         "*gwomps*"
     };
 
-    public static string OWOIfy(string input)
+    public static string OwoIfy(string? input)
     {
         input ??= "";
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));
         input = string.Join(' ', input.Split(' ')
             .Select(x => x.Length > 4 && x.Last() is 'y' or 'Y' ? $"{x} {x}" : x)   // duplicate words ending in 'y'
-            .Select(x => x.Sum(x => x) % 100 == 1 ? $"{x.First()}-{x}" : x));       // s-stutter randomly
+            .Select(x => x.Sum(c => c) % 100 == 1 ? $"{x.First()}-{x}" : x));       // s-stutter randomly
 
         // separate methods so caseing matches.
         input = Regex.Replace(input, @"r|l", "w");
         input = Regex.Replace(input, @"R|L", "W");
 
         // use the same random logic for strings based on value to produce consistent results when re-run
-        int seed = (int)input.Sum(x => char.GetNumericValue(x));
+        var seed = (int)input.Sum(char.GetNumericValue);
         // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
         if (seed % 10 == 1)
             input = $"{Prefixes[(seed % Prefixes.Length) - 1]} {input}";

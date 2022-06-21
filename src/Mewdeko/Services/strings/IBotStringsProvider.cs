@@ -13,7 +13,7 @@ public interface IBotStringsProvider
     /// <param name="localeName">Language name</param>
     /// <param name="key">String key</param>
     /// <returns>Localized string</returns>
-    string GetText(string localeName, string key);
+    string? GetText(string localeName, string? key);
 
     /// <summary>
     ///     Reloads string cache
@@ -25,5 +25,5 @@ public interface IBotStringsProvider
     /// </summary>
     /// <param name="localeName">Language name</param>
     /// <param name="commandName">Command name</param>
-    CommandStrings GetCommandStrings(string localeName, string commandName);
+    CommandStrings? GetCommandStrings(string localeName, string commandName);
 }

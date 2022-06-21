@@ -8,7 +8,7 @@ public interface IConfigSeria
     /// <summary>
     ///     Serialize the object to string
     /// </summary>
-    public string Serialize<T>(T obj);
+    public string? Serialize<T>(T? obj);
 
     /// <summary>
     ///     Deserialize string data into an object of the specified type

@@ -41,7 +41,7 @@ public partial class Gambling
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public async Task WaifuClaim(int amount, [Remainder] IUser target)
+        public async Task WaifuClaim(int amount, [Remainder] IUser? target)
         {
             if (amount < Config.Waifu.MinPrice)
             {

@@ -80,7 +80,7 @@ public sealed class Connect4Game : IDisposable
         OnGameFailedToStart = null;
         OnGameStateUpdated = null;
         OnGameEnded = null;
-        playerTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+        playerTimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
     }
 
     //public event Func<Connect4Game, Task> OnGameStarted;
@@ -100,7 +100,7 @@ public sealed class Connect4Game : IDisposable
             {
                 if (_players[1] == null)
                 {
-                    var __ = OnGameFailedToStart?.Invoke(this);
+                    var __ = OnGameFailedToStart.Invoke(this);
                     CurrentPhase = Phase.Ended;
                     await _cs.AddAsync(_players[0].Value.UserId, "Connect4-refund", _options.Bet, true)
                         .ConfigureAwait(false);
@@ -156,7 +156,7 @@ public sealed class Connect4Game : IDisposable
                     _locker.Release();
                 }
             }, null, TimeSpan.FromSeconds(_options.TurnTimer), TimeSpan.FromSeconds(_options.TurnTimer));
-            var __ = OnGameStateUpdated?.Invoke(this);
+            var __ = OnGameStateUpdated.Invoke(this);
 
             return true;
         }
@@ -339,7 +339,7 @@ public sealed class Connect4Game : IDisposable
                 ResetTimer();
             }
 
-            var _ = OnGameStateUpdated?.Invoke(this);
+            var _ = OnGameStateUpdated.Invoke(this);
             return true;
         }
         finally
@@ -356,7 +356,7 @@ public sealed class Connect4Game : IDisposable
     {
         if (CurrentPhase == Phase.Ended)
             return;
-        var _ = OnGameEnded?.Invoke(this, result);
+        var _ = OnGameEnded.Invoke(this, result);
         CurrentPhase = Phase.Ended;
 
         if (result == Result.Draw)

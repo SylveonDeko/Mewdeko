@@ -9,5 +9,5 @@ public class DmUserModal : IModal
     [ModalTextInput("message", TextInputStyle.Paragraph, "send the user a message")]
     [InputLabel("Message")]
     [RequiredInput]
-    public string Message { get; set; }
+    public string? Message { get; set; }
 }

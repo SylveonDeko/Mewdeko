@@ -104,7 +104,6 @@ public class StreamRoleService : INService, IUnloadableService
                     var toRemove = streamRoleSettings.Blacklist.FirstOrDefault(x => x.Equals(userObj));
                     if (toRemove != null)
                     {
-                        success = true;
                         success = streamRoleSettings.Blacklist.Remove(toRemove);
                     }
                 }
@@ -130,7 +129,7 @@ public class StreamRoleService : INService, IUnloadableService
     /// <returns>The keyword set</returns>
     public async Task<string> SetKeyword(IGuild guild, string? keyword)
     {
-        keyword = keyword?.Trim()?.ToLowerInvariant();
+        keyword = keyword?.Trim().ToLowerInvariant();
 
         await using (var uow = _db.GetDbContext())
         {

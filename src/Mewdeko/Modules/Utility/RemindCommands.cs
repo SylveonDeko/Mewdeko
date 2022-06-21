@@ -135,7 +135,7 @@ public partial class Utility
                 await ReplyErrorLocalizedAsync("reminder_deleted", index + 1).ConfigureAwait(false);
         }
 
-        private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
+        private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string? message)
         {
             if (ts > TimeSpan.FromDays(60))
                 return false;

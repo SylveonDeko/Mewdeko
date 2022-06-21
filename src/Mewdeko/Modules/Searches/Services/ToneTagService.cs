@@ -10,11 +10,10 @@ public class ToneTagService
 {
     private readonly Regex _toneTagRegex = new(@"(?:\/|\\)([^\\\/ ]*)", RegexOptions.Compiled);
     private readonly IBotStrings _strings;
-    private readonly BotConfigService _bss;
     public IReadOnlyList<ToneTag> Tags { get; private set; }
 
     public ToneTagService(IBotStrings strings, BotConfigService bss) =>
-        (_strings, _bss, Tags) = (strings, bss, JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
+        (_strings, _, Tags) = (strings, bss, JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
 
     public List<string> GetToneTags(string input) =>
         _toneTagRegex.Matches(input.RemoveUrls()).Select(x => x.Value[1..]).ToList();

@@ -43,7 +43,7 @@ public class RollDuelGame
                 if (CurrentState != State.Waiting)
                     return;
                 CurrentState = State.Ended;
-                await (OnEnded?.Invoke(this, Reason.Timeout)).ConfigureAwait(false);
+                await OnEnded.Invoke(this, Reason.Timeout).ConfigureAwait(false);
             }
             catch
             {
@@ -85,7 +85,7 @@ public class RollDuelGame
 
         if (!await _cs.RemoveAsync(P1, "Roll Duel", Amount).ConfigureAwait(false))
         {
-            await (OnEnded?.Invoke(this, Reason.NoFunds)).ConfigureAwait(false);
+            await OnEnded.Invoke(this, Reason.NoFunds).ConfigureAwait(false);
             CurrentState = State.Ended;
             return;
         }
@@ -93,7 +93,7 @@ public class RollDuelGame
         if (!await _cs.RemoveAsync(P2, "Roll Duel", Amount).ConfigureAwait(false))
         {
             await _cs.AddAsync(P1, "Roll Duel - refund", Amount).ConfigureAwait(false);
-            await (OnEnded?.Invoke(this, Reason.NoFunds)).ConfigureAwait(false);
+            await OnEnded.Invoke(this, Reason.NoFunds).ConfigureAwait(false);
             CurrentState = State.Ended;
             return;
         }
@@ -120,7 +120,7 @@ public class RollDuelGame
 
             try
             {
-                await (OnGameTick?.Invoke(this)).ConfigureAwait(false);
+                await OnGameTick(this).ConfigureAwait(false);
             }
             catch
             {
@@ -133,7 +133,7 @@ public class RollDuelGame
         } while (true);
 
         CurrentState = State.Ended;
-        await (OnEnded?.Invoke(this, Reason.Normal)).ConfigureAwait(false);
+        await OnEnded(this, Reason.Normal).ConfigureAwait(false);
     }
 }
 

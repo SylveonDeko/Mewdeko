@@ -115,7 +115,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public async Task SaveChat(StoopidTime time, ITextChannel channel = null)
+    public async Task SaveChat(StoopidTime time, ITextChannel? channel = null)
     {
         if (!Directory.Exists(_credentials.ChatSavePath))
         {
@@ -253,7 +253,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (string.IsNullOrWhiteSpace(value))
         {
             value = setting.GetSetting(prop);
-            if (prop != "currency.sign") Format.Code(Format.Sanitize(value?.TrimTo(1000)), "json");
+            if (prop != "currency.sign") Format.Code(Format.Sanitize(value.TrimTo(1000)), "json");
 
             if (string.IsNullOrWhiteSpace(value))
                 value = "-";
@@ -289,7 +289,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         {
             var val = config.GetSetting(pr);
             if (pr != "currency.sign")
-                val = val?.TrimTo(28);
+                val = val.TrimTo(28);
             return val?.Replace("\n", "") ?? "-";
         });
 
@@ -368,7 +368,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         try
         {
-            CultureInfo ci;
+            CultureInfo? ci;
             if (string.Equals(name.Trim(), "default", StringComparison.InvariantCultureIgnoreCase))
             {
                 Localization.ResetDefaultCulture();
@@ -1009,14 +1009,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 public sealed class EvaluationEnvironment
 {
-    public EvaluationEnvironment(CommandContext ctx) => this.ctx = ctx;
+    public EvaluationEnvironment(CommandContext ctx) => this.Ctx = ctx;
 
-    public CommandContext ctx { get; }
+    public CommandContext Ctx { get; }
 
-    public IUserMessage Message => ctx.Message;
-    public IMessageChannel Channel => ctx.Channel;
-    public IGuild Guild => ctx.Guild;
-    public IUser User => ctx.User;
-    public IGuildUser Member => (IGuildUser)ctx.User;
-    public DiscordSocketClient Client => ctx.Client as DiscordSocketClient;
+    public IUserMessage Message => Ctx.Message;
+    public IMessageChannel Channel => Ctx.Channel;
+    public IGuild Guild => Ctx.Guild;
+    public IUser User => Ctx.User;
+    public IGuildUser Member => (IGuildUser)Ctx.User;
+    public DiscordSocketClient Client => Ctx.Client as DiscordSocketClient;
 }

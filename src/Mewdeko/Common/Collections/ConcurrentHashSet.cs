@@ -3,6 +3,7 @@
 
 using System.Diagnostics;
 using System.Threading;
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
 namespace Mewdeko.Common.Collections;
 
@@ -251,7 +252,8 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         // The Volatile.Read ensures that the load of the fields of 'n' doesn't move before the load from buckets[i].
         var current = Volatile.Read(ref tables1.Buckets[bucketNo]);
 
-        while (current != null)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        while (current is not null)
         {
             if (hashcode == current.Hashcode && _comparer.Equals(current.Item, item)) return true;
             current = current.Next;

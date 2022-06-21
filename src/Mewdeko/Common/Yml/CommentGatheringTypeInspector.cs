@@ -8,7 +8,7 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 {
     private readonly ITypeInspector _innerTypeDescriptor;
 
-    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => _innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException("innerTypeDescriptor");
+    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => _innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
 
     public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container) =>
         _innerTypeDescriptor
@@ -52,7 +52,8 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
         public IObjectDescriptor Read(object target)
         {
             var comment = _baseDescriptor.GetCustomAttribute<CommentAttribute>();
-            return comment != null
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            return comment is not null
                 ? new CommentsObjectDescriptor(_baseDescriptor.Read(target), comment.Comment)
                 : _baseDescriptor.Read(target);
         }

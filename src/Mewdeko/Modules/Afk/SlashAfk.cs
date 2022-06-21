@@ -254,7 +254,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
         var time = StoopidTime.FromInput(input);
-        if (time is null)
+        if (time.Time.Equals(default))
         {
             await ctx.Interaction.SendEphemeralErrorAsync(
                 "The time format provided was incorrect! Please this format: `20m30s`");

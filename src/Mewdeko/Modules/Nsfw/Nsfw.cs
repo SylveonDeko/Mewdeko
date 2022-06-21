@@ -228,6 +228,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoHentai(int interval = 0, [Remainder] string? tags = null)
     {
+        // ReSharper disable once RedundantAssignment
         Timer t = default;
 
         switch (interval)
@@ -317,6 +318,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoButts(int interval = 0)
     {
+        // ReSharper disable once RedundantAssignment
         Timer t = default;
 
         switch (interval)
@@ -370,8 +372,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 Service.Konachan(ctx.Guild?.Id, true, tags),
                 Service.Gelbooru(ctx.Guild?.Id, true, tags));
 
-            var linksEnum = images?.Where(l => l != null).ToArray();
-            if (images is null || linksEnum.Length == 0)
+            var linksEnum = images.Where(l => l != null).ToArray();
+            if (!images.Any())
             {
                 await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
                 return;
@@ -466,7 +468,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     private async Task InternalDapiCommand(string[] tags,
         bool forceExplicit,
-        Func<ulong?, bool, string[], Task<UrlReply>> func)
+        Func<ulong?, bool, string[], Task<UrlReply?>> func)
     {
         var data = await func(ctx.Guild?.Id, forceExplicit, tags);
 

@@ -97,7 +97,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         IBotStrings strings,
         Mewdeko bot,
         DiscordSocketClient client,
-        CommandHandler cmd,
         GlobalPermissionService gperm,
         CmdCdService cmdCds,
         IPubSub pubSub,
@@ -229,7 +228,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var user = await guildUser.Guild.GetUserAsync(userId);
                     try
                     {
-                        var baseRoles = user.RoleIds.Where(x => x != guild?.EveryoneRole.Id).ToList();
+                        var baseRoles = user.RoleIds.Where(x => x != guild.EveryoneRole.Id).ToList();
                         var roles = baseRoles.Where(x => !ct.RemovedRoles?.Contains(x.ToString()) ?? true).ToList();
                         roles.AddRange(ct.GetGrantedRoles().Where(x => !user.RoleIds.Contains(x)));
                         // difference is caused by @everyone
@@ -330,15 +329,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         await Task.Delay(1000);
                     }
 
-                    if (ct.GuildId is not null && inter.User is IGuildUser guildUser)
+                    if (ct.GuildId is null || inter.User is not IGuildUser guildUser) return true;
                     {
-                        List<ulong> effectedUsers = new();
-                        effectedUsers = inter is SocketUserCommand uCMD
+                        var effectedUsers = inter is SocketUserCommand uCmd
                             ? ct.RoleGrantType switch
                             {
-                                CtRoleGrantType.Mentioned => new List<ulong> {uCMD.Data.Member.Id},
-                                CtRoleGrantType.Sender => new List<ulong> {uCMD.User.Id},
-                                CtRoleGrantType.Both => new List<ulong> {uCMD.User.Id, uCMD.Data.Member.Id},
+                                CtRoleGrantType.Mentioned => new List<ulong> {uCmd.Data.Member.Id},
+                                CtRoleGrantType.Sender => new List<ulong> {uCmd.User.Id},
+                                CtRoleGrantType.Both => new List<ulong> {uCmd.User.Id, uCmd.Data.Member.Id},
                                 _ => new List<ulong>()
                             }
                             : ct.RoleGrantType switch
@@ -425,8 +423,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                         AutoDeleteTrigger = ct.Ad,
                                         NoRespond = ct.Nr,
                                         IsRegex = ct.Rgx,
-                                        GrantedRoles = string.Join("@@@", ct.aRole.Select(x => x.ToString())),
-                                        RemovedRoles = string.Join("@@@", ct.rRole.Select(x => x.ToString())),
+                                        GrantedRoles = string.Join("@@@", ct.ARole.Select(x => x.ToString())),
+                                        RemovedRoles = string.Join("@@@", ct.RRole.Select(x => x.ToString())),
                                         ReactToTrigger = ct.Rtt,
                                         RoleGrantType = ct.Rgt,
                                         ValidTriggerTypes = ct.VTypes,
@@ -713,7 +711,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await UpdateInternalAsync(guildId, ct);
     }
 
-    public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(CTModel ct, CtField field)
+    public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(CTModel? ct, CtField? field)
     {
         var newVal = false;
         await using (var uow = _db.GetDbContext())
@@ -845,7 +843,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .ToArrayAsync();
     }
     
-    public async Task<CTModel?> AddAsync(ulong? guildId, string key, string message, bool regex)
+    public async Task<CTModel?> AddAsync(ulong? guildId, string key, string? message, bool regex)
     {
         key = key.ToLowerInvariant();
         var cr = new CTModel
@@ -870,7 +868,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return cr;
     }
 
-    public async Task<CTModel?> EditAsync(ulong? guildId, int id, string message, bool? regex, string? trigger = null)
+    public async Task<CTModel?> EditAsync(ulong? guildId, int id, string? message, bool? regex, string? trigger = null)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
@@ -951,47 +949,47 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
     
-    public async Task<CTModel?> SetInteractionName(ulong? guildID, int id, string name)
+    public async Task<CTModel?> SetInteractionName(ulong? guildId, int id, string name)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
 
-        if (ct == null || ct.GuildId != guildID)
+        if (ct == null || ct.GuildId != guildId)
             return null;
 
         ct.ApplicationCommandName = name;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await UpdateInternalAsync(guildID, ct).ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 
         return ct;
     }
     
-    public async Task<CTModel?> SetInteractionDescription(ulong? guildID, int id, string description)
+    public async Task<CTModel?> SetInteractionDescription(ulong? guildId, int id, string description)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
 
-        if (ct == null || ct.GuildId != guildID)
+        if (ct == null || ct.GuildId != guildId)
             return null;
 
         ct.ApplicationCommandDescription = description;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await UpdateInternalAsync(guildID, ct).ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 
         return ct;
     }
     
-    public async Task<CTModel?> SetInteractionEphemeral(ulong? guildID, int id, bool ephemeral)
+    public async Task<CTModel?> SetInteractionEphemeral(ulong? guildId, int id, bool ephemeral)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
 
-        if (ct == null || ct.GuildId != guildID)
+        if (ct == null || ct.GuildId != guildId)
             return null;
 
         ct.EphemeralResponse = ephemeral;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await UpdateInternalAsync(guildID, ct).ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 
         return ct;
     }
@@ -1041,12 +1039,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
 
-    public async Task<CTModel?> SetValidTriggerType(ulong? guildID, int id, ChatTriggerType type, bool enabled)
+    public async Task<CTModel?> SetValidTriggerType(ulong? guildId, int id, ChatTriggerType type, bool enabled)
     {
         await using var uow = _db.GetDbContext();
         var ct = uow.ChatTriggers.GetById(id);
 
-        if (ct == null || ct.GuildId != guildID)
+        if (ct == null || ct.GuildId != guildId)
             return null;
 
         switch (enabled)
@@ -1060,7 +1058,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await UpdateInternalAsync(guildID, ct).ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 
         return ct;
     }
@@ -1149,25 +1147,24 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private record TriggerChildGrouping(string Name, CTModel? Triggers, List<TriggerChildGrouping>? Children);
 
-    public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildID)
+    public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildId)
     {
 
         var props = new List<ApplicationCommandProperties>();
-        var groups = new List<TriggerChildGrouping>();
 
-        var triggers = GetChatTriggersFor(guildID);
+        var triggers = GetChatTriggersFor(guildId);
 
-        if (GetACCTErrors(triggers)?.Any() ?? false)
+        if (GetAcctErrors(triggers)?.Any() ?? false)
         {
             throw new InvalidOperationException("ACCTs cannot be build when ACCT errors are detected.");
         }
 
         if (triggers.Length == 0)
             return props;
-        groups = triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Slash
-                                     && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
-                                     && x.RealName.Split(' ').Length == 1)
-                         .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
+        var groups = triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Slash
+                                         && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
+                                         && x.RealName.Split(' ').Length == 1)
+                             .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
         triggers.Where(x =>
             x.ApplicationCommandType == CtApplicationCommandType.Slash && x.RealName.Split(' ').Length == 2).ForEach(
             x =>
@@ -1198,13 +1195,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }).Select(x =>
         {
             TriggerChildGrouping group;
-            var groups = x.Group.Children;
-            if (groups.Any(y => y.Name == x.Triggers.RealName.Split(' ')[1]))
-                group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
+            var groupChildren = x.Group.Children;
+            if (groupChildren.Any(y => y.Name == x.Triggers.RealName.Split(' ')[1]))
+                group = groupChildren.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
             else
             {
-                groups.Add(new(x.Triggers.RealName.Split(' ')[1], null, new()));
-                group = groups.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
+                groupChildren.Add(new(x.Triggers.RealName.Split(' ')[1], null, new()));
+                group = groupChildren.First(y => y.Name == x.Triggers.RealName.Split(' ')[1]);
             }
 
             return (x.Triggers, Group: group);
@@ -1212,15 +1209,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         props = groups.Select(x => new SlashCommandBuilder()
             .WithName(x.Name)
-            .WithDescription((x.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : x.Triggers!.ApplicationCommandDescription)
-            .AddOptions(x.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : (x.Children.Select(y => new SlashCommandOptionBuilder()
-                .WithName(y.Name)
-                .WithDescription((y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : y.Triggers!.ApplicationCommandDescription)
-                .WithType(y.Triggers is null ? ApplicationCommandOptionType.SubCommandGroup : ApplicationCommandOptionType.SubCommand)
-                .AddOptions(y.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : y.Children.Select(z => new SlashCommandOptionBuilder()
-                    .WithName(z.Name.Split(' ')[2])
-                    .WithDescription((z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true) ? "description" : z.Triggers!.ApplicationCommandDescription)
-                    .WithType(ApplicationCommandOptionType.SubCommand)).ToArray()))).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
+            .WithDescription(x.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : x.Triggers!.ApplicationCommandDescription)
+            .AddOptions(x.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : x.Children.Select(y => new SlashCommandOptionBuilder()
+                                                                                                                   .WithName(y.Name)
+                                                                                                                   .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : y.Triggers!.ApplicationCommandDescription)
+                                                                                                                   .WithType(y.Triggers is null ? ApplicationCommandOptionType.SubCommandGroup : ApplicationCommandOptionType.SubCommand)
+                                                                                                                   .AddOptions(y.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : y.Children.Select(z => new SlashCommandOptionBuilder()
+                                                                                                                       .WithName(z.Name.Split(' ')[2])
+                                                                                                                       .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : z.Triggers!.ApplicationCommandDescription)
+                                                                                                                       .WithType(ApplicationCommandOptionType.SubCommand)).ToArray())).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
         triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Message).ForEach(x =>
             props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
@@ -1259,7 +1256,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return false;
         await using var uow = _db.GetDbContext();
         var cts = uow.ChatTriggers.Where(x => x.GuildId == guild.Id).ToList();
-        cmd.SelectMany(cmd => cmd.GetCtNames().Select(name => (cmd, name))).ToList().ForEach(x =>
+        cmd.SelectMany(applicationCommand => applicationCommand.GetCtNames().Select(name => (cmd: applicationCommand, name))).ToList().ForEach(x =>
             cts.First(y => y.RealName == x.name).ApplicationCommandId = x.cmd.Id);
         await uow.SaveChangesAsync();
         return true;
@@ -1275,14 +1272,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return type is not CtApplicationCommandType.Slash || ValidCommandRegex.IsMatch(name);
     }
 
-    public List<ChatTriggersInteractionError>? GetACCTErrors(ulong? guildId) =>
-        GetACCTErrors(GetChatTriggersFor(guildId));
+    public List<ChatTriggersInteractionError>? GetAcctErrors(ulong? guildId) =>
+        GetAcctErrors(GetChatTriggersFor(guildId));
 
-    public static List<ChatTriggersInteractionError>? GetACCTErrors(IEnumerable<CTModel> triggers)
+    public static List<ChatTriggersInteractionError>? GetAcctErrors(IEnumerable<CTModel> triggers)
     {
         triggers = triggers.Where(x => x.ApplicationCommandType != CtApplicationCommandType.None);
         var errors = new List<ChatTriggersInteractionError>();
-        Dictionary<string, List<(string Name, int Id)>> totalChildren = new();
+        Dictionary<string?, List<(string Name, int Id)>> totalChildren = new();
         foreach (var trigger in triggers )
         {
             var triggerDepth = trigger.RealName.Split(' ').Length;

@@ -30,9 +30,9 @@ public class Blackjack
 
     public List<User> Players { get; set; } = new();
     public GameState State { get; set; } = GameState.Starting;
-    public User CurrentUser { get; private set; }
+    public User? CurrentUser { get; private set; }
 
-    public event Func<Blackjack, Task> StateUpdated;
+    public event Func<Blackjack, Task>? StateUpdated;
     public event Func<Blackjack, Task> GameEnded;
 
     public void Start()
@@ -61,7 +61,7 @@ public class Blackjack
             if (Players.Count == 0)
             {
                 State = GameState.Ended;
-                GameEnded?.Invoke(this);
+                await GameEnded.Invoke(this);
                 return;
             }
 
@@ -92,13 +92,13 @@ public class Blackjack
             Log.Information("Dealer moves");
             await DealerMoves().ConfigureAwait(false);
             await PrintState().ConfigureAwait(false);
-            var _ = GameEnded?.Invoke(this);
+            var _ = GameEnded.Invoke(this);
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "REPORT THE MESSAGE BELOW IN #MewdekoLog SERVER PLEASE");
+            Log.Error(ex, "REPORT THE MESSAGE BELOW IN MEWDEKO SERVER PLEASE");
             State = GameState.Ended;
-            var _ = GameEnded?.Invoke(this);
+            var _ = GameEnded.Invoke(this);
         }
     }
 

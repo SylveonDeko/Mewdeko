@@ -7,7 +7,7 @@ namespace Mewdeko.Common;
 
 public abstract class MewdekoModule : ModuleBase
 {
-    protected CultureInfo CultureInfo { get; set; }
+    protected CultureInfo? CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
     public ILocalization Localization { get; set; }
 
@@ -16,28 +16,28 @@ public abstract class MewdekoModule : ModuleBase
 
     protected override void BeforeExecute(CommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
 
-    protected string GetText(string key) => Strings.GetText(key, CultureInfo);
+    protected string? GetText(string? key) => Strings.GetText(key, CultureInfo);
 
-    protected string GetText(string key, params object[] args) => Strings.GetText(key, CultureInfo, args);
-    public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
+    protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
+    public Task<IUserMessage> ErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendErrorAsync(text);
     }
 
-    public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
+    public Task<IUserMessage> ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
+    public Task<IUserMessage> ConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendConfirmAsync(text);
     }
 
-    public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
+    public Task<IUserMessage> ReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");

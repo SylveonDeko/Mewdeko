@@ -979,12 +979,12 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     [SlashCommand("seek", "Seek to a certain time in the current song"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Seek(string input)
     {
-        var time = StoopidTime.FromInput(input);
-        if (time is null)
+        StoopidTime time;
+        try
         {
-            await ctx.Interaction.SendErrorAsync("Invalid time.");
-            return;
+            time = StoopidTime.FromInput(input);
         }
+        catch
         {
             await ctx.Interaction.SendErrorAsync("Invalid time.");
             return;

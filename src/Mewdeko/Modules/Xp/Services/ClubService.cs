@@ -52,11 +52,10 @@ public class ClubService : INService
         return true;
     }
 
-    public ClubInfo TransferClub(IUser from, IUser newOwner)
+    public ClubInfo? TransferClub(IUser from, IUser newOwner)
     {
-        ClubInfo club;
         using var uow = _db.GetDbContext();
-        club = uow.Clubs.GetByOwner(from.Id);
+        var club = uow.Clubs.GetByOwner(from.Id);
         var newOwnerUser = uow.GetOrCreateUser(newOwner);
 
         if (club == null ||
@@ -96,23 +95,21 @@ public class ClubService : INService
         return newState;
     }
 
-    public ClubInfo GetClubByMember(IUser user)
+    public ClubInfo? GetClubByMember(IUser user)
     {
         using var uow = _db.GetDbContext();
         return uow.Clubs.GetByMember(user.Id);
     }
 
-    public async Task<bool> SetClubIcon(ulong ownerUserId, Uri url)
+    public async Task<bool> SetClubIcon(ulong ownerUserId, Uri? url)
     {
         if (url != null)
         {
-            using (var http = _httpFactory.CreateClient())
-            using (var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
-                       .ConfigureAwait(false))
-            {
-                if (!temp.IsImage() || temp.GetImageSize() > 11)
-                    return false;
-            }
+            using var http = _httpFactory.CreateClient();
+            using var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
+                                       .ConfigureAwait(false);
+            if (!temp.IsImage() || temp.GetImageSize() > 11)
+                return false;
         }
 
         await using var uow = _db.GetDbContext();
@@ -203,7 +200,7 @@ public class ClubService : INService
         return true;
     }
 
-    public ClubInfo GetClubWithBansAndApplications(ulong ownerUserId)
+    public ClubInfo? GetClubWithBansAndApplications(ulong ownerUserId)
     {
         using var uow = _db.GetDbContext();
         return uow.Clubs.GetByOwnerOrAdmin(ownerUserId);

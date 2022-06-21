@@ -88,8 +88,8 @@ public class RoleCommandsService : INService
         public int AddedTo { get; set; }
         public int TotalUsers { get; set; }
         public string JobType { get; set; }
-        public IRole Role1 { get; set; }
-        public IRole Role2 { get; set; }
+        public IRole? Role1 { get; set; }
+        public IRole? Role2 { get; set; }
         public string StoppedOrNot { get; set; }
     }
 }

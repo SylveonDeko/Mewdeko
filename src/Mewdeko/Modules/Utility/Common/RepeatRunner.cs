@@ -32,7 +32,7 @@ public class RepeatRunner
     public Repeater Repeater { get; }
     public SocketGuild Guild { get; }
 
-    public ITextChannel Channel { get; private set; }
+    public ITextChannel? Channel { get; private set; }
 
     public TimeSpan InitialInterval
     {

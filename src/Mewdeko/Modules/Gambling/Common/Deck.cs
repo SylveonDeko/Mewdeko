@@ -45,7 +45,7 @@ public class Deck
         {13, "King"}
     };
 
-    private static Dictionary<string, Func<List<Card>, bool>> handValues;
+    private static Dictionary<string, Func<List<Card>, bool>>? handValues;
     private readonly Random _r = new MewdekoRandom();
 
     static Deck() => InitHandValues();

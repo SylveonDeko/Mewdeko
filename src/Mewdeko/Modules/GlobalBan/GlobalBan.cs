@@ -235,7 +235,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 else
                 {
                     var split = next2.Split(",");
-                    ulong uid = 0;
+                    ulong uid;
                     try
                     {
                         uid = ulong.Parse(split[0]);
@@ -325,7 +325,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 else
                 {
                     var split = next3.Split(",");
-                    ulong uid = 0;
+                    ulong uid;
                     try
                     {
                         uid = ulong.Parse(split[0]);

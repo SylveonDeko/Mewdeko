@@ -26,14 +26,14 @@ public interface IConfigService
     /// </summary>
     /// <param name="prop">Prop name</param>
     /// <returns>Value of the prop</returns>
-    string GetSetting(string prop);
+    string? GetSetting(string prop);
 
     /// <summary>
     ///     Gets the value of the specified property
     /// </summary>
     /// <param name="prop">Prop name</param>
     /// <returns>Value of the prop</returns>
-    string GetComment(string prop);
+    string? GetComment(string prop);
 
     /// <summary>
     ///     Sets the value of the specified property

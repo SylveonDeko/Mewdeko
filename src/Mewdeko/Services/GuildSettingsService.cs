@@ -30,9 +30,9 @@ public class GuildSettingsService : INService
         return prefix;
     }
     
-    public string GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
+    public string? GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
 
-    public string GetPrefix(ulong? id = null)
+    public string? GetPrefix(ulong? id = null)
     {
         if (id is null)
             return _bss.GetSetting("prefix");

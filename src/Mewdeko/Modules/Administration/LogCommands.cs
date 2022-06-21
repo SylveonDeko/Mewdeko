@@ -13,7 +13,7 @@ public partial class Administration
     {
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task LogCategory(LogCategoryTypes type, ITextChannel channel = null)
+        public async Task LogCategory(LogCategoryTypes type, ITextChannel? channel = null)
         {
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
             if (type == LogCategoryTypes.None)
@@ -119,7 +119,7 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task Log(LogType type, ITextChannel channel = null)
+        public async Task Log(LogType type, ITextChannel? channel = null)
         {
             await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0 , type).ConfigureAwait(false);
             if (channel is not null)

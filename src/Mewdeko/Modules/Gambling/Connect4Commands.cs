@@ -22,7 +22,7 @@ public partial class Gambling
 
         private int repostCounter;
 
-        private IUserMessage msg;
+        private IUserMessage? msg;
 
         public Connect4Commands(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService gamb)
             : base(gamb)
@@ -153,7 +153,7 @@ public partial class Gambling
                     toDispose.Dispose();
                 }
 
-                string title;
+                string? title;
                 switch (result)
                 {
                     case Connect4Game.Result.CurrentPlayerWon:

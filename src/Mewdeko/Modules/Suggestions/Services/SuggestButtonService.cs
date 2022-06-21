@@ -111,7 +111,6 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         if (Service.GetThreadType(ctx.Guild) is 0 or 1)
             return;
         var channel = await ctx.Guild.GetTextChannelAsync(Service.GetSuggestionChannel(ctx.Guild.Id));
-        var a = Service.GetThreadByMessage(suggest.MessageId);
         if (Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
             var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PrivateThread, message: componentInteraction.Message);

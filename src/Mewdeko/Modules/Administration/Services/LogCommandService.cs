@@ -187,7 +187,7 @@ public class LogCommandService : INService
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
-    private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
+    private string? GetText(IGuild guild, string? key, params object?[] replacements) => _strings.GetText(key, guild.Id, replacements);
 
     private string CurrentTime(IGuild? g)
     {

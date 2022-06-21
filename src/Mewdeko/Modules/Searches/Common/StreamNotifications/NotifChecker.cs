@@ -163,7 +163,7 @@ public class NotifChecker
            }
        });
 
-    public bool CacheAddData(StreamDataKey key, StreamData data, bool replace)
+    public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
     {
         var db = _multi.GetDatabase();
         return db.HashSet(_key,

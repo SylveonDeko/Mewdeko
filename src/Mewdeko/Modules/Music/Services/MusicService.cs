@@ -219,7 +219,7 @@ public class MusicService : INService
                 }
 
                 var result3 = await (await GetSpotifyClient()).Tracks.Get(spotifyUrl.Segments[2]);
-                if (result3.Name is null)
+                if (string.IsNullOrEmpty(result3.Name))
                 {
                     await chan.SendErrorAsync(
                         "Seems like i can't find or play this. Please try with a different link!");
@@ -257,7 +257,8 @@ public class MusicService : INService
         {
             return Task.FromResult(false);
         }
-        if (queue[--index] == null)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (queue[--index] is null)
             return Task.FromResult(false);
         queue.Move(queue[index], --newIndex);
         return Task.FromResult(true);

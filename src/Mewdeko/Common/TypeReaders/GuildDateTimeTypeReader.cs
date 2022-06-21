@@ -24,7 +24,7 @@ public class GuildDateTimeTypeReader : MewdekoTypeReader<GuildDateTime>
         return Task.FromResult(TypeReaderResult.FromSuccess(gdt));
     }
 
-    public static GuildDateTime Parse(IServiceProvider services, ulong guildId, string input)
+    public static GuildDateTime? Parse(IServiceProvider services, ulong guildId, string input)
     {
         var gts = services.GetService<GuildTimezoneService>();
         if (!DateTime.TryParse(input, out var dt))

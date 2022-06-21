@@ -145,7 +145,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Rip([Remainder] IGuildUser usr)
     {
         var av = usr.RealAvatarUrl();
-        if (av == null)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (av is null)
             return;
         await using var picStream =
             await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
@@ -156,7 +157,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(1)]
-    public async Task Say(ITextChannel channel, [Remainder] string message)
+    public async Task Say(ITextChannel channel, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
             return;
@@ -180,7 +181,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
-    public Task Say([Remainder] string message) => Say((ITextChannel)ctx.Channel, message);
+    public Task Say([Remainder] string? message) => Say((ITextChannel)ctx.Channel, message);
 
     // done in 3.0
     [Cmd, Aliases]
@@ -485,7 +486,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _ = ctx.Channel.TriggerTypingAsync();
 
         var data = await Service.GoogleSearchAsync(query);
-        if (data.TotalResults is null)
+        if (!data.TotalResults.Any())
         {
             data = await Service.DuckDuckGoSearchAsync(query);
             if (data is null)
@@ -704,7 +705,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         using var http = _httpFactory.CreateClient();
         var response = await http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
-        if (response == null)
+        if (string.IsNullOrWhiteSpace(response))
             return;
 
         var fact = JObject.Parse(response)["fact"].ToString();
@@ -719,6 +720,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             usr = (IGuildUser)ctx.User;
 
         var av = usr.RealAvatarUrl();
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (av == null)
             return;
 
@@ -831,7 +833,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             }
 
             var url = Uri.EscapeDataString($"https://{target}.fandom.com/wiki/{title}");
-            var response = $@"`{GetText("title")}` {title?.SanitizeMentions()}
+            var response = $@"`{GetText("title")}` {title.SanitizeMentions()}
 `{GetText("url")}:` {url}";
             await ctx.Channel.SendMessageAsync(response).ConfigureAwait(false);
         }
@@ -859,7 +861,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             // ignored
         }
 
-        if (obj.Error != null || obj.Verses == null || obj.Verses.Length == 0)
+        if (obj.Error != null || !obj.Verses.Any())
         {
             await ctx.Channel.SendErrorAsync(obj.Error ?? "No verse found.").ConfigureAwait(false);
         }

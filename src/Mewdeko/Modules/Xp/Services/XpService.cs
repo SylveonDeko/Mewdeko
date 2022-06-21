@@ -114,10 +114,10 @@ public class XpService : INService, IUnloadableService
         Task.Run(UpdateLoop);
     }
 
-    private ConcurrentDictionary<ulong, int> XpTxtRates { get; } = new();
-    private ConcurrentDictionary<ulong, int> XpVoiceRates { get; } = new();
-    private ConcurrentDictionary<ulong, int> XpTxtTimeouts { get; } = new();
-    private ConcurrentDictionary<ulong, int> XpVoiceTimeouts { get; } = new();
+    private ConcurrentDictionary<ulong, int> XpTxtRates { get; }
+    private ConcurrentDictionary<ulong, int> XpVoiceRates { get; }
+    private ConcurrentDictionary<ulong, int> XpTxtTimeouts { get; }
+    private ConcurrentDictionary<ulong, int> XpVoiceTimeouts { get; }
 
     public Task Unload()
     {
@@ -135,7 +135,7 @@ public class XpService : INService, IUnloadableService
             try
             {
                 var toNotify =
-                    new List<(IGuild Guild, IMessageChannel MessageChannel, IUser User, int Level,
+                    new List<(IGuild Guild, IMessageChannel? MessageChannel, IUser User, int Level,
                         XpNotificationLocation NotifyType, NotifOf NotifOf)>();
                 var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
                 var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
@@ -890,7 +890,7 @@ public class XpService : INService, IUnloadableService
 
         var length = info.Length * percent;
 
-        float x3 = 0, x4 = 0, y3 = 0, y4 = 0;
+        float x3, x4, y3, y4;
 
         switch (info.Direction)
         {

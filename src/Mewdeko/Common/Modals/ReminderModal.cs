@@ -8,5 +8,5 @@ public class ReminderModal : IModal
 
     [InputLabel("reminder")]
     [ModalTextInput("reminder", TextInputStyle.Paragraph, "Enter your reminder.")]
-    public string Reminder { get; set; }
+    public string? Reminder { get; set; }
 }

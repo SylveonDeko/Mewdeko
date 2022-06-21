@@ -21,7 +21,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     public async Task Me
     (
         [Summary("time", "When should the reminder respond.")] TimeSpan time,
-        [Summary("reminder", "(optional) what should the reminder message be")] string reminder = ""
+        [Summary("reminder", "(optional) what should the reminder message be")] string? reminder = ""
     )
     {
         if (string.IsNullOrEmpty(reminder))
@@ -36,7 +36,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     public async Task Here
     (
         [Summary("time", "When should the reminder respond.")] TimeSpan time,
-        [Summary("reminder", "(optional) what should the reminder message be")] string reminder = ""
+        [Summary("reminder", "(optional) what should the reminder message be")] string? reminder = ""
     )
     {
         if (ctx.Guild is null)
@@ -59,7 +59,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     (
         [Summary("channel", "where should the reminder be sent?")] ITextChannel channel,
         [Summary("time", "When should the reminder respond.")] TimeSpan time,
-        [Summary("reminder", "(optional) what should the reminder message be")] string reminder = ""
+        [Summary("reminder", "(optional) what should the reminder message be")] string? reminder = ""
     )
     {
         var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
@@ -92,7 +92,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
         await RemindInternal(id, pri, time, modal.Reminder).ConfigureAwait(false);
     }
 
-    private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
+    private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string? message)
     {
         if (ts > TimeSpan.FromDays(60))
             return false;

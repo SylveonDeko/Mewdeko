@@ -103,7 +103,7 @@ public sealed class Hangman : IDisposable
                 if (input != Term.Word) // failed
                     return;
 
-                var _ = OnGameEnded?.Invoke(this, userName);
+                var _ = OnGameEnded.Invoke(this, userName);
                 CurrentPhase = Phase.Ended;
                 return;
             }
@@ -118,11 +118,11 @@ public sealed class Hangman : IDisposable
 
             if (!_previousGuesses.Add(ch)) // that letter was already guessed
             {
-                var _ = OnLetterAlreadyUsed?.Invoke(this, userName, ch);
+                var _ = OnLetterAlreadyUsed.Invoke(this, userName, ch);
             }
             else if (!Term.Word.Contains(ch)) // guessed letter doesn't exist
             {
-                var _ = OnGuessFailed?.Invoke(this, userName, ch);
+                var _ = OnGuessFailed.Invoke(this, userName, ch);
                 AddError();
             }
             else if (Term.Word.All(_ => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
@@ -133,7 +133,7 @@ public sealed class Hangman : IDisposable
             }
             else // guessed but not last letter
             {
-                var _ = OnGuessSucceeded?.Invoke(this, userName, ch);
+                var _ = OnGuessSucceeded.Invoke(this, userName, ch);
                 _recentUsers.Remove(userId); // he can guess again right away
                 return;
             }

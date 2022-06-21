@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Immutable;
 using System.IO;
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace Mewdeko.Services.Impl;
 
@@ -129,7 +132,7 @@ public class BotCredentials : IBotCredentials
             GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 892789588739891250;
             ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
             GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
-            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepID) ? pnrepID : 970086914826858547;
+            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId) ? pnrepId : 970086914826858547;
         }
         catch (Exception ex)
         {

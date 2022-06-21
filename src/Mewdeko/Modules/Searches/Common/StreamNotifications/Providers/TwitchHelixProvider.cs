@@ -41,7 +41,7 @@ public class TwitchHelixProvider : Provider
         });
     }
 
-    private async Task<string> EnsureTokenValidAsync()
+    private async Task<string?> EnsureTokenValidAsync()
         => await _api.Value.Auth.GetAccessTokenAsync();
 
     public override Task<bool> IsValidUrl(string url)

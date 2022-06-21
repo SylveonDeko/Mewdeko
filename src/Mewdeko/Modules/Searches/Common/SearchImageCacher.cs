@@ -31,7 +31,7 @@ public class SearchImageCacher
     public async Task<ImageCacherObject> GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
         HashSet<string>? blacklistedTags = null)
     {
-        tags = tags.Select(tag => tag?.ToLowerInvariant()).ToArray();
+        tags = tags.Select(tag => tag.ToLowerInvariant()).ToArray();
 
         blacklistedTags ??= new HashSet<string>();
 
@@ -44,7 +44,7 @@ public class SearchImageCacher
 
         if (type == DapiSearchType.E621)
         {
-            tags = tags.Select(tag => tag?.Replace("yuri", "female/female", StringComparison.InvariantCulture))
+            tags = tags.Select(tag => tag.Replace("yuri", "female/female", StringComparison.InvariantCulture))
                 .ToArray();
         }
 
@@ -135,7 +135,7 @@ public class SearchImageCacher
             case DapiSearchType.Derpibooru:
                 tag = string.IsNullOrWhiteSpace(tag) ? "safe" : tag;
                 website =
-                    $"https://www.derpibooru.org/api/v1/json/search/images?q={tag?.Replace('+', ',')}&per_page=49";
+                    $"https://www.derpibooru.org/api/v1/json/search/images?q={tag.Replace('+', ',')}&per_page=49";
                 break;
         }
 
@@ -158,7 +158,7 @@ public class SearchImageCacher
                         var data = await http.GetStringAsync(website).ConfigureAwait(false);
                         return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
                                           .posts
-                                          .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
+                                          .Where(x => !string.IsNullOrWhiteSpace(x.File.Url))
                                           .Select(x => new ImageCacherObject(x.File.Url,
                                               type, string.Join(' ', x.Tags.General), x.Score.Total))
                                           .ToArray();
@@ -222,13 +222,13 @@ public class SearchImageCacher
 
 public class DapiImageObject
 {
-    [JsonProperty("File_Url")] public string FileUrl { get; set; }
+    [JsonProperty("File_Url")] public string? FileUrl { get; set; }
 
-    public string Tags { get; set; }
+    public string? Tags { get; set; }
 
-    [JsonProperty("Tag_String")] public string TagString { get; set; }
+    [JsonProperty("Tag_String")] public string? TagString { get; set; }
 
-    public string Rating { get; set; }
+    public string? Rating { get; set; }
 }
 
 public class DerpiContainer

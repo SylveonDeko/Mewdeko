@@ -17,8 +17,7 @@ namespace Mewdeko.Modules.Help.Services;
 public class HelpService : ILateExecutor, INService
 {
     private readonly BotConfigService _bss;
-    public static List<UMsg> UsrMsg = new();
-    private readonly CommandHandler _ch;
+    public static readonly List<UMsg> UsrMsg = new();
     private readonly DiscordSocketClient _client;
     private readonly DiscordPermOverrideService _dpos;
     private readonly Mewdeko _bot;
@@ -32,7 +31,6 @@ public class HelpService : ILateExecutor, INService
     private readonly GuildSettingsService _guildSettings;
 
     public HelpService(
-        CommandHandler ch,
         IBotStrings strings,
         DiscordPermOverrideService dpos,
         BotConfigService bss,
@@ -53,7 +51,6 @@ public class HelpService : ILateExecutor, INService
         _blacklistService = blacklistService;
         _cmds = cmds;
         _bss = bss;
-        _ch = ch;
         _client.MessageReceived += HandlePing;
         _client.JoinedGuild += HandleJoin;
         _perms = perms;
@@ -69,7 +66,7 @@ public class HelpService : ILateExecutor, INService
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
         var compBuilder = new ComponentBuilder();
         var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
-        foreach (var i in modules.Where(x => !x.Attributes.Any(x => x is HelpDisabled)))
+        foreach (var i in modules.Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
         {
             selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
@@ -89,7 +86,7 @@ public class HelpService : ILateExecutor, INService
             $"\nDo `{_guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
-        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(x => x is HelpDisabled)).Distinct();
+        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
         var count = 0;
         if (description)
         {
@@ -119,7 +116,7 @@ public class HelpService : ILateExecutor, INService
         return !pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _) ? "❌" : "✅";
     }
 
-    public string GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
+    public string? GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
 
     public record UMsg
     {
@@ -140,7 +137,7 @@ public class HelpService : ILateExecutor, INService
         return Task.CompletedTask;
     }
 
-    public static IUserMessage GetUserMessage(IUser user) =>
+    public static IUserMessage? GetUserMessage(IUser user) =>
         UsrMsg.Find(x => x.Msg.Author == user)?.Msg;
 
     public static async Task ClearHelp()
@@ -219,16 +216,15 @@ public class HelpService : ILateExecutor, INService
         if (com.Attributes.Any(x => x is HelpDisabled))
             return new EmbedBuilder().WithDescription("Help is disabled for this command.");
         var prefix = _guildSettings.GetPrefix(guild);
-        var a = com.MethodName();
         var potentialCommand = _interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
         var str = $"**`{prefix + com.Aliases[0]}`**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
             str += string.Format(" **/ `{0}`**", prefix + alias);
         var em = new EmbedBuilder().AddField(fb =>
-            fb.WithName(str).WithValue($"{com.RealSummary(_strings, guild?.Id, prefix)}").WithIsInline(true));
+            fb.WithName(str).WithValue($"{com.RealSummary(_strings, guild.Id, prefix)}").WithIsInline(true));
 
-        _dpos.TryGetOverrides(guild?.Id ?? 0, com.Name, out var overrides);
+        _dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
         var reqs = GetCommandRequirements(com, overrides);
         var botReqs = GetCommandBotRequirements(com);
         if (reqs.Length > 0)
@@ -338,6 +334,6 @@ public class HelpService : ILateExecutor, INService
     public static string GetPreconditionString(GuildPermission perm) =>
         (perm + " Server Permission").Replace("Guild", "Server", StringComparison.InvariantCulture);
 
-    private string GetText(string text, IGuild? guild, params object[] replacements) =>
+    private string? GetText(string? text, IGuild? guild, params object?[] replacements) =>
         _strings.GetText(text, guild?.Id, replacements);
 }
