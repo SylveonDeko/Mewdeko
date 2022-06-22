@@ -36,7 +36,7 @@
         <PackageReference Include="Discord.Net.Rest" Version="3.7.1-dev" />
         <PackageReference Include="Discord.Net.Core" Version="3.7.1-dev" />
         <PackageReference Include="Discord.Net.Webhook" Version="3.7.1-dev" />
-        <PackageReference Include="Discord.Net.Interactions" Version="3.7.1-dev" />
+        <PackageReference Include="Discord.Net.Interactions" Version="3.7.2" />
         <PackageReference Include="Discord.Net.Commands" Version="3.7.1-dev" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
         <PackageReference Include="Fergun.Interactive" Version="1.5.4" />
