@@ -76,7 +76,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.2.22152.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-preview.2.22152.2" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.2.22152.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0-preview.2.22152.2" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0-preview.5.22301.12" />
         <PackageReference Include="morelinq" Version="3.3.2" />
         <PackageReference Include="NekosBestApiNet" Version="1.0.3" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
