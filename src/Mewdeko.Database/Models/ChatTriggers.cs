@@ -40,7 +40,7 @@ public class ChatTriggers : DbEntity
     public ulong CrosspostingChannelId { get; set; } = 0;
     public string CrosspostingWebhookUrl { get; set; } = "";
 
-    public string RealName => (ApplicationCommandName.IsNullOrWhiteSpace() ? Trigger : ApplicationCommandName).Trim();
+    public string RealName => (string.IsNullOrEmpty(ApplicationCommandName) ? Trigger : ApplicationCommandName).Trim();
 }
 
 public class ReactionResponse : DbEntity
