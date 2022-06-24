@@ -1209,15 +1209,28 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         props = groups.Select(x => new SlashCommandBuilder()
             .WithName(x.Name)
-            .WithDescription(x.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : x.Triggers!.ApplicationCommandDescription)
-            .AddOptions(x.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : x.Children.Select(y => new SlashCommandOptionBuilder()
-                                                                                                                   .WithName(y.Name)
-                                                                                                                   .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : y.Triggers!.ApplicationCommandDescription)
-                                                                                                                   .WithType(y.Triggers is null ? ApplicationCommandOptionType.SubCommandGroup : ApplicationCommandOptionType.SubCommand)
-                                                                                                                   .AddOptions(y.Triggers is not null ? Array.Empty<SlashCommandOptionBuilder>() : y.Children.Select(z => new SlashCommandOptionBuilder()
-                                                                                                                       .WithName(z.Name.Split(' ')[2])
-                                                                                                                       .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : z.Triggers!.ApplicationCommandDescription)
-                                                                                                                       .WithType(ApplicationCommandOptionType.SubCommand)).ToArray())).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
+            .WithDescription(x.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true
+                ? "description"
+                : x.Triggers!.ApplicationCommandDescription)
+            .AddOptions(x.Triggers is not null
+                ? Array.Empty<SlashCommandOptionBuilder>()
+                : x.Children.Select(y => new SlashCommandOptionBuilder
+                                                {
+                                                    Options = new()
+                                                }
+                                               .WithName(y.Name)
+                                               .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true
+                                                   ? "description"
+                                                   : y.Triggers!.ApplicationCommandDescription)
+                                               .WithType(y.Triggers is null
+                                                   ? ApplicationCommandOptionType.SubCommandGroup
+                                                   : ApplicationCommandOptionType.SubCommand)
+                                               .AddOptions(y.Children is null
+                                                   ? Array.Empty<SlashCommandOptionBuilder>()
+                                                   : y.Children.Select(z => new SlashCommandOptionBuilder()
+                                                       .WithName(z.Name.Split(' ')[2])
+                                                       .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : z.Triggers!.ApplicationCommandDescription)
+                                                       .WithType(ApplicationCommandOptionType.SubCommand)).ToArray())).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
         triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Message).ForEach(x =>
             props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
