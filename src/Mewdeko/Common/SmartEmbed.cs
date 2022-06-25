@@ -52,7 +52,7 @@ public class SmartEmbed
             }
 
             if (newEmbed is { IsValid: false })
-                    return false;
+                return false;
 
             if (newEmbed.Embed is not null)
             {
