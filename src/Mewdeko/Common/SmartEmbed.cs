@@ -64,7 +64,7 @@ public class SmartEmbed
             }
 
             plainText = newEmbed.Content;
-            components = crembed.GetComponents(guildId);
+            components = newEmbed.GetComponents(guildId);
             return true;
         }
 
