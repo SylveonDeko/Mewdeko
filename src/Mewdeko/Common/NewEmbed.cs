@@ -69,8 +69,19 @@ public class NewEmbed
 
     [JsonProperty("components")] public NewEmbedComponents[]? Components { get; set; }
 
-    public bool IsValid 
-        => (Embeds is not null || IsEmbedValid || string.IsNullOrWhiteSpace(Content)) && (Embeds is not null || IsEmbedValid);
+    public bool IsValid
+    {
+        get
+        {
+            if (Content != null)
+                return true;
+            if (Embed != null)
+                return true;
+            if (Embeds != null)
+                return true;
+            return Components != null;
+        }
+    }
 
     public bool IsEmbedValid =>
         !string.IsNullOrWhiteSpace(Embed?.Description) ||
