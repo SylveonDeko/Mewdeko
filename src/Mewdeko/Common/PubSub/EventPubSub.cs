@@ -66,7 +66,7 @@ public class EventPubSub : IPubSub
                     // if the last subscription was the only subscription
                     // we can safely remove this action's dictionary entry
                     if (sameActions.Count == 0)
-                    {
+                    {   
                         actions.Remove(action);
 
                         // if our dictionary has no more elements after 

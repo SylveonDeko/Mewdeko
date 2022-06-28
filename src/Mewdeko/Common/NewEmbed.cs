@@ -67,8 +67,21 @@ public class NewEmbed
     [JsonProperty("embed")] public Embed? Embed { get; set; }
     [JsonProperty("embeds")] public Embed[]? Embeds { get; set; }
 
-    public bool IsValid 
-        => (Embeds is not null || IsEmbedValid || string.IsNullOrWhiteSpace(Content)) && (Embeds is not null || IsEmbedValid);
+    [JsonProperty("components")] public NewEmbedComponents[]? Components { get; set; }
+
+    public bool IsValid
+    {
+        get
+        {
+            if (Content != null)
+                return true;
+            if (Embed != null)
+                return true;
+            if (Embeds != null)
+                return true;
+            return Components != null;
+        }
+    }
 
     public bool IsEmbedValid =>
         !string.IsNullOrWhiteSpace(Embed?.Description) ||
@@ -77,7 +90,45 @@ public class NewEmbed
         Embed?.Image != null ||
         (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) || !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
         Embed?.Fields is { Count: > 0 };
+    
+    public class NewEmbedComponents
+    {
+        public string DisplayName { get; set; }
+        public int Id { get; set; }
+        public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
+        public string Url { get; set; }
+    }
 
+    public ComponentBuilder GetComponents(ulong? guildId)
+    {
+        var cb = new ComponentBuilder();
+
+        Components?.Select((x, y) => (Triggers: x, Pos: y))
+               .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
+
+        return cb;
+    }
+
+    public static ButtonBuilder GetButton(NewEmbedComponents btn, int pos, ulong guildId)
+    {
+        var bb = new ButtonBuilder();
+        if (btn.Url.IsNullOrWhiteSpace() && btn.Id == 0)
+            bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace() && btn.Id != 0)
+            bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (btn.Url.IsNullOrWhiteSpace() && btn.Style == ButtonStyle.Link)
+            bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (btn.DisplayName.IsNullOrWhiteSpace())
+            bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://")&& !btn.Url.StartsWith("http://")&& !btn.Url.StartsWith("discord://"))
+            bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace())
+            bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
+        else
+            bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}");
+        return bb;
+    }
+    
     public Discord.Embed[] ToEmbedArray(Embed[] embeds)
     {
         var toReturn = new List<Discord.Embed>();
@@ -127,4 +178,5 @@ public class NewEmbed
 
         return toReturn.ToArray();
     }
+
 }
