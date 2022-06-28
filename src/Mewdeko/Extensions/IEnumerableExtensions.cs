@@ -79,12 +79,10 @@ public static class EnumerableExtensions
         return list;
     }
 
-    public static IEnumerable<T> ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
+    public static void ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
     {
         var realElems = elems.ToList();
         foreach (var elem in realElems) exec(elem);
-
-        return realElems;
     }
 
     public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(

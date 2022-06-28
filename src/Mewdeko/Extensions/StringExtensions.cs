@@ -37,6 +37,7 @@ public static class StringExtensions
         return sb.ToString();
     }
     public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
+    public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrWhiteSpace(str);
 
     public static string PadBoth(this string str, int length)
     {
