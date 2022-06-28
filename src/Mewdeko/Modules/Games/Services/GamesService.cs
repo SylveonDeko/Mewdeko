@@ -20,8 +20,6 @@ public class GamesService : INService, IUnloadableService
     private readonly IHttpClientFactory _httpFactory;
     private readonly Random _rng;
 
-    private readonly Timer _t;
-
     public GamesService(GamesConfigService gamesConfig, IHttpClientFactory httpFactory)
     {
         _gamesConfig = gamesConfig;
@@ -62,8 +60,6 @@ public class GamesService : INService, IUnloadableService
 
     public async Task Unload()
     {
-        _t.Change(Timeout.Infinite, Timeout.Infinite);
-
         AcrophobiaGames.ForEach(x => x.Value.Dispose());
         AcrophobiaGames.Clear();
         HangmanGames.ForEach(x => x.Value.Dispose());
