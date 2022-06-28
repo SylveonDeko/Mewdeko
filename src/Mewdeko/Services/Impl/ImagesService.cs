@@ -30,8 +30,6 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         SlotBg,
         SlotEmojis,
         Currency,
-        RategirlMatrix,
-        RategirlDot,
         RipOverlay,
         RipBg,
         XpBg
@@ -54,12 +52,6 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public byte[] SlotBackground
         => GetByteData(ImageKeys.SlotBg);
-
-    public byte[] RategirlMatrix
-        => GetByteData(ImageKeys.RategirlMatrix);
-
-    public byte[] RategirlDot
-        => GetByteData(ImageKeys.RategirlDot);
 
     public byte[] XpBackground
         => GetByteData(ImageKeys.XpBg);
@@ -116,12 +108,6 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
                     break;
                 case ImageKeys.Currency:
                     await Load(key, ImageUrls.Currency);
-                    break;
-                case ImageKeys.RategirlMatrix:
-                    await Load(key, ImageUrls.Rategirl.Matrix);
-                    break;
-                case ImageKeys.RategirlDot:
-                    await Load(key, ImageUrls.Rategirl.Dot);
                     break;
                 case ImageKeys.RipOverlay:
                     await Load(key, ImageUrls.Rip.Overlay);

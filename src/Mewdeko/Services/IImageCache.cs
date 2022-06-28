@@ -16,9 +16,6 @@ public interface IImageCache
 
     byte[] SlotBackground { get; }
 
-    byte[] RategirlMatrix { get; }
-    byte[] RategirlDot { get; }
-
     byte[] XpBackground { get; }
 
     byte[] Rip { get; }

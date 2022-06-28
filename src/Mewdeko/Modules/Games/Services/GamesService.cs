@@ -27,11 +27,9 @@ public class GamesService : INService, IUnloadableService
         _gamesConfig = gamesConfig;
         _httpFactory = httpFactory;
 
-        Ratings = new AsyncLazy<RatingTexts>(GetRatingTexts);
         _rng = new MewdekoRandom();
 
-        //girl ratings
-        _t = new Timer(_ => GirlRatings.Clear(), null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
+        // girl ratings is a stupid command
 
         try
         {
@@ -44,8 +42,6 @@ public class GamesService : INService, IUnloadableService
             TypingArticles = new List<TypingArticle>();
         }
     }
-
-    public ConcurrentDictionary<ulong, GirlRating> GirlRatings { get; } = new();
 
     public IReadOnlyList<string> EightBallResponses => _gamesConfig.Data.EightBallResponses;
 
@@ -82,14 +78,6 @@ public class GamesService : INService, IUnloadableService
         RunningContests.Clear();
         NunchiGames.ForEach(x => x.Value.Dispose());
         NunchiGames.Clear();
-    }
-
-    private async Task<RatingTexts> GetRatingTexts()
-    {
-        using var http = _httpFactory.CreateClient();
-        var text = await http.GetStringAsync(
-            "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
-        return JsonConvert.DeserializeObject<RatingTexts>(text);
     }
 
     public void AddTypingArticle(IUser user, string text)
