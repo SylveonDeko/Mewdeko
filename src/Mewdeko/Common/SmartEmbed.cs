@@ -58,13 +58,17 @@ public class SmartEmbed
             {
                 embeds = newEmbed.ToEmbedArray(new[] { newEmbed.Embed });
             }
-            else if (newEmbed.Embeds.Any())
+            else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
             {
                 embeds = newEmbed.ToEmbedArray(newEmbed.Embeds);
             }
+            else
+            {
+                embeds = null;
+            }
 
             plainText = newEmbed.Content;
-            components = crembed.GetComponents(guildId);
+            components = newEmbed.GetComponents(guildId);
             return true;
         }
 
