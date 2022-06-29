@@ -25,12 +25,15 @@ public partial class Searches
         public readonly NekosBestApi NekosBestApi;
         private readonly MartineApi _martineApi;
         private readonly InteractiveService _interactivity;
+        private readonly HttpClient _httpClient;
 
-        public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi)
+        public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi,
+            HttpClient httpClient)
         {
             _interactivity = service;
             _martineApi = martineApi;
             NekosBestApi = nekosBestApi;
+            _httpClient = httpClient;
         }
 
         [Cmd, Aliases]
@@ -251,8 +254,7 @@ public partial class Searches
             }
 
             var c2 = new Client();
-            var client = new HttpClient();
-            var response = await client.PostAsync(
+            var response = await _httpClient.PostAsync(
                 $"https://api.trace.moe/search?url={t}", null);
             var responseContent = response.Content;
             using var reader = new StreamReader(await responseContent.ReadAsStreamAsync());

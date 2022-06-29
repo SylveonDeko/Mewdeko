@@ -24,14 +24,17 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     private readonly InteractiveService _interactivity;
     private readonly ICoordinator _coordinator;
     private readonly GuildSettingsService _guildSettings;
+    private readonly HttpClient _httpClient;
 
     public Utility(
         DiscordSocketClient client,
         IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv, ICoordinator coordinator,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        HttpClient httpClient)
     {
         _coordinator = coordinator;
         _guildSettings = guildSettings;
+        _httpClient = httpClient;
         _interactivity = serv;
         _client = client;
         _stats = stats;
@@ -119,8 +122,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task TestSite(string url)
     {
-        using var client = new HttpClient();
-        var response = await client.GetAsync(url).ConfigureAwait(false);
+        var response = await _httpClient.GetAsync(url).ConfigureAwait(false);
 
         await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         var statusCode = response.StatusCode;

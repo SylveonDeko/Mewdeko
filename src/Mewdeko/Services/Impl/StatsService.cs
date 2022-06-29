@@ -16,17 +16,20 @@ public class StatsService : IStatsService
     public IHttpClientFactory Factory { get; }
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
+    private readonly HttpClient _http;
     public const string BOT_VERSION = "7.00";
 
     private readonly DateTime _started;
 
     public StatsService(
-        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord, CommandService cmdServ)
+        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
+        HttpClient http)
     {
         Client = client;
         Factory = factory;
         Creds = creds;
         Coord = coord;
+        _http = http;
         _ = new DllVersionChecker();
         _started = DateTime.UtcNow;
         _ = PostToTopGg();
@@ -55,10 +58,9 @@ public class StatsService : IStatsService
         {
             using var content = new StringContent(
                 $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
-            using var client = new HttpClient();
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/json");
-            await client.PostAsync("https://api.statcord.com/beta/stats", content);
+            await _http.PostAsync("https://api.statcord.com/beta/stats", content);
         }
     }
     public async Task PostToTopGg()
@@ -73,7 +75,6 @@ public class StatsService : IStatsService
         {
             try
             {
-                using var http = Factory.CreateClient();
                 using var content = new FormUrlEncodedContent(
                     new Dictionary<string, string>
                     {
@@ -83,10 +84,10 @@ public class StatsService : IStatsService
                     });
                 content.Headers.Clear();
                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                http.DefaultRequestHeaders.Add("Authorization",
+                _http.DefaultRequestHeaders.Add("Authorization",
                     Creds.VotesToken);
 
-                using (await http
+                using (await _http
                              .PostAsync(new Uri($"https://top.gg/api/bots/{Client.CurrentUser.Id}/stats"),
                                  content).ConfigureAwait(false))
                 {
