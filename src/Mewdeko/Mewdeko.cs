@@ -58,7 +58,8 @@ public class Mewdeko
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
             FormatUsersInBidirectionalUnicode = false,
-            UseInteractionSnowflakeDate = true
+            UseInteractionSnowflakeDate = true,
+            
 
         });
         CommandService = new CommandService(new CommandServiceConfig

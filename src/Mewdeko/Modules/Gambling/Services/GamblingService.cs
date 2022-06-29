@@ -18,12 +18,14 @@ public class GamblingService : INService
     private readonly ICurrencyService _cs;
     private readonly DbService _db;
     private readonly IBotCredentials _creds;
+    private readonly HttpClient _httpClient;
 
     private readonly GamblingConfigService _gss;
 
     public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
         DiscordSocketClient client, IDataCache cache, GamblingConfigService gss,
-        IBotCredentials creds)
+        IBotCredentials creds,
+        HttpClient httpClient)
     {
         _db = db;
         _cs = cs;
@@ -31,6 +33,7 @@ public class GamblingService : INService
         _cache = cache;
         _gss = gss;
         _creds = creds;
+        _httpClient = httpClient;
 
         if (bot.Client.ShardId == 0)
         {
@@ -77,9 +80,8 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
     public async Task<bool> GetVoted(ulong id)
     {
-        using var client = new HttpClient();
-        client.DefaultRequestHeaders.Add("Authorization", _creds.VotesToken);
-        var tocheck = await client.GetStringAsync($"https://top.gg/api/bots/{_client.CurrentUser.Id}/check?userId={id}");
+        _httpClient.DefaultRequestHeaders.Add("Authorization", _creds.VotesToken);
+        var tocheck = await _httpClient.GetStringAsync($"https://top.gg/api/bots/{_client.CurrentUser.Id}/check?userId={id}");
         return tocheck.Contains('1');
     }
 
