@@ -94,7 +94,7 @@ public class NewEmbed
     public class NewEmbedComponents
     {
         public string DisplayName { get; set; }
-        public int Id { get; set; }
+        public ulong Id { get; set; }
         public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
         public string Url { get; set; }
     }
