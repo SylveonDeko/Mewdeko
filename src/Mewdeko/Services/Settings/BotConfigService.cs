@@ -39,7 +39,9 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }
 
-    private void UpdateCommandChannel() => CommandHandler.CommandLogChannelId = data.CommandLogChannel;
+    private void UpdateCommandChannel()
+    {
+    }
 
     protected override void OnStateUpdate()
     {
