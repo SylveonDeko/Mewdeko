@@ -23,7 +23,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [ComponentInteraction("trigger.*.runin.*$*", true), CheckPermissions]
-    public async Task TriggerRunInHandler(int triggerId, ulong? guildId, string _)
+    public async Task TriggerRunInHandler(string triggerId, ulong? guildId, string _)
     {
         guildId ??= 0;
         var ct = Service.GetChatTriggers(guildId, triggerId);
