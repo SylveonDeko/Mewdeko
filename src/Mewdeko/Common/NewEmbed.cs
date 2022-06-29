@@ -97,6 +97,7 @@ public class NewEmbed
         public ulong Id { get; set; }
         public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
         public string Url { get; set; }
+        public string Emoji { get; set; }
     }
 
     public ComponentBuilder GetComponents(ulong? guildId)
@@ -125,7 +126,7 @@ public class NewEmbed
         else if (!btn.Url.IsNullOrWhiteSpace())
             bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
         else
-            bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}");
+            bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}").WithEmote(btn.Emoji.ToIEmote());
         return bb;
     }
     
