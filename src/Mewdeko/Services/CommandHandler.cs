@@ -32,7 +32,7 @@ public class CommandHandler : INService
     private readonly CommandService _commandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
-    public static ulong CommandLogChannelId { get; set; }
+
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer _clearUsersOnShortCooldown;
     private readonly IBotStrings _strings;
@@ -648,9 +648,9 @@ public class CommandHandler : INService
                 {
                     case MultiMatchHandling.Best:
                         IReadOnlyList<TypeReaderValue> argList = parseResult.ArgValues
-                                                                            .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                                                                            .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
-                                                                              .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                                                                              .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         parseResult = ParseResult.FromSuccess(argList, paramList);
                         break;
                 }
