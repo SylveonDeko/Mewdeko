@@ -93,7 +93,7 @@
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta14.4" />
         <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
-        <PackageReference Include="StackExchange.Redis" Version="2.6.45" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.5.22301.12" />
         <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
         <PackageReference Include="System.Threading.Channels" Version="7.0.0-preview.5.22301.12" />
