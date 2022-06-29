@@ -746,16 +746,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return ct;
     }
-    
-    public CTModel? GetChatTriggers(ulong? guildId, string trigger)
-    {
-        using var uow = _db.GetDbContext();
-        var ct = uow.ChatTriggers.FirstOrDefault(x => x.Trigger == trigger);
-        if (ct == null || ct.GuildId != guildId)
-            return null;
-
-        return ct;
-    }
 
     public CTModel? GetGuildOrGlobalTriggers(ulong? guildId, int id)
     {
