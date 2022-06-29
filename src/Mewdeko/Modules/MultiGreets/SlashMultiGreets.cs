@@ -12,7 +12,12 @@ namespace Mewdeko.Modules.MultiGreets;
 public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
 {
     private InteractiveService interactivity;
-    public SlashMultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
+    private readonly HttpClient _httpClient;
+    public SlashMultiGreets(InteractiveService interactivity, HttpClient httpClient)
+    {
+        this.interactivity = interactivity;
+        _httpClient = httpClient;
+    }
 
     public enum MultiGreetTypes
     {
@@ -138,8 +143,8 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                     "The avatar url used is not a direct url or is invalid! Please use a different url.");
                 return;
             }
-            var http = new HttpClient();
-            using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
+            
+            using var sr = await _httpClient.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
                                      .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();

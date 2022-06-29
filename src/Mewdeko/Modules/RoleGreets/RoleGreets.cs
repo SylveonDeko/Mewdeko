@@ -14,8 +14,13 @@ namespace Mewdeko.Modules.RoleGreets;
 public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 {
     private readonly InteractiveService _interactivity;
+    private readonly HttpClient _http;
 
-    public RoleGreets(InteractiveService interactivity) => _interactivity = interactivity;
+    public RoleGreets(InteractiveService interactivity, HttpClient http)
+    {
+        _interactivity = interactivity;
+        _http = http;
+    }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetAdd(IRole role, [Remainder] ITextChannel? channel = null)
@@ -154,9 +159,8 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                     "The avatar url used is not a direct url or is invalid! Please use a different url.");
                 return;
             }
-            var http = new HttpClient();
-            using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
-                                     .ConfigureAwait(false);
+            using var sr = await _http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
+                                      .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();
             var webhook = await channel.CreateWebhookAsync(name, imgStream);
