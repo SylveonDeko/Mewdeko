@@ -1,4 +1,4 @@
-<a href="https://discord.gg/bBcp69VMjF">
+<a href="https://discord.gg/mewdeko">
         <img src="https://discordapp.com/api/guilds/843489716674494475/widget.png" alt="Get support at the Mewdeko's Clubhouse discord server!">
     </a>
     <a href="https://opensource.org/licenses/AGPL-3.0">
