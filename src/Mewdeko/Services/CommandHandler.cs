@@ -375,7 +375,7 @@ public class CommandHandler : INService
         }
     }
 
-    private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
+    private Task LogSuccessfulExecution(IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
     {
         _ = Task.Factory.StartNew(async () =>
         {
@@ -425,7 +425,8 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints) =>
+    private Task LogErroredExecution(string errorMessage, IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
+    {
         _ = Task.Factory.StartNew(async () =>
         {
             var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
@@ -438,19 +439,17 @@ public class CommandHandler : INService
             var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
             if (toFetch is RestTextChannel restChannel)
             {
-                var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithTitle("Text Command Errored")
-                         .AddField("Error Reason", errorMessage)
-                         .AddField("Errored Time", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")))
-                         .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
-                         .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
-                         .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                         .AddField("Message", usrMsg.Content.TrimTo(1000));
+                var eb = new EmbedBuilder().WithOkColor().WithTitle("Text Command Errored").AddField("Error Reason", errorMessage)
+                                           .AddField("Errored Time", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")))
+                                           .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                                           .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                                           .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`").AddField("Message", usrMsg.Content.TrimTo(1000));
 
                 await restChannel.SendMessageAsync(embed: eb.Build());
             }
         }, TaskCreationOptions.LongRunning);
+        return Task.CompletedTask;
+    }
 
     public Task MessageReceivedHandler(SocketMessage msg)
     {
