@@ -96,9 +96,19 @@ public class SearchesService : INService, IUnloadableService
 
                     if (!UserLanguages.TryGetValue(key, out var langs))
                         return;
-
-                    var text = await Translate(langs, umsg.Resolve(TagHandling.Ignore))
-                        .ConfigureAwait(false);
+                    string text;
+                    if (langs.Contains('<'))
+                    {
+                        var split = langs.Split('<');
+                        text = await AutoTranslate(umsg.Resolve(TagHandling.Ignore), split[1], split[0])
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var split = langs.Split('>');
+                        text = await AutoTranslate(umsg.Resolve(TagHandling.Ignore), split[0], split[1])
+                            .ConfigureAwait(false);
+                    }
                     if (autoDelete)
                     {
                         try
@@ -345,13 +355,18 @@ public class SearchesService : INService, IUnloadableService
         return new Uri($"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png");
     }
 
+    public static async Task<string> AutoTranslate(string str, string from, string to)
+    {
+        using var translator = new AggregateTranslator();
+        var translation = await translator.TranslateAsync(str, to, from);
+        return translation.Translation == str ? (await translator.TransliterateAsync(str, to, from)).Transliteration : translation.Translation;
+    }
+
     public static async Task<string> Translate(string langs, string? text = null)
     {
         using var translator = new AggregateTranslator();
         var translation = await translator.TranslateAsync(text, langs);
-        if (translation.Translation == text)
-            return (await translator.TransliterateAsync(text, langs)).Transliteration;
-        return translation.Translation;
+        return translation.Translation == text ? (await translator.TransliterateAsync(text, langs)).Transliteration : translation.Translation;
     }
 
     public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
