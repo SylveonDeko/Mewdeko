@@ -85,13 +85,11 @@ public class Localization : ILocalization
 
     public void RemoveGuildCulture(ulong guildId)
     {
-        if (GuildCultureInfos.TryRemove(guildId, out var _))
-        {
-            using var uow = _db.GetDbContext();
-            var gc = uow.ForGuildId(guildId, set => set);
-            gc.Locale = null;
-            uow.SaveChanges();
-        }
+        if (!GuildCultureInfos.TryRemove(guildId, out _)) return;
+        using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set);
+        gc.Locale = null;
+        uow.SaveChanges();
     }
 
     public void SetDefaultCulture(CultureInfo? ci) => _bss.ModifyConfig(bs => bs.DefaultLocale = ci);

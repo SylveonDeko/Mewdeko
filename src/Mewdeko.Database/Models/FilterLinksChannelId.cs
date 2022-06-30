@@ -1,7 +1,7 @@
 ﻿namespace Mewdeko.Database.Models;
 
 public class FilterLinksChannelId : DbEntity
-{
+{   
     public ulong ChannelId { get; set; }
 
     public override bool Equals(object obj) =>

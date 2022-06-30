@@ -3,6 +3,7 @@ using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using System.Net;
@@ -169,25 +170,21 @@ public class GoogleApiService : IGoogleApiService
         _sh = new UrlshortenerService(bcs);
     }
 
-    public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)
+    public async Task<SearchResult[]> GetVideoLinksByKeywordAsync(string keywords)
     {
         await Task.Yield();
         if (string.IsNullOrWhiteSpace(keywords))
             throw new ArgumentNullException(nameof(keywords));
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-
+        
         var query = _yt.Search.List("snippet");
-        query.MaxResults = count;
+        query.MaxResults = 10;
         query.Q = keywords;
         query.Type = "video";
         query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
-        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            $"https://www.youtube.com/watch?v={i.Id.VideoId}");
+        
+        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.ToArray();
     }
-
-    public Task<string> ShortenUrl(Uri url) => ShortenUrl(url.ToString());
+    
 
     public async Task<string> ShortenUrl(string url)
     {
