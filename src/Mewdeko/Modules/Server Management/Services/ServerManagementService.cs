@@ -5,10 +5,10 @@ namespace Mewdeko.Modules.Server_Management.Services;
 
 public class ServerManagementService : INService
 {
-    public ServerManagementService(Mewdeko bot, DbService db)
+    public ServerManagementService(DiscordSocketClient client, DbService db)
     {
         using var uow = db.GetDbContext();
-        var configs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var configs = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
 
         GuildMuteRoles = configs
             .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))

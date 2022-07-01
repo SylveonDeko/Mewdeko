@@ -51,7 +51,7 @@ public class Mewdeko
         Client = new DiscordSocketClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
-            LogLevel = LogSeverity.Verbose,
+            LogLevel = LogSeverity.Debug,
             ConnectionTimeout = int.MaxValue,
             TotalShards = Credentials.TotalShards,
             ShardId = shardId,
@@ -84,19 +84,17 @@ public class Mewdeko
 
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
-    public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
     
 
     private void AddServices()
     {
-        var startingGuildIdList = GetCurrentGuildIds();
         var sw = Stopwatch.StartNew();
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
 
         using (var uow = _db.GetDbContext())
         {
-            foreach (var config in (IEnumerable<GuildConfig>)uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)))
+            foreach (var config in (IEnumerable<GuildConfig>)uow.GuildConfigs.All().Where(x => Client.Guilds.Select(socketguild => socketguild.Id).Contains(x.GuildId)))
             {
                 _guildSettingsService.UpdateGuildConfig(config.GuildId, config);
             }

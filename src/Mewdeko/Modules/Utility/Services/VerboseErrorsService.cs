@@ -13,7 +13,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
     private readonly GuildSettingsService _guildSettings;
 
-    public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch,
+    public VerboseErrorsService(DiscordSocketClient client, DbService db, CommandHandler ch,
         IBotStrings strings,
         GuildSettingsService guildSettings)
     {
@@ -22,7 +22,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         _db = db;
         _ch = ch;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         _ch.CommandErrored += LogVerboseError;
 
         _guildsEnabled = new ConcurrentHashSet<ulong>(gc

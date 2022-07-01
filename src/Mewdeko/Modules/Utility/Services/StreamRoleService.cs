@@ -20,7 +20,7 @@ public class StreamRoleService : INService, IUnloadableService
         _db = db;
         _client = client;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         _guildSettings = gc
             .ToDictionary(x => x.GuildId, x => x.StreamRole)
             .Where(x => x.Value != null && x.Value.Enabled)

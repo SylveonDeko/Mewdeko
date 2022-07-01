@@ -12,12 +12,12 @@ public class AdministrationService : INService
     private readonly LogCommandService _logService;
     private readonly GuildSettingsService _guildSettings;
 
-    public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
+    public AdministrationService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         LogCommandService logService,
         GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         _db = db;
         _logService = logService;
         _guildSettings = guildSettings;

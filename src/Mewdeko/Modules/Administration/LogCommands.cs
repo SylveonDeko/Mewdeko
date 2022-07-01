@@ -72,7 +72,7 @@ public partial class Administration
             var str = string.Join("\n", Enum.GetNames(typeof(LogType)).OrderBy(x => x).Select(x =>
             {
                 var val = l == null ? null : GetLogProperty(l, Enum.Parse<LogType>(x));
-                return val != 0 ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
+                return val != null ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
             }));
 
             await ctx.Channel.SendConfirmAsync($"{Format.Bold(GetText("log_events"))}\n{str}").ConfigureAwait(false);

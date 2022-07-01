@@ -276,7 +276,7 @@ public class UtilityService : INService
 
                         if (msg2.Attachments.Count > 0) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
 
-                        await msg.Channel.SendMessageAsync("", embed: en2.WithTimestamp(msg2.Timestamp).Build());
+                        await msg.Channel.SendMessageAsync(embed: en2.WithTimestamp(msg2.Timestamp).Build());
                     }
                 }
             }

@@ -775,9 +775,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct != null;
     }
 
-    public Task OnReadyAsync() => ReloadInternal(_bot.GetCurrentGuildIds());
+    public Task OnReadyAsync() => ReloadInternal(_client.Guilds.Select(x => x.Id).ToList());
 
-    private ValueTask OnCrsShouldReload(bool _) => new(ReloadInternal(_bot.GetCurrentGuildIds()));
+    private ValueTask OnCrsShouldReload(bool _) => new(ReloadInternal(_client.Guilds.Select(x => x.Id).ToList()));
 
     private ValueTask OnGcrAdded(CTModel c)
     {

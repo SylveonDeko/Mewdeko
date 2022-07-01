@@ -11,11 +11,11 @@ public class RoleCommandsService : INService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
-    public RoleCommandsService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public RoleCommandsService(DiscordSocketClient client, DbService db)
     {
         _db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         _models = gc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
