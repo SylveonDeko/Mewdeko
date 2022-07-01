@@ -50,7 +50,6 @@ public class XpService : INService, IUnloadableService
     public XpService(
         DiscordSocketClient client,
         CommandHandler cmd,
-        Mewdeko bot,
         DbService db,
         IBotStrings strings,
         IDataCache cache,
@@ -84,7 +83,7 @@ public class XpService : INService, IUnloadableService
 
         using var uow = db.GetDbContext();
         //load settings
-        var allGuildConfigs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var allGuildConfigs = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         XpTxtRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();

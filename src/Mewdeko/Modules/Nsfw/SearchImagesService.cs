@@ -31,7 +31,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public SearchImagesService(
         IHttpClientFactory http,
-        SearchImageCacher cacher, Mewdeko bot,
+        SearchImageCacher cacher, DiscordSocketClient client,
         DbService db)
     {
         _rng = new MewdekoRandom();
@@ -40,7 +40,7 @@ public class SearchImagesService : ISearchImagesService, INService
         _cache = cacher;
         _db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,

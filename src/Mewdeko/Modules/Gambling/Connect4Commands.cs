@@ -121,7 +121,7 @@ public partial class Gambling
                         {
                             try
                             {
-                                msg = await ctx.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First())
+                                msg = await ctx.Channel.SendMessageAsync(embed: (Embed)msg.Embeds.First())
                                     .ConfigureAwait(false);
                             }
                             catch

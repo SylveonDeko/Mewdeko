@@ -920,7 +920,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             Title = "Evaluating...",
             Color = new Color(0xD091B2)
         };
-        var msg = await ctx.Channel.SendMessageAsync("", embed: embed.Build());
+        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
 
         var globals = new EvaluationEnvironment((CommandContext)Context);
         var sopts = ScriptOptions.Default
