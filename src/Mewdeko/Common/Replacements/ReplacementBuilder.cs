@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
+using NekosBestApiNet;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
@@ -11,12 +12,15 @@ public class ReplacementBuilder
         new("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
 
     private readonly DiscordSocketClient _client;
+    private readonly NekosBestApi _nekosBestApi;
 
     private readonly ConcurrentDictionary<Regex, Func<Match, string>> _regex = new();
     private readonly ConcurrentDictionary<string, Func<string?>> _reps = new();
+    
 
     public ReplacementBuilder(DiscordSocketClient? client = null)
     {
+        _nekosBestApi = new NekosBestApi();
         _client = client;
         WithRngRegex();
     }
@@ -25,7 +29,8 @@ public class ReplacementBuilder
         WithUser(usr)
             .WithChannel(ch)
             .WithServer(client, g)
-            .WithClient(client);
+            .WithClient(client)
+            .WithGifs();
 
     public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
@@ -168,6 +173,42 @@ public class ReplacementBuilder
         return this;
     }
 
+    public ReplacementBuilder WithGifs()
+    {
+        _reps.TryAdd("%bakagif%", () => _nekosBestApi.ActionsApi.Baka().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%bitegif%", () => _nekosBestApi.ActionsApi.Bite().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%blushgif%", () => _nekosBestApi.ActionsApi.Blush().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%boredgif%", () => _nekosBestApi.ActionsApi.Bored().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%crygif%", () => _nekosBestApi.ActionsApi.Cry().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%cuddlegif%", () => _nekosBestApi.ActionsApi.Cuddle().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%dancegif%", () => _nekosBestApi.ActionsApi.Dance().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%facepalmgif%", () => _nekosBestApi.ActionsApi.Facepalm().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%feedgif", () => _nekosBestApi.ActionsApi.Feed().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%handholdgif%", () => _nekosBestApi.ActionsApi.Handhold().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%happygif%", () => _nekosBestApi.ActionsApi.Happy().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%highfivegif%", () => _nekosBestApi.ActionsApi.Highfive().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%huggif%", () => _nekosBestApi.ActionsApi.Hug().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%kickgif%", () => _nekosBestApi.ActionsApi.Kick().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%kissgif%", () => _nekosBestApi.ActionsApi.Kiss().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%laughgif%", () => _nekosBestApi.ActionsApi.Laugh().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%patgif%", () => _nekosBestApi.ActionsApi.Pat().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%pokegif%", () => _nekosBestApi.ActionsApi.Poke().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%poutgif%", () => _nekosBestApi.ActionsApi.Pout().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%punchgif%", () => _nekosBestApi.ActionsApi.Punch().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%shootgif%", () => _nekosBestApi.ActionsApi.Shoot().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%shruggif%", () => _nekosBestApi.ActionsApi.Shrug().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%slapgif%", () => _nekosBestApi.ActionsApi.Slap().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%sleepgif%", () => _nekosBestApi.ActionsApi.Sleep().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%smilegif%", () => _nekosBestApi.ActionsApi.Smile().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%smuggif%", () => _nekosBestApi.ActionsApi.Smug().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%staregif%", () => _nekosBestApi.ActionsApi.Stare().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%thinkgif%", () => _nekosBestApi.ActionsApi.Think().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%thumbsupgif%", () => _nekosBestApi.ActionsApi.Thumbsup().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%ticklegif%", () => _nekosBestApi.ActionsApi.Tickle().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%wavegif%", () => _nekosBestApi.ActionsApi.Wave().GetAwaiter().GetResult().Results.First().Url);
+        _reps.TryAdd("%winkgif%", () => _nekosBestApi.ActionsApi.Wink().GetAwaiter().GetResult().Results.First().Url);
+        return this;
+    }
     public ReplacementBuilder WithChannel(IMessageChannel? ch)
     {
         /*OBSOLETE*/
