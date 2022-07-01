@@ -10,6 +10,7 @@ using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using Swan;
 using System.Threading.Tasks;
+using NekosBestApiNet;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -25,14 +26,18 @@ public partial class Moderation : MewdekoModule
 
         private readonly MuteService _mute;
         private readonly InteractiveService _interactivity;
-        public DbService Db;
+
+        private readonly DbService _db;
+        private readonly NekosBestApi _nekos;
 
         public UserPunishCommands(MuteService mute, DbService db,
-            InteractiveService serv)
+            InteractiveService serv,
+            NekosBestApi nekos)
         {
             _interactivity = serv;
+            _nekos = nekos;
             _mute = mute;
-            Db = db;
+            _db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -141,7 +146,7 @@ public partial class Moderation : MewdekoModule
             await ctx.Channel.EmbedAsync(embed);
             if (Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = Db.GetDbContext();
+                var uow = _db.GetDbContext();
                 var warnings = uow.Warnings
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -583,7 +588,8 @@ public partial class Moderation : MewdekoModule
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -620,7 +626,8 @@ public partial class Moderation : MewdekoModule
             var toSend = new EmbedBuilder().WithOkColor()
                                            .WithTitle($"⛔️ {GetText("banned_user")}")
                                            .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                                           .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+                                           .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                                           .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -781,7 +788,8 @@ public partial class Moderation : MewdekoModule
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle($"☣ {GetText("sb_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -827,7 +835,8 @@ public partial class Moderation : MewdekoModule
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("kicked_user"))
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
+                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
