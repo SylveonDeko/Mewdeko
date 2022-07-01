@@ -15,12 +15,12 @@ public class Localization : ILocalization
     private readonly BotConfigService _bss;
     private readonly DbService _db;
 
-    public Localization(BotConfigService bss, Mewdeko bot, DbService db)
+    public Localization(BotConfigService bss, DiscordSocketClient client, DbService db)
     {
         _bss = bss;
         _db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         var cultureInfoNames = gc
             .ToDictionary(x => x.GuildId, x => x.Locale);
 

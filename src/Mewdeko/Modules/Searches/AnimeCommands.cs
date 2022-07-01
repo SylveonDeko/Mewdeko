@@ -118,7 +118,7 @@ public partial class Searches
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
 
         [Cmd, Aliases]
@@ -131,7 +131,7 @@ public partial class Searches
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
 
         [Cmd, Aliases]
@@ -144,7 +144,7 @@ public partial class Searches
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
         [Cmd, Aliases]
         [Priority(0)]
@@ -293,7 +293,7 @@ public partial class Searches
             eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image?.IdMal}");
             eb.AddField("Score", image?.MeanScore);
             eb.AddField("Description", image?.DescriptionMd.TrimTo(1024).StripHtml());
-            _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
+            _ = await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
         [Cmd, Aliases]

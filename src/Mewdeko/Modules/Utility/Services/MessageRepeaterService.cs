@@ -18,18 +18,18 @@ public class MessageRepeaterService : INService
         _db = db;
         _creds = creds;
         _client = client;
-        _ = OnReadyAsync(bot);
+        _ = OnReadyAsync(client, bot);
     }
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
     public bool RepeaterReady { get; private set; }
 
-    public async Task OnReadyAsync(Mewdeko bot)
+    public async Task OnReadyAsync(DiscordSocketClient client, Mewdeko bot)
     {
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
         await using var uow = _db.GetDbContext();
-        var gcs = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gcs = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
         foreach (var gc in gcs.Where(gc => (gc.GuildId >> 22) % (ulong)_creds.TotalShards == (ulong)_client.ShardId))
         {

@@ -7,7 +7,7 @@ public static class UserExtensions
 {
     public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text) =>
         await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-              .SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
+              .SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
               .ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text,
@@ -17,7 +17,7 @@ public static class UserExtensions
         if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
             eb.WithUrl(url);
         return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-            .SendMessageAsync("", embed: eb.Build()).ConfigureAwait(false);
+            .SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error,
@@ -28,12 +28,12 @@ public static class UserExtensions
             eb.WithUrl(url);
 
         return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-            .SendMessageAsync("", embed: eb.Build()).ConfigureAwait(false);
+            .SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     public static async Task<IUserMessage> SendErrorAsync(this IUser user, string? error) =>
         await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-              .SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build())
+              .SendMessageAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build())
               .ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string? caption = null,

@@ -17,13 +17,13 @@ public class FeedsService : INService
 
     private readonly ConcurrentDictionary<string?, HashSet<FeedSub>> _subs;
 
-    public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
+    public FeedsService(DbService db, DiscordSocketClient client)
     {
         _db = db;
 
         using (var uow = db.GetDbContext())
         {
-            var guildConfigIds = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId)).Select(x => x.Id);
+            var guildConfigIds = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId)).Select(x => x.Id);
             _subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))

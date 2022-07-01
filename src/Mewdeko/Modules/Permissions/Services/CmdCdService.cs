@@ -9,12 +9,12 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
-    public CmdCdService(Mewdeko bot, DbService db)
+    public CmdCdService(DiscordSocketClient client, DbService db)
     {
         using var uow = db.GetDbContext();
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-            uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds()
-                                                 .Contains(x.GuildId)).ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+            uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id)
+                                                    .Contains(x.GuildId)).ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
     }
 
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }

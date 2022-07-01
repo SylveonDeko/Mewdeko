@@ -61,7 +61,7 @@ public class SearchesService : INService, IUnloadableService
     private int yomamaJokeIndex;
 
     public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-        DbService db, Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
+        DbService db, IDataCache cache, IHttpClientFactory factory,
         FontProvider fonts, IBotCredentials creds)
     {
         _httpFactory = factory;
@@ -73,7 +73,7 @@ public class SearchesService : INService, IUnloadableService
         _creds = creds;
         _rng = new MewdekoRandom();
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId));
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,

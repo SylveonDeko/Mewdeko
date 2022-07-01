@@ -11,7 +11,7 @@ public class GuildTimezoneService : INService
     public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
         using var uow = db.GetDbContext();
-        _timezones = uow.GuildConfigs.All().Where(x => bot.GetCurrentGuildIds().Contains(x.GuildId))
+        _timezones = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId))
             .Select(GetTimzezoneTuple)
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             .Where(x => x.Timezone != null)
