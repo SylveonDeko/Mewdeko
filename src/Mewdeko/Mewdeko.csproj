@@ -5,7 +5,7 @@
         <LangVersion>10</LangVersion>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <OutputType>exe</OutputType>
-        <Nullable>enable</Nullable>
+        <Nullable>annotations</Nullable>
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
     </PropertyGroup>
 

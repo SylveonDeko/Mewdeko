@@ -167,7 +167,7 @@ public class Mewdeko
                                   .WithSingletonLifetime()
         );
 
-        s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
+        s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
         //initialize Services
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
@@ -352,7 +352,7 @@ public class Mewdeko
             await interactionService.RegisterCommandsGloballyAsync();
 #endif
 #if DEBUG
-        if (GetCurrentGuildIds().Contains(Credentials.DebugGuildId))
+        if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
             await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
 #endif
 
