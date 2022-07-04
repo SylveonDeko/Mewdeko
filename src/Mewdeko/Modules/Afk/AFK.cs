@@ -33,6 +33,8 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string? message = null)
     {
+
+        
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting");
