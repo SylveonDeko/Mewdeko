@@ -355,8 +355,7 @@ public class Mewdeko
         if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
             await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
 #endif
-
-        // start handling messages received in commandhandler
+        
 
         _ = Task.Factory.StartNew(HandleStatusChanges, TaskCreationOptions.LongRunning);
         Ready.TrySetResult(true);
