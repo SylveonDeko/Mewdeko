@@ -124,7 +124,7 @@ public class NewEmbed
         else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://")&& !btn.Url.StartsWith("http://")&& !btn.Url.StartsWith("discord://"))
             bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace())
-            bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
+            bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url).WithEmote(btn.Emoji.ToIEmote());
         else
             bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}").WithEmote(btn.Emoji.ToIEmote());
         return bb;
