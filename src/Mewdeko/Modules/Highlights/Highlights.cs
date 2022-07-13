@@ -45,25 +45,25 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 {
                     if (highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
                     {
-                        await ctx.Channel.SendErrorAsync("That's already in your highlights!");
+                        await ctx.Channel.SendErrorAsync("That's already in your highlights!").ConfigureAwait(false);
                     }
                     else
                     {
-                        await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words);
-                        await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!");
+                        await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words).ConfigureAwait(false);
+                        await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!").ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words);
-                    await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!");
+                    await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!").ConfigureAwait(false);
                 }
                 break;
             case HighlightActions.List:
                 var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("You have no highlights set!");
+                    await ctx.Channel.SendErrorAsync("You have no highlights set!").ConfigureAwait(false);
                     return;
                 }
                 var paginator = new LazyPaginatorBuilder()
@@ -76,11 +76,11 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                                 .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                    TimeSpan.FromMinutes(60));
+                    TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
-                    await Task.CompletedTask;
+                    await Task.CompletedTask.ConfigureAwait(false);
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
                                      .WithTitle($"{highlightsForUser.Count} Highlights")
@@ -95,7 +95,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!");
+                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!").ConfigureAwait(false);
                     return;
                 }
 
@@ -104,21 +104,21 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     var todelete = highlightsForUser.ElementAt(number - 1);
                     if (todelete is null)
                     {
-                        await ctx.Channel.SendErrorAsync("That Highlight does not exist!");
+                        await ctx.Channel.SendErrorAsync("That Highlight does not exist!").ConfigureAwait(false);
                         return;
                     }
 
-                    await Service.RemoveHighlight(todelete);
-                    await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.");
+                    await Service.RemoveHighlight(todelete).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.").ConfigureAwait(false);
                     return;
                 }
                 if (!highlightsForUser.Select(x => x.Word).Contains(words))
                 {
-                    await ctx.Channel.SendErrorAsync("This is not in your highlights!");
+                    await ctx.Channel.SendErrorAsync("This is not in your highlights!").ConfigureAwait(false);
                     return;
                 }
-                await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words));
-                await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
+                await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words)).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.").ConfigureAwait(false);
                 break;
             case HighlightActions.Match:
                 if (string.IsNullOrWhiteSpace(words))
@@ -126,14 +126,14 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("There are no highlights to match to.");
+                    await ctx.Channel.SendErrorAsync("There are no highlights to match to.").ConfigureAwait(false);
                     return;
                 }
 
                 var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
                 if (!matched.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("No matches found.");
+                    await ctx.Channel.SendErrorAsync("No matches found.").ConfigureAwait(false);
                     return;
                 }
                 paginator = new LazyPaginatorBuilder()
@@ -146,11 +146,11 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                                 .Build();
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                    TimeSpan.FromMinutes(60));
+                    TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory1(int page)
                 {
-                    await Task.CompletedTask;
+                    await Task.CompletedTask.ConfigureAwait(false);
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
                                      .WithTitle($"{highlightsForUser.Count()} Highlights")
@@ -163,38 +163,36 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 if (string.IsNullOrWhiteSpace(words))
                     return;
                 var reader1 = new ChannelTypeReader<ITextChannel>();
-                ITextChannel channel;
-                var result = await reader1.ReadAsync(ctx, words, _svcs);
+                var result = await reader1.ReadAsync(ctx, words, _svcs).ConfigureAwait(false);
                 if (!result.IsSuccess)
                 {
                     var reader2 = new UserTypeReader<IUser>();
-                    IUser host;
-                    var result1 = await reader2.ReadAsync(ctx, words, null);
-                    host = (IUser)result1.BestMatch;
+                    var result1 = await reader2.ReadAsync(ctx, words, null).ConfigureAwait(false);
+                    var host = (IUser)result1.BestMatch;
                     if (host.Username is null)
                     {
-                        await ctx.Channel.SendErrorAsync("That user or channel wasnt found!");
+                        await ctx.Channel.SendErrorAsync("That user or channel wasnt found!").ConfigureAwait(false);
                         return;
                     }
-                    if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, host.Id.ToString()))
+                    if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, host.Id.ToString()).ConfigureAwait(false))
                     {
-                        await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!");
+                        await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!").ConfigureAwait(false);
                         return;
                     }
 
-                    await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!");
+                    await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!").ConfigureAwait(false);
 
                     return;
                 }
-                channel = (ITextChannel)result.BestMatch;
+                var channel = (ITextChannel)result.BestMatch;
 
-                if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()))
+                if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()).ConfigureAwait(false))
                 {
-                    await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!");
+                    await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!").ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
+                    await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!").ConfigureAwait(false);
                 }
 
                 break;
@@ -204,19 +202,19 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     return;
                 if (!bool.TryParse(words, out var enabled))
                 {
-                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.");
+                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.").ConfigureAwait(false);
                     return;
                 }
 
                 if (enabled)
                 {
-                    await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
-                    await ctx.Channel.SendConfirmAsync("Highlights enabled!");
+                    await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync("Highlights enabled!").ConfigureAwait(false);
                     return;
                 }
 
-                await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
-                await ctx.Channel.SendConfirmAsync("Highlights disabled.");
+                await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Highlights disabled.").ConfigureAwait(false);
                 break;
         }
     }

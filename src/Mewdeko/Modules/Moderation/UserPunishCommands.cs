@@ -46,26 +46,26 @@ public partial class Moderation : MewdekoModule
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
                 return;
-            var warnlogChannel = Service.GetWarnlogChannel(ctx.Guild.Id);
+            var warnlogChannel = await Service.GetWarnlogChannel(ctx.Guild.Id);
             if (warnlogChannel == channel.Id)
             {
-                await ctx.Channel.SendErrorAsync("This is already your warnlog channel!");
+                await ctx.Channel.SendErrorAsync("This is already your warnlog channel!").ConfigureAwait(false);
                 return;
             }
 
             if (warnlogChannel == 0)
             {
-                await Service.SetWarnlogChannelId(ctx.Guild, channel);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
-                await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {warnChannel.Mention}");
+                await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {warnChannel.Mention}").ConfigureAwait(false);
                 return;
             }
 
-            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
-            await Service.SetWarnlogChannelId(ctx.Guild, channel);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel);
+            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
+            await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
+            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
+                $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
@@ -74,25 +74,25 @@ public partial class Moderation : MewdekoModule
             reason ??= $"{ctx.User} || None Specified";
             if (time.Time.Days > 28)
             {
-                await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                 return;
             }
 
-            await user.SetTimeOutAsync(time.Time, new RequestOptions { AuditLogReason = reason });
-            await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day));
+            await user.SetTimeOutAsync(time.Time, new RequestOptions { AuditLogReason = reason }).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
         public async Task UnTimeOut(IGuildUser user)
         {
-            await user.RemoveTimeOutAsync(new RequestOptions { AuditLogReason = $"Removal requested by {ctx.User}" });
-            await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention);
+            await user.RemoveTimeOutAsync(new RequestOptions { AuditLogReason = $"Removal requested by {ctx.User}" }).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention).ConfigureAwait(false);
         }
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string? reason = null)
         {
-            if (!await CheckRoleHierarchy(user))
+            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -124,7 +124,7 @@ public partial class Moderation : MewdekoModule
 
                 if (dmFailed) errorEmbed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-                await ctx.Channel.EmbedAsync(errorEmbed);
+                await ctx.Channel.EmbedAsync(errorEmbed).ConfigureAwait(false);
                 return;
             }
 
@@ -143,8 +143,8 @@ public partial class Moderation : MewdekoModule
 
             if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-            await ctx.Channel.EmbedAsync(embed);
-            if (Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
                 var uow = _db.GetDbContext();
                 var warnings = uow.Warnings
@@ -153,13 +153,13 @@ public partial class Moderation : MewdekoModule
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
                 var punishaction = condition ? punishment.Punishment.Humanize() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(Service.GetWarnlogChannel(ctx.Guild.Id));
+                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetWarnlogChannel(ctx.Guild.Id)).ConfigureAwait(false);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                    .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                    .WithTitle($"Warned by: {ctx.User}")
-                    .WithCurrentTimestamp()
-                    .WithDescription(
-                        $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})"));
+                                                           .WithThumbnailUrl(user.RealAvatarUrl().ToString())
+                                                           .WithTitle($"Warned by: {ctx.User}")
+                                                           .WithCurrentTimestamp()
+                                                           .WithDescription(
+                                                               $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})")).ConfigureAwait(false);
             }
         }
 
@@ -223,7 +223,7 @@ public partial class Moderation : MewdekoModule
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 warnings = warnings.Skip(page)
                     .Take(9)
                     .ToArray();
@@ -262,7 +262,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnlogAll()
         {
-            var warnings = Service.WarnlogAll(ctx.Guild.Id);
+            var warnings = await Service.WarnlogAll(ctx.Guild.Id);
 
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
@@ -279,16 +279,16 @@ public partial class Moderation : MewdekoModule
             {
                 {
                     var ws = await warnings.Skip(page * 15)
-                        .Take(15)
-                        .ToArray()
-                        .Select(async x =>
-                        {
-                            var all = x.Count();
-                            var forgiven = x.Count(y => y.Forgiven);
-                            var total = all - forgiven;
-                            var usr = await ctx.Guild.GetUserAsync(x.Key);
-                            return $"{usr?.ToString() ?? x.Key.ToString()} | {total} ({all} - {forgiven})";
-                        }).GetResults();
+                                           .Take(15)
+                                           .ToArray()
+                                           .Select(async x =>
+                                           {
+                                               var all = x.Count();
+                                               var forgiven = x.Count(y => y.Forgiven);
+                                               var total = all - forgiven;
+                                               var usr = await ctx.Guild.GetUserAsync(x.Key).ConfigureAwait(false);
+                                               return $"{usr?.ToString() ?? x.Key.ToString()} | {total} ({all} - {forgiven})";
+                                           }).GetResults().ConfigureAwait(false);
 
                     return new PageBuilder().WithOkColor()
                         .WithTitle(GetText("warnings_list"))
@@ -307,7 +307,7 @@ public partial class Moderation : MewdekoModule
         {
             if (index < 0)
                 return;
-            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
+            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString()).ConfigureAwait(false);
             var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
             if (index == 0)
             {
@@ -332,7 +332,7 @@ public partial class Moderation : MewdekoModule
         public async Task WarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
         {
             const PunishmentAction punish = PunishmentAction.AddRole;
-            var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
+            var success = await Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
 
             if (!success)
                 return;
@@ -364,17 +364,17 @@ public partial class Moderation : MewdekoModule
                     return;
             }
 
-            var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time);
+            var success = await Service.WarnPunish(ctx.Guild.Id, number, punish, time);
 
             if (!success)
                 return;
             switch (punish)
             {
                 case PunishmentAction.Timeout when time?.Time.Days > 28:
-                    await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                    await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
                 case PunishmentAction.Timeout when time is null:
-                    await ReplyErrorLocalizedAsync("timeout_needs_time");
+                    await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
 
@@ -397,7 +397,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number)
         {
-            if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
+            if (!await Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
             await ReplyConfirmLocalizedAsync("warn_punish_rem",
                 Format.Bold(number.ToString())).ConfigureAwait(false);
@@ -406,7 +406,7 @@ public partial class Moderation : MewdekoModule
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task WarnPunishList()
         {
-            var ps = Service.WarnPunishList(ctx.Guild.Id);
+            var ps = await Service.WarnPunishList(ctx.Guild.Id);
 
             string? list;
             if (ps.Length > 0)
@@ -433,9 +433,9 @@ public partial class Moderation : MewdekoModule
                 return;
 
             var guildUser =
-                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
+                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id).ConfigureAwait(false);
 
-            if (guildUser != null && !await CheckRoleHierarchy(guildUser))
+            if (guildUser != null && !await CheckRoleHierarchy(guildUser).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -445,11 +445,11 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time).ConfigureAwait(false);
                     if (embedBuilder is not null || message is not null)
                     {
-                        var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
+                        var userChannel = await guildUser.CreateDMChannelAsync().ConfigureAwait(false);
+                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
                     }
                 }
                 catch
@@ -485,9 +485,9 @@ public partial class Moderation : MewdekoModule
                 return;
 
             var guildUser =
-                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
+                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id).ConfigureAwait(false);
 
-            if (guildUser != null && !await CheckRoleHierarchy(guildUser))
+            if (guildUser != null && !await CheckRoleHierarchy(guildUser).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -497,11 +497,11 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time).ConfigureAwait(false);
                     if (embedBuilder is not null || message is not null)
                     {
-                        var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
+                        var userChannel = await guildUser.CreateDMChannelAsync().ConfigureAwait(false);
+                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
                     }
                 }
                 catch
@@ -531,10 +531,10 @@ public partial class Moderation : MewdekoModule
         public async Task Ban(ulong userId, [Remainder] string? msg = null)
         {
             var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
-                userId);
+                userId).ConfigureAwait(false);
             if (user is null)
             {
-                await ctx.Guild.AddBanAsync(userId, 7, $"{ctx.User} | {msg}");
+                await ctx.Guild.AddBanAsync(userId, 7, $"{ctx.User} | {msg}").ConfigureAwait(false);
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -543,7 +543,7 @@ public partial class Moderation : MewdekoModule
             }
             else
             {
-                await Ban(user, msg);
+                await Ban(user, msg).ConfigureAwait(false);
             }
         }
 
@@ -551,7 +551,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
         {
-            await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}");
+            await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -563,7 +563,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
         public async Task Ban(IGuildUser user, [Remainder] string? msg = null)
         {
-            if (!await CheckRoleHierarchy(user))
+            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -571,11 +571,11 @@ public partial class Moderation : MewdekoModule
             try
             {
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null).ConfigureAwait(false);
                 if (embedBuilder is not null || message is not null)
                 {
-                    var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
+                    var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
                 }
             }
             catch
@@ -589,7 +589,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
+                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -601,7 +601,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
         public async Task Ban(StoopidTime time, IGuildUser user, [Remainder] string? msg = null)
         {
-            if (!await CheckRoleHierarchy(user))
+            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -609,11 +609,11 @@ public partial class Moderation : MewdekoModule
             try
             {
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null).ConfigureAwait(false);
                 if (embedBuilder is not null || message is not null)
                 {
-                    var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build());
+                    var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
                 }
             }
             catch
@@ -627,7 +627,7 @@ public partial class Moderation : MewdekoModule
                                            .WithTitle($"⛔️ {GetText("banned_user")}")
                                            .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                                            .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                                           .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
+                                           .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -644,16 +644,16 @@ public partial class Moderation : MewdekoModule
                 var template = Service.GetBanTemplate(Context.Guild.Id);
                 if (template is null)
                 {
-                    await ReplyConfirmLocalizedAsync("banmsg_default");
+                    await ReplyConfirmLocalizedAsync("banmsg_default").ConfigureAwait(false);
                     return;
                 }
 
-                await Context.Channel.SendConfirmAsync(template);
+                await Context.Channel.SendConfirmAsync(template).ConfigureAwait(false);
                 return;
             }
 
             Service.SetBanTemplate(Context.Guild.Id, message);
-            await ctx.OkAsync();
+            await ctx.OkAsync().ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -661,7 +661,7 @@ public partial class Moderation : MewdekoModule
         public async Task BanMsgReset()
         {
             Service.SetBanTemplate(Context.Guild.Id, null);
-            await ctx.OkAsync();
+            await ctx.OkAsync().ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -674,31 +674,31 @@ public partial class Moderation : MewdekoModule
 
         private async Task InternalBanMessageTest(string? reason, TimeSpan? duration)
         {
-            var dmChannel = await ctx.User.CreateDMChannelAsync();
+            var dmChannel = await ctx.User.CreateDMChannelAsync().ConfigureAwait(false);
             var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
             var crEmbed = await Service.GetBanUserDmEmbed(Context,
                 (IGuildUser)Context.User,
                 defaultMessage,
                 reason,
-                duration);
+                duration).ConfigureAwait(false);
 
             if (crEmbed.Item1 is null && crEmbed.Item2 is null)
             {
-                await ConfirmLocalizedAsync("bandm_disabled");
+                await ConfirmLocalizedAsync("bandm_disabled").ConfigureAwait(false);
             }
             else
             {
                 try
                 {
-                    await dmChannel.SendMessageAsync(crEmbed.Item2, embeds: crEmbed.Item1, components:crEmbed.Item3?.Build());
+                    await dmChannel.SendMessageAsync(crEmbed.Item2, embeds: crEmbed.Item1, components:crEmbed.Item3?.Build()).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
-                    await ReplyErrorLocalizedAsync("unable_to_dm_user");
+                    await ReplyErrorLocalizedAsync("unable_to_dm_user").ConfigureAwait(false);
                     return;
                 }
 
-                await Context.OkAsync();
+                await Context.OkAsync().ConfigureAwait(false);
             }
         }
 
@@ -752,16 +752,16 @@ public partial class Moderation : MewdekoModule
         public async Task Softban(ulong userId, [Remainder] string? msg = null)
         {
             var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
-                userId);
+                userId).ConfigureAwait(false);
             if (user is null)
                 return;
 
-            await SoftbanInternal(user);
+            await SoftbanInternal(user).ConfigureAwait(false);
         }
 
         private async Task SoftbanInternal(IGuildUser user, [Remainder] string? msg = null)
         {
-            if (!await CheckRoleHierarchy(user))
+            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -789,7 +789,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle($"☣ {GetText("sb_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
+                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -806,16 +806,16 @@ public partial class Moderation : MewdekoModule
         public async Task Kick(ulong userId, [Remainder] string? msg = null)
         {
             var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
-                userId);
+                userId).ConfigureAwait(false);
             if (user is null)
                 return;
 
-            await KickInternal(user, msg);
+            await KickInternal(user, msg).ConfigureAwait(false);
         }
 
         public async Task KickInternal(IGuildUser user, string? msg = null)
         {
-            if (!await CheckRoleHierarchy(user))
+            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
@@ -836,7 +836,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle(GetText("kicked_user"))
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick()).Results.First().Url);
+                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 

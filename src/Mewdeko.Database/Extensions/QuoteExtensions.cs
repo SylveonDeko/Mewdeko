@@ -24,9 +24,7 @@ public static class QuoteExtensions
         var rng = new Random();
         return (await quotes.AsQueryable()
                             .Where(q => q.GuildId == guildId && q.Keyword == keyword)
-                            .ToListAsync())
-               .OrderBy(_ => rng.Next())
-               .FirstOrDefault();
+                            .ToListAsync().ConfigureAwait(false)).MinBy(_ => rng.Next());
     }
 
     public static async Task<Quote> SearchQuoteKeywordTextAsync(this DbSet<Quote> quotes, ulong guildId, string keyword, string text)
@@ -36,11 +34,9 @@ public static class QuoteExtensions
                             .Where(q => q.GuildId == guildId
                                         && q.Keyword == keyword
                                         && EF.Functions.Like(q.Text.ToUpper(), $"%{text.ToUpper()}%")
-                            // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
+                                // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
                             )
-                            .ToListAsync())
-               .OrderBy(_ => rngk.Next())
-               .FirstOrDefault();
+                            .ToListAsync().ConfigureAwait(false)).MinBy(_ => rngk.Next());
     }
 
     public static void RemoveAllByKeyword(this DbSet<Quote> quotes, ulong guildId, string keyword) => quotes.RemoveRange(quotes.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));

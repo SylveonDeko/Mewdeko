@@ -80,8 +80,8 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         commandName = commandName.ToLowerInvariant();
         await using var uow = _db.GetDbContext();
         var over = await uow.DiscordPermOverrides
-            .AsQueryable()
-            .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command).ConfigureAwait(false);
+                            .AsQueryable()
+                            .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command).ConfigureAwait(false);
 
         if (over is null)
         {

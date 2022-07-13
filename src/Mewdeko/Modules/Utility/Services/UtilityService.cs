@@ -28,18 +28,18 @@ public class UtilityService : INService
     }
 
     public async Task<List<SnipeStore>> GetSnipes(ulong guildId)
-        => await _cache.GetSnipesForGuild(guildId);
+        => await _cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
 
-    public int GetPLinks(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).PreviewLinks;
+    public async Task<int> GetPLinks(ulong? id)
+        => (await _guildSettings.GetGuildConfig(id.Value)).PreviewLinks;
 
-    public ulong GetReactChans(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).ReactChannel;
+    public async Task<ulong> GetReactChans(ulong? id)
+        => (await _guildSettings.GetGuildConfig(id.Value)).ReactChannel;
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ReactChannel = yesnt;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -48,7 +48,7 @@ public class UtilityService : INService
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (_db.GetDbContext())
+        await using (_db.GetDbContext().ConfigureAwait(false))
         {
             yesno = yesnt switch
             {
@@ -58,23 +58,24 @@ public class UtilityService : INService
             };
         }
 
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var gc = uow.ForGuildId(guild.Id, set => set);
+            var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             _guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
     }
 
-    public bool GetSnipeSet(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).snipeset;
+    public async Task<bool> GetSnipeSet(ulong? id)
+        => (await _guildSettings.GetGuildConfig(id.Value)).snipeset;
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
         var yesno = endis == "enable";
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = yesno;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -82,7 +83,7 @@ public class UtilityService : INService
     public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -98,7 +99,7 @@ public class UtilityService : INService
         if (channel.Value is not SocketTextChannel chan)
             return;
 
-        if (!GetSnipeSet(chan.Guild.Id))
+        if (!await GetSnipeSet(chan.Guild.Id))
             return;
 
         if (!messages.Select(x => x.HasValue).Any())
@@ -113,7 +114,7 @@ public class UtilityService : INService
             Edited = 0,
             DateAdded = DateTime.UtcNow
         });
-        var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id) ?? new List<SnipeStore>();
+        var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
         if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -121,17 +122,17 @@ public class UtilityService : INService
                 snipes.RemoveRange(todelete);
         }
         snipes.AddRange(msgs);
-        await _cache.AddSnipeToCache(chan.Guild.Id, snipes);
+        await _cache.AddSnipeToCache(chan.Guild.Id, snipes).ConfigureAwait(false);
     }
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
         _ = Task.Factory.StartNew(async () =>
         {
-            if (!GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
+            if (!await GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
-            var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
+            var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id).ConfigureAwait(false);
             if (user is null) return;
             if (!user.IsBot)
             {
@@ -144,7 +145,7 @@ public class UtilityService : INService
                     Edited = 0,
                     DateAdded = DateTime.UtcNow
                 };
-                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id) ?? new List<SnipeStore>();
+                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
                 if (snipes.Count == 0)
                 {
                     var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -152,7 +153,7 @@ public class UtilityService : INService
                         snipes.RemoveRange(todelete);
                 }
                 snipes.Add(snipemsg);
-                await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes);
+                await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -166,10 +167,10 @@ public class UtilityService : INService
             if (ch is not ITextChannel)
                 return;
 
-            if (!GetSnipeSet(((SocketTextChannel)ch).Guild.Id)) return;
+            if (!await GetSnipeSet(((SocketTextChannel)ch).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
-            var user = await msg.Channel.GetUserAsync(msg.Author.Id);
+            var user = await msg.Channel.GetUserAsync(msg.Author.Id).ConfigureAwait(false);
             if (user is null) return;
             if (!user.IsBot)
             {
@@ -182,7 +183,7 @@ public class UtilityService : INService
                     Edited = 1,
                     DateAdded = DateTime.UtcNow
                 };
-                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id) ?? new List<SnipeStore>();
+                var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
                 if (snipes.Count == 0)
                 {
                     var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -190,7 +191,7 @@ public class UtilityService : INService
                         snipes.RemoveRange(todelete);
                 }
                 snipes.Add(snipemsg);
-                await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes);
+                await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -203,15 +204,15 @@ public class UtilityService : INService
             if (msg.Author.IsBot) return;
             if (msg.Channel is SocketDMChannel) return;
             var guild = ((SocketGuildChannel)msg.Channel).Guild.Id;
-            var id = GetReactChans(guild);
+            var id = await GetReactChans(guild);
             if (msg.Channel.Id == id)
             {
                 Emote.TryParse("<:upvote:863122283283742791>", out var emote);
                 Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
-                await Task.Delay(200);
-                await msg.AddReactionAsync(emote);
-                await Task.Delay(200);
-                await msg.AddReactionAsync(emote2);
+                await Task.Delay(200).ConfigureAwait(false);
+                await msg.AddReactionAsync(emote).ConfigureAwait(false);
+                await Task.Delay(200).ConfigureAwait(false);
+                await msg.AddReactionAsync(emote2).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -220,7 +221,7 @@ public class UtilityService : INService
     public static async Task<UrlReport> UrlChecker(string url)
     {
         var vcheck = new VirusTotal("e49046afa41fdf4e8ca72ea58a5542d0b8fbf72189d54726eed300d2afe5d9a9");
-        return await vcheck.GetUrlReportAsync(url, true);
+        return await vcheck.GetUrlReportAsync(url, true).ConfigureAwait(false);
     }
 
     public Task MsgReciev(SocketMessage msg)
@@ -231,7 +232,7 @@ public class UtilityService : INService
             {
                 if (msg.Author.IsBot) return;
                 var gid = t.Guild;
-                if (GetPLinks(gid.Id) == 1)
+                if (await GetPLinks(gid.Id) == 1)
                 {
                     var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
                         RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -255,9 +256,9 @@ public class UtilityService : INService
 
                         if (guild != t.Guild)
                             return;
-                        var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
+                        var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3])).ConfigureAwait(false);
                         if (em == null) return;
-                        var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
+                        var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4])).ConfigureAwait(false);
                         if (msg2 is null) return;
                         var en2 = new EmbedBuilder
                         {
@@ -276,7 +277,7 @@ public class UtilityService : INService
 
                         if (msg2.Attachments.Count > 0) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
 
-                        await msg.Channel.SendMessageAsync(embed: en2.WithTimestamp(msg2.Timestamp).Build());
+                        await msg.Channel.SendMessageAsync(embed: en2.WithTimestamp(msg2.Timestamp).Build()).ConfigureAwait(false);
                     }
                 }
             }

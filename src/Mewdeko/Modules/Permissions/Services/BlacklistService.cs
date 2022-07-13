@@ -50,12 +50,12 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 var channel = arg.DefaultChannel;
                 if (channel is null)
                 {
-                    await arg.LeaveAsync();
+                    await arg.LeaveAsync().ConfigureAwait(false);
                     return;
                 }
 
-                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.");
-                await arg.LeaveAsync();
+                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.").ConfigureAwait(false);
+                await arg.LeaveAsync().ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -122,9 +122,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         Reload();
     }
 
-    public void BlacklistUsers(IReadOnlyCollection<ulong> toBlacklist)
+    public async void BlacklistUsers(IEnumerable<ulong> toBlacklist)
     {
-        using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
             var bc = uow.Blacklist;
             //blacklist the users
@@ -136,8 +137,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 }));
 
             //clear their currencies
-            uow.DiscordUser.RemoveFromMany(toBlacklist);
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         Reload();

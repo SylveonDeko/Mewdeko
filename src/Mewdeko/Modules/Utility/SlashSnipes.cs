@@ -30,28 +30,28 @@ public partial class Utility
         public async Task Snipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
-            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled").ConfigureAwait(false);
                 return;
             }
 
-            var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
-                             .LastOrDefault(x => x.ChannelId == channel.Id);
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+                                                                                   .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
             {
-                msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
-                                                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+                                                                                   .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
             }
 
             if (msg is null)
             {
-                await ReplyErrorLocalizedAsync("no_snipes");
+                await ReplyErrorLocalizedAsync("no_snipes").ConfigureAwait(false);
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -65,7 +65,7 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build());
+            await ctx.Interaction.RespondAsync(embed: em.Build()).ConfigureAwait(false);
         }
 
         [SlashCommand("edited", "Snipes edited messages for the current or mentioned channel"),
@@ -73,28 +73,28 @@ public partial class Utility
         public async Task EditSnipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
-            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled").ConfigureAwait(false);
                 return;
             }
 
-            var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
-                                                             .LastOrDefault(x => x.ChannelId == channel.Id);
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 1)
+                                                                                   .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
             {
-                msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
-                                                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 1)
+                                                                                   .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
             }
 
             if (msg is null)
             {
-                await ReplyErrorLocalizedAsync("no_snipes");
+                await ReplyErrorLocalizedAsync("no_snipes").ConfigureAwait(false);
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -108,27 +108,27 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build());
+            await ctx.Interaction.RespondAsync(embed: em.Build()).ConfigureAwait(false);
         }
 
         [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task SnipeList(int amount = 5)
         {
-            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 
-            var msgs = (await Service.GetSnipes(ctx.Guild.Id))
+            var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
                 if (snipeStores.Length == 0)
                 {
-                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
+                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
                     return;
                 }
 
@@ -140,13 +140,13 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = await ctx.Channel.GetUserAsync(msg1.UserId)
-                               ?? await _client.Rest.GetUserAsync(msg1.UserId);
+                    var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
+                               ?? await _client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
                     return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()
@@ -162,20 +162,20 @@ public partial class Utility
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task EditSnipeList(int amount = 5)
         {
-            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 
-            var msgs = (await Service.GetSnipes(ctx.Guild.Id))
+            var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
                 if (snipeStores.Length == 0)
                 {
-                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
+                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
                     return;
                 }
 
@@ -187,13 +187,13 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = await ctx.Channel.GetUserAsync(msg1.UserId)
-                               ?? await _client.Rest.GetUserAsync(msg1.UserId);
+                    var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
+                               ?? await _client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
                     return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()
@@ -210,9 +210,9 @@ public partial class Utility
          CheckPermissions]
         public async Task SnipeSet(bool enabled)
         {
-            await Service.SnipeSetBool(ctx.Guild, enabled);
-            var t = Service.GetSnipeSet(ctx.Guild.Id);
-            await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled");
+            await Service.SnipeSetBool(ctx.Guild, enabled).ConfigureAwait(false);
+            var t = await Service.GetSnipeSet(ctx.Guild.Id);
+            await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);
         }
     }
 }

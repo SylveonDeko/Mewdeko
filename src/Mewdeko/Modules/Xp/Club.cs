@@ -20,7 +20,7 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task ClubTransfer([Remainder] IUser newOwner)
         {
-            var club = Service.TransferClub(ctx.User, newOwner);
+            var club = await Service.TransferClub(ctx.User, newOwner).ConfigureAwait(false);
 
             if (club != null)
             {
@@ -40,7 +40,7 @@ public partial class Xp
             bool admin;
             try
             {
-                admin = Service.ToggleAdmin(ctx.User, toAdmin);
+                admin = await Service.ToggleAdmin(ctx.User, toAdmin).ConfigureAwait(false);
             }
             catch (InvalidOperationException)
             {
@@ -69,20 +69,21 @@ public partial class Xp
                 return;
             }
 
-            if (!Service.CreateClub(ctx.User, clubName, out var club))
+            var club = await Service.CreateClub(ctx.User, clubName).ConfigureAwait(false);
+            if (!club.Item1)
             {
                 await ReplyErrorLocalizedAsync("club_create_error").ConfigureAwait(false);
                 return;
             }
 
-            await ReplyConfirmLocalizedAsync("club_created", Format.Bold(club.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("club_created", Format.Bold(club.Item2.ToString())).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task ClubIcon([Remainder] string? url = null)
         {
             if ((!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null)
-                || !await Service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
+                || !await Service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)).ConfigureAwait(false))
             {
                 await ReplyErrorLocalizedAsync("club_icon_error").ConfigureAwait(false);
                 return;
@@ -98,7 +99,7 @@ public partial class Xp
             var club = Service.GetClubByMember(user);
             if (club == null)
             {
-                await ErrorLocalizedAsync("club_user_not_in_club", Format.Bold(user.ToString()));
+                await ErrorLocalizedAsync("club_user_not_in_club", Format.Bold(user.ToString())).ConfigureAwait(false);
                 return;
             }
 
@@ -145,7 +146,7 @@ public partial class Xp
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var embed = new PageBuilder()
                     .WithOkColor()
                     .WithTitle($"{club}")
@@ -174,10 +175,10 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task ClubBans()
         {
-            var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
+            var club = await Service.GetClubWithBansAndApplications(ctx.User.Id).ConfigureAwait(false);
             if (club == null)
             {
-                await ReplyErrorLocalizedAsync("club_not_exists_owner");
+                await ReplyErrorLocalizedAsync("club_not_exists_owner").ConfigureAwait(false);
                 return;
             }
 
@@ -199,7 +200,7 @@ public partial class Xp
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var toShow = string.Join("\n", bans
                     .Skip(page * 10)
                     .Take(10)
@@ -215,10 +216,10 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task ClubApps()
         {
-            var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
+            var club = await Service.GetClubWithBansAndApplications(ctx.User.Id).ConfigureAwait(false);
             if (club == null)
             {
-                await ReplyErrorLocalizedAsync("club_not_exists_owner");
+                await ReplyErrorLocalizedAsync("club_not_exists_owner").ConfigureAwait(false);
                 return;
             }
 
@@ -240,7 +241,7 @@ public partial class Xp
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var toShow = string.Join("\n", apps
                     .Skip(page * 10)
                     .Take(10)
@@ -265,7 +266,7 @@ public partial class Xp
                 return;
             }
 
-            if (Service.ApplyToClub(ctx.User, club))
+            if (await Service.ApplyToClub(ctx.User, club).ConfigureAwait(false))
             {
                 await ReplyConfirmLocalizedAsync("club_applied", Format.Bold(club.ToString()))
                                 .ConfigureAwait(false);
@@ -282,9 +283,10 @@ public partial class Xp
         [Cmd, Aliases, Priority(0)]
         public async Task ClubAccept([Remainder] string userName)
         {
-            if (Service.AcceptApplication(ctx.User.Id, userName, out var discordUser))
+            var app = await Service.AcceptApplication(ctx.User.Id, userName).ConfigureAwait(false);
+            if (app.Item1)
             {
-                await ReplyConfirmLocalizedAsync("club_accepted", Format.Bold(discordUser.ToString()))
+                await ReplyConfirmLocalizedAsync("club_accepted", Format.Bold(app.Item2.ToString()))
                                 .ConfigureAwait(false);
             }
             else
@@ -296,61 +298,68 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task Clubleave()
         {
-            if (Service.LeaveClub(ctx.User))
+            if (await Service.LeaveClub(ctx.User).ConfigureAwait(false))
                 await ReplyConfirmLocalizedAsync("club_left").ConfigureAwait(false);
             else
                 await ReplyErrorLocalizedAsync("club_not_in_club").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, Priority(1)]
-        public Task ClubKick([Remainder] IUser user) => ClubKick(user.ToString());
+        public async Task ClubKick([Remainder] IUser user) => await ClubKick(user.ToString()).ConfigureAwait(false);
 
         [Cmd, Aliases, Priority(0)]
-        public Task ClubKick([Remainder] string userName)
+        public async Task ClubKick([Remainder] string userName)
         {
-            if (Service.Kick(ctx.User.Id, userName, out var club))
+            var app = await Service.Kick(ctx.User.Id, userName).ConfigureAwait(false);
+            if (app.Item1)
             {
-                return ReplyConfirmLocalizedAsync("club_user_kick", Format.Bold(userName),
-                    Format.Bold(club.ToString()));
+                await ReplyConfirmLocalizedAsync("club_user_kick", Format.Bold(userName),
+                    Format.Bold(app.Item2.ToString())).ConfigureAwait(false);
+                return;
             }
 
-            return ReplyErrorLocalizedAsync("club_user_kick_fail");
+            await ReplyErrorLocalizedAsync("club_user_kick_fail").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, Priority(1)]
-        public Task ClubBan([Remainder] IUser user) => ClubBan(user.ToString());
+        public async Task ClubBan([Remainder] IUser user) => ClubBan(user.ToString());
 
         [Cmd, Aliases, Priority(0)]
-        public Task ClubBan([Remainder] string userName)
+        public async Task ClubBan([Remainder] string userName)
         {
-            if (Service.Ban(ctx.User.Id, userName, out var club))
+            var ban = await Service.Ban(ctx.User.Id, userName).ConfigureAwait(false);
+            if (ban.Item1)
             {
-                return ReplyConfirmLocalizedAsync("club_user_banned", Format.Bold(userName),
-                    Format.Bold(club.ToString()));
+                await ReplyConfirmLocalizedAsync("club_user_banned", Format.Bold(userName),
+                    Format.Bold(ban.Item2.ToString())).ConfigureAwait(false);
+                return;
             }
 
-            return ReplyErrorLocalizedAsync("club_user_ban_fail");
+            await ReplyErrorLocalizedAsync("club_user_ban_fail").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, Priority(1)]
-        public Task ClubUnBan([Remainder] IUser user) => ClubUnBan(user.ToString());
+        public async Task ClubUnBan([Remainder] IUser user) => await ClubUnBan(user.ToString()).ConfigureAwait(false);
 
         [Cmd, Aliases, Priority(0)]
-        public Task ClubUnBan([Remainder] string userName)
+        public async Task ClubUnBan([Remainder] string userName)
         {
-            if (Service.UnBan(ctx.User.Id, userName, out var club))
+            var unban = await Service.UnBan(ctx.User.Id, userName).ConfigureAwait(false);
+            if (unban.Item1)
             {
-                return ReplyConfirmLocalizedAsync("club_user_unbanned", Format.Bold(userName),
-                    Format.Bold(club.ToString()));
+                await ReplyConfirmLocalizedAsync("club_user_unbanned", Format.Bold(userName),
+                    Format.Bold(unban.Item2.ToString())).ConfigureAwait(false);
+                return;
             }
 
-            return ReplyErrorLocalizedAsync("club_user_unban_fail");
+            await ReplyErrorLocalizedAsync("club_user_unban_fail").ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task ClubLevelReq(int level)
         {
-            if (Service.ChangeClubLevelReq(ctx.User.Id, level))
+            var req = await Service.ChangeClubLevelReq(ctx.User.Id, level).ConfigureAwait(false);
+            if (req)
             {
                 await ReplyConfirmLocalizedAsync("club_level_req_changed", Format.Bold(level.ToString()))
                                 .ConfigureAwait(false);
@@ -364,7 +373,7 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task ClubDescription([Remainder] string? desc = null)
         {
-            if (Service.ChangeClubDescription(ctx.User.Id, desc))
+            if (await Service.ChangeClubDescription(ctx.User.Id, desc).ConfigureAwait(false))
             {
                 await ReplyConfirmLocalizedAsync("club_desc_updated", Format.Bold(desc ?? "-"))
                                 .ConfigureAwait(false);
@@ -378,9 +387,10 @@ public partial class Xp
         [Cmd, Aliases]
         public async Task ClubDisband()
         {
-            if (Service.Disband(ctx.User.Id, out var club))
+            var disband = await Service.Disband(ctx.User.Id).ConfigureAwait(false);
+            if (disband.Item1)
             {
-                await ReplyConfirmLocalizedAsync("club_disbanded", Format.Bold(club.ToString()))
+                await ReplyConfirmLocalizedAsync("club_disbanded", Format.Bold(disband.Item2.ToString()))
                                 .ConfigureAwait(false);
             }
             else
@@ -390,12 +400,12 @@ public partial class Xp
         }
 
         [Cmd, Aliases]
-        public Task ClubLeaderboard(int page = 1)
+        public async Task ClubLeaderboard(int page = 1)
         {
             if (--page < 0)
-                return Task.CompletedTask;
+                return;
 
-            var clubs = Service.GetClubLeaderboardPage(page);
+            var clubs = await Service.GetClubLeaderboardPage(page);
 
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("club_leaderboard", page + 1))
@@ -404,7 +414,7 @@ public partial class Xp
             var i = page * 9;
             foreach (var club in clubs) embed.AddField($"#{++i} {club}", $"{club.Xp} xp");
 
-            return ctx.Channel.EmbedAsync(embed);
+            await ctx.Channel.EmbedAsync(embed);
         }
     }
 }

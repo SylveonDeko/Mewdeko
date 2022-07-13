@@ -54,13 +54,13 @@ public class StatsService : IStatsService
         if (string.IsNullOrWhiteSpace(Creds.StatcordKey))
             return;
         var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
-        while (await timer.WaitForNextTickAsync())
+        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             using var content = new StringContent(
                 $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/json");
-            await _http.PostAsync("https://api.statcord.com/beta/stats", content);
+            await _http.PostAsync("https://api.statcord.com/beta/stats", content).ConfigureAwait(false);
         }
     }
     public async Task PostToTopGg()
@@ -71,7 +71,7 @@ public class StatsService : IStatsService
         if (Client.CurrentUser.Id != 752236274261426212)
             return;
         var timer = new PeriodicTimer(TimeSpan.FromMinutes(10));
-        while (await timer.WaitForNextTickAsync())
+        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             try
             {

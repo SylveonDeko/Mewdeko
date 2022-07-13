@@ -19,7 +19,7 @@ public partial class ServerManagement
         public async Task LockCheck()
         {
             var msg = await ctx.Channel.SendMessageAsync(
-                "<a:loading:900381735244689469> Making sure role permissions don't get in the way of lockdown...");
+                "<a:loading:900381735244689469> Making sure role permissions don't get in the way of lockdown...").ConfigureAwait(false);
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
                 x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
                 ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
@@ -29,16 +29,16 @@ public partial class ServerManagement
                 {
                     var perms = i.Permissions;
                     var newperms = perms.Modify(sendMessages: false);
-                    await i.ModifyAsync(x => x.Permissions = newperms);
+                    await i.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
                 }
 
                 await msg.ModifyAsync(x => x.Content =
-                        "<a:checkfragutil:900381771881922602> Roles checked! You may now run the lockdown command.");
+                    "<a:checkfragutil:900381771881922602> Roles checked! You may now run the lockdown command.").ConfigureAwait(false);
             }
             else
             {
                 await msg.ModifyAsync(x => x.Content =
-                        "<a:checkfragutil:900381771881922602> Roles checked! No roles are in the way of the lockdown command.");
+                    "<a:checkfragutil:900381771881922602> Roles checked! No roles are in the way of the lockdown command.").ConfigureAwait(false);
             }
         }
 
@@ -52,21 +52,21 @@ public partial class ServerManagement
             if (roles.Count > 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:crossfragutil:854536474098663434> Please run the Lockcheck command as you have roles that will get in the way of lockdown");
+                    "<a:crossfragutil:854536474098663434> Please run the Lockcheck command as you have roles that will get in the way of lockdown").ConfigureAwait(false);
                 return;
             }
 
             if (!ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:crossfragutil:854536474098663434> Server is already in lockdown!");
+                    "<a:crossfragutil:854536474098663434> Server is already in lockdown!").ConfigureAwait(false);
             }
             else
             {
                 var everyonerole = ctx.Guild.EveryoneRole;
                 var newperms = everyonerole.Permissions.Modify(sendMessages: false);
-                await everyonerole.ModifyAsync(x => x.Permissions = newperms);
-                await ctx.Channel.SendConfirmAsync("Server has been locked down!");
+                await everyonerole.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Server has been locked down!").ConfigureAwait(false);
             }
         }
 
@@ -77,12 +77,12 @@ public partial class ServerManagement
             if (use.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:checkfragutil:900381771881922602> You need to be in a voice channel for this!");
+                    "<a:checkfragutil:900381771881922602> You need to be in a voice channel for this!").ConfigureAwait(false);
                 return;
             }
 
-            await use.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel));
-            await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}");
+            await use.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -91,12 +91,12 @@ public partial class ServerManagement
         {
             if (user.VoiceChannel == null)
             {
-                await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!");
+                await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!").ConfigureAwait(false);
                 return;
             }
 
-            await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel));
-            await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}");
+            await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -105,19 +105,19 @@ public partial class ServerManagement
             var vc = ((IGuildUser)ctx.User).VoiceChannel;
             if (vc == null)
             {
-                await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!");
+                await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!").ConfigureAwait(false);
                 return;
             }
 
             if (user.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"{user.Mention} needs to be in a voice channel for this to work!");
+                    $"{user.Mention} needs to be in a voice channel for this to work!").ConfigureAwait(false);
                 return;
             }
 
-            await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(vc));
-            await ctx.Channel.SendConfirmAsync($"Grabbed {user.Mention} from {user.VoiceChannel.Name} to your VC!");
+            await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(vc)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Grabbed {user.Mention} from {user.VoiceChannel.Name} to your VC!").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -126,14 +126,14 @@ public partial class ServerManagement
         {
             if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
-                await ctx.Channel.SendErrorAsync("Server is not locked down!");
+                await ctx.Channel.SendErrorAsync("Server is not locked down!").ConfigureAwait(false);
                 return;
             }
 
             var everyonerole = ctx.Guild.EveryoneRole;
             var newperms = everyonerole.Permissions.Modify(sendMessages: true);
-            await everyonerole.ModifyAsync(x => x.Permissions = newperms);
-            await ctx.Channel.SendConfirmAsync("Server has been unlocked!");
+            await everyonerole.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Server has been unlocked!").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -157,7 +157,7 @@ public partial class ServerManagement
             {
                 try
                 {
-                    await chan.DeleteAsync();
+                    await chan.DeleteAsync().ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -173,10 +173,10 @@ public partial class ServerManagement
                     x.IsNsfw = chan.IsNsfw;
                     x.CategoryId = chan.CategoryId;
                     x.SlowModeInterval = chan.SlowModeInterval;
-                });
+                }).ConfigureAwait(false);
 
                 await chan2.SendMessageAsync(
-                    "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif");
+                    "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif").ConfigureAwait(false);
             }
         }
 
@@ -190,17 +190,17 @@ public partial class ServerManagement
                 var currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
-                    currentPerms.Modify(sendMessages: PermValue.Deny));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Locked down {tch.Mention}");
+                    currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Locked down {tch.Mention}").ConfigureAwait(false);
             }
             else
             {
                 var currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
-                    currentPerms.Modify(sendMessages: PermValue.Deny));
+                    currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
                 await ctx.Channel.SendMessageAsync(
-                    $"<a:checkfragutil:900381771881922602> Locked down {channel.Mention}");
+                    $"<a:checkfragutil:900381771881922602> Locked down {channel.Mention}").ConfigureAwait(false);
             }
         }
 
@@ -211,14 +211,14 @@ public partial class ServerManagement
             eb.WithOkColor();
             eb.WithDescription(
                 $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Text Channels!");
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            var cat = await ctx.Guild.CreateCategoryAsync(catName);
-            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = cat.Id);
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            var cat = await ctx.Guild.CreateCategoryAsync(catName).ConfigureAwait(false);
+            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = cat.Id).ConfigureAwait(false);
 
             var eb2 = new EmbedBuilder();
             eb2.WithDescription($"Created the category {catName} with {channels.Length} Text Channels!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+            await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -228,14 +228,14 @@ public partial class ServerManagement
             eb.WithOkColor();
             eb.WithDescription(
                 $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Voice Channels");
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            var cat = await ctx.Guild.CreateCategoryAsync(catName);
-            foreach (var i in channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = cat.Id);
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            var cat = await ctx.Guild.CreateCategoryAsync(catName).ConfigureAwait(false);
+            foreach (var i in channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = cat.Id).ConfigureAwait(false);
 
             var eb2 = new EmbedBuilder();
             eb2.WithDescription($"Created the category {catName} with {channels.Length} Voice Channels!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+            await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -245,14 +245,14 @@ public partial class ServerManagement
             eb.WithOkColor();
             eb.WithDescription(
                 $"<a:loading:900381735244689469> Adding {channels.Length} Voice Channels to {chan.Name}");
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             foreach (var i in channels)
-                await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = chan.Id);
+                await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = chan.Id).ConfigureAwait(false);
 
             var eb2 = new EmbedBuilder();
             eb2.WithDescription($"Added {channels.Length} Voice Channels to {chan.Name}!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+            await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -262,13 +262,13 @@ public partial class ServerManagement
             eb.WithOkColor();
             eb.WithDescription(
                 $"<a:loading:900381735244689469> Adding {channels.Length} Text Channels to {chan.Name}");
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = chan.Id);
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = chan.Id).ConfigureAwait(false);
 
             var eb2 = new EmbedBuilder();
             eb2.WithDescription($"Added {channels.Length} Text Channels to {chan.Name}!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+            await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -281,34 +281,34 @@ public partial class ServerManagement
                 var currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
-                    currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {tch.Mention}");
+                    currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {tch.Mention}").ConfigureAwait(false);
             }
             else
             {
                 var currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
-                    currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {channel.Mention}");
+                    currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {channel.Mention}").ConfigureAwait(false);
             }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(0)]
-        public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int)time.Time.TotalSeconds);
+        public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(1)]
-        public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds);
+        public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(2)]
-        public static async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel);
+        public static async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(4)]
-        public async Task Slowmode() => await InternalSlowmode((ITextChannel)ctx.Channel);
+        public async Task Slowmode() => await InternalSlowmode((ITextChannel)ctx.Channel).ConfigureAwait(false);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {
@@ -318,24 +318,24 @@ public partial class ServerManagement
                     switch (channel.SlowModeInterval)
                     {
                         case 0:
-                            await channel.ModifyAsync(x => x.SlowModeInterval = 60);
-                            await channel.SendConfirmAsync($"Slowmode enabled in {channel.Mention} for 1 Minute.");
+                            await channel.ModifyAsync(x => x.SlowModeInterval = 60).ConfigureAwait(false);
+                            await channel.SendConfirmAsync($"Slowmode enabled in {channel.Mention} for 1 Minute.").ConfigureAwait(false);
                             return;
                         case > 0:
-                            await channel.ModifyAsync(x => x.SlowModeInterval = 0);
-                            await channel.SendConfirmAsync($"Slowmode disabled in {channel.Mention}.");
+                            await channel.ModifyAsync(x => x.SlowModeInterval = 0).ConfigureAwait(false);
+                            await channel.SendConfirmAsync($"Slowmode disabled in {channel.Mention}.").ConfigureAwait(false);
                             break;
                     }
 
                     return;
                 case >= 21600:
                     await channel.SendErrorAsync(
-                        "The max discord allows for slowmode is 6 hours! Please try again with a lower value.");
+                        "The max discord allows for slowmode is 6 hours! Please try again with a lower value.").ConfigureAwait(false);
                     break;
                 default:
-                    await channel.ModifyAsync(x => x.SlowModeInterval = time);
+                    await channel.ModifyAsync(x => x.SlowModeInterval = time).ConfigureAwait(false);
                     await channel.SendConfirmAsync(
-                        $"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(maxUnit: TimeUnit.Hour)}");
+                        $"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(maxUnit: TimeUnit.Hour)}").ConfigureAwait(false);
                     break;
             }
         }

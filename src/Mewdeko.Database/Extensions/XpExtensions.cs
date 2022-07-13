@@ -1,4 +1,5 @@
 ﻿using LinqToDB;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,13 +7,13 @@ namespace Mewdeko.Database.Extensions;
 
 public static class XpExtensions
 {
-    public static UserXpStats GetOrCreateUser(this DbSet<UserXpStats> set, ulong guildId, ulong userId)
+    public static async Task<UserXpStats> GetOrCreateUser(this DbSet<UserXpStats> set, ulong guildId, ulong userId)
     {
-        var usr = set.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
+        var usr = await set.FirstOrDefaultAsyncEF(x => x.UserId == userId && x.GuildId == guildId);
 
         if (usr == null)
         {
-            set.Add(usr = new UserXpStats
+            await set.AddAsync(usr = new UserXpStats
             {
                 Xp = 0,
                 UserId = userId,
@@ -24,13 +25,13 @@ public static class XpExtensions
         return usr;
     }
 
-    public static List<UserXpStats> GetUsersFor(this DbSet<UserXpStats> set, ulong guildId, int page) =>
-        set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
-           .Skip(page * 9).Take(9).ToList();
+    public static async Task<List<UserXpStats>> GetUsersFor(this DbSet<UserXpStats> set, ulong guildId, int page) =>
+        await set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
+           .Skip(page * 9).Take(9).ToListAsyncLinqToDB();
 
-    public static List<UserXpStats> GetTopUserXps(this DbSet<UserXpStats> set, ulong guildId) =>
-        set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
-           .ToList();
+    public static async Task<List<UserXpStats>> GetTopUserXps(this DbSet<UserXpStats> set, ulong guildId) =>
+        await set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
+           .ToListAsyncLinqToDB();
 
     public static int GetUserGuildRanking(this DbSet<UserXpStats> set, ulong userId, ulong guildId) =>
         set.AsQueryable().AsNoTracking().Count(x =>

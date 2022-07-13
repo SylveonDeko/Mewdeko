@@ -97,13 +97,13 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
         if (request.Graceful)
         {
             _runner.PrepareGracefulShutdown();
-            await Task.Delay(10_000);
+            await Task.Delay(10_000).ConfigureAwait(false);
         }
 
         _runner.SaveState();
         _ = Task.Factory.StartNew(async () =>
         {
-            await Task.Delay(250);
+            await Task.Delay(250).ConfigureAwait(false);
             Environment.Exit(0);
         });
 

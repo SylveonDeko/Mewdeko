@@ -14,7 +14,7 @@ public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
     public abstract Task<bool> IsTagValid(string tag, CancellationToken cancel = default);
     protected async Task<bool> AllTagsValid(string[] tags, CancellationToken cancel = default)
     {
-        var results = await Task.WhenAll(tags.Select(tag => IsTagValid(tag, cancel)));
+        var results = await Task.WhenAll(tags.Select(tag => IsTagValid(tag, cancel))).ConfigureAwait(false);
 
         // if any of the tags is not valid, the query is not valid
         foreach (var result in results)

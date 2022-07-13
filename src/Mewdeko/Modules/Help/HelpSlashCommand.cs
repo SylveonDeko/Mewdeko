@@ -40,12 +40,12 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [SlashCommand("help", "Shows help on how to use the bot")]
     public async Task Modules()
     {
-        var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build());
+        var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
+        await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
         try
         {
-            var message = await ctx.Channel.GetMessagesAsync().FlattenAsync();
-            await HelpService.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow);
+            var message = await ctx.Channel.GetMessagesAsync().FlattenAsync().ConfigureAwait(false);
+            await HelpService.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow).ConfigureAwait(false);
         }
         catch
         {
@@ -65,10 +65,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
         {
-            await Modules();
+            await Modules().ConfigureAwait(false);
             return;
         }
 
+        var prefix = await _guildSettings.GetPrefix(ctx.Guild);
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
@@ -108,37 +109,30 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
-            TimeSpan.FromMinutes(60));
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             var transformed = groups.Select(x => x.ElementAt(page).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{_guildSettings.GetPrefix(ctx.Guild) + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
             {
-                if (i == last - 1 && (i + 1) % 1 != 0)
-                {
-                    var grp = 0;
-                    var count = transformed.Count();
-                    transformed = transformed
-                        .GroupBy(_ => grp++ % count / 2)
-                        .Select(x =>
-                        {
-                            if (x.Count() == 1)
-                                return $"{x.First()}";
-                            return string.Concat(x);
-                        });
-                }
+                if (i != last - 1 || (i + 1) % 1 == 0) continue;
+                var grp = 0;
+                var count = transformed.Count();
+                transformed = transformed
+                              .GroupBy(_ => grp++ % count / 2)
+                              .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
             }
 
             return new PageBuilder()
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(_guildSettings.GetPrefix(ctx.Guild))}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{_guildSettings.GetPrefix(ctx.Guild)}h commandname` to see info on that command")
+                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
@@ -151,7 +145,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", "https://discord.gg/mewdeko")
             .WithOkColor();
-        await ctx.Interaction.RespondAsync(embed: eb.Build());
+        await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     [SlashCommand("search", "get information on a specific command")]
@@ -163,13 +157,13 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
         if (com == null)
         {
-            await Modules();
+            await Modules().ConfigureAwait(false);
             return;
         }
         var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{command}", ButtonStyle.Success, disabled: com.Parameters.Count != 0);
 
-        var embed = Service.GetCommandHelp(com, ctx.Guild);
-        await RespondAsync(embed: embed.Build(), components: comp.Build());
+        var embed = await Service.GetCommandHelp(com, ctx.Guild);
+        await RespondAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
     [ComponentInteraction("runcmd.*", true)]
@@ -188,13 +182,13 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             return;
         }
 
-        await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}");
+        await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}").ConfigureAwait(false);
     }
 
     [ModalInteraction("runcmdmodal.*", ignoreGroupNames: true)]
     public async Task RunModal(string command, CommandModal modal)
     {
-        await DeferAsync();
+        await DeferAsync().ConfigureAwait(false);
         var msg = new MewdekoUserMessage
         {
             Content = $"{_guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}",
@@ -209,11 +203,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     {
         if (ctx.User.Id.ToString() != sId) return;
 
-        await DeferAsync();
+        await DeferAsync().ConfigureAwait(false);
         var description = bool.TryParse(sDesc, out var desc) && desc;
         var message = (ctx.Interaction as SocketMessageComponent)?.Message;
-        var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
+        var embed = await Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
 
-        await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpComponents(ctx.Guild, ctx.User, !description).Build(); });
+        await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpComponents(ctx.Guild, ctx.User, !description).Build(); }).ConfigureAwait(false);
     }
 }

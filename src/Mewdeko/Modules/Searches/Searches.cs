@@ -60,12 +60,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases]
     public async Task Meme()
     {
-        var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
-        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year);
+        var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...").ConfigureAwait(false);
+        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
-            image = await _martineApi.RedditApi.GetRandomMeme();
-            await Task.Delay(500);
+            image = await _martineApi.RedditApi.GetRandomMeme().ConfigureAwait(false);
+            await Task.Delay(500).ConfigureAwait(false);
         }
 
         var button = new ComponentBuilder().WithButton("Another!", $"meme:{ctx.User.Id}");
@@ -88,13 +88,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             x.Embed = em.Build();
             x.Components = button.Build();
-        });
+        }).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
     public async Task RandomReddit(string subreddit)
     {
-        var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...");
+        var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...").ConfigureAwait(false);
         if (Service.NsfwCheck(subreddit))
         {
             var emt = new EmbedBuilder
@@ -102,24 +102,24 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 Description = "This subreddit is nsfw!",
                 Color = Mewdeko.ErrorColor
             };
-            await msg.ModifyAsync(x => x.Embed = emt.Build());
+            await msg.ModifyAsync(x => x.Embed = emt.Build()).ConfigureAwait(false);
             return;
         }
         var button = new ComponentBuilder().WithButton("Another!", $"randomreddit:{subreddit}.{ctx.User.Id}");
         RedditPost image;
         try
         {
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit);
+            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit).ConfigureAwait(false);
         }
         catch (ApiException)
         {
-            await msg.DeleteAsync();
-            await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!");
+            await msg.DeleteAsync().ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!").ConfigureAwait(false);
             return;
         }
 
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -138,7 +138,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             x.Embed = em.Build();
             x.Components = button.Build();
-        });
+        }).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -148,12 +148,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (av is null)
             return;
-        await using var picStream =
+        var picStream =
             await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
+        await using var _ = picStream.ConfigureAwait(false);
         await ctx.Channel.SendFileAsync(
-                picStream,
-                "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
-            .ConfigureAwait(false);
+                     picStream,
+                     "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
+                 .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(1)]
@@ -317,7 +318,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(result[page].Snippet.Description.TrimTo(2048))
                                     .WithAuthor(new EmbedAuthorBuilder().WithName($"YouTube Search for {query.TrimTo(40)}")
                                                                         .WithIconUrl("https://cdn.mewdeko.tech/YouTube.png"))
@@ -386,15 +387,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         using var gscraper = new GoogleScraper();
         using var dscraper = new DuckDuckGoScraper();
-        var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
+        var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
         var googleImageResults = search as GoogleImageResult[] ?? search.ToArray();
         if (googleImageResults.Length == 0)
         {
-            var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
+            var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
             var duckDuckGoImageResults = search2 as DuckDuckGoImageResult[] ?? search2.ToArray();
             if (duckDuckGoImageResults.Length == 0)
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!");
+                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!").ConfigureAwait(false);
             }
             else
             {
@@ -408,7 +409,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
-                    await Task.CompletedTask;
+                    await Task.CompletedTask.ConfigureAwait(false);
                     var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
                     return new PageBuilder().WithOkColor().WithDescription(result!.Title)
                                                             .WithImageUrl(result.Url)
@@ -429,7 +430,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var result = googleImageResults.Skip(page).FirstOrDefault();
                 return new PageBuilder().WithOkColor().WithDescription(result.Title)
                                                         .WithImageUrl(result.Url)
@@ -470,7 +471,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 };
 
                 using var res = await http.SendAsync(req).ConfigureAwait(false);
-                var content = await res.Content.ReadAsStringAsync();
+                var content = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject<ShortenData>(content);
 
                 if (!string.IsNullOrWhiteSpace(data?.ResultUrl))
@@ -506,14 +507,14 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         _ = ctx.Channel.TriggerTypingAsync();
 
-        var data = await Service.GoogleSearchAsync(query);
+        var data = await Service.GoogleSearchAsync(query).ConfigureAwait(false);
         if (!data.TotalResults.Any())
         {
-            data = await Service.DuckDuckGoSearchAsync(query);
+            data = await Service.DuckDuckGoSearchAsync(query).ConfigureAwait(false);
             if (data is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "Neither google nor duckduckgo returned a result! Please search something else!");
+                    "Neither google nor duckduckgo returned a result! Please search something else!").ConfigureAwait(false);
                 return;
             }
         }
@@ -540,7 +541,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases]
     public async Task MagicTheGathering([Remainder] string search)
     {
-        if (!await ValidateQuery(ctx.Channel, search))
+        if (!await ValidateQuery(ctx.Channel, search).ConfigureAwait(false))
             return;
 
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -624,7 +625,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
-                    await Task.CompletedTask;
+                    await Task.CompletedTask.ConfigureAwait(false);
                     var item = items[page];
                     return new PageBuilder().WithOkColor()
                         .WithUrl(item.Permalink)
@@ -699,7 +700,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var tuple = col.Skip(page).First();
                 var embed = new PageBuilder()
                     .WithDescription(ctx.User.Mention)
@@ -801,7 +802,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 new PointF(x + 50, 50), new PointF(x, 50)));
         }
 
-        await using var ms = img.ToStream();
+        var ms = img.ToStream();
+        await using var _ = ms.ConfigureAwait(false);
         await ctx.Channel.SendFileAsync(ms, "colors.png").ConfigureAwait(false);
     }
 
@@ -821,10 +823,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
 
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
-            .AddField(efb =>
-                efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-            .WithImageUrl(avatarUrl));
+                                                       .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                                                       .AddField(efb =>
+                                                           efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                                                       .WithImageUrl(avatarUrl)).ConfigureAwait(false);
     }
 
     // done in 3.0
@@ -928,7 +930,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task ResolveToneTags([Remainder] string tag)
     {
         var embed = _toneTagService.GetEmbed(_toneTagService.ParseTags(tag), ctx.Guild);
-        await ctx.Channel.EmbedAsync(embed);
+        await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
     public async Task InternalDapiCommand(IUserMessage umsg, string? tag, DapiSearchType type)

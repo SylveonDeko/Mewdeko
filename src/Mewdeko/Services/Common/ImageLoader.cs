@@ -27,10 +27,10 @@ public class ImageLoader
 
     private async Task<byte[]> GetImageData(Uri uri)
     {
-        if (!uri.IsFile) return await _http.GetByteArrayAsync(uri);
+        if (!uri.IsFile) return await _http.GetByteArrayAsync(uri).ConfigureAwait(false);
         try
         {
-            return await File.ReadAllBytesAsync(uri.LocalPath);
+            return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

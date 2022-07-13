@@ -26,12 +26,12 @@ public class StarboardService : INService, IReadyExecutor
 
     public Task OnReadyAsync()
     {
-        _ = Task.Factory.StartNew(() =>
+        _ = Task.Factory.StartNew(async () =>
         {
-            using var uow = _db.GetDbContext();
-            var all = uow.Starboard.All().ToList();
-            starboardPosts = all.Count > 0 ? all : new List<StarboardPosts>();
-            Log.Information("Starboard Posts Cached.");
+            await using var uow = _db.GetDbContext();
+            var all = (await uow.Starboard.All()).ToList();
+            starboardPosts = all.Any() ? all : new List<StarboardPosts>();
+            Log.Information("Starboard Posts Cached");
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -71,7 +71,7 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StarboardChannel = channel;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -80,7 +80,7 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StarboardAllowBots = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -89,7 +89,7 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnDelete = removeOnDelete;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -98,7 +98,7 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnClear(IGuild guild, bool removeOnClear)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnReactionsClear = removeOnClear;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -107,7 +107,7 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnBelowThreshold(IGuild guild, bool removeOnBelowThreshold)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -116,20 +116,20 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetCheckMode(IGuild guild, bool checkmode)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.UseStarboardBlacklist = true;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task<bool> ToggleChannel(IGuild guild, string id)
     {
-        var channels = GetCheckedChannels(guild.Id).Split(" ").ToList();
+        await using var uow = _db.GetDbContext();
+        var channels = (await GetCheckedChannels(guild.Id)).Split(" ").ToList();
         if (!channels.Contains(id))
         {
             channels.Add(id);
             var joinedchannels = string.Join(" ", channels);
-            await using var uow = _db.GetDbContext();
-            var gc = uow.ForGuildId(guild.Id, set => set);
+            var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.StarboardCheckChannels = joinedchannels;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -138,10 +138,10 @@ public class StarboardService : INService, IReadyExecutor
 
         channels.Remove(id);
         var joinedchannels1 = string.Join(" ", channels);
-        await using var uow1 = _db.GetDbContext();
-        var gc1 = uow1.ForGuildId(guild.Id, set => set);
+       
+        var gc1 = await uow.ForGuildId(guild.Id, set => set);
         gc1.StarboardCheckChannels = joinedchannels1;
-        await uow1.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc1);
         return true;
     }
@@ -149,36 +149,37 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarCount(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.Stars = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public int GetStarCount(ulong? id) => _guildSettings.GetGuildConfig(id.Value).Stars;
-    public string GetCheckedChannels(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardCheckChannels;
+    public async Task<int> GetStarCount(ulong id) 
+        => (await _guildSettings.GetGuildConfig(id)).Stars;
+    public async Task<string> GetCheckedChannels(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardCheckChannels;
 
-    public bool GetAllowBots(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardAllowBots;
+    public async Task<bool> GetAllowBots(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardAllowBots;
 
-    public bool GetCheckMode(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).UseStarboardBlacklist;
-    private int GetThreshold(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).RepostThreshold;
+    public async Task<bool> GetCheckMode(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).UseStarboardBlacklist;
+    private async Task<int> GetThreshold(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).RepostThreshold;
 
-    private bool GetRemoveOnBelowThreshold(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardRemoveOnBelowThreshold;
+    private async Task<bool> GetRemoveOnBelowThreshold(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardRemoveOnBelowThreshold;
 
-    private bool GetRemoveOnDelete(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardRemoveOnDelete;
+    private async Task<bool> GetRemoveOnDelete(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardRemoveOnDelete;
 
-    private bool GetRemoveOnReactionsClear(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardRemoveOnReactionsClear;
+    private async Task<bool> GetRemoveOnReactionsClear(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardRemoveOnReactionsClear;
     public async Task SetStar(IGuild guild, string emote)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.Star2 = emote;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -187,17 +188,17 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.RepostThreshold = threshold;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public string GetStar(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).Star2;
+    public async Task<string> GetStar(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).Star2;
 
-    private ulong GetStarboardChannel(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).StarboardChannel;
+    private async Task<ulong> GetStarboardChannel(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).StarboardChannel;
 
     private Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
@@ -209,18 +210,18 @@ public class StarboardService : INService, IReadyExecutor
                 || reaction.User.Value.IsBot
                 || !channel.HasValue
                 || channel.Value is not ITextChannel textChannel
-                || GetStarCount(textChannel.GuildId) == 0)
+                || await GetStarCount(textChannel.GuildId) == 0)
             {
                 return;
             }
 
             IUserMessage newMessage;
             if (!message.HasValue)
-                newMessage = await message.GetOrDownloadAsync();
+                newMessage = await message.GetOrDownloadAsync().ConfigureAwait(false);
             else
                 newMessage = message.Value;
 
-            var star = GetStar(textChannel.GuildId).ToIEmote();
+            var star = (await GetStar(textChannel.GuildId)).ToIEmote();
 
             if (star.Name == null)
                 return;
@@ -228,19 +229,19 @@ public class StarboardService : INService, IReadyExecutor
             if (!Equals(reaction.Emote, star))
                 return;
 
-            var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
+            var starboardChannelSetting = await GetStarboardChannel(textChannel.GuildId);
 
             if (starboardChannelSetting == 0)
                 return;
 
-            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
+            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting).ConfigureAwait(false);
 
             if (starboardChannel == null)
                 return;
-            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
+            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id).ConfigureAwait(false);
 
-            var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
-            if (GetCheckMode(gUser.GuildId))
+            var checkedChannels = await GetCheckedChannels(starboardChannel.GuildId);
+            if (await GetCheckMode(gUser.GuildId))
             {
                 if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
                     return;
@@ -259,7 +260,7 @@ public class StarboardService : INService, IReadyExecutor
             string imageurl;
             switch (newMessage.Author.IsBot)
             {
-                case true when !GetAllowBots(textChannel.GuildId):
+                case true when !await GetAllowBots(textChannel.GuildId):
                     return;
                 case true:
                     content = newMessage.Embeds.Count > 0 ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
@@ -276,18 +277,18 @@ public class StarboardService : INService, IReadyExecutor
             if (content is null && imageurl is null)
                 return;
 
-            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
+            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync().ConfigureAwait(false);
             var count = emoteCount.Where(x => !x.IsBot);
             var enumerable = count as IUser[] ?? count.ToArray();
-            if (enumerable.Length < GetStarCount(textChannel.GuildId))
+            if (enumerable.Length < await GetStarCount(textChannel.GuildId))
                 return;
 
             var maybePost = starboardPosts.Find(x => x.MessageId == newMessage.Id);
             if (maybePost != null)
             {
-                if (GetThreshold(textChannel.GuildId) > 0)
+                if (await GetThreshold(textChannel.GuildId) > 0)
                 {
-                    var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
+                    var messages = await starboardChannel.GetMessagesAsync(await GetThreshold(textChannel.GuildId)).FlattenAsync().ConfigureAwait(false);
                     var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
                     if (post is not null)
                     {
@@ -302,16 +303,16 @@ public class StarboardService : INService, IReadyExecutor
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
                             x.Embed = eb1.Build();
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
-                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
                         if (tryGetOldPost is not null)
                         {
                             try
                             {
-                                await tryGetOldPost.DeleteAsync();
+                                await tryGetOldPost.DeleteAsync().ConfigureAwait(false);
                             }
                             catch
                             {
@@ -325,13 +326,13 @@ public class StarboardService : INService, IReadyExecutor
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                        await AddStarboardPost(message.Id, msg1.Id);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                    var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
                     if (tryGetOldPost is not null)
                     {
                         var toModify = tryGetOldPost as IUserMessage;
@@ -345,7 +346,7 @@ public class StarboardService : INService, IReadyExecutor
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
                             x.Embed = eb1.Build();
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
@@ -355,8 +356,8 @@ public class StarboardService : INService, IReadyExecutor
                         if (newMessage.Attachments.Count > 0)
                             eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                        await AddStarboardPost(message.Id, msg1.Id);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
             }
@@ -367,8 +368,8 @@ public class StarboardService : INService, IReadyExecutor
                 if (imageurl is not null)
                     eb.WithImageUrl(imageurl);
 
-                var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build());
-                await AddStarboardPost(message.Id, msg.Id);
+                var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build()).ConfigureAwait(false);
+                await AddStarboardPost(message.Id, msg.Id).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
 
@@ -383,35 +384,35 @@ public class StarboardService : INService, IReadyExecutor
                 || reaction.User.Value.IsBot
                 || !channel.HasValue
                 || channel.Value is not ITextChannel textChannel
-                || GetStarCount(textChannel.GuildId) == 0)
+                || await GetStarCount(textChannel.GuildId) == 0)
             {
                 return;
             }
 
             IUserMessage newMessage;
             if (!message.HasValue)
-                newMessage = await message.GetOrDownloadAsync();
+                newMessage = await message.GetOrDownloadAsync().ConfigureAwait(false);
             else
                 newMessage = message.Value;
-            var star = GetStar(textChannel.GuildId).ToIEmote();
+            var star = (await GetStar(textChannel.GuildId)).ToIEmote();
             if (star.Name == null)
                 return;
 
             if (!Equals(reaction.Emote, star))
                 return;
 
-            var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
+            var starboardChannelSetting = await GetStarboardChannel(textChannel.GuildId);
 
             if (starboardChannelSetting == 0)
                 return;
 
-            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
+            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting).ConfigureAwait(false);
 
             if (starboardChannel == null)
                 return;
-            var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
-            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
-            if (GetCheckMode(gUser.GuildId))
+            var checkedChannels = await GetCheckedChannels(starboardChannel.GuildId);
+            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id).ConfigureAwait(false);
+            if (await GetCheckMode(gUser.GuildId))
             {
                 if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
                     return;
@@ -431,7 +432,7 @@ public class StarboardService : INService, IReadyExecutor
             string imageurl;
             switch (newMessage.Author.IsBot)
             {
-                case true when !GetAllowBots(textChannel.GuildId):
+                case true when !await GetAllowBots(textChannel.GuildId):
                     return;
                 case true:
                     content = newMessage.Embeds.Count > 0 ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
@@ -448,19 +449,19 @@ public class StarboardService : INService, IReadyExecutor
             if (content is null && imageurl is null)
                 return;
 
-            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
+            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync().ConfigureAwait(false);
             var maybePost = starboardPosts.Find(x => x.MessageId == newMessage.Id);
             if (maybePost == null)
                 return;
             var count = emoteCount.Where(x => !x.IsBot);
             var enumerable = count as IUser[] ?? count.ToArray();
-            if (enumerable.Length < GetStarCount(textChannel.GuildId) && GetRemoveOnBelowThreshold(gUser.GuildId))
+            if (enumerable.Length < await GetStarCount(textChannel.GuildId) && await GetRemoveOnBelowThreshold(gUser.GuildId))
             {
-                await RemoveStarboardPost(newMessage.Id);
+                await RemoveStarboardPost(newMessage.Id).ConfigureAwait(false);
                 try
                 {
-                    var post = await starboardChannel.GetMessageAsync(maybePost.PostId);
-                    await post.DeleteAsync();
+                    var post = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
+                    await post.DeleteAsync().ConfigureAwait(false);
                 }
                 catch
                 {
@@ -469,9 +470,9 @@ public class StarboardService : INService, IReadyExecutor
             }
             else
             {
-                if (GetThreshold(textChannel.GuildId) > 0)
+                if (await GetThreshold(textChannel.GuildId) > 0)
                 {
-                    var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
+                    var messages = await starboardChannel.GetMessagesAsync(await GetThreshold(textChannel.GuildId)).FlattenAsync().ConfigureAwait(false);
                     var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
                     if (post is not null)
                     {
@@ -486,16 +487,16 @@ public class StarboardService : INService, IReadyExecutor
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
                             x.Embed = eb1.Build();
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
-                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
                         if (tryGetOldPost is not null)
                         {
                             try
                             {
-                                await tryGetOldPost.DeleteAsync();
+                                await tryGetOldPost.DeleteAsync().ConfigureAwait(false);
                             }
                             catch
                             {
@@ -509,13 +510,13 @@ public class StarboardService : INService, IReadyExecutor
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                        await AddStarboardPost(newMessage.Id, msg1.Id);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        await AddStarboardPost(newMessage.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                    var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
                     if (tryGetOldPost is not null)
                     {
                         var toModify = tryGetOldPost as IUserMessage;
@@ -529,7 +530,7 @@ public class StarboardService : INService, IReadyExecutor
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
                             x.Embed = eb1.Build();
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
@@ -539,8 +540,8 @@ public class StarboardService : INService, IReadyExecutor
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                        await AddStarboardPost(message.Id, msg1.Id);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
             }
@@ -557,33 +558,33 @@ public class StarboardService : INService, IReadyExecutor
         var chan = arg2.Value;
         if (chan is not ITextChannel channel)
             return;
-        var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id)).GetPermissions(channel);
+        var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(channel);
         if (!permissions.ManageMessages)
             return;
         var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == msg.Id);
         if (maybePost is null)
             return;
 
-        if (!GetRemoveOnDelete(channel.GuildId))
+        if (!await GetRemoveOnDelete(channel.GuildId))
             return;
 
-        var starboardChannel = await channel.Guild.GetTextChannelAsync(GetStarboardChannel(channel.GuildId));
+        var starboardChannel = await channel.Guild.GetTextChannelAsync(await GetStarboardChannel(channel.GuildId)).ConfigureAwait(false);
         if (starboardChannel is null)
             return;
 
-        var post = await starboardChannel.GetMessageAsync(maybePost.PostId);
+        var post = await starboardChannel.GetMessageAsync(maybePost.PostId).ConfigureAwait(false);
         if (post is null)
             return;
 
-        await starboardChannel.DeleteMessageAsync(post);
-        await RemoveStarboardPost(msg.Id);
+        await starboardChannel.DeleteMessageAsync(post).ConfigureAwait(false);
+        await RemoveStarboardPost(msg.Id).ConfigureAwait(false);
     }
 
     private async Task OnAllReactionsClearedAsync(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         IUserMessage msg;
         if (!arg1.HasValue)
-            msg = await arg1.GetOrDownloadAsync();
+            msg = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
         else
             msg = arg1.Value;
 
@@ -592,24 +593,24 @@ public class StarboardService : INService, IReadyExecutor
 
         var maybePost = starboardPosts.Find(x => x.MessageId == msg.Id);
 
-        if (maybePost is null || !arg2.HasValue || arg2.Value is not ITextChannel channel || !GetRemoveOnReactionsClear(channel.GuildId))
+        if (maybePost is null || !arg2.HasValue || arg2.Value is not ITextChannel channel || !await GetRemoveOnReactionsClear(channel.GuildId))
             return;
 
-        var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id)).GetPermissions(channel);
+        var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(channel);
         if (!permissions.ManageMessages)
             return;
 
-        var starboardChannel = await channel.Guild.GetTextChannelAsync(GetStarboardChannel(channel.GuildId));
+        var starboardChannel = await channel.Guild.GetTextChannelAsync(await GetStarboardChannel(channel.GuildId)).ConfigureAwait(false);
         if (starboardChannel is null)
             return;
 
-        await starboardChannel.DeleteMessageAsync(maybePost.PostId);
-        await RemoveStarboardPost(msg.Id);
+        await starboardChannel.DeleteMessageAsync(maybePost.PostId).ConfigureAwait(false);
+        await RemoveStarboardPost(msg.Id).ConfigureAwait(false);
     }
 
-    public StarboardPosts GetMessage(ulong id)
+    public async Task<StarboardPosts> GetMessage(ulong id)
     {
         using var uow = _db.GetDbContext();
-        return uow.Starboard.ForMsgId(id);
+        return await uow.Starboard.ForMsgId(id);
     }
 }

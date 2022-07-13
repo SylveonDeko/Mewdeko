@@ -16,14 +16,14 @@ public class AfkController : ControllerBase
 
     [HttpGet]
     [ActionName("GetAfkForUser")]
-    public IEnumerable<Afk> Get(ulong serverId, ulong userId) =>
-        _db.GetDbContext().Afk.ForGuild(serverId).Where(x => x.UserId == userId);
+    public async Task<IEnumerable<Afk>> Get(ulong serverId, ulong userId) =>
+        (await _db.GetDbContext().Afk.ForGuild(serverId)).Where(x => x.UserId == userId);
 
     [HttpGet]
     [ActionName("IsAfk")]
-    public bool IsAfk(ulong serverId, ulong userId)
+    public async Task<bool> IsAfk(ulong serverId, ulong userId)
     {
-        var result = _db.GetDbContext().Afk.ForGuild(serverId).LastOrDefault(x => x.UserId == userId);
+        var result = (await _db.GetDbContext().Afk.ForGuild(serverId)).LastOrDefault(x => x.UserId == userId);
         return result is not null && result.Message != "";
     }
 }

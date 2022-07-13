@@ -14,7 +14,7 @@ public partial class Administration
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRoleRm(ulong vcId)
         {
-            if (Service.RemoveVcRole(ctx.Guild.Id, vcId))
+            if (await Service.RemoveVcRole(ctx.Guild.Id, vcId))
             {
                 await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vcId.ToString()))
                                 .ConfigureAwait(false);
@@ -33,7 +33,7 @@ public partial class Administration
             {
                 if (role == null)
                 {
-                    if (Service.RemoveVcRole(ctx.Guild.Id, chan.Id))
+                    if (await Service.RemoveVcRole(ctx.Guild.Id, chan.Id))
                     {
                         await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(chan.Name))
                             .ConfigureAwait(false);
@@ -41,7 +41,7 @@ public partial class Administration
                 }
                 else
                 {
-                    Service.AddVcRole(ctx.Guild.Id, role, chan.Id);
+                    await Service.AddVcRole(ctx.Guild.Id, role, chan.Id);
                     await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(chan.Name), Format.Bold(role.Name))
                         .ConfigureAwait(false);
                 }
@@ -68,7 +68,7 @@ public partial class Administration
 
             if (role == null)
             {
-                if (Service.RemoveVcRole(ctx.Guild.Id, vc.Id))
+                if (await Service.RemoveVcRole(ctx.Guild.Id, vc.Id))
                     await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
             }
             else

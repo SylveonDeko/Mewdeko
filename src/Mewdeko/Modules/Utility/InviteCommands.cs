@@ -43,10 +43,10 @@ public partial class Utility
         public async Task InviteInfo(string text)
         {
             RestGuild? guild = null;
-            var invinfo = await _client.Rest.GetInviteAsync(text);
+            var invinfo = await _client.Rest.GetInviteAsync(text).ConfigureAwait(false);
             try
             {
-                guild = await _client.Rest.GetGuildAsync(invinfo.GuildId.Value);
+                guild = await _client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);
             }
             catch
             {
@@ -74,7 +74,7 @@ public partial class Utility
                     ? TimestampTag.FromDateTime(
                         DateTime.UtcNow.Add(TimeSpan.FromDays(invinfo.MaxAge.Value)))
                     : "Permanent", true);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(GuildPermission.ManageGuild)]
@@ -95,7 +95,7 @@ public partial class Utility
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var i = 1;
                 var invs = invites.OrderByDescending(x => x.Uses).Skip(page * 9).Take(9);
                 if (!invs.Any())

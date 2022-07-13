@@ -175,7 +175,7 @@ public class SearchImagesService : ISearchImagesService, INService
         do
         {
             // wait for any of the tasks to complete
-            var task = await Task.WhenAny(tasks);
+            var task = await Task.WhenAny(tasks).ConfigureAwait(false);
 
             // get its result
             var result = task.GetAwaiter().GetResult();
@@ -222,7 +222,7 @@ public class SearchImagesService : ISearchImagesService, INService
     }
 
     private readonly object _taglock = new();
-    public ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
+    public async ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
         {
@@ -231,7 +231,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
         bool added;
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+        var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -248,9 +248,9 @@ public class SearchImagesService : ISearchImagesService, INService
         var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
         _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return new ValueTask<bool>(added);
+        return await new ValueTask<bool>(added);
     }
 
     public ValueTask<string[]> GetBlacklistedTags(ulong guildId)
@@ -265,7 +265,7 @@ public class SearchImagesService : ISearchImagesService, INService
     {
         try
         {
-            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}"))[0];
+            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}").ConfigureAwait(false))[0];
             return new UrlReply
             {
                 Error = "",

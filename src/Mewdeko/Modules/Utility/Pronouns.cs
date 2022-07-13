@@ -17,10 +17,11 @@ public partial class Utility
         public async Task GetPronouns(IUser? user = null)
         {
             user ??= ctx.User;
-            await using var uow = _db.GetDbContext();
-            var dbUser = uow.GetOrCreateUser(user);
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
+            var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
             if (await PronounsDisabled(dbUser).ConfigureAwait(false)) return;
-            var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id);
+            var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id).ConfigureAwait(false);
             var cb = new ComponentBuilder();
             if (!pronouns.PronounDb)
                 cb.WithButton(GetText("pronouns_report_button"), $"pronouns_report.{user.Id};", ButtonStyle.Danger);
@@ -28,14 +29,15 @@ public partial class Utility
                 GetText(
                     pronouns.PronounDb
                         ? pronouns.Pronouns.Contains(' ') ? "pronouns_pndb_special" : "pronouns_pndb_get"
-                        : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), cb);
+                        : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), cb).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task PronounOverride([Remainder] string? pronouns = null)
         {
-            await using var uow = _db.GetDbContext();
-            var user = uow.GetOrCreateUser(ctx.User);
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
+            var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
             if (await PronounsDisabled(user).ConfigureAwait(false)) return;
             if (string.IsNullOrWhiteSpace(pronouns))
             {
@@ -70,22 +72,24 @@ public partial class Utility
         [Cmd, Aliases, OwnerOnly]
         public async Task PronounOverrideForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
         {
-            await using var uow = _db.GetDbContext();
-            var dbUser = uow.GetOrCreateUser(user);
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
+            var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
             dbUser.PronounsDisabled = pronounsDisabledAbuse;
             dbUser.PronounsClearedReason = reason;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared");
+            await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared").ConfigureAwait(false);
         }
         [Cmd, Aliases, OwnerOnly]
         public async Task PronounOverrideForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
         {
-            await using var uow = _db.GetDbContext();
-            var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user);
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
+            var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
             dbUser.PronounsDisabled = pronounsDisabledAbuse;
             dbUser.PronounsClearedReason = reason;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared");
+            await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared").ConfigureAwait(false);
         }
     }
 }

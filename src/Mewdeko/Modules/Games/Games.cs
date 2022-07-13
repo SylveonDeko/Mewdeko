@@ -34,15 +34,15 @@ public partial class Games : MewdekoModuleBase<GamesService>
 
         var res = Service.GetEightballResponse(question);
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.OkColor)
-            .WithDescription(ctx.User.ToString())
-            .AddField(efb => efb.WithName($"❓ {GetText("question")}").WithValue(question).WithIsInline(false))
-            .AddField($"🎱 {GetText("8ball")}", res));
+                                                       .WithDescription(ctx.User.ToString())
+                                                       .AddField(efb => efb.WithName($"❓ {GetText("question")}").WithValue(question).WithIsInline(false))
+                                                       .AddField($"🎱 {GetText("8ball")}", res)).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RateGirl(IGuildUser usr)
     {
-        var dbUser = _db.GetOrCreateUser(usr);
+        var dbUser = await _db.GetOrCreateUser(usr);
         if (dbUser.IsDragon)
         {
             var eb = new EmbedBuilder()
@@ -54,7 +54,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
             return;
         }
 
-        await ReplyErrorLocalizedAsync("dragon_goes_suk");
+        await ReplyErrorLocalizedAsync("dragon_goes_suk").ConfigureAwait(false);
     }
 
     private double NextDouble(double x, double y) => (_rng.NextDouble() * (y - x)) + x;
@@ -72,9 +72,9 @@ There really is a {loonix}, and these people are using it, but it is just a part
     [Cmd, Aliases, HelpDisabled]
     public async Task Dragon()
     {
-        var user = _db.GetOrCreateUser(ctx.User);
+        var user = await _db.GetOrCreateUser(ctx.User);
         user.IsDragon = !user.IsDragon;
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync().ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset").ConfigureAwait(false);
     }
 }

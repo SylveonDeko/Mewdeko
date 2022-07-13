@@ -154,7 +154,7 @@ public class RepeatRunner
             Log.Warning("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}",
                 Channel?.Id);
             Stop();
-            await _mrs.RemoveRepeater(Repeater);
+            await _mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
         }
 
         // next execution is interval amount of time after now
@@ -202,11 +202,11 @@ public class RepeatRunner
             IMessage newMsg;
             if (SmartEmbed.TryParse(rep.Replace(toSend), Channel.GuildId, out var embed, out var plainText, out var components))
             {
-                newMsg = await Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build());
+                newMsg = await Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build()).ConfigureAwait(false);
             }
             else
             {
-                newMsg = await Channel.SendMessageAsync(rep.Replace(toSend));
+                newMsg = await Channel.SendMessageAsync(rep.Replace(toSend)).ConfigureAwait(false);
             }
 
             if (Repeater.NoRedundant)

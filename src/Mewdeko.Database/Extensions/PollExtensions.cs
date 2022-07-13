@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
@@ -10,13 +11,13 @@ public static class PollExtensions
                       .Include(x => x.Votes)
                       .ToArray();
 
-    public static void RemovePoll(this MewdekoContext ctx, int id)
+    public static async Task RemovePoll(this MewdekoContext ctx, int id)
     {
-        var p = ctx
+        var p = await ctx
                 .Poll
                               .Include(x => x.Answers)
                               .Include(x => x.Votes)
-                              .FirstOrDefault(x => x.Id == id);
+                              .FirstOrDefaultAsyncEF(x => x.Id == id);
         if (p?.Votes != null)
         {
             ctx.RemoveRange(p.Votes);

@@ -282,7 +282,7 @@ public class TicTacToe
                         {
                             // ignored
                         }
-                    });
+                    }).ConfigureAwait(false);
                     curUserIndex ^= 1;
 
                     timeoutTimer.Change(_options.TurnTimer * 1000, Timeout.Infinite);

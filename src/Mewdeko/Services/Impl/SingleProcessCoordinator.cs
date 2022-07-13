@@ -27,7 +27,7 @@ public class SingleProcessCoordinator : ICoordinator
         Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
         _ = Task.Factory.StartNew(async () =>
         {
-            await Task.Delay(2000);
+            await Task.Delay(2000).ConfigureAwait(false);
             Die();
         }, TaskCreationOptions.LongRunning);
         return true;

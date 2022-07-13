@@ -33,7 +33,7 @@ public class MusicPlayer : LavalinkPlayer
         {
             //ignored
         }
-        var resultMusicChannelId = (await musicService.GetSettingsInternalAsync(args.Player.GuildId)).MusicChannelId;
+        var resultMusicChannelId = (await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).MusicChannelId;
         if (resultMusicChannelId != null)
         {
             if (client.GetChannel(
@@ -42,16 +42,16 @@ public class MusicPlayer : LavalinkPlayer
                 if (track.Source != null)
                 {
                     using var artworkService = new ArtworkService();
-                    var artWork = await artworkService.ResolveAsync(track);
+                    var artWork = await artworkService.ResolveAsync(track).ConfigureAwait(false);
                     var eb = new EmbedBuilder()
                              .WithOkColor()
                              .WithDescription($"Now playing {track.Title} by {track.Author}")
                              .WithTitle($"Track #{queue.IndexOf(track) + 1}")
-                             .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)))
+                             .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)).ConfigureAwait(false))
                              .WithThumbnailUrl(artWork?.AbsoluteUri);
                     if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
 
-                    await channel.SendMessageAsync(embed: eb.Build());
+                    await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
             }
         }
@@ -63,14 +63,14 @@ public class MusicPlayer : LavalinkPlayer
         if (queue.Count > 0)
         {
             var gid = args.Player.GuildId;
-            var msettings = await musicService.GetSettingsInternalAsync(gid);
+            var msettings = await musicService.GetSettingsInternalAsync(gid).ConfigureAwait(false);
             if (client.GetChannel(msettings.MusicChannelId.Value) is not ITextChannel channel)
                 return;
             if (args.Reason is TrackEndReason.Stopped or TrackEndReason.CleanUp or TrackEndReason.Replaced) return;
             var currentTrack = queue.Find(x => args.Player.CurrentTrack.Identifier == x.Identifier);
             if (msettings.PlayerRepeat == PlayerRepeatType.Track)
             {
-                await args.Player.PlayAsync(currentTrack);
+                await args.Player.PlayAsync(currentTrack).ConfigureAwait(false);
                 return;
             }
 
@@ -79,22 +79,22 @@ public class MusicPlayer : LavalinkPlayer
             {
                 if (msettings.PlayerRepeat == PlayerRepeatType.Queue)
                 {
-                    await args.Player.PlayAsync(musicService.GetQueue(gid).FirstOrDefault());
+                    await args.Player.PlayAsync(musicService.GetQueue(gid).FirstOrDefault()).ConfigureAwait(false);
                     return;
                 }
                 var eb1 = new EmbedBuilder()
                           .WithOkColor()
                           .WithDescription("I have reached the end of the queue!");
-                await channel.SendMessageAsync(embed: eb1.Build());
-                if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId)).AutoDisconnect is
+                await channel.SendMessageAsync(embed: eb1.Build()).ConfigureAwait(false);
+                if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).AutoDisconnect is
                     AutoDisconnect.Either or AutoDisconnect.Queue)
                 {
-                    await args.Player.StopAsync(true);
+                    await args.Player.StopAsync(true).ConfigureAwait(false);
                     return;
                 }
             }
 
-            await args.Player.PlayAsync(nextTrack);
+            await args.Player.PlayAsync(nextTrack).ConfigureAwait(false);
         }
     }
 }

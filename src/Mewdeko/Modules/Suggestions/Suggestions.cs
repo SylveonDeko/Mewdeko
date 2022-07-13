@@ -13,41 +13,41 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     {
         if (channel == null)
         {
-            await Service.SetSuggestionChannelId(ctx.Guild, 0);
-            await ctx.Channel.SendConfirmAsync("Suggestions Disabled!");
+            await Service.SetSuggestionChannelId(ctx.Guild, 0).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Suggestions Disabled!").ConfigureAwait(false);
         }
         else
         {
-            await Service.SetSuggestionChannelId(ctx.Guild, channel.Id);
-            var chn2 = await ctx.Guild.GetTextChannelAsync(Service.GetSuggestionChannel(ctx.Guild.Id));
-            await ctx.Channel.SendConfirmAsync($"Your Suggestion channel has been set to {chn2.Mention}");
+            await Service.SetSuggestionChannelId(ctx.Guild, channel.Id).ConfigureAwait(false);
+            var chn2 = await ctx.Guild.GetTextChannelAsync(await Service.GetSuggestionChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Your Suggestion channel has been set to {chn2.Mention}").ConfigureAwait(false);
         }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SuggestInfo(ulong num)
     {
-        var suggest = Service.Suggestions(ctx.Guild.Id, num).FirstOrDefault();
+        var suggest = (await Service.Suggestions(ctx.Guild.Id, num)).FirstOrDefault();
         if (suggest is null)
         {
-            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.");
+            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.").ConfigureAwait(false);
             return;
         }
 
         var emoteCount = new List<string>();
-        var emotes = Service.GetEmotes(ctx.Guild.Id);
+        var emotes = await Service.GetEmotes(ctx.Guild.Id);
         int count = 0;
         if (emotes is not null and not "disable")
         {
             foreach (var i in emotes.Split(","))
             {
-                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, ++count)}`");
+                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, ++count).ConfigureAwait(false)}`");
             }
         }
         else
         {
-            emoteCount.Add($"👍 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 1)}`");
-            emoteCount.Add($"👎 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 2)}`");
+            emoteCount.Add($"👍 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 1).ConfigureAwait(false)}`");
+            emoteCount.Add($"👎 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 2).ConfigureAwait(false)}`");
         }
 
         var components = new ComponentBuilder()
@@ -63,7 +63,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
             .AddField("State Change Count", suggest.StateChangeCount)
             .AddField("Emote Count", string.Join("\n", emoteCount));
-        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -72,13 +72,13 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         var suggests = Service.Suggestions(ctx.Guild.Id);
         if (suggests.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There are no suggestions to clear.");
+            await ctx.Channel.SendErrorAsync("There are no suggestions to clear.").ConfigureAwait(false);
             return;
         }
-        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id))
+        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id).ConfigureAwait(false))
         {
-            await Service.SuggestReset(ctx.Guild);
-            await ctx.Channel.SendConfirmAsync("Suggestions cleared.");
+            await Service.SuggestReset(ctx.Guild).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Suggestions cleared.").ConfigureAwait(false);
         }
     }
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -86,7 +86,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     {
         try
         {
-            await ctx.Message.DeleteAsync();
+            await ctx.Message.DeleteAsync().ConfigureAwait(false);
         }
         catch
         {
@@ -94,46 +94,46 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
 
         suggestion = suggestion.EscapeQuotes();
-        if (suggestion.Length > Service.GetMaxLength(ctx.Guild.Id))
+        if (suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its over the max length (`{Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!");
+                $"Cannot send this suggestion as its over the max length (`{Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             msg.DeleteAfter(5);
             return;
         }
-        if (suggestion.Length < Service.GetMinLength(ctx.Guild.Id))
+        if (suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             var message = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its under the minimum length (`{Service.GetMinLength(ctx.Guild.Id)}`) set in this server!");
+                $"Cannot send this suggestion as its under the minimum length (`{Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             message.DeleteAfter(5);
             return;
         }
 
         await Service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient,
-            suggestion, ctx.Channel as ITextChannel);
+            suggestion, ctx.Channel as ITextChannel).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Deny(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes());
+            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Accept(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes());
+            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Implemented(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes());
+            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Consider(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes());
+            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
 }

@@ -83,7 +83,7 @@ public partial class Moderation
                     if (time.Time > _twoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds);
+                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds).ConfigureAwait(false);
                     break;
                 case "-a":
                 case "--after":
@@ -92,22 +92,22 @@ public partial class Moderation
                     if (time.Time > _twoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds);
+                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds).ConfigureAwait(false);
                     break;
                 case "-he":
                 case "--hasembed":
-                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count > 0);
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count > 0).ConfigureAwait(false);
                     break;
                 case "-ne":
                 case "--noembed":
-                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count == 0);
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count == 0).ConfigureAwait(false);
                     break;
                 case "-c":
                 case "--contains":
                     if (input is null)
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        x => x.Content.ToLowerInvariant().Contains(input));
+                        x => x.Content.ToLowerInvariant().Contains(input)).ConfigureAwait(false);
                     break;
                 default:
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count, _ => true).ConfigureAwait(false);

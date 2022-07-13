@@ -56,11 +56,11 @@ public class SmartEmbed
 
             if (newEmbed.Embed is not null)
             {
-                embeds = newEmbed.ToEmbedArray(new[] { newEmbed.Embed });
+                embeds = NewEmbed.ToEmbedArray(new[] { newEmbed.Embed });
             }
             else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
             {
-                embeds = newEmbed.ToEmbedArray(newEmbed.Embeds);
+                embeds = NewEmbed.ToEmbedArray(newEmbed.Embeds);
             }
             else
             {

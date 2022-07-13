@@ -30,18 +30,18 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         try
         {
-            await ctx.Message.AddReactionAsync(emote);
+            await ctx.Message.AddReactionAsync(emote).ConfigureAwait(false);
         }
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.");
+                "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.").ConfigureAwait(false);
             return;
         }
 
-        await Service.SetGiveawayEmote(ctx.Guild, emote.ToString());
+        await Service.SetGiveawayEmote(ctx.Guild, emote.ToString()).ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync(
-            $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.");
+            $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
     }
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
@@ -51,18 +51,18 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);
             return;
         }
 
         if (gway.Ended != 1)
         {
-            await ctx.Channel.SendErrorAsync("This giveaway hasn't ended yet!");
+            await ctx.Channel.SendErrorAsync("This giveaway hasn't ended yet!").ConfigureAwait(false);
             return;
         }
 
-        await Service.GiveawayReroll(gway);
-        await ctx.Channel.SendConfirmAsync("Giveaway Rerolled!");
+        await Service.GiveawayReroll(gway).ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync("Giveaway Rerolled!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -72,14 +72,14 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!");
+            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!").ConfigureAwait(false);
         }
         else
         {
             List<ITextChannel> gchans = new();
             foreach (var i in gways)
             {
-                var chan = await ctx.Guild.GetTextChannelAsync(i.ChannelId);
+                var chan = await ctx.Guild.GetTextChannelAsync(i.ChannelId).ConfigureAwait(false);
                 if (!gchans.Contains(chan))
                     gchans.Add(chan);
             }
@@ -94,60 +94,59 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                 string.Join("\n", gchans.Select(x => $"{x.Mention}: {gways.Count(s => s.ChannelId == x.Id)}")),
                 true);
 
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
     {
-        var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
+        var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         try
         {
-            await ctx.Message.AddReactionAsync(emote);
+            await ctx.Message.AddReactionAsync(emote).ConfigureAwait(false);
         }
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.");
+                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.").ConfigureAwait(false);
             return;
         }
-        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!");
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!").ConfigureAwait(false);
             return;
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!");
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!").ConfigureAwait(false);
             return;
         }
         await Service.GiveawaysInternal(chan, time.Time, what, winners, ctx.User.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild);
+            ctx.Channel as ITextChannel, ctx.Guild).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
-        var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
+        var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         try
         {
-            await ctx.Message.AddReactionAsync(emote);
+            await ctx.Message.AddReactionAsync(emote).ConfigureAwait(false);
         }
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.");
+                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.").ConfigureAwait(false);
             return;
         }
 
         int winners;
         //string blacklistroles;
         //string blacklistusers;
-        string reqroles;
         IUser host;
         TimeSpan time;
         var erorrembed = new EmbedBuilder()
@@ -162,38 +161,38 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             .WithOkColor()
             .WithDescription(
                 "Please say, mention or put the ID of the channel where you want to start a giveaway. (Keep in mind you can cancel this by just leaving this to sit)");
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-        var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         var reader = new ChannelTypeReader<ITextChannel>();
-        var e = await reader.ReadAsync(ctx, next, _servs);
+        var e = await reader.ReadAsync(ctx, next, _servs).ConfigureAwait(false);
         if (!e.IsSuccess)
         {
-            await msg.ModifyAsync(x => x.Embed = erorrembed);
+            await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
             return;
         }
         var chan = (ITextChannel)e.BestMatch;
-        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!");
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!").ConfigureAwait(false);
             return;
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!");
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!").ConfigureAwait(false);
             return;
         }
-        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("How many winners will there be?").Build());
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("How many winners will there be?").Build()).ConfigureAwait(false);
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         try
         {
             winners = int.Parse(next);
         }
         catch
         {
-            await msg.ModifyAsync(x => x.Embed = erorrembed);
+            await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
             // ReSharper disable once RedundantAssignment
             tries++;
             return;
@@ -201,8 +200,8 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
 
         while (tries > 0)
         {
-            await msg.ModifyAsync(x => x.Embed = win0Embed);
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+            await msg.ModifyAsync(x => x.Embed = win0Embed).ConfigureAwait(false);
+            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
             try
             {
                 winners = int.Parse(next);
@@ -210,16 +209,16 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             }
             catch
             {
-                await msg.ModifyAsync(x => x.Embed = erorrembed);
+                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
                 return;
             }
         }
 
-        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("What is the prize/item?").Build());
-        var prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("What is the prize/item?").Build()).ConfigureAwait(false);
+        var prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         await msg.ModifyAsync(x =>
-            x.Embed = eb.WithDescription("How long will this giveaway last? Use the format 1mo,2d,3m,4s").Build());
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+            x.Embed = eb.WithDescription("How long will this giveaway last? Use the format 1mo,2d,3m,4s").Build()).ConfigureAwait(false);
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         {
             try
             {
@@ -228,16 +227,16 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             }
             catch
             {
-                await msg.ModifyAsync(x => x.Embed = erorrembed);
+                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
                 return;
             }
         }
         await msg.ModifyAsync(x =>
             x.Embed = eb
-                .WithDescription(
-                    "Who is the giveaway host? You can mention them or provide an ID, say none/skip to set yourself as the host.")
-                .Build());
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                      .WithDescription(
+                          "Who is the giveaway host? You can mention them or provide an ID, say none/skip to set yourself as the host.")
+                      .Build()).ConfigureAwait(false);
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         if (next.ToLower() is "none" or "skip")
         {
             host = ctx.User;
@@ -247,45 +246,45 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             var reader1 = new UserTypeReader<IUser>();
             try
             {
-                var result = await reader1.ReadAsync(ctx, next, _servs);
+                var result = await reader1.ReadAsync(ctx, next, _servs).ConfigureAwait(false);
                 host = (IUser)result.BestMatch;
             }
             catch
             {
-                await msg.ModifyAsync(x => x.Embed = erorrembed);
+                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
                 return;
             }
         }
 
-        if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
+        if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id).ConfigureAwait(false))
         {
             await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild);
-            await msg.DeleteAsync();
+                ctx.Guild).ConfigureAwait(false);
+            await msg.DeleteAsync().ConfigureAwait(false);
         }
         await msg.ModifyAsync(x =>
         {
             x.Embed = eb.WithDescription("Alright! please mention the role(s) that are required for this giveaway!")
                         .Build();
             x.Components = null;
-        });
+        }).ConfigureAwait(false);
         IReadOnlyCollection<IRole> parsed;
         while (true)
         {
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
             parsed = Regex.Matches(next, @"(?<=<@&)?[0-9]{17,19}(?=>)?")
                           .Select(m => ulong.Parse(m.Value))
                           .Select(Context.Guild.GetRole).Where(x => x is not null).ToList();
             if (parsed.Count > 0) break;
             await msg.ModifyAsync(x => x.Embed = eb
                                                  .WithDescription("Looks like those roles were incorrect! Please try again!")
-                                                 .Build());
+                                                 .Build()).ConfigureAwait(false);
         }
 
-        reqroles = string.Join(" ", parsed.Select(x => x.Id));
-        await msg.DeleteAsync();
+        var reqroles = string.Join(" ", parsed.Select(x => x.Id));
+        await msg.DeleteAsync().ConfigureAwait(false);
         await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild, reqroles);
+            ctx.Guild, reqroles).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
@@ -295,7 +294,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
-            await ctx.Channel.SendErrorAsync("No active giveaways");
+            await ctx.Channel.SendErrorAsync("No active giveaways").ConfigureAwait(false);
             return;
         }
         var paginator = new LazyPaginatorBuilder()
@@ -308,20 +307,20 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                         .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
-            TimeSpan.FromMinutes(60));
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             return new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways")
                                                     .WithDescription(string.Join("\n\n",
                                                         await gways.Skip(page * 5).Take(5).Select(async x =>
-                                                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId)}").GetResults()));
+                                                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId).ConfigureAwait(false)}").GetResults().ConfigureAwait(false)));
         }
     }
     private async Task<string> GetJumpUrl(ulong channelId, ulong messageId)
     {
-        var channel = await ctx.Guild.GetTextChannelAsync(channelId);
-        var message = await channel.GetMessageAsync(messageId);
+        var channel = await ctx.Guild.GetTextChannelAsync(channelId).ConfigureAwait(false);
+        var message = await channel.GetMessageAsync(messageId).ConfigureAwait(false);
         return message.GetJumpUrl();
     }
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
@@ -329,21 +328,21 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
-                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
+                      .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);
         }
 
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{_guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!");
+                $"This giveaway has already ended! Plase use `{_guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
         }
         else
         {
-            await Service.GiveawayReroll(gway);
-            await ctx.Channel.SendConfirmAsync("Giveaway ended!");
+            await Service.GiveawayReroll(gway).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Giveaway ended!").ConfigureAwait(false);
         }
     }
 }

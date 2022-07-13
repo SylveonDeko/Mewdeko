@@ -39,9 +39,10 @@ public static class UserExtensions
     public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string? caption = null,
         string? text = null, bool isTts = false)
     {
-        await using var file = File.Open(filePath, FileMode.Open);
+        var file = File.Open(filePath, FileMode.Open);
+        await using var _ = file.ConfigureAwait(false);
         return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-            .SendFileAsync(file, caption ?? "x", text, isTts).ConfigureAwait(false);
+                     .SendFileAsync(file, caption ?? "x", text, isTts).ConfigureAwait(false);
     }
 
     public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName,

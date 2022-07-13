@@ -27,10 +27,10 @@ public class SelfAssignedRolesService : INService
 
     public SelfAssignedRolesService(DbService db) => _db = db;
 
-    public bool AddNew(ulong guildId, IRole role, int group)
+    public async Task<bool> AddNew(ulong guildId, IRole role, int group)
     {
-        using var uow = _db.GetDbContext();
-        var roles = uow.SelfAssignableRoles.GetFromGuild(guildId);
+        await using var uow = _db.GetDbContext();
+        var roles = await uow.SelfAssignableRoles.GetFromGuild(guildId);
         if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id)) return false;
 
         uow.SelfAssignableRoles.Add(new SelfAssignedRole
@@ -39,18 +39,17 @@ public class SelfAssignedRolesService : INService
             RoleId = role.Id,
             GuildId = role.Guild.Id
         });
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool ToggleAdSarm(ulong guildId)
+    public async Task<bool> ToggleAdSarm(ulong guildId)
     {
-        bool newval;
-        using var uow = _db.GetDbContext();
-        var config = uow.ForGuildId(guildId, set => set);
-        newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
-        uow.SaveChanges();
+        await using var uow = _db.GetDbContext();
+        var config = await uow.ForGuildId(guildId, set => set);
+        var newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return newval;
     }
@@ -58,13 +57,14 @@ public class SelfAssignedRolesService : INService
     public async Task<(AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
     {
         LevelStats userLevelData;
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var stats = uow.UserXpStats.GetOrCreateUser(guildUser.Guild.Id, guildUser.Id);
+            var stats = await uow.UserXpStats.GetOrCreateUser(guildUser.Guild.Id, guildUser.Id);
             userLevelData = new LevelStats(stats.Xp + stats.AwardedXp);
         }
 
-        var (autoDelete, exclusive, roles) = GetAdAndRoles(guildUser.Guild.Id);
+        var (autoDelete, exclusive, roles) = await GetAdAndRoles(guildUser.Guild.Id);
 
         var selfAssignedRoles = roles as SelfAssignedRole[] ?? roles.ToArray();
         var theRoleYouWant = Array.Find(selfAssignedRoles, r => r.RoleId == role.Id);
@@ -116,7 +116,7 @@ public class SelfAssignedRolesService : INService
     {
         var set = false;
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
+        var gc = await uow.ForGuildId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
         var toUpdate = gc.SelfAssignableRoleGroupNames.Find(x => x.Number == group);
 
         if (string.IsNullOrWhiteSpace(name))
@@ -146,7 +146,7 @@ public class SelfAssignedRolesService : INService
 
     public async Task<(RemoveResult Result, bool AutoDelete)> Remove(IGuildUser guildUser, IRole role)
     {
-        var (autoDelete, _, roles) = GetAdAndRoles(guildUser.Guild.Id);
+        var (autoDelete, _, roles) = await GetAdAndRoles(guildUser.Guild.Id);
 
         if (roles.FirstOrDefault(r => r.RoleId == role.Id) == null)
             return (RemoveResult.ErrNotAssignable, autoDelete);
@@ -163,36 +163,35 @@ public class SelfAssignedRolesService : INService
         return (RemoveResult.Removed, autoDelete);
     }
 
-    public bool RemoveSar(ulong guildId, ulong roleId)
+    public async Task<bool> RemoveSar(ulong guildId, ulong roleId)
     {
-        bool success;
-        using var uow = _db.GetDbContext();
-        success = uow.SelfAssignableRoles.DeleteByGuildAndRoleId(guildId, roleId);
-        uow.SaveChanges();
+        await using var uow = _db.GetDbContext();
+        var success = await uow.SelfAssignableRoles.DeleteByGuildAndRoleId(guildId, roleId);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return success;
     }
 
-    public (bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>) GetAdAndRoles(ulong guildId)
+    public async Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)> GetAdAndRoles(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(guildId, set => set);
         var autoDelete = gc.AutoDeleteSelfAssignedRoleMessages;
         var exclusive = gc.ExclusiveSelfAssignedRoles;
-        var roles = uow.SelfAssignableRoles.GetFromGuild(guildId);
+        var roles = await uow.SelfAssignableRoles.GetFromGuild(guildId);
 
         return (autoDelete, exclusive, roles);
     }
 
-    public bool SetLevelReq(ulong guildId, IRole role, int level)
+    public async Task<bool> SetLevelReq(ulong guildId, IRole role, int level)
     {
-        using var uow = _db.GetDbContext();
-        var roles = uow.SelfAssignableRoles.GetFromGuild(guildId);
+        await using var uow = _db.GetDbContext();
+        var roles = await uow.SelfAssignableRoles.GetFromGuild(guildId);
         var sar = roles.FirstOrDefault(x => x.RoleId == role.Id);
         if (sar != null)
         {
             sar.LevelRequirement = level;
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -202,36 +201,28 @@ public class SelfAssignedRolesService : INService
         return true;
     }
 
-    public bool ToggleEsar(ulong guildId)
+    public async Task<bool> ToggleEsar(ulong guildId)
     {
-        bool areExclusive;
-        using var uow = _db.GetDbContext();
-        var config = uow.ForGuildId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var config = await uow.ForGuildId(guildId, set => set);
 
-        areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
-        uow.SaveChanges();
+        var areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return areExclusive;
     }
 
-    public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string>
-        GroupNames) GetRoles(IGuild guild)
+    public async Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)> GetRoles(IGuild guild)
     {
-        bool exclusive;
-
-        IEnumerable<(SelfAssignedRole Model, IRole Role)> roles;
-        IDictionary<int, string> groupNames;
-        using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
-            exclusive = gc.ExclusiveSelfAssignedRoles;
-            groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
-            var roleModels = uow.SelfAssignableRoles.GetFromGuild(guild.Id);
-            roles = roleModels
-                .Select(x => (Model: x, Role: guild.GetRole(x.RoleId)));
-            uow.SelfAssignableRoles.RemoveRange(roles.Where(x => x.Role.Name == null).Select(x => x.Model).ToArray());
-            uow.SaveChanges();
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
+        var exclusive = gc.ExclusiveSelfAssignedRoles;
+        IDictionary<int, string> groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
+        var roleModels = await uow.SelfAssignableRoles.GetFromGuild(guild.Id);
+        var roles = roleModels
+            .Select(x => (Model: x, Role: guild.GetRole(x.RoleId)));
+        uow.SelfAssignableRoles.RemoveRange(roles.Where(x => x.Role.Name == null).Select(x => x.Model).ToArray());
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return (exclusive, roles.Where(x => x.Role.Name != null), groupNames);
     }

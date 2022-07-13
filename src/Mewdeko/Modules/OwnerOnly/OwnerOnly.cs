@@ -75,18 +75,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task RedisExec([Remainder] string command)
     {
-        var result = await _cache.ExecuteRedisCommand(command);
+        var result = await _cache.ExecuteRedisCommand(command).ConfigureAwait(false);
         var eb = new EmbedBuilder().WithOkColor().WithTitle(result.Type.ToString()).WithDescription(result.ToString());
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
     [Cmd, Aliases]
     public async Task SqlExec([Remainder] string sql)
     {
-        if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id))
+        if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
         await using var uow = _db.GetDbContext();
-        var affected = await uow.Database.ExecuteSqlRawAsync(sql);
-        await ctx.Channel.SendErrorAsync($"Affected {affected} rows.");
+        var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
+        await ctx.Channel.SendErrorAsync($"Affected {affected} rows.").ConfigureAwait(false);
     }
     [Cmd, Aliases]
     public async Task ListServers(int page = 1)
@@ -119,7 +119,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (!Directory.Exists(_credentials.ChatSavePath))
         {
-            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.");
+            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.").ConfigureAwait(false);
             return;
         }
         var secureString = StringExtensions.GenerateSecureString(10);
@@ -129,12 +129,12 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
         catch (Exception ex)
         {
-            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}");
+            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}").ConfigureAwait(false);
             return;
         }
         if (time.Time.Days > 3)
         {
-            await ctx.Channel.SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.");
+            await ctx.Channel.SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.").ConfigureAwait(false);
             return;
         }
         using var process = new Process();
@@ -153,7 +153,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             // Synchronously read the standard output of the spawned process.
             var reader = process.StandardOutput;
 
-            var output = await reader.ReadToEndAsync();
+            var output = await reader.ReadToEndAsync().ConfigureAwait(false);
             if (output.Length > 2000)
             {
                 var chunkSize = 1988;
@@ -161,26 +161,26 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 for (var i = 0; i < stringLength; i += chunkSize)
                 {
                     if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
-                    await process.WaitForExitAsync();
+                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```").ConfigureAwait(false);
+                    await process.WaitForExitAsync().ConfigureAwait(false);
                 }
             }
             else if (string.IsNullOrEmpty(output))
             {
-                await ctx.Channel.SendMessageAsync("```The output was blank```");
+                await ctx.Channel.SendMessageAsync("```The output was blank```").ConfigureAwait(false);
             }
             else
             {
-                await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
+                await ctx.Channel.SendMessageAsync($"```bash\n{output}```").ConfigureAwait(false);
             }
         }
 
-        await process.WaitForExitAsync();
+        await process.WaitForExitAsync().ConfigureAwait(false);
         if (_credentials.ChatSavePath == "/usr/share/nginx/cdn")
             await ctx.User.SendConfirmAsync(
-                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html");
+                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html").ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync($"Your chat log is here: {_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}");
+            await ctx.Channel.SendConfirmAsync($"Your chat log is here: {_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -197,7 +197,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithTitle(GetText("config_list"))
                 .WithDescription(string.Join("\n", configNames));
 
-            await ctx.Channel.EmbedAsync(embed);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             return;
         }
 
@@ -212,7 +212,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithDescription(GetText("config_not_found", Format.Code(name)))
                 .AddField(GetText("config_list"), string.Join("\n", configNames));
 
-            await ctx.Channel.EmbedAsync(embed);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             return;
         }
 
@@ -229,7 +229,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithTitle($"⚙️ {setting.Name}")
                 .WithDescription(propStrings);
 
-            await ctx.Channel.EmbedAsync(embed);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             return;
         }
         // if the prop is invalid -> print error and list of 
@@ -244,7 +244,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithDescription(GetText("config_prop_not_found", Format.Code(prop), Format.Code(name)))
                 .AddField($"⚙️ {setting.Name}", propStrings);
 
-            await ctx.Channel.EmbedAsync(propErrorEmbed);
+            await ctx.Channel.EmbedAsync(propErrorEmbed).ConfigureAwait(false);
             return;
         }
 
@@ -268,7 +268,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             if (!string.IsNullOrWhiteSpace(comment))
                 embed.AddField("Comment", comment);
 
-            await ctx.Channel.EmbedAsync(embed);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             return;
         }
 
@@ -276,11 +276,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         if (!success)
         {
-            await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value));
+            await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value)).ConfigureAwait(false);
             return;
         }
 
-        await ctx.OkAsync();
+        await ctx.OkAsync().ConfigureAwait(false);
     }
 
     private static string GetPropsAndValuesString(IConfigService config, IEnumerable<string> names)
@@ -339,11 +339,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            await ReplyConfirmLocalizedAsync("defprefix_current", _guildSettings.GetPrefix()).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("defprefix_current", await _guildSettings.GetPrefix()).ConfigureAwait(false);
             return;
         }
 
-        var oldPrefix = _guildSettings.GetPrefix();
+        var oldPrefix = await _guildSettings.GetPrefix();
         var newPrefix = Service.SetDefaultPrefix(prefix);
 
         await ReplyConfirmLocalizedAsync("defprefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
@@ -393,7 +393,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser)ctx.User;
@@ -426,12 +426,12 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
             return;
-        var command = _commandService.Search(cmdText.Replace(_guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
+        var command = _commandService.Search(cmdText.Replace(await _guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
         if (!command.IsSuccess)
             return;
         foreach (var i in command.Commands)
         {
-            if (!(await i.CheckPreconditionsAsync(ctx, _services)).IsSuccess)
+            if (!(await i.CheckPreconditionsAsync(ctx, _services).ConfigureAwait(false)).IsSuccess)
                 return;
         }
         var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
@@ -553,7 +553,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             return;
         }
 
-        await ctx.OkAsync();
+        await ctx.OkAsync().ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
@@ -631,7 +631,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
 
             if (string.IsNullOrWhiteSpace(str))
@@ -737,7 +737,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task SetAvatar([Remainder] string? img = null)
     {
-        var success = await Service.SetAvatar(img);
+        var success = await Service.SetAvatar(img).ConfigureAwait(false);
 
         if (success) await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
     }
@@ -766,7 +766,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
     [Cmd, Aliases]
     public async Task Send(ulong whereOrTo, [Remainder] string msg)
-        => await Send(whereOrTo, 0, msg);
+        => await Send(whereOrTo, 0, msg).ConfigureAwait(false);
 
     [Cmd, Aliases]
     public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
@@ -775,63 +775,63 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         RestGuild potentialServer;
         try
         {
-            potentialServer = await _client.Rest.GetGuildAsync(whereOrTo);
+            potentialServer = await _client.Rest.GetGuildAsync(whereOrTo).ConfigureAwait(false);
         }
         catch
         {
             var potentialUser = _client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!");
+                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!").ConfigureAwait(false);
                 return;
             }
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embeds: embed, components:components.Build());
-                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components:components.Build()).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
                 return;
             }
 
-            await potentialUser.SendMessageAsync(rep.Replace(msg));
-            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
+            await potentialUser.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
             return;
         }
 
         if (to == 0)
         {
-            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!");
+            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!").ConfigureAwait(false);
             return;
         }
-        var channel = await potentialServer.GetTextChannelAsync(to);
+        var channel = await potentialServer.GetTextChannelAsync(to).ConfigureAwait(false);
         if (channel is not null)
         {
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText, out var components))
             {
-                await channel.SendMessageAsync(plainText, embeds: embed, components:components?.Build());
-                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
+                await channel.SendMessageAsync(plainText, embeds: embed, components:components?.Build()).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
                 return;
             }
 
-            await channel.SendMessageAsync(rep.Replace(msg));
-            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
+            await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
             return;
         }
 
-        var user = await potentialServer.GetUserAsync(to);
+        var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
         if (user is null)
         {
-            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.");
+            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.").ConfigureAwait(false);
             return;
         }
         if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1, out var components1 ))
         {
-            await channel.SendMessageAsync(plainText1, embeds: embed1, components:components1?.Build());
-            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}");
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components:components1?.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}").ConfigureAwait(false);
             return;
         }
 
-        await channel.SendMessageAsync(rep.Replace(msg));
-        await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}");
+        await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -878,7 +878,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             // Synchronously read the standard output of the spawned process.
             var reader = process.StandardOutput;
 
-            var output = await reader.ReadToEndAsync();
+            var output = await reader.ReadToEndAsync().ConfigureAwait(false);
             if (output.Length > 2000)
             {
                 var chunkSize = 1988;
@@ -886,21 +886,21 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 for (var i = 0; i < stringLength; i += chunkSize)
                 {
                     if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
-                    await process.WaitForExitAsync();
+                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```").ConfigureAwait(false);
+                    await process.WaitForExitAsync().ConfigureAwait(false);
                 }
             }
             else if (string.IsNullOrEmpty(output))
             {
-                await ctx.Channel.SendMessageAsync("```The output was blank```");
+                await ctx.Channel.SendMessageAsync("```The output was blank```").ConfigureAwait(false);
             }
             else
             {
-                await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
+                await ctx.Channel.SendMessageAsync($"```bash\n{output}```").ConfigureAwait(false);
             }
         }
 
-        await process.WaitForExitAsync();
+        await process.WaitForExitAsync().ConfigureAwait(false);
     }
 
     [Cmd, Aliases, OwnerOnly]
@@ -920,7 +920,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             Title = "Evaluating...",
             Color = new Color(0xD091B2)
         };
-        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
+        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
 
         var globals = new EvaluationEnvironment((CommandContext)Context);
         var sopts = ScriptOptions.Default
@@ -956,7 +956,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
             if (csc.Length > 3)
                 embed.AddField("Some errors omitted", $"{csc.Length - 3:#,##0} more errors not displayed");
-            await msg.ModifyAsync(x => x.Embed = embed.Build());
+            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -965,7 +965,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         var sw2 = Stopwatch.StartNew();
         try
         {
-            css = await cs.RunAsync(globals);
+            css = await cs.RunAsync(globals).ConfigureAwait(false);
             rex = css.Exception;
         }
         catch (Exception ex)
@@ -984,7 +984,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     $"Execution failed after {sw2.ElapsedMilliseconds:#,##0}ms with `{rex.GetType()}: {rex.Message}`.",
                 Color = new Color(0xD091B2)
             };
-            await msg.ModifyAsync(x => x.Embed = embed.Build());
+            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -1002,7 +1002,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (css.ReturnValue != null)
             embed.AddField("Return type", css.ReturnValue.GetType().ToString(), true);
 
-        await msg.ModifyAsync(x => x.Embed = embed.Build());
+        await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
     }
 }
 

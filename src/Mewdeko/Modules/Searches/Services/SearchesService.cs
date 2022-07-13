@@ -222,7 +222,7 @@ public class SearchesService : INService, IUnloadableService
         if (!succ)
         {
             using var http = _httpFactory.CreateClient();
-            data = await http.GetByteArrayAsync(avatarUrl);
+            data = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
             using (var avatarImg = Image.Load<Rgba32>(data))
             {
                 avatarImg.Mutate(x => x
@@ -232,7 +232,7 @@ public class SearchesService : INService, IUnloadableService
                 DrawAvatar(bg, avatarImg);
             }
 
-            await _cache.SetImageDataAsync(avatarUrl, data);
+            await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
         }
         else
         {
@@ -306,7 +306,7 @@ public class SearchesService : INService, IUnloadableService
                     $"https://eu1.locationiq.com/v1/search.php?{(string.IsNullOrWhiteSpace(_creds.LocationIqApiKey) ? "key=" : $"key={_creds.LocationIqApiKey}&")}q={Uri.EscapeDataString(query)}&format=json";
 
                 return http.GetStringAsync(url);
-            }, "", TimeSpan.FromHours(1));
+            }, "", TimeSpan.FromHours(1)).ConfigureAwait(false);
 
             var responses = JsonConvert.DeserializeObject<LocationIqResponse[]>(res);
             if (responses is null || responses.Length == 0)
@@ -319,8 +319,8 @@ public class SearchesService : INService, IUnloadableService
 
             using var req = new HttpRequestMessage(HttpMethod.Get,
                 $"http://api.timezonedb.com/v2.1/get-time-zone?key={_creds.TimezoneDbApiKey}&format=json&by=position&lat={geoData.Lat}&lng={geoData.Lon}");
-            using var geoRes = await http.SendAsync(req);
-            var resString = await geoRes.Content.ReadAsStringAsync();
+            using var geoRes = await http.SendAsync(req).ConfigureAwait(false);
+            var resString = await geoRes.Content.ReadAsStringAsync().ConfigureAwait(false);
             var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(resString);
 
             var time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
@@ -358,15 +358,15 @@ public class SearchesService : INService, IUnloadableService
     public static async Task<string> AutoTranslate(string str, string from, string to)
     {
         using var translator = new AggregateTranslator();
-        var translation = await translator.TranslateAsync(str, to, from);
-        return translation.Translation == str ? (await translator.TransliterateAsync(str, to, from)).Transliteration : translation.Translation;
+        var translation = await translator.TranslateAsync(str, to, from).ConfigureAwait(false);
+        return translation.Translation == str ? (await translator.TransliterateAsync(str, to, from).ConfigureAwait(false)).Transliteration : translation.Translation;
     }
 
     public static async Task<string> Translate(string langs, string? text = null)
     {
         using var translator = new AggregateTranslator();
-        var translation = await translator.TranslateAsync(text, langs);
-        return translation.Translation == text ? (await translator.TransliterateAsync(text, langs)).Transliteration : translation.Translation;
+        var translation = await translator.TranslateAsync(text, langs).ConfigureAwait(false);
+        return translation.Translation == text ? (await translator.TransliterateAsync(text, langs).ConfigureAwait(false)).Transliteration : translation.Translation;
     }
 
     public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
@@ -407,7 +407,7 @@ public class SearchesService : INService, IUnloadableService
         return new HashSet<string>();
     }
 
-    public bool ToggleBlacklistedTag(ulong guildId, string tag)
+    public async Task<bool> ToggleBlacklistedTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
         {
@@ -416,7 +416,7 @@ public class SearchesService : INService, IUnloadableService
 
         bool added;
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+        var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -433,7 +433,7 @@ public class SearchesService : INService, IUnloadableService
         var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
         _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return added;
     }
@@ -473,7 +473,7 @@ public class SearchesService : INService, IUnloadableService
     public async Task<(string? Setup, string Punchline)> GetRandomJoke()
     {
         using var http = _httpFactory.CreateClient();
-        var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke");
+        var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke").ConfigureAwait(false);
         var resObj = JsonConvert.DeserializeAnonymousType(res, new { setup = "", punchline = "" });
         return (resObj.setup, resObj.punchline);
     }
@@ -640,19 +640,19 @@ public class SearchesService : INService, IUnloadableService
             using var http = _httpFactory.CreateClient();
             // https://api.steampowered.com/ISteamApps/GetAppList/v2/
             var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
-                .ConfigureAwait(false);
+                                     .ConfigureAwait(false);
             var apps = JsonConvert
-                .DeserializeAnonymousType(gamesStr, new { applist = new { apps = new List<SteamGameId>() } })
-                .applist.apps;
+                       .DeserializeAnonymousType(gamesStr, new { applist = new { apps = new List<SteamGameId>() } })
+                       .applist.apps;
 
             return apps
-                .OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .GroupBy(x => x.Name)
-                .ToDictionary(x => x.Key, x => x.First().AppId);
+                   .OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
+                   .GroupBy(x => x.Name)
+                   .ToDictionary(x => x.Key, x => x.First().AppId);
             //await db.HashSetAsync("steam_game_ids", apps.Select(app => new HashEntry(app.Name.Trim().ToLowerInvariant(), app.AppId)).ToArray()).ConfigureAwait(false);
             //await db.StringSetAsync("steam_game_ids", gamesStr, TimeSpan.FromHours(24));
             //await db.KeyExpireAsync("steam_game_ids", TimeSpan.FromHours(24), CommandFlags.FireAndForget).ConfigureAwait(false);
-        }, default(string), TimeSpan.FromHours(24));
+        }, default(string), TimeSpan.FromHours(24)).ConfigureAwait(false);
 
         if (!gamesMap.Any())
             return -1;
@@ -701,12 +701,12 @@ public class SearchesService : INService, IUnloadableService
         using var http = _httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         var sw = Stopwatch.StartNew();
-        using var response = await http.SendAsync(msg);
-        var content = await response.Content.ReadAsStreamAsync();
+        using var response = await http.SendAsync(msg).ConfigureAwait(false);
+        var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         sw.Stop();
         Log.Information("Took {Miliseconds}ms to parse results", sw.ElapsedMilliseconds);
 
-        using var document = await _googleParser.ParseDocumentAsync(content);
+        using var document = await _googleParser.ParseDocumentAsync(content).ConfigureAwait(false);
         var elems = document.QuerySelectorAll("div.g > div > div");
 
         var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
@@ -757,10 +757,10 @@ public class SearchesService : INService, IUnloadableService
         {
             { new StringContent(query), "q" }
         };
-        using var response = await http.PostAsync(fullQueryLink, formData);
-        var content = await response.Content.ReadAsStringAsync();
+        using var response = await http.PostAsync(fullQueryLink, formData).ConfigureAwait(false);
+        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-        using var document = await _googleParser.ParseDocumentAsync(content);
+        using var document = await _googleParser.ParseDocumentAsync(content).ConfigureAwait(false);
         var searchResults = document.QuerySelector(".results");
         var elems = searchResults.QuerySelectorAll(".result");
 

@@ -48,7 +48,7 @@ public partial class Administration
                 {
                     var inputRoleStr = x.First();
                     var roleReader = new RoleTypeReader<SocketRole>();
-                    var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services);
+                    var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services).ConfigureAwait(false);
                     if (!roleResult.IsSuccess)
                     {
                         Log.Warning("Role {0} not found.", inputRoleStr);
@@ -86,14 +86,14 @@ public partial class Administration
                 }
                 catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.BadRequest)
                 {
-                    await ReplyErrorLocalizedAsync("reaction_cant_access", Format.Code(x.emote.ToString()));
+                    await ReplyErrorLocalizedAsync("reaction_cant_access", Format.Code(x.emote.ToString())).ConfigureAwait(false);
                     return;
                 }
 
                 await Task.Delay(500).ConfigureAwait(false);
             }
 
-            if (target != null && Service.Add(ctx.Guild.Id, new ReactionRoleMessage
+            if (target != null && await Service.Add(ctx.Guild.Id, new ReactionRoleMessage
             {
                 Exclusive = exclusive,
                 MessageId = target.Id,
@@ -158,7 +158,7 @@ public partial class Administration
                 {
                     var rr = rrs.Skip(page).FirstOrDefault();
                     var g = ctx.Guild;
-                    var ch = await g.GetTextChannelAsync(rr.ChannelId);
+                    var ch = await g.GetTextChannelAsync(rr.ChannelId).ConfigureAwait(false);
                     IUserMessage? msg = null;
                     if (ch is not null)
                         msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;

@@ -28,7 +28,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamAdd(string link)
         {
-            var data = await Service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link);
+            var data = await Service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link).ConfigureAwait(false);
             if (data is null)
             {
                 await ReplyErrorLocalizedAsync("stream_not_added").ConfigureAwait(false);
@@ -46,7 +46,7 @@ public partial class Searches
             if (--index < 0)
                 return;
 
-            var fs = await Service.UnfollowStreamAsync(ctx.Guild.Id, index);
+            var fs = await Service.UnfollowStreamAsync(ctx.Guild.Id, index).ConfigureAwait(false);
             if (fs is null)
             {
                 await ReplyErrorLocalizedAsync("stream_no").ConfigureAwait(false);
@@ -62,7 +62,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task StreamsClear()
         {
-            var count = await Service.ClearAllStreams(ctx.Guild.Id);
+            var count = await Service.ClearAllStreams(ctx.Guild.Id).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("streams_cleared", count).ConfigureAwait(false);
         }
 
@@ -70,19 +70,20 @@ public partial class Searches
         public async Task StreamList()
         {
             var streams = new List<FollowedStream>();
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                var all = uow
-                    .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
-                    .FollowedStreams
-                    .OrderBy(x => x.Id)
-                    .ToList();
+                var all = (await uow
+                          .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams)))
+                          .FollowedStreams
+                          .OrderBy(x => x.Id)
+                          .ToList();
 
                 for (var index = all.Count - 1; index >= 0; index--)
                 {
                     var fs = all[index];
                     if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
-                        await Service.UnfollowStreamAsync(fs.GuildId, index);
+                        await Service.UnfollowStreamAsync(fs.GuildId, index).ConfigureAwait(false);
                     else
                         streams.Insert(0, fs);
                 }
@@ -101,7 +102,7 @@ public partial class Searches
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var elements = streams.Skip(page * 12).Take(12)
                                       .ToList();
 
@@ -131,7 +132,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamOffline()
         {
-            var newValue = Service.ToggleStreamOffline(ctx.Guild.Id);
+            var newValue = await Service.ToggleStreamOffline(ctx.Guild.Id);
             if (newValue)
                 await ReplyConfirmLocalizedAsync("stream_off_enabled").ConfigureAwait(false);
             else

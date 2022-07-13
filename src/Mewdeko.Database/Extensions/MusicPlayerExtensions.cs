@@ -9,7 +9,7 @@ public static class MusicPlayerSettingsExtensions
     {
         var toReturn = await settings
                              .AsQueryable()
-                             .FirstOrDefaultAsync(x => x.GuildId == guildId);
+                             .FirstOrDefaultAsync(x => x.GuildId == guildId).ConfigureAwait(false);
 
         if (toReturn is not null) return toReturn;
         var newSettings = new MusicPlayerSettings
@@ -18,7 +18,7 @@ public static class MusicPlayerSettingsExtensions
             PlayerRepeat = PlayerRepeatType.Queue
         };
 
-        await settings.AddAsync(newSettings);
+        await settings.AddAsync(newSettings).ConfigureAwait(false);
         return newSettings;
     }
 }

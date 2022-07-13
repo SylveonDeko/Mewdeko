@@ -1,4 +1,5 @@
 using Mewdeko.Services.Settings;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Services;
 
@@ -15,7 +16,7 @@ public class GuildSettingsService : INService
         _bss = bss;
     }
     
-    public string SetPrefix(IGuild guild, string prefix)
+    public async Task<string> SetPrefix(IGuild guild, string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
             throw new ArgumentNullException(nameof(prefix));
@@ -23,27 +24,27 @@ public class GuildSettingsService : INService
             throw new ArgumentNullException(nameof(guild));
 
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.Prefix = prefix;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateGuildConfig(guild.Id, gc);
         return prefix;
     }
     
-    public string? GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
+    public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild?.Id);
 
-    public string? GetPrefix(ulong? id = null)
+    public async Task<string?> GetPrefix(ulong? id = null)
     {
         if (id is null)
             return _bss.GetSetting("prefix");
-        return GetGuildConfig(id.Value).Prefix ??= _bss.GetSetting("prefix");
+        return (await GetGuildConfig(id.Value)).Prefix ??= _bss.GetSetting("prefix");
     }
     
-    public GuildConfig GetGuildConfig(ulong guildId)
+    public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var cachedConfig = _cache.GetGuildConfig(guildId);
-        return cachedConfig ?? uow.ForGuildId(guildId);
+        return cachedConfig ?? await uow.ForGuildId(guildId);
     }
 
     public void UpdateGuildConfig(ulong guildId, GuildConfig config)

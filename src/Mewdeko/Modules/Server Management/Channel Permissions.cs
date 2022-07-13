@@ -44,9 +44,9 @@ public partial class ServerManagement
             }
 
             foreach (var e in perms) list.Add(e.ToString());
-            await channel.AddPermissionOverwriteAsync(role, result);
+            await channel.AddPermissionOverwriteAsync(role, result).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"I have allowed the following permissions for the role {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
+                $"I have allowed the following permissions for the role {role.Mention} in {channel}: \n**{string.Join("\n", list)}**").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -77,11 +77,11 @@ public partial class ServerManagement
             }
 
             foreach (var e in perms) list.Add(e.ToString());
-            await channel.AddPermissionOverwriteAsync(role, result);
+            await channel.AddPermissionOverwriteAsync(role, result).ConfigureAwait(false);
             if (perm == PermValue.Allow)
-                await ctx.Channel.SendConfirmAsync($"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
+                await ctx.Channel.SendConfirmAsync($"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**").ConfigureAwait(false);
             else
-                await ctx.Channel.SendConfirmAsync($"I have denied the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
+                await ctx.Channel.SendConfirmAsync($"I have denied the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**").ConfigureAwait(false);
         }
     }
 }

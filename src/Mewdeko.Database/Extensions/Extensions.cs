@@ -18,8 +18,6 @@ public static class Extensions
         if (str.Length < maxLength)
             return str;
 
-        if (hideDots)
-            return string.Concat(str.Take(maxLength));
-        return $"{string.Concat(str.Take(maxLength - 1))}…";
+        return hideDots ? string.Concat(str.Take(maxLength)) : $"{string.Concat(str.Take(maxLength - 1))}…";
     }
 }

@@ -38,7 +38,8 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole()
         {
-            if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles).Any())
+            var roles = await Service.TryGetNormalRoles(ctx.Guild.Id);
+            if (!roles.Any())
             {
                 await ReplyConfirmLocalizedAsync("aar_none").ConfigureAwait(false);
                 return;
@@ -47,7 +48,7 @@ public partial class Administration
             var existing = roles.Select(rid => ctx.Guild.GetRole(rid)).Where(r => r is not null)
                 .ToList();
 
-            if (existing.Count != roles.Count)
+            if (existing.Count != roles.Count())
                 await Service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id)).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("aar_roles",
@@ -71,7 +72,7 @@ public partial class Administration
 
             var roles = await Service.ToggleAabrAsync(ctx.Guild.Id, role.Id).ConfigureAwait(false);
             if (roles.Count == 0)
-                await ReplyConfirmLocalizedAsync("aabr_disabled");
+                await ReplyConfirmLocalizedAsync("aabr_disabled").ConfigureAwait(false);
             else if (roles.Contains(role.Id))
                 await AutoAssignBotRole().ConfigureAwait(false);
             else
@@ -82,16 +83,17 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole()
         {
-            if (!Service.TryGetBotRoles(ctx.Guild.Id, out var roles).Any())
+            var roles = await Service.TryGetBotRoles(ctx.Guild.Id);
+            if (!roles.Any())
             {
-                await ReplyConfirmLocalizedAsync("aabr_none");
+                await ReplyConfirmLocalizedAsync("aabr_none").ConfigureAwait(false);
                 return;
             }
 
             var existing = roles.Select(rid => ctx.Guild.GetRole(rid)).Where(r => r is not null)
                 .ToList();
 
-            if (existing.Count != roles.Count)
+            if (existing.Count != roles.Count())
                 await Service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id)).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("aabr_roles",

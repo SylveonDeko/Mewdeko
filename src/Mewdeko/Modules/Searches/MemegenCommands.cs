@@ -43,7 +43,7 @@ public partial class Searches
             var res = await http.GetAsync("https://api.memegen.link/templates/")
                 .ConfigureAwait(false);
 
-            var rawJson = await res.Content.ReadAsStringAsync();
+            var rawJson = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
 
@@ -60,7 +60,7 @@ public partial class Searches
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 var templates = data.Skip(page * 15).Take(15).Aggregate("", (current, template) => current + $"**{template.Name}:**\n key: `{template.Id}`\n");
                 return new PageBuilder()
                             .WithOkColor()

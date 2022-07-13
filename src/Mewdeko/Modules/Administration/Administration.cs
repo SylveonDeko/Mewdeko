@@ -112,7 +112,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
                        .WithTitle(
                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
@@ -175,7 +175,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
                                        .WithTitle(
                                            $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
@@ -246,9 +246,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
         else
         {
-            ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
+            ctx.Guild.GetRole(await Service.GetMemberRole(ctx.Guild.Id));
             var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
+                includeRoleIds: new[] { await Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync("No users to prune.").ConfigureAwait(false);
@@ -266,9 +266,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             }
             else
             {
-                var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
+                var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...").ConfigureAwait(false);
                 await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                    includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
+                    includeRoleIds: new[] { await Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
@@ -282,7 +282,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task MemberRole(IRole? role)
     {
-        var rol = Service.GetMemberRole(ctx.Guild.Id);
+        var rol = await Service.GetMemberRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
         {
             await Service.MemberRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
@@ -320,7 +320,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task StaffRole([Remainder] IRole? role = null)
     {
-        var rol = Service.GetStaffRole(ctx.Guild.Id);
+        var rol = await Service.GetStaffRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
         {
             await Service.StaffRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
@@ -358,7 +358,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task StaffRoleDisable()
     {
-        var r = Service.GetStaffRole(ctx.Guild.Id);
+        var r = await Service.GetStaffRole(ctx.Guild.Id);
         if (r == 0)
         {
             await ctx.Channel.SendErrorAsync("No staff role set!").ConfigureAwait(false);
@@ -375,7 +375,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public async Task Delmsgoncmd(List _)
     {
         var guild = (SocketGuild)ctx.Guild;
-        var (enabled, channels) = Service.GetDelMsgOnCmdData(ctx.Guild.Id);
+        var (enabled, channels) = await Service.GetDelMsgOnCmdData(ctx.Guild.Id);
 
         var embed = new EmbedBuilder()
             .WithOkColor()
@@ -403,7 +403,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Delmsgoncmd(Server _ = Server.Server)
     {
-        if (Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
+        if (await Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
         {
             await ReplyConfirmLocalizedAsync("delmsg_on").ConfigureAwait(false);
         }
@@ -541,7 +541,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             return;
         }
 
-        await AdministrationService.EditMessage(ctx, channel, messageId, text);
+        await AdministrationService.EditMessage(ctx, channel, messageId, text).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -598,7 +598,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
     public async Task RenameChannel(IGuildChannel channel, [Remainder] string name)
     {
-        await channel.ModifyAsync(x => x.Name = name);
-        await ConfirmLocalizedAsync("channel_renamed");
+        await channel.ModifyAsync(x => x.Name = name).ConfigureAwait(false);
+        await ConfirmLocalizedAsync("channel_renamed").ConfigureAwait(false);
     }
 }

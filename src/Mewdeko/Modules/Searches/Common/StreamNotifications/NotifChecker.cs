@@ -81,15 +81,15 @@ public class NotifChecker
                                                          out var provider))
                                                  {
                                                      return provider.GetStreamDataAsync(x.Value
-                                                         .Select(entry => entry.Key)
-                                                         .ToList());
+                                                                                         .Select(entry => entry.Key)
+                                                                                         .ToList());
                                                  }
 
                                                  // this means there's no provider for this stream data, (and there was before?)
                                                  return Task.FromResult<IReadOnlyCollection<StreamData>>(
                                                      new List<StreamData>());
                                              })
-                                             .WhenAll();
+                                             .WhenAll().ConfigureAwait(false);
 
                    var newlyOnline = new List<StreamData>();
                    var newlyOffline = new List<StreamData>();
@@ -154,7 +154,7 @@ public class NotifChecker
                    if (newlyOffline.Count > 0)
                        tasks.Add(OnStreamsOffline(newlyOffline));
 
-                   await Task.WhenAll(tasks);
+                   await Task.WhenAll(tasks).ConfigureAwait(false);
                }
                catch (Exception ex)
                {
@@ -201,11 +201,11 @@ public class NotifChecker
         // loop through all providers and see which regex matches
         foreach (var (_, provider) in _streamProviders)
         {
-            var isValid = await provider.IsValidUrl(url);
+            var isValid = await provider.IsValidUrl(url).ConfigureAwait(false);
             if (!isValid)
                 continue;
             // if it's not a valid url, try another provider
-            return await provider.GetStreamDataByUrlAsync(url);
+            return await provider.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
         }
 
         // if no provider found, return null
@@ -219,7 +219,7 @@ public class NotifChecker
     /// <returns>Stream data, if any</returns>
     public async Task<StreamData?> TrackStreamByUrlAsync(string url)
     {
-        var data = await GetStreamDataByUrlAsync(url);
+        var data = await GetStreamDataByUrlAsync(url).ConfigureAwait(false);
         EnsureTracked(data);
         return data;
     }

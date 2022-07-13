@@ -123,14 +123,14 @@ public static class Extensions
             
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embeds: crembed);
+                            .SendMessageAsync(plainText, embeds: crembed).ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
                 {
                     using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                     await whClient.SendMessageAsync(plainText,
-                        embeds: crembed);
+                        embeds: crembed).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
@@ -140,13 +140,13 @@ public static class Extensions
         var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
-            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context);
+            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
         else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
         {
             try
             {
                 using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
-                await whClient.SendMessageAsync(context);
+                await whClient.SendMessageAsync(context).ConfigureAwait(false);
             }
             catch (TaskCanceledException) { /* ignored */ }
         }
@@ -175,14 +175,14 @@ public static class Extensions
                 plainText = plainText.SanitizeMentions();
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embeds: crembed, components: components?.Build());
+                            .SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
                 {
                     using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                     await whClient.SendMessageAsync(plainText,
-                        embeds: crembed);
+                        embeds: crembed).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
@@ -193,13 +193,13 @@ public static class Extensions
         var context = (await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
-            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context);
+            await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
         else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
         {
             try
             {
                 using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
-                await whClient.SendMessageAsync(context);
+                await whClient.SendMessageAsync(context).ConfigureAwait(false);
             }
             catch (TaskCanceledException) { /* ignored */ }
         }

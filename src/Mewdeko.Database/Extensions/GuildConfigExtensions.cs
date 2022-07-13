@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Common;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Common;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,33 +21,33 @@ public static class GuildConfigExtensions
               .ThenInclude(x => x.ReactionRoles)
               .FirstOrDefault(x => x.GuildId == guildId)?.ReactionRoleMessages;
 
-    public static GuildConfig ForGuildId(this MewdekoContext ctx, ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
+    public static async Task<GuildConfig> ForGuildId(this MewdekoContext ctx, ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
     {
         GuildConfig config;
 
         if (includes is null)
         {
-            config = ctx
+            config = await ctx
                      .GuildConfigs
                      .IncludeEverything()
-                     .FirstOrDefault(c => c.GuildId == guildId);
+                     .FirstOrDefaultAsyncEF(c => c.GuildId == guildId);
         }
         else
         {
             var set = includes(ctx.GuildConfigs);
-            config = set.FirstOrDefault(c => c.GuildId == guildId);
+            config = await set.FirstOrDefaultAsync(c => c.GuildId == guildId);
         }
 
         if (config is null)
         {
-            ctx.GuildConfigs.Add(config = new GuildConfig
+            await ctx.GuildConfigs.AddAsync(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
                 WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments,
             });
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
 
         if (config.WarningsInitialized) return config;
@@ -78,44 +79,44 @@ public static class GuildConfigExtensions
             })
             .ToArray();
 
-    public static GuildConfig GcWithPermissionsv2For(this MewdekoContext ctx, ulong guildId)
+    public static async Task<GuildConfig> GcWithPermissionsv2For(this MewdekoContext ctx, ulong guildId)
     {
-        var config = ctx
+        var config = await ctx
                      .GuildConfigs
                      .AsQueryable()
                      .Where(gc => gc.GuildId == guildId)
                      .Include(gc => gc.Permissions)
-                     .FirstOrDefault();
+                     .FirstOrDefaultAsyncEF().ConfigureAwait(false);
 
         if (config is null) // if there is no guildconfig, create new one
         {
-            ctx.GuildConfigs.Add(config = new GuildConfig
+            await ctx.GuildConfigs.AddAsync(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist
             });
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
         else if (config.Permissions is null || !config.Permissions.Any()) // if no perms, add default ones
         {
             config.Permissions = Permissionv2.GetDefaultPermlist;
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return config;
     }
-    public static StreamRoleSettings GetStreamRoleSettings(this MewdekoContext ctx, ulong guildId)
+    public static async Task<StreamRoleSettings> GetStreamRoleSettings(this MewdekoContext ctx, ulong guildId)
     {
-        var conf = ctx.ForGuildId(guildId, set => set.Include(y => y.StreamRole)
+        var conf = await ctx.ForGuildId(guildId, set => set.Include(y => y.StreamRole)
                                                      .Include(y => y.StreamRole.Whitelist)
                                                      .Include(y => y.StreamRole.Blacklist));
 
         return conf.StreamRole ?? (conf.StreamRole = new StreamRoleSettings());
     }
 
-    public static XpSettings XpSettingsFor(this MewdekoContext ctx, ulong guildId)
+    public static async Task<XpSettings> XpSettingsFor(this MewdekoContext ctx, ulong guildId)
     {
-        var gc = ctx.ForGuildId(guildId,
+        var gc = await ctx.ForGuildId(guildId,
             set => set.Include(x => x.XpSettings)
                       .ThenInclude(x => x.RoleRewards)
                       .Include(x => x.XpSettings)
@@ -132,24 +133,25 @@ public static class GuildConfigExtensions
            .AsNoTracking()
            .Where(x => availableGuilds.Contains(x.GuildId))
            .ToList();
-    public static GuildConfig LogSettingsFor(this MewdekoContext ctx, ulong guildId)
+    
+    public static async Task<GuildConfig> LogSettingsFor(this MewdekoContext ctx, ulong guildId)
     {
-        var config = ctx.GuildConfigs
+        var config = await ctx.GuildConfigs
                      .AsQueryable()
                      .Include(gc => gc.LogSetting)
                      .ThenInclude(gc => gc.IgnoredChannels)
-                     .FirstOrDefault(x => x.GuildId == guildId);
+                     .FirstOrDefaultAsyncEF(x => x.GuildId == guildId);
 
         if (config == null)
         {
-            ctx.Add(config = new GuildConfig
+            await ctx.AddAsync(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
                 WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments
             });
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
 
         if (config.WarningsInitialized) return config;
