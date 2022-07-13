@@ -22,7 +22,7 @@ public sealed class DanbooruImageDownloader : DapiImageDownloader
 
         var tags = await _http.GetFromJsonAsync<DapiTag[]>($"{_baseUrl}/tags.json?search[name_or_alias_matches]={tag}",
             options: _serializerOptions,
-            cancellationToken: cancel);
+            cancellationToken: cancel).ConfigureAwait(false);
         if (tags is { Length: > 0 })
         {
             return _existentTags[tag] = true;

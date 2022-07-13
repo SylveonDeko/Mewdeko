@@ -13,12 +13,12 @@ public class ActivityService : INService
         _guildSettings = guildSettings;
     }
 
-    public ulong GetGameMasterRole(ulong guildId) => _guildSettings.GetGuildConfig(guildId).GameMasterRole;
+    public async Task<ulong> GetGameMasterRole(ulong guildId) => (await _guildSettings.GetGuildConfig(guildId)).GameMasterRole;
 
     public async Task GameMasterRoleSet(ulong guildid, ulong role)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildid, set => set);
+        var gc = await uow.ForGuildId(guildid, set => set);
         gc.GameMasterRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guildid, gc);

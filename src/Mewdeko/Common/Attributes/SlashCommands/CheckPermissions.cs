@@ -9,10 +9,10 @@ namespace Mewdeko.Common.Attributes.SlashCommands;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class CheckPermissions : PreconditionAttribute
 {
-    public override Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
+    public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
         ICommandInfo executingCommand, IServiceProvider services)
     {
-        if (context.Guild is null) return Task.FromResult(PreconditionResult.FromSuccess());
+        if (context.Guild is null) return PreconditionResult.FromSuccess();
         var commandname = executingCommand.MethodName.ToLower() switch
         {
             "addhighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
@@ -34,12 +34,12 @@ public sealed class CheckPermissions : PreconditionAttribute
         };
         if (executingCommand.Module.SlashGroupName?.ToLower() == "snipe")
             groupname = "utility";
-        var pc = perms.GetCacheFor(context.Guild.Id);
+        var pc = await perms.GetCacheFor(context.Guild.Id);
         var index = 0;
-        return Task.FromResult(
+        return 
             pc.Permissions != null && pc.Permissions.CheckSlashPermissions(groupname, commandname, context.User, context.Channel, out index)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError(perms.Strings.GetText("perm_prevent", context.Guild.Id, index + 1,
-                    Format.Bold(pc.Permissions[index].GetCommand(guildSettingsService.GetPrefix(context.Guild), context.Guild as SocketGuild)))));
+                    Format.Bold(pc.Permissions[index].GetCommand(await guildSettingsService.GetPrefix(context.Guild), context.Guild as SocketGuild))));
     }
 }

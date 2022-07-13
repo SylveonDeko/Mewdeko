@@ -30,7 +30,7 @@ public partial class Moderation
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
-        public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
+        public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
@@ -38,18 +38,18 @@ public partial class Moderation
         {
             if (yesnt.StartsWith("n"))
             {
-                await Service.Removeonmute(ctx.Guild, "n");
-                await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!");
+                await Service.Removeonmute(ctx.Guild, "n").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!").ConfigureAwait(false);
             }
 
             if (yesnt.StartsWith("y"))
             {
-                await Service.Removeonmute(ctx.Guild, "y");
-                await ctx.Channel.SendConfirmAsync("Removing roles on mute has been enabled!");
+                await Service.Removeonmute(ctx.Guild, "y").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Removing roles on mute has been enabled!").ConfigureAwait(false);
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.");
+                await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.").ConfigureAwait(false);
             }
         }
 
@@ -59,19 +59,19 @@ public partial class Moderation
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
-            await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
+            await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
             if (time is null)
-                await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel!");
+                await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel!").ConfigureAwait(false);
             if (time != null)
             {
-                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
+                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync(
-                    $"{user} has been muted in this channel for {time.Time.Humanize()}!");
-                await Task.Delay((int)time.Time.TotalMilliseconds);
+                    $"{user} has been muted in this channel for {time.Time.Humanize()}!").ConfigureAwait(false);
+                await Task.Delay((int)time.Time.TotalMilliseconds).ConfigureAwait(false);
                 try
                 {
                     await channel.AddPermissionOverwriteAsync(user,
-                        currentPerms.Modify(sendMessages: PermValue.Inherit));
+                        currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -84,31 +84,31 @@ public partial class Moderation
          UserPerm(GuildPermission.Administrator)]
         public async Task UnmuteAll([Remainder] string? reason = null)
         {
-            var users = (await ctx.Guild.GetUsersAsync())
+            var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
                            .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
             if (!users.Any())
             {
-                await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.");
+                await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.").ConfigureAwait(false);
                 return;
             }
             if (await PromptUserConfirmAsync(
                     new EmbedBuilder().WithOkColor().WithDescription(
                         "Are you absolutely sure you want to unmute ***all*** users? This action is irreversible."),
-                    ctx.User.Id))
+                    ctx.User.Id).ConfigureAwait(false))
             {
                 if (reason is null)
                 {
-                    if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Would you like to add a reason for the unmute?"), ctx.User.Id))
+                    if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Would you like to add a reason for the unmute?"), ctx.User.Id).ConfigureAwait(false))
                     {
-                        var msg = await ctx.Channel.SendMessageAsync("Please type out the unmute reason.");
-                        reason = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                        var msg = await ctx.Channel.SendMessageAsync("Please type out the unmute reason.").ConfigureAwait(false);
+                        reason = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                         var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
-                        await msg.ModifyAsync(x => x.Embed = eb.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                         foreach (var i in users)
                         {
                             try
                             {
-                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason);
+                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason).ConfigureAwait(false);
                             }
                             catch
                             {
@@ -117,17 +117,17 @@ public partial class Moderation
                         }
 
                         await msg.ModifyAsync(x =>
-                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build()).ConfigureAwait(false);
                     }
                     else
                     {
                         var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
-                        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                         foreach (var i in users)
                         {
                             try
                             {
-                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User);
+                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User).ConfigureAwait(false);
                             }
                             catch
                             {
@@ -136,18 +136,18 @@ public partial class Moderation
                         }
 
                         await msg.ModifyAsync(x =>
-                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build()).ConfigureAwait(false);
                     }
                 }
                 else
                 {
                     var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
-                    var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                    var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                     foreach (var i in users)
                     {
                         try
                         {
-                            await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason);
+                            await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -156,7 +156,7 @@ public partial class Moderation
                     }
 
                     await msg.ModifyAsync(x =>
-                        x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                        x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build()).ConfigureAwait(false);
                 }
             }
         }
@@ -167,8 +167,8 @@ public partial class Moderation
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
-            await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
-            await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
+            await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -202,7 +202,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, target).ConfigureAwait(false))
                     return;
 
                 await Service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
@@ -218,7 +218,7 @@ public partial class Moderation
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(2)]
-        public async Task Mute(IGuildUser user, StoopidTime time, string reason = "") => await Mute(time, user, reason);
+        public async Task Mute(IGuildUser user, StoopidTime time, string reason = "") => await Mute(time, user, reason).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(1)]
@@ -228,7 +228,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
@@ -264,7 +264,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
@@ -303,7 +303,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
@@ -324,7 +324,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
@@ -344,7 +344,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);

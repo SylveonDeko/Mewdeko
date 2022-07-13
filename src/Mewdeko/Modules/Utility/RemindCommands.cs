@@ -32,7 +32,7 @@ public partial class Utility
         {
             if (!Service.TryParseRemindMessage(remindString, out var remindData))
             {
-                await ReplyErrorLocalizedAsync("remind_invalid");
+                await ReplyErrorLocalizedAsync("remind_invalid").ConfigureAwait(false);
                 return;
             }
 
@@ -58,7 +58,7 @@ public partial class Utility
 
             if (!Service.TryParseRemindMessage(remindString, out var remindData))
             {
-                await ReplyErrorLocalizedAsync("remind_invalid");
+                await ReplyErrorLocalizedAsync("remind_invalid").ConfigureAwait(false);
                 return;
             }
 
@@ -80,10 +80,11 @@ public partial class Utility
                 .WithTitle(GetText("reminder_list"));
 
             List<Reminder> rems;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
-                    .ToList();
+                          .ToList();
             }
 
             if (rems.Count > 0)
@@ -116,10 +117,11 @@ public partial class Utility
                 return;
 
             Reminder? rem = null;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
-                    .ToList();
+                              .ToList();
                 var pageIndex = index % 10;
                 if (rems.Count > pageIndex)
                 {
@@ -158,7 +160,8 @@ public partial class Utility
                 ServerId = ctx.Guild?.Id ?? 0
             };
 
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 uow.Reminders.Add(rem);
                 await uow.SaveChangesAsync().ConfigureAwait(false);

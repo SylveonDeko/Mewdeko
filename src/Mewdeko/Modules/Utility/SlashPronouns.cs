@@ -22,35 +22,35 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     }
 
     [ComponentInteraction("pronouns_overwrite", true)]
-    public async Task OverwritePronouns() => await RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal");
+    public async Task OverwritePronouns() => await RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal").ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
     {
         await using var uow = _db.GetDbContext();
-        var user = uow.GetOrCreateUser(ctx.User);
+        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         user.Pronouns = "";
-        await uow.SaveChangesAsync();
-        await ConfirmLocalizedAsync("pronouns_cleared_self");
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await ConfirmLocalizedAsync("pronouns_cleared_self").ConfigureAwait(false);
     }
 
     [ModalInteraction("pronouns_overwrite_modal", true)]
     public async Task PronounsOverwriteModal(PronounsModal modal)
     {
         await using var uow = _db.GetDbContext();
-        var user = uow.GetOrCreateUser(ctx.User);
+        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         user.Pronouns = modal.Pronouns;
-        await uow.SaveChangesAsync();
-        await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
     [ComponentInteraction("pronouns_report.*;", true)]
     public async Task ReportPronouns(string sId)
     {
         await using var uow = _db.GetDbContext();
-        var reporter = uow.GetOrCreateUser(ctx.User);
+        var reporter = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
 
         if (await PronounsDisabled(reporter).ConfigureAwait(false)) return;
 
@@ -87,30 +87,30 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
                  .WithButton("DM Guild Owner", $"pronouns_reportdm:{ctx.Guild.OwnerId}", ButtonStyle.Danger, row: 2);
 
         await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
-        await EphemeralReplyConfirmLocalizedAsync("pronouns_reported");
+        await EphemeralReplyConfirmLocalizedAsync("pronouns_reported").ConfigureAwait(false);
     }
 
     [ComponentInteraction("pronouns_clear:*,*", true), SlashOwnerOnly]
     public async Task ClearPronouns(string sId, string sDisable) =>
         await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>(
-            $"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns"));
+            $"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns")).ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist:*", true), SlashOwnerOnly]
     public async Task BlacklistPronouns(string sId) =>
         await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
-            x => x.WithTitle("Blacklist User and Clear Pronouns"));
+            x => x.WithTitle("Blacklist User and Clear Pronouns")).ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist_guild:*", true), SlashOwnerOnly]
     public async Task BlacklistGuildPronouns(string sId) =>
         await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null,
-            x => x.WithTitle("Blacklist Guild"));
+            x => x.WithTitle("Blacklist Guild")).ConfigureAwait(false);
 
     [ModalInteraction("pronouns_fcb_g:*", true), SlashOwnerOnly]
     public async Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
     {
         var id = ulong.Parse(sId);
         _bss.Blacklist(BlacklistType.Server, id, modal.FcbReason);
-        await RespondAsync("blacklisted the server");
+        await RespondAsync("blacklisted the server").ConfigureAwait(false);
     }
 
     [ModalInteraction("pronouns_fc_action:*,*,*", true), SlashOwnerOnly]
@@ -140,23 +140,23 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     public async Task GetPronouns(IUser? user)
     {
         await using var uow = _db.GetDbContext();
-        var dbUser = uow.GetOrCreateUser(user);
+        var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         if (await PronounsDisabled(dbUser).ConfigureAwait(false)) return;
-        var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id);
+        var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id).ConfigureAwait(false);
         var cb = new ComponentBuilder();
         if (!pronouns.PronounDb)
             cb.WithButton(GetText("pronouns_report_button"), $"pronouns_report.{user.Id};", ButtonStyle.Danger);
         await RespondAsync(GetText(
             pronouns.PronounDb
                 ? pronouns.Pronouns.Contains(' ') ? "pronouns_pndb_special" : "pronouns_pndb_get"
-                : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), components: cb.Build(), ephemeral: true);
+                : "pronouns_internal_get", user.ToString(), pronouns.Pronouns), components: cb.Build(), ephemeral: true).ConfigureAwait(false);
     }
 
     [SlashCommand("override", "Override your default pronouns"), CheckPermissions]
     public async Task PronounOverride(string? pronouns = null)
     {
         await using var uow = _db.GetDbContext();
-        var user = uow.GetOrCreateUser(ctx.User);
+        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         if (string.IsNullOrWhiteSpace(pronouns))
         {
@@ -179,24 +179,24 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
 
     [ComponentInteraction("pronouns_reportdm:*", true), SlashOwnerOnly]
     public async Task DmUser(string uIdStr) =>
-        await ctx.Interaction.RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"));
+        await ctx.Interaction.RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user")).ConfigureAwait(false);
 
     [ModalInteraction("pronouns_reportdm_modal:*", true), SlashOwnerOnly]
     public async Task DmUserModal(string uIdStr, DmUserModal modal)
     {
         try
         {
-            var user = await ctx.Client.GetUserAsync(ulong.Parse(uIdStr));
-            var channel = await user.CreateDMChannelAsync();
+            var user = await ctx.Client.GetUserAsync(ulong.Parse(uIdStr)).ConfigureAwait(false);
+            var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
             if (SmartEmbed.TryParse(modal.Message, ctx.Guild.Id, out var eb, out var txt, out var cb))
-                await channel.SendMessageAsync(txt, embeds: eb, components: cb.Build());
+                await channel.SendMessageAsync(txt, embeds: eb, components: cb.Build()).ConfigureAwait(false);
             else
-                await channel.SendMessageAsync(modal.Message);
-            await RespondAsync($"sent a dm to <@{ulong.Parse(uIdStr)}>");
+                await channel.SendMessageAsync(modal.Message).ConfigureAwait(false);
+            await RespondAsync($"sent a dm to <@{ulong.Parse(uIdStr)}>").ConfigureAwait(false);
         }
         catch
         {
-            await RespondAsync("Failed to dm user.");
+            await RespondAsync("Failed to dm user.").ConfigureAwait(false);
         }
     }
 }

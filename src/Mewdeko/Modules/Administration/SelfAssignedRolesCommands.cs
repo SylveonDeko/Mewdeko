@@ -26,7 +26,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
         public async Task AdSarm()
         {
-            var newVal = Service.ToggleAdSarm(ctx.Guild.Id);
+            var newVal = await Service.ToggleAdSarm(ctx.Guild.Id);
 
             if (newVal)
                 await ReplyConfirmLocalizedAsync("adsarm_enable", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
@@ -36,7 +36,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task Asar([Remainder] IRole role) => Asar(0, role);
+        public async Task Asar([Remainder] IRole role) => await Asar(0, role);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
@@ -46,7 +46,7 @@ public partial class Administration
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                 return;
 
-            var succ = Service.AddNew(ctx.Guild.Id, role, group);
+            var succ = await Service.AddNew(ctx.Guild.Id, role, group);
 
             if (succ)
             {
@@ -85,7 +85,7 @@ public partial class Administration
             if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                 return;
 
-            var success = Service.RemoveSar(role.Guild.Id, role.Id);
+            var success = await Service.RemoveSar(role.Guild.Id, role.Id);
             if (!success)
                 await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
             else
@@ -95,7 +95,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Lsar()
         {
-            var (exclusive, roles, groups) = Service.GetRoles(ctx.Guild);
+            var (exclusive, roles, groups) = await Service.GetRoles(ctx.Guild);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -158,7 +158,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task Togglexclsar()
         {
-            var areExclusive = Service.ToggleEsar(ctx.Guild.Id);
+            var areExclusive = await Service.ToggleEsar(ctx.Guild.Id);
             if (areExclusive)
                 await ReplyConfirmLocalizedAsync("self_assign_excl").ConfigureAwait(false);
             else
@@ -172,7 +172,7 @@ public partial class Administration
             if (level < 0)
                 return;
 
-            var succ = Service.SetLevelReq(ctx.Guild.Id, role, level);
+            var succ = await Service.SetLevelReq(ctx.Guild.Id, role, level);
 
             if (!succ)
             {

@@ -53,7 +53,7 @@ public class PicartoProvider : Provider
         var data = await GetStreamDataAsync(new List<string>
         {
             login
-        });
+        }).ConfigureAwait(false);
 
         return data.FirstOrDefault();
     }
@@ -71,13 +71,13 @@ public class PicartoProvider : Provider
             {
                 http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 // get id based on the username
-                var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
+                var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}").ConfigureAwait(false);
 
                 if (!res.IsSuccessStatusCode)
                     continue;
 
                 var userData =
-                    JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync())!;
+                    JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync().ConfigureAwait(false))!;
 
                 toReturn.Add(ToStreamData(userData));
                 _failingStreams.TryRemove(login, out _);

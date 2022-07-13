@@ -46,7 +46,7 @@ public partial class Permissions
         [Cmd, Aliases]
         public async Task ResetGlobalPerms()
         {
-            await Service.Reset();
+            await Service.Reset().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("global_perms_reset").ConfigureAwait(false);
         }
 

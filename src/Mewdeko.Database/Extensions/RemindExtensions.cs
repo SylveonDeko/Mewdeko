@@ -1,14 +1,15 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
 
 public static class RemindExtensions
 {
-    public static IEnumerable<Reminder> GetIncludedReminders(this DbSet<Reminder> reminders, IEnumerable<ulong> guildIds)
-        => reminders.AsQueryable()
+    public static async Task<IEnumerable<Reminder>> GetIncludedReminders(this DbSet<Reminder> reminders, IEnumerable<ulong> guildIds)
+        => await reminders.AsQueryable()
                     .Where(x => guildIds.Contains(x.ServerId) || x.ServerId == 0)
-                    .ToList();
+                    .ToListAsyncLinqToDB();
 
     public static IEnumerable<Reminder> RemindersFor(this DbSet<Reminder> reminders, ulong userId, int page)
         => reminders.AsQueryable()

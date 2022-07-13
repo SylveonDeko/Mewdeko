@@ -37,26 +37,26 @@ public partial class Moderation
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
                 return;
-            var mWarnlogChannel = Service.GetMWarnlogChannel(ctx.Guild.Id);
+            var mWarnlogChannel = await Service.GetMWarnlogChannel(ctx.Guild.Id);
             if (mWarnlogChannel == channel.Id)
             {
-                await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!");
+                await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!").ConfigureAwait(false);
                 return;
             }
 
             if (mWarnlogChannel == 0)
             {
-                await Service.SetMWarnlogChannelId(ctx.Guild, channel);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
-                await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}");
+                await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}").ConfigureAwait(false);
                 return;
             }
 
-            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
-            await Service.SetMWarnlogChannelId(ctx.Guild, channel);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel);
+            var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
+            await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
+            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
+                $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -108,7 +108,7 @@ public partial class Moderation
                                 Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
             }
 
-            if (Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
+            if (await Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
             {
                 var uow = _db.GetDbContext();
                 var warnings = uow.Warnings2
@@ -117,13 +117,13 @@ public partial class Moderation
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).Humanize() : " ";
                 var punishaction = condition ? punishment.Punishment.ToString() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(Service.GetMWarnlogChannel(ctx.Guild.Id));
+                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetMWarnlogChannel(ctx.Guild.Id)).ConfigureAwait(false);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                    .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                    .WithTitle($"Mini Warned by: {ctx.User}")
-                    .WithCurrentTimestamp()
-                    .WithDescription(
-                        $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})"));
+                                                           .WithThumbnailUrl(user.RealAvatarUrl().ToString())
+                                                           .WithTitle($"Mini Warned by: {ctx.User}")
+                                                           .WithCurrentTimestamp()
+                                                           .WithDescription(
+                                                               $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})")).ConfigureAwait(false);
             }
         }
 
@@ -237,7 +237,7 @@ public partial class Moderation
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 {
                     var ws = warnings.Skip(page * 15)
                         .Take(15)
@@ -268,7 +268,7 @@ public partial class Moderation
         {
             if (index < 0)
                 return;
-            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
+            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString()).ConfigureAwait(false);
             var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
             if (index == 0)
             {
@@ -293,7 +293,7 @@ public partial class Moderation
         public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
         {
             const PunishmentAction punish = PunishmentAction.AddRole;
-            var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
+            var success = await Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
 
             if (!success)
                 return;
@@ -321,7 +321,7 @@ public partial class Moderation
             if (punish == PunishmentAction.AddRole)
                 return;
 
-            var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time);
+            var success = await Service.WarnPunish(ctx.Guild.Id, number, punish, time);
 
             if (!success)
                 return;
@@ -345,7 +345,7 @@ public partial class Moderation
          UserPerm(GuildPermission.Administrator)]
         public async Task MWarnPunish(int number)
         {
-            if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
+            if (!await Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
             await ReplyConfirmLocalizedAsync("warn_punish_rem",
                 Format.Bold(number.ToString())).ConfigureAwait(false);
@@ -354,7 +354,7 @@ public partial class Moderation
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task MWarnPunishList()
         {
-            var ps = Service.WarnPunishList(ctx.Guild.Id);
+            var ps = await Service.WarnPunishList(ctx.Guild.Id);
 
             string? list;
             if (ps.Length > 0)

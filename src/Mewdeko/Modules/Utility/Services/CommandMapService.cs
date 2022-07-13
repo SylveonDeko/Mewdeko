@@ -62,14 +62,13 @@ public class CommandMapService : IInputTransformer, INService
         return input;
     }
 
-    public int ClearAliases(ulong guildId)
+    public async Task<int> ClearAliases(ulong guildId)
     {
         AliasMaps.TryRemove(guildId, out _);
 
-        int count;
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
-        count = gc.CommandAliases.Count;
+        var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
+        int count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
         uow.SaveChanges();
 

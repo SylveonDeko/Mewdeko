@@ -19,17 +19,17 @@ public class UserPunishService2 : INService
         _db = db;
         _guildSettings = guildSettings;
 
-        _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
+        _ = new Timer(async _ => await CheckAllWarnExpiresAsync().ConfigureAwait(false), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    public ulong GetMWarnlogChannel(ulong? id)
-        => _guildSettings.GetGuildConfig(id.Value).MiniWarnlogChannelId;
+    public async Task<ulong> GetMWarnlogChannel(ulong? id)
+        => (await _guildSettings.GetGuildConfig(id.Value)).MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MiniWarnlogChannelId = channel.Id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -55,14 +55,15 @@ public class UserPunishService2 : INService
 
         var warnings = 1;
         List<WarningPunishment2> ps;
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            ps = uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2))
-                .WarnPunishments2;
+            ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)))
+                    .WarnPunishments2;
 
             warnings += uow.Warnings2
-                .ForId(guildId, userId)
-                .Count(w => !w.Forgiven && w.UserId == userId);
+                           .ForId(guildId, userId)
+                           .Count(w => !w.Forgiven && w.UserId == userId);
 
             uow.Warnings2.Add(warn2);
 
@@ -183,11 +184,11 @@ SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 0)
 	AND Forgiven = 0
-	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
+	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));").ConfigureAwait(false);
 
         var deleted = await uow.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings2
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 1)
-	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
+	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));").ConfigureAwait(false);
 
         if (cleared > 0 || deleted > 0)
             Log.Information($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
@@ -196,7 +197,7 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
     public async Task CheckWarnExpiresAsync(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-        var config = uow.ForGuildId(guildId, inc => inc);
+        var config = await uow.ForGuildId(guildId, inc => inc);
 
         if (config.WarnExpireHours == 0)
             return;
@@ -210,12 +211,12 @@ SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId={guildId}
     AND Forgiven = 0
-    AND DateAdded < datetime('now', {hours})");
+    AND DateAdded < datetime('now', {hours})").ConfigureAwait(false);
                 break;
             case WarnExpireAction.Delete:
                 await uow.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings2
 WHERE GuildId={guildId}
-    AND DateAdded < datetime('now', {hours})");
+    AND DateAdded < datetime('now', {hours})").ConfigureAwait(false);
                 break;
         }
 
@@ -224,9 +225,10 @@ WHERE GuildId={guildId}
 
     public async Task WarnExpireAsync(ulong guildId, int days, bool delete)
     {
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.ForGuildId(guildId, inc => inc);
+            var config = await uow.ForGuildId(guildId, inc => inc);
 
             config.WarnExpireHours = days * 24;
             config.WarnExpireAction = delete ? WarnExpireAction.Delete : WarnExpireAction.Clear;
@@ -237,7 +239,7 @@ WHERE GuildId={guildId}
                 return;
         }
 
-        await CheckWarnExpiresAsync(guildId);
+        await CheckWarnExpiresAsync(guildId).ConfigureAwait(false);
     }
 
     public IGrouping<ulong, Warning2>[] WarnlogAll(ulong gid)
@@ -257,15 +259,15 @@ WHERE GuildId={guildId}
         var toReturn = true;
         await using var uow = _db.GetDbContext();
         if (index == 0)
-            await uow.Warnings2.ForgiveAll(guildId, userId, moderator);
+            await uow.Warnings2.ForgiveAll(guildId, userId, moderator).ConfigureAwait(false);
         else
-            toReturn = uow.Warnings2.Forgive(guildId, userId, moderator, index - 1);
+            toReturn = await uow.Warnings2.Forgive(guildId, userId, moderator, index - 1);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return toReturn;
     }
 
-    public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
+    public async Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
     {
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
@@ -273,8 +275,8 @@ WHERE GuildId={guildId}
         if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
             return false;
 
-        using var uow = _db.GetDbContext();
-        var ps = uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)).WarnPunishments2;
+        await using var uow = _db.GetDbContext();
+        var ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2))).WarnPunishments2;
         var toDelete = ps.Where(x => x.Count == number);
 
         uow.RemoveRange(toDelete);
@@ -286,33 +288,33 @@ WHERE GuildId={guildId}
             Time = (int?)time?.Time.TotalMinutes ?? 0,
             RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool WarnPunishRemove(ulong guildId, int number)
+    public async Task<bool> WarnPunishRemove(ulong guildId, int number)
     {
         if (number <= 0)
             return false;
 
-        using var uow = _db.GetDbContext();
-        var ps = uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)).WarnPunishments2;
+        await using var uow = _db.GetDbContext();
+        var ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2))).WarnPunishments2;
         var p = ps.Find(x => x.Count == number);
 
         if (p == null) return true;
         uow.Remove(p);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public WarningPunishment2[] WarnPunishList(ulong guildId)
+    public async Task<WarningPunishment2[]> WarnPunishList(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
-        return uow.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments2))
-            .WarnPunishments2
-            .OrderBy(x => x.Count)
-            .ToArray();
+        await using var uow = _db.GetDbContext();
+        return (await uow.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments2)))
+               .WarnPunishments2
+               .OrderBy(x => x.Count)
+               .ToArray();
     }
 }

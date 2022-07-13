@@ -127,7 +127,7 @@ public class LogCommandService : INService
     public async Task RunCacheClear()
     {
         var timer = new PeriodicTimer(TimeSpan.FromHours(1));
-        while (await timer.WaitForNextTickAsync())
+        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             _ignoreMessageIds.Clear();
         }
@@ -136,12 +136,12 @@ public class LogCommandService : INService
 
     public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
 
-    public bool LogIgnore(ulong gid, ulong cid)
+    public async Task<bool> LogIgnore(ulong gid, ulong cid)
     {
         int removed;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var config = uow.LogSettingsFor(gid);
+            var config = await uow.LogSettingsFor(gid);
             var logSetting = GuildLogSettings.GetOrAdd(gid, _ => config.LogSetting);
             removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
             config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
@@ -152,7 +152,7 @@ public class LogCommandService : INService
                 config.LogSetting.IgnoredChannels.Add(toAdd);
             }
 
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return removed > 0;
@@ -161,14 +161,15 @@ public class LogCommandService : INService
     {
         _ = Task.Factory.StartNew(async () =>
         {
-            await using var uow = _db.GetDbContext();
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
             uow.Nicknames.Add(new Nicknames
             {
                 GuildId = socketGuildUser.Guild.Id,
                 UserId = socketGuildUser.Id,
                 Nickname = socketGuildUser.Nickname
             });
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -177,13 +178,14 @@ public class LogCommandService : INService
     {
         _ = Task.Factory.StartNew(async () =>
         {
-            await using var uow = _db.GetDbContext();
+            var uow = _db.GetDbContext();
+            await using var _ = uow.ConfigureAwait(false);
             uow.Usernames.Add(new Usernames
             {
                 UserId = user.Id,
                 Username = user.ToString()
             });
-            await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -201,7 +203,7 @@ public class LogCommandService : INService
     public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
         await using var uow = _db.GetDbContext();
-        var logSetting = uow.LogSettingsFor(guildId).LogSetting;
+        var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (type)
         {
@@ -282,12 +284,12 @@ public class LogCommandService : INService
                 break;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var uow = _db.GetDbContext();
-        var logSetting = uow.LogSettingsFor(guildId).LogSetting;
+        var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (categoryTypes)
         {
@@ -389,7 +391,7 @@ public class LogCommandService : INService
                 break;
         }
 
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
@@ -398,7 +400,8 @@ public class LogCommandService : INService
         {
             try
             {
-                await using var uow = _db.GetDbContext();
+                var uow = _db.GetDbContext();
+                await using var _ = uow.ConfigureAwait(false);
                 if (uAfter is not SocketGuildUser guildUser)
                     return;
 
@@ -421,16 +424,17 @@ public class LogCommandService : INService
 
                 if (before.ToString() != guildUser.ToString())
                 {
-                    var user = uow.GetOrCreateUser(guildUser);
+                    var user = uow.Usernames.FirstOrDefault(x => x.UserId == guildUser.Id); 
                     embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
                         .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.DiscordUser.GetUsernames(guildUser.Id).Count+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
+                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.Usernames.Count(x => x.UserId == guildUser.Id)+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
                         .WithOkColor().Build());
-                    var names = user.Usernames.Split("@").ToList();
-                    names.Add(guildUser.ToString());
-                    user.Usernames = string.Join("@", names);
-                    uow.DiscordUser.Update(user);
-                    await uow.SaveChangesAsync();
+                    if (user is null)
+                    {
+                        var toadd = new Usernames { Username = guildUser.ToString(), UserId = guildUser.Id };
+                        uow.Usernames.Add(toadd);
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                    }
                 }
                 else if (before.AvatarId != guildUser.AvatarId)
                 {
@@ -464,9 +468,9 @@ public class LogCommandService : INService
     public async Task UpdateCommandLogChannel(IGuild guild, ulong id)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CommandLogChannel = id;
-        await uow.SaveChangesAsync();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
@@ -715,7 +719,8 @@ public class LogCommandService : INService
                         .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
                     if (cacheable.Value.Nickname != after.Nickname)
                     {
-                        await using var uow = _db.GetDbContext();
+                        var uow = _db.GetDbContext();
+                        await using var _ = uow.ConfigureAwait(false);
                         var logChannel1 = logChannel;
                         embed.WithAuthor(eab => eab.WithName($"👥 {GetText(logChannel1.Guild, "nick_change")}"))
                              .WithDescription($"**Old Nickname**\n=> {cacheable.Value.Nickname ?? cacheable.Value.Username}\n**New Nickname**\n=> {after.Nickname ?? after.Username}\n**Nickname Chnaged Count**\n=> {uow.Nicknames.GetNicknames(after.Id, cacheable.Value.Guild.Id).Count()}\n**Changed On**\n=> {TimestampTag.FromDateTime(DateTime.UtcNow)}");
@@ -1091,7 +1096,7 @@ public class LogCommandService : INService
                     return;
                 }
 
-                var bannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Ban)).FirstOrDefault();
+                var bannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Ban).ConfigureAwait(false)).FirstOrDefault();
                 ITextChannel logChannel;
                 if ((logChannel =
                         await TryGetLogChannel(guild, logSetting, LogType.UserBanned).ConfigureAwait(false)) ==
@@ -1341,7 +1346,7 @@ public class LogCommandService : INService
 
         if (id is 0 or null)
         {
-            await SetLogChannel(guild.Id, id.GetValueOrDefault(), logChannelType);
+            await SetLogChannel(guild.Id, id.GetValueOrDefault(), logChannelType).ConfigureAwait(false);
             return null;
         }
 

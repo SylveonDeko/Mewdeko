@@ -13,7 +13,7 @@ public static class HttpContextExtensions
 
         var schemes = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
 
-        return (from scheme in await schemes.GetAllSchemesAsync()
+        return (from scheme in await schemes.GetAllSchemesAsync().ConfigureAwait(false)
             where !string.IsNullOrEmpty(scheme.DisplayName)
             select scheme).ToArray();
     }
@@ -25,7 +25,7 @@ public static class HttpContextExtensions
             throw new ArgumentNullException(nameof(context));
         }
 
-        return (from scheme in await context.GetExternalProvidersAsync()
+        return (from scheme in await context.GetExternalProvidersAsync().ConfigureAwait(false)
             where string.Equals(scheme.Name, provider, StringComparison.OrdinalIgnoreCase)
             select scheme).Any();
     }

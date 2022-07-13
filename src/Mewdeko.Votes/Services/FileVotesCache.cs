@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Votes.Services;
 
@@ -32,12 +33,12 @@ public class FileVotesCache
 
     private async ITask AddNewVote(string file, string userId)
     {
-        await _locker.WaitAsync();
+        await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
             var votes = await GetVotesAsync(file);
             votes.Add(userId);
-            await File.WriteAllTextAsync(file, JsonSerializer.Serialize(votes));
+            await File.WriteAllTextAsync(file, JsonSerializer.Serialize(votes)).ConfigureAwait(false);
         }
         finally
         {
@@ -57,11 +58,11 @@ public class FileVotesCache
 
     private async ITask<List<Vote>> EvictVotes(string file)
     {
-        await _locker.WaitAsync();
+        await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
             var ids = await GetVotesAsync(file);
-            await File.WriteAllTextAsync(file, "[]");
+            await File.WriteAllTextAsync(file, "[]").ConfigureAwait(false);
 
             return ids?
                    .Select(x => (Ok: ulong.TryParse(x, out var r), Id: r))
@@ -80,7 +81,8 @@ public class FileVotesCache
 
     private static async ITask<IList<string>> GetVotesAsync(string file)
     {
-        await using var fs = File.Open(file, FileMode.Open);
-        return await JsonSerializer.DeserializeAsync<List<string>>(fs);
+        var fs = File.Open(file, FileMode.Open);
+        await using var _ = fs.ConfigureAwait(false);
+        return await JsonSerializer.DeserializeAsync<List<string>>(fs).ConfigureAwait(false);
     }
 }

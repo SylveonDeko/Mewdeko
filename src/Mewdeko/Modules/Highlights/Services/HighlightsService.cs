@@ -26,17 +26,17 @@ public class HighlightsService : INService, IReadyExecutor
         while (true)
         {
             bool res;
-            var (msg, compl) = await _highlightQueue.Reader.ReadAsync();
+            var (msg, compl) = await _highlightQueue.Reader.ReadAsync().ConfigureAwait(false);
             try
             {
-                res = await ExecuteHighlights(msg);
+                res = await ExecuteHighlights(msg).ConfigureAwait(false);
             }
             catch
             {
                 continue;
             }
             compl.TrySetResult(res);
-            await Task.Delay(2000);
+            await Task.Delay(2000).ConfigureAwait(false);
         }
     }
     private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
@@ -44,7 +44,7 @@ public class HighlightsService : INService, IReadyExecutor
         if (arg1.Value is not IGuildUser user)
             return;
 
-        await _cache.TryAddHighlightStagger(user.GuildId, user.Id);
+        await _cache.TryAddHighlightStagger(user.GuildId, user.Id).ConfigureAwait(false);
     }
 
     public async Task OnReadyAsync()
@@ -54,8 +54,8 @@ public class HighlightsService : INService, IReadyExecutor
         var allHighlightSettings = uow.HighlightSettings.AllHighlightSettings();
         foreach (var i in (IReadOnlyCollection<SocketGuild>)_client.Guilds)
         {
-            await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList());
-            await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList());
+            await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);
+            await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);
         }
         Log.Information("Highlights Cached.");
     }
@@ -65,8 +65,8 @@ public class HighlightsService : INService, IReadyExecutor
         _ = Task.Factory.StartNew(async () =>
         {
             var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            await _highlightQueue.Writer.WriteAsync((message, completionSource));
-            return await completionSource.Task;
+            await _highlightQueue.Writer.WriteAsync((message, completionSource)).ConfigureAwait(false);
+            return await completionSource.Task.ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -91,7 +91,7 @@ public class HighlightsService : INService, IReadyExecutor
             return true;
         foreach (var i in (List<Database.Models.Highlights>)(from h in highlightWords where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b") select h).ToList())
         {
-            if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
+            if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId).ConfigureAwait(false))
                 continue;
             if (usersDMd.Contains(i.UserId))
                 continue;
@@ -110,16 +110,16 @@ public class HighlightsService : INService, IReadyExecutor
                 }
             }
 
-            if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
+            if (!await _cache.TryAddHighlightStaggerUser(i.UserId).ConfigureAwait(false))
                 continue;
-            var user = await channel.Guild.GetUserAsync(i.UserId);
+            var user = await channel.Guild.GetUserAsync(i.UserId).ConfigureAwait(false);
             var permissions = user.GetPermissions(channel);
             IEnumerable<IMessage> messages;
             if (!permissions.ViewChannel)
                 continue;
             try
             {
-                messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()).Append(message);
+                messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync().ConfigureAwait(false)).Append(message);
             }
             catch
             {
@@ -138,7 +138,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 await user.SendMessageAsync(
                     $"In {Format.Bold(channel.Guild.Name)} {channel.Mention} you were mentioned with highlight word {i.Word}",
-                    embed: eb.Build(), components: cb.Build());
+                    embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
                 usersDMd.Add(user.Id);
             }
             catch
@@ -158,7 +158,7 @@ public class HighlightsService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights?>();
         current.Add(toadd);
-        await _cache.AddHighlightToCache(guildId, current);
+        await _cache.AddHighlightToCache(guildId, current).ConfigureAwait(false);
     }
 
     public async Task ToggleHighlights(ulong guildId, ulong userId, bool enabled)
@@ -179,7 +179,7 @@ public class HighlightsService : INService, IReadyExecutor
             await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
-            await _cache.AddHighlightSettingToCache(guildId, current1);
+            await _cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
         }
 
         toupdate.HighlightsOn = enabled;
@@ -187,7 +187,7 @@ public class HighlightsService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
-        await _cache.AddHighlightSettingToCache(guildId, current);
+        await _cache.AddHighlightSettingToCache(guildId, current).ConfigureAwait(false);
     }
     public async Task<bool> ToggleIgnoredChannel(ulong guildId, ulong userId, string channelId)
     {
@@ -211,7 +211,7 @@ public class HighlightsService : INService, IReadyExecutor
             await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
-            await _cache.AddHighlightSettingToCache(guildId, current1);
+            await _cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
             return ignored;
         }
         var toedit = toupdate.IgnoredChannels.Split(" ").ToList();
@@ -230,7 +230,7 @@ public class HighlightsService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
-        await _cache.AddHighlightSettingToCache(guildId, current);
+        await _cache.AddHighlightSettingToCache(guildId, current).ConfigureAwait(false);
         return ignored;
     }
 
@@ -256,7 +256,7 @@ public class HighlightsService : INService, IReadyExecutor
             await uow.SaveChangesAsync().ConfigureAwait(false);
             var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
             current1.Add(toadd);
-            await _cache.AddHighlightSettingToCache(guildId, current1);
+            await _cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
             return ignored;
         }
         var toedit = toupdate.IgnoredUsers.Split(" ").ToList();
@@ -275,7 +275,7 @@ public class HighlightsService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
         current.Add(toupdate);
-        await _cache.AddHighlightSettingToCache(guildId, current);
+        await _cache.AddHighlightSettingToCache(guildId, current).ConfigureAwait(false);
         return ignored;
     }
 
@@ -290,7 +290,7 @@ public class HighlightsService : INService, IReadyExecutor
             toremove.Id = 0;
             current.Remove(toremove);
         }
-        await _cache.RemoveHighlightFromCache(toremove.GuildId, current);
+        await _cache.RemoveHighlightFromCache(toremove.GuildId, current).ConfigureAwait(false);
     }
 
     public List<Database.Models.Highlights?> GetForGuild(ulong guildId)

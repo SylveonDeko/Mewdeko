@@ -44,7 +44,7 @@ public class Help : MewdekoModuleBase<HelpService>
         if (!cmds.Any())
         {
             await ctx.Channel.SendErrorAsync(
-                "That command wasn't found! Please retry your search with a different term.");
+                "That command wasn't found! Please retry your search with a different term.").ConfigureAwait(false);
         }
         else
         {
@@ -53,28 +53,28 @@ public class Help : MewdekoModuleBase<HelpService>
             foreach (var i in cmds)
             {
                 cmdnames += $"\n{i.Name}";
-                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, _guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
+                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, await _guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
             var eb = new EmbedBuilder()
                      .WithOkColor()
                      .AddField("Command", cmdnames, true)
                      .AddField("Description", cmdremarks, true);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
 
     [Cmd, Aliases]
     public async Task Modules()
     {
-        var embed = Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
-        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build());
+        var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
+        await HelpService.AddUser(ctx.Message, DateTime.UtcNow).ConfigureAwait(false);
+        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
-            "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
+            "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!").ConfigureAwait(false);
 
     [Cmd, Aliases]
     public async Task Commands([Remainder] string? module = null)
@@ -82,10 +82,11 @@ public class Help : MewdekoModuleBase<HelpService>
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
         {
-            await Modules();
+            await Modules().ConfigureAwait(false);
             return;
         }
 
+        var prefix = await _guildSettings.GetPrefix(ctx.Guild);
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
@@ -128,37 +129,30 @@ public class Help : MewdekoModuleBase<HelpService>
             .Build();
 
         await _interactive.SendPaginatorAsync(paginator, Context.Channel,
-            TimeSpan.FromMinutes(60));
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{_guildSettings.GetPrefix(ctx.Guild) + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0],-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
             {
-                if (i == last - 1 && (i + 1) % 1 != 0)
-                {
-                    var grp = 0;
-                    var count = transformed.Count();
-                    transformed = transformed
-                        .GroupBy(_ => grp++ % count / 2)
-                        .Select(x =>
-                        {
-                            if (x.Count() == 1)
-                                return $"{x.First()}";
-                            return string.Concat(x);
-                        });
-                }
+                if (i != last - 1 || (i + 1) % 1 == 0) continue;
+                var grp = 0;
+                var count = transformed.Count();
+                transformed = transformed
+                              .GroupBy(_ => grp++ % count / 2)
+                              .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
             }
 
             return new PageBuilder()
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{_guildSettings.GetPrefix(ctx.Guild)}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
@@ -184,12 +178,12 @@ public class Help : MewdekoModuleBase<HelpService>
 
         if (com == null)
         {
-            await Modules();
+            await Modules().ConfigureAwait(false);
             return;
         }
 
         var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{com.Aliases[0]}", ButtonStyle.Success);
-        var embed = Service.GetCommandHelp(com, ctx.Guild);
+        var embed = await Service.GetCommandHelp(com, ctx.Guild);
         await channel.SendMessageAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
@@ -207,14 +201,14 @@ public class Help : MewdekoModuleBase<HelpService>
             .ToDictionary(
                 x => x.Key,
                 x => x.Distinct(commandInfo => commandInfo.Aliases[0])
-                    .Select(com =>
+                    .Select(async com =>
                     {
                         com.Module.GetTopLevelModule();
                         List<string> optHelpStr = null!;
                         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(attribute =>
                             attribute is MewdekoOptionsAttribute))?.OptionType;
                         if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
-                        var prefix = _guildSettings.GetPrefix(ctx.Guild);
+                        var prefix = await _guildSettings.GetPrefix(ctx.Guild);
                         return new CommandJsonObject
                         {
                             Aliases = com.Aliases.Select(alias => prefix + alias).ToArray(),
@@ -253,19 +247,19 @@ public class Help : MewdekoModuleBase<HelpService>
                 // either use a path provided in the argument or the default one for public Mewdeko, other/cmds.json
                 Key = path ?? "other/cmds.json",
                 CannedACL = S3CannedACL.PublicRead
-            });
+            }).ConfigureAwait(false);
         }
 
         // also send the file, but indented one, to chat
         await using var rDataStream = new MemoryStream(Encoding.ASCII.GetBytes(readableData));
         await ctx.Channel.SendFileAsync(rDataStream, "cmds.json", GetText("commandlist_regen"))
-            .ConfigureAwait(false);
+                 .ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
-    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
+    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech").ConfigureAwait(false);
     [Cmd, Aliases]
-    public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko");
+    public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko").ConfigureAwait(false);
 }
 
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>

@@ -174,7 +174,7 @@ public class FeedsService : INService
                             var channel = _client.GetGuild(feed1.GuildConfig.GuildId).GetTextChannel(feed1.ChannelId);
                             if (channel is null)
                                 continue;
-                            var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild?.Id);
+                            var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild?.Id).ConfigureAwait(false);
                             allSendTasks.Add(feed1.Message is "-" or null
                                 ? channel.SendMessageAsync(embeds: builder, components: components?.Build())
                                 : channel.SendMessageAsync(content, embeds: builder, components: components?.Build()));
@@ -193,7 +193,7 @@ public class FeedsService : INService
 
     public static async Task TestRss(FeedSub sub, ITextChannel channel)
     {
-        var feed = await FeedReader.ReadAsync(sub.Url);
+        var feed = await FeedReader.ReadAsync(sub.Url).ConfigureAwait(false);
         var (feedItem, _) = feed.Items
                                 .Select(item => (Item: item,
                                     LastUpdate: item.PublishingDate?.ToUniversalTime() ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate?.ToUniversalTime()))
@@ -256,9 +256,9 @@ public class FeedsService : INService
         embed.WithTitle(title.TrimTo(256));
         var desc = feedItem.Description?.StripHtml();
         if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
-        var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId);
-        if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
-        else await channel.SendMessageAsync(content, embeds: builder, components:components?.Build());
+        var (builder, content, components) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId).ConfigureAwait(false);
+        if (sub.Message is "-" or null) await channel.EmbedAsync(embed).ConfigureAwait(false);
+        else await channel.SendMessageAsync(content, embeds: builder, components:components?.Build()).ConfigureAwait(false);
     }
 
     private static Task<(Embed[]? builder, string? content, ComponentBuilder? components)> GetFeedEmbed(
@@ -268,17 +268,17 @@ public class FeedsService : INService
             ? Task.FromResult((embed, content, components))
             : Task.FromResult<(Embed[], string, ComponentBuilder)>((null, message, null));
 
-    public List<FeedSub?> GetFeeds(ulong guildId)
+    public async Task<List<FeedSub?>> GetFeeds(ulong guildId)
     {
         using var uow = _db.GetDbContext();
-        return uow.ForGuildId(guildId,
-                set => set.Include(x => x.FeedSubs))
+        return (await uow.ForGuildId(guildId,
+                set => set.Include(x => x.FeedSubs)))
             .FeedSubs
             .OrderBy(x => x.Id)
             .ToList();
     }
 
-    public bool AddFeed(ulong guildId, ulong channelId, string rssFeed)
+    public async Task<bool> AddFeed(ulong guildId, ulong channelId, string rssFeed)
     {
         rssFeed.ThrowIfNull(nameof(rssFeed));
 
@@ -289,7 +289,7 @@ public class FeedsService : INService
         };
 
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId,
+        var gc = await uow.ForGuildId(guildId,
             set => set.Include(x => x.FeedSubs));
 
         if (gc.FeedSubs.Any(x => string.Equals(x.Url, fs.Url, StringComparison.CurrentCultureIgnoreCase)))
@@ -297,7 +297,7 @@ public class FeedsService : INService
         if (gc.FeedSubs.Count >= 10) return false;
 
         gc.FeedSubs.Add(fs);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         //adding all, in case bot wasn't on this guild when it started
         foreach (var feed in gc.FeedSubs)
         {
@@ -316,7 +316,7 @@ public class FeedsService : INService
         if (index < 0)
             return false;
         await using var uow = _db.GetDbContext();
-        var items = uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs))
+        var items = (await uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs)))
                        .FeedSubs
                        .OrderBy(x => x.Id)
                        .ToList();
@@ -336,13 +336,13 @@ public class FeedsService : INService
         });
         return true;
     }
-    public bool RemoveFeed(ulong guildId, int index)
+    public async Task<bool> RemoveFeed(ulong guildId, int index)
     {
         if (index < 0)
             return false;
 
         using var uow = _db.GetDbContext();
-        var items = uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs))
+        var items = (await uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs)))
             .FeedSubs
             .OrderBy(x => x.Id)
             .ToList();
@@ -356,7 +356,7 @@ public class FeedsService : INService
             return old;
         });
         uow.Remove(toRemove);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }

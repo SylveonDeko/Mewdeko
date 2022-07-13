@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
@@ -13,15 +14,15 @@ public static class MiniWarningExtensions
         return query.ToArray();
     }
 
-    public static bool Forgive(this DbSet<Warning2> set, ulong guildId, ulong userId, string mod, int index)
+    public static async Task<bool> Forgive(this DbSet<Warning2> set, ulong guildId, ulong userId, string mod, int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        var warn = set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var warn = await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                       .OrderByDescending(x => x.DateAdded)
                       .Skip(index)
-                      .FirstOrDefault();
+                      .FirstOrDefaultAsyncEF();
 
         if (warn == null || warn.Forgiven)
             return false;
@@ -38,7 +39,7 @@ public static class MiniWarningExtensions
                      if (x.Forgiven) return;
                      x.Forgiven = true;
                      x.ForgivenBy = mod;
-                 });
+                 }).ConfigureAwait(false);
 
     public static Warning2[] GetForGuild(this DbSet<Warning2> set, ulong id) => set.AsQueryable().Where(x => x.GuildId == id).ToArray();
 }

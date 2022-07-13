@@ -65,11 +65,11 @@ If you are experiencing ratelimits, you should create your own application at: h
                 new TrovoRequestData
                 {
                     Username = login
-                });
+                }).ConfigureAwait(false);
 
             res.EnsureSuccessStatusCode();
 
-            var data = await res.Content.ReadFromJsonAsync<TrovoGetUsersResponse>();
+            var data = await res.Content.ReadFromJsonAsync<TrovoGetUsersResponse>().ConfigureAwait(false);
 
             if (data is null)
             {
@@ -115,9 +115,9 @@ If you are experiencing ratelimits, you should create your own application at: h
         foreach (var chunk in usernames.Chunk(10)
                                        .Select(x => x.Select(GetStreamDataAsync)))
         {
-            var chunkResults = await Task.WhenAll(chunk);
+            var chunkResults = await Task.WhenAll(chunk).ConfigureAwait(false);
             results.AddRange(chunkResults.Where(x => x is not null));
-            await Task.Delay(1000);
+            await Task.Delay(1000).ConfigureAwait(false);
         }
 
         return results;

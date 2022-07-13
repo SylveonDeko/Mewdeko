@@ -26,7 +26,7 @@ public partial class Utility
         {
             var eb = new EmbedBuilder().WithOkColor().WithTitle(role.Name)
                                        .AddField("Users in role",
-                                           (await ctx.Guild.GetUsersAsync()).Count(x => x.RoleIds.Contains(role.Id)))
+                                           (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
                                        .AddField("Is Mentionable", role.IsMentionable)
                                        .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
                                        .AddField("Is Managed", role.IsManaged)
@@ -35,7 +35,7 @@ public partial class Utility
                                        .AddField("Position", role.Position)
                                        .AddField("ID", role.Id)
                                        .WithThumbnailUrl(role.GetIconUrl());
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -47,57 +47,57 @@ public partial class Utility
             {
                 case null when channel == null:
                     await ctx.Channel.SendErrorAsync(
-                        "You arent in a voice channel, and you haven't mentioned either to use this command!");
+                        "You arent in a voice channel, and you haven't mentioned either to use this command!").ConfigureAwait(false);
                     return;
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 case null when channel is not null:
                     eb.WithTitle(channel.Name);
-                    eb.AddField("Users", (await channel.GetUsersAsync().FlattenAsync()).Count());
+                    eb.AddField("Users", (await channel.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count());
                     eb.AddField("Created On", channel.CreatedAt);
                     eb.AddField("Bitrate", channel.Bitrate);
                     eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
                     eb.AddField("Channel ID", channel.Id);
                     eb.WithOkColor();
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                     break;
             }
 
             if (voiceChannel is not null && channel is not null)
             {
                 eb.WithTitle(channel.Name);
-                eb.AddField("Users", (await channel.GetUsersAsync().FlattenAsync()).Count());
+                eb.AddField("Users", (await channel.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count());
                 eb.AddField("Created On", channel.CreatedAt);
                 eb.AddField("Bitrate", channel.Bitrate);
                 eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
                 eb.AddField("Channel ID", channel.Id);
                 eb.WithOkColor();
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
             if (voiceChannel is not null && channel is null)
             {
                 eb.WithTitle(voiceChannel.Name);
-                eb.AddField("Users", (await voiceChannel.GetUsersAsync().FlattenAsync()).Count());
+                eb.AddField("Users", (await voiceChannel.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count());
                 eb.AddField("Created On", voiceChannel.CreatedAt);
                 eb.AddField("Bitrate", voiceChannel.Bitrate);
                 eb.AddField("User Limit", voiceChannel.UserLimit == null ? "Infinite" : voiceChannel.UserLimit);
                 eb.AddField("Channel ID", voiceChannel.Id);
                 eb.WithOkColor();
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Fetch(ulong id)
         {
-            var usr = await _client.Rest.GetUserAsync(id);
+            var usr = await _client.Rest.GetUserAsync(id).ConfigureAwait(false);
             if (usr is null)
             {
-                var chans = await ctx.Guild.GetTextChannelsAsync();
+                var chans = await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false);
                 IUserMessage? message = null;
                 foreach (var i in chans)
                 {
-                    var e = await i.GetMessageAsync(id);
+                    var e = await i.GetMessageAsync(id).ConfigureAwait(false);
                     if (e is not null)
                         message = e as IUserMessage;
                 }
@@ -111,7 +111,7 @@ public partial class Utility
 
                 eb.WithAuthor(message.Author);
                 eb.AddField("Time Sent", message.Timestamp);
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
             else
             {
@@ -171,15 +171,15 @@ public partial class Utility
                             .TrimTo(1024)));
             }
 
-            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
-            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build()).ConfigureAwait(false);
+            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "moreinfo")
             {
                 var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
                 var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
                 embed
-                    .AddField("Bots", (await ctx.Guild.GetUsersAsync()).Count(x => x.IsBot))
-                    .AddField("Users", (await ctx.Guild.GetUsersAsync()).Count(x => !x.IsBot))
+                    .AddField("Bots", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.IsBot))
+                    .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot))
                     .AddField("Text Channels", textchn.ToString())
                     .AddField("Voice Channels", voicechn.ToString())
                     .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
@@ -189,7 +189,7 @@ public partial class Utility
                 {
                     x.Embed = embed.Build();
                     x.Components = null;
-                });
+                }).ConfigureAwait(false);
             }
         }
 
@@ -202,7 +202,7 @@ public partial class Utility
                 .WithTitle(ch.Name)
                 .AddField(GetText("id"), ch.Id.ToString())
                 .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
-                .AddField(GetText("users"), (await ch.GetUsersAsync().FlattenAsync()).Count())
+                .AddField(GetText("users"), (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count())
                 .AddField("Topic", ch.Topic ?? "None")
                 .WithColor(Mewdeko.OkColor);
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -213,7 +213,7 @@ public partial class Utility
         {
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;
-            var userbanner = (await _client.Rest.GetUserAsync(user.Id)).GetBannerUrl(size: 2048);
+            var userbanner = (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
             var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
 
             var embed = new EmbedBuilder()
@@ -249,8 +249,8 @@ public partial class Utility
                 }
             }
 
-            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
-            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build()).ConfigureAwait(false);
+            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "moreinfo")
             {
                 if (user.GetRoles().Any())
@@ -261,12 +261,12 @@ public partial class Utility
 
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
-                embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild)));
+                embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();
                     x.Components = null;
-                });
+                }).ConfigureAwait(false);
             }
         }
     }

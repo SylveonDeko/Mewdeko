@@ -215,12 +215,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (!_bss.Data.RotateStatuses) return;
 
             IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 rotatingStatuses = uow.RotatingStatus
-                    .AsNoTracking()
-                    .OrderBy(x => x.Id)
-                    .ToList();
+                                      .AsNoTracking()
+                                      .OrderBy(x => x.Id)
+                                      .ToList();
             }
 
             if (rotatingStatuses.Count == 0)
@@ -231,7 +232,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 : rotatingStatuses[state.Index++];
 
             var statusText = _rep.Replace(playingStatus.Status);
-            await _bot.SetGameAsync(statusText, playingStatus.Type);
+            await _bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -246,10 +247,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         await using var uow = _db.GetDbContext();
         var toRemove = await uow.RotatingStatus
-            .AsQueryable()
-            .AsNoTracking()
-            .Skip(index)
-            .FirstOrDefaultAsync();
+                                .AsQueryable()
+                                .AsNoTracking()
+                                .Skip(index)
+                                .FirstOrDefaultAsync().ConfigureAwait(false);
 
         if (toRemove is null)
             return null;
@@ -430,7 +431,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         // i can't just do ReadAsStreamAsync because dicord.net's image poops itself
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-        await using var imgStream = imgData.ToStream();
+        var imgStream = imgData.ToStream();
+        await using var _ = imgStream.ConfigureAwait(false);
         await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
 
         return true;

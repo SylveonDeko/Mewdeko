@@ -15,19 +15,19 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogCategory(LogCategoryTypes type, ITextChannel? channel = null)
         {
-            await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
+            await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
             if (type == LogCategoryTypes.None)
             {
-                await ctx.Channel.SendConfirmAsync("Logging has been disabled.");
+                await ctx.Channel.SendConfirmAsync("Logging has been disabled.").ConfigureAwait(false);
                 return;
             }
             if (channel is null)
             {
-                await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been disabled.");
+                await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been disabled.").ConfigureAwait(false);
                 return;
             }
 
-            await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been set to {channel.Mention}");
+            await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been set to {channel.Mention}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
@@ -35,7 +35,7 @@ public partial class Administration
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            var removed = Service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
+            var removed = await Service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
 
             if (!removed)
                 await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
@@ -46,7 +46,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogIgnore(ITextChannel channel)
         {
-            var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
+            var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
 
             if (!removed)
                 await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
@@ -57,7 +57,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(2)]
         public async Task LogIgnore(IVoiceChannel channel)
         {
-            var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
+            var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
 
             if (!removed)
                 await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
@@ -127,7 +127,7 @@ public partial class Administration
                 await ctx.Channel.SendConfirmAsync($"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}").ConfigureAwait(false);
                 return;
             }
-            await ctx.Channel.SendConfirmAsync($"Logging has been disabled for the event `{type}`");
+            await ctx.Channel.SendConfirmAsync($"Logging has been disabled for the event `{type}`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -135,13 +135,13 @@ public partial class Administration
         {
             if (channel is null)
             {
-                await ctx.Channel.SendConfirmAsync("Command Logging has been disabled.");
-                await Service.UpdateCommandLogChannel(ctx.Guild, 0);
+                await ctx.Channel.SendConfirmAsync("Command Logging has been disabled.").ConfigureAwait(false);
+                await Service.UpdateCommandLogChannel(ctx.Guild, 0).ConfigureAwait(false);
             }
             else
             {
-                await ctx.Channel.SendConfirmAsync("Command logging has been enabled.");
-                await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
+                await ctx.Channel.SendConfirmAsync("Command logging has been enabled.").ConfigureAwait(false);
+                await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
             }
         }
     }

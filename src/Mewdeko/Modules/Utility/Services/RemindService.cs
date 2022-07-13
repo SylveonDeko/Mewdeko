@@ -29,11 +29,11 @@ public class RemindService : INService
     {
         while (true)
         {
-            await Task.Delay(15000);
+            await Task.Delay(15000).ConfigureAwait(false);
             try
             {
                 var now = DateTime.UtcNow;
-                var reminders = await GetRemindersBeforeAsync(now);
+                var reminders = await GetRemindersBeforeAsync(now).ConfigureAwait(false);
                 if (reminders.Count == 0)
                     continue;
 
@@ -45,9 +45,9 @@ public class RemindService : INService
                              .GroupBy(_ => ++i / ((reminders.Count / 5) + 1)))
                 {
                     var executedReminders = group.ToList();
-                    await Task.WhenAll(executedReminders.Select(ReminderTimerAction));
-                    await RemoveReminders(executedReminders);
-                    await Task.Delay(1500);
+                    await Task.WhenAll(executedReminders.Select(ReminderTimerAction)).ConfigureAwait(false);
+                    await RemoveReminders(executedReminders).ConfigureAwait(false);
+                    await Task.Delay(1500).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ public class RemindService : INService
     {
         await using var uow = _db.GetDbContext();
         uow.Set<Reminder>()
-            .RemoveRange(reminders);
+           .RemoveRange(reminders);
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

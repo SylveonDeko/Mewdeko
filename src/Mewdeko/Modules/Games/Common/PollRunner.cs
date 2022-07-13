@@ -34,7 +34,7 @@ public class PollRunner
                 case PollType.SingleAnswer when !Poll.Votes.Contains(voteObj):
                     {
                         await using var uow = _db.GetDbContext();
-                        var trackedPoll = uow.Poll.GetById(Poll.Id);
+                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
                         await uow.SaveChangesAsync().ConfigureAwait(false);
                         Poll.Votes.Add(voteObj);
@@ -47,7 +47,7 @@ public class PollRunner
                 case PollType.AllowChange when voteCheck:
                     {
                         await using var uow = _db.GetDbContext();
-                        var trackedPoll = uow.Poll.GetById(Poll.Id);
+                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(trackedPoll.Votes.Find(x => x.UserId == user.Id));
                         trackedPoll.Votes.Add(voteObj);
                         Poll.Votes.Remove(Poll.Votes.Find(x => x.UserId == user.Id));
@@ -62,7 +62,7 @@ public class PollRunner
                 case PollType.MultiAnswer when !voteCheck:
                     {
                         await using var uow = _db.GetDbContext();
-                        var trackedPoll = uow.Poll.GetById(Poll.Id);
+                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(voteObj);
                         Poll.Votes.Remove(voteObj);
                         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -72,7 +72,7 @@ public class PollRunner
                 case PollType.MultiAnswer when voteCheck:
                     {
                         await using var uow = _db.GetDbContext();
-                        var trackedPoll = uow.Poll.GetById(Poll.Id);
+                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
                         Poll.Votes.Add(voteObj);
                         await uow.SaveChangesAsync().ConfigureAwait(false);

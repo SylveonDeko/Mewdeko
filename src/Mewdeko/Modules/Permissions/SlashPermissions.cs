@@ -45,9 +45,10 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     [SlashCommand("verbose", "Enables or Disables command errors"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task Verbose(PermissionSlash? action = null)
     {
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.VerbosePermissions = Convert.ToBoolean((int)action);
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
@@ -65,22 +66,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     {
         if (role != null && role == role.Guild.EveryoneRole)
             return;
+        await using var uow = _db.GetDbContext();
 
         if (role == null)
         {
-            await using (var uow = _db.GetDbContext())
-            {
-                var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
-                config.PermissionRole = 0.ToString();
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-                Service.UpdateCache(config);
-                await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
-            }
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            config.PermissionRole = 0.ToString();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            Service.UpdateCache(config);
+            await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
         }
 
-        await using (var uow = _db.GetDbContext())
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
@@ -110,11 +109,11 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(string.Join("\n",
-                perms.Skip(page * 10).Take(10).Select(p =>
+                perms.Skip(page * 10).Take(10).Select(async p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -128,15 +127,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var index = int.Parse(perm);
         if (index == 0)
         {
-            await ctx.Interaction.SendErrorAsync("You cannot remove this permission!");
+            await ctx.Interaction.SendErrorAsync("You cannot remove this permission!").ConfigureAwait(false);
             return;
         }
         try
         {
             Permissionv2 p;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
                 var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
@@ -147,7 +147,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {

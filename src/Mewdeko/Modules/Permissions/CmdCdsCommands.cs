@@ -40,9 +40,10 @@ public partial class Permissions
             }
 
             var name = command.Name.ToLowerInvariant();
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                var config = uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
+                var config = await uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                 var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);

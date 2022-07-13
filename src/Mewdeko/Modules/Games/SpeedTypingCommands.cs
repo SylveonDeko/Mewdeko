@@ -30,7 +30,7 @@ public partial class Games
             var channel = (ITextChannel)ctx.Channel;
 
             var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
-                _ => new TypingGame(_games, _client, channel, _guildSettings.GetPrefix(ctx.Guild), options));
+                _ => new TypingGame(_games, _client, channel, _guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
 
             if (game.IsActive)
             {
@@ -103,7 +103,7 @@ public partial class Games
                 .WithDescription(removed.Text.TrimTo(50))
                 .WithOkColor();
 
-            await Context.Channel.EmbedAsync(embed);
+            await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
     }
 }

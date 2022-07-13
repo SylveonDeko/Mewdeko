@@ -130,7 +130,7 @@ public class NewEmbed
         return bb;
     }
     
-    public Discord.Embed[] ToEmbedArray(Embed[] embeds)
+    public static Discord.Embed[] ToEmbedArray(IEnumerable<Embed> embeds)
     {
         var toReturn = new List<Discord.Embed>();
         foreach (var i in embeds)

@@ -47,7 +47,7 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .WithTitle("Command Error")
                 .WithDescription(reason)
                 .AddField("Usages",
-                    string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _guildSettings.GetPrefix(channel.Guild))))
+                    string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, await _guildSettings.GetPrefix(channel.Guild))))
                 .WithFooter($"Run {_guildSettings.GetPrefix(channel.Guild?.Id)}ve to disable these prompts.")
                 .WithErrorColor();
 
@@ -60,11 +60,11 @@ public class VerboseErrorsService : INService, IUnloadableService
         }
     }
 
-    public bool ToggleVerboseErrors(ulong guildId, bool? enabled = null)
+    public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
         using (var uow = _db.GetDbContext())
         {
-            var gc = uow.ForGuildId(guildId, set => set);
+            var gc = await uow.ForGuildId(guildId, set => set);
 
             if (enabled == null)
                 enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition

@@ -13,29 +13,29 @@ public class PollButtons : MewdekoSlashCommandModule
     [ComponentInteraction("pollbutton:*")]
     public async Task Pollbutton(string num)
     {
-        var (allowed, type) = await _pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User);
+        var (allowed, type) = await _pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User).ConfigureAwait(false);
         switch (type)
         {
             case PollType.PollEnded:
-                await ctx.Interaction.SendEphemeralErrorAsync("That poll has already ended!");
+                await ctx.Interaction.SendEphemeralErrorAsync("That poll has already ended!").ConfigureAwait(false);
                 break;
             case PollType.SingleAnswer:
                 if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("You can't change your vote!");
+                    await ctx.Interaction.SendEphemeralErrorAsync("You can't change your vote!").ConfigureAwait(false);
                 else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Voted!");
+                    await ctx.Interaction.SendEphemeralConfirmAsync("Voted!").ConfigureAwait(false);
                 break;
             case PollType.AllowChange:
                 if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("That's already your vote!");
+                    await ctx.Interaction.SendEphemeralErrorAsync("That's already your vote!").ConfigureAwait(false);
                 else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote changed.");
+                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote changed.").ConfigureAwait(false);
                 break;
             case PollType.MultiAnswer:
                 if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("Removed that vote!");
+                    await ctx.Interaction.SendEphemeralErrorAsync("Removed that vote!").ConfigureAwait(false);
                 else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote added!");
+                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote added!").ConfigureAwait(false);
                 break;
         }
     }

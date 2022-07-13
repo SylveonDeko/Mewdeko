@@ -15,14 +15,13 @@ public class ClubService : INService
         _httpFactory = httpFactory;
     }
 
-    public bool CreateClub(IUser user, string clubName, out ClubInfo club)
+    public async Task<(bool, ClubInfo)> CreateClub(IUser user, string clubName)
     {
         //must be lvl 5 and must not be in a club already
 
-        club = null;
-        using var uow = _db.GetDbContext();
-        var du = uow.GetOrCreateUser(user);
-        uow.SaveChanges();
+        await using var uow = _db.GetDbContext();
+        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         var xp = new LevelStats(du.TotalXp);
 
         if (xp.Level >= 5 && du.Club == null)
@@ -31,32 +30,31 @@ public class ClubService : INService
             du.Club = new ClubInfo
             {
                 Name = clubName,
-                Discrim = uow.Clubs.GetNextDiscrim(clubName),
+                Discrim = await uow.Clubs.GetNextDiscrim(clubName).ConfigureAwait(false),
                 Owner = du
             };
             uow.Clubs.Add(du.Club);
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
-            return false;
+            return (false, null);
         }
 
         uow.Set<ClubApplicants>()
             .RemoveRange(uow.Set<ClubApplicants>()
                 .AsQueryable()
                 .Where(x => x.UserId == du.Id));
-        club = du.Club;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, du.Club);
     }
 
-    public ClubInfo? TransferClub(IUser from, IUser newOwner)
+    public async Task<ClubInfo?> TransferClub(IUser from, IUser newOwner)
     {
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(from.Id);
-        var newOwnerUser = uow.GetOrCreateUser(newOwner);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwner(from.Id).ConfigureAwait(false);
+        var newOwnerUser = await uow.GetOrCreateUser(newOwner).ConfigureAwait(false);
 
         if (club == null ||
             club.Owner.UserId != from.Id ||
@@ -68,17 +66,16 @@ public class ClubService : INService
         club.Owner.IsClubAdmin = true; // old owner will stay as admin
         newOwnerUser.IsClubAdmin = true;
         club.Owner = newOwnerUser;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return club;
     }
 
-    public bool ToggleAdmin(IUser owner, IUser toAdmin)
+    public async Task<bool> ToggleAdmin(IUser owner, IUser toAdmin)
     {
-        bool newState;
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(owner.Id);
-        var adminUser = uow.GetOrCreateUser(toAdmin);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwner(owner.Id).ConfigureAwait(false);
+        var adminUser = await uow.GetOrCreateUser(toAdmin).ConfigureAwait(false);
 
         if (club == null || club.Owner.UserId != owner.Id ||
             !club.Users.Contains(adminUser))
@@ -89,16 +86,16 @@ public class ClubService : INService
         if (club.OwnerId == adminUser.Id)
             return true;
 
-        newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
-        uow.SaveChanges();
+        var newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return newState;
     }
 
-    public ClubInfo? GetClubByMember(IUser user)
+    public async Task<ClubInfo?> GetClubByMember(IUser user)
     {
-        using var uow = _db.GetDbContext();
-        return uow.Clubs.GetByMember(user.Id);
+        await using var uow = _db.GetDbContext();
+        return await uow.Clubs.GetByMember(user.Id).ConfigureAwait(false);
     }
 
     public async Task<bool> SetClubIcon(ulong ownerUserId, Uri? url)
@@ -113,7 +110,7 @@ public class ClubService : INService
         }
 
         await using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(ownerUserId);
+        var club = await uow.Clubs.GetByOwner(ownerUserId).ConfigureAwait(false);
 
         if (club == null)
             return false;
@@ -144,11 +141,11 @@ public class ClubService : INService
         return true;
     }
 
-    public bool ApplyToClub(IUser user, ClubInfo club)
+    public async Task<bool> ApplyToClub(IUser user, ClubInfo club)
     {
-        using var uow = _db.GetDbContext();
-        var du = uow.GetOrCreateUser(user);
-        uow.SaveChanges();
+        await using var uow = _db.GetDbContext();
+        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         if (du.Club != null
             || new LevelStats(du.TotalXp).Level < club.MinimumLevelReq
@@ -168,21 +165,21 @@ public class ClubService : INService
 
         uow.Set<ClubApplicants>().Add(app);
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool AcceptApplication(ulong clubOwnerUserId, string userName, out DiscordUser discordUser)
+    public async Task<(bool, DiscordUser)> AcceptApplication(ulong clubOwnerUserId, string userName)
     {
-        discordUser = null;
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId);
+        DiscordUser discordUser = null;
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId).ConfigureAwait(false);
 
         var applicant = club?.Applicants.Find(x =>
             string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (applicant == null)
-            return false;
+            return (false, discordUser);
 
         applicant.User.Club = club;
         applicant.User.IsClubAdmin = false;
@@ -195,90 +192,90 @@ public class ClubService : INService
                 .Where(x => x.UserId == applicant.User.Id));
 
         discordUser = applicant.User;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, discordUser);
     }
 
-    public ClubInfo? GetClubWithBansAndApplications(ulong ownerUserId)
+    public async Task<ClubInfo?> GetClubWithBansAndApplications(ulong ownerUserId)
     {
-        using var uow = _db.GetDbContext();
-        return uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+        await using var uow = _db.GetDbContext();
+        return await uow.Clubs.GetByOwnerOrAdmin(ownerUserId).ConfigureAwait(false);
     }
 
-    public bool LeaveClub(IUser user)
+    public async Task<bool> LeaveClub(IUser user)
     {
-        using var uow = _db.GetDbContext();
-        var du = uow.GetOrCreateUser(user);
+        await using var uow = _db.GetDbContext();
+        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         if (du.Club == null || du.Club.OwnerId == du.Id)
             return false;
 
         du.Club = null;
         du.IsClubAdmin = false;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool ChangeClubLevelReq(ulong userId, int level)
+    public async Task<bool> ChangeClubLevelReq(ulong userId, int level)
     {
         if (level < 5)
             return false;
 
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(userId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
             return false;
 
         club.MinimumLevelReq = level;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool ChangeClubDescription(ulong userId, string? desc)
+    public async Task<bool> ChangeClubDescription(ulong userId, string? desc)
     {
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(userId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
             return false;
 
         club.Description = desc?.TrimTo(150, true);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public bool Disband(ulong userId, out ClubInfo club)
+    public async Task<(bool, ClubInfo)> Disband(ulong userId)
     {
-        using var uow = _db.GetDbContext();
-        club = uow.Clubs.GetByOwner(userId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
-            return false;
+            return (false, club);
 
         uow.Clubs.Remove(club);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, club);
     }
 
-    public bool Ban(ulong bannerId, string userName, out ClubInfo club)
+    public async Task<(bool, ClubInfo)> Ban(ulong bannerId, string userName)
     {
-        using var uow = _db.GetDbContext();
-        club = uow.Clubs.GetByOwnerOrAdmin(bannerId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwnerOrAdmin(bannerId).ConfigureAwait(false);
         if (club == null)
-            return false;
+            return (false, null);
 
         var usr = club.Users.Find(x => string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))
                   ?? club.Applicants.Find(x =>
                       string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))?.User;
         if (usr == null)
-            return false;
+            return (false, null);
 
         if (club.OwnerId == usr.Id ||
             (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
         {
-            return false;
+            return (false, club);
         }
 
         club.Bans.Add(new ClubBans
@@ -292,55 +289,55 @@ public class ClubService : INService
         if (app != null)
             club.Applicants.Remove(app);
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, club);
     }
 
-    public bool UnBan(ulong ownerUserId, string userName, out ClubInfo club)
+    public async Task<(bool, ClubInfo)> UnBan(ulong ownerUserId, string userName)
     {
-        using var uow = _db.GetDbContext();
-        club = uow.Clubs.GetByOwnerOrAdmin(ownerUserId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwnerOrAdmin(ownerUserId).ConfigureAwait(false);
 
         var ban = club?.Bans.Find(x =>
             string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (ban == null)
-            return false;
+            return (false, club);
 
         club.Bans.Remove(ban);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, club);
     }
 
-    public bool Kick(ulong kickerId, string userName, out ClubInfo club)
+    public async Task<(bool, ClubInfo)> Kick(ulong kickerId, string userName)
     {
-        using var uow = _db.GetDbContext();
-        club = uow.Clubs.GetByOwnerOrAdmin(kickerId);
+        await using var uow = _db.GetDbContext();
+        var club = await uow.Clubs.GetByOwnerOrAdmin(kickerId).ConfigureAwait(false);
 
         var usr = club?.Users.Find(x =>
             string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase));
         if (usr == null)
-            return false;
+            return (false, null);
 
         if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
-            return false;
+            return (false, club);
 
         club.Users.Remove(usr);
         var app = club.Applicants.Find(x => x.UserId == usr.Id);
         if (app != null)
             club.Applicants.Remove(app);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return true;
+        return (true, club);
     }
 
-    public List<ClubInfo> GetClubLeaderboardPage(int page)
+    public async Task<List<ClubInfo>> GetClubLeaderboardPage(int page)
     {
         if (page < 0)
             throw new ArgumentOutOfRangeException(nameof(page));
 
-        using var uow = _db.GetDbContext();
-        return uow.Clubs.GetClubLeaderboardPage(page);
+        await using var uow = _db.GetDbContext();
+        return await uow.Clubs.GetClubLeaderboardPage(page);
     }
 }

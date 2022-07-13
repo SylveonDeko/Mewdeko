@@ -27,14 +27,14 @@ public partial class Searches
 
             try
             {
-                poke = await _pokeClient.GetResourceAsync<Pokemon>(name.Replace(" ", ""));
+                poke = await _pokeClient.GetResourceAsync<Pokemon>(name.Replace(" ", "")).ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     await ctx.Channel.SendErrorAsync(
-                        "Seems like that pokemon wasn't found. Please try again with a different query!");
+                        "Seems like that pokemon wasn't found. Please try again with a different query!").ConfigureAwait(false);
                     return;
                 }
             }
@@ -44,7 +44,7 @@ public partial class Searches
             {
                 foreach (var i in poke.Abilities)
                 {
-                    var ability = await _pokeClient.GetResourceAsync<Ability>(i.Ability.Name);
+                    var ability = await _pokeClient.GetResourceAsync<Ability>(i.Ability.Name).ConfigureAwait(false);
                     abilities.Add(ability);
                 }
             }
@@ -63,7 +63,7 @@ public partial class Searches
                 }
 
                 eb.WithThumbnailUrl(poke.Sprites.FrontShiny);
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
             else
             {
@@ -79,7 +79,7 @@ public partial class Searches
                 }
 
                 eb.WithThumbnailUrl(poke.Sprites.FrontDefault);
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }
     }

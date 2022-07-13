@@ -299,7 +299,7 @@ public class SearchImageCacher : INService
             using var http = _httpFactory.CreateClient();
             var downloader = GetImageDownloader(type, http);
 
-            var images = await downloader.DownloadImageDataAsync(tags, page, isExplicit, cancel);
+            var images = await downloader.DownloadImageDataAsync(tags, page, isExplicit, cancel).ConfigureAwait(false);
             if (images.Count == 0)
             {
                 var tagStr = string.Join(' ', tags.OrderByDescending(x => x));

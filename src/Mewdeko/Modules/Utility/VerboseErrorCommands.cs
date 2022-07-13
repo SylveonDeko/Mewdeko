@@ -13,7 +13,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task VerboseError(bool? newstate = null)
         {
-            var state = Service.ToggleVerboseErrors(ctx.Guild.Id, newstate);
+            var state = await Service.ToggleVerboseErrors(ctx.Guild.Id, newstate);
 
             if (state)
                 await ReplyConfirmLocalizedAsync("verbose_errors_enabled").ConfigureAwait(false);

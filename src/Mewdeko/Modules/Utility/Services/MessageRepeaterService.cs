@@ -64,7 +64,7 @@ public class MessageRepeaterService : INService
     public async Task RemoveRepeater(Repeater r)
     {
         await using var uow = _db.GetDbContext();
-        var gr = uow.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
+        var gr = (await uow.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters))).GuildRepeaters;
         var toDelete = gr.Find(x => x.Id == r.Id);
         if (toDelete != null)
             uow.Set<Repeater>().Remove(toDelete);

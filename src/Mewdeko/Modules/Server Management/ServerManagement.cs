@@ -25,7 +25,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
 
         eb.WithDescription(string.Join("\n", allowed));
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
@@ -39,7 +39,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
 
         eb.WithDescription(string.Join("\n", allowed));
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
@@ -53,7 +53,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
 
         eb.WithDescription(string.Join("\n", allowed));
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -65,9 +65,10 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var http = _httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-        await using var imgStream = imgData.ToStream();
+        var imgStream = imgData.ToStream();
+        await using var _ = imgStream.ConfigureAwait(false);
         await guild.ModifyAsync(x => x.Splash = new Image(imgStream)).ConfigureAwait(false);
-        await ctx.Channel.SendMessageAsync("New splash image has been set!");
+        await ctx.Channel.SendMessageAsync("New splash image has been set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -79,9 +80,10 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var http = _httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-        await using var imgStream = imgData.ToStream();
+        var imgStream = imgData.ToStream();
+        await using var _ = imgStream.ConfigureAwait(false);
         await guild.ModifyAsync(x => x.Icon = new Image(imgStream)).ConfigureAwait(false);
-        await ctx.Channel.SendMessageAsync("New server icon has been set!");
+        await ctx.Channel.SendMessageAsync("New server icon has been set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -93,9 +95,10 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var http = _httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-        await using var imgStream = imgData.ToStream();
+        var imgStream = imgData.ToStream();
+        await using var _ = imgStream.ConfigureAwait(false);
         await guild.ModifyAsync(x => x.Banner = new Image(imgStream)).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync("New server banner has been set!");
+        await ctx.Channel.SendConfirmAsync("New server banner has been set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -103,8 +106,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     public async Task SetServerName([Remainder] string name)
     {
         var guild = ctx.Guild;
-        await guild.ModifyAsync(x => x.Name = name);
-        await ctx.Channel.SendConfirmAsync($"Succesfuly set server name to {name}");
+        await guild.ModifyAsync(x => x.Name = name).ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Succesfuly set server name to {name}").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -132,16 +135,17 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var http = _httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-        await using var imgStream = imgData.ToStream();
+        var imgStream = imgData.ToStream();
+        await using var _ = imgStream.ConfigureAwait(false);
         try
         {
-            var emote = await ctx.Guild.CreateEmoteAsync(name, new Image(imgStream));
-            await ctx.Channel.SendConfirmAsync($"{emote} with the name {Format.Code(name)} created!");
+            var emote = await ctx.Guild.CreateEmoteAsync(name, new Image(imgStream)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"{emote} with the name {Format.Code(name)} created!").ConfigureAwait(false);
         }
         catch (Exception)
         {
             await ctx.Channel.SendErrorAsync(
-                "The emote could not be added because it is either: Too Big(Over 256kb), != a direct link, Or exceeds server emoji limit.");
+                "The emote could not be added because it is either: Too Big(Over 256kb), != a direct link, Or exceeds server emoji limit.").ConfigureAwait(false);
         }
     }
 
@@ -153,13 +157,13 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             .FirstOrDefault();
         try
         {
-            var emote1 = await ctx.Guild.GetEmoteAsync(tags.Id);
-            await ctx.Guild.DeleteEmoteAsync(emote1);
-            await ctx.Channel.SendConfirmAsync($"{emote1} has been deleted!");
+            var emote1 = await ctx.Guild.GetEmoteAsync(tags.Id).ConfigureAwait(false);
+            await ctx.Guild.DeleteEmoteAsync(emote1).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"{emote1} has been deleted!").ConfigureAwait(false);
         }
         catch (HttpException)
         {
-            await ctx.Channel.SendErrorAsync("This emote != from this guild!");
+            await ctx.Channel.SendErrorAsync("This emote != from this guild!").ConfigureAwait(false);
         }
     }
 
@@ -169,7 +173,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         if (name.StartsWith("<"))
         {
-            await ctx.Channel.SendErrorAsync("You cant use an emote as a name!");
+            await ctx.Channel.SendErrorAsync("You cant use an emote as a name!").ConfigureAwait(false);
             return;
         }
 
@@ -177,16 +181,16 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             .FirstOrDefault();
         try
         {
-            var emote1 = await ctx.Guild.GetEmoteAsync(tags.Id);
+            var emote1 = await ctx.Guild.GetEmoteAsync(tags.Id).ConfigureAwait(false);
             var ogname = emote1.Name;
-            await ctx.Guild.ModifyEmoteAsync(emote1, x => x.Name = name);
-            var emote2 = await ctx.Guild.GetEmoteAsync(tags.Id);
+            await ctx.Guild.ModifyEmoteAsync(emote1, x => x.Name = name).ConfigureAwait(false);
+            var emote2 = await ctx.Guild.GetEmoteAsync(tags.Id).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"{emote1} has been renamed from {Format.Code(ogname)} to {Format.Code(emote2.Name)}");
+                $"{emote1} has been renamed from {Format.Code(ogname)} to {Format.Code(emote2.Name)}").ConfigureAwait(false);
         }
         catch (HttpException)
         {
-            await ctx.Channel.SendErrorAsync("This emote != from this guild!");
+            await ctx.Channel.SendErrorAsync("This emote != from this guild!").ConfigureAwait(false);
         }
     }
 
@@ -203,18 +207,19 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var emotes = new List<string>();
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any()) return;
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         foreach (var i in tags)
         {
             using var http = _httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            await using var imgStream = imgData.ToStream();
+            var imgStream = imgData.ToStream();
+            await using var _ = imgStream.ConfigureAwait(false);
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream)).ConfigureAwait(false);
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)
@@ -230,7 +235,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         };
         if (emotes.Count > 0) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
         if (errored.Count > 0) b.AddField("Errored Emotes", string.Join("\n\n", errored));
-        await msg.ModifyAsync(x => x.Embed = b.Build());
+        await msg.ModifyAsync(x => x.Embed = b.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -247,7 +252,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var emotes = new List<string>();
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any()) return;
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
 
         foreach (var i in tags)
         {
@@ -255,11 +260,12 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            await using var imgStream = imgData.ToStream();
+            var imgStream = imgData.ToStream();
+            await using var _ = imgStream.ConfigureAwait(false);
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list);
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list).ConfigureAwait(false);
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)
@@ -276,6 +282,6 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         if (emotes.Count > 0)
             b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
         if (errored.Count > 0) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
-        await msg.ModifyAsync(x => x.Embed = b.Build());
+        await msg.ModifyAsync(x => x.Embed = b.Build()).ConfigureAwait(false);
     }
 }

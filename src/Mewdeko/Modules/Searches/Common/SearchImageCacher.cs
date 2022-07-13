@@ -195,22 +195,25 @@ public class SearchImageCacher
     {
         var list = new List<ImageCacherObject>();
         using (var http = _httpFactory.CreateClient())
-        await using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
-        using (var reader = XmlReader.Create(stream, new XmlReaderSettings
         {
-            Async = true
-        }))
-        {
-            while (await reader.ReadAsync().ConfigureAwait(false))
+            var stream = await http.GetStreamAsync(website).ConfigureAwait(false);
+            await using (stream.ConfigureAwait(false))
+            using (var reader = XmlReader.Create(stream, new XmlReaderSettings
+                   {
+                       Async = true
+                   }))
             {
-                if (reader.NodeType == XmlNodeType.Element &&
-                    reader.Name == "post")
-                    list.Add(new ImageCacherObject(new DapiImageObject
-                    {
-                        FileUrl = reader["file_url"],
-                        Tags = reader["tags"],
-                        Rating = reader["rating"] ?? "e"
-                    }, type));
+                while (await reader.ReadAsync().ConfigureAwait(false))
+                {
+                    if (reader.NodeType == XmlNodeType.Element &&
+                        reader.Name == "post")
+                        list.Add(new ImageCacherObject(new DapiImageObject
+                        {
+                            FileUrl = reader["file_url"],
+                            Tags = reader["tags"],
+                            Rating = reader["rating"] ?? "e"
+                        }, type));
+                }
             }
         }
 

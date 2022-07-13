@@ -40,13 +40,13 @@ public class ChatterBotService : INService
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public ulong GetCleverbotChannel(ulong id) => _guildSettings.GetGuildConfig(id).CleverbotChannel;
+    public async Task<ulong> GetCleverbotChannel(ulong id) => (await _guildSettings.GetGuildConfig(id)).CleverbotChannel;
 
     public Task MessageRecieved(SocketMessage msg)
     {
@@ -62,19 +62,19 @@ public class ChatterBotService : INService
                     return;
 
                 IChatterBotSession cbs;
-                string message;
+                (string, IChatterBotSession) message;
                 try
                 {
-                    message = PrepareMessage(usrMsg, out cbs);
+                    message = await PrepareMessage(usrMsg);
                 }
                 catch
                 {
                     return;
                 }
 
-                if (string.IsNullOrEmpty(message) || cbs.Equals(default))
+                if (string.IsNullOrEmpty(message.Item1) || message.Item2.Equals(default))
                     return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
@@ -100,34 +100,32 @@ public class ChatterBotService : INService
         return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
     }
 
-    private string PrepareMessage(IMessage? msg, out IChatterBotSession cleverbot)
+    private async Task<(string, IChatterBotSession)> PrepareMessage(IMessage? msg)
     {
-        cleverbot = null;
         if (msg?.Channel is not ITextChannel channel)
-            return null;
-        if (GetCleverbotChannel(channel.Guild.Id) == 0)
-            return null;
-        if (GetCleverbotChannel(channel.Guild.Id) != channel.Id)
-            return null;
+            return (null, null);
+        if (await GetCleverbotChannel(channel.Guild.Id) == 0)
+            return (null, null);
+        if (await GetCleverbotChannel(channel.Guild.Id) != channel.Id)
+            return (null, null);
 
         if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(channel.Guild.Id))
         {
-            channel.SendErrorAsync("This server is blacklisted. Please join using the button below for an explanation or to appeal.");
-            return null;
+            await channel.SendErrorAsync("This server is blacklisted. Please join using the button below for an explanation or to appeal.");
+            return (null, null);
         }
 
         if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
         {
             (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
-            return null;
+            return (null, null);
         }
         if (!CleverbotUsers.TryGetValue(msg.Author.Id, out var lazyCleverbot))
         {
             CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));
             CleverbotUsers.TryGetValue(msg.Author.Id, out lazyCleverbot);
         }
-
-        cleverbot = lazyCleverbot.Value;
+        
 
         var mewdekoId = _client.CurrentUser.Id;
         var normalMention = $"<@{mewdekoId}> ";
@@ -138,11 +136,11 @@ public class ChatterBotService : INService
             message = msg.Content[normalMention.Length..].Trim();
         else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
             message = msg.Content[nickMention.Length..].Trim();
-        else if (msg.Content.StartsWith(_guildSettings.GetPrefix(channel.Guild)))
-            return null;
+        else if (msg.Content.StartsWith(await _guildSettings.GetPrefix(channel.Guild)))
+            return (null, null);
         else
             message = msg.Content;
-        return message;
+        return (message, lazyCleverbot.Value);
     }
 
     private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message, IUserMessage msg)
@@ -156,11 +154,11 @@ public class ChatterBotService : INService
         catch
         {
             await channel.SendErrorAsync(
-                "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!");
+                "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!").ConfigureAwait(false);
             return false;
         }
 
-        await msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true)).Build());
+        await msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true)).Build()).ConfigureAwait(false);
 
         return true;
     }
