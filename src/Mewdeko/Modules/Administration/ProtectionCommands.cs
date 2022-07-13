@@ -38,10 +38,10 @@ public partial class Administration
             switch (action)
             {
                 case PunishmentAction.Timeout when punishTime.Time.Days > 28:
-                    await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                    await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
                 case PunishmentAction.Timeout when punishTime.Time.Days == 0:
-                    await ReplyErrorLocalizedAsync("timeout_needs_time");
+                    await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
             await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
@@ -66,22 +66,23 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public Task AntiRaid()
+        public async Task AntiRaid()
         {
-            if (Service.TryStopAntiRaid(ctx.Guild.Id))
-                return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
-            return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
+            if (await Service.TryStopAntiRaid(ctx.Guild.Id))
+                await ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
+            else
+                await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
-        public Task AntiRaid(int userThreshold, int seconds,
+        public async Task AntiRaid(int userThreshold, int seconds,
             PunishmentAction action, [Remainder] StoopidTime punishTime) =>
-            InternalAntiRaid(userThreshold, seconds, action, punishTime);
+            await InternalAntiRaid(userThreshold, seconds, action, punishTime);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
-        public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => InternalAntiRaid(userThreshold, seconds, action);
+        public async Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => await InternalAntiRaid(userThreshold, seconds, action);
 
         private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
             PunishmentAction action = PunishmentAction.Mute, StoopidTime? punishTime = null)
@@ -89,10 +90,10 @@ public partial class Administration
             switch (action)
             {
                 case PunishmentAction.Timeout when punishTime.Time.Days > 28:
-                    await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                    await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
                 case PunishmentAction.Timeout when punishTime.Time.Days == 0:
-                    await ReplyErrorLocalizedAsync("timeout_needs_time");
+                    await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
 
@@ -136,30 +137,31 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public Task AntiSpam()
+        public async Task AntiSpam()
         {
-            if (Service.TryStopAntiSpam(ctx.Guild.Id))
-                return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
-            return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
+            if (await Service.TryStopAntiSpam(ctx.Guild.Id))
+                await ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
+            else
+                await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
-        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
+        public async Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
         {
             if (action != PunishmentAction.AddRole)
-                return Task.CompletedTask;
+                return;
 
-            return InternalAntiSpam(messageCount, action, null, role);
+            await InternalAntiSpam(messageCount, action, null, role);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
-        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) => InternalAntiSpam(messageCount, action, punishTime);
+        public async Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) => await InternalAntiSpam(messageCount, action, punishTime);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
-        public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
+        public async Task AntiSpam(int messageCount, PunishmentAction action) => await InternalAntiSpam(messageCount, action);
 
         public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
             StoopidTime? timeData = null, IRole? role = null)
@@ -179,10 +181,10 @@ public partial class Administration
             switch (action)
             {
                 case PunishmentAction.Timeout when timeData.Time.Days > 28:
-                    await ReplyErrorLocalizedAsync("timeout_length_too_long");
+                    await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
                 case PunishmentAction.Timeout when timeData.Time.Days == 0:
-                    await ReplyErrorLocalizedAsync("timeout_needs_time");
+                    await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
             var stats = await Service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)

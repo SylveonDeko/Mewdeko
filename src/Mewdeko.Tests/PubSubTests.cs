@@ -18,8 +18,8 @@ public class PubSubTests
             Assert.AreEqual(expected, data);
             Assert.Pass();
             return default;
-        });
-        await pubsub.Pub(key, expected);
+        }).ConfigureAwait(false);
+        await pubsub.Pub(key, expected).ConfigureAwait(false);
         Assert.Fail("Event not registered");
     }
 
@@ -34,9 +34,9 @@ public class PubSubTests
             Assert.AreEqual(expected, data);
             Assert.Pass();
             return default;
-        });
-        await pubsub.Unsub(key, _ => default);
-        await pubsub.Pub(key, expected);
+        }).ConfigureAwait(false);
+        await pubsub.Unsub(key, _ => default).ConfigureAwait(false);
+        await pubsub.Pub(key, expected).ConfigureAwait(false);
         Assert.Fail("Event not registered");
     }
 
@@ -51,14 +51,14 @@ public class PubSubTests
             Assert.AreEqual(expected, data);
             Assert.Pass();
             return default;
-        });
+        }).ConfigureAwait(false);
         await pubsub.Unsub(key, data =>
         {
             Assert.AreEqual(expected, data);
             Assert.Pass();
             return default;
-        });
-        await pubsub.Pub(key, expected);
+        }).ConfigureAwait(false);
+        await pubsub.Pub(key, expected).ConfigureAwait(false);
         Assert.Fail("Event not registered");
     }
 
@@ -74,9 +74,9 @@ public class PubSubTests
             return default;
         }
 
-        await pubsub.Sub(key, Action);
-        await pubsub.Unsub(key, Action);
-        await pubsub.Pub(key, 0);
+        await pubsub.Sub(key, Action).ConfigureAwait(false);
+        await pubsub.Unsub(key, Action).ConfigureAwait(false);
+        await pubsub.Pub(key, 0).ConfigureAwait(false);
         Assert.Pass();
     }
 
@@ -95,8 +95,8 @@ public class PubSubTests
             return default;
         }
 
-        await pubsub.Sub(key, Action);
-        await pubsub.Pub(key, localData);
+        await pubsub.Sub(key, Action).ConfigureAwait(false);
+        await pubsub.Pub(key, localData).ConfigureAwait(false);
 
         Assert.Fail("Event not raised");
     }
@@ -124,11 +124,11 @@ public class PubSubTests
             return default;
         }
 
-        await pubsub.Sub(key, Action1); // + 10 \
-        await pubsub.Sub(key, Action2); // + 1 - + = 12
-        await pubsub.Sub(key, Action2); // + 1 /
-        await pubsub.Unsub(key, Action2); // - 1/
-        await pubsub.Pub(key, localData);
+        await pubsub.Sub(key, Action1).ConfigureAwait(false); // + 10 \
+        await pubsub.Sub(key, Action2).ConfigureAwait(false); // + 1 - + = 12
+        await pubsub.Sub(key, Action2).ConfigureAwait(false); // + 1 /
+        await pubsub.Unsub(key, Action2).ConfigureAwait(false); // - 1/
+        await pubsub.Pub(key, localData).ConfigureAwait(false);
 
         Assert.AreEqual(successCounter, 11, "Not all events are raised.");
     }

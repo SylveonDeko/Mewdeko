@@ -49,7 +49,7 @@ public class CryptoService : INService
 
     public async Task<List<CryptoResponseData>> CryptoData()
     {
-        await _getCryptoLock.WaitAsync();
+        await _getCryptoLock.WaitAsync().ConfigureAwait(false);
         try
         {
             var fullStrData = await _cache.GetOrAddCachedDataAsync("Mewdeko:crypto_data", async _ =>
@@ -58,7 +58,7 @@ public class CryptoService : INService
                 {
                     using var http = _httpFactory.CreateClient();
                     var strData = await http.GetStringAsync(new Uri(
-                        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=8e6b4b51-3399-4ffb-ac25-0e11667a1a23&start=1&convert=USD"));
+                        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=8e6b4b51-3399-4ffb-ac25-0e11667a1a23&start=1&convert=USD")).ConfigureAwait(false);
 
                     JsonConvert.DeserializeObject<CryptoResponse>(strData); // just to see if its' valid
 
@@ -69,7 +69,7 @@ public class CryptoService : INService
                     Log.Error(ex, "Error getting crypto data: {Message}", ex.Message);
                     return default;
                 }
-            }, "", TimeSpan.FromHours(1));
+            }, "", TimeSpan.FromHours(1)).ConfigureAwait(false);
 
             return JsonConvert.DeserializeObject<CryptoResponse>(fullStrData).Data;
         }

@@ -31,7 +31,6 @@ public class XpService : INService, IUnloadableService
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmd;
     private readonly IBotCredentials _creds;
-    private readonly ICurrencyService _cs;
 
     private readonly DbService _db;
 
@@ -55,7 +54,6 @@ public class XpService : INService, IUnloadableService
         IDataCache cache,
         FontProvider fonts,
         IBotCredentials creds,
-        ICurrencyService cs,
         IHttpClientFactory http,
         XpConfigService xpConfig)
     {
@@ -66,7 +64,6 @@ public class XpService : INService, IUnloadableService
         _cache = cache;
         _fonts = fonts;
         _creds = creds;
-        _cs = cs;
         _httpFactory = http;
         _xpConfig = xpConfig;
         _excludedServers = new ConcurrentHashSet<ulong>();
@@ -89,7 +86,7 @@ public class XpService : INService, IUnloadableService
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
         _excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(uow.XpSettingsFor(x.GuildId).ExclusionList
+            x => new ConcurrentHashSet<ulong>(uow.XpSettingsFor(x.GuildId).GetAwaiter().GetResult().ExclusionList
                                                .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                                                .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
@@ -130,7 +127,7 @@ public class XpService : INService, IUnloadableService
     {
         while (true)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
             try
             {
                 var toNotify =
@@ -145,7 +142,8 @@ public class XpService : INService, IUnloadableService
                 var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                 if (toAddTo.Count == 0) continue;
 
-                await using (var uow = _db.GetDbContext())
+                var uow = _db.GetDbContext();
+                await using (uow.ConfigureAwait(false))
                 {
                     foreach (var item in group)
                     {
@@ -155,8 +153,8 @@ public class XpService : INService, IUnloadableService
                         //2. (better but much harder) Move everything to the database, and get old and new xp
                         // amounts for every user (in order to give rewards)
 
-                        var usr = uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                        var du = uow.GetOrCreateUser(item.Key.User);
+                        var usr = await uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                        var du = await uow.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
 
                         var globalXp = du.TotalXp;
                         var oldGlobalLevelData = new LevelStats(globalXp);
@@ -193,13 +191,13 @@ public class XpService : INService, IUnloadableService
                             //give role
                             if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
                             {
-                                rrews = uow.XpSettingsFor(usr.GuildId).RoleRewards.ToList();
+                                rrews = (await uow.XpSettingsFor(usr.GuildId)).RoleRewards.ToList();
                                 roleRewards.Add(usr.GuildId, rrews);
                             }
 
                             if (!curRewards.TryGetValue(usr.GuildId, out var crews))
                             {
-                                crews = uow.XpSettingsFor(usr.GuildId).CurrencyRewards.ToList();
+                                crews = (await uow.XpSettingsFor(usr.GuildId)).CurrencyRewards.ToList();
                                 curRewards.Add(usr.GuildId, crews);
                             }
 
@@ -210,13 +208,6 @@ public class XpService : INService, IUnloadableService
                                 {
                                     var role = first.User.Guild.GetRole(rrew.RoleId);
                                     if (role is not null) _ = first.User.AddRoleAsync(role);
-                                }
-
-                                var crew = crews.Find(x => x.Level == i);
-                                if (crew != null)
-                                {
-                                    //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                 }
                             }
                         }
@@ -231,31 +222,31 @@ public class XpService : INService, IUnloadableService
                     {
                         if (x.NotifyType == XpNotificationLocation.Dm)
                         {
-                            var chan = await x.User.CreateDMChannelAsync();
+                            var chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
                             if (chan != null)
                             {
                                 await chan.SendConfirmAsync(_strings.GetText("level_up_dm", x.Guild.Id, x.User.Mention,
-                                    Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-")));
+                                    Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-"))).ConfigureAwait(false);
                             }
                         }
                         else if (x.MessageChannel != null) // channel
                         {
                             await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel", x.Guild.Id,
-                                x.User.Mention, Format.Bold(x.Level.ToString())));
+                                x.User.Mention, Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
                         }
                     }
                     else
                     {
                         IMessageChannel chan;
                         if (x.NotifyType == XpNotificationLocation.Dm)
-                            chan = await x.User.CreateDMChannelAsync();
+                            chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
                         else // channel
                             chan = x.MessageChannel;
 
                         await chan.SendConfirmAsync(_strings.GetText("level_up_global", x.Guild.Id, x.User.Mention,
-                            Format.Bold(x.Level.ToString())));
+                            Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
                     }
-                }));
+                })).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -289,10 +280,10 @@ public class XpService : INService, IUnloadableService
         sub.Publish($"{_creds.RedisKey()}_reload_xp_template", "");
     }
 
-    public void SetCurrencyReward(ulong guildId, int level, int amount)
+    public async void SetCurrencyReward(ulong guildId, int level, int amount)
     {
         using var uow = _db.GetDbContext();
-        var settings = uow.XpSettingsFor(guildId);
+        var settings = await uow.XpSettingsFor(guildId);
 
         if (amount <= 0)
         {
@@ -313,25 +304,25 @@ public class XpService : INService, IUnloadableService
                 settings.CurrencyRewards.Add(new XpCurrencyReward { Level = level, Amount = amount });
         }
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public IEnumerable<XpCurrencyReward> GetCurrencyRewards(ulong id)
+    public async Task<IEnumerable<XpCurrencyReward>> GetCurrencyRewards(ulong id)
     {
-        using var uow = _db.GetDbContext();
-        return uow.XpSettingsFor(id).CurrencyRewards.ToArray();
+        await using var uow = _db.GetDbContext();
+        return (await uow.XpSettingsFor(id)).CurrencyRewards.ToArray();
     }
 
-    public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
+    public async Task<IEnumerable<XpRoleReward>> GetRoleRewards(ulong id)
     {
-        using var uow = _db.GetDbContext();
-        return uow.XpSettingsFor(id).RoleRewards.ToArray();
+        await using var uow = _db.GetDbContext();
+        return (await uow.XpSettingsFor(id)).RoleRewards.ToArray();
     }
 
-    public void SetRoleReward(ulong guildId, int level, ulong? roleId)
+    public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
         using var uow = _db.GetDbContext();
-        var settings = uow.XpSettingsFor(guildId);
+        var settings = await uow.XpSettingsFor(guildId);
 
         if (roleId == null)
         {
@@ -352,19 +343,19 @@ public class XpService : INService, IUnloadableService
                 settings.RoleRewards.Add(new XpRoleReward { Level = level, RoleId = roleId.Value });
         }
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public List<UserXpStats> GetUserXps(ulong guildId, int page)
+    public async Task<List<UserXpStats>> GetUserXps(ulong guildId, int page)
     {
-        using var uow = _db.GetDbContext();
-        return uow.UserXpStats.GetUsersFor(guildId, page);
+        await using var uow = _db.GetDbContext();
+        return await uow.UserXpStats.GetUsersFor(guildId, page);
     }
 
-    public List<UserXpStats> GetTopUserXps(ulong guildId)
+    public async Task<List<UserXpStats>> GetTopUserXps(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
-        return uow.UserXpStats.GetTopUserXps(guildId);
+        await using var uow = _db.GetDbContext();
+        return await uow.UserXpStats.GetTopUserXps(guildId);
     }
 
     public DiscordUser[] GetUserXps(int page)
@@ -376,28 +367,28 @@ public class XpService : INService, IUnloadableService
     public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
     {
         await using var uow = _db.GetDbContext();
-        var user = uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
         user.NotifyOnLevelUp = type;
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public XpNotificationLocation GetNotificationType(ulong userId, ulong guildId)
+    public async Task<XpNotificationLocation> GetNotificationType(ulong userId, ulong guildId)
     {
-        using var uow = _db.GetDbContext();
-        var user = uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        await using var uow = _db.GetDbContext();
+        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
         return user.NotifyOnLevelUp;
     }
 
-    public XpNotificationLocation GetNotificationType(IUser user)
+    public async Task<XpNotificationLocation> GetNotificationType(IUser user)
     {
-        using var uow = _db.GetDbContext();
-        return uow.GetOrCreateUser(user).NotifyOnLevelUp;
+        await using var uow = _db.GetDbContext();
+        return (await uow.GetOrCreateUser(user).ConfigureAwait(false)).NotifyOnLevelUp;
     }
 
     public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
     {
         await using var uow = _db.GetDbContext();
-        var du = uow.GetOrCreateUser(user);
+        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         du.NotifyOnLevelUp = type;
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -573,20 +564,20 @@ public class XpService : INService, IUnloadableService
         });
     }
 
-    public void AddXp(ulong userId, ulong guildId, int amount)
+    public async Task AddXp(ulong userId, ulong guildId, int amount)
     {
         using var uow = _db.GetDbContext();
-        var usr = uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        var usr = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
 
         usr.AwardedXp += amount;
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task XpTxtRateSet(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -596,7 +587,7 @@ public class XpService : INService, IUnloadableService
     public async Task XpTxtTimeoutSet(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -606,7 +597,7 @@ public class XpService : INService, IUnloadableService
     public async Task XpVoiceRateSet(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -616,7 +607,7 @@ public class XpService : INService, IUnloadableService
     public async Task XpVoiceTimeoutSet(IGuild guild, int num)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -644,32 +635,28 @@ public class XpService : INService, IUnloadableService
     {
         DiscordUser du;
         UserXpStats stats;
-        int totalXp;
-        int globalRank;
         int guildRank;
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            du = uow.GetOrCreateUser(user);
-            totalXp = du.TotalXp;
-            globalRank = uow.DiscordUser.GetUserGlobalRank(user.Id);
+            du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
             guildRank = uow.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
-            stats = uow.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
+            stats = await uow.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        return new FullUserStats(du, stats, new LevelStats(totalXp), new LevelStats(stats.Xp + stats.AwardedXp),
-            globalRank, guildRank);
+        return new FullUserStats(du, stats, new LevelStats(stats.Xp + stats.AwardedXp),
+            guildRank);
     }
 
     public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
     {
-        const int baseXp = XP_REQUIRED_LVL_1;
         int required;
         var totalXp = 0;
         var lvl = 1;
         while (true)
         {
-            required = (int)(baseXp + (baseXp / 4.0 * (lvl - 1)));
+            required = (int)(XP_REQUIRED_LVL_1 + (XP_REQUIRED_LVL_1 / 4.0 * (lvl - 1)));
 
             if (required + totalXp > stats.Xp)
                 break;
@@ -681,33 +668,33 @@ public class XpService : INService, IUnloadableService
         return (lvl - 1, stats.Xp - totalXp, required);
     }
 
-    public bool ToggleExcludeServer(ulong id)
+    public async Task<bool> ToggleExcludeServer(ulong id)
     {
-        using var uow = _db.GetDbContext();
-        var xpSetting = uow.XpSettingsFor(id);
+        await using var uow = _db.GetDbContext();
+        var xpSetting = await uow.XpSettingsFor(id);
         if (_excludedServers.Add(id))
         {
             xpSetting.ServerExcluded = true;
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
             return true;
         }
 
         _excludedServers.TryRemove(id);
         xpSetting.ServerExcluded = false;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
         return false;
     }
 
-    public bool ToggleExcludeRole(ulong guildId, ulong rId)
+    public async Task<bool> ToggleExcludeRole(ulong guildId, ulong rId)
     {
         var roles = _excludedRoles.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
-        using var uow = _db.GetDbContext();
-        var xpSetting = uow.XpSettingsFor(guildId);
+        await using var uow = _db.GetDbContext();
+        var xpSetting = await uow.XpSettingsFor(guildId);
         var excludeObj = new ExcludedItem { ItemId = rId, ItemType = ExcludedItemType.Role };
 
         if (roles.Add(rId))
         {
-            if (xpSetting.ExclusionList.Add(excludeObj)) uow.SaveChanges();
+            if (xpSetting.ExclusionList.Add(excludeObj)) await uow.SaveChangesAsync().ConfigureAwait(false);
 
             return true;
         }
@@ -717,36 +704,36 @@ public class XpService : INService, IUnloadableService
         var toDelete = xpSetting.ExclusionList.FirstOrDefault(x => x.Equals(excludeObj));
         if (toDelete == null) return false;
         uow.Remove(toDelete);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return false;
     }
 
-    public bool ToggleExcludeChannel(ulong guildId, ulong chId)
+    public async Task<bool> ToggleExcludeChannel(ulong guildId, ulong chId)
     {
         var channels = _excludedChannels.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
         using var uow = _db.GetDbContext();
-        var xpSetting = uow.XpSettingsFor(guildId);
+        var xpSetting = await uow.XpSettingsFor(guildId);
         var excludeObj = new ExcludedItem { ItemId = chId, ItemType = ExcludedItemType.Channel };
 
         if (channels.Add(chId))
         {
-            if (xpSetting.ExclusionList.Add(excludeObj)) uow.SaveChanges();
+            if (xpSetting.ExclusionList.Add(excludeObj)) await uow.SaveChangesAsync().ConfigureAwait(false);
 
             return true;
         }
 
         channels.TryRemove(chId);
 
-        if (xpSetting.ExclusionList.Remove(excludeObj)) uow.SaveChanges();
+        if (xpSetting.ExclusionList.Remove(excludeObj)) await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return false;
     }
 
     public async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(IGuildUser user)
     {
-        var stats = await GetUserStatsAsync(user);
-        return await GenerateXpImageAsync(stats);
+        var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
+        return await GenerateXpImageAsync(stats).ConfigureAwait(false);
     }
 
     private async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
@@ -842,23 +829,24 @@ public class XpService : INService, IUnloadableService
             {
                 var avatarUrl = stats.User.RealAvatarUrl();
 
-                var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
+                var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
                 if (!succ)
                 {
                     using (var http = _httpFactory.CreateClient())
                     {
-                        var avatarData = await http.GetByteArrayAsync(avatarUrl);
+                        var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
                         using var tempDraw = Image.Load<Rgba32>(avatarData);
                         tempDraw.Mutate(x => x
                                              .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
                                              .ApplyRoundedCorners(Math.Max(template.User.Icon.Size.X,
                                                                       template.User.Icon.Size.Y)
                                                                   / 2));
-                        await using var stream = tempDraw.ToStream();
+                        var stream = tempDraw.ToStream();
+                        await using var _ = stream.ConfigureAwait(false);
                         data = stream.ToArray();
                     }
 
-                    await _cache.SetImageDataAsync(avatarUrl, data);
+                    await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
                 }
 
                 using var toDraw = Image.Load(data);

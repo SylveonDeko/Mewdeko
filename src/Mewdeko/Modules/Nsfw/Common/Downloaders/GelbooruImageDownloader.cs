@@ -21,7 +21,7 @@ public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
         using var res = await _http.SendAsync(req, cancel).ConfigureAwait(false);
         res.EnsureSuccessStatusCode();
-        var resString = await res.Content.ReadAsStringAsync(cancel);
+        var resString = await res.Content.ReadAsStringAsync(cancel).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(resString))
             return new List<DapiImageObject>();
 

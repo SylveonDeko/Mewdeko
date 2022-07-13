@@ -42,7 +42,7 @@ public class TwitchHelixProvider : Provider
     }
 
     private async Task<string?> EnsureTokenValidAsync()
-        => await _api.Value.Auth.GetAccessTokenAsync();
+        => await _api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
 
     public override Task<bool> IsValidUrl(string url)
     {
@@ -68,7 +68,7 @@ public class TwitchHelixProvider : Provider
         var data = await GetStreamDataAsync(new List<string>
         {
             login
-        });
+        }).ConfigureAwait(false);
 
         return data.FirstOrDefault();
     }
@@ -80,7 +80,7 @@ public class TwitchHelixProvider : Provider
             return Array.Empty<StreamData>();
         }
 
-        var token = await EnsureTokenValidAsync();
+        var token = await EnsureTokenValidAsync().ConfigureAwait(false);
 
         if (token is null)
         {
@@ -104,7 +104,7 @@ public class TwitchHelixProvider : Provider
             try
             {
                 var str = await http.GetStringAsync(
-                    $"https://api.twitch.tv/helix/users?{chunk.Select(x => $"login={x}").Join('&')}&first=100");
+                    $"https://api.twitch.tv/helix/users?{chunk.Select(x => $"login={x}").Join('&')}&first=100").ConfigureAwait(false);
 
                 var resObj = JsonSerializer.Deserialize<HelixUsersResponse>(str);
 
@@ -139,7 +139,7 @@ public class TwitchHelixProvider : Provider
             try
             {
                 var str = await http.GetStringAsync(
-                    $"https://api.twitch.tv/helix/streams?{chunk.Select(x => $"user_login={x}").Join('&')}&first=100");
+                    $"https://api.twitch.tv/helix/streams?{chunk.Select(x => $"user_login={x}").Join('&')}&first=100").ConfigureAwait(false);
 
                 var res = JsonSerializer.Deserialize<HelixStreamsResponse>(str);
 

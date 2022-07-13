@@ -40,9 +40,10 @@ public partial class Searches
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri);
-            var bytes = await shipRequest.ReadAsByteArrayAsync();
-            await using var ms = new MemoryStream(bytes);
+            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var ms = new MemoryStream(bytes);
+            await using var _ = ms.ConfigureAwait(false);
             var color = new Color();
             var response = string.Empty;
             switch (random)
@@ -69,16 +70,17 @@ public partial class Searches
                     color = Discord.Color.Red;
                     break;
             }
-            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build());
+            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task Ship(IUser user)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri);
-            var bytes = await shipRequest.ReadAsByteArrayAsync();
-            await using var ms = new MemoryStream(bytes);
+            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var ms = new MemoryStream(bytes);
+            await using var _ = ms.ConfigureAwait(false);
             var color = new Color();
             var response = string.Empty;
             switch (random)
@@ -105,46 +107,46 @@ public partial class Searches
                     color = Discord.Color.Red;
                     break;
             }
-            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build());
+            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task RandomNeko()
         {
-            var req = await NekosBestApi.CategoryApi.Neko();
+            var req = await NekosBestApi.CategoryApi.Neko().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
                 Description = $"nya~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task RandomKitsune()
         {
-            var req = await NekosBestApi.CategoryApi.Kitsune();
+            var req = await NekosBestApi.CategoryApi.Kitsune().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
                 Description = $"What does the fox say? [Source]({req.Results.FirstOrDefault().SourceUrl})",
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task RandomWaifu()
         {
-            var req = await NekosBestApi.CategoryApi.Waifu();
+            var req = await NekosBestApi.CategoryApi.Waifu().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
                 Description = $"Ara Ara~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
                 ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
         [Cmd, Aliases]
         [Priority(0)]
@@ -248,32 +250,32 @@ public partial class Searches
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync("You need to attach a file or use a url with this!");
+                    await ctx.Channel.SendErrorAsync("You need to attach a file or use a url with this!").ConfigureAwait(false);
                     return;
                 }
             }
 
             var c2 = new Client();
             var response = await _httpClient.PostAsync(
-                $"https://api.trace.moe/search?url={t}", null);
+                $"https://api.trace.moe/search?url={t}", null).ConfigureAwait(false);
             var responseContent = response.Content;
-            using var reader = new StreamReader(await responseContent.ReadAsStreamAsync());
-            var er = await reader.ReadToEndAsync();
+            using var reader = new StreamReader(await responseContent.ReadAsStreamAsync().ConfigureAwait(false));
+            var er = await reader.ReadToEndAsync().ConfigureAwait(false);
             var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
                 new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             if (!string.IsNullOrWhiteSpace(stuff.Error))
             {
-                await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}");
+                await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}").ConfigureAwait(false);
                 return;
             }
             var ert = stuff.Result.FirstOrDefault();
             if (ert?.Filename is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "No results found. Please try a different image, or avoid cropping the current one.");
+                    "No results found. Please try a different image, or avoid cropping the current one.").ConfigureAwait(false);
             }
 
-            var image = await c2.GetMediaById(ert.Anilist);
+            var image = await c2.GetMediaById(ert.Anilist).ConfigureAwait(false);
             var eb = new EmbedBuilder
             {
                 ImageUrl = image?.CoverImageLarge,
@@ -293,14 +295,14 @@ public partial class Searches
             eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image?.IdMal}");
             eb.AddField("Score", image?.MeanScore);
             eb.AddField("Description", image?.DescriptionMd.TrimTo(1024).StripHtml());
-            _ = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            _ = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task CharInfo([Remainder] string chara)
         {
             var anilist = new Client();
-            var te = await anilist.GetCharacterBySearch(chara);
+            var te = await anilist.GetCharacterBySearch(chara).ConfigureAwait(false);
             var desc = string.Empty;
             if (te.DescriptionMd is null) desc = "None";
             if (te.DescriptionMd != null) desc = te.DescriptionMd;
@@ -317,7 +319,7 @@ public partial class Searches
             eb.AddField("Description/Backstory", desc);
             eb.ImageUrl = te.ImageLarge;
             eb.Color = Mewdeko.OkColor;
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
@@ -328,12 +330,12 @@ public partial class Searches
 
             try
             {
-                result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
+                result = await c2.GetMediaBySearch(query, MediaTypes.ANIME).ConfigureAwait(false);
             }
             catch (NullReferenceException)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "The anime you searched for wasn't found! Please try a different query!");
+                    "The anime you searched for wasn't found! Please try a different query!").ConfigureAwait(false);
                 return;
             }
 
@@ -357,16 +359,16 @@ public partial class Searches
             eb.Title = $"{result.EnglishTitle}";
             eb.Color = Mewdeko.OkColor;
             eb.WithUrl(result.SiteUrl);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Getting results for {query}...");
+                $"<a:loading:900381735244689469> Getting results for {query}...").ConfigureAwait(false);
             IJikan jikan = new Jikan();
-            var result = await jikan.SearchMangaAsync(query);
+            var result = await jikan.SearchMangaAsync(query).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
                             .AddUser(ctx.User)
                             .WithPageFactory(PageFactory)
@@ -376,13 +378,13 @@ public partial class Searches
                             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                             .Build();
-            await msg.DeleteAsync();
+            await msg.DeleteAsync().ConfigureAwait(false);
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 var data = result.Data.Skip(page).FirstOrDefault();
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
                        .WithTitle(Format.Bold($"{data.Title}"))
                        .AddField("First Publish Date", data.Published)

@@ -135,7 +135,7 @@ public class RoleCommandsService : INService
 
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
-                var message = await msg.GetOrDownloadAsync();
+                var message = await msg.GetOrDownloadAsync().ConfigureAwait(false);
                 var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
 
                 if (conf == null)
@@ -162,25 +162,25 @@ public class RoleCommandsService : INService
 
     public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
 
-    public bool Add(ulong id, ReactionRoleMessage rrm)
+    public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(id, set => set
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
         _models.AddOrUpdate(id,
             gc.ReactionRoleMessages,
             delegate { return gc.ReactionRoleMessages; });
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
     }
 
-    public void Remove(ulong id, int index)
+    public async Task Remove(ulong id, int index)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(id,
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));
         uow.Set<ReactionRole>()
@@ -189,6 +189,6 @@ public class RoleCommandsService : INService
         _models.AddOrUpdate(id,
             gc.ReactionRoleMessages,
             delegate { return gc.ReactionRoleMessages; });
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 }

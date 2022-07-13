@@ -82,13 +82,13 @@ public class CommandHandler : INService
         {
             if (!result.IsSuccess)
             {
-                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}");
+                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}").ConfigureAwait(false);
                 Log.Warning("Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
                     $"{ctx.User} [{ctx.User.Id}]", // {0}
                     ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
                     ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
                     info.MethodName, result.ErrorReason);
-                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
                 if (tofetch is RestTextChannel restChannel)
                 {
                     var eb = new EmbedBuilder()
@@ -101,7 +101,7 @@ public class CommandHandler : INService
                           .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
                           .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
-                    await restChannel.SendMessageAsync(embed: eb.Build());
+                    await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
 
                 if (ctx.Guild is null) return;
@@ -109,9 +109,9 @@ public class CommandHandler : INService
                     if (info.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
-                    var gc = _gss.GetGuildConfig(ctx.Guild.Id);
+                    var gc = await _gss.GetGuildConfig(ctx.Guild.Id);
                     if (gc.CommandLogChannel is 0) return;
-                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                     if (channel is null)
                         return;
                     var eb = new EmbedBuilder()
@@ -123,7 +123,7 @@ public class CommandHandler : INService
                              .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
                              .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
-                    await channel.SendMessageAsync(embed: eb.Build());
+                    await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
                 return;
             }
@@ -135,7 +135,7 @@ public class CommandHandler : INService
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 info.Module.SlashGroupName, info.MethodName); // {3}
 
-            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (tofetch1 is RestTextChannel restChannel1)
             {
                 var eb = new EmbedBuilder()
@@ -147,7 +147,7 @@ public class CommandHandler : INService
                       .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
                       .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
-                await restChannel1.SendMessageAsync(embed: eb.Build());
+                await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
             if (ctx.Guild is null) return;
@@ -155,9 +155,9 @@ public class CommandHandler : INService
                 if (info.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
-                var gc = _gss.GetGuildConfig(ctx.Guild.Id);
+                var gc = await _gss.GetGuildConfig(ctx.Guild.Id);
                 if (gc.CommandLogChannel is 0) return;
-                var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                 if (channel is null)
                     return;
                 var eb = new EmbedBuilder()
@@ -168,7 +168,7 @@ public class CommandHandler : INService
                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
                          .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
-                await channel.SendMessageAsync(embed: eb.Build());
+                await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -179,14 +179,14 @@ public class CommandHandler : INService
         {
             if (!result.IsSuccess)
             {
-                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}");
+                await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}").ConfigureAwait(false);
                 Log.Warning("Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
                     $"{ctx.User} [{ctx.User.Id}]", // {0}
                     ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
                     ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
                     slashInfo.MethodName, result.ErrorReason);
 
-                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+                var tofetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
                 if (tofetch is RestTextChannel restChannel)
                 {
                     var eb = new EmbedBuilder()
@@ -199,7 +199,7 @@ public class CommandHandler : INService
                           .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
                           .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
-                    await restChannel.SendMessageAsync(embed: eb.Build());
+                    await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
 
                 if (ctx.Guild is null) return;
@@ -207,9 +207,9 @@ public class CommandHandler : INService
                     if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
-                    var gc = _gss.GetGuildConfig(ctx.Guild.Id);
+                    var gc = await _gss.GetGuildConfig(ctx.Guild.Id);
                     if (gc.CommandLogChannel is 0) return;
-                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                    var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                     if (channel is null)
                         return;
                     var eb = new EmbedBuilder()
@@ -221,7 +221,7 @@ public class CommandHandler : INService
                              .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
                              .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
-                    await channel.SendMessageAsync(embed: eb.Build());
+                    await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
                 return;
             }
@@ -233,7 +233,7 @@ public class CommandHandler : INService
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
 
-            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            var tofetch1 = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (tofetch1 is RestTextChannel restChannel1)
             {
                 var eb = new EmbedBuilder()
@@ -245,7 +245,7 @@ public class CommandHandler : INService
                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
-                await restChannel1.SendMessageAsync(embed: eb.Build());
+                await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
             if (ctx.Guild is null) return;
@@ -253,9 +253,9 @@ public class CommandHandler : INService
                 if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
-                var gc = _gss.GetGuildConfig(ctx.Guild.Id);
+                var gc = await _gss.GetGuildConfig(ctx.Guild.Id);
                 if (gc.CommandLogChannel is 0) return;
-                var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel);
+                var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                 if (channel is null)
                     return;
                 var eb = new EmbedBuilder()
@@ -266,7 +266,7 @@ public class CommandHandler : INService
                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
                          .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
-                await channel.SendMessageAsync(embed: eb.Build());
+                await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -282,13 +282,13 @@ public class CommandHandler : INService
             {
                 if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
                 {
-                    await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components: cb);
+                    await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components: cb).ConfigureAwait(false);
                     return;
                 }
 
                 if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
                 {
-                    await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral: true, components: cb);
+                    await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral: true, components: cb).ConfigureAwait(false);
                     return;
                 }
             }
@@ -300,7 +300,7 @@ public class CommandHandler : INService
                 var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
                 if (trigger is not null)
                 {
-                    await ctS.RunInteractionTrigger(_client, interaction, trigger);
+                    await ctS.RunInteractionTrigger(_client, interaction, trigger).ConfigureAwait(false);
                     return;
                 }
             }
@@ -311,7 +311,7 @@ public class CommandHandler : INService
             //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
             var ctx = new SocketInteractionContext(_client, interaction);
-            await InteractionService.ExecuteCommandAsync(ctx, _services);
+            await InteractionService.ExecuteCommandAsync(ctx, _services).ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -390,7 +390,7 @@ public class CommandHandler : INService
                 channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
                 channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
                 usrMsg.Content); // {3}
-            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (toFetch is RestTextChannel restChannel)
             {
                 var eb = new EmbedBuilder()
@@ -402,13 +402,13 @@ public class CommandHandler : INService
                     .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
                     .AddField("Message", usrMsg.Content.TrimTo(1000));
 
-                await restChannel.SendMessageAsync(embed: eb.Build());
+                await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
             if (channel?.Guild is null) return;
-            var guildChannel = _gss.GetGuildConfig(channel.Guild.Id).CommandLogChannel;
+            var guildChannel = (await _gss.GetGuildConfig(channel.Guild.Id)).CommandLogChannel;
             if (guildChannel == 0) return;
-            var toSend = await _client.Rest.GetChannelAsync(guildChannel);
+            var toSend = await _client.Rest.GetChannelAsync(guildChannel).ConfigureAwait(false);
             if (toSend is RestTextChannel restTextChannel)
             {
                 var eb = new EmbedBuilder()
@@ -419,7 +419,7 @@ public class CommandHandler : INService
                          .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
                          .AddField("Message", usrMsg.Content.TrimTo(1000));
 
-                await restTextChannel.SendMessageAsync(embed: eb.Build());
+                await restTextChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -436,7 +436,7 @@ public class CommandHandler : INService
                 channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
                 usrMsg.Content, errorMessage);
 
-            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel);
+            var toFetch = await _client.Rest.GetChannelAsync(_bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (toFetch is RestTextChannel restChannel)
             {
                 var eb = new EmbedBuilder().WithOkColor().WithTitle("Text Command Errored").AddField("Error Reason", errorMessage)
@@ -445,7 +445,7 @@ public class CommandHandler : INService
                                            .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
                                            .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`").AddField("Message", usrMsg.Content.TrimTo(1000));
 
-                await restChannel.SendMessageAsync(embed: eb.Build());
+                await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
@@ -549,7 +549,7 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
-        var prefix = _gss.GetPrefix(guild?.Id);
+        var prefix = await _gss.GetPrefix(guild?.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
             messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ") ||
@@ -584,7 +584,7 @@ public class CommandHandler : INService
                 if (guild != null)
                 {
                     var perms = new PermissionService(_client, _db, _strings, _gss);
-                    var pc = perms.GetCacheFor(guild.Id);
+                    var pc = await perms.GetCacheFor(guild.Id);
                     if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                         await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
                     if (pc == null)
@@ -603,7 +603,7 @@ public class CommandHandler : INService
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos, IServiceProvider serviceProvider,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
-        await ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
+        await ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling).ConfigureAwait(false);
 
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
         string input, IServiceProvider services,

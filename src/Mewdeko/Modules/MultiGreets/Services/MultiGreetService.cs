@@ -37,21 +37,21 @@ public class MultiGreetService : INService
         {
             var greets = GetGreets(user.Guild.Id);
             if (!greets.Any()) return;
-            if (GetMultiGreetType(user.Guild.Id) == 3)
+            if (await GetMultiGreetType(user.Guild.Id) == 3)
                 return;
-            if (GetMultiGreetType(user.Guild.Id) == 1)
+            if (await GetMultiGreetType(user.Guild.Id) == 1)
             {
                 var random = new Random();
                 var index = random.Next(greets.Length);
-                await HandleRandomGreet(greets[index], user);
+                await HandleRandomGreet(greets[index], user).ConfigureAwait(false);
                 return;
             }
             var webhooks = greets.Where(x => x.WebhookUrl is not null)
                                  .Select(x => new DiscordWebhookClient(x.WebhookUrl));
             if (greets.Any())
-                await HandleChannelGreets(greets, user);
+                await HandleChannelGreets(greets, user).ConfigureAwait(false);
             if (webhooks.Any())
-                await HandleWebhookGreets(greets, user);
+                await HandleWebhookGreets(greets, user).ConfigureAwait(false);
         });
         return Task.CompletedTask;
 
@@ -69,15 +69,15 @@ public class MultiGreetService : INService
             if (SmartEmbed.TryParse(content , user.Guild.Id, out var embedData, out var plainText, out var components2))
             {
         
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2.Build());
+                    var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2.Build()).ConfigureAwait(false);
                     if (greet.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
             }
             else
             {
-                var msg = await webhook.SendMessageAsync(content);
+                var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
                 if (greet.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                    (await user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
             }
         }
         else
@@ -93,7 +93,7 @@ public class MultiGreetService : INService
                     var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build(), options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
-                    });
+                    }).ConfigureAwait(false);
                     if (greet.DeleteTime > 0)
                         msg.DeleteAfter(greet.DeleteTime);
 
@@ -104,7 +104,7 @@ public class MultiGreetService : INService
                 var msg = await channel.SendMessageAsync(content, options: new RequestOptions
                 {
                     RetryMode = RetryMode.RetryRatelimit
-                });
+                }).ConfigureAwait(false);
                 if (greet.DeleteTime > 0)
                     msg.DeleteAfter(greet.DeleteTime);
             }
@@ -122,19 +122,19 @@ public class MultiGreetService : INService
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             if (channel is null)
             {
-                await RemoveMultiGreetInternal(i);
+                await RemoveMultiGreetInternal(i).ConfigureAwait(false);
                 continue;
             }
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content , user.Guild.Id, out var embedData, out var plainText, out var components2))
             {
-                var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build());
+                var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build()).ConfigureAwait(false);
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
             }
             else
             {
-                var msg = await channel.SendMessageAsync(content);
+                var msg = await channel.SendMessageAsync(content).ConfigureAwait(false);
                 if (i.DeleteTime > 0)
                     msg.DeleteAfter(i.DeleteTime);
             }
@@ -153,20 +153,20 @@ public class MultiGreetService : INService
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             if (channel is null)
             {
-                await RemoveMultiGreetInternal(i);
+                await RemoveMultiGreetInternal(i).ConfigureAwait(false);
                 continue;
             }
             if (SmartEmbed.TryParse(content , user.Guild.Id, out var embedData, out var plainText, out var components2))
             {
-                var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build());
+                var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build()).ConfigureAwait(false);
                     if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
             }
             else
             {
-                var msg = await webhook.SendMessageAsync(content);
+                var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
                 if (i.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
             }
         }
     }
@@ -174,13 +174,13 @@ public class MultiGreetService : INService
     public async Task SetMultiGreetType(IGuild guild, int type)
     {
         await using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guild.Id, set => set);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public int GetMultiGreetType(ulong? id) => _guildSettingsService.GetGuildConfig(id.Value).MultiGreetType;
+    public async Task<int> GetMultiGreetType(ulong? id) => (await _guildSettingsService.GetGuildConfig(id.Value)).MultiGreetType;
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
         if (GetForChannel(channelId).Length == 5)
@@ -228,13 +228,15 @@ public class MultiGreetService : INService
 
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
-        await using var uow =  _db.GetDbContext();
+        var uow =  _db.GetDbContext();
+        await using var _ = uow.ConfigureAwait(false);
         uow.MultiGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
-        await using var uow =  _db.GetDbContext();
+        var uow =  _db.GetDbContext();
+        await using var _ = uow.ConfigureAwait(false);
         uow.MultiGreets.RemoveRange(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

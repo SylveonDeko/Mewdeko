@@ -13,7 +13,8 @@ public class HighlightAutocompleter : AutocompleteHandler
 
     public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter, IServiceProvider services)
     {
-        await using var uow = Db.GetDbContext();
+        var uow = Db.GetDbContext();
+        await using var _ = uow.ConfigureAwait(false);
 
         var content = (string)interaction.Data.Current.Value;
 

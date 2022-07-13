@@ -27,11 +27,12 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
-        _ = ctx.Channel.TriggerTypingAsync();
+        await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
         var serialized = Service.ExportCrs(ctx.Guild?.Id);
-        await using var stream = await serialized.ToStream();
-        await ctx.Channel.SendFileAsync(stream, "crs-export.yml");
+        var stream = await serialized.ToStream().ConfigureAwait(false);
+        await using var a = stream.ConfigureAwait(false);
+        await ctx.Channel.SendFileAsync(stream, "crs-export.yml").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -46,16 +47,16 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             var attachment = ctx.Message.Attachments.FirstOrDefault();
             if (attachment is null)
             {
-                await ReplyErrorLocalizedAsync("expr_import_no_input");
+                await ReplyErrorLocalizedAsync("expr_import_no_input").ConfigureAwait(false);
                 return;
             }
 
             using var client = _clientFactory.CreateClient();
-            input = await client.GetStringAsync(attachment.Url);
+            input = await client.GetStringAsync(attachment.Url).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                await ReplyErrorLocalizedAsync("expr_import_no_input");
+                await ReplyErrorLocalizedAsync("expr_import_no_input").ConfigureAwait(false);
                 return;
             }
         }
@@ -63,17 +64,17 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (ctx.Message.Attachments.Count == 0)
         {
             using var client = _clientFactory.CreateClient();
-            input = await client.GetStringAsync(input);
+            input = await client.GetStringAsync(input).ConfigureAwait(false);
         }
 
-        var succ = await Service.ImportCrsAsync(ctx.User as IGuildUser, input);
+        var succ = await Service.ImportCrsAsync(ctx.User as IGuildUser, input).ConfigureAwait(false);
         if (!succ)
         {
-            await ReplyErrorLocalizedAsync("expr_import_invalid_data");
+            await ReplyErrorLocalizedAsync("expr_import_invalid_data").ConfigureAwait(false);
             return;
         }
 
-        await ctx.OkAsync();
+        await ctx.OkAsync().ConfigureAwait(false);
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -82,9 +83,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
             return;
 
-        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, false);
+        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, false).ConfigureAwait(false);
 
-        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")));
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -93,9 +94,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
             return;
 
-        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, true);
+        var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, true).ConfigureAwait(false);
 
-        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")));
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -127,7 +128,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("chat_triggers")).WithDescription(
                 string.Join("\n", chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20).Take(20).Select(cr =>
                 {
@@ -168,7 +169,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("name")).WithDescription(
                     string.Join("\r\n",
                         ordered.Skip(page * 20).Take(20).Select(cr =>
@@ -180,7 +181,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task ShowChatTrigger(int id)
     {
-        var found = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
 
         if (found == null)
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -191,7 +192,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task DeleteChatTrigger(int id)
     {
-        var ct = await Service.DeleteAsync(ctx.Guild?.Id, id);
+        var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
 
         if (ct != null)
             await ctx.Channel.EmbedAsync(Service.GetEmbed(ct, ctx.Guild?.Id), GetText("deleted")).ConfigureAwait(false);
@@ -211,7 +212,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         if (emojiStrs.Length == 0)
         {
-            await Service.ResetCrReactions(ctx.Guild?.Id, id);
+            await Service.ResetCrReactions(ctx.Guild?.Id, id).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("ctr_reset", Format.Bold(id.ToString())).ConfigureAwait(false);
             return;
         }
@@ -243,7 +244,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             return;
         }
 
-        await Service.SetCrReactions(ctx.Guild?.Id, id, succ);
+        await Service.SetCrReactions(ctx.Guild?.Id, id, succ).ConfigureAwait(false);
 
         await ReplyConfirmLocalizedAsync("ctr_set", Format.Bold(id.ToString()),
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
@@ -278,21 +279,21 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
         else
         {
-            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")));
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig"))).ConfigureAwait(false);
         }
     }
 
     [Cmd, Aliases, OwnerOnly]
     public async Task CtsReload()
     {
-        await Service.TriggerReloadChatTriggers();
+        await Service.TriggerReloadChatTriggers().ConfigureAwait(false);
 
-        await ctx.OkAsync();
+        await ctx.OkAsync().ConfigureAwait(false);
     }
 
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         if (ct?.Id != id)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -343,7 +344,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             return;
         }
 
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
 
 
         if (ct is null)
@@ -374,7 +375,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             return;
         }
 
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         if (ct is null)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -408,13 +409,13 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                      .ConfigureAwait(false);
         }
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtCpSetWebhook(int id, string webhookUrl)
     {
-        var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl);
+        var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl).ConfigureAwait(false);
         if (!res.Valid)
         {
             await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
@@ -430,13 +431,13 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.EmbedAsync(Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")))
                  .ConfigureAwait(false);
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtCpSetChannel(int id, ITextChannel channel)
     {
-        var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id);
+        var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id).ConfigureAwait(false);
         if (res is null)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -446,13 +447,13 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
                  .ConfigureAwait(false);
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task SetCtInterType(int id, CtApplicationCommandType type)
     {
-        var ct = Service.GetChatTriggers(ctx.Guild?.Id, id);
+        var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         if (ct is null)
         {
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -480,7 +481,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                      .ConfigureAwait(false);
         }
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -498,7 +499,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                      .ConfigureAwait(false);
         }
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -516,7 +517,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                      .ConfigureAwait(false);
         }
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
 
@@ -535,7 +536,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 .ConfigureAwait(false);
         }
 
-        await FollowupWithTriggerStatus();
+        await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -558,7 +559,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
               .WithDescription(GetText("ct_interaction_errors_none_desc"));
         }
 
-        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
     }
 
     public async Task FollowupWithTriggerStatus()
@@ -569,6 +570,6 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                     .WithTitle(GetText("ct_interaction_errors_title"))
                     .WithDescription(GetText("ct_interaction_errors_desc"))
                     .WithErrorColor();
-        await ctx.Channel.EmbedAsync(embed);
+        await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 }

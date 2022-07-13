@@ -12,21 +12,21 @@ public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
     {
     }
 
-    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+    public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
         IServiceProvider services)
     {
         var cmds = services.GetService<CommandService>();
         var guildSettingsService = services.GetService<GuildSettingsService>();
         input = input.ToUpperInvariant();
-        var prefix = guildSettingsService?.GetPrefix(context.Guild);
+        var prefix = await guildSettingsService?.GetPrefix(context.Guild);
         if (input.StartsWith(prefix?.ToUpperInvariant()!))
             input = input[prefix.Length..];
         var cmd = cmds?.Commands.FirstOrDefault(c =>
             c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
         if (cmd == null)
-            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
+            return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found.");
 
-        return Task.FromResult(TypeReaderResult.FromSuccess(cmd));
+        return TypeReaderResult.FromSuccess(cmd);
     }
 }
 

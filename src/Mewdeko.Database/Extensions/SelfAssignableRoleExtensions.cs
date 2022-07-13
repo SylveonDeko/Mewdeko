@@ -1,13 +1,14 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
 
 public static class SelfAssignedRolesExtensions
 {
-    public static bool DeleteByGuildAndRoleId(this DbSet<SelfAssignedRole> set, ulong guildId, ulong roleId)
+    public static async Task<bool> DeleteByGuildAndRoleId(this DbSet<SelfAssignedRole> set, ulong guildId, ulong roleId)
     {
-        var role = set.FirstOrDefault(s => s.GuildId == guildId && s.RoleId == roleId);
+        var role = await set.FirstOrDefaultAsyncEF(s => s.GuildId == guildId && s.RoleId == roleId);
 
         if (role == null)
             return false;
@@ -16,8 +17,8 @@ public static class SelfAssignedRolesExtensions
         return true;
     }
 
-    public static IEnumerable<SelfAssignedRole> GetFromGuild(this DbSet<SelfAssignedRole> set, ulong guildId) =>
-        set.AsQueryable()
+    public static async Task<IEnumerable<SelfAssignedRole>> GetFromGuild(this DbSet<SelfAssignedRole> set, ulong guildId) =>
+        await set.AsQueryable()
            .Where(s => s.GuildId == guildId)
-           .ToArray();
+           .ToArrayAsyncLinqToDB();
 }

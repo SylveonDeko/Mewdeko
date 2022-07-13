@@ -68,10 +68,10 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public async Task OnReadyAsync()
     {
-        if (await AllKeysExist())
+        if (await AllKeysExist().ConfigureAwait(false))
             return;
 
-        await Reload();
+        await Reload().ConfigureAwait(false);
     }
 
     public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
@@ -86,37 +86,37 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public async Task Reload()
     {
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(_imagesPath));
+        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(_imagesPath).ConfigureAwait(false));
         foreach (var key in GetAllKeys())
         {
             switch (key)
             {
                 case ImageKeys.CoinHeads:
-                    await Load(key, ImageUrls.Coins.Heads);
+                    await Load(key, ImageUrls.Coins.Heads).ConfigureAwait(false);
                     break;
                 case ImageKeys.CoinTails:
-                    await Load(key, ImageUrls.Coins.Tails);
+                    await Load(key, ImageUrls.Coins.Tails).ConfigureAwait(false);
                     break;
                 case ImageKeys.Dice:
-                    await Load(key, ImageUrls.Dice);
+                    await Load(key, ImageUrls.Dice).ConfigureAwait(false);
                     break;
                 case ImageKeys.SlotBg:
-                    await Load(key, ImageUrls.Slots.Bg);
+                    await Load(key, ImageUrls.Slots.Bg).ConfigureAwait(false);
                     break;
                 case ImageKeys.SlotEmojis:
-                    await Load(key, ImageUrls.Slots.Emojis);
+                    await Load(key, ImageUrls.Slots.Emojis).ConfigureAwait(false);
                     break;
                 case ImageKeys.Currency:
-                    await Load(key, ImageUrls.Currency);
+                    await Load(key, ImageUrls.Currency).ConfigureAwait(false);
                     break;
                 case ImageKeys.RipOverlay:
-                    await Load(key, ImageUrls.Rip.Overlay);
+                    await Load(key, ImageUrls.Rip.Overlay).ConfigureAwait(false);
                     break;
                 case ImageKeys.RipBg:
-                    await Load(key, ImageUrls.Rip.Bg);
+                    await Load(key, ImageUrls.Rip.Bg).ConfigureAwait(false);
                     break;
                 case ImageKeys.XpBg:
-                    await Load(key, ImageUrls.Xp.Bg);
+                    await Load(key, ImageUrls.Xp.Bg).ConfigureAwait(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -126,23 +126,23 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     private async Task Load(ImageKeys key, Uri uri)
     {
-        var data = await GetImageData(uri);
+        var data = await GetImageData(uri).ConfigureAwait(false);
         if (data is null)
             return;
 
-        await Db.StringSetAsync(GetRedisKey(key), data);
+        await Db.StringSetAsync(GetRedisKey(key), data).ConfigureAwait(false);
     }
 
     private async Task Load(ImageKeys key, Uri[] uris)
     {
-        await Db.KeyDeleteAsync(GetRedisKey(key));
-        var imageData = await Task.WhenAll(uris.Select(GetImageData));
+        await Db.KeyDeleteAsync(GetRedisKey(key)).ConfigureAwait(false);
+        var imageData = await Task.WhenAll(uris.Select(GetImageData)).ConfigureAwait(false);
         var vals = imageData
             .Where(x => x is not null)
             .Select(x => (RedisValue)x)
             .ToArray();
 
-        await Db.ListRightPushAsync(GetRedisKey(key), vals);
+        await Db.ListRightPushAsync(GetRedisKey(key), vals).ConfigureAwait(false);
 
         if (uris.Length != vals.Length)
         {
@@ -158,7 +158,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         {
             try
             {
-                return await File.ReadAllBytesAsync(uri.LocalPath);
+                return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -169,7 +169,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
         try
         {
-            return await _http.GetByteArrayAsync(uri);
+            return await _http.GetByteArrayAsync(uri).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -181,7 +181,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     private async Task<bool> AllKeysExist()
     {
         var tasks = await Task.WhenAll(GetAllKeys()
-            .Select(x => Db.KeyExistsAsync(GetRedisKey(x))));
+            .Select(x => Db.KeyExistsAsync(GetRedisKey(x)))).ConfigureAwait(false);
 
         return tasks.All(exist => exist);
     }

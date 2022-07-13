@@ -59,7 +59,7 @@ public class GroupGreetTests
 
         // add 15 items
         await Task.WhenAll(Enumerable.Range(10, 15)
-                                     .Select(x => Task.Run(() => grouper.CreateOrAdd(0, x))));
+                                     .Select(x => Task.Run(() => grouper.CreateOrAdd(0, x)))).ConfigureAwait(false);
 
         // get 5 at most
         grouper.ClearGroup(0, 5, out var items);

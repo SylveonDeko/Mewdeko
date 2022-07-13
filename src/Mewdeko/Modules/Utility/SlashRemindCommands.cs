@@ -26,10 +26,10 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     {
         if (string.IsNullOrEmpty(reminder))
         {
-            await RespondWithModalAsync<ReminderModal>($"remind:{ctx.User.Id},1,{time};");
+            await RespondWithModalAsync<ReminderModal>($"remind:{ctx.User.Id},1,{time};").ConfigureAwait(false);
             return;
         }
-        await RemindInternal(ctx.User.Id, true, time, reminder);
+        await RemindInternal(ctx.User.Id, true, time, reminder).ConfigureAwait(false);
     }
 
     [SlashCommand("here", "Send a reminder to this channel.")]
@@ -41,7 +41,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
     {
         if (ctx.Guild is null)
         {
-            await Me(time, reminder);
+            await Me(time, reminder).ConfigureAwait(false);
             return;
         }
 
@@ -115,7 +115,8 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             ServerId = ctx.Guild?.Id ?? 0
         };
 
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
             uow.Reminders.Add(rem);
             await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -151,7 +152,8 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
                     .WithTitle(GetText("reminder_list"));
 
         List<Reminder> rems;
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
             rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
                       .ToList();
@@ -187,7 +189,8 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             return;
 
         Reminder? rem = null;
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
             var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
                           .ToList();

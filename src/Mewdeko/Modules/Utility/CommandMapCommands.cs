@@ -48,9 +48,10 @@ public partial class Utility
                     return;
                 }
 
-                await using (var uow = _db.GetDbContext())
+                var uow = _db.GetDbContext();
+                await using (uow.ConfigureAwait(false))
                 {
-                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                     if (tr != null)
                         uow.Set<CommandAlias>().Remove(tr);
@@ -65,7 +66,7 @@ public partial class Utility
             {
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     config.CommandAliases.Add(new CommandAlias
                     {
                         Mapping = mapping,
@@ -82,7 +83,7 @@ public partial class Utility
             {
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     var toAdd = new CommandAlias
                     {
                         Mapping = mapping,
@@ -127,7 +128,7 @@ public partial class Utility
 
             async Task<PageBuilder> PageFactory(int page)
             {
-                await Task.CompletedTask;
+                await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithOkColor()
                                                         .WithTitle(GetText("alias_list"))
                                                         .WithDescription(string.Join("\n",

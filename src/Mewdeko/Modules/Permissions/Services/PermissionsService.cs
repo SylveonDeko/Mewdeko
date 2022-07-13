@@ -61,7 +61,7 @@ public class PermissionService : ILateBlocker, INService
 
         var resetCommand = commandName == "resetperms";
 
-        var pc = GetCacheFor(guild.Id);
+        var pc = await GetCacheFor(guild.Id);
         if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out var index))
         {
             if (pc.Verbose)
@@ -70,7 +70,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                                      Format.Bold(pc.Permissions[index]
-                                                   .GetCommand(_guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                                                   .GetCommand(await _guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                                  .ConfigureAwait(false);
                 }
                 catch
@@ -147,12 +147,12 @@ public class PermissionService : ILateBlocker, INService
 
         var resetCommand = commandName == "resetperms";
 
-        var pc = GetCacheFor(guild.Id);
+        var pc = await GetCacheFor(guild.Id);
         if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User, ctx.Channel, out var index)) return false;
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                         Format.Bold(pc.Permissions[index].GetCommand(_guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                         Format.Bold(pc.Permissions[index].GetCommand(await _guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                      .ConfigureAwait(false);
         }
         catch
@@ -163,12 +163,12 @@ public class PermissionService : ILateBlocker, INService
         return true;
     }
 
-    public PermissionCache? GetCacheFor(ulong guildId)
+    public async Task<PermissionCache?> GetCacheFor(ulong guildId)
     {
         if (Cache.TryGetValue(guildId, out var pc)) return pc;
         using (var uow = _db.GetDbContext())
         {
-            var config = uow.ForGuildId(guildId,
+            var config = await uow.ForGuildId(guildId,
                 set => set.Include(x => x.Permissions));
             UpdateCache(config);
         }
@@ -180,7 +180,7 @@ public class PermissionService : ILateBlocker, INService
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
     {
         await using var uow = _db.GetDbContext();
-        var config = uow.GcWithPermissionsv2For(guildId);
+        var config = await uow.GcWithPermissionsv2For(guildId);
         //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
         var max = config.Permissions.Max(x => x.Index); //have to set its index to be the highest
         foreach (var perm in perms)
@@ -210,7 +210,7 @@ public class PermissionService : ILateBlocker, INService
     public async Task Reset(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-        var config = uow.GcWithPermissionsv2For(guildId);
+        var config = await uow.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);

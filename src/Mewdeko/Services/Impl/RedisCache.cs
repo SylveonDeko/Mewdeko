@@ -46,7 +46,7 @@ public class RedisCache : IDataCache
 
     public async Task CacheAfk(ulong id, List<Afk> objectList) =>
         await Task.Run(() =>
-            new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } });
+            new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } }).ConfigureAwait(false);
 
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
@@ -72,13 +72,13 @@ public class RedisCache : IDataCache
 
     public async Task CacheHighlights(ulong id, List<Highlights> objectList) =>
         await Task.Run(() =>
-            _ = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } });
+            _ = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } }).ConfigureAwait(false);
 
     public async Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList) =>
         await Task.Run(() => _ = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis)
-            {
-                { id, objectList }
-            });
+        {
+            { id, objectList }
+        }).ConfigureAwait(false);
 
     public List<Afk?>? GetAfkForGuild(ulong id)
     {
@@ -184,7 +184,7 @@ public class RedisCache : IDataCache
     public async Task SetImageDataAsync(Uri key, byte[] data)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"image_{key}", data);
+        await db.StringSetAsync($"image_{key}", data).ConfigureAwait(false);
     }
     public TimeSpan? AddTimelyClaim(ulong id, int period)
     {
@@ -301,38 +301,38 @@ public class RedisCache : IDataCache
     public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value)).ConfigureAwait(false);
     }
 
     public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<bool>(toget);
     }
     public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value)).ConfigureAwait(false);
     }
 
     public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<int>(toget);
     }
 
     public async Task SetGuildSettingString(ulong guildId, string setting, string value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value)).ConfigureAwait(false);
     }
 
     public async Task<string> GetGuildSettingString(ulong guildId, string setting)
     {
         var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<string>(toget);
     }
     public async Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory,

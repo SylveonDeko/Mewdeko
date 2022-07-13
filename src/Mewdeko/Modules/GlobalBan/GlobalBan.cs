@@ -35,7 +35,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
             .WithDescription("What type of user are you reporting?")
             .WithTitle("Global Ban Report")
             .WithOkColor();
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
+        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build()).ConfigureAwait(false);
         var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
         if (input == "cancel")
         {
@@ -43,7 +43,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
             {
                 x.Embed = cancelled.Build();
                 x.Components = null;
-            });
+            }).ConfigureAwait(false);
             return;
         }
 
@@ -58,11 +58,11 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 {
                     x.Embed = neweb.Build();
                     x.Components = null;
-                });
-                var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                }).ConfigureAwait(false);
+                var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 if (next.ToLower() == "cancel")
                 {
-                    await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                    await msg.ModifyAsync(x => x.Embed = cancelled.Build()).ConfigureAwait(false);
                     return;
                 }
 
@@ -71,7 +71,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription("You didn't provide info in the correct format. Please start over.");
-                    await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    await msg.ModifyAsync(x => x.Embed = eb1.Build()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -86,7 +86,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
@@ -95,12 +95,12 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
-                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid);
+                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid).ConfigureAwait(false);
                     var channel =
-                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId) as
+                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId).ConfigureAwait(false) as
                         RestTextChannel;
                     var eb1 = new EmbedBuilder()
                         .WithTitle("New Global Ban Report Received!")
@@ -110,7 +110,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("User Reported", $"{user} {user.Id}")
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
-                    await channel.SendMessageAsync(embed: eb1.Build());
+                    await channel.SendMessageAsync(embed: eb1.Build()).ConfigureAwait(false);
                     var eb3 = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
@@ -121,7 +121,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     {
                         x.Embed = eb3.Build();
                         x.Components = component1.Build();
-                    });
+                    }).ConfigureAwait(false);
                 }
 
                 break;
@@ -134,11 +134,11 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 {
                     x.Embed = neweb1.Build();
                     x.Components = null;
-                });
-                var next1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                }).ConfigureAwait(false);
+                var next1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 if (next1.ToLower() == "cancel")
                 {
-                    await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                    await msg.ModifyAsync(x => x.Embed = cancelled.Build()).ConfigureAwait(false);
                     return;
                 }
 
@@ -147,7 +147,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription("You didn't provide info in the correct format. Please start over.");
-                    await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    await msg.ModifyAsync(x => x.Embed = eb1.Build()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -162,7 +162,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
@@ -171,18 +171,18 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
                     var eb4 = new EmbedBuilder()
                         .WithDescription("Please provide a reason as to why you think they are a scammer.")
                         .WithOkColor();
-                    await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid);
+                    await msg.ModifyAsync(x => x.Embed = eb4.Build()).ConfigureAwait(false);
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid).ConfigureAwait(false);
                     var channel =
-                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId) as
+                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId).ConfigureAwait(false) as
                         RestTextChannel;
                     var eb1 = new EmbedBuilder()
                         .WithTitle("New Global Ban Report Received!")
@@ -193,7 +193,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("Reasoning", reasoning)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
-                    await channel.SendMessageAsync(embed: eb1.Build());
+                    await channel.SendMessageAsync(embed: eb1.Build()).ConfigureAwait(false);
                     var eb3 = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
@@ -204,7 +204,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     {
                         x.Embed = eb3.Build();
                         x.Components = component1.Build();
-                    });
+                    }).ConfigureAwait(false);
                 }
 
                 break;
@@ -217,11 +217,11 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 {
                     x.Embed = neweb2.Build();
                     x.Components = null;
-                });
-                var next2 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                }).ConfigureAwait(false);
+                var next2 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 if (next2.ToLower() == "cancel")
                 {
-                    await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                    await msg.ModifyAsync(x => x.Embed = cancelled.Build()).ConfigureAwait(false);
                     return;
                 }
 
@@ -230,7 +230,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription("You didn't provide info in the correct format. Please start over.");
-                    await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    await msg.ModifyAsync(x => x.Embed = eb1.Build()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -245,7 +245,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
@@ -254,24 +254,24 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
                     var eb4 = new EmbedBuilder()
                         .WithDescription("How did they raid?")
                         .WithOkColor();
-                    await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    await msg.ModifyAsync(x => x.Embed = eb4.Build()).ConfigureAwait(false);
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                     new EmbedBuilder()
                         .WithDescription(
                             "Were there any other users? If so please separate IDs with `,` otherwise just say no or none")
                         .WithOkColor();
-                    await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid);
+                    await msg.ModifyAsync(x => x.Embed = eb4.Build()).ConfigureAwait(false);
+                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid).ConfigureAwait(false);
                     var channel =
-                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId) as
+                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId).ConfigureAwait(false) as
                         RestTextChannel;
                     var eb1 = new EmbedBuilder()
                         .WithTitle("New Global Ban Report Received!")
@@ -283,7 +283,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("Other Users", otherUsers)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
-                    await channel.SendMessageAsync(embed: eb1.Build());
+                    await channel.SendMessageAsync(embed: eb1.Build()).ConfigureAwait(false);
                     var eb3 = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
@@ -294,7 +294,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     {
                         x.Embed = eb3.Build();
                         x.Components = component1.Build();
-                    });
+                    }).ConfigureAwait(false);
                 }
 
                 break;
@@ -307,11 +307,11 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 {
                     x.Embed = neweb3.Build();
                     x.Components = null;
-                });
-                var next3 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                }).ConfigureAwait(false);
+                var next3 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 if (next3.ToLower() == "cancel")
                 {
-                    await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                    await msg.ModifyAsync(x => x.Embed = cancelled.Build()).ConfigureAwait(false);
                     return;
                 }
 
@@ -320,7 +320,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription("You didn't provide info in the correct format. Please start over.");
-                    await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    await msg.ModifyAsync(x => x.Embed = eb1.Build()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -335,7 +335,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
@@ -344,23 +344,23 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         var eb2 = new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("The User ID you provided wasn't valid, please start over.");
-                        await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                        await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
                         return;
                     }
 
                     var eb4 = new EmbedBuilder()
                         .WithDescription("How did they abuse?")
                         .WithOkColor();
-                    await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    await msg.ModifyAsync(x => x.Embed = eb4.Build()).ConfigureAwait(false);
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                     new EmbedBuilder()
                         .WithDescription("How did this happen? Did they use an exploit to get perms? Explain")
                         .WithOkColor();
-                    await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid);
+                    await msg.ModifyAsync(x => x.Embed = eb4.Build()).ConfigureAwait(false);
+                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+                    var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(uid).ConfigureAwait(false);
                     var channel =
-                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId) as
+                        await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_bot.Credentials.GlobalBanReportChannelId).ConfigureAwait(false) as
                         RestTextChannel;
                     var eb1 = new EmbedBuilder()
                         .WithTitle("New Global Ban Report Received!")
@@ -372,7 +372,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("How did they abuse perms?", otherUsers)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
-                    await channel.SendMessageAsync(embed: eb1.Build());
+                    await channel.SendMessageAsync(embed: eb1.Build()).ConfigureAwait(false);
                     var eb3 = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
@@ -383,28 +383,28 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     {
                         x.Embed = eb3.Build();
                         x.Components = component1.Build();
-                    });
+                    }).ConfigureAwait(false);
                 }
 
                 break;
             case "raidbot":
-                await ctx.Channel.SendConfirmAsync("Please provide the bot ID.");
-                var raidReport = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                await ctx.Channel.SendConfirmAsync("Please provide the bot ID.").ConfigureAwait(false);
+                var raidReport = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 if (!ulong.TryParse(raidReport, out var id))
                 {
-                    await ctx.Channel.SendErrorAsync("That's not a correct ID, please start over.");
+                    await ctx.Channel.SendErrorAsync("That's not a correct ID, please start over.").ConfigureAwait(false);
                     return;
                 }
 
-                var reportedUser = await _client.GetUserAsync(id);
+                var reportedUser = await _client.GetUserAsync(id).ConfigureAwait(false);
                 if (reportedUser is null)
                 {
-                    await ctx.Channel.SendErrorAsync("That user is invalid, please make sure you didn't copy message ID.");
+                    await ctx.Channel.SendErrorAsync("That user is invalid, please make sure you didn't copy message ID.").ConfigureAwait(false);
                     return;
                 }
 
-                await ctx.Channel.SendConfirmAsync("Please provide image links to proof.");
-                var raidProof = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                await ctx.Channel.SendConfirmAsync("Please provide image links to proof.").ConfigureAwait(false);
+                var raidProof = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
                 break;
         }
     }

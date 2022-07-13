@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
@@ -18,30 +19,30 @@ public class WaifuInfoStats
 
 public static class WaifuExtensions
 {
-    public static WaifuInfo ByWaifuUserId(this DbSet<WaifuInfo> waifus, ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
+    public static async Task<WaifuInfo> ByWaifuUserId(this DbSet<WaifuInfo> waifus, ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
     {
         if (includes is null)
         {
-            return waifus.Include(wi => wi.Waifu)
+            return await waifus.Include(wi => wi.Waifu)
                          .Include(wi => wi.Affinity)
                          .Include(wi => wi.Claimer)
                          .Include(wi => wi.Items)
-                         .FirstOrDefault(wi => wi.Waifu.UserId == userId);
+                         .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
         }
 
-        return includes(waifus)
+        return await includes(waifus)
                .AsQueryable()
-               .FirstOrDefault(wi => wi.Waifu.UserId == userId);
+               .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
     }
 
-    public static IEnumerable<WaifuLbResult> GetTop(this DbSet<WaifuInfo> waifus, int count, int skip = 0)
+    public static async Task<IEnumerable<WaifuLbResult>> GetTop(this DbSet<WaifuInfo> waifus, int count, int skip = 0)
     {
         if (count < 0)
             throw new ArgumentOutOfRangeException(nameof(count));
         if (count == 0)
             return new List<WaifuLbResult>();
 
-        return waifus.Include(wi => wi.Waifu)
+        return await waifus.Include(wi => wi.Waifu)
                      .Include(wi => wi.Affinity)
                      .Include(wi => wi.Claimer)
                      .OrderByDescending(wi => wi.Price)
@@ -57,31 +58,31 @@ public static class WaifuExtensions
                          Discrim = x.Waifu.Discriminator,
                          Price = x.Price,
                      })
-                     .ToList();
+                     .ToListAsyncLinqToDB();
     }
 
-    public static decimal GetTotalValue(this DbSet<WaifuInfo> waifus) =>
-        waifus
+    public static async Task<decimal> GetTotalValue(this DbSet<WaifuInfo> waifus) =>
+        await waifus
             .AsQueryable()
             .Where(x => x.ClaimerId != null)
-            .Sum(x => x.Price);
+            .SumAsyncLinqToDB(x => x.Price);
 
-    public static ulong GetWaifuUserId(this DbSet<WaifuInfo> waifus, ulong ownerId, string name) =>
-        waifus
+    public static async Task<ulong> GetWaifuUserId(this DbSet<WaifuInfo> waifus, ulong ownerId, string name) =>
+        await waifus
             .AsQueryable()
             .AsNoTracking()
             .Where(x => x.Claimer.UserId == ownerId
                         && $"{x.Waifu.Username}#{x.Waifu.Discriminator}" == name)
             .Select(x => x.Waifu.UserId)
-            .FirstOrDefault();
+            .FirstOrDefaultAsyncEF();
 
-    public static WaifuInfoStats GetWaifuInfo(this MewdekoContext ctx, ulong userId)
+    public static async Task<WaifuInfoStats> GetWaifuInfo(this MewdekoContext ctx, ulong userId)
     {
-        ctx.Database.ExecuteSqlInterpolated($@"
+        await ctx.Database.ExecuteSqlInterpolatedAsync($@"
 INSERT OR IGNORE INTO WaifuInfo (AffinityId, ClaimerId, Price, WaifuId)
 VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}));");
 
-        var toReturn = ctx.WaifuInfo.AsQueryable()
+        var toReturn = await ctx.WaifuInfo.AsQueryable()
             .Where(w => w.WaifuId == ctx.DiscordUser
                 .AsQueryable()
                 .Where(u => u.UserId == userId)
@@ -133,7 +134,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
 
                 Items = w.Items
             })
-            .FirstOrDefault();
+            .FirstOrDefaultAsyncEF();
 
         if (toReturn is null)
             return null;

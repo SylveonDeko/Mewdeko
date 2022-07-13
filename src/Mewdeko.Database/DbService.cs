@@ -38,13 +38,14 @@ public class DbService
 
     public async void Setup()
     {
-        await using var context = new MewdekoContext(_options);
-        var toApply = (await context.Database.GetPendingMigrationsAsync()).ToList();
+        var context = new MewdekoContext(_options);
+        await using var _ = context.ConfigureAwait(false);
+        var toApply = (await context.Database.GetPendingMigrationsAsync().ConfigureAwait(false)).ToList();
         if (toApply.Any())
         {
             var mContext = new MewdekoContext(_migrateOptions);
-            await mContext.Database.MigrateAsync();
-            await mContext.SaveChangesAsync();
+            await mContext.Database.MigrateAsync().ConfigureAwait(false);
+            await mContext.SaveChangesAsync().ConfigureAwait(false);
 
             var env = Assembly.GetExecutingAssembly();
             var pmhs = env.GetTypes().Where(t => t.GetInterfaces().Any(i => i == typeof(IPostMigrationHandler))).ToList();
@@ -56,11 +57,11 @@ public class DbService
                     pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] {id, mContext});
                 }
             }
-            await mContext.DisposeAsync();
+            await mContext.DisposeAsync().ConfigureAwait(false);
         }
 
-        await context.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL");
-        await context.SaveChangesAsync();
+        await context.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL").ConfigureAwait(false);
+        await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private MewdekoContext GetDbContextInternal()

@@ -63,19 +63,19 @@ public class Localization : ILocalization
 
     public void SetGuildCulture(IGuild guild, CultureInfo? ci) => SetGuildCulture(guild.Id, ci);
 
-    public void SetGuildCulture(ulong guildId, CultureInfo? ci)
+    public async void SetGuildCulture(ulong guildId, CultureInfo? ci)
     {
-        if (ci.Name == _bss.Data.DefaultLocale.Name)
+        if (ci?.Name == _bss.Data.DefaultLocale?.Name)
         {
             RemoveGuildCulture(guildId);
             return;
         }
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.ForGuildId(guildId, set => set);
+            var gc = await uow.ForGuildId(guildId, set => set);
             gc.Locale = ci.Name;
-            uow.SaveChanges();
+            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         GuildCultureInfos.AddOrUpdate(guildId, ci, (_, _) => ci);
@@ -83,13 +83,13 @@ public class Localization : ILocalization
 
     public void RemoveGuildCulture(IGuild guild) => RemoveGuildCulture(guild.Id);
 
-    public void RemoveGuildCulture(ulong guildId)
+    public async void RemoveGuildCulture(ulong guildId)
     {
         if (!GuildCultureInfos.TryRemove(guildId, out _)) return;
         using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set);
+        var gc = await uow.ForGuildId(guildId, set => set);
         gc.Locale = null;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public void SetDefaultCulture(CultureInfo? ci) => _bss.ModifyConfig(bs => bs.DefaultLocale = ci);

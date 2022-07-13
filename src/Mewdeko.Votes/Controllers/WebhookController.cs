@@ -39,7 +39,7 @@ public class WebhookController : ControllerBase
             "discords.com");
 
         await _votesCache.AddNewDiscordsVote(data.User);
-        await Events.InvokeDiscords(data);
+        await Events.InvokeDiscords(data).ConfigureAwait(false);
         return Ok();
     }
 
@@ -54,8 +54,8 @@ public class WebhookController : ControllerBase
         _ = Task.Factory.StartNew(async () =>
         {
             await _votesCache.AddNewTopggVote(data.User);
-            await Events.InvokeTopGg(data);
-            await SendWebhook(ulong.Parse(data.User), "Top.GG");
+            await Events.InvokeTopGg(data).ConfigureAwait(false);
+            await SendWebhook(ulong.Parse(data.User), "Top.GG").ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.FromResult<IActionResult>(Ok());
     }
@@ -76,6 +76,6 @@ public class WebhookController : ControllerBase
                                    .WithDescription("Thanks for voting! This will help mewdeko be listed higher on topgg so people will recognize its awesomness!")
                                    .WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
 
-        await webhookClient.SendMessageAsync($"<@{userId}> Has voted for mewdeko on {platform}!", embeds: new[] { eb.Build() });
+        await webhookClient.SendMessageAsync($"<@{userId}> Has voted for mewdeko on {platform}!", embeds: new[] { eb.Build() }).ConfigureAwait(false);
     }
 }

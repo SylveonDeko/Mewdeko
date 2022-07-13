@@ -37,7 +37,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
         if (message == null)
@@ -79,14 +79,14 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
 
-        if (message.Length != 0 && message.Length > Service.GetAfkLength(ctx.Guild.Id))
+        if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id));
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
 
         await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeQuotes(), 0).ConfigureAwait(false);
-        await ReplyConfirmLocalizedAsync("afk_enabled", message);
+        await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         try
         {
             var user1 = await ctx.Guild.GetUserAsync(ctx.User.Id).ConfigureAwait(false);
@@ -108,16 +108,16 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
-        if (Service.GetAfkDel(ctx.Guild.Id) == 0)
+        if (await Service.GetAfkDel(ctx.Guild.Id) == 0)
         {
-            await ReplyConfirmLocalizedAsync("afk_messages_nodelete");
+            await ReplyConfirmLocalizedAsync("afk_messages_nodelete").ConfigureAwait(false);
             return;
         }
 
-        await ReplyConfirmLocalizedAsync("afk_messages_delete", TimeSpan.FromSeconds(Service.GetAfkDel(ctx.Guild.Id)).Humanize(maxUnit: TimeUnit.Minute));
+        await ReplyConfirmLocalizedAsync("afk_messages_delete", TimeSpan.FromSeconds(await Service.GetAfkDel(ctx.Guild.Id)).Humanize(maxUnit: TimeUnit.Minute)).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, Priority(1)]
@@ -160,7 +160,7 @@ public class Afk : MewdekoModuleBase<AfkService>
 
         await ctx.Channel.SendConfirmAsync(
             $"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}").ConfigureAwait(false);
-        await Service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
+        await Service.TimedAfk(ctx.Guild, ctx.User, message, time.Time).ConfigureAwait(false);
         if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
         {
             await ctx.Channel.SendMessageAsync(
@@ -238,7 +238,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
-        var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
+        var chans = await Service.GetDisabledAfkChannels(ctx.Guild.Id);
         if (string.IsNullOrEmpty(chans) || chans == "0")
         {
             await ctx.Channel.SendErrorAsync("You don't have any disabled Afk channels.").ConfigureAwait(false);
@@ -287,7 +287,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
         else
         {
-            await Service.AfkLengthSet(ctx.Guild, num);
+            await Service.AfkLengthSet(ctx.Guild, num).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters").ConfigureAwait(false);
         }
     }
@@ -297,12 +297,12 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
 
-        await Service.AfkTypeSet(ctx.Guild, (int)afkTypeEnum);
-        await ReplyConfirmLocalizedAsync("afk_type_set", afkTypeEnum);
+        await Service.AfkTypeSet(ctx.Guild, (int)afkTypeEnum).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("afk_type_set", afkTypeEnum).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -310,7 +310,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
         if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
@@ -328,12 +328,12 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
         var mentions = new List<string>();
         var toremove = new List<string>();
-        var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
+        var chans = await Service.GetDisabledAfkChannels(ctx.Guild.Id);
         if (string.IsNullOrWhiteSpace(chans) || chans == "0")
         {
             await ctx.Channel.SendErrorAsync("You don't have any disabled channels!").ConfigureAwait(false);
@@ -374,15 +374,15 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
         var list = new HashSet<string>();
         // ReSharper disable once CollectionNeverQueried.Local
         var newchans = new HashSet<string>();
         var mentions = new HashSet<string>();
-        if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0" ||
-            string.IsNullOrWhiteSpace(Service.GetDisabledAfkChannels(ctx.Guild.Id)))
+        if (await Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0" ||
+            string.IsNullOrWhiteSpace(await Service.GetDisabledAfkChannels(ctx.Guild.Id)))
         {
             foreach (var i in chan)
             {
@@ -396,7 +396,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
         else
         {
-            var e = Service.GetDisabledAfkChannels(ctx.Guild.Id);
+            var e = await Service.GetDisabledAfkChannels(ctx.Guild.Id);
             var w = e.Split(",");
             foreach (var i in w) list.Add(i);
 
@@ -429,7 +429,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
         var users = 0;
@@ -440,16 +440,16 @@ public class Afk : MewdekoModuleBase<AfkService>
             if (!curafk)
                 continue;
 
-            if (!await CheckRoleHierarchy(i, false))
+            if (!await CheckRoleHierarchy(i, false).ConfigureAwait(false))
             {
                 erroredusers++;
                 continue;
             }
-            await Service.AfkSet(ctx.Guild, i, "", 0);
+            await Service.AfkSet(ctx.Guild, i, "", 0).ConfigureAwait(false);
             users++;
             try
             {
-                await i.ModifyAsync(x => x.Nickname = i.Nickname.Replace("[AFK]", ""));
+                await i.ModifyAsync(x => x.Nickname = i.Nickname.Replace("[AFK]", "")).ConfigureAwait(false);
             }
             catch
             {
@@ -460,16 +460,16 @@ public class Afk : MewdekoModuleBase<AfkService>
         switch (users)
         {
             case > 0 when erroredusers == 0:
-                await ReplyConfirmLocalizedAsync("afk_rm_multi_success", users);
+                await ReplyConfirmLocalizedAsync("afk_rm_multi_success", users).ConfigureAwait(false);
                 break;
             case 0 when erroredusers == 0:
-                await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");
+                await ReplyErrorLocalizedAsync("afk_rm_fail_noafk").ConfigureAwait(false);
                 break;
             case > 0 when erroredusers > 0:
-                await ReplyConfirmLocalizedAsync("afk_success_hierarchy", users, erroredusers);
+                await ReplyConfirmLocalizedAsync("afk_success_hierarchy", users, erroredusers).ConfigureAwait(false);
                 break;
             case 0 when erroredusers >= 1:
-                await ReplyErrorLocalizedAsync("afk_rm_fail_hierarchy");
+                await ReplyErrorLocalizedAsync("afk_rm_fail_hierarchy").ConfigureAwait(false);
                 break;
         }
     }
@@ -479,13 +479,13 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
-            await ReplyErrorLocalizedAsync("afk_still_starting");
+            await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
         }
 
         if (!Service.IsAfk(ctx.Guild, user))
         {
-            await ReplyErrorLocalizedAsync("afk_rm_fail_noafk");
+            await ReplyErrorLocalizedAsync("afk_rm_fail_noafk").ConfigureAwait(false);
             return;
         }
 
@@ -500,6 +500,6 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
 
         await Service.AfkSet(ctx.Guild, user, "", 0).ConfigureAwait(false);
-        await ReplyConfirmLocalizedAsync("afk_rm_success", user.Mention);
+        await ReplyConfirmLocalizedAsync("afk_rm_success", user.Mention).ConfigureAwait(false);
     }
 }

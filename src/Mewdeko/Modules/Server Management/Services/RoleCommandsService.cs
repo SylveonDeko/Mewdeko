@@ -70,7 +70,7 @@ public class RoleCommandsService : INService
                 $"Stopping Job {jobId}\nTask: {Format.Bold(list1.JobType)}\nProgress: {list1.AddedTo}/{list1.TotalUsers}\nStarted By: {list1.StartedBy.Mention}",
             Color = Mewdeko.ErrorColor
         };
-        await ch.SendMessageAsync(embed: eb.Build());
+        await ch.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     public Task RemoveJob(IGuild guild, int job)

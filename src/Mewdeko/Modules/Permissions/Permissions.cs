@@ -38,9 +38,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction? action = null)
     {
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
             action ??= new PermissionAction(!config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
             await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -62,7 +63,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
         if (role == null)
         {
-            var cache = Service.GetCacheFor(ctx.Guild.Id);
+            var cache = await Service.GetCacheFor(ctx.Guild.Id);
             if (!ulong.TryParse(cache.PermRole, out var roleId) ||
                 (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
             {
@@ -77,9 +78,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return;
         }
 
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
@@ -92,9 +94,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
     {
-        await using (var uow = _db.GetDbContext())
+        var uow = _db.GetDbContext();
+        await using (uow.ConfigureAwait(false))
         {
-            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = null;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
@@ -124,11 +127,11 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(string.Join("\n",
-                perms.Skip(page * 10).Take(10).Select(p =>
+                perms.Skip(page * 10).Take(10).Select(async p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -145,9 +148,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         try
         {
             Permissionv2 p;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
                 var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
@@ -158,7 +162,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {
@@ -176,9 +180,10 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             try
             {
                 Permissionv2 fromPerm;
-                await using (var uow = _db.GetDbContext())
+                var uow = _db.GetDbContext();
+                await using (uow.ConfigureAwait(false))
                 {
-                    var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                    var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
                     var fromFound = from < permsCol.Count;
@@ -186,13 +191,13 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
                     if (!fromFound)
                     {
-                        await ReplyErrorLocalizedAsync("not_found", ++from);
+                        await ReplyErrorLocalizedAsync("not_found", ++from).ConfigureAwait(false);
                         return;
                     }
 
                     if (!toFound)
                     {
-                        await ReplyErrorLocalizedAsync("not_found", ++to);
+                        await ReplyErrorLocalizedAsync("not_found", ++to).ConfigureAwait(false);
                         return;
                     }
 
@@ -205,7 +210,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 }
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
-                        Format.Code(fromPerm.GetCommand(_guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
+                        Format.Code(fromPerm.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
                         ++from,
                         ++to)
                     .ConfigureAwait(false);

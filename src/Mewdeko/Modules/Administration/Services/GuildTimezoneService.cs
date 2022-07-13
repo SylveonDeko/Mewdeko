@@ -57,13 +57,13 @@ public class GuildTimezoneService : INService
     public TimeZoneInfo? GetTimeZoneOrDefault(ulong guildId) 
         => _timezones.TryGetValue(guildId, out var tz) ? tz : null;
 
-    public void SetTimeZone(ulong guildId, TimeZoneInfo? tz)
+    public async Task SetTimeZone(ulong guildId, TimeZoneInfo? tz)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(guildId, set => set);
 
         gc.TimeZoneId = tz?.Id;
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         if (tz == null)
             _timezones.TryRemove(guildId, out tz);

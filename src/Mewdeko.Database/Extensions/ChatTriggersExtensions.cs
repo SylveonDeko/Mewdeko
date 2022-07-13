@@ -1,4 +1,7 @@
+using LinqToDB;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
 
@@ -23,5 +26,18 @@ public static class ChatTriggersExtensions
 
     public static bool IsToggled(this ChatTriggers trigger, ulong roleId) =>
         trigger.IsGranted(roleId) && trigger.IsRemoved(roleId);
+    
+    public static int ClearFromGuild(this DbSet<ChatTriggers> crs, ulong guildId)
+        => crs.Delete(x => x.GuildId == guildId);
+
+    public static async Task<IEnumerable<ChatTriggers>> ForId(this DbSet<ChatTriggers> crs, ulong id) =>
+        await crs
+            .AsNoTracking()
+            .AsQueryable()
+            .Where(x => x.GuildId == id)
+            .ToArrayAsyncLinqToDB();
+
+    public static async Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) => 
+        await AsyncExtensions.FirstOrDefaultAsync(crs, x => x.GuildId == guildId && x.Trigger.ToUpper() == input).ConfigureAwait(false);
 
 }

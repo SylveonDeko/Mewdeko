@@ -26,7 +26,7 @@ public class GameVoiceChannelService : INService
             {
                 if (after is null)
                     return;
-                if (_guildSettings.GetGuildConfig(after.Guild.Id).GameVoiceChannel != after?.VoiceChannel?.Id)
+                if ((await _guildSettings.GetGuildConfig(after.Guild.Id)).GameVoiceChannel != after?.VoiceChannel?.Id)
                     return;
                 //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
@@ -46,11 +46,11 @@ public class GameVoiceChannelService : INService
         return Task.CompletedTask;
     }
 
-    public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
+    public async Task<ulong?> ToggleGameVoiceChannel(ulong guildId, ulong vchId)
     {
         ulong? id;
-        using var uow = _db.GetDbContext();
-        var gc = uow.ForGuildId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = await uow.ForGuildId(guildId, set => set);
 
         if (gc.GameVoiceChannel == vchId)
         {
@@ -63,7 +63,7 @@ public class GameVoiceChannelService : INService
             _guildSettings.UpdateGuildConfig(guildId, gc);
         }
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return id;
     }
@@ -85,7 +85,7 @@ public class GameVoiceChannelService : INService
                     return;
                 }
 
-                if (_guildSettings.GetGuildConfig(gUser.Guild.Id).GameVoiceChannel != newState.VoiceChannel.Id ||
+                if ((await _guildSettings.GetGuildConfig(gUser.Guild.Id)).GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
                 {
                     return;

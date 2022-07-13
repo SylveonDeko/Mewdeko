@@ -72,7 +72,7 @@ public class ConverterService : INService, IUnloadableService
                 }).ToArray();
 
                 var fileData = (JsonConvert.DeserializeObject<ConvertUnit[]>(
-                        await File.ReadAllTextAsync("data/units.json")) ?? Array.Empty<ConvertUnit>())
+                        await File.ReadAllTextAsync("data/units.json").ConfigureAwait(false)) ?? Array.Empty<ConvertUnit>())
                     .Where(x => x.UnitType != "currency");
 
                 var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());

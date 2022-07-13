@@ -14,13 +14,13 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
     [ComponentInteraction("meme:*")]
     public async Task Meme(string userid)
     {
-        await DeferAsync();
+        await DeferAsync().ConfigureAwait(false);
         ulong.TryParse(userid, out var id);
-        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year);
+        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
-            image = await _martineApi.RedditApi.GetRandomMeme();
-            await Task.Delay(500);
+            image = await _martineApi.RedditApi.GetRandomMeme().ConfigureAwait(false);
+            await Task.Delay(500).ConfigureAwait(false);
         }
         var em = new EmbedBuilder
         {
@@ -32,23 +32,23 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         };
         if (ctx.User.Id != id)
         {
-            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true);
+            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true).ConfigureAwait(false);
             return;
         }
-        await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build());
+        await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build()).ConfigureAwait(false);
     }
 
     [ComponentInteraction("randomreddit:*.*")]
     public async Task RandomReddit(string subreddit, string userId)
     {
-        await DeferAsync();
+        await DeferAsync().ConfigureAwait(false);
         ulong.TryParse(userId, out var id);
 
-        var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+        var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
-            await Task.Delay(500);
+            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
+            await Task.Delay(500).ConfigureAwait(false);
         }
 
         var em = new EmbedBuilder
@@ -61,9 +61,9 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         };
         if (ctx.User.Id != id)
         {
-            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true);
+            await ctx.Interaction.FollowupAsync(embed: em.Build(), ephemeral: true).ConfigureAwait(false);
             return;
         }
-        await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build());
+        await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build()).ConfigureAwait(false);
     }
 }

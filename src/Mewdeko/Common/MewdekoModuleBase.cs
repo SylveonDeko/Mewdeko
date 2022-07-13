@@ -61,14 +61,14 @@ public abstract class MewdekoModule : ModuleBase
         }
         finally
         {
-            var _ = Task.Factory.StartNew(async () => await msg.DeleteAsync(), TaskCreationOptions.LongRunning);
+            var _ = Task.Factory.StartNew(async () => await msg.DeleteAsync().ConfigureAwait(false), TaskCreationOptions.LongRunning);
         }
     }
 
     public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
     {
 
-        var curUser = await ctx.Guild.GetCurrentUserAsync();
+        var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
         var ownerId = Context.Guild.OwnerId;
         var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
         var targetMaxRole = target.GetRoles().Max(r => r.Position);
@@ -84,7 +84,7 @@ public abstract class MewdekoModule : ModuleBase
         }
 
         if (displayError)
-            await ReplyErrorLocalizedAsync("hierarchy");
+            await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
         return false;
     }
 
@@ -182,7 +182,7 @@ public abstract class MewdekoModule : ModuleBase
                 {
                     //Exclude
                 }
-            });
+            }).ConfigureAwait(false);
         }
     }
 }

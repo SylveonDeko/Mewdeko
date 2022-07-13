@@ -24,7 +24,8 @@ public partial class Utility
                 return;
 
             IEnumerable<Quote> quotes;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
             }
@@ -53,9 +54,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote quote;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword);
+                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
             }
 
             if (quote == null)
@@ -81,20 +83,21 @@ public partial class Utility
         public async Task QuoteShow(int id)
         {
             Quote quote;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                quote = uow.Quotes.GetById(id);
+                quote = await uow.Quotes.GetById(id);
                 if (quote.GuildId != Context.Guild.Id)
                     quote = null;
             }
 
             if (quote is null)
             {
-                await ReplyErrorLocalizedAsync("quote_no_found_id");
+                await ReplyErrorLocalizedAsync("quote_no_found_id").ConfigureAwait(false);
                 return;
             }
 
-            await ShowQuoteData(quote);
+            await ShowQuoteData(quote).ConfigureAwait(false);
         }
 
         private async Task ShowQuoteData(Quote data) =>
@@ -117,9 +120,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote keywordquote;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text);
+                keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text).ConfigureAwait(false);
             }
 
             if (keywordquote == null)
@@ -141,9 +145,10 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                quote = uow.Quotes.GetById(id);
+                quote = await uow.Quotes.GetById(id);
             }
 
             if (quote is null || quote.GuildId != ctx.Guild.Id)
@@ -176,7 +181,8 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote q;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 uow.Quotes.Add(q = new Quote
                 {
@@ -199,9 +205,10 @@ public partial class Utility
 
             var success = false;
             string? response;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                var q = uow.Quotes.GetById(id);
+                var q = await uow.Quotes.GetById(id);
 
                 if (q?.GuildId != ctx.Guild.Id || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
                 {
@@ -231,7 +238,8 @@ public partial class Utility
 
             keyword = keyword.ToUpperInvariant();
 
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
                 uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 

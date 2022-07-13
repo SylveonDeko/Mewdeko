@@ -76,14 +76,14 @@ public class HelpService : ILateExecutor, INService
         return compBuilder;
     }
 
-    public EmbedBuilder GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
+    public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         EmbedBuilder embed = new();
         embed.WithTitle("Mewdeko Help");
         embed.WithOkColor();
         embed.WithDescription(
-            $"\nDo `{_guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
-            $"\nDo `{_guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
+            $"\nDo `{await _guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
+            $"\nDo `{await _guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
             "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
@@ -92,14 +92,14 @@ public class HelpService : ILateExecutor, INService
         {
             foreach (var mod in modules)
             {
-                embed.AddField($"{CheckEnabled(guild?.Id, channel, user, mod.Name)} {mod.Name}", $">>> {GetModuleDescription(mod.Name, guild)}", true);
+                embed.AddField($"{await CheckEnabled(guild?.Id, channel, user, mod.Name)} {mod.Name}", $">>> {GetModuleDescription(mod.Name, guild)}", true);
             }
         }
         else
         {
             foreach (var i in modules.Batch(modules.Count() / 2))
             {
-                embed.AddField(count == 0 ? "Categories" : "_ _", string.Join("\n", i.Select(x => $"> {CheckEnabled(guild?.Id, channel, user, x.Name)} {Format.Bold(x.Name)}")), true);
+                embed.AddField(count == 0 ? "Categories" : "_ _", string.Join("\n", i.Select(x => $"> {CheckEnabled(guild?.Id, channel, user, x.Name).GetAwaiter().GetResult()} {Format.Bold(x.Name)}")), true);
                 count++;
             }
         }
@@ -107,11 +107,11 @@ public class HelpService : ILateExecutor, INService
         return embed;
     }
 
-    public string CheckEnabled(ulong? guildId, IMessageChannel channel, IUser user, string moduleName)
+    public async Task<string> CheckEnabled(ulong? guildId, IMessageChannel channel, IUser user, string moduleName)
     {
         if (guildId is null)
             return "✅";
-        var pc = _nPerms.GetCacheFor(guildId.Value);
+        var pc = await _nPerms.GetCacheFor(guildId.Value);
         if (_perms.BlockedModules.Contains(moduleName.ToLower())) return "🌐❌";
         return !pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _) ? "❌" : "✅";
     }
@@ -143,7 +143,7 @@ public class HelpService : ILateExecutor, INService
     public static async Task ClearHelp()
     {
         var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
-        while (await timer.WaitForNextTickAsync())
+        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             var tocheck = UsrMsg.Where(x => DateTime.UtcNow.Subtract(x.Time) >= TimeSpan.FromMinutes(5));
             if (tocheck.Any())
@@ -176,7 +176,7 @@ public class HelpService : ILateExecutor, INService
                         $"Hi there! To see my command categories do `{_guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
-                    await chan.SendMessageAsync(embed: eb.Build());
+                    await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
             }
         }, TaskCreationOptions.LongRunning);
@@ -206,16 +206,16 @@ public class HelpService : ILateExecutor, INService
             eb.WithThumbnailUrl(
                 "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
             eb.WithOkColor();
-            await e.SendMessageAsync(embed: eb.Build());
+            await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         });
         return Task.CompletedTask;
     }
 
-    public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
+    public async Task<EmbedBuilder> GetCommandHelp(CommandInfo com, IGuild guild)
     {
         if (com.Attributes.Any(x => x is HelpDisabled))
             return new EmbedBuilder().WithDescription("Help is disabled for this command.");
-        var prefix = _guildSettings.GetPrefix(guild);
+        var prefix = await _guildSettings.GetPrefix(guild);
         var potentialCommand = _interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
         var str = $"**`{prefix + com.Aliases[0]}`**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();

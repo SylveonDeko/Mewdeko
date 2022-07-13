@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
@@ -13,15 +14,15 @@ public static class WarningExtensions
         return query.ToArray();
     }
 
-    public static bool Forgive(this DbSet<Warning> set, ulong guildId, ulong userId, string mod, int index)
+    public static async Task<bool> Forgive(this DbSet<Warning> set, ulong guildId, ulong userId, string mod, int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        var warn = set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var warn = await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                                  .OrderByDescending(x => x.DateAdded)
                                  .Skip(index)
-                                 .FirstOrDefault();
+                                 .FirstOrDefaultAsyncEF();
 
         if (warn == null || warn.Forgiven)
             return false;
@@ -33,12 +34,13 @@ public static class WarningExtensions
 
     public static async Task ForgiveAll(this DbSet<Warning> set, ulong guildId, ulong userId, string mod) =>
         await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
-                            .ForEachAsync(x =>
-                            {
-                                if (x.Forgiven) return;
-                                x.Forgiven = true;
-                                x.ForgivenBy = mod;
-                            });
+                 .ForEachAsync(x =>
+                 {
+                     if (x.Forgiven) return;
+                     x.Forgiven = true;
+                     x.ForgivenBy = mod;
+                 }).ConfigureAwait(false);
 
-    public static Warning[] GetForGuild(this DbSet<Warning> set, ulong id) => set.AsQueryable().Where(x => x.GuildId == id).ToArray();
+    public static async Task<IEnumerable<Warning>> GetForGuild(this DbSet<Warning> set, ulong id) 
+        => await set.AsQueryable().Where(x => x.GuildId == id).ToArrayAsyncLinqToDB();
 }

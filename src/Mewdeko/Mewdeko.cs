@@ -10,8 +10,6 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
@@ -134,7 +132,6 @@ public class Mewdeko
                     RestUri = "http://127.0.0.1:2333",
                     DisconnectOnStop = false,
                 })
-                .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>()
                 .AddSingleton<ToneTagService>();
 
@@ -267,7 +264,7 @@ public class Mewdeko
             try
             {
                 var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false);
-                await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
+                await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]").ConfigureAwait(false);
                 if (arg.Name is not null)
                 {
                     Cache.DeleteGuildConfig(arg.Id);
@@ -287,18 +284,19 @@ public class Mewdeko
     {
         _ = Task.Factory.StartNew(async () =>
         {
-            await arg.DownloadUsersAsync();
+            await arg.DownloadUsersAsync().ConfigureAwait(false);
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
 
             GuildConfig gc;
-            await using (var uow = _db.GetDbContext())
+            var uow = _db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
             {
-                gc = uow.ForGuildId(arg.Id);
+                gc = await uow.ForGuildId(arg.Id);
             }
 
             Cache.AddOrUpdateGuildConfig(arg.Id, gc);
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
-            var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId) as RestTextChannel;
+            var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false) as RestTextChannel;
             var eb = new EmbedBuilder();
             eb.WithTitle($"Joined {Format.Bold(arg.Name)} {arg.Id}");
             eb.AddField("Members", arg.MemberCount);
@@ -308,7 +306,7 @@ public class Mewdeko
             eb.AddField("Voice Channels", arg.VoiceChannels.Count);
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
-            await chan.SendMessageAsync(embed: eb.Build());
+            await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;
     }
@@ -341,7 +339,7 @@ public class Mewdeko
         var lava = Services.GetRequiredService<LavalinkNode>();
         try
         {
-            await lava.InitializeAsync();
+            await lava.InitializeAsync().ConfigureAwait(false);
         }
         catch
         {
@@ -349,7 +347,7 @@ public class Mewdeko
         }
 #if  !DEBUG
         if (Client.ShardId == 0)
-            await interactionService.RegisterCommandsGloballyAsync();
+            await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
 #endif
 #if DEBUG
         if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
@@ -370,7 +368,7 @@ public class Mewdeko
         {
             try
             {
-                await toExec.OnReadyAsync();
+                await toExec.OnReadyAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -435,6 +433,6 @@ public class Mewdeko
     {
         var obj = new { Name = game, Activity = type };
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
-        await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj));
+        await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
     }
 }

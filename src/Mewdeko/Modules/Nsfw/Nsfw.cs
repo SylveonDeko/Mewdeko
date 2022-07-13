@@ -106,9 +106,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         try
         {
-            var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+            var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
             while (CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-                image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+                image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Data.Title}]({image.Data.PostUrl})",
@@ -117,17 +117,17 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             };
             if (image.Data.ImageUrl.CheckIfNotEmbeddable())
             {
-                await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build()).ConfigureAwait(false);
             }
             else
             {
-                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }
         catch (ApiException)
         {
             await ctx.Channel.SendErrorAsync(
-                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {_guildSettings.GetPrefix(ctx.Guild)}vote.");
+                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {_guildSettings.GetPrefix(ctx.Guild)}vote.").ConfigureAwait(false);
         }
     }
 
@@ -135,14 +135,14 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     public async Task NHentai(int num)
     {
         var client = new NHentaiClient();
-        var book = await client.GetBookAsync(num);
+        var book = await client.GetBookAsync(num).ConfigureAwait(false);
         var title = book.Title.English;
         var pages = book.Images.Pages;
         var tags = book.Tags.Select(i => i.Name).ToList();
         if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
 
         {
-            await ctx.Channel.SendErrorAsync("This manga contains loli/shota content and is not allowed by discord TOS!");
+            await ctx.Channel.SendErrorAsync("This manga contains loli/shota content and is not allowed by discord TOS!").ConfigureAwait(false);
             return;
         }
 
@@ -159,7 +159,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder()
                    .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
                    .WithImageUrl(NHentaiClient.GetPictureUrl(book, page + 1).AbsoluteUri)
@@ -172,10 +172,10 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         var client = new NHentaiClient();
 
-        var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page);
+        var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
         if (result.Result.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
+            await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!").ConfigureAwait(false);
             return;
         }
 
@@ -192,7 +192,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         async Task<PageBuilder> PageFactory(int page1)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
             var list = result.Result.Skip(page1).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
             return new PageBuilder().WithOkColor()
                                     .WithTitle(result.Result.Skip(page1).FirstOrDefault().Title.English)
@@ -206,22 +206,22 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF");
+    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF").ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
+    public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist);
+    public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page);
+    public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type);
+    public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
+    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist).ConfigureAwait(false);
     [Cmd, Aliases]
     [RequireNsfw]
     [RequireContext(ContextType.Guild)]
@@ -272,7 +272,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         await ReplyConfirmLocalizedAsync("autohentai_started",
             interval,
-            string.Join(", ", tags));
+            string.Join(", ", tags)).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -310,7 +310,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval);
+        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -351,7 +351,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval);
+        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -370,7 +370,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             var images = await Task.WhenAll(Service.Yandere(ctx.Guild?.Id, true, tags),
                 Service.Danbooru(ctx.Guild?.Id, true, tags),
                 Service.Konachan(ctx.Guild?.Id, true, tags),
-                Service.Gelbooru(ctx.Guild?.Id, true, tags));
+                Service.Gelbooru(ctx.Guild?.Id, true, tags)).ConfigureAwait(false);
 
             var linksEnum = images.Where(l => l != null).ToArray();
             if (!images.Any())
@@ -435,11 +435,11 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Boobs() => await RedditNsfw("boobs");
+    public async Task Boobs() => await RedditNsfw("boobs").ConfigureAwait(false);
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Butts() => await RedditNsfw("ass");
+    public async Task Butts() => await RedditNsfw("ass").ConfigureAwait(false);
 
     [Cmd, Aliases]
     [RequireContext(ContextType.Guild)]
@@ -448,7 +448,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         if (string.IsNullOrWhiteSpace(tag))
         {
-            var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id);
+            var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
                 blTags.Length > 0
                     ? string.Join(", ", blTags)
@@ -457,12 +457,12 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         else
         {
             tag = tag.Trim().ToLowerInvariant();
-            var added = await Service.ToggleBlacklistTag(ctx.Guild.Id, tag);
+            var added = await Service.ToggleBlacklistTag(ctx.Guild.Id, tag).ConfigureAwait(false);
 
             if (added)
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag);
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag);
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag).ConfigureAwait(false);
         }
     }
 
@@ -470,11 +470,11 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         bool forceExplicit,
         Func<ulong?, bool, string[], Task<UrlReply?>> func)
     {
-        var data = await func(ctx.Guild?.Id, forceExplicit, tags);
+        var data = await func(ctx.Guild?.Id, forceExplicit, tags).ConfigureAwait(false);
 
         if (data is null || !string.IsNullOrWhiteSpace(data.Error))
         {
-            await ReplyErrorLocalizedAsync("no_results");
+            await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
             return;
         }
 
@@ -482,6 +482,6 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                                                                     .WithDescription($"[link]({data.Url})")
                                                                     .WithFooter(
                                                                         $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
-                                                                    .Build());
+                                                                    .Build()).ConfigureAwait(false);
     }
 }
