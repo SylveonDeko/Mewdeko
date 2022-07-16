@@ -180,7 +180,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 }
             }
             
-            var  sentMsg = await ct.Send(msg, _client, false).ConfigureAwait(false);
+            var sentMsg = await ct.Send(msg, _client, false).ConfigureAwait(false);
 
             foreach (var reaction in ct.GetReactions())
             {
