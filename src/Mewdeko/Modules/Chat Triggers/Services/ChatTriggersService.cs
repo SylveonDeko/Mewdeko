@@ -304,9 +304,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         }
                     }
 
-                    IUserMessage? sentMsg = null;
-                    if (!ct.NoRespond)
-                        sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
+                    var sentMsg = await ct.SendInteraction(inter, _client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
 
                     foreach (var reaction in ct.GetReactions())
                     {

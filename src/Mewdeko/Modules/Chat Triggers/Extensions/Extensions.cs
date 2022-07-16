@@ -191,6 +191,8 @@ public static class Extensions
                 }
                 catch (TaskCanceledException) { /* ignored */ }
             }
+            if (ct.NoRespond)
+                return null;
             await inter.RespondAsync(plainText, embeds: crembed, ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
@@ -208,7 +210,8 @@ public static class Extensions
             }
             catch (TaskCanceledException) { /* ignored */ }
         }
-
+        if (ct.NoRespond)
+            return null;
         await inter.RespondAsync(context, ephemeral:ephemeral).ConfigureAwait(false);
         return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
     }
