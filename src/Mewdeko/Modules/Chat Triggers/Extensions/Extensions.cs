@@ -135,7 +135,7 @@ public static class Extensions
                 catch (TaskCanceledException) { /* ignored */ }
             }
 
-            if (!ct.NoRespond)
+            if (ct.NoRespond)
                 return null;
             return await channel.SendMessageAsync(plainText, embeds: crembed, components:components?.Build()).ConfigureAwait(false);
         }
@@ -153,7 +153,7 @@ public static class Extensions
             }
             catch (TaskCanceledException) { /* ignored */ }
         }
-        if (!ct.NoRespond)
+        if (ct.NoRespond)
             return null;
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
