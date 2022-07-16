@@ -174,15 +174,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var user = msg.Author as IGuildUser;
                     if (!user.GuildPermissions.Has(perms.Value))
                     {
-                        Log.Information($"Chat Trigger {ct.Trigger} Blocked for {msg.Author} in {guild} due to them missing {perms}.");
+                        Log.Information("Chat Trigger {CtTrigger} Blocked for {MsgAuthor} in {Guild} due to them missing {Perms}.", ct.Trigger, msg.Author, guild, perms);
                         return false;
                     }
                 }
             }
-
-            IUserMessage? sentMsg = null;
-            if (!ct.NoRespond)
-                sentMsg = await ct.Send(msg, _client, false).ConfigureAwait(false);
+            
+            var  sentMsg = await ct.Send(msg, _client, false).ConfigureAwait(false);
 
             foreach (var reaction in ct.GetReactions())
             {
