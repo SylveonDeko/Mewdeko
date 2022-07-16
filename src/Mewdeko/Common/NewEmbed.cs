@@ -173,8 +173,7 @@ public class NewEmbed
                 foreach (var f in i.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
                     embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
             }
-            else
-                toReturn.Add(embed.Build());
+            toReturn.Add(embed.Build());
         }
 
         return toReturn.ToArray();
