@@ -264,7 +264,13 @@ public class Mewdeko
             try
             {
                 var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false);
-                await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]").ConfigureAwait(false);
+                await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]", false,
+                    new[]
+                    {
+                        new EmbedFieldBuilder().WithName("Total Guilds")
+                                               .WithValue(Services.GetRequiredService<ICoordinator>()
+                                                                  .GetGuildCount().ToString())
+                    }).ConfigureAwait(false);
                 if (arg.Name is not null)
                 {
                     Cache.DeleteGuildConfig(arg.Id);
@@ -304,6 +310,7 @@ public class Mewdeko
             eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
             eb.AddField("Text Channels", arg.TextChannels.Count);
             eb.AddField("Voice Channels", arg.VoiceChannels.Count);
+            eb.AddField("Total Guilds", Services.GetRequiredService<ICoordinator>().GetGuildCount());
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
             await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
