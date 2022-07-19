@@ -15,7 +15,7 @@ public class DiscordsController : ControllerBase
     private readonly ILogger<TopGgController> _logger;
     private readonly FileVotesCache _cache;
 
-    public DiscordsController(ILogger<TopGgController> logger, FileVotesCache cache)
+    public DiscordsController(Logger<TopGgController> logger, FileVotesCache cache)
     {
         _logger = logger;
         _cache = cache;
@@ -27,7 +27,7 @@ public class DiscordsController : ControllerBase
     {
         var votes = await _cache.GetNewDiscordsVotesAsync();
         if (votes.Count > 0)
-            _logger.LogInformation("Sending {NewDiscordsVotes} new discords votes.", votes.Count);
+            _logger.LogInformation("Sending {NewDiscordsVotes} new discords votes", votes.Count);
         return votes;
     }
 }

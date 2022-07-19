@@ -129,7 +129,7 @@
         <None Update="external\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="credentials_example.json">
+        <None Update="credentials.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="libopus.so">
@@ -144,7 +144,7 @@
         <None Update="opus.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="credentials.json">
+        <None Update="credentials1.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Remove="DiscordChatExporter\Superpower.dll" />

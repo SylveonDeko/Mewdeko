@@ -78,6 +78,7 @@ public class RedisCache
 
     public Task AddAfkToCache(ulong id, List<Afk?>? newAfk)
     {
+        // ReSharper disable once CollectionNeverQueried.Local
         var customers = new RedisDictionary<ulong, List<Afk?>?>($"{_redisKey}_afk", Redis);
         customers.Remove(id);
         customers.Add(id, newAfk);
@@ -99,6 +100,7 @@ public class RedisCache
     }
     public Task RemoveHighlightFromCache(ulong id, List<Highlights?>? newHighlight)
     {
+        // ReSharper disable once CollectionNeverQueried.Local
         var customers = new RedisDictionary<ulong, List<Highlights?>?>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
         customers.Add(id, newHighlight);
@@ -107,6 +109,7 @@ public class RedisCache
 
     public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?>? newHighlight)
     {
+        // ReSharper disable once CollectionNeverQueried.Local
         var customers = new RedisDictionary<ulong, List<HighlightSettings?>?>($"{_redisKey}_highlightSettings", Redis);
         customers.Remove(id);
         customers.Add(id, newHighlight);
