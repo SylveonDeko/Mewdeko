@@ -347,7 +347,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
             if (savedState.StatusObjects.Count != config.TotalShards)
             {
-                Log.Error("Unable to restore old state because shard count doesn't match.");
+                Log.Error("Unable to restore old state because shard count doesn't match");
                 File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
                 return false;
             }
@@ -366,7 +366,7 @@ public sealed class CoordinatorRunner : BackgroundService
                     }
                     catch (Exception ex)
                     {
-                        Log.Warning(ex, $"Process for shard {shardId} is not runnning.");
+                        Log.Warning(ex, "Process for shard {ShardId} is not runnning", shardId);
                     }
                 }
 

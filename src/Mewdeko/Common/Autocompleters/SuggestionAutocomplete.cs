@@ -8,8 +8,7 @@ public class SuggestionAutocompleter : AutocompleteHandler
 {
     public SuggestionAutocompleter(SuggestionsService suggest)
         => _suggest = suggest;
-
-    public DiscordSocketClient Client { get; set; }
+    
     private readonly SuggestionsService _suggest;
 
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter, IServiceProvider services)

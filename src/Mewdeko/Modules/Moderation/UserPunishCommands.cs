@@ -130,7 +130,7 @@ public partial class Moderation : MewdekoModule
 
             var embed = new EmbedBuilder()
                 .WithOkColor();
-            if (punishment.Id is 0)
+            if (punishment is null || punishment.Id is 0)
             {
                 embed.WithDescription(GetText("user_warned",
                                 Format.Bold(user.ToString())));
@@ -138,13 +138,31 @@ public partial class Moderation : MewdekoModule
             else
             {
                 embed.WithDescription(GetText("user_warned_and_punished", Format.Bold(user.ToString()),
-                                Format.Bold(punishment.Punishment.ToString())));
+                                Format.Bold(punishment?.Punishment.ToString())));
             }
 
             if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
+            try
+            {
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+            }
+
+            try
+            {
+                var a = await Service.GetWarnlogChannel(ctx.Guild.Id);
+                var b = 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            if (await Service.GetWarnlogChannel(ctx.Guild.Id).ConfigureAwait(false) != 0)
             {
                 var uow = _db.GetDbContext();
                 var warnings = uow.Warnings

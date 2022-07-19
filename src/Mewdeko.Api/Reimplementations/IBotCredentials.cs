@@ -4,8 +4,8 @@ namespace Mewdeko.WebApp.Reimplementations;
 
 public interface IBotCredentials
 {
-    string Token { get; }
-    string RedisOptions { get; }
+    string? Token { get; }
+    string? RedisOptions { get; }
 
     bool IsOwner(IUser u);
     bool IsOfficialMod(IUser u);
@@ -13,7 +13,7 @@ public interface IBotCredentials
 
 public class RestartConfig
 {
-    public RestartConfig(string cmd, string args)
+    public RestartConfig(string cmd, string? args)
     {
         Cmd = cmd;
         Args = args;

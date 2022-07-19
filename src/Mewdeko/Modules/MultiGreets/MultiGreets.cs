@@ -1,16 +1,9 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,7 +14,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 {
     private readonly InteractiveService _interactivity;
 
-    public MultiGreets(InteractiveService interactivity) => this._interactivity = interactivity;
+    public MultiGreets(InteractiveService interactivity) => _interactivity = interactivity;
 
     public enum MultiGreetTypes
     {

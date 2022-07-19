@@ -1,4 +1,3 @@
-using LinqToDB.Common;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
@@ -109,15 +108,15 @@ public class CrEmbed
 
 public class CrEmbedField
 {
-    public string Name { get; set; }
-    public string Value { get; set; }
+    public string? Name { get; set; }
+    public string? Value { get; set; }
     public bool Inline { get; set; }
 }
 
 public class CrEmbedFooter
 {
-    public string Text { get; set; }
-    public string IconUrl { get; set; }
+    public string? Text { get; set; }
+    public string? IconUrl { get; set; }
 
     [JsonProperty("icon_url")]
     private string IconUrl1
@@ -128,22 +127,22 @@ public class CrEmbedFooter
 
 public class CrEmbedAuthor
 {
-    public string Name { get; set; }
-    public string IconUrl { get; set; }
+    public string? Name { get; set; }
+    public string? IconUrl { get; set; }
 
     [JsonProperty("icon_url")]
-    private string IconUrl1
+    private string? IconUrl1
     {
         set => IconUrl = value;
     }
 
-    public string Url { get; set; }
+    public string? Url { get; set; }
 }
 
 public class CrEmbedButton
 {
-    public string DisplayName { get; set; }
+    public string? DisplayName { get; set; }
     public int Id { get; set; }
     public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
-    public string Url { get; set; }
+    public string? Url { get; set; }
 }

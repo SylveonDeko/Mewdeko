@@ -240,7 +240,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     /// <returns>true if the <see cref="ConcurrentHashSet{T}" /> contains the item; otherwise, false.</returns>
     public bool Contains(T item)
     {
-        if (object.Equals(item, default(T))) return false;
+        if (Equals(item, default(T))) return false;
         var hashcode = _comparer.GetHashCode(item);
 
         // We must capture the _buckets field in a local variable. It is set to a new table on each table resize.
@@ -423,8 +423,6 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                     previous = current;
                 }
             }
-
-            return false;
         }
     }
 

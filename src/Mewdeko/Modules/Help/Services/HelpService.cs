@@ -173,7 +173,7 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{_guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{_guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{await _guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await _guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -194,7 +194,7 @@ public class HelpService : ILateExecutor, INService
                 return;
 
             var e = guild.DefaultChannel;
-            var px = _guildSettings.GetPrefix(guild);
+            var px = await _guildSettings.GetPrefix(guild);
             var eb = new EmbedBuilder
             {
                 Description =
@@ -220,7 +220,7 @@ public class HelpService : ILateExecutor, INService
         var str = $"**`{prefix + com.Aliases[0]}`**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
-            str += string.Format(" **/ `{0}`**", prefix + alias);
+            str += $" **/ `{prefix + alias}`**";
         var em = new EmbedBuilder().AddField(fb =>
             fb.WithName(str).WithValue($"{com.RealSummary(_strings, guild.Id, prefix)}").WithIsInline(true));
 
