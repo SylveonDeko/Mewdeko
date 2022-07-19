@@ -1,13 +1,4 @@
-﻿using Discord;
-using Discord.Webhook;
-using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 

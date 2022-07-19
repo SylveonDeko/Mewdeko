@@ -1,6 +1,4 @@
-﻿using LinqToDB.Common;
-
-namespace Mewdeko.Database.Models;
+﻿namespace Mewdeko.Database.Models;
 
 public class ChatTriggers : DbEntity
 {

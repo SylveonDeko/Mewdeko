@@ -15,7 +15,7 @@ public class TopGgController : ControllerBase
     private readonly ILogger<TopGgController> _logger;
     private readonly FileVotesCache _cache;
 
-    public TopGgController(ILogger<TopGgController> logger, FileVotesCache cache)
+    public TopGgController(Logger<TopGgController> logger, FileVotesCache cache)
     {
         _logger = logger;
         _cache = cache;
@@ -27,7 +27,7 @@ public class TopGgController : ControllerBase
     {
         var votes = await _cache.GetNewTopGgVotesAsync();
         if (votes.Count > 0)
-            _logger.LogInformation("Sending {NewTopggVotes} new topgg votes.", votes.Count);
+            _logger.LogInformation("Sending {NewTopggVotes} new topgg votes", votes.Count);
 
         return votes;
     }
