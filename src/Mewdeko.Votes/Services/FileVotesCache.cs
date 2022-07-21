@@ -10,8 +10,8 @@ namespace Mewdeko.Votes.Services;
 
 public class FileVotesCache
 {
-    private const string TOPGG_FILE = "store/topgg.json";
-    private const string DISCORDS_FILE = "store/discords.json";
+    public const string TOPGG_FILE = "store/topgg.json";
+    public const string DISCORDS_FILE = "store/discords.json";
 
     private readonly SemaphoreSlim _locker = new(1, 1);
 
@@ -79,7 +79,7 @@ public class FileVotesCache
         }
     }
 
-    private static async ITask<IList<string>> GetVotesAsync(string file)
+    public static async ITask<IList<string>> GetVotesAsync(string file)
     {
         var fs = File.Open(file, FileMode.Open);
         await using var _ = fs.ConfigureAwait(false);

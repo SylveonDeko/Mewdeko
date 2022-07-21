@@ -142,7 +142,7 @@ public sealed class Hangman : IDisposable
             {
                 await Task.Delay(3000).ConfigureAwait(false); // remove the user from the spamlist after 5 seconds
                 _recentUsers.Remove(userId);
-            }).ConfigureAwait(false);
+            });
         }
         finally
         {

@@ -93,7 +93,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                                          .ConfigureAwait(false))[0];
             }
 
-            await channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"https://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
         }
         catch (Exception ex)
         {

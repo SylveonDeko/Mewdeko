@@ -10,6 +10,8 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
@@ -132,6 +134,7 @@ public class Mewdeko
                     RestUri = "http://127.0.0.1:2333",
                     DisconnectOnStop = false,
                 })
+                .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>()
                 .AddSingleton<ToneTagService>();
 

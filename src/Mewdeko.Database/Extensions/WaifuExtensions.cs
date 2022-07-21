@@ -58,7 +58,7 @@ public static class WaifuExtensions
                          Discrim = x.Waifu.Discriminator,
                          Price = x.Price,
                      })
-                     .ToListAsyncLinqToDB();
+                     .ToListAsyncEF();
     }
 
     public static async Task<decimal> GetTotalValue(this DbSet<WaifuInfo> waifus) =>

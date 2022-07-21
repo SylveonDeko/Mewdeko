@@ -14,11 +14,11 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
         var gmrole = await Service.GetGameMasterRole(ctx.Guild.Id);
         if (gmrole != 0 && !((IGuildUser)ctx.User).RoleIds.Contains(gmrole))
         {
-            await ctx.Interaction.RespondAsync(embed: eb.WithDescription("You are not a Game Master!").WithErrorColor().Build(), ephemeral: true).ConfigureAwait(false);
+            await ctx.Interaction.RespondAsync(embed: eb.WithDescription("You are not a Game Master!").WithErrorColor().Build(), ephemeral: true);
             return;
         }
-        var invite = await chan.CreateInviteToApplicationAsync(app).ConfigureAwait(false);
-        await ctx.Interaction.RespondAsync(embed: eb.WithDescription($"[Click here to join the vc and start {app.ToString()}]({invite.Url})").Build()).ConfigureAwait(false);
+        var invite = await chan.CreateInviteToApplicationAsync(app);
+        await ctx.Interaction.RespondAsync(embed: eb.WithDescription($"[Click here to join the vc and start {app.ToString()}]({invite.Url})").Build());
     }
 
     [SlashCommand("setgamemasterrole", "Allows you to set the game master role"),
@@ -28,11 +28,11 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
         var eb = new EmbedBuilder().WithOkColor();
         if (role is null)
         {
-            await Service.GameMasterRoleSet(ctx.Guild.Id, 0).ConfigureAwait(false);
-            await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Game Master Role Disabled.").Build()).ConfigureAwait(false);
+            await Service.GameMasterRoleSet(ctx.Guild.Id, 0);
+            await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Game Master Role Disabled.").Build());
             return;
         }
-        await Service.GameMasterRoleSet(ctx.Guild.Id, role.Id).ConfigureAwait(false);
-        await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Successfully set the Game Master Role!").Build()).ConfigureAwait(false);
+        await Service.GameMasterRoleSet(ctx.Guild.Id, role.Id);
+        await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Successfully set the Game Master Role!").Build());
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
@@ -32,9 +34,9 @@ public partial class Games : MewdekoModuleBase<GamesService>
 
         var res = Service.GetEightballResponse(question);
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.OkColor)
-                                                       .WithDescription(ctx.User.ToString())
-                                                       .AddField(efb => efb.WithName($"❓ {GetText("question")}").WithValue(question).WithIsInline(false))
-                                                       .AddField($"🎱 {GetText("8ball")}", res)).ConfigureAwait(false);
+            .WithDescription(ctx.User.ToString())
+            .AddField(efb => efb.WithName($"❓ {GetText("question")}").WithValue(question).WithIsInline(false))
+            .AddField($"🎱 {GetText("8ball")}", res));
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -52,7 +54,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
             return;
         }
 
-        await ReplyErrorLocalizedAsync("dragon_goes_suk").ConfigureAwait(false);
+        await ReplyErrorLocalizedAsync("dragon_goes_suk");
     }
 
     private double NextDouble(double x, double y) => (_rng.NextDouble() * (y - x)) + x;
@@ -72,7 +74,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
     {
         var user = await _db.GetOrCreateUser(ctx.User);
         user.IsDragon = !user.IsDragon;
-        await _db.SaveChangesAsync().ConfigureAwait(false);
+        await _db.SaveChangesAsync();
         await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset").ConfigureAwait(false);
     }
 }

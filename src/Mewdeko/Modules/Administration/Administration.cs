@@ -47,6 +47,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         _guildSettingsService = guildSettingsService;
     }
 
+    [Cmd]
+    public async Task Test()
+    {
+        var eb = new EmbedBuilder().WithTitle("New Vote Received!");
+        
+    }
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
