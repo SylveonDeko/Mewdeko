@@ -1,6 +1,7 @@
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Votes.Common;
+using Mewdeko.Votes.Common.PubSub;
 using Mewdeko.Votes.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace Mewdeko.Votes;
 
@@ -16,24 +18,24 @@ public class Startup
 {
     public Startup(IConfiguration configuration)
     {
-        Client = new DiscordSocketClient(new DiscordSocketConfig() { AlwaysDownloadUsers = true, ShardId = 0, TotalShards = 1 });
         Credentials = new BotCredentials();
+        var conf = ConfigurationOptions.Parse(Credentials.RedisOptions);
+        Redis = ConnectionMultiplexer.Connect(conf);
         Configuration = configuration;
     }
 
     public IConfiguration Configuration { get; }
-    public readonly DiscordSocketClient Client;
     public readonly IBotCredentials Credentials;
+    public readonly ConnectionMultiplexer Redis;
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public async void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
-        await Client.LoginAsync(TokenType.Bot, Credentials.Token);
-        await Client.StartAsync();
         services.AddControllers();
-        services.AddSingleton<FileVotesCache>();
         services.AddSingleton<WebhookEvents>();
-        services.AddSingleton(Client);
+        services.AddSingleton(Redis);
+        services.AddSingleton(Credentials);
+        services.AddTransient<ISeria, JsonSeria>().AddTransient<IPubSub, RedisPubSub>();
         services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" }));
 
         services
@@ -49,7 +51,6 @@ public class Startup
                 opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SCHEME_NAME)
                                      .RequireAssertion(_ => false)
                                      .Build();
-                opts.AddPolicy(Policies.DISCORDS_AUTH, policy => policy.RequireClaim(AuthHandler.DISCORDS_CLAIM));
                 opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TOPGG_CLAIM));
             });
     }

@@ -1,11 +1,16 @@
 ﻿namespace Mewdeko.Votes.Common;
 
-public class TopggVoteWebhookModel
+public class VoteModel
 {
     /// <summary>
     /// Discord ID of the bot that received a vote.
     /// </summary>
     public string Bot { get; set; }
+    
+    /// <summary>
+    /// Server ID if Bot is not populated.
+    /// </summary>
+    public string Guild { get; set; }
 
     /// <summary>
     /// Discord ID of the user who voted.
