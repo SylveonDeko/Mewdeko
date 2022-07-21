@@ -12,7 +12,6 @@ namespace Mewdeko.Votes.Common;
 public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     public const string SCHEME_NAME = "AUTHORIZATION_SCHEME";
-    public const string DISCORDS_CLAIM = "DISCORDS_CLAIM";
     public const string TOPGG_CLAIM = "TOPGG_CLAIM";
 
     private readonly IConfiguration _conf;
@@ -28,9 +27,6 @@ public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         var claims = new List<Claim>();
-
-        if (_conf[ConfKeys.DISCORDS_KEY].Trim() == Request.Headers["Authorization"].ToString().Trim())
-            claims.Add(new Claim(DISCORDS_CLAIM, "true"));
 
         if (_conf[ConfKeys.TOPGG_KEY] == Request.Headers["Authorization"].ToString().Trim())
             claims.Add(new Claim(TOPGG_CLAIM, "true"));
