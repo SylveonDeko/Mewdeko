@@ -1,8 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;

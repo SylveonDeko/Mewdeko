@@ -1,23 +1,20 @@
 ﻿using Mewdeko.Votes.Common;
-using System;
+using Mewdeko.Votes.Common.PubSub;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Votes;
 
 public class WebhookEvents
 {
-    public event EventHandler<DiscordsVoteWebhookModel> UserVotedDiscords;
-    public event EventHandler<TopggVoteWebhookModel> UserVotedTopGg;
+    private readonly TypedKey<VoteModel> _typedKey;
+    private readonly IPubSub _pubSub;
 
-    public Task InvokeTopGg(TopggVoteWebhookModel data)
+    public WebhookEvents(IPubSub pubSub)
     {
-        UserVotedTopGg?.Invoke(this, data);
-        return Task.CompletedTask;
+        _pubSub = pubSub;
+        _typedKey = new TypedKey<VoteModel>("uservoted");
     }
 
-    public Task InvokeDiscords(DiscordsVoteWebhookModel data)
-    {
-        UserVotedDiscords?.Invoke(this, data);
-        return Task.CompletedTask;
-    }
+    public async Task InvokeTopGg(VoteModel data) 
+        => await _pubSub.Pub(_typedKey, data);
 }
