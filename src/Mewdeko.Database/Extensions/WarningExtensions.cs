@@ -42,5 +42,5 @@ public static class WarningExtensions
                  }).ConfigureAwait(false);
 
     public static async Task<IEnumerable<Warning>> GetForGuild(this DbSet<Warning> set, ulong id) 
-        => await set.AsQueryable().Where(x => x.GuildId == id).ToArrayAsyncLinqToDB();
+        => await set.AsQueryable().Where(x => x.GuildId == id).ToArrayAsyncEF();
 }

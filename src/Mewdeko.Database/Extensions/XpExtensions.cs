@@ -27,11 +27,11 @@ public static class XpExtensions
 
     public static async Task<List<UserXpStats>> GetUsersFor(this DbSet<UserXpStats> set, ulong guildId, int page) =>
         await set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
-           .Skip(page * 9).Take(9).ToListAsyncLinqToDB();
+           .Skip(page * 9).Take(9).ToListAsyncEF();
 
     public static async Task<List<UserXpStats>> GetTopUserXps(this DbSet<UserXpStats> set, ulong guildId) =>
         await set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
-           .ToListAsyncLinqToDB();
+           .ToListAsyncEF();
 
     public static int GetUserGuildRanking(this DbSet<UserXpStats> set, ulong userId, ulong guildId) =>
         set.AsQueryable().AsNoTracking().Count(x =>

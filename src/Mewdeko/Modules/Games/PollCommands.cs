@@ -14,7 +14,7 @@ public partial class Games
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Poll([Remainder] string input)
-            => await Poll(PollType.SingleAnswer, input).ConfigureAwait(false);
+            => await Poll(PollType.SingleAnswer, input);
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
@@ -30,7 +30,7 @@ public partial class Games
                 ctx.Channel.Id, arg, type);
             if (poll.Answers.Count > 25)
             {
-                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");
                 return;
             }
             if (poll == null)
@@ -64,7 +64,7 @@ public partial class Games
 
                 try
                 {
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: builder.Build()).ConfigureAwait(false);
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: builder.Build());
                 }
                 catch (Exception e)
                 {

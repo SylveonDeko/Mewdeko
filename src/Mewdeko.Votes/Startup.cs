@@ -1,3 +1,5 @@
+using Discord;
+using Discord.WebSocket;
 using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -12,16 +14,26 @@ namespace Mewdeko.Votes;
 
 public class Startup
 {
-    public Startup(IConfiguration configuration) => Configuration = configuration;
+    public Startup(IConfiguration configuration)
+    {
+        Client = new DiscordSocketClient(new DiscordSocketConfig() { AlwaysDownloadUsers = true, ShardId = 0, TotalShards = 1 });
+        Credentials = new BotCredentials();
+        Configuration = configuration;
+    }
 
     public IConfiguration Configuration { get; }
+    public readonly DiscordSocketClient Client;
+    public readonly IBotCredentials Credentials;
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
+    public async void ConfigureServices(IServiceCollection services)
     {
+        await Client.LoginAsync(TokenType.Bot, Credentials.Token);
+        await Client.StartAsync();
         services.AddControllers();
         services.AddSingleton<FileVotesCache>();
         services.AddSingleton<WebhookEvents>();
+        services.AddSingleton(Client);
         services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" }));
 
         services

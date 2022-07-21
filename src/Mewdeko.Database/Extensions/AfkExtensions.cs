@@ -11,8 +11,8 @@ public static class AfkExtensions
         await set
             .AsQueryable()
             .AsNoTracking().
-            Where(x => x.GuildId == guildId).ToArrayAsyncLinqToDB();
+            Where(x => x.GuildId == guildId).ToArrayAsyncEF();
 
     public static async Task<Afk[]> GetAll(this DbSet<Afk> set) =>
-        await set.AsQueryable().AsNoTracking().ToArrayAsyncLinqToDB();
+        await set.AsQueryable().AsNoTracking().ToArrayAsyncEF();
 }

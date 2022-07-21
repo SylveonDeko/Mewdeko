@@ -69,7 +69,7 @@ public partial class Moderation : MewdekoModule
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
-        public async Task Timeout(StoopidTime time, IGuildUser user, string? reason = null)
+        public async Task Timeout(StoopidTime time, IGuildUser user, [Remainder]string? reason = null)
         {
             reason ??= $"{ctx.User} || None Specified";
             if (time.Time.Days > 28)
@@ -92,18 +92,18 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string? reason = null)
         {
-            if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
+            if (!await CheckRoleHierarchy(user))
                 return;
 
             var dmFailed = false;
             try
             {
                 await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
-                        .WithErrorColor()
-                        .WithDescription(GetText("warned_on", ctx.Guild.ToString()))
-                        .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
-                        .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
-                    .ConfigureAwait(false);
+                                                                                           .WithErrorColor()
+                                                                                           .WithDescription(GetText("warned_on", ctx.Guild.ToString()))
+                                                                                           .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
+                                                                                           .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
+                                                                               .ConfigureAwait(false);
             }
             catch
             {
@@ -119,12 +119,12 @@ public partial class Moderation : MewdekoModule
             {
                 Log.Warning(ex.Message);
                 var errorEmbed = new EmbedBuilder()
-                    .WithErrorColor()
-                    .WithDescription(GetText("cant_apply_punishment"));
+                                 .WithErrorColor()
+                                 .WithDescription(GetText("cant_apply_punishment"));
 
                 if (dmFailed) errorEmbed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-                await ctx.Channel.EmbedAsync(errorEmbed).ConfigureAwait(false);
+                await ctx.Channel.EmbedAsync(errorEmbed);
                 return;
             }
 
@@ -133,51 +133,35 @@ public partial class Moderation : MewdekoModule
             if (punishment is null || punishment.Id is 0)
             {
                 embed.WithDescription(GetText("user_warned",
-                                Format.Bold(user.ToString())));
+                    Format.Bold(user.ToString())));
             }
             else
             {
                 embed.WithDescription(GetText("user_warned_and_punished", Format.Bold(user.ToString()),
-                                Format.Bold(punishment?.Punishment.ToString())));
+                    Format.Bold(punishment.Punishment.ToString())));
             }
 
             if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-            try
-            {
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.ToString());
-            }
+            if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
-            try
-            {
-                var a = await Service.GetWarnlogChannel(ctx.Guild.Id);
-                var b = 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            if (await Service.GetWarnlogChannel(ctx.Guild.Id).ConfigureAwait(false) != 0)
+            await ctx.Channel.EmbedAsync(embed);
+            if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
                 var uow = _db.GetDbContext();
                 var warnings = uow.Warnings
-                    .ForId(ctx.Guild.Id, user.Id)
-                    .Count(w => !w.Forgiven && w.UserId == user.Id);
+                                  .ForId(ctx.Guild.Id, user.Id)
+                                  .Count(w => !w.Forgiven && w.UserId == user.Id);
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
                 var punishaction = condition ? punishment.Punishment.Humanize() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetWarnlogChannel(ctx.Guild.Id)).ConfigureAwait(false);
+                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetWarnlogChannel(ctx.Guild.Id));
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                                                            .WithThumbnailUrl(user.RealAvatarUrl().ToString())
                                                            .WithTitle($"Warned by: {ctx.User}")
                                                            .WithCurrentTimestamp()
                                                            .WithDescription(
-                                                               $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})")).ConfigureAwait(false);
+                                                               $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Message.GetJumpUrl()})"));
             }
         }
 
