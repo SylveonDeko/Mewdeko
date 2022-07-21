@@ -58,9 +58,9 @@ public class BotCredentials : IBotCredentials
                     "Token is missing from credentials.json or Environment variables. Add it and restart the program");
             }
             
-            OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
+            OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => c.Value != null ? ulong.Parse(c.Value) : 0)
                 .ToImmutableArray();
-            OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => ulong.Parse(c.Value))
+            OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => c.Value != null ? ulong.Parse(c.Value) : 0)
                 .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
             ClientId = data[nameof(ClientId)];

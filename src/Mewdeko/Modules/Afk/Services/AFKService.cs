@@ -281,17 +281,17 @@ public class AfkService : INService, IReadyExecutor
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<string> GetCustomAfkMessage(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkMessage;
+    public async Task<string> GetCustomAfkMessage(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkMessage;
 
-    public async Task<int> GetAfkDel(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkDel;
+    public async Task<int> GetAfkDel(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkDel;
 
-    private async Task<int> GetAfkType(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkType;
+    private async Task<int> GetAfkType(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkType;
 
-    public async Task<int> GetAfkLength(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkLength;
+    public async Task<int> GetAfkLength(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkLength;
 
-    public async Task<string> GetDisabledAfkChannels(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkDisabledChannels;
+    public async Task<string> GetDisabledAfkChannels(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkDisabledChannels;
 
-    private async Task<int> GetAfkTimeout(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).AfkTimeout;
+    private async Task<int> GetAfkTimeout(ulong id) => (await _guildSettings.GetGuildConfig(id)).AfkTimeout;
 
     public async Task AfkSet(
         IGuild guild,

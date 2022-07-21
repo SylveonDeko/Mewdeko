@@ -30,11 +30,11 @@ public class UtilityService : INService
     public async Task<List<SnipeStore>> GetSnipes(ulong guildId)
         => await _cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
 
-    public async Task<int> GetPLinks(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).PreviewLinks;
+    public async Task<int> GetPLinks(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).PreviewLinks;
 
-    public async Task<ulong> GetReactChans(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).ReactChannel;
+    public async Task<ulong> GetReactChans(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).ReactChannel;
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
@@ -68,8 +68,8 @@ public class UtilityService : INService
         }
     }
 
-    public async Task<bool> GetSnipeSet(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).snipeset;
+    public async Task<bool> GetSnipeSet(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).snipeset;
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
@@ -270,7 +270,11 @@ public class UtilityService : INService
                         {
                             en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault()?.Description);
                             if (msg2.Embeds.FirstOrDefault()!.Image != null)
-                                en2.ImageUrl = msg2.Embeds.FirstOrDefault()?.Image.Value.Url;
+                            {
+                                var embedImage = msg2.Embeds.FirstOrDefault()?.Image;
+                                if (embedImage != null)
+                                    en2.ImageUrl = embedImage?.Url;
+                            }
                         }
 
                         if (msg2.Content.Length > 0) en2.Description = msg2.Content;

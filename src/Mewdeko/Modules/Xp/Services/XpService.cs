@@ -468,27 +468,27 @@ public class XpService : INService, IUnloadableService
         _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
-    public int GetXpTimeout(ulong? id)
+    public int GetXpTimeout(ulong id)
     {
-        XpTxtTimeouts.TryGetValue(id.Value, out var snum);
+        XpTxtTimeouts.TryGetValue(id, out var snum);
         return snum;
     }
 
-    public int GetTxtXpRate(ulong? id)
+    public int GetTxtXpRate(ulong id)
     {
-        XpTxtRates.TryGetValue(id.Value, out var snum);
+        XpTxtRates.TryGetValue(id, out var snum);
         return snum;
     }
 
-    public double GetVoiceXpRate(ulong? id)
+    public double GetVoiceXpRate(ulong id)
     {
-        XpVoiceRates.TryGetValue(id.Value, out var snum);
+        XpVoiceRates.TryGetValue(id, out var snum);
         return snum;
     }
 
-    public int GetVoiceXpTimeout(ulong? id)
+    public int GetVoiceXpTimeout(ulong id)
     {
-        XpVoiceTimeouts.TryGetValue(id.Value, out var snum);
+        XpVoiceTimeouts.TryGetValue(id, out var snum);
         return snum;
     }
 

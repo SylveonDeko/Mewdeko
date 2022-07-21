@@ -71,13 +71,13 @@ public class PollService : INService
         return true;
     }
 
-    public Poll StopPoll(ulong guildId)
+    public async Task<Poll> StopPoll(ulong guildId)
     {
         if (!ActivePolls.TryRemove(guildId, out var pr)) return null;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            uow.RemovePoll(pr.Poll.Id);
-            uow.SaveChanges();
+            await uow.RemovePoll(pr.Poll.Id);
+            await uow.SaveChangesAsync();
         }
 
         return pr.Poll;

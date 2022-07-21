@@ -19,7 +19,7 @@ public readonly struct TypedKey<TData>
     public static bool operator !=(in TypedKey<TData> left, in TypedKey<TData> right)
         => !(left == right);
 
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
         => obj is TypedKey<TData> o && o == this;
 
     public override int GetHashCode()

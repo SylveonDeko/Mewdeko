@@ -30,8 +30,8 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Suggest() => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
         null,
-        x => x.UpdateTextInput("suggestion", async s => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild?.Id)))
-                                                         .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild?.Id), 4000))))
+        x => x.UpdateTextInput("suggestion", async s => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
+                                                         .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000))))
                                       .ConfigureAwait(false);
 
     [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]

@@ -245,8 +245,8 @@ public class MuteService : INService
         }
     }
 
-    public async Task<int> GetRemoveOnMute(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).removeroles;
+    public async Task<int> GetRemoveOnMute(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).removeroles;
 
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
@@ -495,7 +495,7 @@ public class MuteService : INService
                 case TimerType.Ban:
                     try
                     {
-                        RemoveTimerFromDb(guildId, userId, type);
+                        await RemoveTimerFromDb(guildId, userId, type);
                         StopTimer(guildId, userId, type);
                         var guild = _client.GetGuild(guildId); // load the guild
                         if (guild != null) await guild.RemoveBanAsync(userId).ConfigureAwait(false);
@@ -509,7 +509,7 @@ public class MuteService : INService
                 case TimerType.AddRole:
                     try
                     {
-                        RemoveTimerFromDb(guildId, userId, type);
+                        await RemoveTimerFromDb(guildId, userId, type);
                         StopTimer(guildId, userId, type);
                         var guild = _client.GetGuild(guildId);
                         var user = guild?.GetUser(userId);
@@ -534,7 +534,7 @@ public class MuteService : INService
                     }
                     catch (Exception ex)
                     {
-                        RemoveTimerFromDb(guildId, userId, type); // if unmute errored, just remove unmute from db
+                        await RemoveTimerFromDb(guildId, userId, type); // if unmute errored, just remove unmute from db
                         Log.Warning(ex, "Couldn't unmute user {0} in guild {1}", userId, guildId);
                     }
 

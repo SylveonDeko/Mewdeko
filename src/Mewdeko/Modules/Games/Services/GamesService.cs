@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Services;
@@ -16,13 +15,11 @@ public class GamesService : INService, IUnloadableService
 {
     private const string TYPING_ARTICLES_PATH = "data/typing_articles3.json";
     private readonly GamesConfigService _gamesConfig;
-    private readonly IHttpClientFactory _httpFactory;
     private readonly Random _rng;
 
-    public GamesService(GamesConfigService gamesConfig, IHttpClientFactory httpFactory)
+    public GamesService(GamesConfigService gamesConfig)
     {
         _gamesConfig = gamesConfig;
-        _httpFactory = httpFactory;
 
         _rng = new MewdekoRandom();
 

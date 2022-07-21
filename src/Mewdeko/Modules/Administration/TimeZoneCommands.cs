@@ -86,7 +86,7 @@ public partial class Administration
                 return;
             }
 
-            Service.SetTimeZone(ctx.Guild.Id, tz);
+            await Service.SetTimeZone(ctx.Guild.Id, tz);
 
             await ctx.Channel.SendConfirmAsync(tz.ToString()).ConfigureAwait(false);
         }

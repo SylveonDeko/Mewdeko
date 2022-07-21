@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Music.Services;
 
 public class MusicService : INService
 {
-    public readonly ConcurrentDictionary<ulong, List<LavalinkTrack>> Queues;
+    public readonly ConcurrentDictionary<ulong, List<LavalinkTrack?>> Queues;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
     private readonly DbService _db;
     private readonly LavalinkNode _lavaNode;
@@ -165,9 +165,7 @@ public class MusicService : INService
                 }
 
                 var result1 = await (await GetSpotifyClient().ConfigureAwait(false)).Albums.Get(spotifyUrl.Segments[2]).ConfigureAwait(false);
-#pragma warning disable CS8629 // Nullable value type may be null.
-                if ((bool)result1.Tracks.Items?.Any())
-#pragma warning restore CS8629 // Nullable value type may be null.
+                if (result1.Tracks.Items.Any())
                 {
                     var items = result1.Tracks.Items;
                     var eb = new EmbedBuilder()
@@ -293,7 +291,7 @@ public class MusicService : INService
         return true;
     }
 
-    public List<LavalinkTrack> GetQueue(ulong guildid) =>
+    public List<LavalinkTrack?> GetQueue(ulong guildid) =>
         !Queues.Select(x => x.Key).Contains(guildid)
             ? new List<LavalinkTrack> { Capacity = 0 }
             : Queues.FirstOrDefault(x => x.Key == guildid).Value;
@@ -384,9 +382,9 @@ public class MusicService : INService
     }
     public async Task<int> GetVolume(ulong guildid) => (await GetSettingsInternalAsync(guildid).ConfigureAwait(false)).Volume;
 
-    public async Task<MusicPlaylist?> GetDefaultPlaylist(IUser user)
+    public async Task<MusicPlaylist> GetDefaultPlaylist(IUser user)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return await uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
     }
     public IEnumerable<MusicPlaylist?> GetPlaylists(IUser user)

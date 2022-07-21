@@ -1,11 +1,8 @@
-﻿using Discord;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
 using System;
-using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local

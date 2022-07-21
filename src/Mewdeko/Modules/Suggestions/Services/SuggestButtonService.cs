@@ -132,6 +132,6 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
                         null,
                         x => x.UpdateTextInput("suggestion", async s 
-                            => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild?.Id)))
-                                                                         .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild?.Id), 4000)))).ConfigureAwait(false);
+                            => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
+                                                                         .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000)))).ConfigureAwait(false);
 }
