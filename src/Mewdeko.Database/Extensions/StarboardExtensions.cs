@@ -10,5 +10,5 @@ public static class StarboardExtensions
         => await set.AsQueryable().FirstOrDefaultAsyncEF(x => x.MessageId == msgid);
 
     public static async Task<IEnumerable<StarboardPosts>> All(this DbSet<StarboardPosts> set)
-        => await set.AsQueryable().ToArrayAsyncLinqToDB();
+        => await set.AsQueryable().ToArrayAsyncEF();
 }

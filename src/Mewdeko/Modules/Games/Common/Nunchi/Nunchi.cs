@@ -140,13 +140,13 @@ public sealed class NunchiGame : IDisposable
                     {
                         var failure = participants.Except(_passed).First();
 
-                        await OnUserGuessed.Invoke(this).ConfigureAwait(false);
+                        await OnUserGuessed.Invoke(this);
                         EndRound(failure);
                         return;
                     }
                 }
 
-                await OnUserGuessed.Invoke(this).ConfigureAwait(false);
+                await OnUserGuessed.Invoke(this);
             }
             else
             {

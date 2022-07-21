@@ -9,7 +9,7 @@ public static class RemindExtensions
     public static async Task<IEnumerable<Reminder>> GetIncludedReminders(this DbSet<Reminder> reminders, IEnumerable<ulong> guildIds)
         => await reminders.AsQueryable()
                     .Where(x => guildIds.Contains(x.ServerId) || x.ServerId == 0)
-                    .ToListAsyncLinqToDB();
+                    .ToListAsyncEF();
 
     public static IEnumerable<Reminder> RemindersFor(this DbSet<Reminder> reminders, ulong userId, int page)
         => reminders.AsQueryable()

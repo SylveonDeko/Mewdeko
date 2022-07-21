@@ -40,5 +40,5 @@ public static class ClubExtensions
             .OrderByDescending(x => x.Xp)
             .Skip(page * 9)
             .Take(9)
-            .ToListAsyncLinqToDB();
+            .ToListAsyncEF();
 }

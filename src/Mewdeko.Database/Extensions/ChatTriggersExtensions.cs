@@ -35,7 +35,7 @@ public static class ChatTriggersExtensions
             .AsNoTracking()
             .AsQueryable()
             .Where(x => x.GuildId == id)
-            .ToArrayAsyncLinqToDB();
+            .ToArrayAsyncEF();
 
     public static async Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) => 
         await AsyncExtensions.FirstOrDefaultAsync(crs, x => x.GuildId == guildId && x.Trigger.ToUpper() == input).ConfigureAwait(false);
