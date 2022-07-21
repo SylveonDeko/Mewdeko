@@ -64,8 +64,8 @@ public class GiveawayService : INService, IReadyExecutor
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<string> GetGiveawayEmote(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).GiveawayEmote;
+    public async Task<string> GetGiveawayEmote(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).GiveawayEmote;
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = _db.GetDbContext();

@@ -23,7 +23,7 @@ public class FeedsService : INService
 
         using (var uow = db.GetDbContext())
         {
-            var guildConfigIds = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId)).Select(x => x.Id);
+            var guildConfigIds = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).Select(x => x.Id);
             _subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))
@@ -110,7 +110,7 @@ public class FeedsService : INService
                                 return feed.ImageUrl;
                             })
                             .WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
-                            .WithOverride("%timestamp%", () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
+                            .WithOverride("%timestamp%", () => feedItem.PublishingDate != null ? TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString() : null)
                             .WithOverride("%url%", () => feedItem.Link)
                             .WithOverride("%feedurl%", () => rssUrl)
                             .Build();
@@ -225,7 +225,7 @@ public class FeedsService : INService
                              return feed.ImageUrl;
                          }).WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
                                                  .WithOverride("%timestamp%",
-                                                     () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
+                                                     () => feedItem.PublishingDate != null ? TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString() : null)
                                                  .WithOverride("%url%", () => feedItem.Link).WithOverride("%feedurl%", () => sub.Url).Build();
         var embed = new EmbedBuilder().WithFooter(sub.Url);
         var link = feedItem.SpecificItem.Link;

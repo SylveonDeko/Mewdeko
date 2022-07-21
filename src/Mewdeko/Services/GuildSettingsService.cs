@@ -31,13 +31,13 @@ public class GuildSettingsService : INService
         return prefix;
     }
     
-    public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild?.Id);
+    public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild.Id);
 
-    public async Task<string?> GetPrefix(ulong? id = null)
+    public async Task<string?> GetPrefix(ulong id = 0)
     {
-        if (id is null)
+        if (id is 0)
             return _bss.GetSetting("prefix");
-        return (await GetGuildConfig(id.Value)).Prefix ??= _bss.GetSetting("prefix");
+        return (await GetGuildConfig(id)).Prefix ??= _bss.GetSetting("prefix");
     }
     
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)

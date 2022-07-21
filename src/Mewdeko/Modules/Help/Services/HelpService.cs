@@ -120,7 +120,7 @@ public class HelpService : ILateExecutor, INService
 
     public record UMsg
     {
-        public IUserMessage Msg { get; set; }
+        public IUserMessage? Msg { get; set; }
         public DateTime Time { get; set; }
     }
 
@@ -157,7 +157,7 @@ public class HelpService : ILateExecutor, INService
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
 
-        return SmartEmbed.TryParse(settings.DmHelpText, guild?.Id, out var embed, out var plainText, out var components)
+        return SmartEmbed.TryParse(settings.DmHelpText, guild.Id, out var embed, out var plainText, out var components)
             ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }

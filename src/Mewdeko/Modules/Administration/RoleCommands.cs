@@ -187,7 +187,7 @@ public partial class Administration
             }
 
             index--;
-            Service.Remove(ctx.Guild.Id, index);
+            await Service.Remove(ctx.Guild.Id, index);
             await ReplyConfirmLocalizedAsync("reaction_role_removed", index + 1).ConfigureAwait(false);
         }
 

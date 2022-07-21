@@ -31,8 +31,8 @@ public class UserPunishService : INService
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    public async Task<ulong> GetWarnlogChannel(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).WarnlogChannelId;
+    public async Task<ulong> GetWarnlogChannel(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).WarnlogChannelId;
 
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
@@ -348,7 +348,7 @@ WHERE GuildId={guildId}
             .ToArray();
     }
 
-    public (IEnumerable<(string Original, ulong? Id, string Reason)> Bans, int Missing) MassKill(SocketGuild guild,
+    public (IEnumerable<(string Original, ulong? id, string Reason)> Bans, int Missing) MassKill(SocketGuild guild,
         string people)
     {
         var gusers = guild.Users;

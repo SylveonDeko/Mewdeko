@@ -93,7 +93,7 @@ public partial class Games
         public async Task Pollend()
         {
             Poll p;
-            if ((p = Service.StopPoll(ctx.Guild.Id)) == null)
+            if ((p = await Service.StopPoll(ctx.Guild.Id)) == null)
                 return;
 
             var embed = GetStats(p, GetText("poll_closed"));

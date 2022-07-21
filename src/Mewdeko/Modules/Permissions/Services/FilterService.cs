@@ -159,7 +159,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    public async Task<int> GetInvWarn(ulong? id) => (await _gss.GetGuildConfig(id.Value)).invwarn;
+    public async Task<int> GetInvWarn(ulong id) => (await _gss.GetGuildConfig(id)).invwarn;
 
     public async Task InvWarn(IGuild guild, string yesnt)
     {
@@ -184,7 +184,7 @@ public class FilterService : IEarlyBehavior, INService
         }
     }
 
-    public async Task<int> GetFw(ulong? id) => (await _gss.GetGuildConfig(id.Value)).fwarn;
+    public async Task<int> GetFw(ulong id) => (await _gss.GetGuildConfig(id)).fwarn;
 
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
@@ -393,9 +393,9 @@ public class FilterService : IEarlyBehavior, INService
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
                 return true;
             }
-            catch (HttpException ex)
+            catch
             {
-                Log.Warning("I do not have permission to filter links in channel with id " + usrMsg.Channel.Id, ex);
+                Log.Warning("I do not have permission to filter links in channel with id " + usrMsg.Channel.Id);
                 return true;
             }
         }

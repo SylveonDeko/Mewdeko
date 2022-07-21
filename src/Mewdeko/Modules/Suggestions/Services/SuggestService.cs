@@ -361,11 +361,11 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-    public async Task<ulong> GetSNum(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).sugnum;
-    public async Task<int> GetMaxLength(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).MaxSuggestLength;
-    public async Task<int> GetMinLength(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).MinSuggestLength;
+    public async Task<ulong> GetSNum(ulong id) => (await _guildSettings.GetGuildConfig(id)).sugnum;
+    public async Task<int> GetMaxLength(ulong id) => (await _guildSettings.GetGuildConfig(id)).MaxSuggestLength;
+    public async Task<int> GetMinLength(ulong id) => (await _guildSettings.GetGuildConfig(id)).MinSuggestLength;
 
-    public async Task<string> GetEmotes(ulong? id) => (await _guildSettings.GetGuildConfig(id.Value)).SuggestEmotes;
+    public async Task<string> GetEmotes(ulong id) => (await _guildSettings.GetGuildConfig(id)).SuggestEmotes;
 
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
@@ -864,8 +864,8 @@ public class SuggestionsService : INService
 
         return emotes.Split(",")[num - 1].ToIEmote();
     }
-    public async Task<ulong> GetSuggestionChannel(ulong? id) 
-        => (await _guildSettings.GetGuildConfig(id.Value)).sugchan;
+    public async Task<ulong> GetSuggestionChannel(ulong id) 
+        => (await _guildSettings.GetGuildConfig(id)).sugchan;
 
     public async Task<string>? GetSuggestionMessage(IGuild guild) 
         => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestMessage;
@@ -2087,7 +2087,7 @@ public class SuggestionsService : INService
             }
 
             var message = await chan.GetMessageAsync(suggest.MessageId).ConfigureAwait(false) as IUserMessage;
-            GetSNum(guild.Id);
+            await GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
             var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
                                                    .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
@@ -2450,7 +2450,7 @@ public class SuggestionsService : INService
 
     public async Task<int> GetPickedEmote(ulong messageId, ulong userId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var toreturn = uow.SuggestVotes.FirstOrDefault(x => x.UserId == userId && x.MessageId == messageId);
         return toreturn?.EmotePicked ?? 0;
     }
@@ -2482,7 +2482,7 @@ public class SuggestionsService : INService
 
     public async Task<ulong> GetThreadByMessage(ulong messageId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return uow.SuggestThreads.FirstOrDefault(x => x.MessageId == messageId)?.ThreadChannelId ?? 0;
     }
 }
