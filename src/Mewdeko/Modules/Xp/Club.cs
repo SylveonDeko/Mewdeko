@@ -322,7 +322,7 @@ public partial class Xp
         }
 
         [Cmd, Aliases, Priority(1)]
-        public async Task ClubBan([Remainder] IUser user) => ClubBan(user.ToString());
+        public async Task ClubBan([Remainder] IUser user) => await ClubBan(user.ToString());
 
         [Cmd, Aliases, Priority(0)]
         public async Task ClubBan([Remainder] string userName)

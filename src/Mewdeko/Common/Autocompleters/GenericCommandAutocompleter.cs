@@ -23,7 +23,7 @@ public class GenericCommandAutocompleter : AutocompleteHandler
 
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services) =>
         Task.FromResult(AutocompletionResult.FromSuccess(Commands.Commands.Where(c => !Perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
-                                                                  .Select(x => $"{x.Name} : {x.RealSummary(Strings, context.Guild?.Id, _guildSettings.GetPrefix(context.Guild?.Id).GetAwaiter().GetResult())}")
+                                                                  .Select(x => $"{x.Name} : {x.RealSummary(Strings, context.Guild?.Id, _guildSettings.GetPrefix(context.Guild.Id).GetAwaiter().GetResult())}")
                                                                   .Where(x => x.Contains((string)autocompleteInteraction.Data.Current.Value, StringComparison.OrdinalIgnoreCase))
                                                                   .OrderByDescending(x => x.StartsWith((string)autocompleteInteraction.Data.Current.Value, StringComparison.OrdinalIgnoreCase)).Distinct()
                                                                   .Take(20).Select(x => new AutocompleteResult(x.Length >= 100 ? x[..97] + "..." : x, x.Split(':')[0].Trim()))));

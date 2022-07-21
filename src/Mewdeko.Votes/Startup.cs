@@ -1,5 +1,3 @@
-using Discord;
-using Discord.WebSocket;
 using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Common.PubSub;
 using Mewdeko.Votes.Services;

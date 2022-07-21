@@ -15,7 +15,7 @@ public class StreamRoleService : INService, IUnloadableService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, StreamRoleSettings> _guildSettings;
 
-    public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public StreamRoleService(DiscordSocketClient client, DbService db)
     {
         _db = db;
         _client = client;

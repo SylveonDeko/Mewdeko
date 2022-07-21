@@ -499,7 +499,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         if (amount == 0)
             return;
 
-        Service.AddXp(userId, ctx.Guild.Id, amount);
+        await Service.AddXp(userId, ctx.Guild.Id, amount);
         var usr = ((SocketGuild)ctx.Guild).GetUser(userId)?.ToString()
                   ?? userId.ToString();
         await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))

@@ -54,7 +54,7 @@ public class GameVoiceChannelService : INService
 
         if (gc.GameVoiceChannel == vchId)
         {
-            id = gc.GameVoiceChannel = null;
+            id = gc.GameVoiceChannel = 0;
             _guildSettings.UpdateGuildConfig(guildId, gc);
         }
         else

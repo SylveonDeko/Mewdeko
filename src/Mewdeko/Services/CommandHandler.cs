@@ -549,7 +549,7 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
-        var prefix = await _gss.GetPrefix(guild?.Id);
+        var prefix = await _gss.GetPrefix(guild.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
             messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ") ||
@@ -580,7 +580,7 @@ public class CommandHandler : INService
 
             if (!string.IsNullOrEmpty(error))
             {
-                LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
+                await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                 if (guild != null)
                 {
                     var perms = new PermissionService(_client, _db, _strings, _gss);

@@ -6,7 +6,6 @@ public class MultiGreetService : INService
 {
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
-    private readonly Mewdeko _bot;
     private readonly GuildSettingsService _guildSettingsService;
 
 
@@ -19,8 +18,8 @@ public class MultiGreetService : INService
         _client.UserJoined += DoMultiGreet;
     }
     
-    public MultiGreet[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
-    private MultiGreet[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
+    public MultiGreet?[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
+    private MultiGreet?[] GetForChannel(ulong channelId) => _db.GetDbContext().MultiGreets.GetForChannel(channelId);
 
     private Task DoMultiGreet(SocketGuildUser user)
     {
@@ -171,7 +170,7 @@ public class MultiGreetService : INService
         _guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<int> GetMultiGreetType(ulong? id) => (await _guildSettingsService.GetGuildConfig(id.Value)).MultiGreetType;
+    public async Task<int> GetMultiGreetType(ulong id) => (await _guildSettingsService.GetGuildConfig(id)).MultiGreetType;
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
         if (GetForChannel(channelId).Length == 5)

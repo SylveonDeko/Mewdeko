@@ -92,8 +92,8 @@ public class ProtectionService : INService
     {
         var _ = Task.Factory.StartNew(async () =>
         {
-            TryStopAntiRaid(guild.Id);
-            TryStopAntiSpam(guild.Id);
+            await TryStopAntiRaid(guild.Id);
+            await TryStopAntiSpam(guild.Id);
             await TryStopAntiAlt(guild.Id).ConfigureAwait(false);
         }, TaskCreationOptions.LongRunning);
         return Task.CompletedTask;

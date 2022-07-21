@@ -10,7 +10,7 @@ public class DapiImageObject : IImageData
     [JsonPropertyName("Tag_String")]
     public string? TagString { get; set; }
     public int? Score { get; set; }
-    public string Rating { get; set; }
+    public string? Rating { get; set; }
 
     public ImageData ToCachedImageData(Booru type)
         => new(FileUrl, type, Tags?.Split(' ') ?? TagString?.Split(' '), Score.ToString() ?? Rating);

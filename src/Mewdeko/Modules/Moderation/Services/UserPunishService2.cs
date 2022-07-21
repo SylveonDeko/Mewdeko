@@ -23,8 +23,8 @@ public class UserPunishService2 : INService
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    public async Task<ulong> GetMWarnlogChannel(ulong? id)
-        => (await _guildSettings.GetGuildConfig(id.Value)).MiniWarnlogChannelId;
+    public async Task<ulong> GetMWarnlogChannel(ulong id)
+        => (await _guildSettings.GetGuildConfig(id)).MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {

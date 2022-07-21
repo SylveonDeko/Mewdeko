@@ -22,7 +22,7 @@ public partial class Administration
                 return;
             }
 
-            var id = Service.ToggleGameVoiceChannel(ctx.Guild.Id, vch.Id);
+            var id = await Service.ToggleGameVoiceChannel(ctx.Guild.Id, vch.Id);
 
             if (id == null)
             {

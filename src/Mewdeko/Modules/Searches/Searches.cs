@@ -145,9 +145,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Rip([Remainder] IGuildUser usr)
     {
         var av = usr.RealAvatarUrl();
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (av is null)
-            return;
         var picStream =
             await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
         await using var _ = picStream.ConfigureAwait(false);
@@ -743,11 +740,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         var av = usr.RealAvatarUrl();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (av == null)
-            return;
 
         await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}")
-            .ConfigureAwait(false);
+                 .ConfigureAwait(false);
     }
 
     //done in 3.0

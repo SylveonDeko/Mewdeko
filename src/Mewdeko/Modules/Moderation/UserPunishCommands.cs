@@ -867,8 +867,8 @@ public partial class Moderation : MewdekoModule
 
             //do the banning
             await Task.WhenAll(bans
-                    .Where(x => x.Id.HasValue)
-                    .Select(x => ctx.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions
+                    .Where(x => x.id.HasValue)
+                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, 7, x.Reason, new RequestOptions
                     {
                         RetryMode = RetryMode.AlwaysRetry
                     })))
