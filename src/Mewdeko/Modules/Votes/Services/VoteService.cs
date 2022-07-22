@@ -34,14 +34,14 @@ public class VoteService : INService
         var user = await _client.Rest.GetGuildUserAsync(guild.Id, ulong.Parse(voteModal.VoteModel.User));
         if (string.IsNullOrEmpty(potentialVoteConfig.VoteEmbed))
         {
-            if (potentialVoteConfig.VotesChannel is 0)
-                return;
             if (await _client.Rest.GetChannelAsync(potentialVoteConfig.VotesChannel) is not ITextChannel channel)
                 return;
             
             var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
             await uow.Votes.AddAsync(newVote);
             await uow.SaveChangesAsync();
+            if (potentialVoteConfig.VotesChannel is 0)
+                return;
             var votes = await uow.Votes.CountAsyncEF(x => x.UserId == user.Id && x.GuildId == guild.Id);
             var eb = new EmbedBuilder()
                 .WithTitle($"Thanks for voting for {guild.Name}")
@@ -75,13 +75,13 @@ public class VoteService : INService
         }
         else
         {
-            if (potentialVoteConfig.VotesChannel is 0)
-                return;
             if (await _client.Rest.GetChannelAsync(potentialVoteConfig.VotesChannel) is not ITextChannel channel)
                 return;
             var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
             await uow.Votes.AddAsync(newVote);
             await uow.SaveChangesAsync();
+            if (potentialVoteConfig.VotesChannel is 0)
+                return;
             var votes = uow.Votes.Where(x => x.UserId == user.Id && x.GuildId == guild.Id);
             var rep = new ReplacementBuilder()
                 .WithDefault(user, null, guild as SocketGuild, _client)
