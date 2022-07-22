@@ -47,7 +47,7 @@ public class VoteCommands : MewdekoModuleBase<VoteService>
                         var rep = new ReplacementBuilder()
                                   .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
                                   .WithOverride("%votestotalcount%", () => votes.Count.ToString())
-                                  .WithOverride("%votesmonthcount", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
+                                  .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
             
                         if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
                         {
