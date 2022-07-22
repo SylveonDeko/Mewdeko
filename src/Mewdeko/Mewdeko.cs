@@ -112,9 +112,9 @@ public class Mewdeko
                 .AddSingleton(Cache)
                 .AddSingleton(new MartineApi())
                 .AddSingleton(Cache.Redis)
-                .AddSingleton<ISeria, JsonSeria>()
-                .AddSingleton<IPubSub, RedisPubSub>()
-                .AddSingleton<IConfigSeria, YamlSeria>()
+                .AddTransient<ISeria, JsonSeria>()
+                .AddTransient<IPubSub, RedisPubSub>()
+                .AddTransient<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
                 .AddSingleton(new NekosBestApi())
                 .AddSingleton<InteractionService>()
@@ -124,8 +124,8 @@ public class Mewdeko
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
-                .AddSingleton<IDiscordClientWrapper, DiscordClientWrapper>()
-                .AddSingleton<IAudioService, LavalinkNode>()
+                .AddTransient<IDiscordClientWrapper, DiscordClientWrapper>()
+                .AddTransient<IAudioService, LavalinkNode>()
                 .AddSingleton<LavalinkNode>()
                 .AddSingleton(new LavalinkNodeOptions
                 {
@@ -134,7 +134,7 @@ public class Mewdeko
                     RestUri = "http://127.0.0.1:2333",
                     DisconnectOnStop = false,
                 })
-                .AddSingleton<IShopService, ShopService>()
+                .AddTransient<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>()
                 .AddSingleton<ToneTagService>();
 

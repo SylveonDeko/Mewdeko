@@ -14,22 +14,17 @@ public class AdministrationService : INService
     private readonly DbService _db;
     private readonly LogCommandService _logService;
     private readonly GuildSettingsService _guildSettings;
-    private readonly TypedKey<VoteModel> _typedKey;
-    private readonly IPubSub _pubSub;
+    private readonly TypedKey<CompoundVoteModal> _typedKey;
 
     public AdministrationService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         LogCommandService logService,
-        GuildSettingsService guildSettings,
-        IPubSub pubSub)
+        GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         _db = db;
         _logService = logService;
         _guildSettings = guildSettings;
-        _pubSub = pubSub;
-        _typedKey = new TypedKey<VoteModel>("uservoted");
-        _pubSub.Sub(_typedKey, EventsOnUserVotedTopGg);
 
         DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
                                                                .Where(g => g.DeleteMessageOnCommand)
@@ -41,11 +36,7 @@ public class AdministrationService : INService
             .ToConcurrent());
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
-
-    private async ValueTask EventsOnUserVotedTopGg(VoteModel e)
-    {
-        Log.Information("Recieved Vote");
-    }
+    
 
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }

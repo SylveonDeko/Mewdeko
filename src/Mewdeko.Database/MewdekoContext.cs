@@ -49,12 +49,14 @@ public class MewdekoContext : DbContext
     public DbSet<WaifuInfo> WaifuInfo { get; set; }
     public DbSet<Warning> Warnings { get; set; }
     public DbSet<UserXpStats> UserXpStats { get; set; }
+    public DbSet<VoteRoles> VoteRoles { get; set; }
     public DbSet<Nicknames> Nicknames { get; set; }
     public DbSet<Poll> Poll { get; set; }
     public DbSet<ClubInfo> Clubs { get; set; }
     public DbSet<CommandCooldown> CommandCooldown { get; set; }
     public DbSet<SuggestVotes> SuggestVotes { get; set; }
     public DbSet<SuggestThreads> SuggestThreads { get; set; }
+    public DbSet<Votes> Votes { get; set; }
 
     //logging
     public DbSet<LogSetting> LogSettings { get; set; }
