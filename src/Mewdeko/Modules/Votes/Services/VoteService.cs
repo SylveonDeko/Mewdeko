@@ -86,7 +86,7 @@ public class VoteService : INService
             var rep = new ReplacementBuilder()
                 .WithDefault(user, null, guild as SocketGuild, _client)
                 .WithOverride("%votestotalcount%", () => votes.Count().ToString())
-                .WithOverride("%votesmonthcount", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
+                .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
             
             if (SmartEmbed.TryParse(rep.Replace(potentialVoteConfig.VoteEmbed), guild.Id, out var embeds, out var plainText, out var components))
             {
