@@ -20,7 +20,6 @@ public class WebhookController : ControllerBase
     }
 
     [HttpPost("/")]
-    [Authorize(Policy = Policies.TOPGG_AUTH)]
     public Task<IActionResult> TopggWebhook([FromBody] VoteModel data)
     {
         _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
@@ -29,7 +28,7 @@ public class WebhookController : ControllerBase
             "top.gg");
         _ = Task.Factory.StartNew(async () =>
         {
-            await Events.InvokeTopGg(data);
+            await Events.InvokeTopGg(data, Request.Headers.Authorization);
         }, TaskCreationOptions.LongRunning);
         return Task.FromResult<IActionResult>(Ok());
     }

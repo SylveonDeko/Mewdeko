@@ -87,6 +87,9 @@ public class ReplacementBuilder
                 to).ToString("HH:mm ") + to.StandardName.GetInitials();
         });
         /*NEW*/
+        _reps.TryAdd("%time.month%", () => DateTime.UtcNow.ToString("MMMM"));
+        _reps.TryAdd("%time.day%", () => DateTime.UtcNow.ToString("dddd"));
+        _reps.TryAdd("%time.year%", () => DateTime.UtcNow.ToString("yyyy"));
         _reps.TryAdd("%server.icon%", () => g == null ? "DM" : $"{g.IconUrl}?size=2048");
         _reps.TryAdd("%server.id%", () => g == null ? "DM" : g.Id.ToString());
         _reps.TryAdd("%server.name%", () => g == null ? "DM" : g.Name);
