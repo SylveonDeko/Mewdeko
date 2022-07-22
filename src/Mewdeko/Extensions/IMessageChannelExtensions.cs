@@ -25,13 +25,14 @@ public static class MessageChannelExtensions
         this IMessageChannel ch,
         string? error,
         bool helpButton = true,
-        EmbedFieldBuilder[]? fields = null) =>
-        ch.SendMessageAsync(
-            embed: new EmbedBuilder().WithErrorColor().WithDescription(error).WithFields(fields).Build(),
-            components: helpButton
-                ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link,
-                    url: "https://discord.gg/mewdeko").Build()
-                : null);
+        EmbedFieldBuilder[]? fields = null)
+    {
+        var eb = new EmbedBuilder().WithErrorColor().WithDescription(error);
+        if (fields is not null)
+            eb.WithFields(fields);
+        return ch.SendMessageAsync(embed: eb.Build(),
+            components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build() : null);
+    }
 
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? title, string? text,
         string? url = null, string? footer = null)
