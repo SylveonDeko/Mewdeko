@@ -73,7 +73,7 @@ public class VoteCommands : MewdekoModuleBase<VoteService>
                 break;
             default:
                 await ctx.Channel.SendConfirmAsync("Vote message set.");
-                await Service.SetVoteMessage(ctx.Guild.Id, voteMessage);
+                await Service.SetVoteMessage(ctx.Guild.Id, message);
                 break;
         }
     }
