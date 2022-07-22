@@ -74,7 +74,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                 break;
             default:
                 await ctx.Interaction.SendConfirmFollowupAsync("Vote message set.");
-                await Service.SetVoteMessage(ctx.Guild.Id, voteMessage);
+                await Service.SetVoteMessage(ctx.Guild.Id, message);
                 break;
         }
     }
