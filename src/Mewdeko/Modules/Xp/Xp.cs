@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
 using System.Threading.Tasks;
@@ -34,12 +35,15 @@ public partial class Xp : MewdekoModuleBase<XpService>
     private readonly DownloadTracker _tracker;
     private readonly XpConfigService _xpConfig;
     private readonly InteractiveService _interactivity;
+    private readonly GamblingConfigService _gss;
 
-    public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv)
+    public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
+        GamblingConfigService gss)
     {
         _xpConfig = xpconfig;
         _tracker = tracker;
         _interactivity = serv;
+        _gss = gss;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -505,7 +509,27 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))
             .ConfigureAwait(false);
     }
+    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
+    public async Task XpCurrencyReward(int level, int amount = 0)
+    {
+        if (level < 1 || amount < 0)
+            return;
 
+        Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
+        var config = _gss.Data;
+
+        if (amount == 0)
+        {
+            await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, config.Currency.Sign)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await ReplyConfirmLocalizedAsync("cur_reward_added",
+                    level, Format.Bold(amount + config.Currency.Sign))
+                .ConfigureAwait(false);
+        }
+    }
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);
