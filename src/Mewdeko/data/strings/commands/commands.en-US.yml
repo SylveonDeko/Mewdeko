@@ -1422,12 +1422,6 @@ gemote:
   args:
     - <:HaneBomb:914307912044802059>
   desc: Sets a custom emote used in giveaways!
-gencmdlist:
-  args:
-    - ''
-  desc: >-
-    Generates the command list and sends it to the chat. Optionally also uploads
-    it to DO spaces (not supported).
 gencurlist:
   args:
     - ''
@@ -4113,3 +4107,42 @@ ctinterephemeral:
     - 1234 false
   desc: >-
     Makes chat triggers from buttons or application commands use an ephemeral message.
+votechannel:
+  args:
+    - ""
+  desc: "Set the channel where vote messages appear."
+votemessage:
+  args:
+    - "embedcode"
+  desc: "Set the vote embed, or view the current one, Set to `-` to set it to default."
+voteroleadd:
+  args:
+    - "role 2m5s"
+    - "role"
+  desc: "Add a role thats given when a user has voted along with the time its present. Set no time for it to be permanent."
+voteroleedit:
+  args:
+    - "role 2m5s"
+  desc: "Edit an existing vote role. Set no time to make it permanent."
+votes:
+  args:
+    - ""
+    - "@user"
+  desc: "Gets your or another users vote stats."
+votesleaderboard:
+  args:
+    - "true"
+    - ""
+  desc: "Show the current votes leaderboard. Run with true as a parameter to show the monthly vote leaderboard."
+votepassword:
+  args:
+    - ""
+  desc: "Pops a modal up to set the password used to authenticate votes. ***Do not share with anyone, we are not responsible if you leak it.***"
+handhold:
+  args:
+    - "@user"
+  desc: "... Lewd."
+punch:
+  args:
+    - ""
+  desc: "... Violent!"

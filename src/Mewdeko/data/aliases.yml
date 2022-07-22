@@ -601,8 +601,6 @@ gelbooru:
 gemote:
   - gemote
   - giveawayemote
-gencmdlist:
-  - gencmdlist
 gencurlist:
   - gencurlist
   - gclist
@@ -1895,3 +1893,26 @@ ctinterephemeral:
   - ctinterephemeral
   - ctiephemeral
   - ctieph
+votechannel:
+  - votechannel
+votemessage:
+  - votemessage
+  - votemsg
+voteroleadd:
+  - voteroleadd
+  - vra
+voteroleedit:
+  - voteroleedit
+  - vre
+votepassword:
+  - votepassword
+  - votepass
+votes:
+  - votes
+votesleaderboard:
+  - votesleaderboard
+  - voteslb
+handhold:
+  - handhold
+punch:
+  - punch
