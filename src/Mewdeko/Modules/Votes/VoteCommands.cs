@@ -17,14 +17,14 @@ public class VoteCommands : MewdekoModuleBase<VoteService>
     public VoteCommands(InteractiveService interactivity) => _interactivity = interactivity;
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Commands.RequireContext(ContextType.Guild)]
-    public async Task VoteChannel(ITextChannel channel)
+    public async Task VoteChannel([Remainder]ITextChannel channel)
     {
         await Service.SetVoteChannel(ctx.Guild.Id, channel.Id);
         await ctx.Channel.SendConfirmAsync("Sucessfully set the vote channel!");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Commands.RequireContext(ContextType.Guild)]
-    public async Task VoteMessage(string message = null)
+    public async Task VoteMessage([Remainder]string message = null)
     {
         var voteMessage = await Service.GetVoteMessage(ctx.Guild.Id);
         var votes = await Service.GetVotes(ctx.Guild.Id, ctx.User.Id);
@@ -129,7 +129,7 @@ public class VoteCommands : MewdekoModuleBase<VoteService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Votes(IUser user = null)
+    public async Task Votes([Remainder]IUser user = null)
     {
         var curUser = user ?? ctx.User;
         await ctx.Channel.SendMessageAsync(embed: (await Service.GetTotalVotes(curUser, ctx.Guild)).Build());
