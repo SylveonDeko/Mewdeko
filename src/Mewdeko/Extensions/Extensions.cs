@@ -349,7 +349,7 @@ public static class Extensions
     public static bool IsImage(this HttpResponseMessage msg, out string? mimeType)
     {
         if (msg.Content.Headers.ContentType != null) _ = msg.Content.Headers.ContentType.MediaType;
-        mimeType = null;
+        mimeType = msg.Content.Headers.ContentType.MediaType;
         return mimeType is "image/png" or "image/jpeg" or "image/gif";
     }
 

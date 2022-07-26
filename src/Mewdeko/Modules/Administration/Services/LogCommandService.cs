@@ -113,6 +113,7 @@ public class LogCommandService : INService
         _client.ChannelDestroyed += Client_ChannelDestroyed;
         _client.ChannelUpdated += Client_ChannelUpdated;
         _client.RoleDeleted += Client_RoleDeleted;
+        _client.GuildScheduledEventCreated += Client_EventCreated;
 
         mute.UserMuted += MuteCommands_UserMuted;
         mute.UserUnmuted += MuteCommands_UserUnmuted;
@@ -122,6 +123,32 @@ public class LogCommandService : INService
         _client.UserUpdated += AddUsername;
 
         _ = RunCacheClear();
+    }
+
+    private Task Client_EventCreated(SocketGuildEvent arg)
+    {
+       _ = Task.Factory.StartNew(async () =>
+       {
+           ITextChannel logChannel;
+           if (!GuildLogSettings.TryGetValue(arg.Guild.Id, out var logSetting))
+               return;
+           if ((logChannel = await TryGetLogChannel(arg.Guild, logSetting, LogType.EventCreated)) == null)
+                return;
+           
+           var eb = new EmbedBuilder()
+               .WithTitle("New Event Created")
+               .WithDescription(arg.Description ?? "No event description")
+               .AddField("Event Name", arg.Name)
+               .AddField("Event Location", arg.Location)
+               .AddField("Event Starter", $"{arg.Creator} | {arg.Creator.Id}")
+               .AddField("Start Time", TimestampTag.FromDateTimeOffset(arg.StartTime))
+               .AddField("End Time", arg.EndTime.HasValue ? TimestampTag.FromDateTimeOffset(arg.EndTime.Value) : "No end time specified")
+               .AddField("Event Channel", $"{arg.Channel} {arg.Channel.Id}")
+               .AddField("Privacy Type", arg.PrivacyLevel == GuildScheduledEventPrivacyLevel.Private ? "Event can only be accesed in guild" : "Event can be accesed anywhere")
+               .WithImageUrl(arg.GetCoverImageUrl());
+           await logChannel.SendMessageAsync(embed: eb.Build());
+       });
+       return Task.CompletedTask;
     }
 
     public async Task RunCacheClear()
@@ -207,6 +234,9 @@ public class LogCommandService : INService
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (type)
         {
+            case LogType.AvatarUpdated:
+                logSetting.AvatarUpdatedId = channelId;
+                break;
             case LogType.Other:
                 logSetting.LogOtherId = channelId;
                 break;
@@ -407,54 +437,42 @@ public class LogCommandService : INService
 
                 var g = guildUser.Guild;
 
-                if (!GuildLogSettings.TryGetValue(g.Id, out var logSetting)
-                    || logSetting.UserUpdatedId == null)
-                {
+                if (!GuildLogSettings.TryGetValue(g.Id, out var logSetting))
                     return;
-                }
 
                 ITextChannel logChannel;
-                if ((logChannel =
-                        await TryGetLogChannel(g, logSetting, LogType.UserUpdated).ConfigureAwait(false)) == null)
+                if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.AvatarUpdated)) != null)
                 {
-                    return;
-                }
-
-                var embeds = new List<Embed>();
-
-                if (before.ToString() != guildUser.ToString())
-                {
-                    var user = uow.Usernames.FirstOrDefault(x => x.UserId == guildUser.Id); 
-                    embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
-                        .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.Usernames.Count(x => x.UserId == guildUser.Id)+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
-                        .WithOkColor().Build());
-                    if (user is null)
+                    if (before.AvatarId != guildUser.AvatarId)
                     {
-                        var toadd = new Usernames { Username = guildUser.ToString(), UserId = guildUser.Id };
-                        uow.Usernames.Add(toadd);
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        var embeds = new List<Embed>();
+                        var bav = before.RealAvatarUrl();
+                        embeds.Add(new EmbedBuilder().WithTitle($"👥{GetText(g, "avatar_changed")}").WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
+                                                     .AddField("Old Avatar", "_ _").WithImageUrl(bav.ToString()).WithFooter(fb => fb.WithText(CurrentTime(g))).WithOkColor()
+                                                     .Build());
+
+                        var aav = guildUser.RealAvatarUrl();
+                        embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor().Build());
+                        await logChannel.SendMessageAsync(embeds: embeds.ToArray());
                     }
                 }
-                else if (before.AvatarId != guildUser.AvatarId)
-                {
-                    var bav = before.RealAvatarUrl();
-                    embeds.Add(new EmbedBuilder().WithTitle($"👥{GetText(g, "avatar_changed")}")
-                        .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                        .AddField("Old Avatar", "_ _")
-                        .WithImageUrl(bav.ToString())
-                        .WithFooter(fb => fb.WithText(CurrentTime(g)))
-                        .WithOkColor().Build());
-
-                    var aav = guildUser.RealAvatarUrl();
-                    embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor().Build());
-                }
-                else
-                {
-                    return;
-                }
-
-                await logChannel.SendMessageAsync(embeds: embeds.ToArray()).ConfigureAwait(false);
+                if ((logChannel = await TryGetLogChannel(g, logSetting, LogType.UsernameUpdated)) != null)
+                    if (before.ToString() != guildUser.ToString())
+                    {
+                        var embeds = new List<Embed>();
+                        var user = uow.Usernames.FirstOrDefault(x => x.UserId == guildUser.Id); 
+                        embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
+                                                     .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
+                                                     .WithDescription($"**Old Username**\n=> {before}\n**New Username**\n=> {guildUser}\n**Times Changed**\n=> {uow.Usernames.Count(x => x.UserId == guildUser.Id)+1}\n**Date Changed**\n=>{TimestampTag.FromDateTime(DateTime.UtcNow)}")
+                                                     .WithOkColor().Build());
+                        if (user is null)
+                        {
+                            var toadd = new Usernames { Username = guildUser.ToString(), UserId = guildUser.Id };
+                            uow.Usernames.Add(toadd);
+                            await uow.SaveChangesAsync().ConfigureAwait(false);
+                        }
+                        await logChannel.SendMessageAsync(embeds: embeds.ToArray());
+                    }
             }
             catch
             {
@@ -711,6 +729,21 @@ public class LogCommandService : INService
                     return;
 
                 ITextChannel logChannel;
+                if ((logChannel = await TryGetLogChannel(after.Guild, logSetting, LogType.AvatarUpdated)) != null)
+                {
+                    if (cacheable.Value.AvatarId != after.AvatarId)
+                    {
+                        var embeds = new List<Embed>();
+                        var bav = cacheable.Value.RealAvatarUrl();
+                        embeds.Add(new EmbedBuilder().WithTitle($"👥{GetText(after.Guild, "avatar_changed")}").WithDescription($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Value.Id}")
+                                                     .AddField("Old Avatar", "_ _").WithImageUrl(bav.ToString()).WithFooter(fb => fb.WithText(CurrentTime(cacheable.Value.Guild))).WithOkColor()
+                                                     .Build());
+
+                        var aav = after.RealAvatarUrl();
+                        embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor().Build());
+                        await logChannel.SendMessageAsync(embeds: embeds.ToArray()).ConfigureAwait(false);
+                    }
+                }
                 if (logSetting.UserUpdatedId != null &&
                     (logChannel = await TryGetLogChannel(cacheable.Value.Guild, logSetting, LogType.UserUpdated)
                         .ConfigureAwait(false)) != null)
