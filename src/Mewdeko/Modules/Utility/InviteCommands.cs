@@ -45,7 +45,7 @@ public partial class Utility
             RestGuild? guild = null;
             var invinfo = await _client.Rest.GetInviteAsync(text).ConfigureAwait(false);
             try
-            {
+            {   
                 guild = await _client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);
             }
             catch
