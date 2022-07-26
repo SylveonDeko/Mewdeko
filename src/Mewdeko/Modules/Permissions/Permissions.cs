@@ -129,9 +129,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(string.Join("\n",
-                perms.Skip(page * 10).Take(10).Select(async p =>
+                perms.Skip(page * 10).Take(10).Select(p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;

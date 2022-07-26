@@ -455,7 +455,7 @@ public class XpService : INService, IUnloadableService
     }
 
     private static bool ShouldTrackVoiceChannel(SocketVoiceChannel channel) =>
-        channel.Users.Where(UserParticipatingInVoiceChannel).Take(2).Count() >= 2;
+        channel.Users.Where(x => !x.IsBot && UserParticipatingInVoiceChannel(x)).Take(2).Count() >= 2;
 
     private static bool UserParticipatingInVoiceChannel(SocketGuildUser user) =>
         !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
