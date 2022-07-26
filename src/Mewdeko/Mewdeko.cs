@@ -65,8 +65,8 @@ public class Mewdeko
         CommandService = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
-            DefaultRunMode = RunMode.Async,
-            
+            DefaultRunMode = RunMode.Async
+
         });
     }
     public BotCredentials Credentials { get; }

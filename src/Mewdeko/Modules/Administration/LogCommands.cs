@@ -72,7 +72,7 @@ public partial class Administration
             var str = string.Join("\n", Enum.GetNames(typeof(LogType)).OrderBy(x => x).Select(x =>
             {
                 var val = l == null ? null : GetLogProperty(l, Enum.Parse<LogType>(x));
-                return val != null ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
+                return val is not (null or 0) ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
             }));
 
             await ctx.Channel.SendConfirmAsync($"{Format.Bold(GetText("log_events"))}\n{str}").ConfigureAwait(false);
@@ -119,7 +119,7 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task Log(LogType type, ITextChannel? channel = null)
+        public async Task Log(LogType type, ITextChannel channel = null)
         {
             await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0 , type).ConfigureAwait(false);
             if (channel is not null)
