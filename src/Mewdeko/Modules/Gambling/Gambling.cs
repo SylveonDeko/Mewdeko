@@ -208,7 +208,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     public async Task Cash([Remainder] IUser? user = null)
     {
         user ??= ctx.User;
-        await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}")
+        await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{await GetCurrency(user.Id)} {CurrencySign}")
             .ConfigureAwait(false);
     }
 
