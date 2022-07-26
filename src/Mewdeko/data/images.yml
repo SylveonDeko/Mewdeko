@@ -1,11 +1,12 @@
 version: 3
 coins:
   heads:
-    - https://media.discordapp.net/attachments/826932328450097162/836231198136074310/nekoha-head.gif
+    - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
   tails:
-    - https://media.discordapp.net/attachments/826932328450097162/836231197956505620/nekoha-tail.gif
+    - https://media.discordapp.net/attachments/985686009662570561/993950440456736959/1_coins.png
 currency:
-  - https://media.discordapp.net/attachments/774304724870103040/824457845126332436/anime-anime-girls-nekoha-shizuku-amashiro-natsuki-cat-girl-hd-wallpaper-preview-140954ea-8d0b-11eb-8.jpg
+  - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
+  - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
 dice:
   - https://cdn.nadeko.bot/other/dice/0.png
   - https://cdn.nadeko.bot/other/dice/1.png

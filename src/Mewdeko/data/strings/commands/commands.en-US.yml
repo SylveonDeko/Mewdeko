@@ -1408,10 +1408,6 @@ gatari:
     - Name
     - Name ctb
   desc: Shows osu!gatari stats for a player.
-gbrep:
-  args:
-    - ''
-  desc: Report someone to be added to the global blacklist.
 gelbooru:
   args:
     - yuri+kissing
