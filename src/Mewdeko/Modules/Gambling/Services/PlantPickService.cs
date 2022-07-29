@@ -106,6 +106,11 @@ public class PlantPickService : INService
         // get a random currency image bytes
         var rng = new MewdekoRandom();
         var curImg = _images.Currency[rng.Next(0, _images.Currency.Count)];
+        if (curImg is null || !curImg.Any())
+        {
+            extension = null;
+            return Stream.Null;
+        }
 
         if (string.IsNullOrWhiteSpace(pass))
         {
@@ -208,10 +213,15 @@ public class PlantPickService : INService
                             : null;
 
                         IUserMessage sent;
-                        await using (var stream = GetRandomCurrencyImage(pw, out var ext))
+                        await using var stream = GetRandomCurrencyImage(pw, out var ext);
+                        if (stream.Length is 0)
+                        {
+                            sent = await channel.SendMessageAsync(toSend);
+                        }
+                        else
                         {
                             sent = await channel.SendFileAsync(stream, $"currency_image.{ext}", toSend)
-                                .ConfigureAwait(false);
+                                                .ConfigureAwait(false);
                         }
 
                         await AddPlantToDatabase(channel.GuildId,
@@ -300,7 +310,7 @@ public class PlantPickService : INService
         try
         {
             // get the text
-            var prefix = _guildSettings.GetPrefix(gid);
+            var prefix = await _guildSettings.GetPrefix(gid);
             var msgToSend = GetText(gid,
                 "planted",
                 Format.Bold(user),
@@ -315,7 +325,15 @@ public class PlantPickService : INService
             //get the image
             await using var stream = GetRandomCurrencyImage(pass, out var ext);
             // send it
-            var msg = await ch.SendFileAsync(stream, $"img.{ext}", msgToSend).ConfigureAwait(false);
+            IUserMessage msg;
+            if (stream.Length is 0)
+            {
+                msg = await ch.SendMessageAsync(msgToSend);
+            }
+            else
+            {
+                msg = await ch.SendFileAsync(stream, $"img.{ext}", msgToSend).ConfigureAwait(false);
+            }
             // return sent message's id (in order to be able to delete it when it's picked)
             return msg.Id;
         }
