@@ -105,12 +105,17 @@ public class PlantPickService : INService
     {
         // get a random currency image bytes
         var rng = new MewdekoRandom();
-        var curImg = _images.Currency[rng.Next(0, _images.Currency.Count)];
-        if (curImg is null || !curImg.Any())
+        byte[] curImg;
+        try
+        {
+            curImg = _images.Currency[rng.Next(0, _images.Currency.Count)];
+        }
+        catch
         {
             extension = null;
             return Stream.Null;
         }
+        
 
         if (string.IsNullOrWhiteSpace(pass))
         {
