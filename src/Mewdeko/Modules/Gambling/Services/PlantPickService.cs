@@ -208,7 +208,7 @@ public class PlantPickService : INService
 
                     if (dropAmount > 0)
                     {
-                        var prefix = _guildSettings.GetPrefix(channel.Guild.Id);
+                        var prefix = await _guildSettings.GetPrefix(channel.Guild.Id);
                         var toSend = dropAmount == 1
                             ? $"{GetText(channel.GuildId, "curgen_sn", config.Currency.Sign)} {GetText(channel.GuildId, "pick_sn", prefix)}"
                             : $"{GetText(channel.GuildId, "curgen_pl", dropAmount, config.Currency.Sign)} {GetText(channel.GuildId, "pick_pl", prefix)}";
