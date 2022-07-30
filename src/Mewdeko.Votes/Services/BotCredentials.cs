@@ -12,7 +12,7 @@ namespace Mewdeko.Votes.Services;
 
 public class BotCredentials : IBotCredentials
 {
-        private readonly string _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "../Mewdeko/credentials.json");
+        private string credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "../Mewdeko/credentials.json");
 
 
         public BotCredentials()
@@ -26,8 +26,9 @@ public class BotCredentials : IBotCredentials
         {
             // ignored
         }
-
-        if (!File.Exists(_credsFileName))
+        if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Mewdeko.exe")))
+            credsFileName = "credentials.json";
+        if (!File.Exists(credsFileName))
         {
             Log.Information(Directory.GetCurrentDirectory());
             Log.Warning(
@@ -43,7 +44,7 @@ public class BotCredentials : IBotCredentials
         try
         {
             var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile(_credsFileName, true)
+            configBuilder.AddJsonFile(credsFileName, true)
                 .AddEnvironmentVariables("Mewdeko_");
 
             var data = configBuilder.Build();

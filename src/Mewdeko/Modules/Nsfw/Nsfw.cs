@@ -3,11 +3,13 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
+using MartineApiNet.Models.Images;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Newtonsoft.Json.Linq;
 using NHentaiAPI;
 using Refit;
+using Serilog;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -106,7 +108,17 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         try
         {
-            var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
+            RedditPost image;
+            try
+            {
+                image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Unable to fetch NSFW Subreddit\n{0}", e);
+                await ctx.Channel.SendErrorAsync("Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.");
+                return;
+            }
             while (CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
                 image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
             var eb = new EmbedBuilder

@@ -386,7 +386,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             Title = advancedLavaTracks.FirstOrDefault()?.Title,
                             ProviderType = currentContext.QueuedPlatform,
                             Provider = currentContext.QueuedPlatform.ToString(),
-                            Query = advancedLavaTracks.FirstOrDefault()!.Source
+                            Query = advancedLavaTracks.FirstOrDefault()!.Uri.AbsoluteUri
                         };
                         var newsongs = plists6.Songs.ToList();
                         newsongs.Add(toadd);
@@ -434,7 +434,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                     Title = x.Title,
                                     ProviderType = (x.Context as AdvancedTrackContext).QueuedPlatform,
                                     Provider = (x.Context as AdvancedTrackContext).QueuedPlatform.ToString(),
-                                    Query = x.Source
+                                    Query = x.Uri.AbsoluteUri
                                 });
                                 var newsongs = plists7.Songs.ToList();
                                 newsongs.AddRange(toadd);
@@ -499,7 +499,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                     Title = track.Title,
                                     ProviderType = currentContext.QueuedPlatform,
                                     Provider = currentContext.QueuedPlatform.ToString(),
-                                    Query = track.Source
+                                    Query = track.Uri.AbsoluteUri
                                 };
                                 var newsongs = plists6.Songs.ToList();
                                 newsongs.Add(toadd);
@@ -658,7 +658,7 @@ public class Music : MewdekoModuleBase<MusicService>
         if (queue.Count > 0)
         {
             var track = queue.ElementAt(number - 1);
-            if (track.Source is null)
+            if (track.Uri is null)
             {
                 await Play($"{number}").ConfigureAwait(false);
                 return;
@@ -1149,7 +1149,7 @@ public class Music : MewdekoModuleBase<MusicService>
             var tracks = queue.OrderBy(x => queue.IndexOf(x)).Skip(page * 10).Take(10);
             return new PageBuilder()
                 .WithDescription(string.Join("\n", tracks.Select(x =>
-                    $"`{queue.IndexOf(x) + 1}.` [{x.Title}]({x.Source})\n`{x.Duration:mm\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
+                    $"`{queue.IndexOf(x) + 1}.` [{x.Title}]({x.Uri.Host})\n`{x.Duration:mm\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
                 .WithOkColor();
         }
     }

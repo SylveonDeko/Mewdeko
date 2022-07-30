@@ -14,7 +14,6 @@ public class AdministrationService : INService
     private readonly DbService _db;
     private readonly LogCommandService _logService;
     private readonly GuildSettingsService _guildSettings;
-    private readonly TypedKey<CompoundVoteModal> _typedKey;
 
     public AdministrationService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         LogCommandService logService,
