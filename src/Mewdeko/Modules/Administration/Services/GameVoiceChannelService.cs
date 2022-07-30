@@ -30,6 +30,8 @@ public class GameVoiceChannelService : INService
                     return;
                 //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
+                if (!cacheable.HasValue)
+                    return;
                 if (!Equals(cacheable.Value.Activities, after.Activities)
                     && after.Activities != null
                     && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
