@@ -73,7 +73,7 @@ public partial class Administration
             }
             else
             {
-                Service.AddVcRole(ctx.Guild.Id, role, vc.Id);
+                await Service.AddVcRole(ctx.Guild.Id, role, vc.Id);
                 await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name))
                     .ConfigureAwait(false);
             }

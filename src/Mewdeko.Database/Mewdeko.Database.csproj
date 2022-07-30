@@ -21,6 +21,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.5.22301.12" />
+        <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
     </ItemGroup>
 
     <ItemGroup>

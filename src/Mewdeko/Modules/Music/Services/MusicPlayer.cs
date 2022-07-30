@@ -39,7 +39,7 @@ public class MusicPlayer : LavalinkPlayer
             if (client.GetChannel(
                     resultMusicChannelId.Value) is SocketTextChannel channel)
             {
-                if (track.Source != null)
+                if (track.Uri != null)
                 {
                     using var artworkService = new ArtworkService();
                     var artWork = await artworkService.ResolveAsync(track).ConfigureAwait(false);
@@ -75,7 +75,7 @@ public class MusicPlayer : LavalinkPlayer
             }
 
             var nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
-            if (nextTrack.Source is null && channel != null)
+            if (nextTrack.Uri is null && channel != null)
             {
                 if (msettings.PlayerRepeat == PlayerRepeatType.Queue)
                 {

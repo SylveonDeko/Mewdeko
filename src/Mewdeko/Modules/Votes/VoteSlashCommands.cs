@@ -85,7 +85,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         await DeferAsync();
         if (await PromptUserConfirmAsync(
                 "Please make absolute sure nobody else sees this password, otherwise this will lead to improper data. ***Mewdeko and it's team are not responsible for stolen passwords***. \n\nDo you agree to these terms?",
-                ctx.User.Id)) ;
+                ctx.User.Id))
         {
             var component = new ComponentBuilder().WithButton("Press this to set the password. Remember, do not share it to anyone else.", "setvotepassword");
             await ctx.Interaction.FollowupAsync("_ _", components: component.Build());
