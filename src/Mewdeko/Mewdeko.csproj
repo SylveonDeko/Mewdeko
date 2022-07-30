@@ -141,7 +141,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="credentials.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Remove="DiscordChatExporter\Superpower.dll" />
         <None Remove="DiscordChatExporter\Spectre.Console.dll" />
