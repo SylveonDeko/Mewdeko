@@ -920,7 +920,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
 
         await player.PauseAsync().ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"Paused player. Do {_guildSettings.GetPrefix(ctx.Guild.Id)}pause again to resume.").ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"Paused player. Do {await _guildSettings.GetPrefix(ctx.Guild.Id)}pause again to resume.").ConfigureAwait(false);
     }
 
     [SlashCommand("shuffle", "Shuffles the current queue"), RequireContext(ContextType.Guild), CheckPermissions]

@@ -218,7 +218,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No users to prune, if you meant to prune users inyour member role please set it with {_guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                    $"No users to prune, if you meant to prune users inyour member role please set it with {await _guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
                 return;
             }
 
@@ -230,7 +230,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
                 await ctx.Channel.SendConfirmAsync(
-                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {_guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await _guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
             }
             else
             {

@@ -118,7 +118,7 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
+                    $"Sniping is not enabled in this server! Use `{await _guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 
@@ -165,7 +165,7 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{_guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
+                    $"Sniping is not enabled in this server! Use `{await _guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 

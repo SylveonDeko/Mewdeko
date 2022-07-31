@@ -29,9 +29,9 @@ public partial class Administration
             var newVal = await Service.ToggleAdSarm(ctx.Guild.Id);
 
             if (newVal)
-                await ReplyConfirmLocalizedAsync("adsarm_enable", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_enable", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("adsarm_disable", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_disable", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

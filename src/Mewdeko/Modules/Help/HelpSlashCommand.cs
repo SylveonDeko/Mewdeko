@@ -174,7 +174,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         {
             _ch.AddCommandToParseQueue(new MewdekoUserMessage
             {
-                Content = _guildSettings.GetPrefix(ctx.Guild) + command,
+                Content = await _guildSettings.GetPrefix(ctx.Guild) + command,
                 Author = ctx.User,
                 Channel = ctx.Channel
             });
@@ -191,7 +191,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await DeferAsync().ConfigureAwait(false);
         var msg = new MewdekoUserMessage
         {
-            Content = $"{_guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}",
+            Content = $"{await _guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}",
             Author = ctx.User,
             Channel = ctx.Channel
         };

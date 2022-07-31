@@ -1,4 +1,5 @@
-﻿using Mewdeko.Services.Common;
+﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mewdeko.Services;
 
-public class GreetSettingsService : INService
+public class GreetSettingsService : INService, IReadyExecutor
 {
     private readonly BotConfigService _bss;
     private readonly DiscordSocketClient _client;
@@ -35,6 +36,32 @@ public class GreetSettingsService : INService
         _client.LeftGuild += Client_LeftGuild;
 
         _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
+    }
+    
+    private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> _greetDmQueue =
+        Channel.CreateBounded<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
+        {
+            // The limit of 60 users should be only hit when there's a raid. In that case 
+            // probably the best thing to do is to drop newest (raiding) users
+            FullMode = BoundedChannelFullMode.DropNewest
+        });
+    
+    private async Task<bool> GreetDmUser(GreetSettings conf, IGuildUser user)
+    {
+        var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        await _greetDmQueue.Writer.WriteAsync((conf, user, completionSource));
+        return await completionSource.Task;
+    }
+    
+    public async Task OnReadyAsync()
+    {
+        while (true)
+        {
+            var (conf, user, compl) = await _greetDmQueue.Reader.ReadAsync();
+            var res = await GreetDmUserInternal(conf, user);
+            compl.TrySetResult(res);
+            await Task.Delay(2000);
+        }
     }
 
     public ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
@@ -380,12 +407,17 @@ public class GreetSettingsService : INService
         }
     }
 
-    private async Task<bool> GreetDmUser(GreetSettings conf, IDMChannel channel, IGuildUser user)
+    private async Task<bool> GreetDmUserInternal(GreetSettings conf, IGuildUser user)
     {
+        if (!conf.SendDmGreetMessage)
+            return false;
+        
+        var channel = await user.CreateDMChannelAsync();
+        
         var rep = new ReplacementBuilder()
                   .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                   .Build();
-
+        
         if (SmartEmbed.TryParse(rep.Replace(conf.DmGreetMessageText), user.GuildId, out var embed, out var plainText, out var components))
         {
             try
@@ -456,7 +488,7 @@ public class GreetSettingsService : INService
                 {
                     var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
 
-                    if (channel != null) await GreetDmUser(conf, channel, user).ConfigureAwait(false);
+                    if (channel != null) await GreetDmUser(conf, user).ConfigureAwait(false);
                 }
             }
             catch
@@ -710,7 +742,7 @@ public class GreetSettingsService : INService
     public async Task<bool> GreetDmTest(IDMChannel channel, IGuildUser user)
     {
         var conf = await GetOrAddSettingsForGuild(user.GuildId);
-        return await GreetDmUser(conf, channel, user);
+        return await GreetDmUser(conf, user);
     }
 
     #endregion

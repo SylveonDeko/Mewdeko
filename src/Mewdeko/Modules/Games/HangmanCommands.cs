@@ -25,7 +25,7 @@ public partial class Games
         public async Task Hangmanlist() =>
             await ctx.Channel
                      .SendConfirmAsync(
-                         $"{Format.Code(GetText("hangman_types", _guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
+                         $"{Format.Code(GetText("hangman_types", await _guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
