@@ -154,7 +154,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
         {
             await ctx.Channel.SendErrorAsync(
-                $"You already have a regular afk set! Please disable it by doing {_guildSettings.GetPrefix(ctx.Guild)}afk and try again").ConfigureAwait(false);
+                $"You already have a regular afk set! Please disable it by doing {await _guildSettings.GetPrefix(ctx.Guild)}afk and try again").ConfigureAwait(false);
             return;
         }
 

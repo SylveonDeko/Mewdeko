@@ -54,7 +54,7 @@ public partial class Utility
                     "GetHashCode",
                     "GetType"
                 });
-            await ctx.Channel.SendConfirmAsync(GetText("calcops", _guildSettings.GetPrefix(ctx.Guild)), string.Join(", ", selection))
+            await ctx.Channel.SendConfirmAsync(GetText("calcops", await _guildSettings.GetPrefix(ctx.Guild)), string.Join(", ", selection))
                 .ConfigureAwait(false);
         }
     }

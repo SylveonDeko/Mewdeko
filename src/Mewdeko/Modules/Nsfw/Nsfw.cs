@@ -139,7 +139,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         catch (ApiException)
         {
             await ctx.Channel.SendErrorAsync(
-                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {_guildSettings.GetPrefix(ctx.Guild)}vote.").ConfigureAwait(false);
+                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {await _guildSettings.GetPrefix(ctx.Guild)}vote.").ConfigureAwait(false);
         }
     }
 

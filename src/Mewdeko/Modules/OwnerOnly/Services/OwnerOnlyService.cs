@@ -297,7 +297,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
             if (guildShard != _client.ShardId)
                 return;
-            var prefix = _guildSettings.GetPrefix(cmd.GuildId.Value);
+            var prefix = await _guildSettings.GetPrefix(cmd.GuildId.Value);
             //if someone already has .die as their startup command, ignore it
             if (cmd.CommandText.StartsWith($"{prefix}die", StringComparison.InvariantCulture))
                 return;

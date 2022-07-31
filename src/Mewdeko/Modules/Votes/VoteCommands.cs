@@ -8,22 +8,22 @@ using Mewdeko.Modules.VotesCommands.Services;
 using System.Threading.Tasks;
 using ContextType = Discord.Commands.ContextType;
 
-namespace Mewdeko.Modules.VotesCommands;
+namespace Mewdeko.Modules.Votes;
 
-public class VoteCommands : MewdekoModuleBase<VoteService>
+public class Vote : MewdekoModuleBase<VoteService>
 {
     private readonly InteractiveService _interactivity;
 
-    public VoteCommands(InteractiveService interactivity) => _interactivity = interactivity;
+    public Vote(InteractiveService interactivity) => _interactivity = interactivity;
 
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Commands.RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteChannel([Remainder]ITextChannel channel)
     {
         await Service.SetVoteChannel(ctx.Guild.Id, channel.Id);
         await ctx.Channel.SendConfirmAsync("Sucessfully set the vote channel!");
     }
 
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Commands.RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteMessage([Remainder]string message = null)
     {
         var voteMessage = await Service.GetVoteMessage(ctx.Guild.Id);
@@ -78,7 +78,7 @@ public class VoteCommands : MewdekoModuleBase<VoteService>
         }
     }
 
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Commands.RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteRoleAdd(IRole role, StoopidTime time = null)
     {
         if (time is not null)

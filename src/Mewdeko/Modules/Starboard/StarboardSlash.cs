@@ -86,11 +86,11 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()).ConfigureAwait(false))
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {_guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await _guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
         }
         else
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {_guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {await _guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
         }
     }
 

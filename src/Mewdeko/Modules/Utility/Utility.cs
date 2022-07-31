@@ -180,7 +180,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -217,7 +217,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -266,7 +266,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -315,7 +315,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -367,7 +367,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -401,7 +401,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -453,7 +453,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -494,7 +494,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -535,7 +535,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 
@@ -576,7 +576,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("snipe_not_enabled", _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             return;
         }
 

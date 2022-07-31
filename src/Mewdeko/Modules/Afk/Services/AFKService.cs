@@ -109,7 +109,7 @@ public class AfkService : INService, IReadyExecutor
 
                 if (msg.MentionedUsers.Count > 0 && !msg.Author.IsBot)
                 {
-                    var prefix = _guildSettings.GetPrefix(user.Guild);
+                    var prefix = await _guildSettings.GetPrefix(user.Guild);
                     if (msg.Content.Contains($"{prefix}afkremove") || msg.Content.Contains($"{prefix}afkrm") || msg.Content.Contains($"{prefix}afk"))
                     {
                         return;
