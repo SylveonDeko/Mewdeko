@@ -34,7 +34,7 @@ public partial class Gambling
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(RaceOptions))]
-        public Task Race(params string[] args)
+        public async Task<Task<IUserMessage>> Race(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new RaceOptions(), args);
 
@@ -66,7 +66,7 @@ public partial class Gambling
                 return Task.CompletedTask;
             }
 
-            Task ArOnEnded(AnimalRace race)
+            async Task<Task<IUserMessage>> ArOnEnded(AnimalRace race)
             {
                 _client.MessageReceived -= ClientMessageReceived;
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
@@ -90,7 +90,7 @@ public partial class Gambling
 
             return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                 GetText("animal_race_starting", options.StartTime),
-                footer: GetText("animal_race_join_instr", _guildSettings.GetPrefix(ctx.Guild)));
+                footer: GetText("animal_race_join_instr", await _guildSettings.GetPrefix(ctx.Guild)));
         }
 
         private Task Ar_OnStarted(AnimalRace race)

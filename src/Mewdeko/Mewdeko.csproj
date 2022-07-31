@@ -169,6 +169,9 @@
         <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
         <ProjectReference Include="..\Mewdeko.Votes\Mewdeko.Votes.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Modules\Boosters" />
+    </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
         <DefineConstants>$(DefineConstants);GLOBAL_Mewdeko</DefineConstants>

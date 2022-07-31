@@ -41,7 +41,7 @@ public partial class Games
             var config = _gamesConfig.Data;
             if (config.Trivia.MinimumWinReq > 0 && config.Trivia.MinimumWinReq > opts.WinRequirement) return;
             var trivia = new TriviaGame(Strings, _client, config, _cache, _cs, channel.Guild, channel, opts,
-                $"{_guildSettings.GetPrefix(ctx.Guild)}tq");
+                $"{await _guildSettings.GetPrefix(ctx.Guild)}tq");
             if (Service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
             {
                 try

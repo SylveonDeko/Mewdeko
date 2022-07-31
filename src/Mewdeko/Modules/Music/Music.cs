@@ -944,7 +944,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         await player.PauseAsync().ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"Paused player. Do {_guildSettings.GetPrefix(ctx.Guild)}pause again to resume.").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Paused player. Do {await _guildSettings.GetPrefix(ctx.Guild)}pause again to resume.").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]

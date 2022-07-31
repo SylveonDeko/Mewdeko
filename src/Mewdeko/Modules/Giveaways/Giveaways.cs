@@ -337,7 +337,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{_guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
+                $"This giveaway has already ended! Plase use `{await _guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
         }
         else
         {

@@ -393,7 +393,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser)ctx.User;
@@ -424,7 +424,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{_guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
             return;
         var command = _commandService.Search(cmdText.Replace(await _guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
         if (!command.IsSuccess)
