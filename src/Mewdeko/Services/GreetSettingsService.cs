@@ -57,10 +57,17 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         while (true)
         {
-            var (conf, user, compl) = await _greetDmQueue.Reader.ReadAsync();
-            var res = await GreetDmUserInternal(conf, user);
-            compl.TrySetResult(res);
-            await Task.Delay(2000);
+            try
+            {
+                var (conf, user, compl) = await _greetDmQueue.Reader.ReadAsync();
+                var res = await GreetDmUserInternal(conf, user);
+                compl.TrySetResult(res);
+                await Task.Delay(5000);
+            }
+            catch
+            {
+               // ignored
+            }
         }
     }
 
