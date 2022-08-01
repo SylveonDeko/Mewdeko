@@ -28,7 +28,8 @@ public class ProtectionService : INService
         Channel.CreateUnbounded<PunishQueueItem>(new UnboundedChannelOptions
         {
             SingleReader = true,
-            SingleWriter = false
+            SingleWriter = false,
+            AllowSynchronousContinuations = true
         });
 
     public ProtectionService(DiscordSocketClient client, Mewdeko bot,
