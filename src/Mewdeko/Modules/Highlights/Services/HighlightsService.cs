@@ -62,12 +62,12 @@ public class HighlightsService : INService, IReadyExecutor
 
     private Task StaggerHighlights(SocketMessage message)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             await _highlightQueue.Writer.WriteAsync((message, completionSource)).ConfigureAwait(false);
             return await completionSource.Task.ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -298,7 +298,7 @@ public class HighlightsService : INService, IReadyExecutor
         var cache = _cache.GetHighlightsForGuild(guildId);
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
-        List<Database.Models.Highlights?> highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
+        var highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
         if (highlights.Count == 0) return new List<Database.Models.Highlights?>();
         _cache.AddHighlightToCache(guildId, highlights);
         return highlights;
@@ -309,7 +309,7 @@ public class HighlightsService : INService, IReadyExecutor
         var cache = _cache.GetHighlightSettingsForGuild(guildId);
         if (cache is not null) return cache;
         using var uow = _db.GetDbContext();
-        List<HighlightSettings?> highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
+        var highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
         if (highlightSettings.Count == 0) return new List<HighlightSettings?>();
         _cache.AddHighlightSettingToCache(guildId, highlightSettings);
         return highlightSettings;

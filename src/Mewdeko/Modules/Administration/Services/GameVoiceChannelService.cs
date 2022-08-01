@@ -20,7 +20,7 @@ public class GameVoiceChannelService : INService
 
     private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -44,7 +44,7 @@ public class GameVoiceChannelService : INService
             {
                 Log.Warning(ex, "Error running GuildMemberUpdated in gvc");
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -72,7 +72,7 @@ public class GameVoiceChannelService : INService
 
     private Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -99,7 +99,7 @@ public class GameVoiceChannelService : INService
             {
                 Log.Warning(ex, "Error running VoiceStateUpdate in gvc");
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
         return Task.CompletedTask;
     }

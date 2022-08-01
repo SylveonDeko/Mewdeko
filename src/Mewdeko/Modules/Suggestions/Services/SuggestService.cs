@@ -50,7 +50,7 @@ public class SuggestionsService : INService
 
     private Task RepostButton(SocketMessage arg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             IEnumerable<IMessage> messages;
             if (arg.Channel is not ITextChannel channel)
@@ -140,13 +140,13 @@ public class SuggestionsService : INService
             }
 
             _repostChecking.Remove(channel.Id);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
             if (message is null)
@@ -200,13 +200,13 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
             if (message is null)
@@ -260,13 +260,13 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task MessageRecieved(SocketMessage msg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (msg.Channel is not ITextChannel chan)
                 return;
@@ -357,7 +357,7 @@ public class SuggestionsService : INService
                     //ignored
                 }
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -2426,7 +2426,7 @@ public class SuggestionsService : INService
 
     public async Task<SuggestionsModel[]> Suggestions(ulong gid, ulong sid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return await uow.Suggestions.ForId(gid, sid);
     }
 
@@ -2438,13 +2438,13 @@ public class SuggestionsService : INService
 
     public async Task<SuggestionsModel> GetSuggestByMessage(ulong msgId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return await uow.Suggestions.FirstOrDefaultAsyncEF(x => x.MessageId == msgId);
     }
 
     public async Task<SuggestionsModel[]> ForUser(ulong guildId, ulong userId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return await uow.Suggestions.ForUser(guildId, userId);
     }
 

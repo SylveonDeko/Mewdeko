@@ -43,7 +43,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     private Task CheckBlacklist(SocketGuild arg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (BlacklistEntries.Select(x => x.ItemId).Contains(arg.Id))
             {
@@ -57,7 +57,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.").ConfigureAwait(false);
                 await arg.LeaveAsync().ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

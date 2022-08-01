@@ -127,7 +127,7 @@ public class UtilityService : INService
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (!await GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
 
@@ -155,14 +155,14 @@ public class UtilityService : INService
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task MsgStore2(Cacheable<IMessage, ulong> optMsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (ch is not ITextChannel)
                 return;
@@ -193,13 +193,13 @@ public class UtilityService : INService
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     public Task MsgReciev2(SocketMessage msg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (msg.Author.IsBot) return;
             if (msg.Channel is SocketDMChannel) return;
@@ -214,7 +214,7 @@ public class UtilityService : INService
                 await Task.Delay(200).ConfigureAwait(false);
                 await msg.AddReactionAsync(emote2).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -226,7 +226,7 @@ public class UtilityService : INService
 
     public Task MsgReciev(SocketMessage msg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (msg.Channel is SocketTextChannel t)
             {
@@ -285,7 +285,7 @@ public class UtilityService : INService
                     }
                 }
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 }

@@ -23,7 +23,7 @@ public class GuildSettingsService : INService
         if (guild == null)
             throw new ArgumentNullException(nameof(guild));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.Prefix = prefix;
         await uow.SaveChangesAsync().ConfigureAwait(false);

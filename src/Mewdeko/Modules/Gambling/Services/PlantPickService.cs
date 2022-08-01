@@ -66,7 +66,7 @@ public class PlantPickService : INService
     public async Task<bool> ToggleCurrencyGeneration(ulong gid, ulong cid)
     {
         bool enabled;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var guildConfig = await uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
         var toAdd = new GcChannelId { ChannelId = cid };
@@ -183,7 +183,7 @@ public class PlantPickService : INService
         if (!GenerationChannels.Contains(channel.Id))
             return Task.CompletedTask;
 
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -242,7 +242,7 @@ public class PlantPickService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

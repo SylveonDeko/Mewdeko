@@ -62,7 +62,7 @@ public class VerboseErrorsService : INService, IUnloadableService
 
     public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             var gc = await uow.ForGuildId(guildId, set => set);
 
@@ -70,7 +70,7 @@ public class VerboseErrorsService : INService, IUnloadableService
                 enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
             else gc.VerboseErrors = (bool)enabled; // New behaviour, just set it.
 
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
         }
 
         if ((bool)enabled) // This doesn't need to be duplicated inside the using block

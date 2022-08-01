@@ -203,7 +203,7 @@ public class SearchImagesService : ISearchImagesService, INService
     {
         try
         {
-            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.oboobs.ru/boobs/{_rng.Next(0, 12000)}").ConfigureAwait(false))[0];
+            var obj = JArray.Parse(await _http.GetStringAsync($"http://api.oboobs.ru/boobs/{_rng.Next(0, 12000)}").ConfigureAwait(false))[0];
             return new UrlReply
             {
                 Error = "",
@@ -230,7 +230,7 @@ public class SearchImagesService : ISearchImagesService, INService
         };
 
         bool added;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
@@ -265,7 +265,7 @@ public class SearchImagesService : ISearchImagesService, INService
     {
         try
         {
-            JToken obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}").ConfigureAwait(false))[0];
+            var obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}").ConfigureAwait(false))[0];
             return new UrlReply
             {
                 Error = "",

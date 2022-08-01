@@ -68,7 +68,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
     public async Task<string> GetCurrency(ulong id)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return N(await uow.DiscordUser.GetUserCurrency(id));
     }
 

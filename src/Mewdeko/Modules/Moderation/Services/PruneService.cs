@@ -21,8 +21,8 @@ public class PurgeService : INService
 
         try
         {
-            IMessage[] msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate)
-                                                                                                       .Take(amount).ToArray();
+            var msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate)
+                                                                                                .Take(amount).ToArray();
             while (amount > 0 && msgs.Length > 0)
             {
                 var lastMessage = msgs[^1];

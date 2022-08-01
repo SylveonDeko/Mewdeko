@@ -26,13 +26,13 @@ public class StarboardService : INService, IReadyExecutor
 
     public Task OnReadyAsync()
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await using var uow = _db.GetDbContext();
             var all = (await uow.Starboard.All()).ToList();
             starboardPosts = all.Any() ? all : new List<StarboardPosts>();
             Log.Information("Starboard Posts Cached");
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -204,7 +204,7 @@ public class StarboardService : INService, IReadyExecutor
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
@@ -371,14 +371,14 @@ public class StarboardService : INService, IReadyExecutor
                 var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build()).ConfigureAwait(false);
                 await AddStarboardPost(message.Id, msg.Id).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
         return Task.CompletedTask;
     }
 
     private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
@@ -545,7 +545,7 @@ public class StarboardService : INService, IReadyExecutor
                     }
                 }
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -610,7 +610,7 @@ public class StarboardService : INService, IReadyExecutor
 
     public async Task<StarboardPosts> GetMessage(ulong id)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return await uow.Starboard.ForMsgId(id);
     }
 }

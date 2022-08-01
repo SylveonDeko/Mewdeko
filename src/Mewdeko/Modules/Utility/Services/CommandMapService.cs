@@ -66,11 +66,11 @@ public class CommandMapService : IInputTransformer, INService
     {
         AliasMaps.TryRemove(guildId, out _);
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
-        int count = gc.CommandAliases.Count;
+        var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return count;
     }

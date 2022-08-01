@@ -37,7 +37,7 @@ public class FeedsService : INService
 
         _client = client;
 
-        var _ = Task.Factory.StartNew(TrackFeeds, TaskCreationOptions.LongRunning);
+        _ = Task.Run(TrackFeeds);
     }
 
     public async Task<EmbedBuilder> TrackFeeds()
@@ -270,7 +270,7 @@ public class FeedsService : INService
 
     public async Task<List<FeedSub?>> GetFeeds(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return (await uow.ForGuildId(guildId,
                 set => set.Include(x => x.FeedSubs)))
             .FeedSubs
@@ -288,7 +288,7 @@ public class FeedsService : INService
             Url = rssFeed.Trim()
         };
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId,
             set => set.Include(x => x.FeedSubs));
 
@@ -341,7 +341,7 @@ public class FeedsService : INService
         if (index < 0)
             return false;
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var items = (await uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs)))
             .FeedSubs
             .OrderBy(x => x.Id)
