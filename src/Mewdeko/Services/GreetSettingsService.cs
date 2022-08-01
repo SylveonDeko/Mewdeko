@@ -116,7 +116,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> optOldUser, SocketGuildUser newUser)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             // if user is a new booster
             // or boosted again the same server
@@ -131,7 +131,7 @@ public class GreetSettingsService : INService, IReadyExecutor
                 return;
 
             await TriggerBoostMessage(conf, newUser).ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -143,7 +143,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     private Task Bot_JoinedGuild(IGuild guild)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             GuildConfigsCache.AddOrUpdate(guild.Id, GreetSettings.Create(await _gss.GetGuildConfig(guild.Id)),
                 delegate { return GreetSettings.Create(_gss.GetGuildConfig(guild.Id).GetAwaiter().GetResult()); });
@@ -154,7 +154,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     private Task UserLeft(SocketGuild guild, SocketUser usr)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -179,7 +179,7 @@ public class GreetSettingsService : INService, IReadyExecutor
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -187,7 +187,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         message = message?.SanitizeMentions();
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.BoostMessage = message;
 
@@ -257,7 +257,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     public async Task<string> GetGreetMsg(ulong gid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         return (await uow.ForGuildId(gid, set => set)).ChannelGreetMessageText;
     }
 
@@ -455,7 +455,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     private Task UserJoined(IGuildUser user)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -502,7 +502,7 @@ public class GreetSettingsService : INService, IReadyExecutor
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -583,7 +583,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         if (string.IsNullOrWhiteSpace(message))
             throw new ArgumentNullException(nameof(message));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelGreetMessageText = message;
         var greetMsgEnabled = conf.SendChannelGreetMessage;
@@ -617,7 +617,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         if (string.IsNullOrWhiteSpace(message))
             throw new ArgumentNullException(nameof(message));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.DmGreetMessageText = message;
         var greetMsgEnabled = conf.SendDmGreetMessage;
@@ -652,7 +652,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         if (string.IsNullOrWhiteSpace(message))
             throw new ArgumentNullException(nameof(message));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelByeMessageText = message;
         var byeMsgEnabled = conf.SendChannelByeMessage;
@@ -699,27 +699,27 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     public async Task<bool> GetGreetDmEnabled(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         return conf.SendDmGreetMessage;
     }
 
     public async Task<bool> GetGreetEnabled(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         return conf.SendChannelGreetMessage;
     }
     public async Task<bool> GetBoostEnabled(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         return conf.SendBoostMessage;
     }
 
     public async Task<bool> GetByeEnabled(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         return conf.SendChannelByeMessage;
     }

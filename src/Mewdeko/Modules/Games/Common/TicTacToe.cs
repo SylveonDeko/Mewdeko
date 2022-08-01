@@ -181,7 +181,7 @@ public class TicTacToe
 
     private Task Client_MessageReceived(SocketMessage msg)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await _moveLock.WaitAsync().ConfigureAwait(false);
             try
@@ -292,7 +292,7 @@ public class TicTacToe
             {
                 _moveLock.Release();
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
         return Task.CompletedTask;
     }

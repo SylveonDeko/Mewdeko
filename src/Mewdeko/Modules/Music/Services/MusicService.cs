@@ -346,7 +346,7 @@ public class MusicService : INService
 
     private Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var player = _lavaNode.GetPlayer(before.VoiceChannel?.Guild.Id ?? after.VoiceChannel.Guild.Id);
             if (before.VoiceChannel is not null && player is not null)
@@ -367,7 +367,7 @@ public class MusicService : INService
                     }
                 }
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

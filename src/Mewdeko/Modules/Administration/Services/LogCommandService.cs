@@ -127,7 +127,7 @@ public class LogCommandService : INService
 
     private Task Client_EventCreated(SocketGuildEvent arg)
     {
-       _ = Task.Factory.StartNew(async () =>
+       _ = Task.Run(async () =>
        {
            ITextChannel logChannel;
            if (!GuildLogSettings.TryGetValue(arg.Guild.Id, out var logSetting))
@@ -186,7 +186,7 @@ public class LogCommandService : INService
     }
     private Task AddNickname(Cacheable<SocketGuildUser, ulong> unused, SocketGuildUser socketGuildUser)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var uow = _db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
@@ -197,13 +197,13 @@ public class LogCommandService : INService
                 Nickname = socketGuildUser.Nickname
             });
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     public Task AddUsername(SocketUser socketUser, SocketUser user)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var uow = _db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
@@ -213,7 +213,7 @@ public class LogCommandService : INService
                 Username = user.ToString()
             });
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
     private string? GetText(IGuild guild, string? key, params object?[] replacements) => _strings.GetText(key, guild.Id, replacements);
@@ -426,7 +426,7 @@ public class LogCommandService : INService
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -478,7 +478,7 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -493,7 +493,7 @@ public class LogCommandService : INService
     }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -534,12 +534,12 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType, string reason) =>
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -578,10 +578,10 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
     private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType, string reason) =>
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -624,12 +624,12 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
     public Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection,
         params IGuildUser[] users)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -689,7 +689,7 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -697,13 +697,13 @@ public class LogCommandService : INService
 
     private Task Client_RoleDeleted(SocketRole socketRole)
     {
-        _ = Task.Factory.StartNew(() =>
+        _ = Task.Run(() =>
         {
 #if DEBUG
             Log.Information("Role deleted {RoleId}", socketRole.Id);
 #endif
             _memoryCache.Set(GetRoleDeletedKey(socketRole.Id), true, TimeSpan.FromMinutes(5));
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -712,7 +712,7 @@ public class LogCommandService : INService
 
     private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -797,13 +797,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_ChannelUpdated(IChannel cbefore, IChannel cafter)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -861,13 +861,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_ChannelDestroyed(IChannel ich)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -903,13 +903,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_ChannelCreated(IChannel ich)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -941,13 +941,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -987,13 +987,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_UserLeft(SocketGuild guild, SocketUser user)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1029,13 +1029,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_UserJoined(IGuildUser usr)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1074,13 +1074,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1113,13 +1113,13 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_UserBanned(IUser usr, IGuild guild)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1164,14 +1164,14 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
         Cacheable<IMessageChannel, ulong> channel)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (channel.Value is not ITextChannel chan)
                 return;
@@ -1220,14 +1220,14 @@ public class LogCommandService : INService
                 toSend = toSend.Skip(100).ToList();
                 await Task.Delay(1000).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
         return Task.CompletedTask;
     }
 
     private Task Client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1278,14 +1278,14 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -1341,7 +1341,7 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

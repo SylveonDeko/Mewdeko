@@ -172,7 +172,7 @@ public class Mewdeko
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
-        _ = Task.Factory.StartNew(() => LoadTypeReaders(typeof(Mewdeko).Assembly), TaskCreationOptions.LongRunning);
+        _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -226,7 +226,7 @@ public class Mewdeko
 
         Task SetClientReady()
         {
-            var _ = Task.Factory.StartNew(() => clientReady.TrySetResult(true), TaskCreationOptions.LongRunning);
+            _ = Task.Run(() => clientReady.TrySetResult(true));
             return Task.CompletedTask;
         }
 
@@ -262,7 +262,7 @@ public class Mewdeko
 
     private Task Client_LeftGuild(SocketGuild arg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -285,13 +285,13 @@ public class Mewdeko
             }
 
             Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task Client_JoinedGuild(SocketGuild arg)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await arg.DownloadUsersAsync().ConfigureAwait(false);
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
@@ -317,7 +317,7 @@ public class Mewdeko
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
             await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -365,9 +365,9 @@ public class Mewdeko
 #endif
         
 
-        _ = Task.Factory.StartNew(HandleStatusChanges, TaskCreationOptions.LongRunning);
+        _ = Task.Run(HandleStatusChanges);
         Ready.TrySetResult(true);
-        _ = Task.Factory.StartNew(ExecuteReadySubscriptions, TaskCreationOptions.LongRunning);
+        _ = Task.Run(ExecuteReadySubscriptions);
         Log.Information("Shard {ShardId} ready", Client.ShardId);
     }
 

@@ -60,7 +60,7 @@ public class CmdCdService : ILateBlocker, INService
                 Command = commandName
             });
 
-            _ = Task.Factory.StartNew(async () =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -71,7 +71,7 @@ public class CmdCdService : ILateBlocker, INService
                 {
                     // ignored
                 }
-            }, TaskCreationOptions.LongRunning);
+            });
         }
 
         return Task.FromResult(false);

@@ -22,7 +22,7 @@ public class RoleGreetService : INService
 
     private Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var user = await cacheable.GetOrDownloadAsync().ConfigureAwait(false);
             if (user.Roles.SequenceEqual(socketGuildUser.Roles))
@@ -51,7 +51,7 @@ public class RoleGreetService : INService
                     diffRoles.ForEach(Exec);
                 }
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

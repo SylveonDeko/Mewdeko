@@ -133,12 +133,12 @@ public class MuteService : INService
         if (string.IsNullOrWhiteSpace(reason))
             return;
 
-        var _ = Task.Factory.StartNew(() => user.SendMessageAsync(embed: new EmbedBuilder()
+        _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been muted in {user.Guild} server")
             .AddField("Mute Type", type.ToString())
             .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
-            .Build()), TaskCreationOptions.LongRunning);
+            .Build()));
     }
 
     private void OnUserUnmuted(IGuildUser user, IUser mod, MuteType type, string reason)
@@ -146,12 +146,12 @@ public class MuteService : INService
         if (string.IsNullOrWhiteSpace(reason))
             return;
 
-        var _ = Task.Factory.StartNew(() => user.SendMessageAsync(embed: new EmbedBuilder()
+        _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been unmuted in {user.Guild} server")
             .AddField("Unmute Type", type.ToString())
             .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
-            .Build()), TaskCreationOptions.LongRunning);
+            .Build()));
     }
 
     private Task Client_UserJoined(IGuildUser usr)
@@ -162,7 +162,7 @@ public class MuteService : INService
 
             if (muted == null || !muted.Contains(usr.Id))
                 return Task.CompletedTask;
-            var _ = Task.Factory.StartNew(() => MuteUser(usr, _client.CurrentUser, reason: "Sticky mute").ConfigureAwait(false), TaskCreationOptions.LongRunning);
+            _ = Task.Run(() => MuteUser(usr, _client.CurrentUser, reason: "Sticky mute").ConfigureAwait(false));
         }
         catch (Exception ex)
         {

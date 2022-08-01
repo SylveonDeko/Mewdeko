@@ -73,7 +73,7 @@ public class AdministrationService : INService
 
     private Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (msg.Channel is SocketTextChannel channel)
             {
@@ -109,7 +109,7 @@ public class AdministrationService : INService
             }
 
             //wat ?!
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

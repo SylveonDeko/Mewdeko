@@ -31,7 +31,7 @@ public class RollCommandService : INService
                 Random random = new();
                 foreach (var d in dies)
                 {
-                    for (int i = 0; i < d.Count; i++)
+                    for (var i = 0; i < d.Count; i++)
                     {
                         var value = random.Next(d.Sides) + 1;
                         var dict = result.Results.GetValueOrDefault(d, new List<int>());

@@ -77,7 +77,7 @@ public class FilterService : IEarlyBehavior, INService
 
         client.MessageUpdated += (oldData, newMsg, channel) =>
         {
-            _ = Task.Factory.StartNew(() =>
+            _ = Task.Run(() =>
             {
                 var guild = (channel as ITextChannel)?.Guild;
 
@@ -85,7 +85,7 @@ public class FilterService : IEarlyBehavior, INService
                     return Task.CompletedTask;
 
                 return RunBehavior(null, guild, usrMsg);
-            }, TaskCreationOptions.LongRunning);
+            });
             return Task.CompletedTask;
         };
     }
@@ -211,7 +211,7 @@ public class FilterService : IEarlyBehavior, INService
 
     public async Task ClearFilteredWords(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId,
             set => set.Include(x => x.FilteredWords)
                 .Include(x => x.FilterWordsChannelIds));

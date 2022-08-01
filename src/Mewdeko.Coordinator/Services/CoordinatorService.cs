@@ -101,7 +101,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
         }
 
         _runner.SaveState();
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await Task.Delay(250).ConfigureAwait(false);
             Environment.Exit(0);

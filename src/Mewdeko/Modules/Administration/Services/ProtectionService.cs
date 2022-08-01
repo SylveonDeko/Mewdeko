@@ -3,6 +3,7 @@ using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -59,7 +60,7 @@ public class ProtectionService : INService
         bot.JoinedGuild += _bot_JoinedGuild;
         _client.LeftGuild += _client_LeftGuild;
 
-        _ = Task.Factory.StartNew(RunQueue, TaskCreationOptions.LongRunning);
+        _ = Task.Run(RunQueue);
     }
 
     public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
@@ -69,6 +70,7 @@ public class ProtectionService : INService
     {
         while (true)
         {
+            await Task.Delay(1000);
             var item = await _punishUserQueue.Reader.ReadAsync().ConfigureAwait(false);
 
             var muteTime = item.MuteTime;
@@ -81,21 +83,17 @@ public class ProtectionService : INService
             {
                 Log.Warning(ex, "Error in punish queue: {Message}", ex.Message);
             }
-            finally
-            {
-                await Task.Delay(1000).ConfigureAwait(false);
-            }
         }
     }
 
     private Task _client_LeftGuild(SocketGuild guild)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
-            await TryStopAntiRaid(guild.Id);
-            await TryStopAntiSpam(guild.Id);
+            await TryStopAntiRaid(guild.Id).ConfigureAwait(false);
+            await TryStopAntiSpam(guild.Id).ConfigureAwait(false);
             await TryStopAntiAlt(guild.Id).ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -141,7 +139,7 @@ public class ProtectionService : INService
         if (maybeStats is null && maybeAlts is null)
             return Task.CompletedTask;
 
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (maybeAlts is { } alts)
             {
@@ -190,7 +188,7 @@ public class ProtectionService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -203,7 +201,7 @@ public class ProtectionService : INService
 
         if (msg.Channel is not ITextChannel channel)
             return Task.CompletedTask;
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -239,7 +237,7 @@ public class ProtectionService : INService
             {
                 // ignored
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

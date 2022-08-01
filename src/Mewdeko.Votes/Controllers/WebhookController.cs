@@ -26,10 +26,10 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await Events.InvokeTopGg(data, Request.Headers.Authorization);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.FromResult<IActionResult>(Ok());
     }
     

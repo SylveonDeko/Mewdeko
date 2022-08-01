@@ -74,7 +74,7 @@ public class WaifuService : INService
     public async Task<int> GetResetPrice(IUser user)
     {
         var settings = _gss.Data;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var waifu = await uow.WaifuInfo.ByWaifuUserId(user.Id);
 
         if (waifu == null)
@@ -379,7 +379,7 @@ public class WaifuService : INService
 
     public async Task<WaifuInfoStats> GetFullWaifuInfoAsync(ulong targetId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var wi = await uow.GetWaifuInfo(targetId);
         if (wi == null)
         {

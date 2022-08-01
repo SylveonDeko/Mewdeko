@@ -282,7 +282,7 @@ public class XpService : INService, IUnloadableService
 
     public async void SetCurrencyReward(ulong guildId, int level, int amount)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var settings = await uow.XpSettingsFor(guildId);
 
         if (amount <= 0)
@@ -321,7 +321,7 @@ public class XpService : INService, IUnloadableService
 
     public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var settings = await uow.XpSettingsFor(guildId);
 
         if (roleId == null)
@@ -408,7 +408,7 @@ public class XpService : INService, IUnloadableService
         if (socketUser is not SocketGuildUser user || user.IsBot)
             return Task.CompletedTask;
 
-        var _ = Task.Factory.StartNew(() =>
+        _ = Task.Run(() =>
         {
             if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
@@ -422,7 +422,7 @@ public class XpService : INService, IUnloadableService
                 // it because it wasn't in any new channel. So we need to get rid of it.
                 UserLeftVoiceChannel(user, before.VoiceChannel);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
 
         return Task.CompletedTask;
     }
@@ -464,7 +464,7 @@ public class XpService : INService, IUnloadableService
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        int e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
+        var e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
         _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
@@ -507,7 +507,7 @@ public class XpService : INService, IUnloadableService
         var dateStart = DateTimeOffset.FromUnixTimeSeconds(startUnixTime);
         var dateEnd = DateTimeOffset.UtcNow;
         var minutes = (dateEnd - dateStart).TotalMinutes;
-        double ten = GetVoiceXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceXpPerMinute : GetVoiceXpRate(user.Guild.Id);
+        var ten = GetVoiceXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceXpPerMinute : GetVoiceXpRate(user.Guild.Id);
         var xp = ten * minutes;
         var actualXp = (int)Math.Floor(xp);
 
@@ -529,7 +529,7 @@ public class XpService : INService, IUnloadableService
         if (arg.Author is not SocketGuildUser user || user.IsBot)
             return Task.CompletedTask;
 
-        var _ = Task.Factory.StartNew(() =>
+        _ = Task.Run(() =>
         {
             if (!ShouldTrackXp(user, arg.Channel.Id))
                 return;
@@ -539,7 +539,7 @@ public class XpService : INService, IUnloadableService
 
             if (!SetUserRewarded(user))
                 return;
-            int e = GetTxtXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
+            var e = GetTxtXpRate(user.Guild.Id) == 0 ? _xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
             _addMessageXp.Enqueue(new UserCacheItem
             {
                 Guild = user.Guild,
@@ -547,7 +547,7 @@ public class XpService : INService, IUnloadableService
                 User = user,
                 XpAmount = e
             });
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -566,7 +566,7 @@ public class XpService : INService, IUnloadableService
 
     public async Task AddXp(ulong userId, ulong guildId, int amount)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var usr = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
 
         usr.AwardedXp += amount;
@@ -627,7 +627,7 @@ public class XpService : INService, IUnloadableService
     {
         var r = _cache.Redis.GetDatabase();
         var key = $"{_creds.RedisKey()}_user_xp_gain_{userId.Id}";
-        int e = GetXpTimeout(userId.Guild.Id) == 0 ? _xpConfig.Data.MessageXpCooldown : GetXpTimeout(userId.Guild.Id);
+        var e = GetXpTimeout(userId.Guild.Id) == 0 ? _xpConfig.Data.MessageXpCooldown : GetXpTimeout(userId.Guild.Id);
         return r.StringSet(key, true, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
@@ -712,7 +712,7 @@ public class XpService : INService, IUnloadableService
     public async Task<bool> ToggleExcludeChannel(ulong guildId, ulong chId)
     {
         var channels = _excludedChannels.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var xpSetting = await uow.XpSettingsFor(guildId);
         var excludeObj = new ExcludedItem { ItemId = chId, ItemType = ExcludedItemType.Channel };
 

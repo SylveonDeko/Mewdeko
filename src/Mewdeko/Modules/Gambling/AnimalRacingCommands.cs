@@ -48,7 +48,7 @@ public partial class Gambling
 
             Task ClientMessageReceived(SocketMessage arg)
             {
-                var _ = Task.Factory.StartNew(() =>
+                _ = Task.Run(() =>
                 {
                     try
                     {
@@ -62,7 +62,7 @@ public partial class Gambling
                     {
                         // ignored
                     }
-                }, TaskCreationOptions.LongRunning);
+                });
                 return Task.CompletedTask;
             }
 

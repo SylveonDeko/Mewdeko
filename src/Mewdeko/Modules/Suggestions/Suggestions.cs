@@ -36,7 +36,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 
         var emoteCount = new List<string>();
         var emotes = await Service.GetEmotes(ctx.Guild.Id);
-        int count = 0;
+        var count = 0;
         if (emotes is not null and not "disable")
         {
             foreach (var i in emotes.Split(","))

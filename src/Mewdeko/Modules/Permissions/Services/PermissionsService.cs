@@ -166,7 +166,7 @@ public class PermissionService : ILateBlocker, INService
     public async Task<PermissionCache?> GetCacheFor(ulong guildId)
     {
         if (Cache.TryGetValue(guildId, out var pc)) return pc;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             var config = await uow.ForGuildId(guildId,
                 set => set.Include(x => x.Permissions));
