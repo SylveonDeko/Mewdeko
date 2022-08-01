@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using Swan.Configuration;
 using System.Net;
 using System.Threading.Tasks;
 
