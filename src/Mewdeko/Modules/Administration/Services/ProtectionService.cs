@@ -70,7 +70,6 @@ public class ProtectionService : INService
     {
         while (true)
         {
-            await Task.Delay(1000);
             var item = await _punishUserQueue.Reader.ReadAsync().ConfigureAwait(false);
 
             var muteTime = item.MuteTime;
