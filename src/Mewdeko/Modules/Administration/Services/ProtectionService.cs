@@ -25,11 +25,12 @@ public class ProtectionService : INService
     private readonly UserPunishService _punishService;
 
     private readonly Channel<PunishQueueItem> _punishUserQueue =
-        Channel.CreateUnbounded<PunishQueueItem>(new UnboundedChannelOptions
+        Channel.CreateBounded<PunishQueueItem>(new BoundedChannelOptions(200)
         {
             SingleReader = true,
             SingleWriter = false,
-            AllowSynchronousContinuations = true
+            AllowSynchronousContinuations = true,
+            FullMode = BoundedChannelFullMode.DropOldest
         });
 
     public ProtectionService(DiscordSocketClient client, Mewdeko bot,
@@ -77,7 +78,8 @@ public class ProtectionService : INService
             var gu = item.User;
             try
             {
-                await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser, item.Action, muteTime, item.RoleId, $"{item.Type} Protection").ConfigureAwait(false);
+                _ = Task.Run(async () => await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser, item.Action, muteTime, item.RoleId, $"{item.Type} Protection")
+                                                             .ConfigureAwait(false));
             }
             catch (Exception ex)
             {
