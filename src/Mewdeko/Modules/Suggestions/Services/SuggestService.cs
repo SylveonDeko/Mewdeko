@@ -148,14 +148,14 @@ public class SuggestionsService : INService
     {
         _ = Task.Run(async () =>
         {
-            var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
-            if (message is null)
-                return;
-
             if (await arg2.GetOrDownloadAsync().ConfigureAwait(false) is not ITextChannel channel)
                 return;
             if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
                 return;
+            var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
+            if (message is null)
+                return;
+            
             var uow = _db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);

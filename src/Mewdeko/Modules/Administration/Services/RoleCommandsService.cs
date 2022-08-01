@@ -30,7 +30,6 @@ public class RoleCommandsService : INService
         {
             try
             {
-                await msg.DownloadAsync().ConfigureAwait(false);
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)
@@ -43,6 +42,8 @@ public class RoleCommandsService : INService
 
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
+                
+                await msg.DownloadAsync().ConfigureAwait(false);
 
                 var conf = confs.FirstOrDefault(x => x.MessageId == msg.Id);
 
