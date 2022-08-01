@@ -73,17 +73,19 @@ public class ProtectionService : INService
         while (true)
         {
             var item = await _punishUserQueue.Reader.ReadAsync().ConfigureAwait(false);
-
             var muteTime = item.MuteTime;
             var gu = item.User;
             try
             {
-                _ = Task.Run(async () => await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser, item.Action, muteTime, item.RoleId, $"{item.Type} Protection")
-                                                             .ConfigureAwait(false));
+                await _punishService.ApplyPunishment(gu.Guild, gu, _client.CurrentUser, item.Action, muteTime, item.RoleId, $"{item.Type} Protection").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 Log.Warning(ex, "Error in punish queue: {Message}", ex.Message);
+            }
+            finally
+            {
+                await Task.Delay(1000);
             }
         }
     }

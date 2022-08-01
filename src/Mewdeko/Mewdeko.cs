@@ -51,7 +51,7 @@ public class Mewdeko
         Client = new DiscordSocketClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
-            LogLevel = LogSeverity.Debug,
+            LogLevel = LogSeverity.Info,
             ConnectionTimeout = int.MaxValue,
             TotalShards = Credentials.TotalShards,
             ShardId = shardId,
