@@ -215,6 +215,9 @@ public class StarboardService : INService, IReadyExecutor
                 return;
             }
 
+            if (await GetStarboardChannel(textChannel.Guild.Id) is 0)
+                return;
+
             IUserMessage newMessage;
             if (!message.HasValue)
                 newMessage = await message.GetOrDownloadAsync().ConfigureAwait(false);
@@ -388,7 +391,9 @@ public class StarboardService : INService, IReadyExecutor
             {
                 return;
             }
-
+            
+            if (await GetStarboardChannel(textChannel.Guild.Id) is 0)
+                return;
             IUserMessage newMessage;
             if (!message.HasValue)
                 newMessage = await message.GetOrDownloadAsync().ConfigureAwait(false);
