@@ -180,7 +180,7 @@ public class VcRoleService : INService
 
         var oldVc = oldState.VoiceChannel;
         var newVc = newState.VoiceChannel;
-        var _ = Task.Factory.StartNew(() =>
+        _ = Task.Run(() =>
         {
             try
             {
@@ -198,7 +198,7 @@ public class VcRoleService : INService
             {
                 Log.Warning(ex, "Error in VcRoleService VoiceStateUpdate");
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

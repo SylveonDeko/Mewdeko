@@ -78,7 +78,7 @@ public class CommandHandler : INService
 
     public Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (!result.IsSuccess)
             {
@@ -170,12 +170,12 @@ public class CommandHandler : INService
 
                 await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
     private Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             if (!result.IsSuccess)
             {
@@ -268,12 +268,12 @@ public class CommandHandler : INService
 
                 await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var blacklistService = _services.GetService<BlacklistService>();
             var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
@@ -312,7 +312,7 @@ public class CommandHandler : INService
 
             var ctx = new SocketInteractionContext(_client, interaction);
             await InteractionService.ExecuteCommandAsync(ctx, _services).ConfigureAwait(false);
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -377,7 +377,7 @@ public class CommandHandler : INService
 
     private Task LogSuccessfulExecution(IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             Log.Information(
                 "Command Executed after "
@@ -421,13 +421,13 @@ public class CommandHandler : INService
 
                 await restTextChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
     private Task LogErroredExecution(string errorMessage, IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
             Log.Warning($"Command Errored after {errorafter}\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" + "Message: {3}\n\t" + "Error: {4}",
@@ -447,7 +447,7 @@ public class CommandHandler : INService
 
                 await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 
@@ -465,7 +465,7 @@ public class CommandHandler : INService
                 return Task.CompletedTask;
 
             AddCommandToParseQueue(usrMsg);
-            _ = Task.Factory.StartNew(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id), TaskCreationOptions.LongRunning);
+            _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
         }
         catch (Exception ex)
         {

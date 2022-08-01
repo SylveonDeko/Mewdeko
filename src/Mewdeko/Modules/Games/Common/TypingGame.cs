@@ -123,7 +123,7 @@ public class TypingGame
 
     private Task AnswerReceived(SocketMessage imsg)
     {
-        var _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -165,7 +165,7 @@ public class TypingGame
             {
                 Log.Warning(ex.ToString());
             }
-        }, TaskCreationOptions.LongRunning);
+        });
         return Task.CompletedTask;
     }
 

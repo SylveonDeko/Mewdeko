@@ -86,7 +86,7 @@ public class Localization : ILocalization
     public async void RemoveGuildCulture(ulong guildId)
     {
         if (!GuildCultureInfos.TryRemove(guildId, out _)) return;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         gc.Locale = null;
         await uow.SaveChangesAsync().ConfigureAwait(false);

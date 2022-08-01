@@ -17,7 +17,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     {
         if (string.IsNullOrWhiteSpace(list))
             return;
-        string?[] listArr = list.Split(';');
+        var listArr = list.Split(';');
         if (listArr.Length < 2)
             return;
         var rng = new MewdekoRandom();

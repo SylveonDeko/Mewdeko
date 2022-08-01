@@ -178,7 +178,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 Author = ctx.User,
                 Channel = ctx.Channel
             });
-            _ = Task.Factory.StartNew(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id), TaskCreationOptions.LongRunning).ConfigureAwait(false);
+            _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
             return;
         }
 
@@ -196,7 +196,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             Channel = ctx.Channel
         };
         _ch.AddCommandToParseQueue(msg);
-        _ = Task.Factory.StartNew(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id), TaskCreationOptions.LongRunning).ConfigureAwait(false);
+        _ = Task.Run(() => _ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)

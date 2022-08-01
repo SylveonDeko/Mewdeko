@@ -52,7 +52,7 @@ public partial class Games
                 if (msg.Channel.Id != ctx.Channel.Id)
                     return Task.CompletedTask;
 
-                var _ = Task.Factory.StartNew(async () =>
+                _ = Task.Run(async () =>
                 {
                     try
                     {
@@ -65,7 +65,7 @@ public partial class Games
                     {
                         // ignored
                     }
-                }, TaskCreationOptions.LongRunning);
+                });
 
                 return Task.CompletedTask;
             }

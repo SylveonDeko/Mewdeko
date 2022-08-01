@@ -62,7 +62,7 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
         var db = services.GetService<DbService>();
         Debug.Assert(db != null, $"{nameof(db)} != null");
         await using var uow = db.GetDbContext();
-        long cur = await uow.DiscordUser.GetUserCurrency(ctx.User.Id);
+        var cur = await uow.DiscordUser.GetUserCurrency(ctx.User.Id);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return cur;

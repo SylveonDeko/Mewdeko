@@ -82,7 +82,7 @@ public class SearchesService : INService, IUnloadableService
         //translate commands
         client.MessageReceived += msg =>
         {
-            var _ = Task.Factory.StartNew(async () =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -129,7 +129,7 @@ public class SearchesService : INService, IUnloadableService
                 {
                     // ignored
                 }
-            }, TaskCreationOptions.LongRunning);
+            });
             return Task.CompletedTask;
         };
 
@@ -415,7 +415,7 @@ public class SearchesService : INService, IUnloadableService
         };
 
         bool added;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {

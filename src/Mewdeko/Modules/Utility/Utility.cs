@@ -845,7 +845,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
-        IEnumerable<Emote?> tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 
         var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 

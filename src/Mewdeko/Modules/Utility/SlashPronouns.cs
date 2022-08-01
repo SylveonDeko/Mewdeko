@@ -116,7 +116,7 @@ public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
     [ModalInteraction("pronouns_fc_action:*,*,*", true), SlashOwnerOnly]
     public async Task PronounsFcAction(string sId, string sPronounsDisable, string sBlacklist, PronounsFcbModal modal)
     {
-        ulong userId = ulong.Parse(sId);
+        var userId = ulong.Parse(sId);
         await using var uow = _db.GetDbContext();
         var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
         user.Pronouns = "";

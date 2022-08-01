@@ -312,7 +312,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     private Task ClientOnLeftGuild(SocketGuild guild)
     {
-        _ = Task.Factory.StartNew(async () =>
+        _ = Task.Run(async () =>
         {
             await using var uow = _db.GetDbContext();
             var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.FollowedStreams));
@@ -473,7 +473,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public async Task<bool> ToggleStreamOffline(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         var newValue = gc.NotifyStreamOffline = !gc.NotifyStreamOffline;
         await uow.SaveChangesAsync().ConfigureAwait(false);

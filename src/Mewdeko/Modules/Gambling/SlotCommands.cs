@@ -169,11 +169,11 @@ public partial class Gambling
             }
             finally
             {
-                var _ = Task.Factory.StartNew(async () =>
+                _ = Task.Run(async () =>
                 {
                     await Task.Delay(1000).ConfigureAwait(false);
                     _runningUsers.Remove(ctx.User.Id);
-                }, TaskCreationOptions.LongRunning);
+                });
             }
         }
 
