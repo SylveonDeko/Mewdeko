@@ -163,7 +163,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var rep = new ReplacementBuilder()
             .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
             .Build();
-
+        
         if (SmartEmbed.TryParse(rep.Replace(message), ctx.Guild?.Id, out var embedData, out var plainText, out var components))
         {
             if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
