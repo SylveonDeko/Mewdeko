@@ -1088,6 +1088,7 @@
     "module_footer": "{0}cmds {1}",
     "module_page_empty": "No module on this page.",
     "module_description_help": "Get command help, descriptions and usage examples",
+    "module_description_vote": "Setup vote messages and leaderboards!",
     "module_description_gambling": "Bet on dice rolls, blackjack, slots, coinflips and others",
     "module_description_games": "Play trivia, nunchi, hangman, connect4 and other games",
     "module_description_nsfw": "There should be no need to explain this.",
