@@ -52,7 +52,7 @@ public class HighlightsService : INService, IReadyExecutor
         await using var uow = _db.GetDbContext();
         var allHighlights = uow.Highlights.AllHighlights();
         var allHighlightSettings = uow.HighlightSettings.AllHighlightSettings();
-        foreach (var i in (IReadOnlyCollection<SocketGuild>)_client.Guilds)
+        foreach (var i in _client.Guilds)
         {
             await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);
             await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);

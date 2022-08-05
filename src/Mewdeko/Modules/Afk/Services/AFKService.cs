@@ -1,5 +1,7 @@
 ﻿using Humanizer;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Threading.Tasks;
 
@@ -33,8 +35,9 @@ public class AfkService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         await using var uow = _db.GetDbContext();
-        var allafk = uow.Afk.Where(x => _client.Guilds.Select(x => x.Id).Contains(x.GuildId));
-        foreach (var i in _client.Guilds.Select(x => x.Id))
+        var guilds = _client.Guilds.Select(x => x.Id);
+        var allafk = await uow.Afk.ToListAsyncEF();
+        foreach (var i in guilds)
         {
             await _cache.CacheAfk(i, allafk.Where(x => x.GuildId == i).ToList()).ConfigureAwait(false);
         }
