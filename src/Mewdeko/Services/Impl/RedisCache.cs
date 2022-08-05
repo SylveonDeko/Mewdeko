@@ -23,6 +23,7 @@ public class RedisCache : IDataCache
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
 
         Redis = ConnectionMultiplexer.Connect(conf);
+        ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
         _redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
