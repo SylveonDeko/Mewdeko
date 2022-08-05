@@ -298,16 +298,8 @@ public class FeedsService : INService
             return false;
         if (gc.FeedSubs.Count >= 10) return false;
 
-        try
-        {
-            gc.FeedSubs.Add(fs);
-            await uow.SaveChangesAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        gc.FeedSubs.Add(fs);
+        await uow.SaveChangesAsync();
         //adding all, in case bot wasn't on this guild when it started
         foreach (var feed in gc.FeedSubs)
             _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (_, old) =>
