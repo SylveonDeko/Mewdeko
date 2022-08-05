@@ -53,7 +53,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedRemove(int index)
         {
-            if (await Service.RemoveFeed(ctx.Guild.Id, --index))
+            if (Service.RemoveFeed(ctx.Guild.Id, --index))
                 await ReplyConfirmLocalizedAsync("feed_removed").ConfigureAwait(false);
             else
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
@@ -70,18 +70,18 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RssTest(int index)
         {
-            var feeds = await Service.GetFeeds(ctx.Guild.Id);
+            var feeds = Service.GetFeeds(ctx.Guild.Id);
             if (feeds.ElementAt(index - 1) is null)
             {
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
                 return;
             }
-            await FeedsService.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel).ConfigureAwait(false);
+            await Service.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel).ConfigureAwait(false);
         }
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
         {
-            var feeds = await Service.GetFeeds(ctx.Guild.Id);
+            var feeds = Service.GetFeeds(ctx.Guild.Id);
 
             if (feeds.Count == 0)
             {
