@@ -39,7 +39,13 @@ public class AfkService : INService, IReadyExecutor
         var allafk = await uow.Afk.ToListAsyncEF();
         foreach (var i in guilds)
         {
-            await _cache.CacheAfk(i, allafk.Where(x => x.GuildId == i).ToList()).ConfigureAwait(false);
+            var afk = allafk.FirstOrDefault(x => x.GuildId == i);
+            if (afk is null)
+                continue;
+            _ = Task.Run(async () =>
+            {
+                await _cache.CacheAfk(i, allafk.Where(x => x.GuildId == i).ToList()).ConfigureAwait(false);
+            });
         }
 
         Environment.SetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}", "1");
