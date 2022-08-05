@@ -1,5 +1,11 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using System.Threading.Tasks;
 using static Mewdeko.Modules.Administration.Services.LogCommandService;
@@ -11,23 +17,30 @@ public partial class Administration
     [Group]
     public class LogCommands : MewdekoSubmodule<LogCommandService>
     {
+        public enum EnableDisable
+        {
+            Enable,
+            Disable
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
+        public async Task LogServer(PermissionAction action)
+        {
+            await Service.LogServer(ctx.Guild.Id, ctx.Channel.Id, action.Value).ConfigureAwait(false);
+            if (action.Value)
+                await ReplyConfirmLocalizedAsync("log_all").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task LogCategory(LogCategoryTypes type, ITextChannel? channel = null)
+        public async Task LogServer(ITextChannel channel, PermissionAction action)
         {
-            await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
-            if (type == LogCategoryTypes.None)
-            {
-                await ctx.Channel.SendConfirmAsync("Logging has been disabled.").ConfigureAwait(false);
-                return;
-            }
-            if (channel is null)
-            {
-                await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been disabled.").ConfigureAwait(false);
-                return;
-            }
-
-            await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been set to {channel.Mention}").ConfigureAwait(false);
+            await Service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
+            if (action.Value)
+                await ctx.Channel.SendConfirmAsync($"Logging of all events have been enabled in {channel.Mention}").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
@@ -69,10 +82,12 @@ public partial class Administration
         public async Task LogEvents()
         {
             Service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
-            var str = string.Join("\n", Enum.GetNames(typeof(LogType)).OrderBy(x => x).Select(x =>
+            var str = string.Join("\n", Enum.GetNames(typeof(LogType)).Select(x =>
             {
                 var val = l == null ? null : GetLogProperty(l, Enum.Parse<LogType>(x));
-                return val is not (null or 0) ? $"{Format.Bold(x)} <#{val}>" : Format.Bold(x);
+                if (val != null)
+                    return $"{Format.Bold(x)} <#{val}>";
+                return Format.Bold(x);
             }));
 
             await ctx.Channel.SendConfirmAsync($"{Format.Bold(GetText("log_events"))}\n{str}").ConfigureAwait(false);
@@ -95,39 +110,34 @@ public partial class Administration
                 LogType.VoicePresence => l.LogVoicePresenceId,
                 LogType.VoicePresenceTts => l.LogVoicePresenceTTSId,
                 LogType.UserMuted => l.UserMutedId,
-                LogType.EventCreated => l.EventCreatedId,
-                LogType.NicknameUpdated => l.NicknameUpdatedId,
-                LogType.RoleCreated => l.RoleCreatedId,
-                LogType.RoleUpdated => l.RoleUpdatedId,
-                LogType.RoleDeleted => l.RoleDeletedId,
-                LogType.ServerUpdated => l.ServerUpdatedId,
-                LogType.ThreadCreated => l.ThreadCreatedId,
-                LogType.ThreadDeleted => l.ThreadDeletedId,
-                LogType.ThreadUpdated => l.ThreadUpdatedId,
-                LogType.UsernameUpdated => l.UsernameUpdatedId,
-                LogType.UserRoleAdded => l.UserRoleAddedId,
-                LogType.UserRoleRemoved => l.UserRoleRemovedId,
-                LogType.AvatarUpdated => l.AvatarUpdatedId,
                 _ => null
             };
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Log(LogType type)
         {
-            await Service.SetLogChannel(ctx.Guild.Id, ctx.Channel.Id, type).ConfigureAwait(false);
-            await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
+            var val = await Service.Log(ctx.Guild.Id, ctx.Channel.Id, type).ConfigureAwait(false);
+
+            if (val)
+                await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("log_stop", Format.Bold(type.ToString())).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task Log(LogType type, ITextChannel channel = null)
+        public async Task Log(LogType type, ITextChannel channel)
         {
-            await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0 , type).ConfigureAwait(false);
-            if (channel is not null)
+            var val = await Service.Log(ctx.Guild.Id, channel.Id, type).ConfigureAwait(false);
+
+            if (val)
             {
                 await ctx.Channel.SendConfirmAsync($"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}").ConfigureAwait(false);
                 return;
             }
-            await ctx.Channel.SendConfirmAsync($"Logging has been disabled for the event `{type}`").ConfigureAwait(false);
+
+            await Service.Log(ctx.Guild.Id, channel.Id, type).ConfigureAwait(false);
+
+            await ctx.Channel.SendConfirmAsync($"Event Logging for {Format.Bold(type.ToString())} has been switched to {channel.Mention}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -135,13 +145,13 @@ public partial class Administration
         {
             if (channel is null)
             {
-                await ctx.Channel.SendConfirmAsync("Command Logging has been disabled.").ConfigureAwait(false);
-                await Service.UpdateCommandLogChannel(ctx.Guild, 0).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Command Logging has been disabled.");
+                await Service.UpdateCommandLogChannel(ctx.Guild, 0);
             }
             else
             {
-                await ctx.Channel.SendConfirmAsync("Command logging has been enabled.").ConfigureAwait(false);
-                await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Command logging has been enabled.");
+                await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
             }
         }
     }
