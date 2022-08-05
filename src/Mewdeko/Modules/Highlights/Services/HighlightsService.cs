@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -47,17 +48,28 @@ public class HighlightsService : INService, IReadyExecutor
         await _cache.TryAddHighlightStagger(user.GuildId, user.Id).ConfigureAwait(false);
     }
 
-    public async Task OnReadyAsync()
+    public Task OnReadyAsync()
     {
-        await using var uow = _db.GetDbContext();
+        using var uow = _db.GetDbContext();
         var allHighlights = uow.Highlights.AllHighlights();
         var allHighlightSettings = uow.HighlightSettings.AllHighlightSettings();
         foreach (var i in _client.Guilds)
         {
-            await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);
-            await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false);
+            var highlights = allHighlights.FirstOrDefault(x => x.GuildId == i.Id);
+            var hlSettings = allHighlightSettings.FirstOrDefault(x => x.GuildId == i.Id);
+            if (highlights is not null)
+            {
+                _ = Task.Run(async () => await _cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
+            }
+
+            if (hlSettings is not null)
+            {
+                _ = Task.Run(async () => await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
+            }
+            
         }
         Log.Information("Highlights Cached.");
+        return Task.CompletedTask;
     }
 
     private Task StaggerHighlights(SocketMessage message)
