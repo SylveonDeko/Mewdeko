@@ -1101,7 +1101,7 @@ public class Music : MewdekoModuleBase<MusicService>
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
         var artService = new ArtworkService();
-        var info = new Uri(null);
+        Uri info = null;
         try
         {
             info = await artService.ResolveAsync(track).ConfigureAwait(false);
@@ -1110,14 +1110,23 @@ public class Music : MewdekoModuleBase<MusicService>
         {
             //ignored
         }
-        var eb = new EmbedBuilder()
-            .WithOkColor()
-            .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
-            .WithDescription($"Now Playing {track.Title} by {track.Author}")
-            .WithThumbnailUrl(info?.AbsoluteUri)
-            .WithFooter(
-                await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
-        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+
+        try
+        {
+            var eb = new EmbedBuilder()
+                     .WithOkColor()
+                     .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
+                     .WithDescription($"Now Playing {track.Title} by {track.Author}")
+                     .WithThumbnailUrl(info?.AbsoluteUri)
+                     .WithFooter(
+                         await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
