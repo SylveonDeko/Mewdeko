@@ -23,7 +23,6 @@ public class RedisCache : IDataCache
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
 
         Redis = ConnectionMultiplexer.Connect(conf);
-        ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
         _redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
@@ -46,9 +45,12 @@ public class RedisCache : IDataCache
         return (x != null, x);
     }
 
-    public async Task CacheAfk(ulong id, List<Afk> objectList) =>
-        await Task.Run(() =>
-            new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } }).ConfigureAwait(false);
+    public Task CacheAfk(ulong id, List<Afk> objectList)
+    {
+        _ = Task.Run(() => new RedisDictionary<ulong, List<Afk>>($"{_redisKey}_afk", Redis) { { id, objectList } }).ConfigureAwait(false);
+        return Task.CompletedTask;
+    }
+    
 
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
@@ -72,15 +74,17 @@ public class RedisCache : IDataCache
         db.KeyDelete($"{_redisKey}_{guildId}_config");
     }
 
-    public async Task CacheHighlights(ulong id, List<Highlights> objectList) =>
-        await Task.Run(() =>
-            _ = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } }).ConfigureAwait(false);
+    public Task CacheHighlights(ulong id, List<Highlights> objectList)
+    {
+        _ = Task.Run(() => new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } }).ConfigureAwait(false);
+        return Task.CompletedTask;
+    }
 
-    public async Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList) =>
-        await Task.Run(() => _ = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis)
-        {
-            { id, objectList }
-        }).ConfigureAwait(false);
+    public Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList)
+    {
+        _ = Task.Run(() => new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis) { { id, objectList } }).ConfigureAwait(false);
+        return Task.CompletedTask;
+    }
 
     public List<Afk?>? GetAfkForGuild(ulong id)
     {
