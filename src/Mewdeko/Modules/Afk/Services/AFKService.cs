@@ -11,18 +11,15 @@ public class AfkService : INService, IReadyExecutor
 {
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
-    private readonly Mewdeko _bot;
     private readonly IDataCache _cache;
     private readonly GuildSettingsService _guildSettings;
 
     public AfkService(
         DbService db,
         DiscordSocketClient client,
-        Mewdeko bot,
         IDataCache cache,
         GuildSettingsService guildSettings)
     {
-        _bot = bot;
         _cache = cache;
         _guildSettings = guildSettings;
         _db = db;

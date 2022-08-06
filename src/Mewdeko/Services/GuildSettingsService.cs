@@ -1,17 +1,17 @@
 using Mewdeko.Services.Settings;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Services;
 
 public class GuildSettingsService : INService
 {
-    private readonly IDataCache _cache;
     private readonly DbService _db;
     private readonly BotConfigService _bss;
+    private readonly ConcurrentDictionary<ulong, GuildConfig> _guildConfigs = new();
 
-    public GuildSettingsService(IDataCache cache, DbService db, BotConfigService bss)
+    public GuildSettingsService(DbService db, BotConfigService bss)
     {
-        _cache = cache;
         _db = db;
         _bss = bss;
     }
@@ -27,7 +27,7 @@ public class GuildSettingsService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.Prefix = prefix;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        UpdateGuildConfig(guild.Id, gc);
+        _guildConfigs.AddOrUpdate(guild.Id, gc, (_, _) => gc);
         return prefix;
     }
     
@@ -43,10 +43,13 @@ public class GuildSettingsService : INService
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-        var cachedConfig = _cache.GetGuildConfig(guildId);
-        return cachedConfig ?? await uow.ForGuildId(guildId);
+        if (_guildConfigs.TryGetValue(guildId, out var cachedConfig)) return cachedConfig;
+        var config = await uow.ForGuildId(guildId);
+        _guildConfigs.AddOrUpdate(guildId, config, (_, _) => config);
+        return config;
+
     }
 
     public void UpdateGuildConfig(ulong guildId, GuildConfig config)
-        => _cache.AddOrUpdateGuildConfig(guildId, config);
+        => _guildConfigs.AddOrUpdate(guildId, config, (_, _) => config);
 }
