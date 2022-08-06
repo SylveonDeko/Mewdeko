@@ -54,7 +54,7 @@
         </PackageReference>
         <PackageReference Include="Lavalink4NET.Discord.NET" Version="3.0.0-preview.10" />
         <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.8.0" />
-        <PackageReference Include="MartineApiNet" Version="1.0.12" />
+        <PackageReference Include="MartineApiNet" Version="1.0.14" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-2.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.3.0-2.final" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.6.22329.4" />
