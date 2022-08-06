@@ -346,15 +346,18 @@ public class Mewdeko
                              .ConfigureAwait(false);
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
-        var lava = Services.GetRequiredService<LavalinkNode>();
-        try
+        _ = Task.Run(async () =>
         {
-            await lava.InitializeAsync().ConfigureAwait(false);
-        }
-        catch
-        {
-            Log.Information("Unable to connect to lavalink. If you want music please launch tha lavalink binary separately.");
-        }
+            var lava = Services.GetRequiredService<LavalinkNode>();
+            try
+            {
+                await lava.InitializeAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                Log.Information("Unable to connect to lavalink. If you want music please launch tha lavalink binary separately.");
+            }
+        });
 #if  !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
@@ -366,8 +369,8 @@ public class Mewdeko
         
 
         _ = Task.Run(HandleStatusChanges);
-        Ready.TrySetResult(true);
         _ = Task.Run(ExecuteReadySubscriptions);
+        Ready.TrySetResult(true);
         Log.Information("Shard {ShardId} ready", Client.ShardId);
     }
 
