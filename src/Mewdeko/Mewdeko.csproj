@@ -20,7 +20,9 @@
 <!--        <ProjectReference Include="../../../Discord.Net/src/Discord.Net.Commands/Discord.Net.Commands.csproj" />-->
 <!--    </ItemGroup>-->
 <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
-
+    <PropertyGroup>
+        <ThreadPoolMinThreads>50</ThreadPoolMinThreads>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
         <PackageReference Include="Anilist4Net" Version="1.3.0" />
