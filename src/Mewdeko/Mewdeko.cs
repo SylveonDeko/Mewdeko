@@ -43,7 +43,7 @@ public class Mewdeko
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
         _db = new DbService(Credentials.TotalShards);
-        _guildSettingsService = new GuildSettingsService(Cache, _db, null);
+        _guildSettingsService = new GuildSettingsService(_db, null);
         
 
         if (shardId == 0) _db.Setup();
