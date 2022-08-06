@@ -814,9 +814,9 @@ lockdown:
   - lockall
 log:
   - log
-logcategory:
-  - logcategory
-  - logc
+logserver:
+  - logserver
+  - logs
 logevents:
   - logevents
 logignore:
