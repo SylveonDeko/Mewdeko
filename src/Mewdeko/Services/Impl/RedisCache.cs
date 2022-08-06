@@ -347,20 +347,17 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
 
         var data = await db.StringGetAsync(key).ConfigureAwait(false);
-        if (!data.HasValue)
-        {
-            var obj = await factory(param).ConfigureAwait(false);
+        if (data.HasValue) return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
+        var obj = await factory(param).ConfigureAwait(false);
 
-            if (obj == null)
-                return default;
+        if (obj == null)
+            return default;
 
-            await db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
-                expiry).ConfigureAwait(false);
+        await db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
+            expiry).ConfigureAwait(false);
 
-            return obj;
-        }
+        return obj;
 
-        return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
     }
 
     public DateTime GetLastCurrencyDecay()

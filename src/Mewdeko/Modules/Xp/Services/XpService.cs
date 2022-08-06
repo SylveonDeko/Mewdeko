@@ -44,6 +44,7 @@ public class XpService : INService, IUnloadableService
     private readonly IImageCache _images;
     private readonly IBotStrings _strings;
     private readonly XpConfigService _xpConfig;
+    private readonly Mewdeko _bot;
     private XpTemplate template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), new JsonSerializerSettings
     {
         ContractResolver = new RequireObjectPropertiesContractResolver()
@@ -58,7 +59,8 @@ public class XpService : INService, IUnloadableService
         FontProvider fonts,
         IBotCredentials creds,
         IHttpClientFactory http,
-        XpConfigService xpConfig)
+        XpConfigService xpConfig,
+        Mewdeko bot)
     {
         _db = db;
         _cmd = cmd;
@@ -69,6 +71,7 @@ public class XpService : INService, IUnloadableService
         _creds = creds;
         _httpFactory = http;
         _xpConfig = xpConfig;
+        _bot = bot;
         _excludedServers = new ConcurrentHashSet<ulong>();
         _excludedChannels = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
         _client = client;
@@ -408,13 +411,18 @@ public class XpService : INService, IUnloadableService
 
     private Task Client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before, SocketVoiceState after)
     {
-        if (socketUser is not SocketGuildUser user || user.IsBot)
-            return Task.CompletedTask;
 
         _ = Task.Run(() =>
         {
+            if (socketUser is not SocketGuildUser user || user.IsBot)
+                return;
             var vcxp = GetVoiceXpRate(user.Guild.Id);
+            var vctime = GetVoiceXpTimeout(user.Guild.Id);
+            if (vctime is 0)
+                return;
             if (vcxp is 0)
+                return;
+            if (!_bot.Ready.Task.IsCompleted)
                 return;
             if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
@@ -452,7 +460,7 @@ public class XpService : INService, IUnloadableService
     /// </summary>
     /// <param name="user"></param>
     /// <param name="channel"></param>
-    private void ScanUserForVoiceXp(SocketGuildUser user, SocketVoiceChannel channel)
+    private void ScanUserForVoiceXp(SocketGuildUser user, SocketGuildChannel channel)
     {
         if (UserParticipatingInVoiceChannel(user) && ShouldTrackXp(user, channel.Id))
             UserJoinedVoiceChannel(user);
