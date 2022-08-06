@@ -65,14 +65,15 @@ public class StatsService : IStatsService
     }
     public async Task PostToTopGg()
     {
-        if (Client.ShardId != 0)
-            return;
-
-        if (Client.CurrentUser.Id != 752236274261426212)
-            return;
-        var timer = new PeriodicTimer(TimeSpan.FromMinutes(10));
+        // if (Client.ShardId != 0)
+        //     return;
+        //
+        // if (Client.CurrentUser.Id != 752236274261426212)
+        //     return;
+        var timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
         while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
+            using var httclient = new HttpClient();
             try
             {
                 using var content = new FormUrlEncodedContent(
@@ -84,10 +85,9 @@ public class StatsService : IStatsService
                     });
                 content.Headers.Clear();
                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                _http.DefaultRequestHeaders.Add("Authorization",
-                    Creds.VotesToken);
+                httclient.DefaultRequestHeaders.Add("Authorization", Creds.VotesToken);
 
-                using (await _http
+                using (await httclient
                              .PostAsync(new Uri($"https://top.gg/api/bots/{Client.CurrentUser.Id}/stats"),
                                  content).ConfigureAwait(false))
                 {
