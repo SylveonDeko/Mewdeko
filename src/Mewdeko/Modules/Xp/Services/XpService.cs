@@ -3,6 +3,7 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Serilog;
 using SixLabors.Fonts;
@@ -45,6 +46,7 @@ public class XpService : INService, IUnloadableService
     private readonly IBotStrings _strings;
     private readonly XpConfigService _xpConfig;
     private readonly Mewdeko _bot;
+    private readonly IMemoryCache _memoryCache;
     private XpTemplate template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), new JsonSerializerSettings
     {
         ContractResolver = new RequireObjectPropertiesContractResolver()
@@ -60,7 +62,8 @@ public class XpService : INService, IUnloadableService
         IBotCredentials creds,
         IHttpClientFactory http,
         XpConfigService xpConfig,
-        Mewdeko bot)
+        Mewdeko bot,
+        IMemoryCache memoryCache)
     {
         _db = db;
         _cmd = cmd;
@@ -72,6 +75,7 @@ public class XpService : INService, IUnloadableService
         _httpFactory = http;
         _xpConfig = xpConfig;
         _bot = bot;
+        _memoryCache = memoryCache;
         _excludedServers = new ConcurrentHashSet<ulong>();
         _excludedChannels = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
         _client = client;
@@ -479,7 +483,9 @@ public class XpService : INService, IUnloadableService
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
-        await _cache.Redis.GetDatabase().StringSetAsync(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
+        if (_memoryCache.Get(key) is not null)
+            return;
+        _memoryCache.Set(key, value, TimeSpan.FromMinutes(e));
     }
 
     public int GetXpTimeout(ulong id)
@@ -509,13 +515,13 @@ public class XpService : INService, IUnloadableService
     private void UserLeftVoiceChannel(SocketGuildUser user, SocketGuildChannel channel)
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
-        var value = _cache.Redis.GetDatabase().StringGet(key);
-        _cache.Redis.GetDatabase().KeyDelete(key);
+        var value = _memoryCache.Get(key);
+        _memoryCache.Remove(key);
 
         // Allow for if this function gets called multiple times when a user leaves a channel.
-        if (value.IsNull) return;
+        if (value is null) return;
 
-        if (!value.TryParse(out long startUnixTime))
+        if (value is not long startUnixTime)
             return;
 
         var dateStart = DateTimeOffset.FromUnixTimeSeconds(startUnixTime);
