@@ -44,7 +44,10 @@ public class XpService : INService, IUnloadableService
     private readonly IImageCache _images;
     private readonly IBotStrings _strings;
     private readonly XpConfigService _xpConfig;
-    private XpTemplate template;
+    private XpTemplate template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), new JsonSerializerSettings
+    {
+        ContractResolver = new RequireObjectPropertiesContractResolver()
+    });
 
     public XpService(
         DiscordSocketClient client,
@@ -410,6 +413,9 @@ public class XpService : INService, IUnloadableService
 
         _ = Task.Run(() =>
         {
+            var vcxp = GetVoiceXpRate(user.Guild.Id);
+            if (vcxp is 0)
+                return;
             if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
             if (after.VoiceChannel != null && after.VoiceChannel != before.VoiceChannel)
@@ -454,18 +460,18 @@ public class XpService : INService, IUnloadableService
             UserLeftVoiceChannel(user, channel);
     }
 
-    private static bool ShouldTrackVoiceChannel(SocketVoiceChannel channel) =>
+    private static bool ShouldTrackVoiceChannel(SocketGuildChannel channel) =>
         channel.Users.Where(x => !x.IsBot && UserParticipatingInVoiceChannel(x)).Take(2).Count() >= 2;
 
-    private static bool UserParticipatingInVoiceChannel(SocketGuildUser user) =>
+    private static bool UserParticipatingInVoiceChannel(IVoiceState user) =>
         !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
 
-    private void UserJoinedVoiceChannel(SocketGuildUser user)
+    private async void UserJoinedVoiceChannel(SocketGuildUser user)
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
-        _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
+        await _cache.Redis.GetDatabase().StringSetAsync(key, value, TimeSpan.FromMinutes(e), when: When.NotExists);
     }
 
     public int GetXpTimeout(ulong id)
@@ -492,7 +498,7 @@ public class XpService : INService, IUnloadableService
         return snum;
     }
 
-    private void UserLeftVoiceChannel(SocketGuildUser user, SocketVoiceChannel channel)
+    private void UserLeftVoiceChannel(SocketGuildUser user, SocketGuildChannel channel)
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = _cache.Redis.GetDatabase().StringGet(key);
