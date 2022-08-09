@@ -4,6 +4,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
@@ -32,7 +33,7 @@ public class MuteService : INService
     public string[] Uroles;
     private readonly GuildSettingsService _guildSettings;
 
-    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings)
+    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _client = client;
         _db = db;
@@ -112,7 +113,7 @@ public class MuteService : INService
                 }
             }
 
-            _client.UserJoined += Client_UserJoined;
+            eventHandler.UserJoined += Client_UserJoined;
         }
 
         UserMuted += OnUserMuted;
@@ -154,22 +155,20 @@ public class MuteService : INService
             .Build()));
     }
 
-    private Task Client_UserJoined(IGuildUser usr)
+    private async Task Client_UserJoined(IGuildUser usr)
     {
         try
         {
             MutedUsers.TryGetValue(usr.Guild.Id, out var muted);
 
             if (muted == null || !muted.Contains(usr.Id))
-                return Task.CompletedTask;
-            _ = Task.Run(() => MuteUser(usr, _client.CurrentUser, reason: "Sticky mute").ConfigureAwait(false));
+                return;
+            await MuteUser(usr, _client.CurrentUser, reason: "Sticky mute").ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             Log.Warning(ex, "Error in MuteService UserJoined event");
         }
-
-        return Task.CompletedTask;
     }
 
     public async Task SetMuteRoleAsync(ulong guildId, string name)

@@ -4,6 +4,7 @@ using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Services;
 
@@ -17,7 +18,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     private readonly GreetGrouper<IGuildUser> _greets = new();
 
     public GreetSettingsService(DiscordSocketClient client, GuildSettingsService gss, DbService db,
-        BotConfigService bss)
+        BotConfigService bss, EventHandler eventHandler)
     {
         _db = db;
         _client = client;
@@ -29,8 +30,8 @@ public class GreetSettingsService : INService, IReadyExecutor
             gc
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));
 
-        _client.UserJoined += UserJoined;
-        _client.UserLeft += UserLeft;
+        eventHandler.UserJoined += UserJoined;
+        eventHandler.UserLeft += UserLeft;
 
         client.JoinedGuild += Bot_JoinedGuild;
         _client.LeftGuild += Client_LeftGuild;
@@ -152,10 +153,8 @@ public class GreetSettingsService : INService, IReadyExecutor
         return Task.CompletedTask;
     }
 
-    private Task UserLeft(SocketGuild guild, SocketUser usr)
+    private async Task UserLeft(IGuild guild, IUser usr)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 var user = usr as SocketGuildUser;
@@ -163,9 +162,8 @@ public class GreetSettingsService : INService, IReadyExecutor
 
                 if (!conf.SendChannelByeMessage) return;
 
-                if (guild.Channels.SingleOrDefault(c =>
-                        c.Id == conf.ByeMessageChannelId) is not ITextChannel
-                    channel) //maybe warn the server owner that the channel is missing
+                if ((await guild.GetTextChannelsAsync()).SingleOrDefault(c =>
+                        c.Id == conf.ByeMessageChannelId) is not { } channel) //maybe warn the server owner that the channel is missing
                 {
                     return;
                 }
@@ -179,8 +177,6 @@ public class GreetSettingsService : INService, IReadyExecutor
             {
                 // ignored
             }
-        });
-        return Task.CompletedTask;
     }
 
     public async Task<bool> SetBoostMessage(ulong guildId, string? message)
