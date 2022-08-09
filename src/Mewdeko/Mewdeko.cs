@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -107,6 +108,7 @@ public class Mewdeko
                 .AddSingleton<IBotCredentials>(Credentials)
                 .AddSingleton(_db)
                 .AddSingleton(Client)
+                .AddSingleton(new EventHandler(Client))
                 .AddSingleton(CommandService)
                 .AddSingleton(this)
                 .AddSingleton(Cache)

@@ -2,12 +2,13 @@
 using Serilog;
 using System.Net;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Administration.Services;
 
 public sealed class AutoAssignRoleService : INService
 {
-    private readonly Channel<SocketGuildUser> _assignQueue = Channel.CreateBounded<SocketGuildUser>(
+    private readonly Channel<IGuildUser> _assignQueue = Channel.CreateBounded<IGuildUser>(
         new BoundedChannelOptions(int.MaxValue)
         {
             FullMode = BoundedChannelFullMode.DropOldest,
@@ -20,7 +21,7 @@ public sealed class AutoAssignRoleService : INService
     private readonly GuildSettingsService _guildSettings;
 
     public AutoAssignRoleService(DiscordSocketClient client, DbService db,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _db = db;
         _guildSettings = guildSettings;
@@ -119,7 +120,7 @@ public sealed class AutoAssignRoleService : INService
             }
         });
 
-        client.UserJoined += OnClientOnUserJoined;
+        eventHandler.UserJoined += OnClientOnUserJoined;
         client.RoleDeleted += OnClientRoleDeleted;
     }
 
@@ -140,7 +141,7 @@ public sealed class AutoAssignRoleService : INService
         }
     }
 
-    private async Task OnClientOnUserJoined(SocketGuildUser user)
+    private async Task OnClientOnUserJoined(IGuildUser user)
     {
         var broles = await TryGetBotRoles(user.Guild.Id);
         var roles = await TryGetNormalRoles(user.Guild.Id);
