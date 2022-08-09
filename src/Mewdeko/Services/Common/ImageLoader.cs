@@ -130,6 +130,6 @@ public class ImageLoader
     {
         await HandleJObject(obj).ConfigureAwait(false);
         var results = await Task.WhenAll(_uriTasks).ConfigureAwait(false);
-        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray()).ConfigureAwait(false);
+        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(),  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 }

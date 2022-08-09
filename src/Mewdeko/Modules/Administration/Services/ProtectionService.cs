@@ -1,11 +1,9 @@
-﻿using AngleSharp.Dom.Events;
-using Mewdeko.Modules.Administration.Common;
+﻿using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -30,7 +28,7 @@ public class ProtectionService : INService
         {
             SingleReader = true,
             SingleWriter = false,
-            AllowSynchronousContinuations = true,
+            AllowSynchronousContinuations = false,
             FullMode = BoundedChannelFullMode.DropOldest
         });
 

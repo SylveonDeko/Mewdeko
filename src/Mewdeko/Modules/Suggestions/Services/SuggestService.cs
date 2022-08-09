@@ -24,7 +24,7 @@ public class SuggestionsService : INService
         DiscordSocketClient client,
         AdministrationService aserv,
         PermissionService permserv,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _perms = permserv;
         _guildSettings = guildSettings;
@@ -32,10 +32,10 @@ public class SuggestionsService : INService
         _spamCheck = new List<ulong>();
         Adminserv = aserv;
         Client = client;
-        client.MessageReceived += MessageRecieved;
-        client.ReactionAdded += UpdateCountOnReact;
-        client.ReactionRemoved += UpdateCountOnRemoveReact;
-        client.MessageReceived += RepostButton;
+        eventHandler.MessageReceived += MessageRecieved;
+        eventHandler.ReactionAdded += UpdateCountOnReact;
+        eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
+        eventHandler.MessageReceived += RepostButton;
         _db = db;
     }
 
@@ -48,10 +48,8 @@ public class SuggestionsService : INService
         Implemented = 4
     }
 
-    private Task RepostButton(SocketMessage arg)
+    private async Task RepostButton(SocketMessage arg)
     {
-        _ = Task.Run(async () =>
-        {
             IEnumerable<IMessage> messages;
             if (arg.Channel is not ITextChannel channel)
                 return;
@@ -140,14 +138,10 @@ public class SuggestionsService : INService
             }
 
             _repostChecking.Remove(channel.Id);
-        });
-        return Task.CompletedTask;
     }
 
-    private Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private async Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Run(async () =>
-        {
             if (await arg2.GetOrDownloadAsync().ConfigureAwait(false) is not ITextChannel channel)
                 return;
             if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
@@ -200,14 +194,10 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        });
-        return Task.CompletedTask;
     }
 
-    private Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private async Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        _ = Task.Run(async () =>
-        {
             var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
             if (message is null)
                 return;
@@ -260,8 +250,6 @@ public class SuggestionsService : INService
 
             uow.Suggestions.Update(maybeSuggest);
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        });
-        return Task.CompletedTask;
     }
 
     private Task MessageRecieved(SocketMessage msg)
@@ -2322,7 +2310,7 @@ public class SuggestionsService : INService
         {
             var sugnum1 = await GetSNum(guild.Id);
             var t = await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false)).SendMessageAsync(
-                embed: new EmbedBuilder().WithAuthor(user).WithTitle($"Suggestion #{GetSNum(guild.Id)}").WithDescription(suggestion).WithOkColor().Build(),
+                embed: new EmbedBuilder().WithAuthor(user).WithTitle($"Suggestion #{sugnum1}").WithDescription(suggestion).WithOkColor().Build(),
                 components: builder.Build()).ConfigureAwait(false);
             if (await GetEmoteMode(guild) == 0)
             {
