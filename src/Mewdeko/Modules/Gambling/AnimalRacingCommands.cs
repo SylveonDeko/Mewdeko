@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using AngleSharp.Dom.Events;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing;
@@ -15,21 +16,22 @@ public partial class Gambling
     [Group]
     public class AnimalRacingCommands : GamblingSubmodule<AnimalRaceService>
     {
-        private readonly DiscordSocketClient _client;
         private readonly ICurrencyService _cs;
         private readonly GamesConfigService _gamesConf;
         private readonly GuildSettingsService _guildSettings;
+        private readonly EventHandler _eventHandler;
 
         private IUserMessage? raceMessage;
 
-        public AnimalRacingCommands(ICurrencyService cs, DiscordSocketClient client,
+        public AnimalRacingCommands(ICurrencyService cs,
             GamblingConfigService gamblingConf, GamesConfigService gamesConf,
-            GuildSettingsService guildSettings) : base(gamblingConf)
+            GuildSettingsService guildSettings,
+            EventHandler eventHandler) : base(gamblingConf)
         {
             _cs = cs;
-            _client = client;
             _gamesConf = gamesConf;
             _guildSettings = guildSettings;
+            _eventHandler = eventHandler;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -52,11 +54,9 @@ public partial class Gambling
                 {
                     try
                     {
-                        if (arg.Channel.Id == ctx.Channel.Id)
-                        {
-                            if (ar.CurrentPhase == AnimalRace.Phase.Running && ++count % 9 == 0)
-                                raceMessage = null;
-                        }
+                        if (arg.Channel.Id != ctx.Channel.Id) return;
+                        if (ar.CurrentPhase == AnimalRace.Phase.Running && ++count % 9 == 0)
+                            raceMessage = null;
                     }
                     catch
                     {
@@ -68,7 +68,7 @@ public partial class Gambling
 
             async Task<Task<IUserMessage>> ArOnEnded(AnimalRace race)
             {
-                _client.MessageReceived -= ClientMessageReceived;
+                _eventHandler.MessageReceived -= ClientMessageReceived;
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 var winner = race.FinishedUsers[0];
                 if (race.FinishedUsers[0].Bet > 0)
@@ -86,20 +86,15 @@ public partial class Gambling
             ar.OnStateUpdate += Ar_OnStateUpdate;
             ar.OnEnded += ArOnEnded;
             ar.OnStarted += Ar_OnStarted;
-            _client.MessageReceived += ClientMessageReceived;
+            _eventHandler.MessageReceived += ClientMessageReceived;
 
             return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                 GetText("animal_race_starting", options.StartTime),
                 footer: GetText("animal_race_join_instr", await _guildSettings.GetPrefix(ctx.Guild)));
         }
 
-        private Task Ar_OnStarted(AnimalRace race)
-        {
-            if (race.Users.Count == race.MaxUsers)
-                return ctx.Channel.SendConfirmAsync(GetText("animal_race"), GetText("animal_race_full"));
-            return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
-                GetText("animal_race_starting_with_x", race.Users.Count));
-        }
+        private Task Ar_OnStarted(AnimalRace race) 
+            => ctx.Channel.SendConfirmAsync(GetText("animal_race"), race.Users.Count == race.MaxUsers ? GetText("animal_race_full") : GetText("animal_race_starting_with_x", race.Users.Count));
 
         private async Task Ar_OnStateUpdate(AnimalRace race)
         {

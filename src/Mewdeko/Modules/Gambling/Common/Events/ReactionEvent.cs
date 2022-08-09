@@ -19,6 +19,7 @@ public class ReactionEvent : ICurrencyEvent
     private readonly IGuild _guild;
     private readonly bool _isPotLimited;
     private readonly bool _noRecentlyJoinedServer;
+    private readonly EventHandler _eventHandler;
     private readonly EventOptions _opts;
     private readonly Timer _t;
     private readonly Timer _timeout;
@@ -32,7 +33,8 @@ public class ReactionEvent : ICurrencyEvent
 
     public ReactionEvent(DiscordSocketClient client, ICurrencyService cs,
         SocketGuild g, ITextChannel ch, EventOptions opt, GamblingConfig config,
-        Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc)
+        Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
+        EventHandler eventHandler)
     {
         _client = client;
         _guild = g;
@@ -40,6 +42,7 @@ public class ReactionEvent : ICurrencyEvent
         _amount = opt.Amount;
         PotSize = opt.PotSize;
         _embedFunc = embedFunc;
+        _eventHandler = eventHandler;
         _isPotLimited = PotSize > 0;
         _channel = ch;
         _noRecentlyJoinedServer = false;
@@ -65,8 +68,8 @@ public class ReactionEvent : ICurrencyEvent
             emote = new Emoji(_config.Currency.Sign);
         msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
         await msg.AddReactionAsync(emote).ConfigureAwait(false);
-        _client.MessageDeleted += OnMessageDeleted;
-        _client.ReactionAdded += HandleReaction;
+        _eventHandler.MessageDeleted += OnMessageDeleted;
+        _eventHandler.ReactionAdded += HandleReaction;
         _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
@@ -78,8 +81,8 @@ public class ReactionEvent : ICurrencyEvent
             if (Stopped)
                 return;
             Stopped = true;
-            _client.MessageDeleted -= OnMessageDeleted;
-            _client.ReactionAdded -= HandleReaction;
+            _eventHandler.MessageDeleted -= OnMessageDeleted;
+            _eventHandler.ReactionAdded -= HandleReaction;
             _t.Change(Timeout.Infinite, Timeout.Infinite);
             _timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try

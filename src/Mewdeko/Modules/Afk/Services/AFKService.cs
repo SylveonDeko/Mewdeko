@@ -1,7 +1,6 @@
 ﻿using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Threading.Tasks;
 
@@ -18,15 +17,15 @@ public class AfkService : INService, IReadyExecutor
         DbService db,
         DiscordSocketClient client,
         IDataCache cache,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _cache = cache;
         _guildSettings = guildSettings;
         _db = db;
         _client = client;
-        _client.MessageReceived += MessageReceived;
-        _client.MessageUpdated += MessageUpdated;
-        _client.UserIsTyping += UserTyping;
+        eventHandler.MessageReceived += MessageReceived;
+        eventHandler.MessageUpdated += MessageUpdated;
+        eventHandler.UserIsTyping += UserTyping;
     }
 
     public async Task OnReadyAsync()
@@ -49,10 +48,8 @@ public class AfkService : INService, IReadyExecutor
         Log.Information("AFK Cached.");
     }
 
-    private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
+    private async Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
-        _ = Task.Run(async () =>
-        {
             if (user.Value is IGuildUser use)
             {
                 if (await GetAfkType(use.GuildId) is 2 or 4)
@@ -76,14 +73,10 @@ public class AfkService : INService, IReadyExecutor
                         }
                     }
             }
-        });
-        return Task.CompletedTask;
     }
 
-    private Task MessageReceived(SocketMessage msg)
+    private async Task MessageReceived(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
-        {
             if (msg.Author.IsBot)
                 return;
 
@@ -184,8 +177,6 @@ public class AfkService : INService, IReadyExecutor
                     }
                 }
             }
-        });
-        return Task.CompletedTask;
     }
 
     public async Task<IGuildUser[]> GetAfkUsers(IGuild guild) =>

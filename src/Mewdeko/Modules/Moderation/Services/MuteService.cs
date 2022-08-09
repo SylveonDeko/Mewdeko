@@ -4,7 +4,6 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

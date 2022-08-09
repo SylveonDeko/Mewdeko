@@ -4,7 +4,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Votes.Common;
 using Mewdeko.Common.PubSub;
 using System.Threading.Tasks;
-using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.VotesCommands.Services;
 
