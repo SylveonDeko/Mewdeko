@@ -37,7 +37,7 @@ public class FeedsService : INService
 
         _client = client;
 
-        var _ = Task.Run(TrackFeeds);
+        _ = Task.Run(TrackFeeds);
     }
 
     public async Task<EmbedBuilder> TrackFeeds()
