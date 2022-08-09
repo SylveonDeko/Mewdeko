@@ -20,6 +20,7 @@ public class GameStatusEvent : ICurrencyEvent
     private readonly IGuild _guild;
     private readonly bool _isPotLimited;
     private readonly EventOptions _opts;
+    private readonly EventHandler _eventHandler;
 
     private readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
@@ -37,7 +38,8 @@ public class GameStatusEvent : ICurrencyEvent
     private IUserMessage? msg;
 
     public GameStatusEvent(DiscordSocketClient client, ICurrencyService cs, SocketGuild g, ITextChannel ch,
-        EventOptions opt, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc)
+        EventOptions opt, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
+        EventHandler eventHandler)
     {
         _client = client;
         _guild = g;
@@ -45,6 +47,7 @@ public class GameStatusEvent : ICurrencyEvent
         _amount = opt.Amount;
         PotSize = opt.PotSize;
         _embedFunc = embedFunc;
+        _eventHandler = eventHandler;
         _isPotLimited = PotSize > 0;
         _channel = ch;
         _opts = opt;
@@ -66,8 +69,8 @@ public class GameStatusEvent : ICurrencyEvent
     {
         msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
         await _client.SetGameAsync(_code).ConfigureAwait(false);
-        _client.MessageDeleted += OnMessageDeleted;
-        _client.MessageReceived += HandleMessage;
+        _eventHandler.MessageDeleted += OnMessageDeleted;
+        _eventHandler.MessageReceived += HandleMessage;
         _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
@@ -79,8 +82,8 @@ public class GameStatusEvent : ICurrencyEvent
             if (Stopped)
                 return;
             Stopped = true;
-            _client.MessageDeleted -= OnMessageDeleted;
-            _client.MessageReceived -= HandleMessage;
+            _eventHandler.MessageDeleted -= OnMessageDeleted;
+            _eventHandler.MessageReceived -= HandleMessage;
 #pragma warning disable CS4014
             _client.SetGameAsync(null);
 #pragma warning restore CS4014
@@ -88,7 +91,7 @@ public class GameStatusEvent : ICurrencyEvent
             _timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
-                var _ = msg.DeleteAsync();
+                _ = msg.DeleteAsync();
             }
             catch
             {
@@ -151,7 +154,7 @@ public class GameStatusEvent : ICurrencyEvent
         if (message.Id == msg.Id) await StopEvent().ConfigureAwait(false);
     }
 
-    private Task HandleMessage(SocketMessage message)
+    private Task HandleMessage(IMessage message)
     {
         _ = Task.Run(async () =>
         {

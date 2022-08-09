@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 

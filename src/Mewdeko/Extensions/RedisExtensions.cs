@@ -19,11 +19,11 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 
     private static T Deserialize<T>(string serialized) => JsonConvert.DeserializeObject<T>(serialized);
 
-    public void Add(TKey key, TValue value) => GetRedisDb().HashSet(_redisKey, Serialize(key), Serialize(value));
+    public void Add(TKey key, TValue value) => GetRedisDb().HashSet(_redisKey, Serialize(key), Serialize(value),  flags: CommandFlags.FireAndForget);
 
     public bool ContainsKey(TKey key) => GetRedisDb().HashExists(_redisKey, Serialize(key));
 
-    public bool Remove(TKey key) => GetRedisDb().HashDelete(_redisKey, Serialize(key));
+    public bool Remove(TKey key) => GetRedisDb().HashDelete(_redisKey, Serialize(key),  flags: CommandFlags.FireAndForget);
 
     public bool TryGetValue(TKey key, out TValue value)
     {

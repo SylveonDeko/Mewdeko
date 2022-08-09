@@ -11,7 +11,7 @@ public class RoleCommandsService : INService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
-    public RoleCommandsService(DiscordSocketClient client, DbService db)
+    public RoleCommandsService(DiscordSocketClient client, DbService db, EventHandler eventHandler)
     {
         _db = db;
         using var uow = db.GetDbContext();
@@ -19,15 +19,13 @@ public class RoleCommandsService : INService
         _models = gc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
-        client.ReactionAdded += _client_ReactionAdded;
-        client.ReactionRemoved += _client_ReactionRemoved;
+        eventHandler.ReactionAdded += _client_ReactionAdded;
+        eventHandler.ReactionRemoved += _client_ReactionRemoved;
     }
 
-    private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
+    private async Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 if (!reaction.User.IsSpecified ||
@@ -61,9 +59,7 @@ public class RoleCommandsService : INService
                             .Where(x => x != reactionRole.RoleId)
                             .Select(x => gusr.Guild.GetRole(x))
                             .Where(x => x != null);
-
-                        var __ = Task.Run(async () =>
-                        {
+                        
                             try
                             {
                                 //if the role is exclusive,
@@ -89,8 +85,7 @@ public class RoleCommandsService : INService
                             {
                                 // ignored
                             }
-                        });
-                        await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
+                            await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
                     }
 
                     var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
@@ -112,16 +107,11 @@ public class RoleCommandsService : INService
             {
                 // ignored
             }
-        });
-
-        return Task.CompletedTask;
     }
 
-    private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
+    private async Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 if (!reaction.User.IsSpecified ||
@@ -157,8 +147,6 @@ public class RoleCommandsService : INService
             {
                 // ignored
             }
-        });
-        return Task.CompletedTask;
     }
 
     public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);

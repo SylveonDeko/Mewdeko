@@ -1,5 +1,4 @@
-﻿using Mewdeko.Modules.Xp;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 
 namespace Mewdeko.Services.Impl;
@@ -13,7 +12,7 @@ public class EventHandler
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3);
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
     
-    public event AsyncEventHandler<IMessage>? MessageReceived;
+    public event AsyncEventHandler<SocketMessage>? MessageReceived;
     public event AsyncEventHandler<IGuildUser>? UserJoined;
     public event AsyncEventHandler<IGuild, IUser>? UserLeft;
     public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
@@ -28,6 +27,11 @@ public class EventHandler
     public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
     public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
     public event AsyncEventHandler<SocketRole>? RoleDeleted;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
+    public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
+    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>> UserIsTyping;
 
 
     public EventHandler(DiscordSocketClient client)
@@ -47,6 +51,41 @@ public class EventHandler
         client.ChannelDestroyed += ClientOnChannelDestroyed;
         client.ChannelUpdated += ClientOnChannelUpdated;
         client.RoleDeleted += ClientOnRoleDeleted;
+        client.ReactionAdded += ClientOnReactionAdded;
+        client.ReactionRemoved += ClientOnReactionRemoved;
+        client.ReactionsCleared += ClientOnReactionsCleared;
+        client.InteractionCreated += ClientOnInteractionCreated;
+        client.UserIsTyping += ClientOnUserIsTyping;
+    }
+
+    private async Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    {
+        if (UserIsTyping is not null)
+            await UserIsTyping(arg1, arg2);
+    }
+
+    private async Task ClientOnInteractionCreated(SocketInteraction arg)
+    {
+        if (InteractionCreated is not null)
+            await InteractionCreated(arg);
+    }
+
+    private async Task ClientOnReactionsCleared(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    {
+        if (ReactionsCleared is not null)
+            await ReactionsCleared(arg1, arg2);
+    }
+
+    private async Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    {
+        if (ReactionRemoved is not null)
+            await ReactionAdded(arg1, arg2, arg3);
+    }
+
+    private async Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    {
+        if (ReactionAdded is not null)
+            await ReactionAdded(arg1, arg2, arg3);
     }
 
     private async Task ClientOnRoleDeleted(SocketRole arg)

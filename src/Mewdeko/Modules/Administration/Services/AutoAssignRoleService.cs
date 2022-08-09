@@ -2,7 +2,6 @@
 using Serilog;
 using System.Net;
 using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -121,7 +120,7 @@ public sealed class AutoAssignRoleService : INService
         });
 
         eventHandler.UserJoined += OnClientOnUserJoined;
-        client.RoleDeleted += OnClientRoleDeleted;
+        eventHandler.RoleDeleted += OnClientRoleDeleted;
     }
 
     private async Task OnClientRoleDeleted(SocketRole role)

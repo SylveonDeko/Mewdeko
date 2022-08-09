@@ -11,18 +11,18 @@ public class StarboardService : INService, IReadyExecutor
     private readonly GuildSettingsService _guildSettings;
 
     public StarboardService(DiscordSocketClient client, DbService db,
-        GuildSettingsService bot)
+        GuildSettingsService bot, EventHandler eventHandler)
     {
         _client = client;
         _db = db;
         _guildSettings = bot;
-        _client.ReactionAdded += OnReactionAddedAsync;
-        _client.MessageDeleted += OnMessageDeletedAsync;
-        _client.ReactionRemoved += OnReactionRemoveAsync;
-        _client.ReactionsCleared += OnAllReactionsClearedAsync;
+        eventHandler.ReactionAdded += OnReactionAddedAsync;
+        eventHandler.MessageDeleted += OnMessageDeletedAsync;
+        eventHandler.ReactionRemoved += OnReactionRemoveAsync;
+        eventHandler.ReactionsCleared += OnAllReactionsClearedAsync;
     }
 
-    private List<StarboardPosts> starboardPosts;
+    private List<StarboardPosts> starboardPosts = new();
 
     public Task OnReadyAsync()
     {
@@ -200,12 +200,10 @@ public class StarboardService : INService, IReadyExecutor
     private async Task<ulong> GetStarboardChannel(ulong id)
         => (await _guildSettings.GetGuildConfig(id)).StarboardChannel;
 
-    private Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
+    private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
-        {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
                 || !channel.HasValue
@@ -374,15 +372,10 @@ public class StarboardService : INService, IReadyExecutor
                 var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build()).ConfigureAwait(false);
                 await AddStarboardPost(message.Id, msg.Id).ConfigureAwait(false);
             }
-        });
-
-        return Task.CompletedTask;
     }
 
-    private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
+    private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
     {
-        _ = Task.Run(async () =>
-        {
             if (!reaction.User.IsSpecified
                 || reaction.User.Value.IsBot
                 || !channel.HasValue
@@ -550,8 +543,6 @@ public class StarboardService : INService, IReadyExecutor
                     }
                 }
             }
-        });
-        return Task.CompletedTask;
     }
 
     private async Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
