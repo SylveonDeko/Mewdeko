@@ -1,10 +1,11 @@
-﻿using Mewdeko.Modules.Administration.Common;
+﻿using AngleSharp.Dom.Events;
+using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Collections.Concurrent;
-using System.IO;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -34,7 +35,7 @@ public class ProtectionService : INService
         });
 
     public ProtectionService(DiscordSocketClient client, Mewdeko bot,
-        MuteService mute, DbService db, UserPunishService punishService)
+        MuteService mute, DbService db, UserPunishService punishService, EventHandler eventHandler)
     {
         _client = client;
         _mute = mute;
@@ -56,14 +57,15 @@ public class ProtectionService : INService
             foreach (var gc in configs) Initialize(gc);
         }
 
-        _client.MessageReceived += HandleAntiSpam;
-        _client.UserJoined += HandleUserJoined;
+        eventHandler.MessageReceived += HandleAntiSpam;
+        eventHandler.UserJoined += HandleUserJoined;
 
         bot.JoinedGuild += _bot_JoinedGuild;
         _client.LeftGuild += _client_LeftGuild;
 
         _ = Task.Run(RunQueue);
     }
+    
 
     public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
         = delegate { return Task.CompletedTask; };
@@ -132,7 +134,7 @@ public class ProtectionService : INService
             _antiAltGuilds[gc.GuildId] = new AntiAltStats(alt);
     }
 
-    private Task HandleUserJoined(SocketGuildUser user)
+    private Task HandleUserJoined(IGuildUser user)
     {
         if (user.IsBot)
             return Task.CompletedTask;
@@ -196,7 +198,7 @@ public class ProtectionService : INService
         return Task.CompletedTask;
     }
 
-    private Task HandleAntiSpam(SocketMessage arg)
+    private Task HandleAntiSpam(IMessage arg)
     {
         if (arg is not SocketUserMessage msg
             || msg.Author.IsBot

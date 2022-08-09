@@ -15,6 +15,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
+using EventHandler = Mewdeko.Services.Impl.EventHandler;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -49,7 +50,7 @@ public class CommandHandler : INService
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
-        GuildSettingsService gss)
+        GuildSettingsService gss, EventHandler eventHandler)
     {
         InteractionService = interactionService;
         _gss = gss;
@@ -65,7 +66,7 @@ public class CommandHandler : INService
         InteractionService.ContextCommandExecuted += HandleContextCommands;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
-        _client.MessageReceived += MessageReceivedHandler;
+        eventHandler.MessageReceived += MessageReceivedHandler;
     }
 
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
@@ -451,21 +452,21 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    public Task MessageReceivedHandler(SocketMessage msg)
+    public async Task MessageReceivedHandler(IMessage msg)
     {
         try
         {
             if (msg.Author.IsBot ||
                 !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
             {
-                return Task.CompletedTask;
+                return;
             }
 
             if (msg is not SocketUserMessage usrMsg)
-                return Task.CompletedTask;
+                return;
 
             AddCommandToParseQueue(usrMsg);
-            _ = Task.Run(() => ExecuteCommandsInChannelAsync(usrMsg.Channel.Id));
+            await ExecuteCommandsInChannelAsync(usrMsg.Channel.Id);
         }
         catch (Exception ex)
         {
@@ -473,7 +474,6 @@ public class CommandHandler : INService
             if (ex.InnerException != null)
                 Log.Warning(ex.InnerException, "Inner Exception of the error in CommandHandler");
         }
-        return Task.CompletedTask;
     }
 
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
