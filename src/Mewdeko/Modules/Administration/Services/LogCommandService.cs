@@ -164,7 +164,7 @@ public class LogCommandService : INService
 
     private Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -272,7 +272,7 @@ public class LogCommandService : INService
     }
     private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -315,7 +315,7 @@ public class LogCommandService : INService
 
     private void MuteCommands_UserMuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -354,7 +354,7 @@ public class LogCommandService : INService
 
     private void MuteCommands_UserUnmuted(IGuildUser usr, IUser mod, MuteType muteType, string reason)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -399,7 +399,7 @@ public class LogCommandService : INService
     public Task TriggeredAntiProtection(PunishmentAction action, ProtectionType protection,
         params IGuildUser[] users)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -559,7 +559,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelUpdated(IChannel cbefore, IChannel cafter)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -613,7 +613,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelDestroyed(IChannel ich)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -650,7 +650,7 @@ public class LogCommandService : INService
 
     private Task Client_ChannelCreated(IChannel ich)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -683,7 +683,7 @@ public class LogCommandService : INService
 
     private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -726,7 +726,7 @@ public class LogCommandService : INService
 
     private Task Client_UserLeft(SocketGuild guild, SocketUser user)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -763,7 +763,7 @@ public class LogCommandService : INService
 
     private Task Client_UserJoined(IGuildUser usr)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -804,7 +804,7 @@ public class LogCommandService : INService
 
     private Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -838,7 +838,7 @@ public class LogCommandService : INService
 
     private Task Client_UserBanned(IUser usr, IGuild guild)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -882,7 +882,7 @@ public class LogCommandService : INService
     private Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
         Cacheable<IMessageChannel, ulong> channel)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             if (channel.Value is not ITextChannel chan)
                 return;
@@ -929,7 +929,7 @@ public class LogCommandService : INService
 
     private Task Client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -981,7 +981,7 @@ public class LogCommandService : INService
     private Task Client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
