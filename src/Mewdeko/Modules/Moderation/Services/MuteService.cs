@@ -126,33 +126,33 @@ public class MuteService : INService
     public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
         = new();
 
-    public event Action<IGuildUser, IUser, MuteType, string> UserMuted;
-    public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted;
+    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserMuted;
+    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserUnmuted;
 
-    private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
+    private static async Task OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
     {
         if (string.IsNullOrWhiteSpace(reason))
             return;
 
-        _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
+        await user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been muted in {user.Guild} server")
             .AddField("Mute Type", type.ToString())
             .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
-            .Build()));
+            .Build());
     }
 
-    private void OnUserUnmuted(IGuildUser user, IUser mod, MuteType type, string reason)
+    private static async Task OnUserUnmuted(IGuildUser user, IUser mod, MuteType type, string reason)
     {
         if (string.IsNullOrWhiteSpace(reason))
             return;
 
-        _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
+        await user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been unmuted in {user.Guild} server")
             .AddField("Unmute Type", type.ToString())
             .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
-            .Build()));
+            .Build());
     }
 
     private async Task Client_UserJoined(IGuildUser usr)
