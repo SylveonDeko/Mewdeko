@@ -15,7 +15,6 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -61,7 +60,7 @@ public class CommandHandler : INService
         _bot = bot;
         _db = db;
         _services = services;
-        _client.InteractionCreated += TryRunInteraction;
+        eventHandler.InteractionCreated += TryRunInteraction;
         InteractionService.SlashCommandExecuted += HandleCommands;
         InteractionService.ContextCommandExecuted += HandleContextCommands;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
@@ -272,10 +271,8 @@ public class CommandHandler : INService
         });
         return Task.CompletedTask;
     }
-    private Task TryRunInteraction(SocketInteraction interaction)
+    private async Task TryRunInteraction(SocketInteraction interaction)
     {
-        _ = Task.Run(async () =>
-        {
             var blacklistService = _services.GetService<BlacklistService>();
             var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
                 url: "https://discord.gg/mewdeko").Build();
@@ -313,8 +310,6 @@ public class CommandHandler : INService
 
             var ctx = new SocketInteractionContext(_client, interaction);
             await InteractionService.ExecuteCommandAsync(ctx, _services).ConfigureAwait(false);
-        });
-        return Task.CompletedTask;
     }
 
     public string SetDefaultPrefix(string prefix)

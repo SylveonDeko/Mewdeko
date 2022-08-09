@@ -28,7 +28,7 @@ public class FilterService : IEarlyBehavior, INService
 
     public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
-        GuildSettingsService gss)
+        GuildSettingsService gss, EventHandler eventHandler)
     {
         _db = db;
         _client = client;
@@ -75,7 +75,7 @@ public class FilterService : IEarlyBehavior, INService
                     gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
         }
 
-        client.MessageUpdated += (oldData, newMsg, channel) =>
+        eventHandler.MessageUpdated += (oldData, newMsg, channel) =>
         {
             _ = Task.Run(() =>
             {

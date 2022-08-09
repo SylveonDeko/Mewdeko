@@ -9,19 +9,17 @@ public class GameVoiceChannelService : INService
     private readonly GuildSettingsService _guildSettings;
 
     public GameVoiceChannelService(DiscordSocketClient client, DbService db,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _db = db;
         _guildSettings = guildSettings;
 
-        client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
-        client.GuildMemberUpdated += _client_GuildMemberUpdated;
+        eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+        eventHandler.GuildMemberUpdated += _client_GuildMemberUpdated;
     }
 
-    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
+    private async Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 if (after is null)
@@ -44,8 +42,6 @@ public class GameVoiceChannelService : INService
             {
                 Log.Warning(ex, "Error running GuildMemberUpdated in gvc");
             }
-        });
-        return Task.CompletedTask;
     }
 
     public async Task<ulong?> ToggleGameVoiceChannel(ulong guildId, ulong vchId)
@@ -70,10 +66,8 @@ public class GameVoiceChannelService : INService
         return id;
     }
 
-    private Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)
+    private async Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 if (usr is not SocketGuildUser gUser)
@@ -99,9 +93,6 @@ public class GameVoiceChannelService : INService
             {
                 Log.Warning(ex, "Error running VoiceStateUpdate in gvc");
             }
-        });
-
-        return Task.CompletedTask;
     }
 
     private static async Task TriggerGvc(SocketGuildUser gUser, string game)

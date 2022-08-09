@@ -1,11 +1,6 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using System.Threading.Tasks;
 using static Mewdeko.Modules.Administration.Services.LogCommandService;

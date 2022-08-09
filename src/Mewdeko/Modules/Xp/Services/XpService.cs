@@ -1,3 +1,4 @@
+using AngleSharp.Dom.Events;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;
@@ -32,6 +33,7 @@ public class XpService : INService, IUnloadableService
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmd;
     private readonly IBotCredentials _creds;
+    private readonly EventHandler _eventHandler;
 
     private readonly DbService _db;
 
@@ -63,7 +65,7 @@ public class XpService : INService, IUnloadableService
         IHttpClientFactory http,
         XpConfigService xpConfig,
         Mewdeko bot,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache, EventHandler eventHandler)
     {
         _db = db;
         _cmd = cmd;
@@ -76,6 +78,7 @@ public class XpService : INService, IUnloadableService
         _xpConfig = xpConfig;
         _bot = bot;
         _memoryCache = memoryCache;
+        _eventHandler = eventHandler;
         _excludedServers = new ConcurrentHashSet<ulong>();
         _excludedChannels = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
         _client = client;
@@ -111,7 +114,7 @@ public class XpService : INService, IUnloadableService
         _cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
 #if !GLOBAL_Mewdeko
-        _client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
+        eventHandler.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         // Scan guilds on startup.
         _client.GuildAvailable += Client_OnGuildAvailable;
@@ -128,7 +131,7 @@ public class XpService : INService, IUnloadableService
     public Task Unload()
     {
         _cmd.OnMessageNoTrigger -= Cmd_OnMessageNoTrigger;
-        _client.UserVoiceStateUpdated -= Client_OnUserVoiceStateUpdated;
+        _eventHandler.UserVoiceStateUpdated -= Client_OnUserVoiceStateUpdated;
         _client.GuildAvailable -= Client_OnGuildAvailable;
         return Task.CompletedTask;
     }

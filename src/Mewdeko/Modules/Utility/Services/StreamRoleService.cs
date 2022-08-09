@@ -11,14 +11,14 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class StreamRoleService : INService, IUnloadableService
 {
-    private readonly DiscordSocketClient _client;
+    private readonly EventHandler eventHandler;
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, StreamRoleSettings> _guildSettings;
 
-    public StreamRoleService(DiscordSocketClient client, DbService db)
+    public StreamRoleService(DiscordSocketClient client, DbService db, EventHandler eventHandler)
     {
         _db = db;
-        _client = client;
+        this.eventHandler = eventHandler;
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         _guildSettings = gc
@@ -26,13 +26,13 @@ public class StreamRoleService : INService, IUnloadableService
             .Where(x => x.Value != null && x.Value.Enabled)
             .ToConcurrent();
 
-        _client.GuildMemberUpdated += Client_GuildMemberUpdated;
+        eventHandler.GuildMemberUpdated += Client_GuildMemberUpdated;
 
         _ = Task.Run(async () =>
         {
             try
             {
-                await Task.WhenAll(client.Guilds.Select(g => RescanUsers(g))).ConfigureAwait(false);
+                await Task.WhenAll(client.Guilds.Select(RescanUsers)).ConfigureAwait(false);
             }
             catch
             {
@@ -43,7 +43,7 @@ public class StreamRoleService : INService, IUnloadableService
 
     public Task Unload()
     {
-        _client.GuildMemberUpdated -= Client_GuildMemberUpdated;
+        eventHandler.GuildMemberUpdated -= Client_GuildMemberUpdated;
         return Task.CompletedTask;
     }
 

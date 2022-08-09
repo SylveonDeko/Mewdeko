@@ -10,15 +10,18 @@ public class CurrencyEventsService : INService
     private readonly DiscordSocketClient _client;
     private readonly GamblingConfigService _configService;
     private readonly ICurrencyService _cs;
+    private readonly EventHandler _eventHandler;
 
     private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
         new();
 
-    public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService configService)
+    public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService configService,
+        EventHandler eventHandler)
     {
         _client = client;
         _cs = cs;
         _configService = configService;
+        _eventHandler = eventHandler;
     }
 
     public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, CurrencyEvent.Type type,
@@ -36,26 +39,24 @@ public class CurrencyEventsService : INService
                 ce = new ReactionEvent(_client, _cs, g, ch, opts, _configService.Data, embed);
                 break;
             case CurrencyEvent.Type.GameStatus:
-                ce = new GameStatusEvent(_client, _cs, g, ch, opts, embed);
+                ce = new GameStatusEvent(_client, _cs, g, ch, opts, embed, _eventHandler);
                 break;
             default:
                 return false;
         }
 
         var added = _events.TryAdd(guildId, ce);
-        if (added)
+        if (!added) return added;
+        try
         {
-            try
-            {
-                ce.OnEnded += OnEventEnded;
-                await ce.StartEvent().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error starting event");
-                _events.TryRemove(guildId, out ce);
-                return false;
-            }
+            ce.OnEnded += OnEventEnded;
+            await ce.StartEvent().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Error starting event");
+            _events.TryRemove(guildId, out ce);
+            return false;
         }
 
         return added;
