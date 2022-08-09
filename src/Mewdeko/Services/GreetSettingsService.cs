@@ -4,7 +4,6 @@ using Mewdeko.Services.Settings;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using EventHandler = Mewdeko.Services.Impl.EventHandler;
 
 namespace Mewdeko.Services;
 
@@ -36,7 +35,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         client.JoinedGuild += Bot_JoinedGuild;
         _client.LeftGuild += Client_LeftGuild;
 
-        _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
+        eventHandler.GuildMemberUpdated += ClientOnGuildMemberUpdated;
     }
     
     private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> _greetDmQueue =

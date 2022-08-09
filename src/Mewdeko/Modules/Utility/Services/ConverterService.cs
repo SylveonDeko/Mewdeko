@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
@@ -77,7 +78,7 @@ public class ConverterService : INService, IUnloadableService
 
                 var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());
                 _cache.Redis.GetDatabase()
-                    .StringSet("converter_units", data);
+                    .StringSet("converter_units", data,  flags: CommandFlags.FireAndForget);
             }
         }
         catch

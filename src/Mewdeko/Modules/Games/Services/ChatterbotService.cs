@@ -22,7 +22,7 @@ public class ChatterBotService : INService
     public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
         IBotCredentials creds, DbService db,
         BlacklistService blacklistService,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         _db = db;
         _blacklistService = blacklistService;
@@ -30,7 +30,7 @@ public class ChatterBotService : INService
         _client = client;
         _creds = creds;
         _httpFactory = factory;
-        _client.MessageReceived += MessageRecieved;
+        eventHandler.MessageReceived += MessageRecieved;
     }
 
     public static int Priority => -1;

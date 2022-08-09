@@ -19,6 +19,7 @@ public class ReactionEvent : ICurrencyEvent
     private readonly IGuild _guild;
     private readonly bool _isPotLimited;
     private readonly bool _noRecentlyJoinedServer;
+    private readonly EventHandler _eventHandler;
     private readonly EventOptions _opts;
     private readonly Timer _t;
     private readonly Timer _timeout;
@@ -65,8 +66,8 @@ public class ReactionEvent : ICurrencyEvent
             emote = new Emoji(_config.Currency.Sign);
         msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
         await msg.AddReactionAsync(emote).ConfigureAwait(false);
-        _client.MessageDeleted += OnMessageDeleted;
-        _client.ReactionAdded += HandleReaction;
+        _eventHandler.MessageDeleted += OnMessageDeleted;
+        _eventHandler.ReactionAdded += HandleReaction;
         _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
@@ -78,8 +79,8 @@ public class ReactionEvent : ICurrencyEvent
             if (Stopped)
                 return;
             Stopped = true;
-            _client.MessageDeleted -= OnMessageDeleted;
-            _client.ReactionAdded -= HandleReaction;
+            _eventHandler.MessageDeleted -= OnMessageDeleted;
+            _eventHandler.ReactionAdded -= HandleReaction;
             _t.Change(Timeout.Infinite, Timeout.Infinite);
             _timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
