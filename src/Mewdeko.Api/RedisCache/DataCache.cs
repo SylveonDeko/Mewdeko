@@ -88,7 +88,7 @@ public class RedisCache
     public Task AddIgnoredUsers(ulong guildId, ulong userId, string ignored)
     {
         var db = Redis.GetDatabase();
-        db.StringSet($"{_redisKey}_ignoredchannels_{guildId}_{userId}", ignored);
+        db.StringSet($"{_redisKey}_ignoredchannels_{guildId}_{userId}", ignored,  flags: CommandFlags.FireAndForget);
         return Task.CompletedTask;
     }
     
@@ -293,7 +293,7 @@ public class RedisCache
                 return default;
 
             await db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
-                expiry).ConfigureAwait(false);
+                expiry,  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
             return obj;
         }
@@ -322,7 +322,7 @@ public class RedisCache
     public Task SetStreamDataAsync(string url, string data)
     {
         var db = Redis.GetDatabase();
-        return db.StringSetAsync($"{_redisKey}_stream_{url}", data, TimeSpan.FromHours(6));
+        return db.StringSetAsync($"{_redisKey}_stream_{url}", data, TimeSpan.FromHours(6),  flags: CommandFlags.FireAndForget);
     }
 
     public bool TryGetStreamData(string url, out string dataStr)

@@ -10,12 +10,12 @@ public class VcRoleService : INService
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
 
-    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
+    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db, EventHandler eventHandler)
     {
         _db = db;
         _client = client;
 
-        _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
+        eventHandler.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
         VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
         ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
 

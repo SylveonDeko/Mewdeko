@@ -17,14 +17,14 @@ public class MusicService : INService
     private readonly LavalinkNode _lavaNode;
     private readonly IBotCredentials _creds;
 
-    public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, DiscordSocketClient client)
+    public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, DiscordSocketClient client, EventHandler eventHandler)
     {
         _lavaNode = lavaNode;
         _creds = creds;
         _db = db;
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
         Queues = new ConcurrentDictionary<ulong, List<LavalinkTrack>>();
-        client.UserVoiceStateUpdated += HandleDisconnect;
+        eventHandler.UserVoiceStateUpdated += HandleDisconnect;
     }
 
     public async Task<string> GetPrettyInfo(LavalinkPlayer player, IGuild guild)
