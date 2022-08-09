@@ -1,4 +1,3 @@
-using AngleSharp.Dom.Events;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;

@@ -6,15 +6,24 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "DiscordChatExporter.Cli/2.34.1": {
+      "DiscordChatExporter.Cli/2.35": {
         "dependencies": {
           "CliFx": "2.2.5",
-          "DiscordChatExporter.Core": "2.34.1",
+          "DiscordChatExporter.Core": "2.35.0",
+          "DotnetRuntimeBootstrapper": "2.3.1",
           "Gress": "2.0.1",
           "Spectre.Console": "0.44.0"
         },
         "runtime": {
           "DiscordChatExporter.Cli.dll": {}
+        }
+      },
+      "AdvancedStringBuilder/0.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/AdvancedStringBuilder.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
+          }
         }
       },
       "CliFx/2.2.5": {
@@ -25,6 +34,7 @@
           }
         }
       },
+      "DotnetRuntimeBootstrapper/2.3.1": {},
       "Gress/2.0.1": {
         "runtime": {
           "lib/netstandard2.0/Gress.dll": {
@@ -78,13 +88,25 @@
           }
         }
       },
-      "DiscordChatExporter.Core/2.34.1": {
+      "WebMarkupMin.Core/2.9.0": {
+        "dependencies": {
+          "AdvancedStringBuilder": "0.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/WebMarkupMin.Core.dll": {
+            "assemblyVersion": "2.9.0.0",
+            "fileVersion": "2.9.0.0"
+          }
+        }
+      },
+      "DiscordChatExporter.Core/2.35.0": {
         "dependencies": {
           "Gress": "2.0.1",
           "JsonExtensions": "1.2.0",
           "MiniRazor.CodeGen": "2.2.1",
           "Polly": "7.2.3",
-          "Superpower": "3.0.0"
+          "Superpower": "3.0.0",
+          "WebMarkupMin.Core": "2.9.0"
         },
         "runtime": {
           "DiscordChatExporter.Core.dll": {}
@@ -93,10 +115,17 @@
     }
   },
   "libraries": {
-    "DiscordChatExporter.Cli/2.34.1": {
+    "DiscordChatExporter.Cli/2.35": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AdvancedStringBuilder/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IbN3r5whlJvi8MhCDPVpIb+NVScyUcKSdcJZrnoXFDyzPDISl3AbWouNBYIHRdZdfGuzqCQEhM1vkxbIKqQVaQ==",
+      "path": "advancedstringbuilder/0.1.0",
+      "hashPath": "advancedstringbuilder.0.1.0.nupkg.sha512"
     },
     "CliFx/2.2.5": {
       "type": "package",
@@ -104,6 +133,13 @@
       "sha512": "sha512-OzdNKf2bOVV1JiyYAzgYeLTJ5tChlFymie71BdNkOLP1Y3BpARCZkO6TAN2wie4LI+UIFx3k55Il/2L8XiBpug==",
       "path": "clifx/2.2.5",
       "hashPath": "clifx.2.2.5.nupkg.sha512"
+    },
+    "DotnetRuntimeBootstrapper/2.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LyvTTI+UtD17XmrcOFB7ZhpQonKZPHqC7Q9Q3/ZlmWcmG205Zni+7W7n5eDvXYVlLLOEhfJUDc7j0bD6lhwa1Q==",
+      "path": "dotnetruntimebootstrapper/2.3.1",
+      "hashPath": "dotnetruntimebootstrapper.2.3.1.nupkg.sha512"
     },
     "Gress/2.0.1": {
       "type": "package",
@@ -154,7 +190,14 @@
       "path": "superpower/3.0.0",
       "hashPath": "superpower.3.0.0.nupkg.sha512"
     },
-    "DiscordChatExporter.Core/2.34.1": {
+    "WebMarkupMin.Core/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FlEMQbamh/L6nYa4A7coH0X3G6IynOM7q+/3Wub7Y4DVGyOEXHQbUHkvJ61RXtFnT9tagfzsn1iiSm3VoOumzw==",
+      "path": "webmarkupmin.core/2.9.0",
+      "hashPath": "webmarkupmin.core.2.9.0.nupkg.sha512"
+    },
+    "DiscordChatExporter.Core/2.35.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
