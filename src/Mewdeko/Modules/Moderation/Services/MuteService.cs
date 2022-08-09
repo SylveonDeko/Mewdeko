@@ -29,7 +29,7 @@ public class MuteService : INService
 
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    public string[] Uroles;
+    public string[] Uroles = Array.Empty<string>();
     private readonly GuildSettingsService _guildSettings;
 
     public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler)
@@ -219,14 +219,14 @@ public class MuteService : INService
                     await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
                     StopTimer(usr.GuildId, usr.Id, TimerType.Mute);
 
-                    UserMuted(usr, mod, MuteType.All, reason);
+                    await UserMuted(usr, mod, MuteType.All, reason);
                     break;
                 }
             case MuteType.Voice:
                 try
                 {
                     await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false);
-                    UserMuted(usr, mod, MuteType.Voice, reason);
+                    await UserMuted(usr, mod, MuteType.Voice, reason);
                 }
                 catch
                 {
@@ -236,7 +236,7 @@ public class MuteService : INService
                 break;
             case MuteType.Chat:
                 await usr.AddRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                UserMuted(usr, mod, MuteType.Chat, reason);
+                await UserMuted(usr, mod, MuteType.Chat, reason);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -342,7 +342,7 @@ public class MuteService : INService
                             /*ignore*/
                         }
 
-                        UserUnmuted(usr, mod, MuteType.All, reason);
+                        await UserUnmuted(usr, mod, MuteType.All, reason);
                     }
 
                     break;
@@ -353,7 +353,7 @@ public class MuteService : INService
                 try
                 {
                     await usr.ModifyAsync(x => x.Mute = false).ConfigureAwait(false);
-                    UserUnmuted(usr, mod, MuteType.Voice, reason);
+                    await UserUnmuted(usr, mod, MuteType.Voice, reason);
                 }
                 catch
                 {
@@ -365,7 +365,7 @@ public class MuteService : INService
                 return;
             case MuteType.Chat:
                 await usr.RemoveRoleAsync(await GetMuteRole(usr.Guild).ConfigureAwait(false)).ConfigureAwait(false);
-                UserUnmuted(usr, mod, MuteType.Chat, reason);
+                await UserUnmuted(usr, mod, MuteType.Chat, reason);
                 break;
         }
     }

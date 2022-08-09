@@ -4,7 +4,6 @@ using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -15,9 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
-using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.OwnerOnly;
 [OwnerOnly]
@@ -112,75 +109,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                             g.OwnerId))
                     .WithIsInline(false))))
             .ConfigureAwait(false);
-    }
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public async Task SaveChat(StoopidTime time, ITextChannel? channel = null)
-    {
-        if (!Directory.Exists(_credentials.ChatSavePath))
-        {
-            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.").ConfigureAwait(false);
-            return;
-        }
-        var secureString = StringExtensions.GenerateSecureString(10);
-        try
-        {
-            Directory.CreateDirectory($"{_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}");
-        }
-        catch (Exception ex)
-        {
-            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}").ConfigureAwait(false);
-            return;
-        }
-        if (time.Time.Days > 3)
-        {
-            await ctx.Channel.SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.").ConfigureAwait(false);
-            return;
-        }
-        using var process = new Process();
-        process.StartInfo = new ProcessStartInfo
-        {
-            Arguments = $"../ChatExporter/DiscordChatExporter.Cli.dll export -t {_credentials.Token} -c {channel?.Id ?? ctx.Channel.Id} --after {DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH:mm:ssZ} --output \"{_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html\" --media true",
-            FileName = "dotnet",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            CreateNoWindow = true
-        };
-        using (ctx.Channel.EnterTypingState())
-        {
-            process.Start();
-
-            // Synchronously read the standard output of the spawned process.
-            var reader = process.StandardOutput;
-
-            var output = await reader.ReadToEndAsync().ConfigureAwait(false);
-            if (output.Length > 2000)
-            {
-                var chunkSize = 1988;
-                var stringLength = output.Length;
-                for (var i = 0; i < stringLength; i += chunkSize)
-                {
-                    if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```").ConfigureAwait(false);
-                    await process.WaitForExitAsync().ConfigureAwait(false);
-                }
-            }
-            else if (string.IsNullOrEmpty(output))
-            {
-                await ctx.Channel.SendMessageAsync("```The output was blank```").ConfigureAwait(false);
-            }
-            else
-            {
-                await ctx.Channel.SendMessageAsync($"```bash\n{output}```").ConfigureAwait(false);
-            }
-        }
-
-        await process.WaitForExitAsync().ConfigureAwait(false);
-        if (_credentials.ChatSavePath.Contains("/usr/share/nginx/cdn"))
-            await ctx.User.SendConfirmAsync(
-                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html").ConfigureAwait(false);
-        else
-            await ctx.Channel.SendConfirmAsync($"Your chat log is here: {_credentials.ChatSavePath}/{ctx.Guild.Id}/{secureString}").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
