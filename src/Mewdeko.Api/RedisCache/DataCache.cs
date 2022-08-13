@@ -19,7 +19,7 @@ public class RedisCache
     public RedisCache(IBotCredentials creds)
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
-
+        conf.SocketManager = SocketManager.ThreadPool;
         Redis = ConnectionMultiplexer.Connect(conf);
         _redisEndpoint = Redis.GetEndPoints().First();
         _redisKey = creds.RedisKey();
