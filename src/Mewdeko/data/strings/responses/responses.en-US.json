@@ -24,7 +24,7 @@
     "afk_rm_success": "Afk removed for {0}",
     "afk_type_set": "Afk removal type set to `{0}`.",
     "afk_enabled_no_message": "Afk has been enabled.",
-    "afk_enabled": "Afk enabled and set to:\n\n{0}\n\nInvite me at https://top.gg/bot/752236274261426212",
+    "afk_enabled": "Afk enabled and set to:\n\n{0}",
     "afk_message_too_long": "That message is too long! The maximum message length here is `{0}`.",
     "afk_disabled": "Afk disabled.",
     "afk_still_starting": "Hold your horses I just started back up! Give me a few seconds then this command will be ready!\\nIn the meantime check out https://github.com/Sylveon76/Mewdeko/releases for bot updates!",
