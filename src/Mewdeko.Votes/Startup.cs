@@ -18,6 +18,7 @@ public class Startup
     {
         Credentials = new BotCredentials();
         var conf = ConfigurationOptions.Parse(Credentials.RedisOptions);
+        conf.SocketManager = SocketManager.ThreadPool;
         Redis = ConnectionMultiplexer.Connect(conf);
         Configuration = configuration;
     }
