@@ -31,7 +31,7 @@ public class EventHandler
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
     public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
-    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>> UserIsTyping;
+    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
 
 
     public EventHandler(DiscordSocketClient client)
@@ -58,123 +58,143 @@ public class EventHandler
         client.UserIsTyping += ClientOnUserIsTyping;
     }
 
-    private async Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    private Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         if (UserIsTyping is not null)
-            await UserIsTyping(arg1, arg2);
+            _ = UserIsTyping(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnInteractionCreated(SocketInteraction arg)
+    private Task ClientOnInteractionCreated(SocketInteraction arg)
     {
         if (InteractionCreated is not null)
-            await InteractionCreated(arg);
+            _ = InteractionCreated(arg);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnReactionsCleared(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    private Task ClientOnReactionsCleared(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         if (ReactionsCleared is not null)
-            await ReactionsCleared(arg1, arg2);
+            _ = ReactionsCleared(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
         if (ReactionRemoved is not null)
-            await ReactionAdded(arg1, arg2, arg3);
+            _ = ReactionAdded(arg1, arg2, arg3);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
         if (ReactionAdded is not null)
-            await ReactionAdded(arg1, arg2, arg3);
+            _ = ReactionAdded(arg1, arg2, arg3);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnRoleDeleted(SocketRole arg)
+    private Task ClientOnRoleDeleted(SocketRole arg)
     {
         if (RoleDeleted is not null)
-            await RoleDeleted(arg);
+            _ = RoleDeleted(arg);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnChannelUpdated(SocketChannel arg1, SocketChannel arg2)
+    private Task ClientOnChannelUpdated(SocketChannel arg1, SocketChannel arg2)
     {
         if (ChannelUpdated is not null)
-            await ChannelUpdated(arg1, arg2);
+            _ = ChannelUpdated(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnChannelDestroyed(SocketChannel arg)
+    private Task ClientOnChannelDestroyed(SocketChannel arg)
     {
         if (ChannelDestroyed is not null)
-            await ChannelDestroyed(arg);
+            _ = ChannelDestroyed(arg);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnChannelCreated(SocketChannel arg)
+    private Task ClientOnChannelCreated(SocketChannel arg)
     {
         if (ChannelCreated is not null)
-            await ChannelCreated(arg);
+            _ = ChannelCreated(arg);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserUpdated(SocketUser arg1, SocketUser arg2)
+    private Task ClientOnUserUpdated(SocketUser arg1, SocketUser arg2)
     {
         if (UserUpdated is not null)
-            await UserUpdated(arg1, arg2);
+            _ = UserUpdated(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserVoiceStateUpdated(SocketUser arg1, SocketVoiceState arg2, SocketVoiceState arg3)
+    private Task ClientOnUserVoiceStateUpdated(SocketUser arg1, SocketVoiceState arg2, SocketVoiceState arg3)
     {
         if (UserVoiceStateUpdated is not null)
-            await UserVoiceStateUpdated(arg1, arg2, arg3);
+            _ = UserVoiceStateUpdated(arg1, arg2, arg3);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserUnbanned(SocketUser arg1, SocketGuild arg2)
+    private Task ClientOnUserUnbanned(SocketUser arg1, SocketGuild arg2)
     {
         if (UserUnbanned is not null)
-            await UserBanned(arg1, arg2);
+            _ = UserBanned(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserBanned(SocketUser arg1, SocketGuild arg2)
+    private Task ClientOnUserBanned(SocketUser arg1, SocketGuild arg2)
     {
         if (UserBanned is not null)
-            await UserBanned(arg1, arg2);
+            _ = UserBanned(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnMessagesBulkDeleted(IReadOnlyCollection<Cacheable<IMessage, ulong>> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    private Task ClientOnMessagesBulkDeleted(IReadOnlyCollection<Cacheable<IMessage, ulong>> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         if (MessagesBulkDeleted is not null)
-            await MessagesBulkDeleted(arg1, arg2);
+            _ = MessagesBulkDeleted(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnMessageUpdated(Cacheable<IMessage, ulong> arg1, SocketMessage arg2, ISocketMessageChannel arg3)
+    private Task ClientOnMessageUpdated(Cacheable<IMessage, ulong> arg1, SocketMessage arg2, ISocketMessageChannel arg3)
     {
         if (MessageUpdated is not null)
-            await MessageUpdated(arg1, arg2, arg3);
+            _ = MessageUpdated(arg1, arg2, arg3);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> arg1, SocketGuildUser arg2)
+    private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> arg1, SocketGuildUser arg2)
     {
         if (GuildMemberUpdated is not null)
-            await GuildMemberUpdated(arg1, arg2);
+            _ = GuildMemberUpdated(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnMessageDeleted(Cacheable<IMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    private Task ClientOnMessageDeleted(Cacheable<IMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         if (MessageDeleted is not null)
-            await MessageDeleted(arg1, arg2);
+            _ = MessageDeleted(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserLeft(SocketGuild arg1, SocketUser arg2)
+    private Task ClientOnUserLeft(SocketGuild arg1, SocketUser arg2)
     {
         if (UserLeft is not null)
-            await UserLeft(arg1, arg2);
+            _ = UserLeft(arg1, arg2);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnUserJoined(SocketGuildUser arg)
+    private Task ClientOnUserJoined(SocketGuildUser arg)
     {
         if (UserJoined is not null)
-            await UserJoined(arg);
+            _ = UserJoined(arg);
+        return Task.CompletedTask;
     }
 
-    private async Task ClientOnMessageReceived(SocketMessage arg)
+    private Task ClientOnMessageReceived(SocketMessage arg)
     {
         if (MessageReceived is not null)
-            await MessageReceived(arg);
+            _ = MessageReceived(arg);
+        return Task.CompletedTask;
     }
 }
