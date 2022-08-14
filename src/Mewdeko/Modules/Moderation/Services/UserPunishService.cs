@@ -441,6 +441,17 @@ WHERE GuildId={guildId}
             defaultMessage,
             banReason,
             duration);
+    
+    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context, IGuildUser target, string? defaultMessage,
+        string? banReason, TimeSpan? duration) =>
+        GetBanUserDmEmbed(
+            (DiscordSocketClient)context.Client,
+            (SocketGuild)context.Guild,
+            (IGuildUser)context.User,
+            target,
+            defaultMessage,
+            banReason,
+            duration);
 
     public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)

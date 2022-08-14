@@ -20,7 +20,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         _client = client;
     }
 
-    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions]
+    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Afk(string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
@@ -376,6 +376,8 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task AfkRemove(IGuildUser user)
     {
+        if (!await CheckRoleHierarchy(user))
+            return;
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);

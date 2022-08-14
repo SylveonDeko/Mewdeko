@@ -56,7 +56,7 @@ public static class WaifuExtensions
                          ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
                          Username = x.Waifu.Username,
                          Discrim = x.Waifu.Discriminator,
-                         Price = x.Price,
+                         Price = x.Price
                      })
                      .ToListAsyncEF();
     }

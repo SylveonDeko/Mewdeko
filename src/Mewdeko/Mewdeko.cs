@@ -43,7 +43,6 @@ public class Mewdeko
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
         _db = new DbService(Credentials.TotalShards);
-        _guildSettingsService = new GuildSettingsService(_db, null);
         
 
         if (shardId == 0) _db.Setup();
@@ -58,8 +57,8 @@ public class Mewdeko
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
             FormatUsersInBidirectionalUnicode = false,
-            UseInteractionSnowflakeDate = true,
-            
+            UseInteractionSnowflakeDate = true
+
 
         });
         CommandService = new CommandService(new CommandServiceConfig
@@ -71,7 +70,6 @@ public class Mewdeko
     }
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
-    private readonly GuildSettingsService _guildSettingsService;
     private CommandService CommandService { get; }
 
     public static Color OkColor { get; set; }
@@ -92,27 +90,23 @@ public class Mewdeko
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
 
-        using (var uow = _db.GetDbContext())
-        {
-            foreach (var config in (IEnumerable<GuildConfig>)uow.GuildConfigs.All().Where(x => Client.Guilds.Select(socketguild => socketguild.Id).Contains(x.GuildId)))
-            {
-                _guildSettingsService.UpdateGuildConfig(config.GuildId, config);
-            }
-            uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
-            gs2.Stop();
-            Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
-        }
+        using var uow = _db.GetDbContext();
+        var guildSettingsService = new GuildSettingsService(_db, null, Client);
+        uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
+        gs2.Stop();
+        Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
 
         var s = new ServiceCollection()
                 .AddSingleton<IBotCredentials>(Credentials)
                 .AddSingleton(_db)
                 .AddSingleton(Client)
-                .AddSingleton(new Services.Impl.EventHandler(Client))
+                .AddSingleton(new EventHandler(Client))
                 .AddSingleton(CommandService)
                 .AddSingleton(this)
                 .AddSingleton(Cache)
                 .AddSingleton(new MartineApi())
                 .AddSingleton(Cache.Redis)
+                .AddSingleton(guildSettingsService)
                 .AddTransient<ISeria, JsonSeria>()
                 .AddTransient<IPubSub, RedisPubSub>()
                 .AddTransient<IConfigSeria, YamlSeria>()
@@ -133,7 +127,7 @@ public class Mewdeko
                     Password = "Hope4a11",
                     WebSocketUri = "ws://127.0.0.1:2333",
                     RestUri = "http://127.0.0.1:2333",
-                    DisconnectOnStop = false,
+                    DisconnectOnStop = false
                 })
                 .AddTransient<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>()

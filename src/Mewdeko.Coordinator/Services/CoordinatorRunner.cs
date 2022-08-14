@@ -188,7 +188,7 @@ public sealed class CoordinatorRunner : BackgroundService
             LastUpdate = DateTime.UtcNow,
             State = ConnState.Disconnected,
             ShouldRestart = false,
-            StateCounter = 0,
+            StateCounter = 0
         };
     }
 
@@ -259,7 +259,7 @@ public sealed class CoordinatorRunner : BackgroundService
             shardStatuses[shardId] = shardStatuses[shardId] with
             {
                 ShouldRestart = true,
-                StateCounter = 0,
+                StateCounter = 0
             };
         }
     }
@@ -294,7 +294,7 @@ public sealed class CoordinatorRunner : BackgroundService
                         ShouldRestart = true,
                         LastUpdate = DateTime.UtcNow,
                         State = ConnState.Disconnected,
-                        StateCounter = 0,
+                        StateCounter = 0
                     };
                 }
             }
@@ -317,7 +317,7 @@ public sealed class CoordinatorRunner : BackgroundService
         };
         var jsonState = JsonSerializer.Serialize(coordState, new JsonSerializerOptions
         {
-            WriteIndented = true,
+            WriteIndented = true
         });
         File.WriteAllText(GRACEFUL_STATE_PATH, jsonState);
     }

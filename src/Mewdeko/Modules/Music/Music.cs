@@ -768,7 +768,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 else
                 {
                     var artworkService = new ArtworkService();
-                    var art = new Uri(null);
+                    Uri art = null;
                     try
                     {
                         art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);

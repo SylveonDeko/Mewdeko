@@ -72,9 +72,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         {
             var input = await GetButtonInputAsync(msg.Channel.Id, msg.Id, userid).ConfigureAwait(false);
 
-            if (input != "Yes") return false;
-
-            return true;
+            return input == "Yes";
         }
         finally
         {
@@ -82,6 +80,29 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
                 _ = Task.Run(async () => await msg.DeleteAsync().ConfigureAwait(false));
         }
     }
+    public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
+    {
+
+        var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
+        var ownerId = Context.Guild.OwnerId;
+        var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
+        var targetMaxRole = target.GetRoles().Max(r => r.Position);
+        var botMaxRole = curUser.GetRoles().Max(r => r.Position);
+        // bot can't punish a user who is higher in the hierarchy. Discord will return 403
+        // moderator can be owner, in which case role hierarchy doesn't matter
+        // otherwise, moderator has to have a higher role
+        if (botMaxRole > targetMaxRole
+            && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
+            && target.Id != ownerId)
+        {
+            return true;
+        }
+
+        if (displayError)
+            await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
+        return false;
+    }
+    
 
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
