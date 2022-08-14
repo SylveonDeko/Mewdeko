@@ -21,7 +21,7 @@ public class OwoServices
         { "penis", "peepee" },
         { "damn", "darn" },
         { "cuddle", "cudwle" },
-        { "cuddles", "cudwles" },
+        { "cuddles", "cudwles" }
     };
 
     public static readonly string[] Prefixes =

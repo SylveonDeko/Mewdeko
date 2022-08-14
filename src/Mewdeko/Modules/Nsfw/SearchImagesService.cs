@@ -207,7 +207,7 @@ public class SearchImagesService : ISearchImagesService, INService
             return new UrlReply
             {
                 Error = "",
-                Url = $"http://media.oboobs.ru/{obj["preview"]}",
+                Url = $"http://media.oboobs.ru/{obj["preview"]}"
             };
         }
         catch (Exception ex)
@@ -216,7 +216,7 @@ public class SearchImagesService : ISearchImagesService, INService
             return new UrlReply
             {
                 Error = ex.Message,
-                Url = "",
+                Url = ""
             };
         }
     }
@@ -269,7 +269,7 @@ public class SearchImagesService : ISearchImagesService, INService
             return new UrlReply
             {
                 Error = "",
-                Url = $"http://media.obutts.ru/{obj["preview"]}",
+                Url = $"http://media.obutts.ru/{obj["preview"]}"
             };
         }
         catch (Exception ex)
@@ -278,7 +278,7 @@ public class SearchImagesService : ISearchImagesService, INService
             return new UrlReply
             {
                 Error = ex.Message,
-                Url = "",
+                Url = ""
             };
         }
     }

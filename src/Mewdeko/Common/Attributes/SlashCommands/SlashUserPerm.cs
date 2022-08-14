@@ -15,13 +15,22 @@ public class SlashUserPermAttribute : PreconditionAttribute
 
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 
-    public override Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo command,
+    public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo command,
         IServiceProvider services)
     {
         var permService = services.GetService<DiscordPermOverrideService>();
         Debug.Assert(permService != null, $"{nameof(permService)} != null");
-        return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName.ToUpperInvariant(), out var _)
-            ? Task.FromResult(PreconditionResult.FromSuccess())
-            : UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
+        if (permService.TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName.ToUpperInvariant(), out var a))
+        {
+            var user = await context.Guild.GetUserAsync(context.User.Id);
+            Debug.Assert(a != null, nameof(a) + " != null");
+            if (!user.GuildPermissions.Has((GuildPermission)a))
+                return PreconditionResult.FromError($"You need the `{a}` permission to use this command.");
+        }
+        else
+        {
+            return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
+        }
+        return PreconditionResult.FromSuccess();
     }
 }

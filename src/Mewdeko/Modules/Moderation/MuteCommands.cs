@@ -14,23 +14,10 @@ public partial class Moderation
     [Group]
     public class MuteCommands : MewdekoSubmodule<MuteService>
     {
-        private async Task<bool> VerifyMutePermissions(IGuildUser runnerUser, IGuildUser targetUser)
-        {
-            var runnerUserRoles = runnerUser.GetRoles();
-            var targetUserRoles = targetUser.GetRoles();
-            if (runnerUser.Id == ctx.Guild.OwnerId ||
-                runnerUserRoles.Max(x => x.Position) > targetUserRoles.Max(x => x.Position))
-            {
-                return true;
-            }
-
-            await ReplyErrorLocalizedAsync("mute_perms").ConfigureAwait(false);
-            return false;
-        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
-        public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time).ConfigureAwait(false);
+        public async Task Stfu(StoopidTime time, IGuildUser user) => await Stfu(user, time).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
@@ -55,8 +42,10 @@ public partial class Moderation
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(0)]
-        public async Task Stfu(IUser user, StoopidTime? time = null)
+        public async Task Stfu(IGuildUser user, StoopidTime? time = null)
         {
+            if (!await CheckRoleHierarchy(user))
+                return;
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
             await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
@@ -163,8 +152,10 @@ public partial class Moderation
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers)]
-        public async Task Unstfu(IUser user)
+        public async Task Unstfu(IGuildUser user)
         {
+            if (!await CheckRoleHierarchy(user))
+                return;
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
             await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
@@ -173,9 +164,7 @@ public partial class Moderation
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
-#pragma warning disable 108,114
-        public async Task MuteRole([Remainder] IRole? role = null)
-#pragma warning restore 108,114
+        public async Task MuteRole([Remainder] IRole role = null)
         {
             if (role is null)
             {
@@ -202,7 +191,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, target).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(target))
                     return;
 
                 await Service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
@@ -228,7 +217,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
@@ -248,6 +237,8 @@ public partial class Moderation
         {
             try
             {
+                if (!await CheckRoleHierarchy(user))
+                    return;
                 await Service.UnmuteUser(user.GuildId, user.Id, ctx.User, reason: reason).ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("user_unmuted", Format.Bold(user.ToString()))
                     .ConfigureAwait(false);
@@ -264,7 +255,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(user))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
@@ -284,6 +275,8 @@ public partial class Moderation
         {
             try
             {
+                if (!await CheckRoleHierarchy(user))
+                    return;
                 await Service.UnmuteUser(user.Guild.Id, user.Id, ctx.User, MuteType.Chat, reason)
                     .ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("user_chat_unmute", Format.Bold(user.ToString()))
@@ -303,7 +296,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
@@ -324,7 +317,7 @@ public partial class Moderation
                 return;
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(user))
                     return;
 
                 await Service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
@@ -344,7 +337,7 @@ public partial class Moderation
         {
             try
             {
-                if (!await VerifyMutePermissions((IGuildUser)ctx.User, user).ConfigureAwait(false))
+                if (!await CheckRoleHierarchy(user))
                     return;
 
                 await Service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);
@@ -363,6 +356,8 @@ public partial class Moderation
         {
             try
             {
+                if (!await CheckRoleHierarchy(user))
+                    return;
                 await Service.UnmuteUser(user.GuildId, user.Id, ctx.User, MuteType.Voice, reason)
                     .ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("user_voice_unmute", Format.Bold(user.ToString()))

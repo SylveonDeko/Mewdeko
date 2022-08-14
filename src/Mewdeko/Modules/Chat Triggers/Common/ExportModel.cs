@@ -41,7 +41,7 @@ public class ExportedTriggers
             AcName = ct.ApplicationCommandName,
             AcDesc = ct.ApplicationCommandDescription,
             Act = ct.ApplicationCommandType,
-            Eph = ct.EphemeralResponse,
+            Eph = ct.EphemeralResponse
 
         };
 }
