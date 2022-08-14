@@ -14,7 +14,7 @@ public abstract class ImageDownloader<T> : IImageDownloader
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {
         PropertyNameCaseInsensitive = true,
-        NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString,
+        NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
     };
 
     public Booru Booru { get; }

@@ -219,6 +219,8 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
+        if (!await CheckRoleHierarchy(user))
+            return;
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
@@ -427,6 +429,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
+        foreach (var i in user)
+        {
+            if (!await CheckRoleHierarchy(i))
+                return;
+        }
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
@@ -477,6 +484,8 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task AfkRemove(IGuildUser user)
     {
+        if (!await CheckRoleHierarchy(user))
+            return;
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);

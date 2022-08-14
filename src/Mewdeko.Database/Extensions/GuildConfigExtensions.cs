@@ -45,7 +45,7 @@ public static class GuildConfigExtensions
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
                 WarningsInitialized = true,
-                WarnPunishments = DefaultWarnPunishments,
+                WarnPunishments = DefaultWarnPunishments
             });
             await ctx.SaveChangesAsync();
         }

@@ -22,7 +22,7 @@ public static class DiscordUserExtensions
             AvatarId = avatarId,
             TotalXp = 0,
             CurrencyAmount = 0
-        }, old => new DiscordUser { Username = username, Discriminator = discrim, AvatarId = avatarId, }, () => new DiscordUser { UserId = userId }).ConfigureAwait(false);
+        }, old => new DiscordUser { Username = username, Discriminator = discrim, AvatarId = avatarId }, () => new DiscordUser { UserId = userId }).ConfigureAwait(false);
 
     //temp is only used in updatecurrencystate, so that i don't overwrite real usernames/discrims with Unknown
     public static async Task<DiscordUser> GetOrCreateUser(

@@ -189,6 +189,6 @@ public class TwitchHelixProvider : Provider
             Preview = apiData.ThumbnailUrl
                              .Replace("{width}", "640")
                              .Replace("{height}", "480"),
-            Game = apiData.GameName,
+            Game = apiData.GameName
         };
 }

@@ -17,7 +17,7 @@ public partial class Suggestions
     public enum SuggestEmoteModeEnum
     {
         Reactions = 0,
-        Buttons = 1,
+        Buttons = 1
     }
 
     public enum ButtonType

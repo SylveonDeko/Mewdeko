@@ -8,12 +8,16 @@ public class GuildSettingsService : INService
 {
     private readonly DbService _db;
     private readonly BotConfigService _bss;
-    private readonly ConcurrentDictionary<ulong, GuildConfig> _guildConfigs = new();
+    private readonly ConcurrentDictionary<ulong, GuildConfig> _guildConfigs;
 
-    public GuildSettingsService(DbService db, BotConfigService bss)
+    public GuildSettingsService(DbService db, BotConfigService bss, DiscordSocketClient client)
     {
         _db = db;
         _bss = bss;
+        using var uow = db.GetDbContext();
+        var guildIds = client.Guilds.Select(x => x.Id);
+        var configs = uow.GuildConfigs.Where(x => guildIds.Contains(x.GuildId));
+        _guildConfigs = configs.ToDictionary(x => x.GuildId, x => x).ToConcurrent();
     }
     
     public async Task<string> SetPrefix(IGuild guild, string prefix)

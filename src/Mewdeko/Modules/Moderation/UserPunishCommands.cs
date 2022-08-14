@@ -40,12 +40,9 @@ public partial class Moderation : MewdekoModule
             _db = db;
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(0)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task SetWarnChannel([Remainder] ITextChannel channel)
         {
-            if (string.IsNullOrWhiteSpace(channel.Name))
-                return;
             var warnlogChannel = await Service.GetWarnlogChannel(ctx.Guild.Id);
             if (warnlogChannel == channel.Id)
             {
@@ -56,21 +53,20 @@ public partial class Moderation : MewdekoModule
             if (warnlogChannel == 0)
             {
                 await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {warnChannel.Mention}").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {channel.Mention}").ConfigureAwait(false);
                 return;
             }
 
             var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
             await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync(
-                $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {channel.Mention}").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
         public async Task Timeout(StoopidTime time, IGuildUser user, [Remainder]string? reason = null)
         {
+            if (!await CheckRoleHierarchy(user))
+                return;
             reason ??= $"{ctx.User} || None Specified";
             if (time.Time.Days > 28)
             {
@@ -85,6 +81,8 @@ public partial class Moderation : MewdekoModule
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
         public async Task UnTimeOut(IGuildUser user)
         {
+            if (!await CheckRoleHierarchy(user))
+                return;
             await user.RemoveTimeOutAsync(new RequestOptions { AuditLogReason = $"Removal requested by {ctx.User}" }).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention).ConfigureAwait(false);
         }
@@ -301,16 +299,14 @@ public partial class Moderation : MewdekoModule
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
-        public Task Warnclear(IGuildUser user, int index = 0) => Warnclear(user.Id, index);
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.BanMembers)]
-        public async Task Warnclear(ulong userId, int index = 0)
+        public async Task Warnclear(IGuildUser user, int index = 0)
         {
             if (index < 0)
                 return;
-            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString()).ConfigureAwait(false);
-            var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
+            if (!await CheckRoleHierarchy(user))
+                return;
+            var success = await Service.WarnClearAsync(ctx.Guild.Id, user.Id, index, ctx.User.ToString()).ConfigureAwait(false);
+            var userStr = user.ToString();
             if (index == 0)
             {
                 await ReplyConfirmLocalizedAsync("warnings_cleared", userStr).ConfigureAwait(false);
@@ -553,6 +549,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
         {
+            
             await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
@@ -725,9 +722,8 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban(ulong userId)
         {
-            var bans = await ctx.Guild.GetBansAsync().FlattenAsync().ConfigureAwait(false);
 
-            var bun = bans.FirstOrDefault(x => x.User.Id == userId);
+            var bun = await Context.Guild.GetBanAsync(userId);
 
             if (bun == null)
             {

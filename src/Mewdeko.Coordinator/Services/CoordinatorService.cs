@@ -139,7 +139,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
         var text = CoordinatorRunner.GetConfigText();
         return Task.FromResult(new GetConfigTextReply
         {
-            ConfigYml = text,
+            ConfigYml = text
         });
     }
 }

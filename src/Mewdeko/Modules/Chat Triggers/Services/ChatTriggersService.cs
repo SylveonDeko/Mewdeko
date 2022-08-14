@@ -261,7 +261,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 {
                     var fakeMsg = new MewdekoUserMessage
                     {
-                        Author = inter.User, Content = ct.Trigger, Channel = inter.Channel,
+                        Author = inter.User, Content = ct.Trigger, Channel = inter.Channel
                     };
 
                     if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
