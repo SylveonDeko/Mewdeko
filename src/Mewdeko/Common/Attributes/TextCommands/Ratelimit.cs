@@ -25,14 +25,12 @@ public sealed class RatelimitAttribute : PreconditionAttribute
         var credService = services.GetRequiredService<IBotCredentials>();
         if (credService.IsOwner(context.User))
             return Task.FromResult(PreconditionResult.FromSuccess());
-        if (Seconds == 0)
-            return Task.FromResult(PreconditionResult.FromSuccess());
 
         var cache = services.GetService<IDataCache>();
         Debug.Assert(cache != null, $"{nameof(cache)} != null");
         var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
 
-        if (rem == null)
+        if (rem is null || rem == TimeSpan.Zero)
             return Task.FromResult(PreconditionResult.FromSuccess());
 
         var msgContent = $"You can use this command again <t:{(DateTime.Now + rem.Value).ToUnixEpochDate()}:R>.";

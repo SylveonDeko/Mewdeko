@@ -280,7 +280,7 @@ public class RedisCache : IDataCache
         return db.StringSet($"{_redisKey}_ratelimit_{id}_{name}",
             0, // i don't use the value
             TimeSpan.FromSeconds(expireIn),
-            when: When.NotExists,  flags: CommandFlags.FireAndForget) ? null : db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
+            when: When.NotExists) ? null : db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
     }
 
     public bool TryGetEconomy(out string data)
