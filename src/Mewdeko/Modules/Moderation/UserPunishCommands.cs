@@ -422,83 +422,33 @@ public partial class Moderation : MewdekoModule
                 GetText("warn_punish_list"),
                 list).ConfigureAwait(false);
         }
+        
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
-        public async Task Ban(StoopidTime time, IUser user, [Remainder] string? msg = null)
-        {
-            if (time.Time > TimeSpan.FromDays(49))
-                return;
-
-            var guildUser =
-                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id).ConfigureAwait(false);
-
-            if (guildUser != null && !await CheckRoleHierarchy(guildUser).ConfigureAwait(false))
-                return;
-
-            var dmFailed = false;
-
-            if (guildUser != null)
-            {
-                try
-                {
-                    var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time).ConfigureAwait(false);
-                    if (embedBuilder is not null || message is not null)
-                    {
-                        var userChannel = await guildUser.CreateDMChannelAsync().ConfigureAwait(false);
-                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
-                    }
-                }
-                catch
-                {
-                    dmFailed = true;
-                }
-            }
-
-            await _mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}").ConfigureAwait(false);
-            var toSend = new EmbedBuilder().WithOkColor()
-                .WithTitle($"⛔️ {GetText("banned_user")}")
-                .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .AddField(efb =>
-                    efb.WithName(GetText("duration"))
-                        .WithValue($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m")
-                        .WithIsInline(true));
-
-            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
-
-            await ctx.Channel.EmbedAsync(toSend)
-                .ConfigureAwait(false);
-        }
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
-        public async Task Ban(StoopidTime pruneTime, StoopidTime time, IUser user, [Remainder] string? msg = null)
+        public async Task Ban(StoopidTime pruneTime, StoopidTime time, IGuildUser user, [Remainder] string? msg = null)
         {
             if (time.Time > TimeSpan.FromDays(49))
                 return;
 
             if (pruneTime.Time > TimeSpan.FromDays(49))
                 return;
+            
 
-            var guildUser =
-                await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id).ConfigureAwait(false);
-
-            if (guildUser != null && !await CheckRoleHierarchy(guildUser).ConfigureAwait(false))
+            if (user != null && !await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
 
             var dmFailed = false;
 
-            if (guildUser != null)
+            if (user != null)
             {
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time).ConfigureAwait(false);
+                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, time.Time).ConfigureAwait(false);
                     if (embedBuilder is not null || message is not null)
                     {
-                        var userChannel = await guildUser.CreateDMChannelAsync().ConfigureAwait(false);
+                        var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
                         await userChannel.SendMessageAsync(message, embeds: embedBuilder, components:components?.Build()).ConfigureAwait(false);
                     }
                 }

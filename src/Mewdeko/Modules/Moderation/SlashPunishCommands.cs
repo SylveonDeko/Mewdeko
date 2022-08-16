@@ -11,7 +11,6 @@ using Serilog;
 using Swan;
 using System.Threading.Tasks;
 using NekosBestApiNet;
-using Serilog.Formatting.Compact;
 
 namespace Mewdeko.Modules.Moderation;
 

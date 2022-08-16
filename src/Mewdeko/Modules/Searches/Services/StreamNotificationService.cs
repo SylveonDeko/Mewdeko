@@ -1,5 +1,4 @@
 #nullable disable
-using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Database.Common;
@@ -28,7 +27,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly Dictionary<StreamDataKey, HashSet<ulong>> _trackCounter = new();
 
     private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> _shardTrackedStreams;
-    private readonly ConcurrentHashSet<ulong> _offlineNotificationServers;
+    private readonly List<ulong> _offlineNotificationServers;
 
     private readonly IPubSub _pubSub;
 
@@ -69,7 +68,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                                   .Where(x => ids.Contains(x.GuildId))
                                   .ToList();
 
-            _offlineNotificationServers = new ConcurrentHashSet<ulong>(guildConfigs
+            _offlineNotificationServers = new List<ulong>(guildConfigs
                                                                        .Where(gc => gc.NotifyStreamOffline)
                                                                        .Select(x => x.GuildId)
                                                                        .ToList());
@@ -317,7 +316,8 @@ public class StreamNotificationService : IReadyExecutor, INService
             await using var uow = _db.GetDbContext();
             var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.FollowedStreams));
 
-            _offlineNotificationServers.TryRemove(gc.GuildId);
+            if (_offlineNotificationServers.Contains(gc.GuildId))
+                _offlineNotificationServers.Remove(gc.GuildId);
 
             foreach (var followedStream in gc.FollowedStreams)
             {
@@ -481,7 +481,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         if (newValue)
             _offlineNotificationServers.Add(guildId);
         else
-            _offlineNotificationServers.TryRemove(guildId);
+            _offlineNotificationServers.Remove(guildId);
 
         return newValue;
     }
