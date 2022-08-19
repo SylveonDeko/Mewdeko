@@ -80,7 +80,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         using (ctx.Channel.EnterTypingState())
         {
             process.Start();
-            await ctx.Channel.SendConfirmAsync("Saving chat log, this may take some time...");
+            await ctx.Channel.SendConfirmAsync("<a:loading:900381735244689469> Saving chat log, this may take some time...");
         }
 
         await process.WaitForExitAsync().ConfigureAwait(false);
