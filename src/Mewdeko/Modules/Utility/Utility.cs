@@ -47,6 +47,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SaveChat(StoopidTime time, ITextChannel? channel = null)
     {
+        var curTime = DateTime.UtcNow.Subtract(time.Time);
         if (!Directory.Exists(_creds.ChatSavePath))
         {
             await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.").ConfigureAwait(false);
@@ -70,7 +71,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         using var process = new Process();
         process.StartInfo = new ProcessStartInfo
         {
-            Arguments = $"../ChatExporter/DiscordChatExporter.Cli.dll export -t {_creds.Token} -c {channel?.Id ?? ctx.Channel.Id} --after {DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH:mm:ssZ} --output \"{_creds.ChatSavePath}/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html\" --media true",
+            Arguments = $"../ChatExporter/DiscordChatExporter.Cli.dll export -t {_creds.Token} -c {channel?.Id ?? ctx.Channel.Id} --after {curTime:yyyy-MM-ddTHH:mm:ssZ} --output \"{_creds.ChatSavePath}/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{curTime:yyyy-MM-ddTHH-mm-ssZ}.html\" --media true",
             FileName = "dotnet",
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -85,7 +86,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await process.WaitForExitAsync().ConfigureAwait(false);
         if (_creds.ChatSavePath.Contains("/usr/share/nginx/cdn"))
             await ctx.User.SendConfirmAsync(
-                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{DateTime.UtcNow.Subtract(time.Time):yyyy-MM-ddTHH-mm-ssZ}.html").ConfigureAwait(false);
+                $"Your chat log is here: https://cdn.mewdeko.tech/chatlogs/{ctx.Guild.Id}/{secureString}/{ctx.Guild.Name.Replace(" ", "-")}-{(channel?.Name ?? ctx.Channel.Name).Replace(" ", "-")}-{curTime:yyyy-MM-ddTHH-mm-ssZ}.html").ConfigureAwait(false);
         else
             await ctx.Channel.SendConfirmAsync($"Your chat log is here: {_creds.ChatSavePath}/{ctx.Guild.Id}/{secureString}").ConfigureAwait(false);
     }
