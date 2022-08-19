@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
     private readonly HttpClient _http;
-    public const string BOT_VERSION = "7.00";
+    public const string BOT_VERSION = "7.01";
 
     private readonly DateTime _started;
 
@@ -70,6 +70,8 @@ public class StatsService : IStatsService
         //
         // if (Client.CurrentUser.Id != 752236274261426212)
         //     return;
+        if (string.IsNullOrEmpty(Creds.VotesToken))
+            return;
         var timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
         while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
