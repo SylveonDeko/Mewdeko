@@ -3422,6 +3422,10 @@ suggest:
   args:
     - suggestion
   desc: 'Sends a suggestion to the suggestion channel. '
+sudo:
+  args:
+    - "@sylveon make me a sandwich"
+  desc: Alows a bot owner to run commands as a user
 suggestbuttonchannel:
   args:
     - '#channel'

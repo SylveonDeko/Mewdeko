@@ -123,10 +123,14 @@ public class RoleCommandsService : INService
 
                 if (chan.Value is not SocketGuildChannel gch)
                     return;
-
+                IUserMessage message;
+                if (msg.HasValue)
+                    message = msg.Value;
+                else
+                    message = await msg.DownloadAsync();
+                
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
-                var message = await msg.GetOrDownloadAsync().ConfigureAwait(false);
                 var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
 
                 if (conf == null)

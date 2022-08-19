@@ -4,6 +4,7 @@ using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -40,6 +41,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IServiceProvider _services;
     private readonly IBotCredentials _credentials;
     private readonly GuildSettingsService _guildSettings;
+    private readonly CommandHandler _commandHandler;
 
     public OwnerOnly(
         DiscordSocketClient client,
@@ -53,7 +55,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         CommandService commandService,
         IServiceProvider services,
         IBotCredentials credentials,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        CommandHandler commandHandler)
     {
         _interactivity = serv;
         _client = client;
@@ -67,8 +70,21 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _services = services;
         _credentials = credentials;
         _guildSettings = guildSettings;
+        _commandHandler = commandHandler;
     }
 
+    [Cmd, Aliases]
+    public async Task Sudo(IGuildUser user, [Remainder] string args)
+    {
+        var msg = new MewdekoUserMessage
+        {
+            Content = $"{await _guildSettings.GetPrefix(ctx.Guild)}{args}",
+            Author = user,
+            Channel = ctx.Channel
+        };
+        _commandHandler.AddCommandToParseQueue(msg);
+        _ = Task.Run(async () => await _commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+    }
     [Cmd, Aliases]
     public async Task RedisExec([Remainder] string command)
     {

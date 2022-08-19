@@ -25,7 +25,8 @@ public sealed class RatelimitAttribute : PreconditionAttribute
         var credService = services.GetRequiredService<IBotCredentials>();
         if (credService.IsOwner(context.User))
             return Task.FromResult(PreconditionResult.FromSuccess());
-
+        if (Seconds == 0)
+            return Task.FromResult(PreconditionResult.FromSuccess());
         var cache = services.GetService<IDataCache>();
         Debug.Assert(cache != null, $"{nameof(cache)} != null");
         var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
