@@ -53,7 +53,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.").ConfigureAwait(false);
             return;
         }
-        var secureString = StringExtensions.GenerateSecureString(10);
+        var secureString = StringExtensions.GenerateSecureString(16);
         try
         {
             Directory.CreateDirectory($"{_creds.ChatSavePath}/{ctx.Guild.Id}/{secureString}");
