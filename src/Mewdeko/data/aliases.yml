@@ -1578,6 +1578,9 @@ streamsclear:
   - stclear
 stringsreload:
   - stringsreload
+sudo:
+  - sudo
+  - doas
 suggest:
   - suggest
   - suggestion

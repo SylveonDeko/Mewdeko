@@ -70,9 +70,12 @@ public class HelpService : ILateExecutor, INService
         {
             selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
-
-        compBuilder.WithSelectMenu(selMenu);
+        
         compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions},{user.Id}");
+        compBuilder.WithButton("Invite Me!", style: ButtonStyle.Link,
+            url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands");
+        compBuilder.WithButton("Donate to keep the bot running!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko");
+        compBuilder.WithSelectMenu(selMenu);
         return compBuilder;
     }
 
@@ -227,10 +230,15 @@ public class HelpService : ILateExecutor, INService
         _dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
         var reqs = GetCommandRequirements(com, overrides);
         var botReqs = GetCommandBotRequirements(com);
+        var attribute = (RatelimitAttribute)com.Preconditions.FirstOrDefault(x => x is RatelimitAttribute);
         if (reqs.Length > 0)
             em.AddField("User Permissions", string.Join("\n", reqs));
         if (botReqs.Length > 0)
             em.AddField("Bot Permissions", string.Join("\n", botReqs));
+        if (attribute?.Seconds > 0)
+        {
+            em.AddField("Ratelimit", $"{attribute.Seconds} seconds");
+        }
         em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"`/{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}`");
         em.AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(string.Join("\n",
                                 Array.ConvertAll(com.RealRemarksArr(_strings, guild?.Id, prefix),
