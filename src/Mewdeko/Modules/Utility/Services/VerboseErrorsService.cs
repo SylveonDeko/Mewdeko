@@ -1,6 +1,10 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Collections;
+using Mewdeko.Common.DiscordImplementations;
+using Mewdeko.Modules.Permissions.Common;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -12,13 +16,16 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
     private readonly GuildSettingsService _guildSettings;
+    private readonly IServiceProvider _services;
 
     public VerboseErrorsService(DiscordSocketClient client, DbService db, CommandHandler ch,
         IBotStrings strings,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        IServiceProvider services)
     {
         _strings = strings;
         _guildSettings = guildSettings;
+        _services = services;
         _db = db;
         _ch = ch;
         using var uow = db.GetDbContext();
@@ -36,11 +43,22 @@ public class VerboseErrorsService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    private async Task LogVerboseError(CommandInfo cmd, ITextChannel? channel, string reason)
+    private async Task LogVerboseError(CommandInfo cmd, ITextChannel? channel, string reason, IUser user)
     {
         if (channel == null || !_guildsEnabled.Contains(channel.GuildId))
             return;
-
+        var perms = _services.GetService<PermissionService>();
+        var pc = await perms.GetCacheFor(channel.GuildId);
+        foreach (var i in cmd.Aliases)
+        {
+            if (!(pc.Permissions != null 
+                  && pc.Permissions.CheckPermissions(new MewdekoUserMessage
+                          { Author = user, Channel = channel }, 
+                      i, 
+                      cmd.MethodName(), out var index)))
+                return;
+        }
+            
         try
         {
             var embed = new EmbedBuilder()
