@@ -42,10 +42,10 @@ public static class Extensions
 
     private static string ResolveTriggerString(this string str, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
-    private static async Task<string?> ResolveResponseStringAsync(this string? str, IMessage ctx,
+    private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
         DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
     {
-        var substringIndex = 0;
+        var substringIndex = resolvedTrigger.Length;
         if (containsAnywhere)
         {
             switch (ctx.Content.AsSpan().GetWordPosition(resolvedTrigger))
@@ -169,6 +169,7 @@ public static class Extensions
                       _ => "%target%"
                   })
                   .Build();
+        ct.Response = rep.Replace(ct.Response);
         if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
 
