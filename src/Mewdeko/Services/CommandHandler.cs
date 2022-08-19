@@ -72,7 +72,7 @@ public class CommandHandler : INService
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
-    public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
+    public event Func<CommandInfo, ITextChannel, string, IUser?, Task> CommandErrored = delegate { return Task.CompletedTask; };
 
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
@@ -581,9 +581,9 @@ public class CommandHandler : INService
                     var perms = new PermissionService(_client, _db, _strings, _gss);
                     var pc = await perms.GetCacheFor(guild.Id);
                     if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
-                        await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
+                        await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
                     if (pc == null)
-                        await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
+                        await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
                 }
             }
         }
