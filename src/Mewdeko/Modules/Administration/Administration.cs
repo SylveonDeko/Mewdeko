@@ -6,6 +6,7 @@ using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Services;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
@@ -75,76 +76,76 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
-        await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
-        IEnumerable<IUser> users;
-        if (option is not null && option.ToLower() == "-accage" && time1 is not null)
+        try
         {
-            users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                        c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
-                        time.Time.TotalSeconds &&
-                        DateTimeOffset.Now.Subtract(c.CreatedAt).TotalSeconds <= time1.Time.TotalSeconds);
-        }
-        else
-        {
-            users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                        c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
-                        time.Time.TotalSeconds);
-        }
-
-        if (!users.Any())
-        {
-            await ctx.Channel.SendErrorAsync("No users at or under that server join age!").ConfigureAwait(false);
-            return;
-        }
-
-        if (option is not null && option.ToLower() == "-p")
-        {
-            var paginator = new LazyPaginatorBuilder()
-                .AddUser(ctx.User)
-                .WithPageFactory(PageFactory)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(users.Count() / 20)
-                .WithDefaultCanceledPage()
-                .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-
-            async Task<PageBuilder> PageFactory(int page)
+            await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
+            IEnumerable<IUser> users;
+            if (option is not null && option.ToLower() == "-accage" && time1 is not null)
             {
-                await Task.CompletedTask.ConfigureAwait(false);
-                return new PageBuilder()
-                       .WithTitle(
-                           $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                       .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
+                users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    c.JoinedAt != null
+                    && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds
+                    && DateTimeOffset.Now.Subtract(c.CreatedAt).TotalSeconds <= time1.Time.TotalSeconds);
             }
-        }
+            else
+            {
+                users = ((SocketGuild)ctx.Guild).Users.Where(c => c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+            }
 
-        var banned = 0;
-        var errored = 0;
-        var embed = new EmbedBuilder().WithErrorColor()
-            .WithDescription(
-                $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
-        if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-        var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..").ConfigureAwait(false);
-        foreach (var i in users)
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No users at or under that server join age!").ConfigureAwait(false);
+                return;
+            }
+
+            if (option is not null && option.ToLower() == "-p")
+            {
+                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory).WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                          .WithMaxPageIndex(users.Count() / 20).WithDefaultCanceledPage().WithDefaultEmotes()
+                                                          .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask.ConfigureAwait(false);
+                    return new PageBuilder().WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                                            .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
+                }
+            }
+
+            var banned = 0;
+            var errored = 0;
+            var msg = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithErrorColor()
+                                                                                  .WithDescription(
+                                                                                      $"Are you sure you want to ban {users.Count()} users that are under that server join age? Say `yes` to continue.")
+                                                                                  .Build());
+            var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+            await msg.DeleteAsync();
+            if (!text.ToLower().Contains("yes")) return;
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..").ConfigureAwait(false);
+            foreach (var i in users)
+            {
+                try
+                {
+                    await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.").ConfigureAwait(false);
+                    banned++;
+                }
+                catch
+                {
+                    errored++;
+                }
+            }
+
+            var eb = new EmbedBuilder()
+                     .WithDescription(
+                         $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
+                     .WithOkColor();
+            await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
+        }
+        catch (Exception ex)
         {
-            try
-            {
-                await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.").ConfigureAwait(false);
-                banned++;
-            }
-            catch
-            {
-                errored++;
-            }
+            Log.Error(ex.ToString());
         }
-
-        var eb = new EmbedBuilder()
-            .WithDescription(
-                $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
-            .WithOkColor();
-        await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.KickMembers)]
@@ -185,9 +186,13 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         var banned = 0;
         var errored = 0;
-        var embed = new EmbedBuilder().WithErrorColor()
-            .WithDescription($"Are you sure you want to kick {guildUsers.Length} users that joined under that time?");
-        if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
+        var msg = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithErrorColor()
+                                                                              .WithDescription(
+                                                                                  $"Are you sure you want to ban {users.Count()} users that are under that server join age? Say `yes` to continue.")
+                                                                              .Build());
+        var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        await msg.DeleteAsync();
+        if (!text.ToLower().Contains("yes")) return;
         var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..").ConfigureAwait(false);
         foreach (var i in guildUsers)
         {

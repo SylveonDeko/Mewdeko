@@ -56,9 +56,7 @@ public class Mewdeko
             ShardId = shardId,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
-            FormatUsersInBidirectionalUnicode = false,
-            UseInteractionSnowflakeDate = true
-
+            FormatUsersInBidirectionalUnicode = false
 
         });
         CommandService = new CommandService(new CommandServiceConfig
