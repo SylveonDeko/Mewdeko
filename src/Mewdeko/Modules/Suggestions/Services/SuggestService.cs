@@ -825,7 +825,7 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public async Task<int> GetCurrentCount(IGuild guild, ulong messageId, int emoteNumber)
+    public async Task<int> GetCurrentCount(ulong messageId, int emoteNumber)
     {
         await using var uow = _db.GetDbContext();
         var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
@@ -2296,14 +2296,15 @@ public class SuggestionsService : INService
             }
         }
 
+        var snum = await GetSNum(guild.Id);
         if (await GetThreadType(guild) == 1)
         {
-            builder.WithButton("Join/Create Public Discussion", customId: $"publicsuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Public Discussion", customId: $"publicsuggestthread:{snum}", ButtonStyle.Secondary, row: 1);
         }
 
         if (await GetThreadType(guild) == 2)
         {
-            builder.WithButton("Join/Create Private Discussion", customId: $"privatesuggestthread:{GetSNum(guild.Id)}", ButtonStyle.Secondary, row: 1);
+            builder.WithButton("Join/Create Private Discussion", customId: $"privatesuggestthread:{snum}", ButtonStyle.Secondary, row: 1);
         }
 
         if (await GetSuggestionMessage(guild) is "-" or "")

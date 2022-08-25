@@ -41,13 +41,13 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         {
             foreach (var i in emotes.Split(","))
             {
-                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, ++count).ConfigureAwait(false)}`");
+                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(suggest.MessageId, ++count).ConfigureAwait(false)}`");
             }
         }
         else
         {
-            emoteCount.Add($"👍 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 1).ConfigureAwait(false)}`");
-            emoteCount.Add($"👎 `{await Service.GetCurrentCount(ctx.Guild, suggest.MessageId, 2).ConfigureAwait(false)}`");
+            emoteCount.Add($"👍 `{await Service.GetCurrentCount(suggest.MessageId, 1).ConfigureAwait(false)}`");
+            emoteCount.Add($"👎 `{await Service.GetCurrentCount(suggest.MessageId, 2).ConfigureAwait(false)}`");
         }
 
         var components = new ComponentBuilder()
