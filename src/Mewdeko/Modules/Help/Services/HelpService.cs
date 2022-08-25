@@ -82,7 +82,7 @@ public class HelpService : ILateExecutor, INService
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         EmbedBuilder embed = new();
-        embed.WithTitle("Mewdeko Help");
+        embed.WithTitle($"{_client.CurrentUser.Username} Help");
         embed.WithOkColor();
         embed.WithDescription(
             $"\nDo `{await _guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
