@@ -710,14 +710,15 @@ public class LogCommandService : INService
             {
                 if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting) || logSetting.UserBannedId == null)
                     return;
+                var bannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Ban)).FirstOrDefault();
                 var ban = await guild.GetBanAsync(usr);
                 ITextChannel logChannel;
                 if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserBanned).ConfigureAwait(false)) == null)
                     return;
                 var embed = new EmbedBuilder().WithOkColor().WithTitle($"🚫 {GetText(logChannel.Guild, "user_banned")}").WithDescription(usr.ToString());
 
-                if (ban != null)
-                    embed.AddField("Banned by", ban.User).AddField("Reason", ban.Reason == null ? ban.Reason : "None");
+                if (bannedby != null)
+                    embed.AddField("Banned by", bannedby.User).AddField("Reason", ban.Reason ?? "None");
 
                 embed.AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
 
