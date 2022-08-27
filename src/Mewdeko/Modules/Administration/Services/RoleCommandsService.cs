@@ -40,72 +40,62 @@ public class RoleCommandsService : INService
 
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
-                
-                await msg.DownloadAsync().ConfigureAwait(false);
+                IUserMessage message;
+                if (msg.HasValue)
+                    message = msg.Value;
+                else
+                    message = await msg.GetOrDownloadAsync();
 
-                var conf = confs.FirstOrDefault(x => x.MessageId == msg.Id);
-
-                if (conf == null)
-                    return;
+                var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
 
                 // compare emote names for backwards compatibility :facepalm:
-                var reactionRole = conf.ReactionRoles.Find(x =>
+                var reactionRole = conf?.ReactionRoles.Find(x =>
                     x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
-                if (reactionRole != null)
+                if (reactionRole == null)
+                    return;
+                if (conf.Exclusive)
                 {
-                    if (conf.Exclusive)
-                    {
-                        var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
-                            .Where(x => x != reactionRole.RoleId)
-                            .Select(x => gusr.Guild.GetRole(x))
-                            .Where(x => x != null);
+                    var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
+                                      .Where(x => x != reactionRole.RoleId)
+                                      .Select(x => gusr.Guild.GetRole(x))
+                                      .Where(x => x != null);
                         
+                    try
+                    {
+                        //if the role is exclusive,
+                        // remove all other reactions user added to the message
+                        var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
+                        foreach (var (key, _) in dl.Reactions)
+                        {
+                            if (key.Name == reaction.Emote.Name)
+                                continue;
                             try
                             {
-                                //if the role is exclusive,
-                                // remove all other reactions user added to the message
-                                var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
-                                foreach (var (key, _) in dl.Reactions)
-                                {
-                                    if (key.Name == reaction.Emote.Name)
-                                        continue;
-                                    try
-                                    {
-                                        await dl.RemoveReactionAsync(key, gusr).ConfigureAwait(false);
-                                    }
-                                    catch
-                                    {
-                                        // ignored
-                                    }
-
-                                    await Task.Delay(100).ConfigureAwait(false);
-                                }
+                                await dl.RemoveReactionAsync(key, gusr).ConfigureAwait(false);
                             }
                             catch
                             {
                                 // ignored
                             }
-                            await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
-                    }
 
-                    var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
-                    if (toAdd != null && !gusr.Roles.Contains(toAdd))
-                        await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
+                            await Task.Delay(100).ConfigureAwait(false);
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                    await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
                 }
-                else
-                {
-                    var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
-                    await dl.RemoveReactionAsync(reaction.Emote, dl.Author,
-                        new RequestOptions
-                        {
-                            RetryMode = RetryMode.RetryRatelimit | RetryMode.Retry502
-                        }).ConfigureAwait(false);
-                    Log.Warning("User {0} is adding unrelated reactions to the reaction roles message.", dl.Author);
-                }
+
+                var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
+                if (toAdd != null && !gusr.Roles.Contains(toAdd))
+                    await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                var gch = chan.Value as IGuildChannel;
+                Log.Error($"Reaction Role Add failed in {gch.Guild}\n{0}", ex);
             }
     }
 
@@ -127,7 +117,7 @@ public class RoleCommandsService : INService
                 if (msg.HasValue)
                     message = msg.Value;
                 else
-                    message = await msg.DownloadAsync();
+                    message = await msg.GetOrDownloadAsync();
                 
                 if (!_models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
@@ -147,9 +137,10 @@ public class RoleCommandsService : INService
                     await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                var gch = chan.Value as IGuildChannel;
+                Log.Error($"Reaction Role Remove failed in {gch.Guild}\n{0}", ex);
             }
     }
 
