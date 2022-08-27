@@ -7,16 +7,16 @@ public class ShibaKarutaService : INService
 {
     private readonly ConcurrentDictionary<ulong, int> _messagesSent = new();
     private readonly ConcurrentDictionary<ulong, int> _messagesSent1 = new();
-
     public ShibaKarutaService(EventHandler handler)
     {
         handler.MessageReceived += GrantKarutaRole;
         handler.MessageReceived += GrantKarutaRole1;
     }
-
+    
     private async Task GrantKarutaRole(IMessage arg)
 
     {
+
         if (arg.Channel is not ITextChannel channel)
 
             return;
@@ -38,15 +38,19 @@ public class ShibaKarutaService : INService
         else
 
         {
+
             await gUser.AddRoleAsync(940669747282980954);
 
             _messagesSent.TryRemove(gUser.Id, out _);
+
         }
+
     }
 
     private async Task GrantKarutaRole1(IMessage arg)
 
     {
+
         if (arg.Channel is not ITextChannel channel)
             return;
 
@@ -65,9 +69,11 @@ public class ShibaKarutaService : INService
         else
 
         {
+
             await gUser.AddRoleAsync(952773926730203146);
 
             _messagesSent1.TryRemove(gUser.Id, out _);
+
         }
     }
 }
