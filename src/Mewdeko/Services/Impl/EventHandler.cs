@@ -82,7 +82,7 @@ public class EventHandler
     private Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
         if (ReactionRemoved is not null)
-            _ = ReactionAdded(arg1, arg2, arg3);
+            _ = ReactionRemoved(arg1, arg2, arg3);
         return Task.CompletedTask;
     }
 
@@ -138,7 +138,7 @@ public class EventHandler
     private Task ClientOnUserUnbanned(SocketUser arg1, SocketGuild arg2)
     {
         if (UserUnbanned is not null)
-            _ = UserBanned(arg1, arg2);
+            _ = UserUnbanned(arg1, arg2);
         return Task.CompletedTask;
     }
 
