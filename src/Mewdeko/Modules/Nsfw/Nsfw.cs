@@ -8,6 +8,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Newtonsoft.Json.Linq;
 using NHentaiAPI;
+using NHentaiAPI.Models.Books;
 using Refit;
 using Serilog;
 using System.Net.Http;
@@ -24,13 +25,15 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     private readonly InteractiveService _interactivity;
     private readonly MartineApi _martineApi;
     private readonly GuildSettingsService _guildSettings;
+    private readonly HttpClient _client;
     public static List<RedditCache> Cache { get; set; } = new();
 
     public Nsfw(IHttpClientFactory factory, InteractiveService interactivity, MartineApi martineApi,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, HttpClient client)
     {
         _martineApi = martineApi;
         _guildSettings = guildSettings;
+        _client = client;
         _interactivity = interactivity;
         _httpFactory = factory;
         _rng = new MewdekoRandom();
@@ -103,9 +106,10 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw, Ratelimit(10)]
     public async Task RedditNsfw(string subreddit)
     {
+        var msg = await ctx.Channel.SendConfirmAsync($"<a:loading:900381735244689469> Trying to get a post from `{subreddit}`...");
         try
         {
             RedditPost image;
@@ -115,6 +119,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             }
             catch (Exception e)
             {
+                await msg.DeleteAsync();
                 Log.Error("Unable to fetch NSFW Subreddit\n{0}", e);
                 await ctx.Channel.SendErrorAsync("Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.");
                 return;
@@ -129,15 +134,23 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             };
             if (image.Data.ImageUrl.CheckIfNotEmbeddable())
             {
-                await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build()).ConfigureAwait(false);
+                image.Data.ImageUrl = image.Data.ImageUrl.Replace("gifv", "mp4");
+                await msg.DeleteAsync();
+                using var sr = await _client.GetAsync(image.Data.ImageUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var imgStream = imgData.ToStream();
+                await using var _ = imgStream.ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(imgStream, "boobs.mp4", embed: eb.Build());
             }
             else
             {
+                await msg.DeleteAsync();
                 await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         }
         catch (ApiException)
         {
+            await msg.DeleteAsync();
             await ctx.Channel.SendErrorAsync(
                 $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {await _guildSettings.GetPrefix(ctx.Guild)}vote.").ConfigureAwait(false);
         }
