@@ -16,8 +16,8 @@ public class VcRoleService : INService
         _client = client;
 
         eventHandler.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
-        VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
-        ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
+        VcRoles = new NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>>();
+        ToAssign = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
 
         using (var uow = db.GetDbContext())
         {
@@ -81,8 +81,8 @@ public class VcRoleService : INService
         bot.JoinedGuild += Bot_JoinedGuild;
     }
 
-    public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
-    public ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
+    public NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
+    public NonBlocking.ConcurrentDictionary<ulong, System.Collections.Concurrent.ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
     private async Task Bot_JoinedGuild(GuildConfig arg)
     {
@@ -110,7 +110,7 @@ public class VcRoleService : INService
         if (g == null)
             return;
 
-        var infos = new ConcurrentDictionary<ulong, IRole>();
+        var infos = new NonBlocking.ConcurrentDictionary<ulong, IRole>();
         var missingRoles = new List<VcRoleInfo>();
         VcRoles.AddOrUpdate(gconf.GuildId, infos, delegate { return infos; });
         foreach (var ri in gconf.VcRoleInfos)
@@ -140,7 +140,7 @@ public class VcRoleService : INService
         if (role == null)
             throw new ArgumentNullException(nameof(role));
 
-        var guildVcRoles = VcRoles.GetOrAdd(guildId, new ConcurrentDictionary<ulong, IRole>());
+        var guildVcRoles = VcRoles.GetOrAdd(guildId, new NonBlocking.ConcurrentDictionary<ulong, IRole>());
 
         guildVcRoles.AddOrUpdate(vcId, role, (_, _) => role);
         await using var uow = _db.GetDbContext();

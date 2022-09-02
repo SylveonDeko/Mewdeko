@@ -7,7 +7,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Globalization;
 using System.Threading.Tasks;
 

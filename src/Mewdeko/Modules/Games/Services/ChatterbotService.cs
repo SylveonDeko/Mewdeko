@@ -3,7 +3,6 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
 

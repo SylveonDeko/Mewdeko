@@ -2,7 +2,6 @@
 using Discord.Interactions;
 using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using PreconditionResult = Discord.Commands.PreconditionResult;
 using RequireUserPermissionAttribute = Discord.Commands.RequireUserPermissionAttribute;

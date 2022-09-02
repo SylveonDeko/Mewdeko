@@ -36,9 +36,9 @@ public class XpService : INService, IUnloadableService
 
     private readonly DbService _db;
 
-    private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedChannels;
+    private readonly NonBlocking.ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedChannels;
 
-    private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles;
+    private readonly NonBlocking.ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedRoles;
 
     private readonly ConcurrentHashSet<ulong> _excludedServers;
     private readonly FontProvider _fonts;
@@ -79,7 +79,7 @@ public class XpService : INService, IUnloadableService
         _memoryCache = memoryCache;
         _eventHandler = eventHandler;
         _excludedServers = new ConcurrentHashSet<ulong>();
-        _excludedChannels = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
+        _excludedChannels = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
         _client = client;
 
         InternalReloadXpTemplate();
@@ -122,10 +122,10 @@ public class XpService : INService, IUnloadableService
         Task.Run(UpdateLoop);
     }
 
-    private ConcurrentDictionary<ulong, int> XpTxtRates { get; }
-    private ConcurrentDictionary<ulong, int> XpVoiceRates { get; }
-    private ConcurrentDictionary<ulong, int> XpTxtTimeouts { get; }
-    private ConcurrentDictionary<ulong, int> XpVoiceTimeouts { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, int> XpTxtRates { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, int> XpVoiceRates { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, int> XpTxtTimeouts { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, int> XpVoiceTimeouts { get; }
 
     public Task Unload()
     {

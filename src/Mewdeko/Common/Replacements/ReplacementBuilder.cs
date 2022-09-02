@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using NekosBestApiNet;
-using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Common.Replacements;

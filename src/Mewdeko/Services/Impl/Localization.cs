@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
-using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 
