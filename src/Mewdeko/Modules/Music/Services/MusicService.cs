@@ -3,7 +3,6 @@ using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
 using Mewdeko.Modules.Music.Common;
 using SpotifyAPI.Web;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading.Tasks;
 

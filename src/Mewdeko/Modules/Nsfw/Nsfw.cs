@@ -8,7 +8,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Newtonsoft.Json.Linq;
 using NHentaiAPI;
-using NHentaiAPI.Models.Books;
 using Refit;
 using Serilog;
 using System.Net.Http;

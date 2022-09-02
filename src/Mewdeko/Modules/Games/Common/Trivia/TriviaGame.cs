@@ -1,7 +1,6 @@
 ﻿using Discord.Net;
 using Mewdeko.Services.strings;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Text;
 using System.Threading;

@@ -11,7 +11,6 @@ public class ReactionEvent : ICurrencyEvent
     private readonly long _amount;
     private readonly ConcurrentHashSet<ulong> _awardedUsers = new();
     private readonly ITextChannel _channel;
-    private readonly DiscordSocketClient _client;
     private readonly GamblingConfig _config;
     private readonly ICurrencyService _cs;
 
@@ -36,7 +35,6 @@ public class ReactionEvent : ICurrencyEvent
         Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
         EventHandler eventHandler)
     {
-        _client = client;
         _guild = g;
         _cs = cs;
         _amount = opt.Amount;

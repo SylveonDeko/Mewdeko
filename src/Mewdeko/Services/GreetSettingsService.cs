@@ -2,7 +2,6 @@
 using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Services;
