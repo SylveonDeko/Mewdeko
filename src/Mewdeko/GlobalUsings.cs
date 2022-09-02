@@ -13,5 +13,6 @@ global using Mewdeko.Services;
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
+global using NonBlocking;
 global using System.Linq;
 global using EventHandler = Mewdeko.Services.Impl.EventHandler;

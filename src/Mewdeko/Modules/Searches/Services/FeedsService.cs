@@ -1,7 +1,6 @@
 ﻿using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
