@@ -71,6 +71,7 @@ public class BotCredentials : IBotCredentials
             PatreonCampaignId = data[nameof(PatreonCampaignId)] ?? "334038";
             ShardRunCommand = data[nameof(ShardRunCommand)];
             ShardRunArguments = data[nameof(ShardRunArguments)];
+            ShardRunPort = data[nameof(ShardRunPort)] ?? "3444";
             CleverbotApiKey = data[nameof(CleverbotApiKey)];
             LocationIqApiKey = data[nameof(LocationIqApiKey)];
             TimezoneDbApiKey = data[nameof(TimezoneDbApiKey)];
@@ -109,9 +110,6 @@ public class BotCredentials : IBotCredentials
                     ShardRunArguments = "{0} {1}";
             }
 
-            var portStr = data[nameof(ShardRunPort)];
-            ShardRunPort = string.IsNullOrWhiteSpace(portStr) ? new MewdekoRandom().Next(5000, 6000) : int.Parse(portStr);
-
             if (!int.TryParse(data[nameof(TotalShards)], out var ts))
                 ts = 0;
             TotalShards = ts < 1 ? 1 : ts;
@@ -142,7 +140,7 @@ public class BotCredentials : IBotCredentials
         }
     }
 
-    public int ShardRunPort { get; set; }
+    public string ShardRunPort { get; set; }
     public string GoogleApiKey { get; set; }
     public string SpotifyClientId { get; set; }
     public string SpotifyClientSecret { get; set; }
@@ -210,7 +208,7 @@ public class BotCredentials : IBotCredentials
         public string SpotifyClientSecret { get; set; } = "";
         public string StatcordKey { get; set; } = "";
         public string RestartCommand { get; set; } = null;
-        public int? ShardRunPort { get; set; } = null;
+        public string ShardRunPort { get; set; } = "3444";
         public string Token { get; } = "";
 
         public string GoogleApiKey { get; } = "";

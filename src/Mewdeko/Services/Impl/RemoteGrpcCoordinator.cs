@@ -12,9 +12,9 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
     private readonly DiscordSocketClient _client;
     private readonly Coordinator.Coordinator.CoordinatorClient _coordClient;
 
-    public RemoteGrpcCoordinator(DiscordSocketClient client)
+    public RemoteGrpcCoordinator(DiscordSocketClient client, IBotCredentials credentials)
     {
-        var channel = GrpcChannel.ForAddress("http://localhost:3444");
+        var channel = GrpcChannel.ForAddress($"http://localhost:{credentials.ShardRunPort}");
         _coordClient = new Coordinator.Coordinator.CoordinatorClient(channel);
         _client = client;
     }
