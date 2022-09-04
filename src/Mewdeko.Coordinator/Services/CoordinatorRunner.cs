@@ -83,13 +83,18 @@ public sealed class CoordinatorRunner : BackgroundService
         var first = true;
         while (!stoppingToken.IsCancellationRequested)
         {
+            if (config.ClientId == 0)
+            {
+                Log.Error("Client ID needs to be set to start the coordinator. Exiting.");
+                Environment.Exit(1);
+                return;
+            }
             try
             {
                 var hadAction = false;
                 lock (_locker)
                 {
-                    var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
-                                             .Append((int)((843489716674494475 >> 22) % config.TotalShards)) // then nadeko server shard
+                    var shardIds = Enumerable.Range(0, 1)
                                              .Concat(Enumerable.Range(1, config.TotalShards - 1)
                                                                .OrderBy(_ => _rng.Next())) // then all other shards in a random order
                                              .Distinct()
@@ -245,7 +250,8 @@ public sealed class CoordinatorRunner : BackgroundService
                 config.RecheckIntervalMs,
                 config.ShardStartCommand,
                 config.ShardStartArgs,
-                config.UnresponsiveSec));
+                config.UnresponsiveSec,
+                config.ClientId));
         }
     }
 
