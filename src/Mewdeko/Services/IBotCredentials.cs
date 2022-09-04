@@ -13,6 +13,7 @@ public interface IBotCredentials
     string SpotifyClientId { get; }
     string SpotifyClientSecret { get; }
     string OsuApiKey { get; }
+    string ShardRunPort { get; }
     string ChatSavePath { get; }
     int TotalShards { get; }
     string TwitchClientSecret { get; }

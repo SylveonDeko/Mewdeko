@@ -136,7 +136,7 @@ public class Mewdeko
         {
             AllowAutoRedirect = false
         });
-        if (Environment.GetEnvironmentVariable("MEWDEKO_IS_COORDINATED") != "1")
+        if (Credentials.TotalShards <= 1 && Environment.GetEnvironmentVariable($"{Client.CurrentUser.Id}_IS_COORDINATED") != "1")
         {
             s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
         }

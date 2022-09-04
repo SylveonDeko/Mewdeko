@@ -3,3 +3,4 @@ RecheckIntervalMs: 5000
 ShardStartCommand: dotnet
 ShardStartArgs: run --project "..\Mewdeko\Mewdeko.csproj" -c Release -- {0} {1}
 UnresponsiveSec: 80
+ClientId: 752236274261426212
