@@ -246,7 +246,7 @@ public class FilterService : IEarlyBehavior, INService
         var bannedwords = Blacklist.Where(x => x.GuildId == guild.Id);
         foreach (var i in bannedwords.Select(x => x.Word))
         {
-            if (msg.Content.ToLower().Contains(i))
+            if (msg.Content.ToLower().Contains(i.ToLower()))
                 try
                 {
                     await msg.DeleteAsync().ConfigureAwait(false);
@@ -291,7 +291,7 @@ public class FilterService : IEarlyBehavior, INService
         if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
         {
             foreach (var word in filteredChannelWords)
-                if (usrMsg.Content.Contains(word))
+                if (usrMsg.Content.ToLower().Contains(word))
                 {
                     try
                     {
