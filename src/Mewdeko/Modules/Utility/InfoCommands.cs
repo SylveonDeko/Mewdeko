@@ -24,17 +24,18 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
         {
-            var eb = new EmbedBuilder().WithOkColor().WithTitle(role.Name)
+            var eb = new EmbedBuilder().WithTitle(role.Name)
                                        .AddField("Users in role",
                                            (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
                                        .AddField("Is Mentionable", role.IsMentionable)
                                        .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
                                        .AddField("Is Managed", role.IsManaged)
                                        .AddField("Permissions", string.Join(",", role.Permissions))
-                                       .AddField("Creation Date", role.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"))
+                                       .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
                                        .AddField("Position", role.Position)
                                        .AddField("ID", role.Id)
-                                       .WithThumbnailUrl(role.GetIconUrl());
+                                       .WithThumbnailUrl(role.GetIconUrl())
+                                       .WithColor(role.Color);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
@@ -110,14 +111,15 @@ public partial class Utility
                     eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
 
                 eb.WithAuthor(message.Author);
-                eb.AddField("Time Sent", message.Timestamp);
+                eb.AddField("Time Sent", TimestampTag.FromDateTimeOffset(message.Timestamp));
                 await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
             else
             {
                 var embed = new EmbedBuilder()
                     .WithTitle("info for fetched user")
-                    .WithDescription($"User: {usr.Username}#{usr.Discriminator}\nUser Created At: {usr.CreatedAt}")
+                    .AddField("Username", usr)
+                    .AddField("Created At", TimestampTag.FromDateTimeOffset(usr.CreatedAt))
                     .WithImageUrl(usr.RealAvatarUrl().ToString())
                     .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -146,8 +148,6 @@ public partial class Utility
             var textchn = guild.TextChannels.Count;
             var voicechn = guild.VoiceChannels.Count;
 
-            var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
-
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var embed = new EmbedBuilder()
                 .WithAuthor(eab => eab.WithName(GetText("server_info")))
@@ -155,6 +155,7 @@ public partial class Utility
                 .AddField("Id", guild.Id.ToString())
                 .AddField("Owner", ownername.Mention)
                 .AddField("Total Users", guild.Users.Count.ToString())
+                .AddField("Created On", TimestampTag.FromDateTimeOffset(guild.CreatedAt))
                 .WithColor(Mewdeko.OkColor);
             if (guild.SplashUrl != null)
                 embed.WithImageUrl($"{guild.SplashUrl}?size=2048");
@@ -182,7 +183,6 @@ public partial class Utility
                     .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot))
                     .AddField("Text Channels", textchn.ToString())
                     .AddField("Voice Channels", voicechn.ToString())
-                    .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
                     .AddField("Roles", (guild.Roles.Count - 1).ToString())
                     .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
                 await msg.ModifyAsync(x =>
@@ -215,10 +215,10 @@ public partial class Utility
             var user = usr ?? ctx.User as IGuildUser;
             var userbanner = (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
             var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
-
+            var restUser = await _client.Rest.GetUserAsync(user.Id);
             var embed = new EmbedBuilder()
                 .AddField("Username", user.ToString())
-                .WithOkColor();
+                .WithColor(restUser.AccentColor.HasValue ? restUser.AccentColor.Value : Mewdeko.OkColor);
 
             if (!string.IsNullOrWhiteSpace(user.Nickname))
                 embed.AddField("Nickname", user.Nickname);

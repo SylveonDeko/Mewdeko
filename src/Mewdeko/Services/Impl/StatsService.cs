@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
     private readonly HttpClient _http;
-    public const string BOT_VERSION = "7.01";
+    public const string BOT_VERSION = "7.02";
 
     private readonly DateTime _started;
 
@@ -65,8 +65,8 @@ public class StatsService : IStatsService
     }
     public async Task PostToTopGg()
     {
-        // if (Client.ShardId != 0)
-        //     return;
+        if (Client.ShardId != 0)
+            return;
         //
         // if (Client.CurrentUser.Id != 752236274261426212)
         //     return;

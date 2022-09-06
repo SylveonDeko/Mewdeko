@@ -48,5 +48,8 @@ public enum PlayerRepeatType
 {
     None,
     Track,
-    Queue
+    Queue,
+    Song = 1,
+    All = 2,
+    Off = 0
 }

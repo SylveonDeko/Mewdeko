@@ -181,7 +181,22 @@ public class GoogleApiService : IGoogleApiService
         query.Q = keywords;
         query.Type = "video";
         query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
+
+        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.ToArray();
+    }
+    
+    public async Task<SearchResult[]> GetVideoLinksByVideoId(string keywords, int max)
+    {
+        await Task.Yield();
+        if (string.IsNullOrWhiteSpace(keywords))
+            throw new ArgumentNullException(nameof(keywords));
         
+        var query = _yt.Search.List("snippet");
+        query.MaxResults = max;
+        query.Type = "video";
+        query.RelatedToVideoId = keywords;
+        query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
+
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.ToArray();
     }
     

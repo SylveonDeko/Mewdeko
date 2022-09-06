@@ -14,12 +14,11 @@ public class Afk : MewdekoModuleBase<AfkService>
 {
     private readonly InteractiveService _interactivity;
     private readonly DiscordSocketClient _client;
-    private readonly GuildSettingsService _guildSettings;
-    public Afk(InteractiveService serv, DiscordSocketClient client, GuildSettingsService guildSettings)
+
+    public Afk(InteractiveService serv, DiscordSocketClient client)
     {
         _interactivity = serv;
         _client = client;
-        _guildSettings = guildSettings;
     }
 
     public enum AfkTypeEnum
@@ -151,21 +150,9 @@ public class Afk : MewdekoModuleBase<AfkService>
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
         }
-        if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
-        {
-            await ctx.Channel.SendErrorAsync(
-                $"You already have a regular afk set! Please disable it by doing {await _guildSettings.GetPrefix(ctx.Guild)}afk and try again").ConfigureAwait(false);
-            return;
-        }
 
-        await ctx.Channel.SendConfirmAsync(
-            $"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}").ConfigureAwait(false);
-        await Service.TimedAfk(ctx.Guild, ctx.User, message, time.Time).ConfigureAwait(false);
-        if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
-        {
-            await ctx.Channel.SendMessageAsync(
-                $"Welcome back {ctx.User.Mention} I have removed your timed AFK.").ConfigureAwait(false);
-        }
+        await Service.AfkSet(ctx.Guild, ctx.User as IGuildUser, message, 1, DateTime.UtcNow + time.Time);
+        await ctx.Channel.SendConfirmAsync($"Timed AFK has been set, and will unset in `{time.Time.Humanize()}`.\nMessage set to:\n{message}");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
