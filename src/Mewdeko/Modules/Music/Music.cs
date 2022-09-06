@@ -10,6 +10,7 @@ using Lavalink4NET.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music;
@@ -20,6 +21,7 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
     private readonly GuildSettingsService _guildSettings;
+    private readonly BotConfigService _config;
 
     public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
         DiscordSocketClient client,
@@ -237,7 +239,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vstate.VoiceChannel.Id).ConfigureAwait(false);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service, _config), ctx.Guild.Id, vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync().ConfigureAwait(false);
@@ -318,7 +320,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vstate.VoiceChannel.Id).ConfigureAwait(false);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service, _config), ctx.Guild.Id, vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync().ConfigureAwait(false);
@@ -604,7 +606,7 @@ public class Music : MewdekoModuleBase<MusicService>
             return;
         }
 
-        await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, voiceState.VoiceChannel.Id).ConfigureAwait(false);
+        await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service, _config), ctx.Guild.Id, voiceState.VoiceChannel.Id).ConfigureAwait(false);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
             try
@@ -708,7 +710,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
             try
             {
-                await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vc.VoiceChannel.Id).ConfigureAwait(false);
+                await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service,_config), ctx.Guild.Id, vc.VoiceChannel.Id).ConfigureAwait(false);
                 if (vc.VoiceChannel is SocketStageChannel chan)
                 {
                     try
@@ -759,7 +761,12 @@ public class Music : MewdekoModuleBase<MusicService>
                         .WithDescription(
                             $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
                         .WithFooter($"{count} songs now in the queue");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build(), 
+                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link, 
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                        label: "Invite Me!", 
+                                                                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id).ConfigureAwait(false) / 100.0F).ConfigureAwait(false);
@@ -782,7 +789,12 @@ public class Music : MewdekoModuleBase<MusicService>
                              .WithThumbnailUrl(art?.AbsoluteUri)
                              .WithDescription(
                                  $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build(), 
+                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link, 
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                        label: "Invite Me!", 
+                                                                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id).ConfigureAwait(false) / 100.0F).ConfigureAwait(false);
@@ -944,7 +956,12 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         await player.PauseAsync().ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"Paused player. Do {await _guildSettings.GetPrefix(ctx.Guild)}pause again to resume.").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Paused player. Do {await _guildSettings.GetPrefix(ctx.Guild)}pause again to resume.", 
+            builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                .WithButton(style: ButtonStyle.Link, 
+                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                    label: "Invite Me!", 
+                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -970,7 +987,12 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         Service.Shuffle(ctx.Guild);
-        await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!", 
+            builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                .WithButton(style: ButtonStyle.Link, 
+                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                    label: "Invite Me!", 
+                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -1025,7 +1047,12 @@ public class Music : MewdekoModuleBase<MusicService>
         if (timeSpan > player.CurrentTrack.Duration)
             await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.").ConfigureAwait(false);
         await player.SeekPositionAsync(timeSpan).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"I've seeked `{player.CurrentTrack.Title}` to {timeSpan}.").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"I've seeked `{player.CurrentTrack.Title}` to {timeSpan}.", 
+            builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                .WithButton(style: ButtonStyle.Link, 
+                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                    label: "Invite Me!", 
+                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -1081,6 +1108,34 @@ public class Music : MewdekoModuleBase<MusicService>
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id).ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync("Set this channel to recieve music events.").ConfigureAwait(false);
     }
+    
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task AutoPlay(int autoPlayNum)
+    {
+        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.AutoPlay = autoPlayNum, autoPlayNum).ConfigureAwait(false);
+        switch (autoPlayNum)
+        {
+            case > 0 and < 6:
+                await ctx.Channel.SendConfirmAsync($"When the last song is reached autoplay will attempt to add `{autoPlayNum}` songs to the queue.", 
+                    builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                .WithButton(style: ButtonStyle.Link, 
+                                                                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                    label: "Invite Me!", 
+                                                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null);
+                break;
+            case > 5:
+                await ctx.Channel.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.");
+                break;
+            case 0:
+                await ctx.Channel.SendConfirmAsync("Autoplay has been disabled.", 
+                    builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                        .WithButton(style: ButtonStyle.Link, 
+                            url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                            label: "Invite Me!", 
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null);
+                break;
+        }
+    }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task NowPlaying()
@@ -1120,7 +1175,12 @@ public class Music : MewdekoModuleBase<MusicService>
                      .WithThumbnailUrl(info?.AbsoluteUri)
                      .WithFooter(
                          await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
-            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: eb.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                    .WithButton(style: ButtonStyle.Link, 
+                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                        label: "Invite Me!", 
+                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
         catch (Exception e)
         {

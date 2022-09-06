@@ -25,8 +25,6 @@ public class Replacer
                 input = input.Replace(key, text(), StringComparison.InvariantCulture);
         }
 
-        foreach (var item in _regex) input = item.Regex.Replace(input, m => item.Replacement(m));
-
-        return input;
+        return _regex.Aggregate(input, (current, item) => item.Regex.Replace(current, m => item.Replacement(m)));
     }
 }

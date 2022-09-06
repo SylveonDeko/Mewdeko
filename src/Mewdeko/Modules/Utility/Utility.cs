@@ -7,6 +7,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
+using Mewdeko.Services.Settings;
 using Serilog;
 using System.Diagnostics;
 using System.IO;
@@ -28,16 +29,19 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     private readonly ICoordinator _coordinator;
     private readonly GuildSettingsService _guildSettings;
     private readonly HttpClient _httpClient;
+    private readonly BotConfigService _config;
 
     public Utility(
         DiscordSocketClient client,
         IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv, ICoordinator coordinator,
         GuildSettingsService guildSettings,
-        HttpClient httpClient)
+        HttpClient httpClient,
+        BotConfigService config)
     {
         _coordinator = coordinator;
         _guildSettings = guildSettings;
         _httpClient = httpClient;
+        _config = config;
         _interactivity = serv;
         _client = client;
         _stats = stats;
@@ -137,23 +141,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                                    .WithOkColor();
         }
     }
-
-    // [MewdekoCommand, Usage, Description, Alias, UserPerm(ChannelPermission.ManageMessages)]
-    // public async Task EmbedSource(ulong messageId) => await EmbedSource(ctx.Channel as ITextChannel, messageId);
-    // [MewdekoCommand, Usage, Description, Alias, UserPerm(ChannelPermission.ManageMessages)]
-    // public async Task EmbedSource(ITextChannel channel, ulong messageId)
-    // {
-    //     var message = await channel.GetMessageAsync(messageId);
-    //     if (message is null)
-    //     {
-    //         await ctx.Channel.SendErrorAsync("Message not found! Make sure the ID is correct.");
-    //         return;
-    //     }
-    //
-    //     var a = JsonSerializer.Serialize(message.GetJsonSource());
-    //     await ctx.Channel.SendMessageAsync(a);
-    //
-    // }
 
     [Cmd, Aliases]
     public async Task Invite()
@@ -257,7 +244,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+            components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                        .WithButton(style: ButtonStyle.Link, 
+                                                            url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                            label: "Invite Me!", 
+                                                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -388,7 +380,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+            components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                        .WithButton(style: ButtonStyle.Link, 
+                                                            url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                            label: "Invite Me!", 
+                                                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -441,7 +438,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+            components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                        .WithButton(style: ButtonStyle.Link, 
+                                                            url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                            label: "Invite Me!", 
+                                                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -476,7 +478,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
     }
 
@@ -533,7 +540,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
     }
 
@@ -574,7 +586,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
     }
 
@@ -615,7 +632,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
     }
 
@@ -656,7 +678,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
     }
 

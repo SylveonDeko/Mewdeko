@@ -372,10 +372,10 @@ autohentai:
     Provide no parameters to disable.
 autoplay:
   args:
-    - ''
+    - '0'
+    - '5'
   desc: >-
-    Toggles autoplay - When the song is finished, automatically queue a related
-    Youtube song. (Works only for Youtube songs and when queue is empty)
+    Sets or turns off AutoPlay. You can request up to 5 songs to be added when the bot reaches the end of its queue. Set to `0` to disable.
 autotranslang:
   args:
     - en>fr

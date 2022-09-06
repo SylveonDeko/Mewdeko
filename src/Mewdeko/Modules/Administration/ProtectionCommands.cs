@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Common;
@@ -40,7 +41,7 @@ public partial class Administration
                 case PunishmentAction.Timeout when punishTime.Time.Days > 28:
                     await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
-                case PunishmentAction.Timeout when punishTime.Time.Days == 0:
+                case PunishmentAction.Timeout when punishTime.Time == TimeSpan.Zero:
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
@@ -92,7 +93,7 @@ public partial class Administration
                 case PunishmentAction.Timeout when punishTime.Time.Days > 28:
                     await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
-                case PunishmentAction.Timeout when punishTime.Time.Days == 0:
+                case PunishmentAction.Timeout when punishTime.Time == TimeSpan.Zero:
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
@@ -172,7 +173,10 @@ public partial class Administration
             if (timeData is not null)
             {
                 if (!ProtectionService.IsDurationAllowed(action))
+                {
                     await ReplyErrorLocalizedAsync("prot_cant_use_time").ConfigureAwait(false);
+                    return;
+                }
             }
 
             var time = (int?)timeData?.Time.TotalMinutes ?? 0;
@@ -183,7 +187,7 @@ public partial class Administration
                 case PunishmentAction.Timeout when timeData.Time.Days > 28:
                     await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
-                case PunishmentAction.Timeout when timeData.Time.Days == 0:
+                case PunishmentAction.Timeout when timeData.Time == TimeSpan.Zero:
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
@@ -259,7 +263,7 @@ public partial class Administration
                 ignoredString = "none";
 
             var add = "";
-            if (settings.MuteTime > 0) add = $" ({TimeSpan.FromMinutes(settings.MuteTime):hh\\hmm\\m})";
+            if (settings.MuteTime > 0) add = $" ({TimeSpan.FromMinutes(settings.MuteTime).Humanize()})";
 
             return GetText("spam_stats",
                 Format.Bold(settings.MessageThreshold.ToString()),
@@ -272,7 +276,7 @@ public partial class Administration
             var actionString = Format.Bold(stats.AntiRaidSettings.Action.ToString());
 
             if (stats.AntiRaidSettings.PunishDuration > 0)
-                actionString += $" **({TimeSpan.FromMinutes(stats.AntiRaidSettings.PunishDuration):hh\\hmm\\m})**";
+                actionString += $" **({TimeSpan.FromMinutes(stats.AntiRaidSettings.PunishDuration).Humanize()})**";
 
             return GetText("raid_stats",
                 Format.Bold(stats.AntiRaidSettings.UserThreshold.ToString()),

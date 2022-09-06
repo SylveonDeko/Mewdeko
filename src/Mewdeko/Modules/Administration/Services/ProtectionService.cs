@@ -437,6 +437,7 @@ public class ProtectionService : INService
             PunishmentAction.ChatMute => true,
             PunishmentAction.VoiceMute => true,
             PunishmentAction.AddRole => true,
+            PunishmentAction.Timeout => true,
             _ => false
         };
 
