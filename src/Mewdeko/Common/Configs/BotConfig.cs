@@ -22,6 +22,7 @@ public sealed class BotConfig
         Prefix = ".";
         RotateStatuses = false;
         GroupGreets = false;
+        ShowInviteButton = true;
     }
 
     [Comment(@"DO NOT CHANGE")] public int Version { get; set; }
@@ -88,6 +89,9 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment(@"Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
+
+    [Comment(@"Used to enable or disable showing the invite button on some commands")]
+    public bool ShowInviteButton { get; set; }
 
     //         [Comment(@"Whether the prefix will be a suffix, or prefix.
     // For example, if your prefix is ! you will run a command called 'cash' by typing either

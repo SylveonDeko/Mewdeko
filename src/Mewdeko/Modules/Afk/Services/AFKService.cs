@@ -1,6 +1,8 @@
 ﻿using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Threading.Tasks;
 
@@ -12,22 +14,98 @@ public class AfkService : INService, IReadyExecutor
     private readonly DiscordSocketClient _client;
     private readonly IDataCache _cache;
     private readonly GuildSettingsService _guildSettings;
+    private readonly IBotCredentials _creds;
+    private readonly BotConfigService _config;
 
     public AfkService(
         DbService db,
         DiscordSocketClient client,
         IDataCache cache,
-        GuildSettingsService guildSettings, EventHandler eventHandler)
+        GuildSettingsService guildSettings, EventHandler eventHandler,
+        IBotCredentials creds,
+        BotConfigService config)
     {
         _cache = cache;
         _guildSettings = guildSettings;
+        _creds = creds;
+        _config = config;
         _db = db;
         _client = client;
         eventHandler.MessageReceived += MessageReceived;
         eventHandler.MessageUpdated += MessageUpdated;
         eventHandler.UserIsTyping += UserTyping;
+        _ = Task.Run(async () => await StartTimedAfkLoop());
+    }
+    
+    private async Task StartTimedAfkLoop()
+    {
+        while (true)
+        {
+            await Task.Delay(1000).ConfigureAwait(false);
+            try
+            {
+                var now = DateTime.UtcNow;
+                var afks = await GetAfkBeforeAsync(now).ConfigureAwait(false);
+                if (afks.Count == 0)
+                    continue;
+
+                Log.Information($"Executing {afks.Count} timed AFKs.");
+
+                // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
+                var i = 0;
+                foreach (var group in afks
+                             .GroupBy(_ => ++i / ((afks.Count / 5) + 1)))
+                {
+                    var executedReminders = group.ToList();
+                    await Task.WhenAll(executedReminders.Select(TimedAfkFinished)).ConfigureAwait(false);
+                    await Task.Delay(1500).ConfigureAwait(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"Error in Timed AFK loop: {ex.Message}");
+                Log.Warning(ex.ToString());
+            }
+        }
+    }
+    private Task<List<Database.Models.Afk>> GetAfkBeforeAsync(DateTime now)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.Afk
+                  .FromSqlInterpolated(
+                      $"select * from AFK where ((guildid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
+                  .ToListAsync();
     }
 
+    private async Task TimedAfkFinished(Database.Models.Afk afk)
+    {
+        await using var uow = _db.GetDbContext();
+        if (!IsAfk(afk.GuildId, afk.UserId))
+        {
+            var current1 = _cache.GetAfkForGuild(afk.GuildId) ?? new List<Database.Models.Afk?>();
+            current1.Remove(afk);
+            await _cache.AddAfkToCache(afk.GuildId, current1).ConfigureAwait(false);
+            uow.Afk.Remove(afk);
+            await uow.SaveChangesAsync();
+            return;
+        }
+        await AfkSet(afk.GuildId, afk.UserId, "", 0);
+        var guild = _client.GetGuild(afk.GuildId);
+        var user = guild.GetUser(afk.UserId);
+        try
+        {
+            await user.ModifyAsync(x => x.Nickname = user.Nickname.Replace("[AFK]", "")).ConfigureAwait(false);
+        }
+        catch
+        {
+            //ignored
+        }
+        var current = _cache.GetAfkForGuild(afk.GuildId) ?? new List<Database.Models.Afk?>();
+        current.Remove(afk);
+        await _cache.AddAfkToCache(afk.GuildId, current).ConfigureAwait(false);
+        uow.Afk.Remove(afk);
+        await uow.SaveChangesAsync();
+    }
     public async Task OnReadyAsync()
     {
         await using var uow = _db.GetDbContext();
@@ -138,14 +216,19 @@ public class AfkService : INService, IReadyExecutor
                         var afkdel = await GetAfkDel(((ITextChannel)msg.Channel).GuildId);
                         if (customafkmessage is null or "-")
                         {
-                            var a = await msg.Channel.EmbedAsync(new EmbedBuilder()
+                            var a = await msg.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                                                  .WithAuthor(eab => eab.WithName($"{mentuser} is currently away").WithIconUrl(mentuser.GetAvatarUrl()))
                                                                  .WithDescription(GetAfkMessage(user.GuildId, mentuser.Id).Last().Message.Truncate(await GetAfkLength(user.Guild.Id)))
                                                                  .WithFooter(new EmbedFooterBuilder
                                                                  {
                                                                      Text =
                                                                          $"AFK for {(DateTime.UtcNow - GetAfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
-                                                                 }).WithOkColor()).ConfigureAwait(false);
+                                                                 }).WithOkColor().Build(), 
+                                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                                label: "Invite Me!", 
+                                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                             if (afkdel > 0)
                                 a.DeleteAfter(afkdel);
                             return;
@@ -155,7 +238,7 @@ public class AfkService : INService, IReadyExecutor
                                        .WithOverride("%afk.message%", () => afkmessage.Last().Message.SanitizeMentions(true).Truncate(GetAfkLength(user.GuildId).GetAwaiter().GetResult()))
                                        .WithOverride("%afk.user%", () => mentuser.ToString()).WithOverride("%afk.user.mention%", () => mentuser.Mention)
                                        .WithOverride("%afk.user.avatar%", () => mentuser.GetAvatarUrl(size: 2048)).WithOverride("%afk.user.id%", () => mentuser.Id.ToString())
-                                       .WithOverride("%afk.triggeruser%", () => msg.Author.ToString())
+                                       .WithOverride("%afk.triggeruser%", () => msg.Author.ToString().EscapeQuotes())
                                        .WithOverride("%afk.triggeruser.avatar%", () => msg.Author.RealAvatarUrl().ToString())
                                        .WithOverride("%afk.triggeruser.id%", () => msg.Author.Id.ToString()).WithOverride("%afk.triggeruser.mention%", () => msg.Author.Mention)
                                        .WithOverride("%afk.time%", () =>
@@ -208,6 +291,17 @@ public class AfkService : INService, IReadyExecutor
     public bool IsAfk(IGuild guild, IGuildUser user)
     {
         var afkmsg = GetAfkMessage(guild.Id, user.Id);
+        if (!afkmsg.Any())
+            return false;
+        var result = afkmsg.LastOrDefault();
+        if (result is null)
+            return false;
+        return !string.IsNullOrEmpty(result.Message);
+    }
+    
+    public bool IsAfk(ulong guildId, ulong userId)
+    {
+        var afkmsg = GetAfkMessage(guildId, userId);
         if (!afkmsg.Any())
             return false;
         var result = afkmsg.LastOrDefault();
@@ -294,15 +388,35 @@ public class AfkService : INService, IReadyExecutor
         IGuild guild,
         IGuildUser user,
         string message,
-        int timed)
+        int timed,
+        DateTime when = default)
     {
         var afk = new Database.Models.Afk { GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed };
+        if (timed == 1)
+        {
+            afk = new Database.Models.Afk { GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed, When = when};
+        }
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk?>();
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current).ConfigureAwait(false);
+    }
+    
+    public async Task AfkSet(
+        ulong guildId,
+        ulong userId,
+        string message,
+        int timed)
+    {
+        var afk = new Database.Models.Afk { GuildId = guildId, UserId = userId, Message = message, WasTimed = timed };
+        await using var uow = _db.GetDbContext();
+        uow.Afk.Update(afk);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        var current = _cache.GetAfkForGuild(guildId) ?? new List<Database.Models.Afk?>();
+        current.Add(afk);
+        await _cache.AddAfkToCache(guildId, current).ConfigureAwait(false);
     }
 
     public IEnumerable<Database.Models.Afk> GetAfkMessage(ulong gid, ulong uid)

@@ -5,6 +5,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
@@ -17,12 +18,15 @@ public partial class Utility
         private readonly DiscordSocketClient _client;
         private readonly InteractiveService _interactivity;
         private readonly GuildSettingsService _guildSettings;
+        private readonly BotConfigService _config;
 
-        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService, GuildSettingsService guildSettings)
+        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService, GuildSettingsService guildSettings,
+            BotConfigService config)
         {
             _client = client;
             _interactivity = interactiveService;
             _guildSettings = guildSettings;
+            _config = config;
         }
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
@@ -65,7 +69,12 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Interaction.RespondAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
 
         [SlashCommand("edited", "Snipes edited messages for the current or mentioned channel"),
@@ -108,7 +117,12 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build()).ConfigureAwait(false);
+            await ctx.Interaction.RespondAsync(embed: em.Build(), 
+                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link, 
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                label: "Invite Me!", 
+                                                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
 
         [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),

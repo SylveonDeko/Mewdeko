@@ -2,6 +2,7 @@ using Lavalink4NET;
 using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
 using Mewdeko.Modules.Music.Common;
+using Mewdeko.Services.Settings;
 using SpotifyAPI.Web;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -15,12 +16,21 @@ public class MusicService : INService
     private readonly DbService _db;
     private readonly LavalinkNode _lavaNode;
     private readonly IBotCredentials _creds;
+    private readonly IGoogleApiService _googleApi;
+    private readonly DiscordSocketClient _client;
+    private readonly BotConfigService _config;
 
-    public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, DiscordSocketClient client, EventHandler eventHandler)
+    public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler,
+        IGoogleApiService googleApi,
+        DiscordSocketClient client,
+        BotConfigService config)
     {
         _lavaNode = lavaNode;
         _creds = creds;
         _db = db;
+        _googleApi = googleApi;
+        _client = client;
+        _config = config;
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
         Queues = new ConcurrentDictionary<ulong, List<LavalinkTrack>>();
         eventHandler.UserVoiceStateUpdated += HandleDisconnect;
@@ -121,7 +131,12 @@ public class MusicService : INService
                                  "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png").WithOkColor()
                              .WithDescription($"Trying to queue {items!.Count} tracks from {result.Name}...")
                              .WithThumbnailUrl(result.Images?.FirstOrDefault()?.Url);
-                    var msg = await chan!.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    var msg = await chan!.SendMessageAsync(embed: eb.Build(), 
+                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link, 
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                        label: "Invite Me!", 
+                                                                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items.Select(i => i.Track as FullTrack))
                     {
@@ -172,7 +187,12 @@ public class MusicService : INService
                                  "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png").WithOkColor()
                              .WithDescription($"Trying to queue {items.Count} tracks from {result1.Name}...")
                              .WithThumbnailUrl(result1.Images.FirstOrDefault()?.Url);
-                    var msg = await chan!.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    var msg = await chan!.SendMessageAsync(embed: eb.Build(), 
+                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link, 
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                                                        label: "Invite Me!", 
+                                                                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items)
                     {
@@ -264,6 +284,56 @@ public class MusicService : INService
     {
         var queue = GetQueue(guild.Id);
         return queue.Find(x => x.Identifier == player.CurrentTrack.Identifier);
+    }
+
+    public async Task AutoPlay(ulong guildId)
+    {
+        var guild = _client.GetGuild(guildId) as IGuild;
+        var setting = await GetSettingsInternalAsync(guild.Id);
+        var musicChannel = await guild.GetTextChannelAsync(setting.MusicChannelId.Value);
+        if (string.IsNullOrWhiteSpace(_creds.GoogleApiKey) && string.IsNullOrWhiteSpace(_creds.SpotifyClientId))
+        {
+            await musicChannel.SendErrorAsync(
+                "Autoplay relies on either the google or spotify api. Please add a google or spotify api key to the credentials file to use autoplay.");
+            return;
+        }
+        var client = await GetSpotifyClient();
+        var lastSong = GetQueue(guild.Id).LastOrDefault();
+        if (lastSong is null)
+            return;
+        var result = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, lastSong.Title));
+        if (_creds.SpotifyClientId.IsNullOrWhiteSpace() || !result.Tracks.Items.Any())
+        {
+            if (!lastSong.SourceName.Contains("youtube"))
+                return;
+            var recommendById = await _googleApi.GetVideoLinksByVideoId(lastSong.TrackIdentifier, setting.AutoPlay);
+            foreach (var i in recommendById)
+            {
+                var track = await _lavaNode.LoadTracksAsync($"https://www.youtube.com/watch?v={i.Id.VideoId}");
+                if (!track.Tracks.Any())
+                    continue;
+                await Enqueue(guild.Id, _client.CurrentUser, track.Tracks.FirstOrDefault());
+            }
+            return;
+        }
+        var song = result.Tracks.Items.FirstOrDefault();
+        var recommendations = await client.Browse.GetRecommendations(new RecommendationsRequest
+        {
+            Limit = 5, SeedTracks = { song.Id }
+        });
+        if (!recommendations.Tracks.Any())
+        {
+            if (musicChannel is null) return;
+            await musicChannel.SendErrorAsync("Unfortunately autoplay could not find any recommendations for your current track. Please queue something else.");
+            return;
+        }
+        foreach (var i in recommendations.Tracks.Take(setting.AutoPlay))
+        {
+            var track = await _lavaNode.GetTracksAsync($"{i.Artists.FirstOrDefault().Name} {i.Name}", SearchMode.YouTube);
+            if (!track.Any())
+                continue;
+            await Enqueue(guild.Id, _client.CurrentUser, track.FirstOrDefault());
+        }
     }
 
     public async Task<bool> RemoveSong(IGuild guild, int trackNum)
