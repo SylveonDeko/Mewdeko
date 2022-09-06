@@ -25,11 +25,13 @@ public class Music : MewdekoModuleBase<MusicService>
 
     public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
         DiscordSocketClient client,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        BotConfigService config)
     {
         _db = dbService;
         _client = client;
         _guildSettings = guildSettings;
+        _config = config;
         _interactivity = interactive;
         _lavaNode = lava;
     }
@@ -1116,12 +1118,20 @@ public class Music : MewdekoModuleBase<MusicService>
         switch (autoPlayNum)
         {
             case > 0 and < 6:
-                await ctx.Channel.SendConfirmAsync($"When the last song is reached autoplay will attempt to add `{autoPlayNum}` songs to the queue.", 
-                    builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                                .WithButton(style: ButtonStyle.Link, 
-                                                                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
-                                                                    label: "Invite Me!", 
-                                                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null);
+                try
+                {
+                    await ctx.Channel.SendConfirmAsync($"When the last song is reached autoplay will attempt to add `{autoPlayNum}` songs to the queue.", 
+                        builder: _config.Data.ShowInviteButton ? new ComponentBuilder()
+                            .WithButton(style: ButtonStyle.Link, 
+                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
+                                label: "Invite Me!", 
+                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()) : null);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
                 break;
             case > 5:
                 await ctx.Channel.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.");
