@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using Discord.Net;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -30,7 +30,7 @@ public partial class Administration
             _interactivity = intserv;
         }
 
-        public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
+        public async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
         {
             var target = messageId is { } msgId
                 ? await ctx.Channel.GetMessageAsync(msgId).ConfigureAwait(false)

@@ -38,7 +38,7 @@ public class PollService : INService
         return (true, poll.Poll.PollType);
     }
 
-    public static Poll CreatePoll(ulong guildId, ulong channelId, string input, PollType type)
+    public static Poll? CreatePoll(ulong guildId, ulong channelId, string input, PollType type)
     {
         if (string.IsNullOrWhiteSpace(input) || !input.Contains(';'))
             return null;
@@ -70,7 +70,7 @@ public class PollService : INService
         return true;
     }
 
-    public async Task<Poll> StopPoll(ulong guildId)
+    public async Task<Poll>? StopPoll(ulong guildId)
     {
         if (!ActivePolls.TryRemove(guildId, out var pr)) return null;
         await using (var uow = _db.GetDbContext())
