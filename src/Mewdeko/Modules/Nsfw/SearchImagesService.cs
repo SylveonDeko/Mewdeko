@@ -57,7 +57,7 @@ public class SearchImagesService : ISearchImagesService, INService
         Booru dapi,
         CancellationToken cancel)
     {
-        if (!tags.All(x => IsValidTag(x)))
+        if (!tags.All(IsValidTag))
         {
             return new UrlReply
             {
@@ -197,28 +197,7 @@ public class SearchImagesService : ISearchImagesService, INService
             Error = "No hentai image found."
         };
     }
-
-    public async Task<UrlReply?> Boobs()
-    {
-        try
-        {
-            var obj = JArray.Parse(await _http.GetStringAsync($"http://api.oboobs.ru/boobs/{_rng.Next(0, 12000)}").ConfigureAwait(false))[0];
-            return new UrlReply
-            {
-                Error = "",
-                Url = $"http://media.oboobs.ru/{obj["preview"]}"
-            };
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error retreiving boob image: {Message}", ex.Message);
-            return new UrlReply
-            {
-                Error = ex.Message,
-                Url = ""
-            };
-        }
-    }
+    
 
     private readonly object _taglock = new();
     public async ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
@@ -257,28 +236,6 @@ public class SearchImagesService : ISearchImagesService, INService
         lock (_taglock)
         {
             return _blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
-        }
-    }
-
-    public async Task<UrlReply?> Butts()
-    {
-        try
-        {
-            var obj = JArray.Parse(await _http.GetStringAsync($"http://api.obutts.ru/butts/{_rng.Next(0, 6100)}").ConfigureAwait(false))[0];
-            return new UrlReply
-            {
-                Error = "",
-                Url = $"http://media.obutts.ru/{obj["preview"]}"
-            };
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error retreiving butt image: {Message}", ex.Message);
-            return new UrlReply
-            {
-                Error = ex.Message,
-                Url = ""
-            };
         }
     }
 }

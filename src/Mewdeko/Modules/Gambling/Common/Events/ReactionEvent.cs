@@ -30,7 +30,8 @@ public class ReactionEvent : ICurrencyEvent
     private IEmote emote;
     private IUserMessage? msg;
 
-    public ReactionEvent(DiscordSocketClient client, ICurrencyService cs,
+    public ReactionEvent(
+        ICurrencyService cs,
         SocketGuild g, ITextChannel ch, EventOptions opt, GamblingConfig config,
         Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
         EventHandler eventHandler)

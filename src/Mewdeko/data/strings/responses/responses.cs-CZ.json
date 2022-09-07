@@ -461,7 +461,7 @@
     "aum_disable": "Vypnuto užívání všech modulů pro uživatele {0}.",
     "aum_enable": "Zapnuto užívání všech modulů pro uživatele {0}.",
     "blacklisted": "Uživatel {0} s ID {1} byl umístěn na černou listinu",
-    "cmdcd_add": "Příkaz {0} má nyní {1}s cooldown.",
+    "cmdcd_add": "Příkaz {0} má nyní {1} cooldown.",
     "cmdcd_cleared": "Příkaz {0} nyní nemá žádný cooldown a všechny existující cooldowny byly vyčištěny.",
     "cmdcd_none": "Žádné cooldowny na příkazy nejsou nastaveny.",
     "command_costs": "Příkaz stojí",

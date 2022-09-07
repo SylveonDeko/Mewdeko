@@ -1,7 +1,9 @@
 ﻿using Discord.Commands;
+using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -29,12 +31,13 @@ public partial class Permissions
             => _service.ActiveCooldowns;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public async Task CmdCooldown(CommandOrCrInfo command, int secs)
+        public async Task CmdCooldown(CommandOrCrInfo command, StoopidTime time = default)
         {
+            time ??= StoopidTime.FromInput("0s");
             var channel = (ITextChannel)ctx.Channel;
-            if (secs is < 0 or > 3600)
+            if (time.Time.TotalSeconds is < 0 or > 90000)
             {
-                await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 3600).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 90000).ConfigureAwait(false);
                 return;
             }
 
@@ -49,12 +52,12 @@ public partial class Permissions
                 if (toDelete != null)
                     uow.CommandCooldown.Remove(toDelete);
                 localSet.RemoveWhere(cc => cc.CommandName == name);
-                if (secs != 0)
+                if (time.Time.TotalSeconds != 0)
                 {
                     var cc = new CommandCooldown
                     {
                         CommandName = name,
-                        Seconds = secs
+                        Seconds = Convert.ToInt32(time.Time.TotalSeconds)
                     };
                     config.CommandCooldowns.Add(cc);
                     localSet.Add(cc);
@@ -63,7 +66,7 @@ public partial class Permissions
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
-            if (secs == 0)
+            if (time.Time.TotalSeconds == 0)
             {
                 var activeCds = ActiveCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                 activeCds.RemoveWhere(ac => ac.Command == name);
@@ -74,7 +77,7 @@ public partial class Permissions
             {
                 await ReplyConfirmLocalizedAsync("cmdcd_add",
                     Format.Bold(name),
-                    Format.Bold(secs.ToString())).ConfigureAwait(false);
+                    Format.Bold(time.Time.Humanize())).ConfigureAwait(false);
             }
         }
 

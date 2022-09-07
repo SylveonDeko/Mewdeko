@@ -35,7 +35,7 @@ public class CurrencyEventsService : INService
         switch (type)
         {
             case CurrencyEvent.Type.Reaction:
-                ce = new ReactionEvent(_client, _cs, g, ch, opts, _configService.Data, embed, _eventHandler);
+                ce = new ReactionEvent(_cs, g, ch, opts, _configService.Data, embed, _eventHandler);
                 break;
             case CurrencyEvent.Type.GameStatus:
                 ce = new GameStatusEvent(_client, _cs, g, ch, opts, embed, _eventHandler);

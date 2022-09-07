@@ -461,7 +461,7 @@
     "aum_disable": "Désactivation de TOUS LES MODULES pour l'utilisateur {0}.",
     "aum_enable": "Activation de TOUS LES MODULES pour l'utilisateur {0}.",
     "blacklisted": "{0} sur liste noire avec l'ID {1}",
-    "cmdcd_add": "La commande {0} a désormais {1}s de temps de recharge.",
+    "cmdcd_add": "La commande {0} a désormais {1} de temps de recharge.",
     "cmdcd_cleared": "La commande {0} n'a plus de temps de recharge et tous les temps de recharge ont été réinitialisés.",
     "cmdcd_none": "Aucune commande n'a de temps de recharge.",
     "command_costs": "Coût de la commande :",

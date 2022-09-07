@@ -461,7 +461,7 @@
     "aum_disable": "Slog brugen af ALLE MODULER fra for brugeren {0}",
     "aum_enable": "Slog brugen af ALLE MODULER til for brugeren {0}",
     "blacklisted": "Sortlistede {0} med ID {1}",
-    "cmdcd_add": "Kommandoen {0} har nu en {1}s afkølings periode.",
+    "cmdcd_add": "Kommandoen {0} har nu en {1} afkølings periode.",
     "cmdcd_cleared": "Kommandoen {0} har nu ingen afkølings periode, og alle eksisterende afkølings perioder er blevet slettet.",
     "cmdcd_none": "Ingen afkølingsperioder for kommandoer er sat.",
     "command_costs": "Kommando pris",

@@ -1,11 +1,11 @@
 ﻿using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Votes.Common;
-using Mewdeko.Common.PubSub;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Modules.VotesCommands.Services;
+namespace Mewdeko.Modules.Votes.Services;
 
 public class VoteService : INService
 {
@@ -33,6 +33,9 @@ public class VoteService : INService
         if (guild is null)
             return;
         var user = guild.GetUser(ulong.Parse(voteModal.VoteModel.User));
+        var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
+        await uow.Votes.AddAsync(newVote);
+        await uow.SaveChangesAsync();
         if (string.IsNullOrEmpty(potentialVoteConfig.VoteEmbed))
         {
             if (potentialVoteConfig.VotesChannel is 0)
@@ -41,9 +44,6 @@ public class VoteService : INService
             if (guild.GetTextChannel(potentialVoteConfig.VotesChannel) is not ITextChannel channel)
                 return;
             
-            var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
-            await uow.Votes.AddAsync(newVote);
-            await uow.SaveChangesAsync();
             var votes = await uow.Votes.CountAsyncEF(x => x.UserId == user.Id && x.GuildId == guild.Id);
             var eb = new EmbedBuilder()
                 .WithTitle($"Thanks for voting for {guild.Name}")
@@ -79,9 +79,6 @@ public class VoteService : INService
         {
             if (guild.GetTextChannel(potentialVoteConfig.VotesChannel) is not ITextChannel channel)
                 return;
-            var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
-            await uow.Votes.AddAsync(newVote);
-            await uow.SaveChangesAsync();
             if (potentialVoteConfig.VotesChannel is 0)
                 return;
             var votes = uow.Votes.Where(x => x.UserId == user.Id && x.GuildId == guild.Id);

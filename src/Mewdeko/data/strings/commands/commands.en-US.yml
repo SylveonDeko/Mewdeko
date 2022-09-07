@@ -260,7 +260,7 @@ antiraid:
     is punishment for those people. You can specify an additional time argument
     to do a timed punishment for actions which support it (Ban, Mute, etc) up to
     24h. Available punishments: Ban, Kick, Softban, Mute, VoiceMute, ChatMute,
-    RemoveRoles
+    RemoveRoles, Timeout
 antispam:
   args:
     - 3 Mute
@@ -273,7 +273,7 @@ antispam:
     offenders. You can specify an additional time argument to do a timed
     punishment for actions which support it (Ban, Mute, etc) up to 24h. Max
     message count is 10. Available punishments: Ban, Kick, Softban, Mute,
-    VoiceMute, ChatMute, AddRole, RemoveRoles
+    VoiceMute, ChatMute, AddRole, RemoveRoles, Timeout
 antispamignore:
   args:
     - ''
@@ -814,8 +814,8 @@ clubunban:
   desc: Unbans the previously banned user from the club. You must be the club owner.
 cmdcooldown:
   args:
-    - '"some cmd" 5'
-  desc: Sets a cooldown per user for a command. Set it to 0 to remove the cooldown.
+    - '"some cmd" 10s'
+  desc: Sets a cooldown per user for a command. Put just the command to remove the cooldown.
 color:
   args:
     - 00ff00
@@ -823,6 +823,22 @@ color:
   desc: >-
     Shows you pictures of colors which correspond to the inputed hex values. Max
     10.
+porn:
+  args:
+    -
+  desc: "Pulls something from the porn subreddit."
+bondage:
+  args:
+    -
+  desc: "Pulls something from the bondage subreddit."
+anal:
+  args:
+    -
+  desc: "Pulls something from the anal subreddit."
+pussy:
+  args:
+    -
+  desc: "Pulls something from the pussy subreddit."
 commandlogchannel:
   args:
     - command-logs
@@ -3887,7 +3903,7 @@ warnpunish:
     Sets a punishment for a certain number of warnings. You can specify a time
     string after 'Ban' or *'Mute' punishments to make it a temporary mute/ban.
     Provide no punishment to remove. Available punishments: Ban, Kick, Softban,
-    Mute, VoiceMute, ChatMute, AddRole, RemoveRoles
+    Mute, VoiceMute, ChatMute, AddRole, RemoveRoles, Timeout
 warnpunishlist:
   args:
     - ''

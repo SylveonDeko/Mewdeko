@@ -266,7 +266,7 @@ public class RedisCache : IDataCache
     public Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
-        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(10), when: When.NotExists,  flags: CommandFlags.FireAndForget));
+        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(3), when: When.NotExists,  flags: CommandFlags.FireAndForget));
     }
 
     public Task<bool> GetHighlightStagger(ulong guildId, ulong userId)

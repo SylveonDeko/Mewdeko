@@ -461,7 +461,7 @@
     "aum_disable": "L'utente {0} non può più usare ALCUN MODULO.",
     "aum_enable": "L'utente {0} può usare TUTTI I MODULI.",
     "blacklisted": "Aggiunto {0} con ID {1} alla lista nera",
-    "cmdcd_add": "Il comando {0} ha adesso {1} secondi di ricarica.",
+    "cmdcd_add": "Il comando {0} ha adesso {1} di ricarica.",
     "cmdcd_cleared": "Il comando {0} non ha più il tempo di ricarica e tutti i tempi di ricarica esistenti sono stati cancellati.",
     "cmdcd_none": "Nessuna ricarica dei comandi stabilita.",
     "command_costs": "Costo dei comandi",
