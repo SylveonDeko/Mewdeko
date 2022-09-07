@@ -344,7 +344,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         return removedCount;
     }
 
-    public async Task<FollowedStream> UnfollowStreamAsync(ulong guildId, int index)
+    public async Task<FollowedStream>? UnfollowStreamAsync(ulong guildId, int index)
     {
         FollowedStream fs;
         var uow = _db.GetDbContext();
@@ -395,7 +395,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 GuildId = fs.GuildId
             });
 
-    public async Task<StreamData> FollowStream(ulong guildId, ulong channelId, string url)
+    public async Task<StreamData>? FollowStream(ulong guildId, ulong channelId, string url)
     {
         // this will 
         var data = await _streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);

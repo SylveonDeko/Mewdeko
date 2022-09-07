@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Services.strings.impl;
+namespace Mewdeko.Services.strings.impl;
 
 public class LocalBotStringsProvider : IBotStringsProvider
 {
@@ -12,7 +12,7 @@ public class LocalBotStringsProvider : IBotStringsProvider
         Reload();
     }
 
-    public string GetText(string localeName, string? key)
+    public string? GetText(string localeName, string? key)
     {
         if (responseStrings.TryGetValue(localeName, out var langStrings)
             && langStrings.TryGetValue(key, out var text))

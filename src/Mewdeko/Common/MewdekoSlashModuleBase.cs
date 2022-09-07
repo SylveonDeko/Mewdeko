@@ -104,7 +104,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     }
     
 
-    public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
+    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;
@@ -153,7 +153,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         }
     }
 
-    public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
+    public async Task<string>? NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;
