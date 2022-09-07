@@ -223,7 +223,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 }
 
                 if (rotatingStatuses.Count == 0)
-                    return;
+                    continue;
 
                 var playingStatus = currentStatusNum >= rotatingStatuses.Count ? rotatingStatuses[currentStatusNum = 0] : rotatingStatuses[currentStatusNum++];
 
