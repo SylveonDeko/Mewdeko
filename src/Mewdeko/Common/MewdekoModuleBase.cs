@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using Mewdeko.Services.strings;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -102,7 +102,7 @@ public abstract class MewdekoModule : ModuleBase
 
         return input == "Yes";
     }
-    public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
+    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;
@@ -148,7 +148,7 @@ public abstract class MewdekoModule : ModuleBase
             }
         }
     }
-    public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
+    public async Task<string>? NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;

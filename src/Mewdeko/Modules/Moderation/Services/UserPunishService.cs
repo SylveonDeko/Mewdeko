@@ -43,7 +43,7 @@ public class UserPunishService : INService
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<WarningPunishment> Warn(IGuild guild, ulong userId, IUser mod, string reason)
+    public async Task<WarningPunishment>? Warn(IGuild guild, ulong userId, IUser mod, string reason)
     {
         var modName = mod.ToString();
 
