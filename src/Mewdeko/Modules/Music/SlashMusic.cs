@@ -1120,15 +1120,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
         var artService = new ArtworkService();
-        Uri info = null;
-        try
-        {
-            info = await artService.ResolveAsync(track).ConfigureAwait(false);
-        }
-        catch
-        {
-            //ignored
-        }
+        var info = await artService.ResolveAsync(track).ConfigureAwait(false);
         var eb = new EmbedBuilder()
                  .WithOkColor()
                  .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
