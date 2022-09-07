@@ -43,7 +43,7 @@ public class CommandHandler : INService
     public readonly InteractionService InteractionService;
     private readonly GuildSettingsService _gss;
 
-    public NonBlocking.ConcurrentDictionary<ulong, System.Collections.Concurrent.ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
+    public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
     public NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,

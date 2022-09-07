@@ -2,6 +2,7 @@ using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
@@ -37,26 +38,17 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _guildSettings = guildSettings;
     }
 
-    [SlashCommand("help", "Shows help on how to use the bot")]
+    [SlashCommand("help", "Shows help on how to use the bot"), CheckPermissions]
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
         await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
-        try
-        {
-            var message = await ctx.Channel.GetMessagesAsync().FlattenAsync().ConfigureAwait(false);
-            await HelpService.AddUser(message.FirstOrDefault(x => x.Author == ctx.User) as IUserMessage, DateTime.UtcNow).ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignored
-        }
     }
 
     [ComponentInteraction("helpselect", true)]
     public async Task HelpSlash(string[] selected)
     {
-        var currentmsg = HelpService.GetUserMessage(ctx.User) ?? new MewdekoUserMessage
+        var currentmsg = new MewdekoUserMessage
         {
             Content = "help",
             Author = ctx.User
@@ -136,7 +128,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 .WithOkColor();
         }
     }
-    [SlashCommand("invite", "You should invite me to your server and check all my features!")]
+    [SlashCommand("invite", "You should invite me to your server and check all my features!"), CheckPermissions]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
@@ -148,8 +140,8 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
-    [SlashCommand("search", "get information on a specific command")]
-    public async Task Search
+    [SlashCommand("search", "get information on a specific command"), CheckPermissions]
+    public async Task SearchCommand
     (
         [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
     )

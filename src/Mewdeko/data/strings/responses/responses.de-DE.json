@@ -461,7 +461,7 @@
     "aum_disable": "Benutzung ALLER MODULE für den Benutzer {0} verboten.",
     "aum_enable": "Benutzung ALLER MODULE für den Benutzer {0} erlaubt.",
     "blacklisted": "{0} mit ID {1} wurde zur Sperrliste hinzugefügt",
-    "cmdcd_add": "Befehl {0} hat nun {1}s Abklingzeit.",
+    "cmdcd_add": "Befehl {0} hat nun {1} Abklingzeit.",
     "cmdcd_cleared": "Befehl {0} hat keine Abklingzeit mehr und alle laufenden Abklingzeiten wurden entfernt.",
     "cmdcd_none": "Keine Befehls Abklingzeiten gesetzt.",
     "command_costs": "Preis für Befehle",

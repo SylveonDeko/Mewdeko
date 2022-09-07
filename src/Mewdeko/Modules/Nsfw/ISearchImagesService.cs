@@ -15,10 +15,8 @@ public interface ISearchImagesService
     Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags);
     Task<UrlReply?> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags);
     Task<UrlReply?> Hentai(ulong? guildId, bool forceExplicit, string[] tags);
-    Task<UrlReply?> Boobs();
     ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag);
     ValueTask<string[]> GetBlacklistedTags(ulong guildId);
-    Task<UrlReply?> Butts();
     ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; }
     ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; }
     ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; }

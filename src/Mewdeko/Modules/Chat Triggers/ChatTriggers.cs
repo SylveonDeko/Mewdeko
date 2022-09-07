@@ -203,7 +203,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtReact(int id, params string[] emojiStrs)
     {
-        var cr = Service.GetChatTriggers(Context.Guild?.Id, id);
+        var cr = await Service.GetChatTriggers(Context.Guild?.Id, id);
         if (cr is null)
         {
             await ReplyErrorLocalizedAsync("no_found").ConfigureAwait(false);

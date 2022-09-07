@@ -62,7 +62,6 @@ public class Help : MewdekoModuleBase<HelpService>
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await HelpService.AddUser(ctx.Message, DateTime.UtcNow).ConfigureAwait(false);
         await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
     }
 

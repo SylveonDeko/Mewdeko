@@ -248,13 +248,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return false;
     }
 
-    public async Task<bool> RunInteractionTrigger(DiscordSocketClient client, SocketInteraction inter, CTModel ct)
+    public async Task RunInteractionTrigger(DiscordSocketClient client, SocketInteraction inter, CTModel ct)
     {
         switch (inter)
         {
             case SocketCommandBase when !ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction):
             case SocketMessageComponent when !ct.ValidTriggerTypes.HasFlag(ChatTriggerType.Button):
-                return false;
+                return;
             default:
                 try
                 {
@@ -263,7 +263,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         Author = inter.User, Content = ct.Trigger, Channel = inter.Channel
                     };
 
-                    if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
+                    if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return;
 
                     if (inter.Channel is IGuildChannel {Guild: SocketGuild guild})
                     {
@@ -288,7 +288,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                 Log.Information(returnMsg);
                             }
 
-                            return true;
+                            return;
                         }
 
                         if (_discordPermOverride.TryGetOverrides(guild.Id, ct.Trigger, out var perms))
@@ -297,7 +297,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             if (!user.GuildPermissions.Has(perms.Value))
                             {
                                 Log.Information($"Chat Trigger {ct.Trigger} Blocked for {inter.User} in {guild} due to them missing {perms}.");
-                                return false;
+                                return;
                             }
                         }
                     }
@@ -323,7 +323,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         await Task.Delay(1000).ConfigureAwait(false);
                     }
 
-                    if (ct.GuildId is null || inter.User is not IGuildUser guildUser) return true;
+                    if (ct.GuildId is null || inter.User is not IGuildUser guildUser) return;
                     {
                         var effectedUsers = inter is SocketUserCommand uCmd
                             ? ct.RoleGrantType switch
@@ -361,14 +361,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         }
                     }
 
-                    return true;
+                    return;
                 }
                 catch (Exception ex)
                 {
                     Log.Warning(ex.Message);
                 }
 
-                return false;
+                return;
         }
     }
     
@@ -793,11 +793,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             for (var i = 0; i < globalReactions.Length; i++)
             {
-                if (globalReactions[i].Id == c.Id)
-                {
-                    globalReactions[i] = c;
-                    return default;
-                }
+                if (globalReactions[i].Id != c.Id) continue;
+                globalReactions[i] = c;
+                return default;
             }
 
             // if edited ct is not found?!

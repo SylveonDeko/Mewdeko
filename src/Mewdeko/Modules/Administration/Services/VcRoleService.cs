@@ -82,7 +82,7 @@ public class VcRoleService : INService
     }
 
     public NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
-    public NonBlocking.ConcurrentDictionary<ulong, System.Collections.Concurrent.ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
+    public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
     private async Task Bot_JoinedGuild(GuildConfig arg)
     {

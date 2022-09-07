@@ -304,6 +304,12 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDm()
         {
+            if (!ctx.Client.CurrentUser.Flags.HasFlag(UserProperties.VerifiedBot))
+            {
+                if (!await PromptUserConfirmAsync(
+                        "Bots that are not verified can get quarantined by Discord if they dm too many users at once, Do you still want to toggle this feature?", ctx.User.Id))
+                    return;
+            }
             var enabled = await Service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
 
             if (enabled)

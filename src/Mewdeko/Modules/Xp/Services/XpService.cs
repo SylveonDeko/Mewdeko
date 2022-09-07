@@ -480,7 +480,7 @@ public class XpService : INService, IUnloadableService
     private static bool UserParticipatingInVoiceChannel(IVoiceState user) =>
         !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
 
-    private async void UserJoinedVoiceChannel(SocketGuildUser user)
+    private void UserJoinedVoiceChannel(SocketGuildUser user)
     {
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();

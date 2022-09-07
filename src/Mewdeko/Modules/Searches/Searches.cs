@@ -61,11 +61,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...").ConfigureAwait(false);
         var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-        {
-            image = await _martineApi.RedditApi.GetRandomMeme().ConfigureAwait(false);
-            await Task.Delay(500).ConfigureAwait(false);
-        }
 
         var button = new ComponentBuilder().WithButton("Another!", $"meme:{ctx.User.Id}");
         var em = new EmbedBuilder
@@ -116,9 +111,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!").ConfigureAwait(false);
             return;
         }
-
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -152,33 +144,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                      "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
                  .ConfigureAwait(false);
     }
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(1)]
-    public async Task Say(ITextChannel channel, [Remainder] string? message)
-    {
-        if (string.IsNullOrWhiteSpace(message))
-            return;
-
-        var rep = new ReplacementBuilder()
-            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
-            .Build();
-        
-        if (SmartEmbed.TryParse(rep.Replace(message), ctx.Guild?.Id, out var embedData, out var plainText, out var components))
-        {
-            if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
-                plainText = plainText.SanitizeMentions(true);
-            await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build())
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            var msg = rep.Replace(message);
-            if (!string.IsNullOrWhiteSpace(msg)) await channel.SendConfirmAsync(msg).ConfigureAwait(false);
-        }
-    }
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
-    public Task Say([Remainder] string? message) => Say((ITextChannel)ctx.Channel, message);
 
     // done in 3.0
     [Cmd, Aliases]

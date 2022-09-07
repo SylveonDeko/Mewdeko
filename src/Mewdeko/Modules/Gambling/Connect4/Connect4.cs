@@ -43,15 +43,6 @@ public sealed class Connect4Game : IDisposable
 
     private Timer playerTimeoutTimer;
 
-    /* [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     * [ ][ ][ ][ ][ ][ ]
-     */
-
     public Connect4Game(ulong userId, string userName, Options options, ICurrencyService cs)
     {
         _players[0] = (userId, userName);

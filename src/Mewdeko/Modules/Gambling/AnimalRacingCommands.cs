@@ -65,19 +65,19 @@ public partial class Gambling
                 return Task.CompletedTask;
             }
 
-            async Task<Task<IUserMessage>> ArOnEnded(AnimalRace race)
+            async Task<IUserMessage> ArOnEnded(AnimalRace race)
             {
                 _eventHandler.MessageReceived -= ClientMessageReceived;
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 var winner = race.FinishedUsers[0];
                 if (race.FinishedUsers[0].Bet > 0)
                 {
-                    return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
+                    return await ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                         GetText("animal_race_won_money", Format.Bold(winner.Username),
                             winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Count - 1)) + CurrencySign));
                 }
 
-                return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
+                return await ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                     GetText("animal_race_won", Format.Bold(winner.Username), winner.Animal.Icon));
             }
 
