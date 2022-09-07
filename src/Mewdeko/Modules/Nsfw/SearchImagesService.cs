@@ -157,6 +157,9 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
+    
+    public Task<UrlReply?> RealBooru(ulong? guildId, bool forceExplicit, string[] tags)
+        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Realbooru);
 
     public async Task<UrlReply?> Hentai(ulong? guildId, bool forceExplicit, string[] tags)
     {
@@ -170,7 +173,7 @@ public class SearchImagesService : ISearchImagesService, INService
         using var cancelSource = new CancellationTokenSource();
 
         // create a task for each type
-        var tasks = providers.Select(type => GetNsfwImageAsync(guildId, forceExplicit, tags, type)).ToList();
+        var tasks = providers.Select(type => GetNsfwImageAsync(guildId, forceExplicit, tags, type, cancelSource.Token)).ToList();
         do
         {
             // wait for any of the tasks to complete

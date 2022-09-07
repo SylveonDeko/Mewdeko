@@ -284,6 +284,7 @@ public class SearchImageCacher : INService
             Booru.Gelbooru => new GelbooruImageDownloader(http),
             Booru.Rule34 => new Rule34ImageDownloader(http),
             Booru.Sankaku => new SankakuImageDownloader(http),
+            Booru.Realbooru => new RealBooruImageDownloader(http),
             _ => throw new NotImplementedException($"{booru} downloader not implemented.")
         };
 

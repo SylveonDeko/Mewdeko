@@ -10,5 +10,6 @@ public enum Booru
     Konachan,
     Yandere,
     Danbooru,
-    Sankaku
+    Sankaku,
+    Realbooru
 }
