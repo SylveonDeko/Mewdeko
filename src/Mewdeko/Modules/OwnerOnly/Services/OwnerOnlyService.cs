@@ -292,7 +292,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         {
             if (cmd.GuildId is null)
                 return;
-
             var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
             if (guildShard != _client.ShardId)
                 return;
