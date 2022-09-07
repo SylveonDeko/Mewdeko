@@ -26,7 +26,7 @@ public class Localization : ILocalization
         GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo?>(cultureInfoNames.ToDictionary(x => x.Key,
             x =>
             {
-                CultureInfo cultureInfo = null;
+                var cultureInfo = new CultureInfo("en-US");
                 try
                 {
                     switch (x.Value)

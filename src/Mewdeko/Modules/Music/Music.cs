@@ -777,15 +777,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 else
                 {
                     var artworkService = new ArtworkService();
-                    Uri art = null;
-                    try
-                    {
-                        art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        //ignored
-                    }
+                    var art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
                     var eb = new EmbedBuilder()
                              .WithOkColor()
                              .WithThumbnailUrl(art?.AbsoluteUri)
@@ -1158,15 +1150,7 @@ public class Music : MewdekoModuleBase<MusicService>
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
         var artService = new ArtworkService();
-        Uri info = null;
-        try
-        {
-            info = await artService.ResolveAsync(track).ConfigureAwait(false);
-        }
-        catch
-        {
-            //ignored
-        }
+        var info = await artService.ResolveAsync(track).ConfigureAwait(false);
 
         try
         {
