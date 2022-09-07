@@ -5,7 +5,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.VotesCommands.Services;
+using Mewdeko.Modules.Votes.Services;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Votes;

@@ -4,7 +4,7 @@ using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.VotesCommands.Services;
+using Mewdeko.Modules.Votes.Services;
 using System.Threading.Tasks;
 using ContextType = Discord.Commands.ContextType;
 

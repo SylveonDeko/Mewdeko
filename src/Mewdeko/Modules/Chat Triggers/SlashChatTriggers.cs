@@ -107,7 +107,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [Summary("regex", "Should the trigger use regex.")] bool regex = false
     )
     {
-        var trigger = await Service.GetChatTriggers(ctx.Guild.Id, id);
+        var trigger = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null,
             x => x
                  .WithTitle("Chat Trigger Edit")
@@ -274,7 +274,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [Summary("emoji", "A space-seperated list of emojis to react with")] string emoji
     )
     {
-        var ct = Service.GetChatTriggers(Context.Guild?.Id, id);
+        var ct = await Service.GetChatTriggers(Context.Guild?.Id, id);
         if (ct is null)
         {
             await ctx.Interaction.SendErrorAsync(GetText("no_found")).ConfigureAwait(false);

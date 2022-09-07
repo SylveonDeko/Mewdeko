@@ -164,7 +164,6 @@ public class SearchesService : INService, IUnloadableService
 
     public List<WoWJoke> WowJokes { get; } = new();
     public List<MagicItem> MagicItems { get; } = new();
-    public static List<RedditCache> Cache { get; set; } = new();
 
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -181,24 +180,6 @@ public class SearchesService : INService, IUnloadableService
 
         _imageCacher.Clear();
         return Task.CompletedTask;
-    }
-
-    public static bool CheckIfAlreadyPosted(IGuild guild, string url)
-    {
-        var e = new RedditCache
-        {
-            Guild = guild,
-            Url = url
-        };
-        if (Cache.Count == 0)
-        {
-            Cache.Add(e);
-            return false;
-        }
-
-        if (Cache.Contains(e)) return Cache.Contains(e) || true;
-        Cache.Add(e);
-        return false;
     }
 
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)

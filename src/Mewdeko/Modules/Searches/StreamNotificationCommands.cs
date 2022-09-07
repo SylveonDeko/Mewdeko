@@ -22,9 +22,6 @@ public partial class Searches
             _db = db;
         }
 
-        // private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+[^/])/?",
-        //     RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamAdd(string link)
         {

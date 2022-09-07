@@ -56,7 +56,9 @@ public class Mewdeko
             ShardId = shardId,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
-            FormatUsersInBidirectionalUnicode = false
+            FormatUsersInBidirectionalUnicode = false,
+            LogGatewayIntentWarnings = false,
+            DefaultRetryMode = RetryMode.RetryRatelimit
 
         });
         CommandService = new CommandService(new CommandServiceConfig
@@ -390,7 +392,7 @@ public class Mewdeko
         if (arg.Exception != null)
             Log.Warning(arg.Exception, arg.Source + " | " + arg.Message);
         else
-            Log.Warning(arg.Source + " | " + arg.Message);
+            Log.Information(arg.Source + " | " + arg.Message);
 
         return Task.CompletedTask;
     }
@@ -438,7 +440,7 @@ public class Mewdeko
     public async Task SetGameAsync(string? game, ActivityType type)
     {
         var obj = new { Name = game, Activity = type };
-        var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
+        var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
     }
 }

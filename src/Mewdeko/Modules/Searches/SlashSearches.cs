@@ -17,11 +17,6 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         await DeferAsync().ConfigureAwait(false);
         ulong.TryParse(userid, out var id);
         var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-        {
-            image = await _martineApi.RedditApi.GetRandomMeme().ConfigureAwait(false);
-            await Task.Delay(500).ConfigureAwait(false);
-        }
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder { Name = $"u/{image.Data.Author.Name}" },
@@ -45,11 +40,6 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         ulong.TryParse(userId, out var id);
 
         var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
-        {
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
-            await Task.Delay(500).ConfigureAwait(false);
-        }
 
         var em = new EmbedBuilder
         {

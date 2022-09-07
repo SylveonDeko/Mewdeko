@@ -35,7 +35,7 @@ public class ChatterBotService : INService
     public static int Priority => -1;
     public static ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
-    public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
+    public readonly ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
 
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
@@ -48,10 +48,8 @@ public class ChatterBotService : INService
 
     public async Task<ulong> GetCleverbotChannel(ulong id) => (await _guildSettings.GetGuildConfig(id)).CleverbotChannel;
 
-    public Task MessageRecieved(SocketMessage msg)
+    public async Task MessageRecieved(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
-        {
             if (msg.Author.IsBot)
                 return;
             if (msg.Channel is not ITextChannel chan)
@@ -60,8 +58,6 @@ public class ChatterBotService : INService
             {
                 if (msg is not IUserMessage usrMsg)
                     return;
-
-                IChatterBotSession cbs;
                 (string, IChatterBotSession) message;
                 try
                 {
@@ -89,8 +85,6 @@ public class ChatterBotService : INService
             {
                 Log.Warning(ex, "Error in cleverbot");
             }
-        });
-        return Task.CompletedTask;
     }
 
     public IChatterBotSession CreateSession()

@@ -893,6 +893,33 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         else
             await ctx.Channel.SendConfirmAsync(GetText("channel_topic"), topic).ConfigureAwait(false);
     }
+    
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(1)]
+    public async Task Say(ITextChannel channel, [Remainder] string? message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        var rep = new ReplacementBuilder()
+                  .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
+                  .Build();
+        
+        if (SmartEmbed.TryParse(rep.Replace(message), ctx.Guild?.Id, out var embedData, out var plainText, out var components))
+        {
+            if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
+                plainText = plainText.SanitizeMentions(true);
+            await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build())
+                         .ConfigureAwait(false);
+        }
+        else
+        {
+            var msg = rep.Replace(message);
+            if (!string.IsNullOrWhiteSpace(msg)) await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+        }
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
+    public async Task Say([Remainder] string? message) => await Say((ITextChannel)ctx.Channel, message);
 
     [Cmd, Aliases]
     public async Task Stats()

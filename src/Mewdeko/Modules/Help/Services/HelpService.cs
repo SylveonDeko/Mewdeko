@@ -9,7 +9,6 @@ using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using MoreLinq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Help.Services;
@@ -17,7 +16,6 @@ namespace Mewdeko.Modules.Help.Services;
 public class HelpService : ILateExecutor, INService
 {
     private readonly BotConfigService _bss;
-    public static readonly List<UMsg> UsrMsg = new();
     private readonly DiscordSocketClient _client;
     private readonly DiscordPermOverrideService _dpos;
     private readonly Mewdeko _bot;
@@ -26,7 +24,6 @@ public class HelpService : ILateExecutor, INService
     private readonly CommandService _cmds;
     private readonly GlobalPermissionService _perms;
     private readonly PermissionService _nPerms;
-    private readonly IDataCache _cache;
     private readonly InteractionService _interactionService;
     private readonly GuildSettingsService _guildSettings;
 
@@ -40,7 +37,6 @@ public class HelpService : ILateExecutor, INService
         CommandService cmds,
         GlobalPermissionService perms,
         PermissionService nPerms,
-        IDataCache cache,
         InteractionService interactionService,
         GuildSettingsService guildSettings)
     {
@@ -55,10 +51,8 @@ public class HelpService : ILateExecutor, INService
         _client.JoinedGuild += HandleJoin;
         _perms = perms;
         _nPerms = nPerms;
-        _cache = cache;
         _interactionService = interactionService;
         _guildSettings = guildSettings;
-        _ = ClearHelp();
     }
 
     public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
@@ -87,7 +81,7 @@ public class HelpService : ILateExecutor, INService
         embed.WithDescription(
             $"\nDo `{await _guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
             $"\nDo `{await _guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
-            "\n\n**Getting Started**\nhttps://mewdeko.tech/getting-started\n\n**Links**\n" +
+            "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
         var count = 0;
@@ -121,38 +115,6 @@ public class HelpService : ILateExecutor, INService
 
     public string? GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
 
-    public record UMsg
-    {
-        public IUserMessage? Msg { get; set; }
-        public DateTime Time { get; set; }
-    }
-
-    public static Task AddUser(IUserMessage msg, DateTime time)
-    {
-        var tocheck = UsrMsg.Find(x => x.Msg == msg);
-        if (tocheck is not null)
-        {
-            UsrMsg.Remove(tocheck);
-            UsrMsg.Add(new UMsg { Msg = msg, Time = time });
-            return Task.CompletedTask;
-        }
-        UsrMsg.Add(new UMsg { Msg = msg, Time = time });
-        return Task.CompletedTask;
-    }
-
-    public static IUserMessage? GetUserMessage(IUser user) =>
-        UsrMsg.Find(x => x.Msg.Author == user)?.Msg;
-
-    public static async Task ClearHelp()
-    {
-        var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
-        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
-        {
-            var tocheck = UsrMsg.Where(x => DateTime.UtcNow.Subtract(x.Time) >= TimeSpan.FromMinutes(5));
-            if (tocheck.Any())
-                UsrMsg.RemoveRange(tocheck);
-        }
-    }
     public Task LateExecute(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
     {
         var settings = _bss.Data;
@@ -190,9 +152,6 @@ public class HelpService : ILateExecutor, INService
     {
         _ = Task.Run(async () =>
         {
-            if (_cache.GetGuildConfig(guild.Id) is not null)
-                return;
-
             if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
                 return;
 
@@ -206,8 +165,9 @@ public class HelpService : ILateExecutor, INService
             eb.AddField("How to look for commands",
                 $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
             eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
+            eb.AddField("Youtube Channel", "https://youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg");
             eb.WithThumbnailUrl(
-                "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
+                "https://cdn.discordapp.com/emojis/968564817784877066.gif");
             eb.WithOkColor();
             await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         });
