@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net.Http;
 using System.Threading;
@@ -28,7 +28,7 @@ public class SearchImageCacher
         _cache = new SortedSet<ImageCacherObject>();
     }
 
-    public async Task<ImageCacherObject> GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
+    public async Task<ImageCacherObject>? GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
         HashSet<string>? blacklistedTags = null)
     {
         tags = tags.Select(tag => tag.ToLowerInvariant()).ToArray();

@@ -1,4 +1,4 @@
-﻿using StackExchange.Redis;
+using StackExchange.Redis;
 using System.Web;
 
 namespace Mewdeko.Services.strings.impl;
@@ -26,7 +26,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
 
     public string GetText(string localeName, string? key) => _redis.GetDatabase().HashGet($"{_creds.RedisKey()}:responses:{localeName}", key);
 
-    public CommandStrings GetCommandStrings(string localeName, string commandName)
+    public CommandStrings? GetCommandStrings(string localeName, string commandName)
     {
         string argsStr = _redis.GetDatabase()
             .HashGet($"{_creds.RedisKey()}:commands:{localeName}", $"{commandName}::args");

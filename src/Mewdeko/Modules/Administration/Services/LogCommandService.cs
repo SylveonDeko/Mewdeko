@@ -1,4 +1,4 @@
-﻿using Humanizer;
+using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
@@ -861,7 +861,7 @@ public class LogCommandService : INService
         }
     }
 
-    private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
+    private async Task<ITextChannel>? TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
     {
         var id = logChannelType switch
         {
