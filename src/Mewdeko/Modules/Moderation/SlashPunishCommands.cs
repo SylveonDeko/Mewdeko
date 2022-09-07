@@ -332,7 +332,7 @@ namespace Mewdeko.Modules.Moderation;
          SlashUserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number, PunishmentAction punish = PunishmentAction.None, string? input = null)
         {
-            StoopidTime time = null;
+            var time = StoopidTime.FromInput("0s");
             if (input is not null)
             {
                 try
@@ -370,12 +370,12 @@ namespace Mewdeko.Modules.Moderation;
                 case PunishmentAction.Timeout when time?.Time.Days > 28:
                     await ReplyErrorLocalizedAsync("timeout_length_too_long").ConfigureAwait(false);
                     return;
-                case PunishmentAction.Timeout when time is null:
+                case PunishmentAction.Timeout when time.Time.TotalSeconds is 0:
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
 
-            if (time is null)
+            if (time.Time.TotalSeconds is 0)
             {
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
                                 Format.Bold(punish.ToString()),

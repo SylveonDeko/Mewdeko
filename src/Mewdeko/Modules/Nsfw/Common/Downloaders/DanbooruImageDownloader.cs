@@ -31,7 +31,7 @@ public sealed class DanbooruImageDownloader : DapiImageDownloader
     }
 
     public DanbooruImageDownloader(HttpClient http)
-        : base(Booru.Danbooru, http, "http://danbooru.donmai.us")
+        : base(Booru.Danbooru, http, "https://danbooru.donmai.us")
     {
     }
 }

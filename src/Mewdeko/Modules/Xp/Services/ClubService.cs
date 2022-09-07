@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Modules.Xp.Common;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -172,8 +173,8 @@ public class ClubService : INService
 
     public async Task<(bool, DiscordUser)> AcceptApplication(ulong clubOwnerUserId, string userName)
     {
-        DiscordUser discordUser = null;
         await using var uow = _db.GetDbContext();
+        DiscordUser discordUser = await uow.DiscordUser.FirstOrDefaultAsync(x => x.Username == userName);
         var club = await uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId).ConfigureAwait(false);
 
         var applicant = club?.Applicants.Find(x =>
