@@ -14,6 +14,7 @@ public interface ISearchImagesService
     Task<UrlReply?> DerpiBooru(ulong? guildId, bool forceExplicit, string[] tags);
     Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags);
     Task<UrlReply?> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags);
+    Task<UrlReply?> RealBooru(ulong? guildId, bool forceExplicit, string[] tags);
     Task<UrlReply?> Hentai(ulong? guildId, bool forceExplicit, string[] tags);
     ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag);
     ValueTask<string[]> GetBlacklistedTags(ulong guildId);

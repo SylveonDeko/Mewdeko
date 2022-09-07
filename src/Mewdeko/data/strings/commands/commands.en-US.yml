@@ -1430,6 +1430,12 @@ gelbooru:
   desc: >-
     Shows a random hentai image from gelbooru with a given tag. Tag is optional
     but preferred. (multiple tags are appended with +)
+realbooru:
+  args:
+    - anal
+  desc: >-
+    Shows a random porn image from realbooru with a given tag. Tag is optional
+    but preferred. (multiple tags are appended with +)
 gemote:
   args:
     - <:HaneBomb:914307912044802059>
@@ -1616,7 +1622,13 @@ hentaibomb:
   args:
     - yuri
   desc: >-
-    Shows a total 5 images (from gelbooru, danbooru, konachan and yandere). Tag
+    Shows a total of 4 images (from gelbooru, danbooru, konachan and yandere). Tag
+    is optional but preferred.
+pornbomb:
+  args:
+    - yuri
+  desc: >-
+    Shows a total of 4 images from realbooru. Tag
     is optional but preferred.
 hentaigif:
   args:
