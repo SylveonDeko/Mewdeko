@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ public class OfficialCleverbotSession : IChatterBotSession
     private string QueryString =>
         $"https://www.cleverbot.com/getreply?key={_apiKey}&wrapper=Mewdeko&input={{0}}&cs={{1}}";
 
-    public async Task<string> Think(string input)
+    public async Task<string>? Think(string input)
     {
         using var http = _httpFactory.CreateClient();
         var dataString = await http.GetStringAsync(string.Format(QueryString, input, cs))

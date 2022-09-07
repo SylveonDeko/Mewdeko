@@ -25,7 +25,7 @@ public class ImageLoader
 
     private IDatabase Db => _con.GetDatabase();
 
-    private async Task<byte[]> GetImageData(Uri uri)
+    private async Task<byte[]>? GetImageData(Uri uri)
     {
         if (!uri.IsFile) return await _http.GetByteArrayAsync(uri).ConfigureAwait(false);
         try
@@ -39,7 +39,7 @@ public class ImageLoader
         }
     }
 
-    private async Task HandleJArray(JArray arr, string key)
+    private async Task? HandleJArray(JArray arr, string key)
     {
         var tasks = arr.Where(x => x.Type == JTokenType.String)
             .Select(async x =>

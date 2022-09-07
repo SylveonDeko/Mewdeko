@@ -1,4 +1,4 @@
-﻿using AngleSharp.Html.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using GTranslate.Translators;
 using Html2Markdown;
@@ -241,7 +241,7 @@ public class SearchesService : INService, IUnloadableService
             TimeSpan.FromHours(3));
     }
 
-    private async Task<WeatherData> GetWeatherDataFactory(string query)
+    private async Task<WeatherData>? GetWeatherDataFactory(string query)
     {
         using var http = _httpFactory.CreateClient();
         try
@@ -538,7 +538,7 @@ public class SearchesService : INService, IUnloadableService
             TimeSpan.FromDays(1));
     }
 
-    private async Task<HearthstoneCardData> HearthstoneCardDataFactory(string name)
+    private async Task<HearthstoneCardData>? HearthstoneCardDataFactory(string name)
     {
         using var http = _httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();

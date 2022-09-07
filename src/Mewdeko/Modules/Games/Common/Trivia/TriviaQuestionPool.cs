@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Modules.Games.Common.Trivia;
+namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaQuestionPool
 {
@@ -10,7 +10,7 @@ public class TriviaQuestionPool
 
     private TriviaQuestion[] Pool => _cache.LocalData.TriviaQuestions;
 
-    public TriviaQuestion GetRandomQuestion(HashSet<TriviaQuestion> exclude)
+    public TriviaQuestion? GetRandomQuestion(HashSet<TriviaQuestion> exclude)
     {
         if (Pool.Length == 0)
             return null;
