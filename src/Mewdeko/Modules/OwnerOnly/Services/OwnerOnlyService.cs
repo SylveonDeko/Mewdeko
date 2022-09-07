@@ -20,6 +20,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly BotConfigService _bss;
 
     private readonly IDataCache _cache;
+    private int currentStatusNum;
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmdHandler;
     private readonly IBotCredentials _creds;
@@ -61,7 +62,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 .WithProviders(phProviders)
                 .Build();
 
-            _ = new Timer(RotatingStatuses, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+            _ = Task.Run(async () => await RotatingStatuses());
         }
 
         var sub = redis.GetSubscriber();
@@ -205,37 +206,34 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
     }
 
-    private async void RotatingStatuses(object objState)
+    private async Task RotatingStatuses()
     {
-        try
+        var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+        while (await timer.WaitForNextTickAsync())
         {
-            var state = (TimerState)objState;
-
-            if (!_bss.Data.RotateStatuses) return;
-
-            IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
-            var uow = _db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+            try
             {
-                rotatingStatuses = uow.RotatingStatus
-                                      .AsNoTracking()
-                                      .OrderBy(x => x.Id)
-                                      .ToList();
+                if (!_bss.Data.RotateStatuses) return;
+
+                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
+                var uow = _db.GetDbContext();
+                await using (uow.ConfigureAwait(false))
+                {
+                    rotatingStatuses = uow.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToList();
+                }
+
+                if (rotatingStatuses.Count == 0)
+                    return;
+
+                var playingStatus = currentStatusNum >= rotatingStatuses.Count ? rotatingStatuses[currentStatusNum = 0] : rotatingStatuses[currentStatusNum++];
+
+                var statusText = _rep.Replace(playingStatus.Status);
+                await _bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
             }
-
-            if (rotatingStatuses.Count == 0)
-                return;
-
-            var playingStatus = state.Index >= rotatingStatuses.Count
-                ? rotatingStatuses[state.Index = 0]
-                : rotatingStatuses[state.Index++];
-
-            var statusText = _rep.Replace(playingStatus.Status);
-            await _bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex, "Rotating playing status errored: {ErrorMessage}", ex.Message);
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Rotating playing status errored: {ErrorMessage}", ex.Message);
+            }
         }
     }
 
@@ -494,9 +492,5 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         _bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
         return isToAll;
     }
-
-    private class TimerState
-    {
-        public int Index { get; set; }
-    }
+    
 }
