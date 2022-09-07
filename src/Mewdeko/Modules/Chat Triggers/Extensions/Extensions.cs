@@ -1,4 +1,4 @@
-﻿using AngleSharp;
+using AngleSharp;
 using AngleSharp.Html.Dom;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -85,7 +85,7 @@ public static class Extensions
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere);
 
-    public static async Task<IUserMessage> Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
+    public static async Task<IUserMessage>? Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
         DiscordSocketClient client, bool sanitize)
     {
         var channel = ct.DmResponse
@@ -157,7 +157,7 @@ public static class Extensions
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
     
-    public static async Task<IUserMessage> SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
+    public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {
         var rep = new ReplacementBuilder()

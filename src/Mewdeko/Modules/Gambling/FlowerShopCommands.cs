@@ -435,7 +435,7 @@ public partial class Gambling
             }
         }
 
-        public EmbedBuilder EntryToEmbed(ShopEntry entry)
+        public EmbedBuilder? EntryToEmbed(ShopEntry entry)
         {
             var embed = new EmbedBuilder().WithOkColor();
 
