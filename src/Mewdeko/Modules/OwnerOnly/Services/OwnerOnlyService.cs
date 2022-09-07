@@ -213,7 +213,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         {
             try
             {
-                if (!_bss.Data.RotateStatuses) return;
+                if (!_bss.Data.RotateStatuses) continue;
 
                 IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
                 var uow = _db.GetDbContext();
