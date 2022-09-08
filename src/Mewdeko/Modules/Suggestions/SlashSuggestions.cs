@@ -81,13 +81,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         if (modal.Suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             await ctx.Interaction.SendEphemeralFollowupConfirmAsync(
-                $"Cannot send this suggestion as its over the max length (`{Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             return;
         }
         if (modal.Suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             await ctx.Interaction.SendEphemeralFollowupErrorAsync(
-                $"Cannot send this suggestion as its under the minimum length (`{Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             return;
         }
 
