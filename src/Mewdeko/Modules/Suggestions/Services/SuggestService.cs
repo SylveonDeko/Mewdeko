@@ -299,7 +299,7 @@ public class SuggestionsService : INService
 
                     try
                     {
-                        await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
+                        await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({await GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
                         _spamCheck.Remove(chan.Id);
                     }
                     catch
@@ -323,7 +323,7 @@ public class SuggestionsService : INService
 
                     try
                     {
-                        await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
+                        await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({await GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
                         _spamCheck.Remove(chan.Id);
                     }
                     catch

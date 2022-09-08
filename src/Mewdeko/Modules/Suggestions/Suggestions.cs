@@ -97,14 +97,14 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         if (suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its over the max length (`{Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             msg.DeleteAfter(5);
             return;
         }
         if (suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             var message = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its under the minimum length (`{Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
             message.DeleteAfter(5);
             return;
         }

@@ -265,10 +265,9 @@ public static class Extensions
             "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
     }
 
-    public static IMessage? DeleteAfter(this IUserMessage? msg, int seconds, LogCommandService? logService = null)
+    public static void DeleteAfter(this IUserMessage? msg, int seconds, LogCommandService? logService = null)
     {
-        if (msg is null)
-            return null;
+        if (msg is null) return;
 
         Task.Run(async () =>
         {
@@ -283,7 +282,6 @@ public static class Extensions
                 // ignored
             }
         });
-        return msg;
     }
     public static void DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
     {
