@@ -5,9 +5,10 @@ command_errors*.txt
 _output/
 
 src/Mewdeko/Command Errors*.txt
+bot.yml
 
 src/Mewdeko/credentials.json
-# these 2 are used for migrations
+# these 2 are used for migrations1
 Mewdeko.Core/credentials.json
 Mewdeko.Core/credentials_example.json
 
