@@ -1,6 +1,6 @@
 ﻿namespace Mewdeko.Database.Models;
 
-public class KarutaEventEntry : DbEntity
+public class KarutaEventEntry: DbEntity
 {
     public ulong GuildId { get; set; }
     public ulong ChannelId { get; set; }
