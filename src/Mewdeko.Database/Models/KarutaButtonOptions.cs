@@ -1,6 +1,6 @@
 ﻿namespace Mewdeko.Database.Models;
 
-public class KarutaButtonOptions : DbEntity
+public class KarutaButtonOptions
 {
     public ulong GuildId { get; set; }
     public string Button1Text { get; set; }
