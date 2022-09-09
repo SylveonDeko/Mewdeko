@@ -16,9 +16,7 @@ public partial class Administration
         private readonly InteractiveService _interactivity;
 
         public DiscordPermOverrideCommands(InteractiveService serv) => _interactivity = serv;
-
-        // override stats, it should require that the user has managessages guild permission
-        // .dpo 'stats' add user guild managemessages
+        
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[]? perms)
@@ -43,8 +41,8 @@ public partial class Administration
         public async Task DiscordPermOverrideReset()
         {
             var result = await PromptUserConfirmAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id).ConfigureAwait(false);
+                                                      .WithOkColor()
+                                                      .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id).ConfigureAwait(false);
 
             if (!result)
                 return;

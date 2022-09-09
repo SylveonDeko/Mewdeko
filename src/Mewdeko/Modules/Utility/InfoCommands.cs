@@ -3,6 +3,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
+using Serilog.Formatting.Compact;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
@@ -120,6 +121,7 @@ public partial class Utility
                     .WithTitle("info for fetched user")
                     .AddField("Username", usr)
                     .AddField("Created At", TimestampTag.FromDateTimeOffset(usr.CreatedAt))
+                    .AddField("Public Flags", usr.PublicFlags)
                     .WithImageUrl(usr.RealAvatarUrl().ToString())
                     .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -197,14 +199,17 @@ public partial class Utility
         public async Task ChannelInfo(ITextChannel? channel = null)
         {
             var ch = channel ?? (ITextChannel)ctx.Channel;
-            var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
             var embed = new EmbedBuilder()
                 .WithTitle(ch.Name)
                 .AddField(GetText("id"), ch.Id.ToString())
-                .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
+                .AddField(GetText("created_at"), TimestampTag.FromDateTimeOffset(ch.CreatedAt))
                 .AddField(GetText("users"), (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count())
-                .AddField("Topic", ch.Topic ?? "None")
+                .AddField("NSFW", ch.IsNsfw)
+                .AddField("Slowmode Interval", TimeSpan.FromSeconds(ch.SlowModeInterval).Humanize())
+                .AddField("Default Thread Archive Duration", ch.DefaultArchiveDuration)
                 .WithColor(Mewdeko.OkColor);
+            if (!string.IsNullOrWhiteSpace(ch.Topic))
+                embed.WithDescription(ch.Topic);
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
@@ -218,15 +223,15 @@ public partial class Utility
             var restUser = await _client.Rest.GetUserAsync(user.Id);
             var embed = new EmbedBuilder()
                 .AddField("Username", user.ToString())
-                .WithColor(restUser.AccentColor.HasValue ? restUser.AccentColor.Value : Mewdeko.OkColor);
+                .WithColor(restUser.AccentColor ?? Mewdeko.OkColor);
 
             if (!string.IsNullOrWhiteSpace(user.Nickname))
                 embed.AddField("Nickname", user.Nickname);
 
             embed.AddField("User Id", user.Id)
                 .AddField("User Type", serverUserType)
-                .AddField("Joined Server", user.JoinedAt?.ToString("MM/dd/yyyy HH:mm"))
-                .AddField("Joined Discord", $"{user.CreatedAt:MM/dd/yyyy HH:mm}")
+                .AddField("Joined Server", TimestampTag.FromDateTimeOffset(user.JoinedAt.GetValueOrDefault()))
+                .AddField("Joined Discord", TimestampTag.FromDateTimeOffset(user.CreatedAt))
                 .AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
 
             if (user.Activities.Count > 0)
@@ -253,7 +258,7 @@ public partial class Utility
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "moreinfo")
             {
-                if (user.GetRoles().Any())
+                if (user.GetRoles().Any(x => x.Id !=  ctx.Guild.EveryoneRole.Id))
                 {
                     embed.AddField("Roles",
                         string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
