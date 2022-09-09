@@ -39,7 +39,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IDataCache _cache;
     private readonly CommandService _commandService;
     private readonly IServiceProvider _services;
-    private readonly IBotCredentials _credentials;
     private readonly GuildSettingsService _guildSettings;
     private readonly CommandHandler _commandHandler;
 
@@ -54,7 +53,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         IDataCache cache,
         CommandService commandService,
         IServiceProvider services,
-        IBotCredentials credentials,
         GuildSettingsService guildSettings,
         CommandHandler commandHandler)
     {
@@ -68,7 +66,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _cache = cache;
         _commandService = commandService;
         _services = services;
-        _credentials = credentials;
         _guildSettings = guildSettings;
         _commandHandler = commandHandler;
     }
@@ -102,29 +99,36 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ctx.Channel.SendErrorAsync($"Affected {affected} rows.").ConfigureAwait(false);
     }
     [Cmd, Aliases]
-    public async Task ListServers(int page = 1)
+    public async Task ListServers()
     {
-        page--;
+        var guilds = _client.Guilds;
+        var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(guilds.Count / 10)
+                        .WithDefaultEmotes()
+                        .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                        .Build();
 
-        if (page < 0)
-            return;
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
-        var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip(page * 15).Take(15))
-            .ConfigureAwait(false);
-
-        if (!guilds.Any())
+        async Task<PageBuilder> PageFactory(int page)
         {
-            await ReplyErrorLocalizedAsync("listservers_none").ConfigureAwait(false);
-            return;
+            await Task.CompletedTask;
+            var newGuilds = guilds.Skip(10 * page);
+            var eb = new PageBuilder().WithOkColor().WithTitle("Servers List");
+            foreach (var i in newGuilds)
+            {
+                eb.AddField($"{i.Name} | {i.Id}", $"Members: {i.Users.Count}"
+                                    + $"\nOnline Members: {i.Users.Count(x => x.Status is UserStatus.Online or UserStatus.DoNotDisturb or UserStatus.Idle)}"
+                                    + $"\nOwner: {i.Owner} | {i.OwnerId}"
+                                    + $"\n Created On: {TimestampTag.FromDateTimeOffset(i.CreatedAt)}");
+            }
+
+            return eb;
         }
 
-        await ctx.Channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
-                (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
-                    .WithValue(
-                        GetText("listservers", g.Id, g.MemberCount,
-                            g.OwnerId))
-                    .WithIsInline(false))))
-            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases]

@@ -4,7 +4,7 @@ namespace Mewdeko.Modules.Server_Management.Services;
 
 public class RoleCommandsService : INService
 {
-    public List<RoleJobs> Jobslist = new();
+    public readonly List<RoleJobs> Jobslist = new();
 
     public Task AddToList(IGuild guild, IGuildUser user, int jobId, int totalUsers, string jobType, IRole role,
         IRole? role2 = null)
@@ -45,7 +45,7 @@ public class RoleCommandsService : INService
         return Task.CompletedTask;
     }
 
-    public RoleJobs[] JobCheck(IGuild guild, int job) => Jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
+    public IEnumerable<RoleJobs> JobCheck(IGuild guild, int job) => Jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
 
     public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
     {
