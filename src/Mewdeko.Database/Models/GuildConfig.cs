@@ -1,7 +1,5 @@
 ﻿using Mewdeko.Database.Common;
 
-// ReSharper disable InconsistentNaming
-
 namespace Mewdeko.Database.Models;
 
 public class GuildConfig : DbEntity
@@ -14,14 +12,8 @@ public class GuildConfig : DbEntity
     public ulong CommandLogChannel { get; set; } = 0;
     public bool DeleteMessageOnCommand { get; set; }
     public string WarnMessage { get; set; } = "-";
-
-    public ulong KarutaEventChannel { get; set; } = 0;
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
-
     public string AutoAssignRoleId { get; set; } = "0";
-    public bool StatsOptOut { get; set; } = false;
-
-    // public string StatusEmbedDefault { get; set; }
     // Starboard
     public bool StarboardAllowBots { get; set; } = true;
     public bool StarboardRemoveOnDelete { get; set; } = false;
@@ -29,7 +21,7 @@ public class GuildConfig : DbEntity
     public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
     public bool UseStarboardBlacklist { get; set; } = true;
     public string StarboardCheckChannels { get; set; } = "0";
-
+    
     // Votes
     public string VotesPassword { get; set; }
     public ulong VotesChannel { get; set; }
@@ -70,20 +62,7 @@ public class GuildConfig : DbEntity
     public ulong SuggestButtonMessageId { get; set; } = 0;
     public int SuggestButtonRepostThreshold { get; set; } = 5;
     public int SuggestButtonColor { get; set; } = 2;
-
-    // Guild Currency Config
-    // public string CurrencyEmote { get; set; }
-    // public string CurrencyName { get; set; }
-    // public ulong MinBet { get; set; }
-    // public ulong MaxBet { get; set; }
-    // public bool CurrencyGenerationEnabled { get; set; }
-    // public int CurrencyGenerationMaxAmount { get; set; }
-    // public int CurrencyGenerationMinAmount { get; set; }
-    // public int CurrencyGenerationCooldown { get; set; }
-    // public int CurrencyGenerationChance { get; set; }
-    // public int TimelyCurrencyAmount { get; set; }
-    // public int TimelyCurrencyCooldown { get; set; }
-
+    public ulong KarutaEventChannel { get; set; }
     public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
