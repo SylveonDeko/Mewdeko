@@ -101,12 +101,10 @@ public class ShibaKarutaService : INService
                 var get = uow.KarutaButtonOptions.FirstOrDefault(x => x.GuildId == guildId);
                 if (get is null)
                 {
-                    var toadd = new KarutaButtonOptions
-                    {
-                        GuildId = guildId,
-                        Button1Text = text
-                    }
+                    var toadd = new KarutaButtonOptions { GuildId = guildId, Button1Text = text };
                 }
+
+                break;
         }
     }
 }
