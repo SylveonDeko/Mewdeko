@@ -367,3 +367,4 @@ __pycache__/
 ### VisualStudio Patch ###
 build/
 site/
+src/Mewdeko/data/bot.yml
