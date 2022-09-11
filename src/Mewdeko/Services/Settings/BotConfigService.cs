@@ -25,6 +25,9 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("prefix", bs => bs.Prefix, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("commandlogchannel", bs => bs.CommandLogChannel, ulong.TryParse, ConfigPrinters.ToString);
         AddParsedProp("showinvitebutton", bs => bs.ShowInviteButton, bool.TryParse, ConfigPrinters.ToString);
+        AddParsedProp("successemote", bs => bs.SuccessEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("erroremote", bs => bs.ErrorEmote, ConfigParsers.String, ConfigPrinters.ToString);
 
         UpdateColors();
     }

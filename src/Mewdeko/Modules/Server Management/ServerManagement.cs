@@ -2,6 +2,7 @@ using Discord.Commands;
 using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Server_Management.Services;
+using Mewdeko.Services.Settings;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Image = Discord.Image;
@@ -11,8 +12,13 @@ namespace Mewdeko.Modules.Server_Management;
 public partial class ServerManagement : MewdekoModuleBase<ServerManagementService>
 {
     private readonly IHttpClientFactory _httpFactory;
+    private readonly BotConfigService _config;
 
-    public ServerManagement(IHttpClientFactory factory) => _httpFactory = factory;
+    public ServerManagement(IHttpClientFactory factory, BotConfigService config)
+    {
+        _httpFactory = factory;
+        _config = config;
+    }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task PermView()
@@ -21,8 +27,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var eb = new EmbedBuilder();
         eb.WithTitle("List of allowed perms");
         eb.WithOkColor();
-        var allowed = new List<string>();
-        foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
+        var allowed = perms.ToList().Select(i => $"**{i}**").ToList();
 
         eb.WithDescription(string.Join("\n", allowed));
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -35,8 +40,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var eb = new EmbedBuilder();
         eb.WithTitle($"List of allowed perms for {user}");
         eb.WithOkColor();
-        var allowed = new List<string>();
-        foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
+        var allowed = perms.ToList().Select(i => $"**{i}**").ToList();
 
         eb.WithDescription(string.Join("\n", allowed));
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -49,8 +53,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var eb = new EmbedBuilder();
         eb.WithTitle($"List of allowed perms for {user}");
         eb.WithOkColor();
-        var allowed = new List<string>();
-        foreach (var i in perms.ToList()) allowed.Add($"**{i}**");
+        var allowed = perms.ToList().Select(i => $"**{i}**").ToList();
 
         eb.WithDescription(string.Join("\n", allowed));
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -68,7 +71,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var imgStream = imgData.ToStream();
         await using var _ = imgStream.ConfigureAwait(false);
         await guild.ModifyAsync(x => x.Splash = new Image(imgStream)).ConfigureAwait(false);
-        await ctx.Channel.SendMessageAsync("New splash image has been set!").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync("New splash image has been set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -83,7 +86,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var imgStream = imgData.ToStream();
         await using var _ = imgStream.ConfigureAwait(false);
         await guild.ModifyAsync(x => x.Icon = new Image(imgStream)).ConfigureAwait(false);
-        await ctx.Channel.SendMessageAsync("New server icon has been set!").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync("New server icon has been set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -151,7 +154,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageEmojisAndStickers),
      BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
-    public async Task RemoveEmote(string emote)
+    public async Task RemoveEmote(string _)
     {
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value)
             .FirstOrDefault();
@@ -163,7 +166,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
         catch (HttpException)
         {
-            await ctx.Channel.SendErrorAsync("This emote != from this guild!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("This emote is not from this guild!").ConfigureAwait(false);
         }
     }
 
@@ -200,7 +203,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = "<a:loading:900381735244689469> Adding Emotes...",
+            Description = $"{_config.Data.LoadingEmote} Adding Emotes...",
             Color = Mewdeko.OkColor
         };
         var errored = new List<string>();
@@ -244,7 +247,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = $"<a:loading:900381735244689469> Adding Emotes to {role.Mention}...",
+            Description = $"{_config.Data.LoadingEmote} Adding Emotes to {role.Mention}...",
             Color = Mewdeko.OkColor
         };
         var list = new Optional<IEnumerable<IRole>>(new[] { role });

@@ -4,6 +4,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
+using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -14,8 +15,13 @@ public partial class ServerManagement
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
         private readonly GuildSettingsService _guildSettings;
+        private readonly BotConfigService _config;
 
-        public RoleCommands(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
+        public RoleCommands(GuildSettingsService guildSettings, BotConfigService config)
+        {
+            _guildSettings = guildSettings;
+            _config = config;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
@@ -30,7 +36,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....").ConfigureAwait(false);
+                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....").ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel or SocketVoiceChannel))
             {
                 if (perms != null)
@@ -47,7 +53,7 @@ public partial class ServerManagement
             {
                 Color = Mewdeko.OkColor,
                 Description =
-                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} channels and {await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)} Categories!!"
+                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} channels and {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories!!"
             };
             await msg.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
         }
@@ -65,7 +71,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....").ConfigureAwait(false);
+                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....").ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel))
             {
                 if (perms != null)
@@ -94,7 +100,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....").ConfigureAwait(false);
+                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....").ConfigureAwait(false);
             foreach (var i in await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false))
             {
                 if (perms != null)
@@ -148,7 +154,7 @@ public partial class ServerManagement
             };
             if (await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
             {
-                var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Length} roles...").ConfigureAwait(false);
+                var msg = await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Deleting {roles.Length} roles...").ConfigureAwait(false);
                 foreach (var i in roles) await i.DeleteAsync().ConfigureAwait(false);
                 var newemb = new EmbedBuilder
                 {
@@ -365,7 +371,7 @@ public partial class ServerManagement
                 role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} Members.\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -440,7 +446,7 @@ public partial class ServerManagement
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Bots Only", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} Members.\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -515,7 +521,7 @@ public partial class ServerManagement
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Users Only", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users.\n + This will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} users.\n + This will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -593,7 +599,7 @@ public partial class ServerManagement
                 $"Adding a role to server members that have been here for {time.Time.Humanize()}", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users who have acounts that are equal to or older than {time.Time.Humanize()} old..\nThis will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} users who have acounts that are equal to or older than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -671,7 +677,7 @@ public partial class ServerManagement
                 $"Adding a role to server members that have been here for {time.Time.Humanize()} or less", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users who have acounts that are less than {time.Time.Humanize()} old..\nThis will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} users who have acounts that are less than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -746,7 +752,7 @@ public partial class ServerManagement
                 "Removing a role from all server members", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Removing {role.Mention} from {count} Members.\n + This will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Removing {role.Mention} from {count} Members.\n + This will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -822,7 +828,7 @@ public partial class ServerManagement
                 "Removing a role from only users", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Removing {role.Mention} from {count} users.\n + This will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Removing {role.Mention} from {count} users.\n + This will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -898,7 +904,7 @@ public partial class ServerManagement
                 "Removing a role from all bots", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Removing {role.Mention} from {count} bots.\n + This will take about {users.Count()}s.").ConfigureAwait(false);
+                $"Removing {role.Mention} from {count} bots.\n + This will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)

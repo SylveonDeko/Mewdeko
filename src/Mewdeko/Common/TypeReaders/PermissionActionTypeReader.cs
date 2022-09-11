@@ -13,28 +13,29 @@ public class PermissionActionTypeReader : MewdekoTypeReader<PermissionAction>
     {
     }
 
-    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
+    public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
+        await Task.CompletedTask;
         input = input.ToUpperInvariant();
         return input switch
         {
-            "1" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "T" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "TRUE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "ENABLE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "ENABLED" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "ALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "PERMIT" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "UNBAN" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
-            "0" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "F" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "FALSE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "DENY" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "DISABLE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "DISABLED" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "DISALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            "BAN" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
-            _ => Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Must be either deny or allow."))
+            "1" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "T" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "TRUE" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "ENABLE" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "ENABLED" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "ALLOW" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "PERMIT" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "UNBAN" => TypeReaderResult.FromSuccess(PermissionAction.Enable),
+            "0" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "F" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "FALSE" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "DENY" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "DISABLE" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "DISABLED" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "DISALLOW" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            "BAN" => TypeReaderResult.FromSuccess(PermissionAction.Disable),
+            _ => TypeReaderResult.FromError(CommandError.ParseFailed, "Must be either deny/allow or enabled/disabled.")
         };
     }
 }

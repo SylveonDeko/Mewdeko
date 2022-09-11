@@ -210,7 +210,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                         .WithMaxPageIndex(greets.Length - 1)
                         .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                        .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
         await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,

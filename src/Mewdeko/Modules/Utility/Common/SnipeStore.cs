@@ -6,6 +6,6 @@ public class SnipeStore
     public ulong UserId { get; set; }
     public ulong ChannelId { get; set; }
     public string Message { get; set; }
-    public ulong Edited { get; set; }
+    public bool Edited { get; set; }
     public DateTime DateAdded { get; set; }
 }

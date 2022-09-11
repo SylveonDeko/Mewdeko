@@ -161,7 +161,7 @@ public class AdministrationService : INService
                 DeleteMessagesOnCommandChannels[chId] = true;
                 break;
             default:
-                DeleteMessagesOnCommandChannels.TryRemove(chId, out var _);
+                DeleteMessagesOnCommandChannels.TryRemove(chId, out _);
                 break;
         }
     }

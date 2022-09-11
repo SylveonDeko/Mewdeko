@@ -310,11 +310,9 @@ public class AfkService : INService, IReadyExecutor
         return !string.IsNullOrEmpty(result.Message);
     }
 
-    private Task MessageUpdated(Cacheable<IMessage, ulong> msg, SocketMessage msg2, ISocketMessageChannel t)
+    private async Task MessageUpdated(Cacheable<IMessage, ulong> msg, SocketMessage msg2, ISocketMessageChannel t)
     {
-        _ = Task.Run(async () =>
-        {
-            var message = await msg.GetOrDownloadAsync().ConfigureAwait(false);
+        var message = await msg.GetOrDownloadAsync().ConfigureAwait(false);
             if (message is null)
                 return;
             var origDateUnspecified = message.Timestamp.ToUniversalTime();
@@ -323,8 +321,6 @@ public class AfkService : INService, IReadyExecutor
                 return;
 
             await MessageReceived(msg2).ConfigureAwait(false);
-        });
-        return Task.CompletedTask;
     }
 
     public async Task AfkTypeSet(IGuild guild, int num)

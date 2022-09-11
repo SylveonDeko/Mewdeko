@@ -71,12 +71,11 @@ public class UtilityService : INService
 
     public async Task<bool> GetSnipeSet(ulong id) => (await _guildSettings.GetGuildConfig(id)).snipeset;
 
-    public async Task SnipeSet(IGuild guild, string endis)
+    public async Task SnipeSet(IGuild guild, bool enabled)
     {
-        var yesno = endis == "enable";
         await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.snipeset = yesno;
+        gc.snipeset = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         _guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -103,16 +102,21 @@ public class UtilityService : INService
 
         if (!messages.Select(x => x.HasValue).Any())
             return;
+        
 
-        var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore
+        var msgs = messages.Where(x => x.HasValue).Where(x => !x.Value.Author.IsBot)?.Select(x => new SnipeStore
         {
             GuildId = chan.Guild.Id,
             ChannelId = chan.Id,
             Message = x.Value.Content,
             UserId = x.Value.Author.Id,
-            Edited = 0,
+            Edited = false,
             DateAdded = DateTime.UtcNow
         });
+        
+        if (!msgs.Any())
+            return;
+        
         var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
         if (snipes.Count == 0)
         {
@@ -140,7 +144,7 @@ public class UtilityService : INService
                 ChannelId = ch.Id,
                 Message = msg.Content,
                 UserId = msg.Author.Id,
-                Edited = 0,
+                Edited = false,
                 DateAdded = DateTime.UtcNow
             };
             var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
@@ -174,7 +178,7 @@ public class UtilityService : INService
                 ChannelId = ch.Id,
                 Message = msg.Content,
                 UserId = msg.Author.Id,
-                Edited = 1,
+                Edited = true,
                 DateAdded = DateTime.UtcNow
             };
             var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
