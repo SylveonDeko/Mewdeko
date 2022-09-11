@@ -11,6 +11,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
+using Mewdeko.Services.Settings;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -39,11 +40,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     private readonly InteractiveService _interactivity;
     private readonly MartineApi _martineApi;
     private readonly ToneTagService _toneTagService;
+    private readonly BotConfigService _config;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
         InteractiveService serv,
-        MartineApi martineApi, ToneTagService toneTagService)
+        MartineApi martineApi, ToneTagService toneTagService,
+        BotConfigService config)
     {
         _interactivity = serv;
         _martineApi = martineApi;
@@ -53,13 +56,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _cache = cache;
         _tzSvc = tzSvc;
         _toneTagService = toneTagService;
+        _config = config;
     }
-
-    //for anonymasen :^)
+    
     [Cmd, Aliases]
     public async Task Meme()
     {
-        var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...").ConfigureAwait(false);
+        var msg = await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Fetching random meme...").ConfigureAwait(false);
         var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
 
         var button = new ComponentBuilder().WithButton("Another!", $"meme:{ctx.User.Id}");

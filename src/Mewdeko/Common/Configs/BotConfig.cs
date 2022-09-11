@@ -23,6 +23,9 @@ public sealed class BotConfig
         RotateStatuses = false;
         GroupGreets = false;
         ShowInviteButton = true;
+        LoadingEmote = "<a:HaneMeow:968564817784877066>";
+        ErrorEmote = "<:HaneNo:914307917954576414>";
+        SuccessEmote = "<:hane_wow:945005763829575680>";
     }
 
     [Comment(@"DO NOT CHANGE")] public int Version { get; set; }
@@ -102,6 +105,14 @@ See RotatingStatuses submodule in Administration.")]
     // public string Prefixed(string text) => PrefixIsSuffix
     //     ? text + Prefix
     //     : Prefix + text;
+    [Comment("Used to set the error emote used across the bot.")]
+    public string ErrorEmote { get; set; }
+    
+    [Comment("Used to set the success emote used across the bot.")]
+    public string SuccessEmote { get; set; }
+    
+    [Comment("Used to set the loading emote for the bot.")]
+    public string LoadingEmote { get; set; }
 
     public string Prefixed(string text) => Prefix + text;
 }

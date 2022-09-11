@@ -46,7 +46,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw, Ratelimit(10)]
     public async Task RedditNsfw(string subreddit)
     {
-        var msg = await ctx.Channel.SendConfirmAsync($"<a:loading:900381735244689469> Trying to get a post from `{subreddit}`...");
+        var msg = await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Trying to get a post from `{subreddit}`...");
         try
         {
             RedditPost image;

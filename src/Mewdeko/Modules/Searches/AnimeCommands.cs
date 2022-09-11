@@ -9,6 +9,7 @@ using Fergun.Interactive.Pagination;
 using JikanDotNet;
 using MartineApiNet;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Services.Settings;
 using NekosBestApiNet;
 using Newtonsoft.Json;
 using System.IO;
@@ -26,14 +27,17 @@ public partial class Searches
         private readonly MartineApi _martineApi;
         private readonly InteractiveService _interactivity;
         private readonly HttpClient _httpClient;
+        private readonly BotConfigService _config;
 
         public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi,
-            HttpClient httpClient)
+            HttpClient httpClient,
+            BotConfigService config)
         {
             _interactivity = service;
             _martineApi = martineApi;
             NekosBestApi = nekosBestApi;
             _httpClient = httpClient;
+            _config = config;
         }
 
         [Cmd, Aliases]
@@ -366,7 +370,7 @@ public partial class Searches
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Getting results for {query}...").ConfigureAwait(false);
+                $"{_config.Data.LoadingEmote} Getting results for {query}...").ConfigureAwait(false);
             IJikan jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()

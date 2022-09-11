@@ -153,6 +153,9 @@
         <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
         <ProjectReference Include="..\Mewdeko.Votes\Mewdeko.Votes.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Modules\UserProfile" />
+    </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>

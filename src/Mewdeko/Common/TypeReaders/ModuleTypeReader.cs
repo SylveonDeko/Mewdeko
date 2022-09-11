@@ -14,10 +14,7 @@ public class ModuleTypeReader : MewdekoTypeReader<ModuleInfo>
         input = input.ToUpperInvariant();
         var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
             .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
-        if (module == null)
-            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
-
-        return Task.FromResult(TypeReaderResult.FromSuccess(module));
+        return Task.FromResult(module == null ? TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found.") : TypeReaderResult.FromSuccess(module));
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
+using Mewdeko.Services.Settings;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Image = Discord.Image;
@@ -9,19 +10,24 @@ namespace Mewdeko.Modules.Server_Management;
 public class EmoteStealer : MewdekoSlashCommandModule
 {
     private readonly IHttpClientFactory _httpFactory;
+    private readonly BotConfigService _config;
 
-    public EmoteStealer(IHttpClientFactory factory) => _httpFactory = factory;
+    public EmoteStealer(IHttpClientFactory factory, BotConfigService config)
+    {
+        _httpFactory = factory;
+        _config = config;
+    }
 
     [MessageCommand("Steal Emotes"),
      RequireBotPermission(GuildPermission.ManageEmojisAndStickers),
      SlashUserPerm(GuildPermission.ManageEmojisAndStickers),
-    CheckPermissions]
+     CheckPermissions]
     public async Task Steal(IMessage message)
     {
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
         var eb = new EmbedBuilder
         {
-            Description = "<a:loading:900381735244689469> Adding Emotes...",
+            Description = $"{_config.Data.LoadingEmote} Adding Emotes...",
             Color = Mewdeko.OkColor
         };
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
