@@ -4,6 +4,7 @@ using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
+using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
 using PermValue = Discord.PermValue;
 
@@ -14,12 +15,16 @@ public partial class ServerManagement
     [Group]
     public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
     {
+        private readonly BotConfigService _config;
+
+        public ChannelCommands(BotConfigService config) => _config = config;
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task LockCheck()
         {
             var msg = await ctx.Channel.SendMessageAsync(
-                "<a:loading:900381735244689469> Making sure role permissions don't get in the way of lockdown...").ConfigureAwait(false);
+                $"{_config.Data.LoadingEmote} Making sure role permissions don't get in the way of lockdown...").ConfigureAwait(false);
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
                 x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
                 ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
@@ -33,12 +38,12 @@ public partial class ServerManagement
                 }
 
                 await msg.ModifyAsync(x => x.Content =
-                    "<a:checkfragutil:900381771881922602> Roles checked! You may now run the lockdown command.").ConfigureAwait(false);
+                    $"{_config.Data.SuccessEmote} Roles checked! You may now run the lockdown command.").ConfigureAwait(false);
             }
             else
             {
                 await msg.ModifyAsync(x => x.Content =
-                    "<a:checkfragutil:900381771881922602> Roles checked! No roles are in the way of the lockdown command.").ConfigureAwait(false);
+                    $"{_config.Data.SuccessEmote} Roles checked! No roles are in the way of the lockdown command.").ConfigureAwait(false);
             }
         }
 
@@ -52,14 +57,14 @@ public partial class ServerManagement
             if (roles.Count > 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:crossfragutil:854536474098663434> Please run the Lockcheck command as you have roles that will get in the way of lockdown").ConfigureAwait(false);
+                    $"{_config.Data.ErrorEmote} Please run the Lockcheck command as you have roles that will get in the way of lockdown").ConfigureAwait(false);
                 return;
             }
 
             if (!ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:crossfragutil:854536474098663434> Server is already in lockdown!").ConfigureAwait(false);
+                    $"{_config.Data.ErrorEmote} Server is already in lockdown!").ConfigureAwait(false);
             }
             else
             {
@@ -77,7 +82,7 @@ public partial class ServerManagement
             if (use.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:checkfragutil:900381771881922602> You need to be in a voice channel for this!").ConfigureAwait(false);
+                    $"{_config.Data.SuccessEmote} You need to be in a voice channel for this!").ConfigureAwait(false);
                 return;
             }
 
@@ -126,7 +131,7 @@ public partial class ServerManagement
         {
             if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
-                await ctx.Channel.SendErrorAsync("Server is not locked down!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync($"{_config.Data.ErrorEmote} Server is not locked down!").ConfigureAwait(false);
                 return;
             }
 
@@ -191,7 +196,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Locked down {tch.Mention}").ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"{_config.Data.SuccessEmote} Locked down {tch.Mention}").ConfigureAwait(false);
             }
             else
             {
@@ -200,7 +205,7 @@ public partial class ServerManagement
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny)).ConfigureAwait(false);
                 await ctx.Channel.SendMessageAsync(
-                    $"<a:checkfragutil:900381771881922602> Locked down {channel.Mention}").ConfigureAwait(false);
+                    $"{_config.Data.SuccessEmote} Locked down {channel.Mention}").ConfigureAwait(false);
             }
         }
 
@@ -210,13 +215,13 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Text Channels!");
+                $"{_config.Data.LoadingEmote} Creating the Category {catName} with {channels.Length} Text Channels!");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             var cat = await ctx.Guild.CreateCategoryAsync(catName).ConfigureAwait(false);
             foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = cat.Id).ConfigureAwait(false);
 
             var eb2 = new EmbedBuilder();
-            eb2.WithDescription($"Created the category {catName} with {channels.Length} Text Channels!");
+            eb2.WithDescription($"{_config.Data.SuccessEmote} Created the category {catName} with {channels.Length} Text Channels!");
             eb2.WithOkColor();
             await msg.ModifyAsync(x => x.Embed = eb2.Build()).ConfigureAwait(false);
         }
@@ -227,7 +232,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Voice Channels");
+                $"{_config.Data.LoadingEmote} Creating the Category {catName} with {channels.Length} Voice Channels");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             var cat = await ctx.Guild.CreateCategoryAsync(catName).ConfigureAwait(false);
             foreach (var i in channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = cat.Id).ConfigureAwait(false);
@@ -244,7 +249,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:900381735244689469> Adding {channels.Length} Voice Channels to {chan.Name}");
+                $"{_config.Data.LoadingEmote} Adding {channels.Length} Voice Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             foreach (var i in channels)
                 await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = chan.Id).ConfigureAwait(false);
@@ -261,7 +266,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:900381735244689469> Adding {channels.Length} Text Channels to {chan.Name}");
+                $"{_config.Data.LoadingEmote} Adding {channels.Length} Text Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = chan.Id).ConfigureAwait(false);
 
@@ -282,7 +287,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {tch.Mention}").ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"{_config.Data.SuccessEmote} Unlocked {tch.Mention}").ConfigureAwait(false);
             }
             else
             {
@@ -290,7 +295,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit)).ConfigureAwait(false);
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {channel.Mention}").ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"{_config.Data.SuccessEmote} Unlocked {channel.Mention}").ConfigureAwait(false);
             }
         }
 

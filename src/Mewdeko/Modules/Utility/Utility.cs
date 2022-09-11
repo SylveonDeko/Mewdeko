@@ -14,6 +14,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using PermValue = Mewdeko.Common.TypeReaders.PermValue;
 using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.Utility;
@@ -84,7 +85,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         using (ctx.Channel.EnterTypingState())
         {
             process.Start();
-            await ctx.Channel.SendConfirmAsync("<a:loading:900381735244689469> Saving chat log, this may take some time...");
+            await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Saving chat log, this may take some time...");
         }
 
         await process.WaitForExitAsync().ConfigureAwait(false);
@@ -203,9 +204,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
-    public async Task SnipeSet(string yesnt)
+    public async Task SnipeSet(PermissionAction value)
     {
-        await Service.SnipeSet(ctx.Guild, yesnt).ConfigureAwait(false);
+        await Service.SnipeSet(ctx.Guild, value.Value).ConfigureAwait(false);
         var t = await Service.GetSnipeSet(ctx.Guild.Id);
         await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);
     }
@@ -220,7 +221,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false);
-        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id && !x.Edited);
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe here!").ConfigureAwait(false);
@@ -261,7 +262,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
+        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && !x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -270,7 +271,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 return;
             }
 
-            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => !x.Edited).Take(amount);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -310,7 +311,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
+        var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.ChannelId == ctx.Channel.Id && x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -319,7 +320,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 return;
             }
 
-            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 1).Take(amount);
+            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited).Take(amount);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -360,7 +361,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                         .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id && x.Edited == 0);
+                         .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id && !x.Edited);
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!").ConfigureAwait(false);
@@ -416,7 +417,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => !x.Edited)
                                                          .LastOrDefault(x => x.ChannelId == chan.Id);
         if (msg == null)
         {
@@ -455,7 +456,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+        var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => !x.Edited)
                                                          .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
         {
             if (msg == null)
@@ -514,7 +515,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                      .Where(x => x.Edited == 1)
+                      .Where(x => x.Edited)
                       .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
             if (msg == null)
             {
@@ -560,7 +561,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                      .Where(x => x.Edited == 1)
+                      .Where(x => x.Edited)
                       .LastOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
             if (msg == null)
             {
@@ -606,7 +607,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                      .Where(x => x.Edited == 1)
+                      .Where(x => x.Edited)
                       .LastOrDefault(x => x.ChannelId == chan.Id);
             if (msg == null)
             {
@@ -652,7 +653,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                      .Where(x => x.Edited == 1)
+                      .Where(x => x.Edited)
                       .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
             if (msg == null)
             {

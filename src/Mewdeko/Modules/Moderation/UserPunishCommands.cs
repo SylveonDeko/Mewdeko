@@ -74,7 +74,7 @@ public partial class Moderation : MewdekoModule
                 return;
             }
 
-            await user.SetTimeOutAsync(time.Time, new RequestOptions { AuditLogReason = reason }).ConfigureAwait(false);
+            await user.SetTimeOutAsync(time.Time, new RequestOptions { AuditLogReason = $"{ctx.User} | {reason}" }).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day)).ConfigureAwait(false);
         }
 
@@ -193,19 +193,14 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(3)]
-        public Task Warnlog(IGuildUser? user = null)
-        {
-            if (user == null)
-                user = (IGuildUser)ctx.User;
-            return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers
-                ? Warnlog(user.Id)
-                : Task.CompletedTask;
-        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(3), UserPerm(GuildPermission.BanMembers)]
+        public async Task Warnlog(IGuildUser user) => await InternalWarnlog(user.Id);
+
+        public async Task Warnlog() => await InternalWarnlog(ctx.User.Id);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), Priority(1)]
-        public Task Warnlog(ulong userId) => InternalWarnlog(userId);
+        public async Task Warnlog(ulong userId) => await InternalWarnlog(userId);
 
         private async Task InternalWarnlog(ulong userId)
         {

@@ -40,12 +40,12 @@ public partial class Utility
                 return;
             }
 
-            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => !x.Edited)
                                                                                    .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
             {
-                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 0)
+                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => !x.Edited)
                                                                                    .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
             }
 
@@ -88,12 +88,12 @@ public partial class Utility
                 return;
             }
 
-            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 1)
+            var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited)
                                                                                    .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
             {
-                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited == 1)
+                msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x => x.Edited)
                                                                                    .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
             }
 
@@ -137,7 +137,7 @@ public partial class Utility
             }
 
             var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                              .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
+                              .Where(x => x.ChannelId == ctx.Channel.Id && !x.Edited);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
                 if (snipeStores.Length == 0)
@@ -146,7 +146,7 @@ public partial class Utility
                     return;
                 }
 
-                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => !x.Edited).Take(amount);
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
@@ -184,7 +184,7 @@ public partial class Utility
             }
 
             var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                              .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
+                              .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
                 if (snipeStores.Length == 0)
@@ -193,7 +193,7 @@ public partial class Utility
                     return;
                 }
 
-                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 1).Take(amount);
+                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited).Take(amount);
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
                                                           .WithFooter(
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)

@@ -106,12 +106,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
 
     private TSettings CreateCopy1()
     {
-        var serializedData = JsonSerializer.Serialize(data, _serializerOptions);
-        return JsonSerializer.Deserialize<TSettings>(serializedData, _serializerOptions);
-
-        // var serializedData = _serializer.Serialize(_data);
-        //
-        // return _serializer.Deserialize<TSettings>(serializedData);
+        var serializedData = _serializer.Serialize(data);
+        return _serializer.Deserialize<TSettings>(serializedData);
     }
 
     /// <summary>
