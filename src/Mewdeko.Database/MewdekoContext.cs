@@ -44,6 +44,7 @@ public class MewdekoContext : DbContext
     public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
     public DbSet<KarutaButtonOptions> KarutaButtonOptions { get; set; }
     public DbSet<KarutaEventEntry> KarutaEventEntry { get; set; }
+    public DbSet<KarutaEventVotes> KarutaEventVotes { get; set; }
     public DbSet<ChatTriggers> ChatTriggers { get; set; }
     public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
     public DbSet<MusicPlayerSettings> MusicPlayerSettings { get; set; }

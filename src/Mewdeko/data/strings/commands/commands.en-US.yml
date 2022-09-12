@@ -76,6 +76,27 @@ acceptmessage:
     Allows you to set the message sent when a suggestion is accepted. Use the
     embed builder at https://eb.mewdeko.tech and the placeholders at
     https://blog.mewdeko.tech/placeholders.
+karutaeventchannel:
+  args:
+    - channel
+  desc: Sets the channel used for the bot to repost karuta competition images to vote on.
+karutabuttontext:
+  args:
+    - 1 text
+  desc: Used to set what the label for each competition button is.
+karutaeventleaderboard:
+  args:
+    - ""
+    - "1"
+  desc: "Used to show the top 8 for each question set on the buttons. Specify a number to show that question individually."
+clearkarutaevent:
+  args:
+    - ""
+  desc: Used to clear all entries and votes. ***Cannot be undone.***
+removeevententry:
+  args:
+    - 1
+  desc: Removes an entry, deletes the message and it's votes.
 aclist:
   args:
     - ''
@@ -2854,44 +2875,8 @@ rolegreetdelete:
     is 0.
 rolegreetdisable:
   args:
-    - '1 true/false'
+    - '1'
   desc: Disables a RoleGreet by Id
-deleteuserstatsdata:
-  args:
-    - ''
-  desc: "Deletes commandstats data that's related to your User ID"
-deleteguildstatsdata:
-  args:
-    - ''
-  desc: "Deletes commandstats data that's related to your Guild ID"
-userstatsoptout:
-  args:
-    - ""
-  desc: "Opts you in/out of commandstats gathering. Keep in mind this never collects message contents."
-guildstatsoptout:
-  args:
-    - ""
-  desc: "Opts this guild in/out of commandstats gathering. Keep in mind this never collects message contents."
-commandstats:
-  args:
-    - ""
-  desc: "Shows stats for top guild, user, command, and module used. Along with how many times."
-multigreetdisable:
-  args:
-    - '1 true/false'
-  desc: Disables a MultiGreet by Id
-nameban:
-  args:
-    - 'shit'
-  desc: Bans users that contain the inputted name. Supports regex.
-pingip:
-  args:
-    - '127.0.0.1'
-  desc: Gets the average ping for an IP
-traceroute:
-  args:
-    - '127.0.0.1'
-  desc: Show's the hops madeto get to an IP Address
 rolegreetgreetbots:
   args:
     - 1 false
@@ -3209,11 +3194,6 @@ settopic:
   args:
     - My new topic
   desc: Sets a topic on the current channel.
-setswitchfc:
-  args:
-    - 'SW-1234-1234-1234'
-    - ''
-  desc: Sets the switch friend code that will appear on your profile.
 setwarnchannel:
   args:
     - '#channel'
@@ -4266,66 +4246,6 @@ voteroleadd:
     - "role 2m5s"
     - "role"
   desc: "Add a role thats given when a user has voted along with the time its present. Set no time for it to be permanent."
-voteroleremove:
-  args:
-    - "role"
-  desc: "Removes a vote role"
-voterolesclear:
-  args:
-    - ""
-  desc: "Clears all vote roles with a confirmation"
-profile:
-  args:
-    - ""
-    - "@user"
-  desc: "Opens your or another user's customized profile, if it's not set to private."
-setzodiac:
-  args:
-    - "libra"
-  desc: "Set your zodiac for horoscopes in your custom profile"
-setprofilecolor:
-  args:
-    - "Yellow"
-    - "Hex, im not looking up a hex just for this command"
-  desc: "Opens your or another user's customized profile, if it's not set to private."
-setbirthday:
-  args:
-    - "10/04/2003"
-  desc: "Sets your birthday to be shown (depending on how its set), in your user profile, will be used with the birthday module."
-setbirthdayprivacy:
-  args:
-    - "MonthOnly"
-    - "MonthAndDateOnly"
-  desc: >-
-    Sets the way your birthday is disabled when someone views your profile.
-
-
-    `Default`: 10/04/2003
-
-    `MonthOnly`: October
-
-    `MonthAndDate`: October 4
-
-    `YearOnly`: 2003
-
-    `Disabled`: Private
-setprofileimage:
-  args:
-    - "imagelink"
-  desc: "A link to a direct image that will shows on your userprofile"
-setprivacy:
-  args:
-    - "Private"
-    - "Public"
-  desc: "Sets whether others can view your profile."
-setbio:
-  args:
-    - "Hi there, owner of Mewdeko!"
-  desc: "Sets what the description will show on your userprofile."
-voteroleslist:
-  args:
-    - ""
-  desc: "Lists all vote roles."
 voteroleedit:
   args:
     - "role 2m5s"

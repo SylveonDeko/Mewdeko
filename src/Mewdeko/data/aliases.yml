@@ -4,7 +4,6 @@ accept:
   - acceptsuggest
 acceptchannel:
   - acceptchannel
-
 acceptmessage:
   - acceptmessage
   - acceptmsg
@@ -101,34 +100,6 @@ addtousersover:
 addtousersunder:
   - atuu
   - addtousersunder
-nameban:
-  - nameban
-  - nban
-traceroute:
-  - traceroute
-  - tracert
-  - trcrt
-userstatsoptout:
-  - userstatsoptout
-  - ustatsoptout
-guildstatsoptout:
-  - guildstatsoptout
-  - gstatsoptout
-deleteuserstatsdata:
-  - deleteuserstatsdata
-  - deluserstatsdata
-deleteguildstatsdata:
-  - deleteguildstatsdata
-  - delguildstatsdata
-commandstats:
-  - commandstats
-  - cstats
-multigreetdisable:
-  - multigreetdisable
-  - mgdisable
-  - mgdis
-pingip:
-  - pingip
 adduserstorole:
   - adduserstorole
   - autr
@@ -502,6 +473,25 @@ ctad:
   - ctad
 ctat:
   - ctat
+karutaeventchannel:
+  - karutaeventchannel
+  - keventchannel
+  - kec
+karutabuttontext:
+  - karutabuttontext
+  - kbuttontext
+  - kbt
+clearkarutaevent:
+  - clearkarutaevent
+  - ckarutaevent
+  - ckv
+karutaeventleaderboard:
+  - karutaeventleaderboard
+  - keventleaderboard
+  - klb
+removeevententry:
+  - removeevententry
+  - ree
 ctca:
   - ctca
 ctdm:
@@ -707,8 +697,8 @@ getactiveafks:
   - getactiveafks
   - activeafks
 pronouns:
-  - pronouns
   - getpronouns
+  - pronouns
 give:
   - give
 glist:
@@ -1489,11 +1479,6 @@ setsuggestchannel:
 settopic:
   - settopic
   - st
-setswitchfc:
-  - setswitchfc
-  - setfc
-  - setswitchfriendcode
-  - setfriendcode
 setwarnchannel:
   - setwarnchannel
   - warnchannel
@@ -2016,33 +2001,6 @@ votemessage:
 voteroleadd:
   - voteroleadd
   - vra
-voteroleremove:
-  - voteroleremove
-  - vrr
-voterolesclear:
-  - voterolesclear
-  - vrc
-voteroleslist:
-  - voteroleslist
-  - vrl
-profile:
-  - profile
-  - userprofile
-setzodiac:
-  - setzodiac
-setprofilecolor:
-  -  setprofilecolor
-setbirthday:
-  - setbirthday
-setbirthdayprivacy:
-  - setbirthdayprivacy
-setprofileimage:
-  - setprofileimage
-setprivacy:
-  - setprivacy
-  - profilepricvacy
-setbio:
-  - setbio
 voteroleedit:
   - voteroleedit
   - vre
