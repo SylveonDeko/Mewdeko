@@ -96,7 +96,8 @@ public class KarutaEvent : MewdekoModuleBase<ShibaKarutaService>
             var embeds = new List<Embed>();
             for (var i = 1; i < 7; i++)
             {
-                var embed = await Service.GetLeaderboardEmbed(guildId, i);
+                Log.Information($"{guildId} | {i}");
+                    var embed = await Service.GetLeaderboardEmbed(guildId, i);
                     if (embed is not null)
                         embeds.Add(embed);
             }
