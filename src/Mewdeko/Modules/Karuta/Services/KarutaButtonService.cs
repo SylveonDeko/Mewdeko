@@ -1,4 +1,5 @@
 ﻿using Discord.Interactions;
+using Swan;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Karuta.Services;
@@ -70,6 +71,7 @@ public class KarutaButtonService : MewdekoSlashModuleBase<ShibaKarutaService>
         {
             var vote = new KarutaEventVotes
             {
+                GuildId = ctx.Guild.Id,
                 MessageId = interaction.Message.Id,
                 VotedNum = voteNumber,
                 UserId = ctx.User.Id
