@@ -1,7 +1,7 @@
-using System.Globalization;
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Services.strings;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common;
 
@@ -76,13 +76,13 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         }
         finally
         {
-            if (delete)
+            if (delete && !ephemeral)
                 _ = Task.Run(async () => await msg.DeleteAsync().ConfigureAwait(false));
         }
     }
-
     public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
     {
+
         var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
         var ownerId = Context.Guild.OwnerId;
         var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
@@ -102,7 +102,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
             await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
         return false;
     }
-
+    
 
     public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
