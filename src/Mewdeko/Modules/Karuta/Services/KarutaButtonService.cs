@@ -1,5 +1,4 @@
 ﻿using Discord.Interactions;
-using Swan;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Karuta.Services;
@@ -27,7 +26,6 @@ public class KarutaButtonService : MewdekoSlashModuleBase<ShibaKarutaService>
         if (potentialVote.Any())
         {
             if (potentialVote.Select(x => x.VotedNum).Contains(voteNumber))
-            {
                 if (await PromptUserConfirmAsync($"You already voted for `{buttonText}`, do you want to remove your vote?", ctx.User.Id, true))
                 {
                     uow.KarutaEventVotes.Remove(potentialVote.FirstOrDefault(x => x.VotedNum == voteNumber));
@@ -67,59 +65,11 @@ public class KarutaButtonService : MewdekoSlashModuleBase<ShibaKarutaService>
                             break;
                     }
                 }
-            }
-            else
-            {
-                var vote = new KarutaEventVotes
-                {
-                    GuildId = ctx.Guild.Id,
-                    MessageId = interaction.Message.Id,
-                    VotedNum = voteNumber,
-                    UserId = ctx.User.Id
-                };
-                uow.KarutaEventVotes.Add(vote);
-                await uow.SaveChangesAsync();
-                await ctx.Interaction.SendEphemeralFollowupConfirmAsync($"Succesfully voted for `{buttonText}`");
-                switch (voteNumber)
-                {
-                    case 1:
-                        potentialEntry.Button1Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                    case 2:
-                        potentialEntry.Button2Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                    case 3:
-                        potentialEntry.Button3Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                    case 4:
-                        potentialEntry.Button4Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                    case 5:
-                        potentialEntry.Button5Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                    case 6:
-                        potentialEntry.Button6Count += 1;
-                        uow.KarutaEventEntry.Update(potentialEntry);
-                        await uow.SaveChangesAsync();
-                        break;
-                }
-            }
         }
         else
         {
             var vote = new KarutaEventVotes
             {
-                GuildId = ctx.Guild.Id,
                 MessageId = interaction.Message.Id,
                 VotedNum = voteNumber,
                 UserId = ctx.User.Id
