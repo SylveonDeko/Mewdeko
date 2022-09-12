@@ -1,12 +1,11 @@
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Nsfw.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Nsfw;
-
 public record UrlReply
 {
     public string Error { get; init; }
@@ -18,10 +17,11 @@ public record UrlReply
 
 public class SearchImagesService : ISearchImagesService, INService
 {
-    private readonly HttpClient http;
-    private readonly SearchImageCacher cache;
-    private readonly DbService db;
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
+    private readonly Random _rng;
+    private readonly HttpClient _http;
+    private readonly SearchImageCacher _cache;
+    private readonly DbService _db;
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
 
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -32,20 +32,20 @@ public class SearchImagesService : ISearchImagesService, INService
         SearchImageCacher cacher, DiscordSocketClient client,
         DbService db)
     {
-        this.http = http.CreateClient();
-        this.http.AddFakeHeaders();
-        cache = cacher;
-        this.db = db;
+        _rng = new MewdekoRandom();
+        _http = http.CreateClient();
+        _http.AddFakeHeaders();
+        _cache = cacher;
+        _db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Include(x => x.NsfwBlacklistedTags).Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
-        blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
 
-    private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default) =>
-        GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
+    private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default) => GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
 
     private static bool IsValidTag(string tag) => tag.All(x => x != '+' && x != '?' && x != '/'); // tags mustn't contain + or ? or /
 
@@ -60,54 +60,59 @@ public class SearchImagesService : ISearchImagesService, INService
         {
             return new UrlReply
             {
-                Error = "One or more tags are invalid.", Url = ""
+                Error = "One or more tags are invalid.",
+                Url = ""
             };
         }
-#if DEBUG
+#if  DEBUG
         Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);
 #endif
         try
         {
-            blacklistedTags.TryGetValue(guildId, out var blTags);
+            _blacklistedTags.TryGetValue(guildId, out var blTags);
 
             switch (dapi)
             {
                 case Booru.E621:
-                {
-                    for (var i = 0; i < tags.Length; ++i)
                     {
-                        if (tags[i] == "yuri")
-                            tags[i] = "female/female";
-                    }
+                        for (var i = 0; i < tags.Length; ++i)
+                        {
+                            if (tags[i] == "yuri")
+                                tags[i] = "female/female";
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case Booru.Derpibooru:
-                {
-                    for (var i = 0; i < tags.Length; ++i)
                     {
-                        if (tags[i] == "yuri")
-                            tags[i] = "lesbian";
-                    }
+                        for (var i = 0; i < tags.Length; ++i)
+                        {
+                            if (tags[i] == "yuri")
+                                tags[i] = "lesbian";
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
-            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
-                .ConfigureAwait(false);
+            var result = await _cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
+                                     .ConfigureAwait(false);
 
             if (result is null)
             {
                 return new UrlReply
                 {
-                    Error = "Image not found.", Url = ""
+                    Error = "Image not found.",
+                    Url = ""
                 };
             }
 
             var reply = new UrlReply
             {
-                Error = "", Url = result.FileUrl, Rating = result.Rating, Provider = result.SearchType.ToString()
+                Error = "",
+                Url = result.FileUrl,
+                Rating = result.Rating,
+                Provider = result.SearchType.ToString()
             };
 
             reply.Tags.AddRange(result.Tags);
@@ -116,11 +121,11 @@ public class SearchImagesService : ISearchImagesService, INService
         }
         catch (Exception ex)
         {
-            if (!ex.Message.Contains("cancelled"))
-                Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
+            Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
             return new UrlReply
             {
-                Error = ex.Message, Url = ""
+                Error = ex.Message,
+                Url = ""
             };
         }
     }
@@ -151,15 +156,17 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
-
+    
     public Task<UrlReply?> RealBooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Realbooru);
 
     public async Task<UrlReply?> Hentai(ulong? guildId, bool forceExplicit, string[] tags)
     {
-        var providers = new[]
-        {
-            Booru.Danbooru, Booru.Konachan, Booru.Gelbooru, Booru.Yandere
+        var providers = new[] {
+            Booru.Danbooru,
+            Booru.Konachan,
+            Booru.Gelbooru,
+            Booru.Yandere
         };
 
         using var cancelSource = new CancellationTokenSource();
@@ -183,7 +190,8 @@ public class SearchImagesService : ISearchImagesService, INService
             // if the result is an error, remove that task from the waiting list,
             // and wait for another task to complete
             tasks.Remove(task);
-        } while (tasks.Count > 0); // keep looping as long as there is any task remaining to be attempted
+        }
+        while (tasks.Count > 0); // keep looping as long as there is any task remaining to be attempted
 
         // if we ran out of tasks, that means all tasks failed - return an error
         return new UrlReply
@@ -191,10 +199,9 @@ public class SearchImagesService : ISearchImagesService, INService
             Error = "No hentai image found."
         };
     }
+    
 
-
-    private readonly object taglock = new();
-
+    private readonly object _taglock = new();
     public async ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
@@ -203,7 +210,7 @@ public class SearchImagesService : ISearchImagesService, INService
         };
 
         bool added;
-        await using var uow = db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
@@ -219,7 +226,7 @@ public class SearchImagesService : ISearchImagesService, INService
         }
 
         var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
-        blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
+        _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -228,9 +235,9 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public ValueTask<string[]> GetBlacklistedTags(ulong guildId)
     {
-        lock (taglock)
+        lock (_taglock)
         {
-            return blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
+            return _blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
         }
     }
 }
