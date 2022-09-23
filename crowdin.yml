@@ -1,0 +1,3 @@
+files:
+  - source: src/Mewdeko/data/strings/commands/commands.en-US.yml
+    translation: src/Mewdeko/data/strings/commands/commands.%locale%.yml
