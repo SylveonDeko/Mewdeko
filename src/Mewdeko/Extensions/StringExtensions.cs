@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Common.Yml;
+using MoreLinq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
@@ -52,6 +53,12 @@ public static class StringExtensions
             var str = me.Groups["code"].Value;
             return YamlHelper.UnescapeUnicodeCodePoint(str);
         });
+
+    public static bool IsImage(this string input) =>
+        input.EndsWith(".png") || 
+        input.EndsWith(".gif") || 
+        input.EndsWith(".jpg") ||
+        input.EndsWith(".jpeg");
 
     public static bool CheckIfMusicUrl(this string input) =>
         input.EndsWith(".mp4") switch

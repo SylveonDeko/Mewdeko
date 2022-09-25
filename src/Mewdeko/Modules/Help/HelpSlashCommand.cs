@@ -8,6 +8,7 @@ using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Help;
@@ -21,6 +22,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     private readonly CommandService _cmds;
     private readonly GuildSettingsService _guildSettings;
     private readonly CommandHandler _ch;
+    private readonly BotConfigService _config;
 
     public HelpSlashCommand(
         GlobalPermissionService permissionService,
@@ -28,7 +30,8 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         IServiceProvider serviceProvider,
         CommandService cmds,
         CommandHandler ch,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        BotConfigService config)
     {
         _permissionService = permissionService;
         _interactivity = interactivity;
@@ -36,6 +39,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _cmds = cmds;
         _ch = ch;
         _guildSettings = guildSettings;
+        _config = config;
     }
 
     [SlashCommand("help", "Shows help on how to use the bot"), CheckPermissions]
@@ -124,7 +128,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n{_config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }

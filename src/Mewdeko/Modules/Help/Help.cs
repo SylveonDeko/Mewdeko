@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Swan;
 using System.Threading.Tasks;
@@ -18,14 +19,17 @@ public class Help : MewdekoModuleBase<HelpService>
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
     private readonly GuildSettingsService _guildSettings;
+    private readonly BotConfigService _config;
 
     public Help(GlobalPermissionService perms, CommandService cmds,
         IServiceProvider services, IBotStrings strings,
         InteractiveService serv,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        BotConfigService config)
     {
         _interactive = serv;
         _guildSettings = guildSettings;
+        _config = config;
         _cmds = cmds;
         _perms = perms;
         _services = services;
@@ -146,7 +150,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n{_config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }

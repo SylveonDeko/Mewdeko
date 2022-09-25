@@ -1,14 +1,14 @@
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Modules.UserProfile.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Modules.Utility;
+namespace Mewdeko.Modules.UserProfile;
 
-public partial class Utility
+public partial class UserProfile
 {
-    public class Pronouns : MewdekoSubmodule<PronounsService>
+    public class Pronouns : MewdekoSubmodule<UserProfileService>
     {
         private readonly DbService _db;
         public Pronouns(DbService db) => _db = db;

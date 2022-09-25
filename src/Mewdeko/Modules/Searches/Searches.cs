@@ -770,28 +770,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Avatar([Remainder] IGuildUser? usr = null)
-    {
-        if (usr == null)
-            usr = (IGuildUser)ctx.User;
-
-        var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
-
-        if (avatarUrl == null)
-        {
-            await ReplyErrorLocalizedAsync("avatar_none", usr.ToString()).ConfigureAwait(false);
-            return;
-        }
-
-        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                       .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
-                                                       .AddField(efb =>
-                                                           efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-                                                       .WithImageUrl(avatarUrl)).ConfigureAwait(false);
-    }
-
-    // done in 3.0
     [Cmd, Aliases]
     public async Task Wikia(string target, [Remainder] string query)
     {

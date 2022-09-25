@@ -122,7 +122,8 @@ public class SearchImagesService : ISearchImagesService, INService
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
+            if (!ex.Message.Contains("cancelled"))
+                Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
             return new UrlReply
             {
                 Error = ex.Message,

@@ -104,13 +104,17 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         if (parsedTime.Time.Equals(default))
         {
             await ctx.Interaction.SendEphemeralErrorAsync(
-                "The time format provided was incorrect! Please this format: `20m30s`").ConfigureAwait(false);
+                "The time format provided was incorrect! Please use this format: `20m30s`").ConfigureAwait(false);
             return;
         }
-
+        if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
+        {
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
         await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message, 1, DateTime.UtcNow + parsedTime.Time);
         await ctx.Interaction.SendConfirmAsync(
-            $"Timed AFK has been set, and will unset in `{parsedTime.Time.Humanize()}`.\nMessage set to:\n{message}");
+            $"Timed AFK has been set, and will unset in {TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + parsedTime.Time, TimestampTagStyles.Relative)}.\nMessage set to:\n{message}");
     }
 
     [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), RequireContext(ContextType.Guild),

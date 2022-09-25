@@ -2,17 +2,17 @@ using Discord.Interactions;
 using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Modules.UserProfile.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Modules.Utility;
+namespace Mewdeko.Modules.UserProfile;
 
 [Group("pronouns", "pronouns")]
-public class SlashPronoun : MewdekoSlashSubmodule<PronounsService>
+public class SlashPronoun : MewdekoSlashSubmodule<UserProfileService>
 {
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
+    private readonly Mewdeko _bot;  
     private readonly BlacklistService _bss;
     public SlashPronoun(DbService db, Mewdeko bot, BlacklistService bss)
     {

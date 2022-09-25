@@ -1,3 +1,4 @@
+using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

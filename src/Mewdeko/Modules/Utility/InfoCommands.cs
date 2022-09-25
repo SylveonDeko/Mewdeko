@@ -95,25 +95,7 @@ public partial class Utility
             var usr = await _client.Rest.GetUserAsync(id).ConfigureAwait(false);
             if (usr is null)
             {
-                var chans = await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false);
-                IUserMessage? message = null;
-                foreach (var i in chans)
-                {
-                    var e = await i.GetMessageAsync(id).ConfigureAwait(false);
-                    if (e is not null)
-                        message = e as IUserMessage;
-                }
-
-                var eb = new EmbedBuilder()
-                    .WithTitle("Message Info");
-                if (message.Embeds.Count > 0) eb.AddField("Embeds", message.Embeds.Count);
-
-                if (!string.IsNullOrEmpty(message.Content))
-                    eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
-
-                eb.WithAuthor(message.Author);
-                eb.AddField("Time Sent", TimestampTag.FromDateTimeOffset(message.Timestamp));
-                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("That user could not be found. Please ensure that was the correct ID.");
             }
             else
             {
@@ -273,6 +255,26 @@ public partial class Utility
                     x.Components = null;
                 }).ConfigureAwait(false);
             }
+        }
+        
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        public async Task Avatar([Remainder] IGuildUser? usr = null)
+        {
+            usr ??= (IGuildUser)ctx.User;
+
+            var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
+
+            if (avatarUrl == null)
+            {
+                await ReplyErrorLocalizedAsync("avatar_none", usr.ToString()).ConfigureAwait(false);
+                return;
+            }
+
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                           .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                                                           .AddField(efb =>
+                                                               efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                                                           .WithImageUrl(avatarUrl)).ConfigureAwait(false);
         }
     }
 }
