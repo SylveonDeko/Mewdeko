@@ -96,17 +96,15 @@ public class SearchImageCacher : INService
                 // retreived images
                 foreach (var tag in img.Tags.Concat(tags).Distinct())
                 {
-                    if (typeUsedTags.Contains(tag))
+                    if (!typeUsedTags.Contains(tag)) continue;
+                    var set = _cache.GetOrCreate(Key(type, tag), e =>
                     {
-                        var set = _cache.GetOrCreate(Key(type, tag), e =>
-                        {
-                            e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
-                            return new HashSet<ImageData>();
-                        });
+                        e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+                        return new HashSet<ImageData>();
+                    });
 
-                        if (set.Count < 100)
-                            set.Add(img);
-                    }
+                    if (set.Count < 100)
+                        set.Add(img);
                 }
             }
         }
@@ -258,15 +256,12 @@ public class SearchImageCacher : INService
 
             var result = await DownloadImagesAsync(tags, isExplicit, type, page, cancel).ConfigureAwait(false);
 
-            if (result is null or { Count: 0 })
-            {
+            if (result is not (null or { Count: 0 })) return result;
 #if DEBUG
-                Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
+            Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
 #endif
-                continue;
-            }
+            continue;
 
-            return result;
         }
 
         return new List<ImageData>();
@@ -300,20 +295,16 @@ public class SearchImageCacher : INService
             var downloader = GetImageDownloader(type, http);
 
             var images = await downloader.DownloadImageDataAsync(tags, page, isExplicit, cancel).ConfigureAwait(false);
-            if (images.Count == 0)
-            {
-                var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
-                _maxPages[(type, tagStr)] = page;
-            }
+            if (images.Count != 0) return images;
+            var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
+            _maxPages[(type, tagStr)] = page;
 
             return images;
         }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
+            if (ex is OperationCanceledException or TaskCanceledException)
+                return new List<ImageData>();
             Log.Error(ex, "Error downloading an image:\nTags: {0}\nType: {1}\nPage: {2}\nMessage: {3}",
                 string.Join(", ", tags),
                 type,

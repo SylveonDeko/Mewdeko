@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
     private readonly HttpClient _http;
-    public const string BOT_VERSION = "7.02";
+    public const string BOT_VERSION = "7.1";
 
     private readonly DateTime _started;
 
@@ -83,7 +83,7 @@ public class StatsService : IStatsService
                     {
                         {"shard_count", Creds.TotalShards.ToString()},
                         {"shard_id", Client.ShardId.ToString()},
-                        {"server_count", Coord.GetGuildCount().ToString()}
+                        {"server_count", (Coord.GetGuildCount()/Creds.TotalShards).ToString()}
                     });
                 content.Headers.Clear();
                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");

@@ -18,11 +18,6 @@ namespace Mewdeko.Services.Settings;
 public abstract class ConfigServiceBase<TSettings> : IConfigService
     where TSettings : new()
 {
-    private readonly JsonSerializerOptions _serializerOptions = new()
-    {
-        MaxDepth = 0,
-        Converters = { new Rgba32Converter(), new CultureInfoConverter() }
-    };
 
     private readonly TypedKey<TSettings> _changeKey;
     private readonly Dictionary<string, string> _propComments = new();

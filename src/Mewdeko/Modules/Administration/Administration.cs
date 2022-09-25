@@ -27,7 +27,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         Ls = 0
     }
 
-    public enum Server
+    public enum Server 
     {
         Server
     }
@@ -188,7 +188,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var errored = 0;
         var msg = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithErrorColor()
                                                                               .WithDescription(
-                                                                                  $"Are you sure you want to ban {users.Count()} users that are under that server join age? Say `yes` to continue.")
+                                                                                  $"Are you sure you want to kick {users.Count()} users that are under that server join age? Say `yes` to continue.")
                                                                               .Build());
         var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         await msg.DeleteAsync();

@@ -57,3 +57,9 @@ rotateStatuses: false
 commandLogChannel: 967698079748862012
 # Used to enable or disable showing the invite button on some commands
 showInviteButton: true
+# Used to set the error emote used across the bot.
+errorEmote: <:HaneNo:914307917954576414>
+# Used to set the success emote used across the bot.
+successEmote: <:hane_wow:945005763829575680>
+# Used to set the loading emote for the bot.
+loadingEmote: <a:HaneMeow:968564817784877066>

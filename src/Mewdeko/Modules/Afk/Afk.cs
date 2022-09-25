@@ -150,9 +150,13 @@ public class Afk : MewdekoModuleBase<AfkService>
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
         }
-
+        if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
+        {
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
         await Service.AfkSet(ctx.Guild, ctx.User as IGuildUser, message, 1, DateTime.UtcNow + time.Time);
-        await ctx.Channel.SendConfirmAsync($"Timed AFK has been set, and will unset in `{time.Time.Humanize()}`.\nMessage set to:\n{message}");
+        await ctx.Channel.SendConfirmAsync($"Timed AFK has been set, and will unset in {TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + time.Time, TimestampTagStyles.Relative)}.\nMessage set to:\n{message}");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]

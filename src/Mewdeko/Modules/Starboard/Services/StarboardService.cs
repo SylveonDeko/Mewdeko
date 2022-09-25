@@ -283,7 +283,7 @@ public class StarboardService : INService, IReadyExecutor
             var enumerable = count as IUser[] ?? count.ToArray();
             if (enumerable.Length < await GetStarCount(textChannel.GuildId))
                 return;
-
+            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link).Build();
             var maybePost = starboardPosts.Find(x => x.MessageId == newMessage.Id);
             if (maybePost != null)
             {
@@ -295,7 +295,6 @@ public class StarboardService : INService, IReadyExecutor
                     {
                         var post2 = post as IUserMessage;
                         var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
@@ -303,6 +302,7 @@ public class StarboardService : INService, IReadyExecutor
                         await post2!.ModifyAsync(x =>
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Components = component;
                             x.Embed = eb1.Build();
                         }).ConfigureAwait(false);
                     }
@@ -322,12 +322,11 @@ public class StarboardService : INService, IReadyExecutor
                         }
 
                         var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build(), components: component).ConfigureAwait(false);
                         await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
@@ -338,7 +337,6 @@ public class StarboardService : INService, IReadyExecutor
                     {
                         var toModify = tryGetOldPost as IUserMessage;
                         var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
@@ -346,30 +344,30 @@ public class StarboardService : INService, IReadyExecutor
                         await toModify!.ModifyAsync(x =>
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Components = component;
                             x.Embed = eb1.Build();
                         }).ConfigureAwait(false);
                     }
                     else
                     {
                         var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (newMessage.Attachments.Count > 0)
                             eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build(), components: component).ConfigureAwait(false);
                         await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
             }
             else
             {
-                var eb = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content).AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                var eb = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
                                            .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
                 if (imageurl is not null)
                     eb.WithImageUrl(imageurl);
 
-                var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build()).ConfigureAwait(false);
+                var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build(), components: component).ConfigureAwait(false);
                 await AddStarboardPost(message.Id, msg.Id).ConfigureAwait(false);
             }
     }
@@ -428,6 +426,7 @@ public class StarboardService : INService, IReadyExecutor
 
             string content;
             string imageurl;
+            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link).Build();
             switch (newMessage.Author.IsBot)
             {
                 case true when !await GetAllowBots(textChannel.GuildId):
@@ -476,7 +475,6 @@ public class StarboardService : INService, IReadyExecutor
                     {
                         var post2 = post as IUserMessage;
                         var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
@@ -484,6 +482,7 @@ public class StarboardService : INService, IReadyExecutor
                         await post2!.ModifyAsync(x =>
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Components = component;
                             x.Embed = eb1.Build();
                         }).ConfigureAwait(false);
                     }
@@ -503,12 +502,11 @@ public class StarboardService : INService, IReadyExecutor
                         }
 
                         var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build(), components: component).ConfigureAwait(false);
                         await AddStarboardPost(newMessage.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }
@@ -519,7 +517,6 @@ public class StarboardService : INService, IReadyExecutor
                     {
                         var toModify = tryGetOldPost as IUserMessage;
                         var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb1.WithImageUrl(imageurl);
@@ -527,18 +524,18 @@ public class StarboardService : INService, IReadyExecutor
                         await toModify!.ModifyAsync(x =>
                         {
                             x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Components = component;
                             x.Embed = eb1.Build();
                         }).ConfigureAwait(false);
                     }
                     else
                     {
                         var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
-                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
                                                     .WithTimestamp(newMessage.Timestamp);
                         if (imageurl is not null)
                             eb2.WithImageUrl(imageurl);
 
-                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build()).ConfigureAwait(false);
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build(), components: component).ConfigureAwait(false);
                         await AddStarboardPost(message.Id, msg1.Id).ConfigureAwait(false);
                     }
                 }

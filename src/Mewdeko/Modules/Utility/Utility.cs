@@ -839,49 +839,66 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Roles(IGuildUser? target, int page = 1)
+    public async Task Roles(IGuildUser? target = null)
     {
         var channel = (ITextChannel)ctx.Channel;
         var guild = channel.Guild;
-
-        const int rolesPerPage = 20;
-
-        if (page is < 1 or > 100)
-            return;
-
+        
         if (target != null)
         {
-            var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
-                .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
-            if (roles.Length == 0)
+            var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position);
+            if (!roles.Any())
             {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
             }
             else
             {
-                await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                                $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles)}").ConfigureAwait(false);
+                var paginator = new LazyPaginatorBuilder()
+                                 .AddUser(ctx.User)
+                                 .WithPageFactory(PageFactory)
+                                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                 .WithMaxPageIndex(roles.Count() / 10)
+                                 .WithDefaultCanceledPage()
+                                 .WithDefaultEmotes()
+                                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                                 .Build();
+                await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
+
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+                    return new PageBuilder().WithOkColor().WithTitle($"Roles List for {target}").WithDescription(string.Join("\n", roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id}")));
+                }
             }
         }
         else
         {
-            var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
-                .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
-            if (roles.Length == 0)
+            var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position);
+            if (!roles.Any())
             {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
             }
             else
             {
-                await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                                             $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()}")
-                                .ConfigureAwait(false);
+                var paginator = new LazyPaginatorBuilder()
+                                .AddUser(ctx.User)
+                                .WithPageFactory(PageFactory)
+                                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                .WithMaxPageIndex(roles.Count() / 10)
+                                .WithDefaultCanceledPage()
+                                .WithDefaultEmotes()
+                                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                                .Build();
+                await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
+
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+                    return new PageBuilder().WithOkColor().WithTitle("Guild Roles List").WithDescription(string.Join("\n", roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id}")));
+                }
             }
         }
     }
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public Task Roles(int page = 1) => Roles(null, page);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChannelTopic([Remainder] ITextChannel? channel = null)
@@ -900,22 +917,41 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (string.IsNullOrWhiteSpace(message))
             return;
-
+        var canMention = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone;
+        var anyAttachments = false;
+        List <FileAttachment> attachments = new();
+        if (ctx.Message.Attachments.Any())
+        {
+            anyAttachments = true;
+            foreach (var i in ctx.Message.Attachments)
+            {
+                using var sr = await _httpClient.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                await using var imgStream = imgData.ToStream();
+                attachments.Add(new FileAttachment(imgStream, i.Filename));
+            }
+        }
         var rep = new ReplacementBuilder()
                   .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
                   .Build();
         
         if (SmartEmbed.TryParse(rep.Replace(message), ctx.Guild?.Id, out var embedData, out var plainText, out var components))
         {
-            if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
-                plainText = plainText.SanitizeMentions(true);
-            await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build())
-                         .ConfigureAwait(false);
+            if (anyAttachments)
+                await channel.SendFilesAsync(attachments: attachments, plainText, embeds: embedData, components:components?.Build(), allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
+                             .ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build(), allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
+                             .ConfigureAwait(false);
         }
         else
         {
             var msg = rep.Replace(message);
-            if (!string.IsNullOrWhiteSpace(msg)) await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(msg))
+                if (anyAttachments)
+                    await channel.SendFilesAsync(attachments, msg, allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All).ConfigureAwait(false);
+                else
+                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
     }
 
@@ -932,9 +968,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                                                              .WithUrl("https://discord.gg/mewdeko")
                                                              .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
                                        .AddField(efb =>
-                                           efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
+                                           efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}")
                                               .WithIsInline(false))
                                        .AddField(efb => efb.WithName("Library").WithValue(_stats.Library).WithIsInline(false))
+                                       .AddField(GetText("owner_ids"), string.Join("\n", _creds.OwnerIds.Select(x => $"<@{x}>")))
                                        .AddField(efb =>
                                            efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}")
                                               .WithIsInline(false))
