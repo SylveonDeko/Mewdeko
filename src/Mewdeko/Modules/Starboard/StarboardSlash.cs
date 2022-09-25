@@ -41,9 +41,9 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
     [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStars(int num)
     {
-        var count = Service.GetStarCount(ctx.Guild.Id);
+        var count = await Service.GetStarCount(ctx.Guild.Id);
         await Service.SetStarCount(ctx.Guild, num).ConfigureAwait(false);
-        var count2 = Service.GetStarCount(ctx.Guild.Id);
+        var count2 = await Service.GetStarCount(ctx.Guild.Id);
         await ctx.Interaction.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!").ConfigureAwait(false);
     }
 

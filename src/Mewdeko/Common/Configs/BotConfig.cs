@@ -6,7 +6,8 @@ using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Configs;
 
-public sealed class BotConfig
+public sealed class 
+    BotConfig
 {
     public BotConfig()
     {
@@ -26,6 +27,7 @@ public sealed class BotConfig
         LoadingEmote = "<a:HaneMeow:968564817784877066>";
         ErrorEmote = "<:HaneNo:914307917954576414>";
         SuccessEmote = "<:hane_wow:945005763829575680>";
+        SupportServer = "https://discord.gg/mewdeko";
     }
 
     [Comment(@"DO NOT CHANGE")] public int Version { get; set; }
@@ -113,6 +115,9 @@ See RotatingStatuses submodule in Administration.")]
     
     [Comment("Used to set the loading emote for the bot.")]
     public string LoadingEmote { get; set; }
+    
+    [Comment("Used to set the support server invite on public Mewdeko")]
+    public string SupportServer { get; set; }
 
     public string Prefixed(string text) => Prefix + text;
 }

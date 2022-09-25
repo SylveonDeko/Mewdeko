@@ -5,10 +5,9 @@ namespace Mewdeko.Extensions;
 
 public static class UserExtensions
 {
-    public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text) =>
-        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-              .SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
-              .ConfigureAwait(false);
+    public static async Task SendConfirmAsync(this IUser user, string text) =>
+        await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
+                                                                       .ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text,
         string? url = null)
