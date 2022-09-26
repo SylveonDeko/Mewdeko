@@ -1257,7 +1257,7 @@ getactiveafks:
   args:
     - ''
   desc: Get all currently AFK Users in a paginated list
-getpronouns:
+pronouns:
   args:
     - '@user'
     - ''
@@ -2057,7 +2057,7 @@ previewlinks:
   args:
     - enable
   desc: Sets whether automatically embeds message links.
-pronounoverrideforceclear:
+pronounsforceclear:
   args:
     - '@user true pronouns contained transphobic message'
     - >-
