@@ -116,6 +116,15 @@ public class UserProfileService : INService
         await uow.SaveChangesAsync();
     }
     
+    public async Task SetBirthdayDisplayMode(IUser user, DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
+    {
+        await using var uow = _db.GetDbContext();
+        var dbUser = await uow.GetOrCreateUser(user);
+        dbUser.BirthdayDisplayMode = birthdayDisplayModeEnum;
+        uow.DiscordUser.Update(dbUser);
+        await uow.SaveChangesAsync();
+    }
+    
     public async Task SetBirthday(IUser user, DateTime time)
     {
         await using var uow = _db.GetDbContext();
@@ -164,7 +173,7 @@ public class UserProfileService : INService
 
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
-            var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
+        var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
             await using var uow = _db.GetDbContext();
             var dbUser = await uow.GetOrCreateUser(user);
             if (dbUser.ProfilePrivacy == DiscordUser.ProfilePrivacyEnum.Private && user.Id != profileCaller.Id)
@@ -202,6 +211,8 @@ public class UserProfileService : INService
                 }
             else
                 eb.AddField("Birthday", "Unspecified", true);
+
+            eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count, true);
 
             if (!string.IsNullOrEmpty(dbUser.ProfileImageUrl))
                 eb.WithImageUrl(dbUser.ProfileImageUrl);
