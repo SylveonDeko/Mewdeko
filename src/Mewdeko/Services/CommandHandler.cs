@@ -483,7 +483,7 @@ public class CommandHandler : INService
         try
         {
             if (CommandParseLock.GetValueOrDefault(channelId, false)) return false;
-            if (CommandParseQueue.GetValueOrDefault(channelId) is null || CommandParseQueue[channelId].Count == 0) return false;
+            if (CommandParseQueue.GetValueOrDefault(channelId) is null || CommandParseQueue[channelId].IsEmpty) return false;
             CommandParseLock[channelId] = true;
             while (CommandParseQueue[channelId].TryDequeue(out var msg))
             {
@@ -544,7 +544,7 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
-        var prefix = await _gss.GetPrefix(guild.Id);
+        var prefix = await _gss.GetPrefix(guild?.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
             messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ") ||

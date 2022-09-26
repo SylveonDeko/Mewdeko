@@ -142,6 +142,22 @@ public class VoteService : INService
         await uow.SaveChangesAsync();
         return (true, null);
     }
+    
+    public async Task<(bool, string)> RemoveVoteRole(ulong guildId, ulong roleId)
+    {
+        if (roleId == guildId)
+            return (false, "Unable to add the everyone role you dumdum");
+        await using var uow = _db.GetDbContext();
+        if (!await uow.VoteRoles.AnyAsyncEF(x => x.GuildId == guildId))
+            return (false, "You don't have any VoteRoles");
+        var voteRole = await uow.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
+        if (voteRole is null)
+            return (false, "Role is not a VoteRole.");
+
+        uow.VoteRoles.Remove(voteRole);
+        await uow.SaveChangesAsync();
+        return (true, null);
+    }
 
     public async Task<(bool, string)> UpdateTimer(ulong roleId, int seconds)
     {
@@ -160,7 +176,7 @@ public class VoteService : INService
     public async Task<IList<VoteRoles>> GetVoteRoles(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-        return await uow.VoteRoles.Where(x => x.GuildId == guildId).ToListAsyncEF();
+        return await uow.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
     }
 
     public async Task<string> GetVoteMessage(ulong guildId)
@@ -176,7 +192,8 @@ public class VoteService : INService
         var voteRoles = uow.VoteRoles.Where(x => x.GuildId == guildId);
         if (!await voteRoles.AnyAsyncEF())
             return (false, "There are no VoteRoles set.");
-        await voteRoles.DeleteAsync();
+        uow.VoteRoles.RemoveRange(voteRoles);
+        await uow.SaveChangesAsync();
         return (true, null);
     }
 

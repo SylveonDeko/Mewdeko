@@ -614,7 +614,7 @@ gend:
 getactiveafks:
   - getactiveafks
   - activeafks
-getpronouns:
+pronouns:
   - getpronouns
   - pronouns
 give:
@@ -1024,15 +1024,12 @@ prefixcommand:
 previewlinks:
   - previewlinks
   - plinks
-pronounoverride:
+setpronouns:
   - setpronouns
-  - pronounoverride
-  - pronounsoverride
-  - pnoverride
-pronounoverrideforceclear:
-  - pronounoverrideforceclear
-  - pnofc
-  - pnovverideforceclear
+  - pronounsset
+pronounsforceclear:
+  - pronounsforceclear
+  - pnfc
 prunemembers:
   - prunemembers
   - memberprune
