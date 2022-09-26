@@ -79,8 +79,8 @@ public class HelpService : ILateExecutor, INService
         embed.WithTitle($"{_client.CurrentUser.Username} Help");
         embed.WithOkColor();
         embed.WithDescription(
-            $"\nDo `{await _guildSettings.GetPrefix(guild)}help command` to see a description of a command you need more info on!" +
-            $"\nDo `{await _guildSettings.GetPrefix(guild)}cmds category` to see the commands in that module." +
+            $"\nDo `{await _guildSettings.GetPrefix(guild?.Id)}help command` to see a description of a command you need more info on!" +
+            $"\nDo `{await _guildSettings.GetPrefix(guild?.Id)}cmds category` to see the commands in that module." +
             "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
@@ -106,7 +106,7 @@ public class HelpService : ILateExecutor, INService
 
     public async Task<string> CheckEnabled(ulong? guildId, IMessageChannel channel, IUser user, string moduleName)
     {
-        if (guildId is null)
+        if (!guildId.HasValue || guildId is null)
             return "✅";
         var pc = await _nPerms.GetCacheFor(guildId.Value);
         if (_perms.BlockedModules.Contains(moduleName.ToLower())) return "🌐❌";
@@ -122,7 +122,7 @@ public class HelpService : ILateExecutor, INService
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
 
-        return SmartEmbed.TryParse(settings.DmHelpText, guild.Id, out var embed, out var plainText, out var components)
+        return SmartEmbed.TryParse(settings.DmHelpText, null, out var embed, out var plainText, out var components)
             ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }

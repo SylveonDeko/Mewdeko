@@ -36,13 +36,15 @@ public class GuildSettingsService : INService
     
     public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild.Id);
 
-    public async Task<string?> GetPrefix(ulong id = 0)
+    public async Task<string?> GetPrefix(ulong? id)
     {
-        if (id is 0)
+        if (!id.HasValue)
             return _bss.GetSetting("prefix");
-        return (await GetGuildConfig(id)).Prefix ??= _bss.GetSetting("prefix");
+        return (await GetGuildConfig(id.Value)).Prefix ??= _bss.GetSetting("prefix");
     }
     
+    public Task<string?> GetPrefix() => Task.FromResult(_bss.GetSetting("prefix"));
+
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
