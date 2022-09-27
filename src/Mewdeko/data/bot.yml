@@ -14,7 +14,7 @@ color:
   # Color used for embed responses while command is doing work or is in progress
   pending: faa61a
 # Default bot language. It has to be in the list of supported languages (.langli)
-defaultLocale: ts-TS
+defaultLocale: en-US
 # Style in which executed commands will show up in the console.
 # # Allowed values: Simple, Normal, None
 consoleOutputType: Normal
@@ -53,8 +53,6 @@ groupGreets: false
 # # This setting can be changed via .rots command.
 # # See RotatingStatuses submodule in Administration.
 rotateStatuses: false
-# Used for global command logs
-commandLogChannel: 967698079748862012
 # Used to enable or disable showing the invite button on some commands
 showInviteButton: true
 # Used to set the error emote used across the bot.
@@ -63,3 +61,4 @@ errorEmote: <:HaneNo:914307917954576414>
 successEmote: <:hane_wow:945005763829575680>
 # Used to set the loading emote for the bot.
 loadingEmote: <a:HaneMeow:968564817784877066>
+commandLogChannel: 970494956420603955
