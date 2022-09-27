@@ -109,17 +109,11 @@
         <None Update="_strings\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="data\images_backup.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="data\tags.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="data\xp_template.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="data\xp_template_backup.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="external\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
