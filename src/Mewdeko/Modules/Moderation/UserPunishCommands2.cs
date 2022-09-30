@@ -22,13 +22,13 @@ public partial class Moderation
             AddRole
         }
 
-        private readonly DbService _db;
-        private readonly InteractiveService _interactivity;
+        private readonly DbService db;
+        private readonly InteractiveService interactivity;
 
         public UserPunishCommands2(DbService db, InteractiveService serv)
         {
-            _interactivity = serv;
-            _db = db;
+            interactivity = serv;
+            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -110,7 +110,7 @@ public partial class Moderation
 
             if (await Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 var warnings = uow.Warnings2
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -233,7 +233,7 @@ public partial class Moderation
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

@@ -4,15 +4,15 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class RollCommandService : INService
 {
-    private static readonly Regex _cleaner = new(@"[^\d]d(\d*)|^d(\d*)");
-    private static readonly Regex _dieFinder = new(@"(?'count'\d+)?d(?'value'\d*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex _operationFinder = new(@"(?'operator'[\/\\+\-*]) *?(?'number'\d*)$", RegexOptions.Compiled);
+    private static readonly Regex Cleaner = new(@"[^\d]d(\d*)|^d(\d*)");
+    private static readonly Regex DieFinder = new(@"(?'count'\d+)?d(?'value'\d*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex OperationFinder = new(@"(?'operator'[\/\\+\-*]) *?(?'number'\d*)$", RegexOptions.Compiled);
 
     public static RollResult ParseRoll(string roll)
     {
-        var parsed = _cleaner.Replace(roll, "1d$1$2");
+        var parsed = Cleaner.Replace(roll, "1d$1$2");
 
-        var dies = _dieFinder.Matches(parsed)
+        var dies = DieFinder.Matches(parsed)
                              .Select(x => new Die(int.TryParse(x.Groups["count"].Value, out var c) ? c : 1, int.TryParse(x.Groups["value"].Value, out var s) ? s : throw new ArgumentException("roll_fail_invalid_string")))
                              .ToList();
         if (dies.Any(x => x.Sides is >= int.MaxValue or < 0))
@@ -20,7 +20,7 @@ public class RollCommandService : INService
         if (dies.Count == 0)
             throw new ArgumentException("roll_fail_no_dice");
 
-        var opResult = _operationFinder.Match(parsed);
+        var opResult = OperationFinder.Match(parsed);
 
         RollResult result = new();
         try

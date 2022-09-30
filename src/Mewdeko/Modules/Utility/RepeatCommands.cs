@@ -14,13 +14,13 @@ public partial class Utility
     [Group]
     public class RepeatCommands : MewdekoSubmodule<MessageRepeaterService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly DbService _db;
+        private readonly DiscordSocketClient client;
+        private readonly DbService db;
 
         public RepeatCommands(DiscordSocketClient client, DbService db)
         {
-            _client = client;
-            _db = db;
+            this.client = client;
+            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
@@ -86,7 +86,7 @@ public partial class Utility
             var description = GetRepeaterInfoString(runner);
             runner.Stop();
 
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
@@ -126,7 +126,7 @@ public partial class Utility
 
             var repeater = repeaterList[index].Value.Repeater;
             var newValue = repeater.NoRedundant = !repeater.NoRedundant;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
@@ -190,7 +190,7 @@ public partial class Utility
                 StartTimeOfDay = startTimeOfDay
             };
 
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var gc = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
@@ -206,7 +206,7 @@ public partial class Utility
                 }
             }
 
-            var runner = new RepeatRunner(_client, (SocketGuild)ctx.Guild, toAdd, Service);
+            var runner = new RepeatRunner(client, (SocketGuild)ctx.Guild, toAdd, Service);
 
             Service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                 new ConcurrentDictionary<int, RepeatRunner>(new[]
@@ -281,7 +281,7 @@ public partial class Utility
             repeater.Message = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone
                 ? text
                 : text.SanitizeMentions(true);
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
@@ -316,7 +316,7 @@ public partial class Utility
 
             var repeater = repeaterList[index].Value.Repeater;
             repeater.ChannelId = textChannel.Id;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);

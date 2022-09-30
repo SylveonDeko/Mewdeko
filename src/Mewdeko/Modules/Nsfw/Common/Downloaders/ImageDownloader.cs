@@ -9,9 +9,9 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 public abstract class ImageDownloader<T> : IImageDownloader
     where T : IImageData
 {
-    protected readonly HttpClient _http;
+    protected readonly HttpClient Http;
 
-    protected readonly JsonSerializerOptions _serializerOptions = new()
+    protected readonly JsonSerializerOptions SerializerOptions = new()
     {
         PropertyNameCaseInsensitive = true,
         NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
@@ -21,7 +21,7 @@ public abstract class ImageDownloader<T> : IImageDownloader
 
     public ImageDownloader(Booru booru, HttpClient http)
     {
-        _http = http;
+        Http = http;
         Booru = booru;
     }
 

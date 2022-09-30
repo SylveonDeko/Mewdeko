@@ -8,22 +8,22 @@ namespace Mewdeko.Modules.Searches.Services;
 
 public class FeedsService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly DbService _db;
+    private readonly DiscordSocketClient client;
+    private readonly DbService db;
 
-    private readonly ConcurrentDictionary<string, DateTime> _lastPosts =
+    private readonly ConcurrentDictionary<string, DateTime> lastPosts =
         new();
 
-    private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
+    private readonly ConcurrentDictionary<string, HashSet<FeedSub>> subs;
 
     public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
     {
-        _db = db;
+        this.db = db;
 
         using (var uow = db.GetDbContext())
         {
             var guildConfigIds = uow.GuildConfigs.All().Where(x => bot.Client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).Select(x => x.Id);
-            _subs = uow.GuildConfigs
+            subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))
                 .Include(x => x.FeedSubs)
@@ -34,7 +34,7 @@ public class FeedsService : INService
                 .ToConcurrent();
         }
 
-        _client = client;
+        this.client = client;
 
         _ = Task.Run(TrackFeeds);
     }
@@ -43,8 +43,8 @@ public class FeedsService : INService
     {
         while (true)
         {
-            var allSendTasks = new List<Task>(_subs.Count);
-            foreach (var (rssUrl, value) in _subs)
+            var allSendTasks = new List<Task>(subs.Count);
+            foreach (var (rssUrl, value) in subs)
             {
                 if (value.Count == 0)
                     continue;
@@ -64,8 +64,8 @@ public class FeedsService : INService
                         .Reverse() // start from the oldest
                         .ToList();
 
-                    if (!_lastPosts.TryGetValue(rssUrl, out var lastFeedUpdate))
-                        lastFeedUpdate = _lastPosts[rssUrl] =
+                    if (!lastPosts.TryGetValue(rssUrl, out var lastFeedUpdate))
+                        lastFeedUpdate = lastPosts[rssUrl] =
                             items.Any() ? items[^1].LastUpdate : DateTime.UtcNow;
 
                     foreach (var (feedItem, itemUpdateDate) in items)
@@ -119,7 +119,7 @@ public class FeedsService : INService
                         var embed = new EmbedBuilder()
                             .WithFooter(rssUrl);
 
-                        _lastPosts[rssUrl] = itemUpdateDate;
+                        lastPosts[rssUrl] = itemUpdateDate;
 
                         var link = feedItem.SpecificItem.Link;
                         if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute))
@@ -169,12 +169,12 @@ public class FeedsService : INService
                         var desc = feedItem.Description?.StripHtml();
                         if (!string.IsNullOrWhiteSpace(feedItem.Description))
                             embed.WithDescription(desc.TrimTo(2048));
-    
+
                         //send the created embed to all subscribed channels
                         var feedSendTasks = value.Where(x => x.GuildConfig != null);
                         foreach (var feed1 in feedSendTasks)
                         {
-                            var channel = _client.GetGuild(feed1.GuildConfig.GuildId).GetTextChannel(feed1.ChannelId);
+                            var channel = client.GetGuild(feed1.GuildConfig.GuildId).GetTextChannel(feed1.ChannelId);
                             if (channel is null)
                                 continue;
                             var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild.Id);
@@ -203,11 +203,11 @@ public class FeedsService : INService
                                 .Select(item => (Item: item,
                                     LastUpdate: item.PublishingDate?.ToUniversalTime() ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate?.ToUniversalTime()))
                                 .Where(data => data.LastUpdate is not null).Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate)).LastOrDefault();
-        
+
         var repbuilder = new ReplacementBuilder()
                          .WithOverride("%title%", () => feedItem.Title ?? "Unkown")
                          .WithOverride("%author%", () => feedItem.Author ?? "Unknown")
-                         .WithOverride("%content%", () => feedItem.Description?.StripHtml()).WithOverride("%image_url%", () => 
+                         .WithOverride("%content%", () => feedItem.Description?.StripHtml()).WithOverride("%image_url%", () =>
                          {
                              if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                              {
@@ -266,12 +266,12 @@ public class FeedsService : INService
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
         else await channel.SendMessageAsync(content ?? "", embeds: builder, components: componentBuilder.Build());
     }
-    private Task<(Embed[] builder, string content, ComponentBuilder componentBuilder)> GetFeedEmbed(string message, ulong guildId) 
+    private Task<(Embed[] builder, string content, ComponentBuilder componentBuilder)> GetFeedEmbed(string message, ulong guildId)
         => SmartEmbed.TryParse(message, guildId, out var embed, out var content, out var components) ? Task.FromResult((embed, content, components)) : Task.FromResult<(Embed[], string, ComponentBuilder)>((Array.Empty<Embed>(), message, null));
 
     public List<FeedSub> GetFeeds(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.ForGuildId(guildId,
                 set => set.Include(x => x.FeedSubs)).GetAwaiter().GetResult()
             .FeedSubs
@@ -289,7 +289,7 @@ public class FeedsService : INService
             Url = rssFeed.Trim()
         };
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId,
             set => set.Include(x => x.FeedSubs));
 
@@ -301,7 +301,7 @@ public class FeedsService : INService
         await uow.SaveChangesAsync();
         //adding all, in case bot wasn't on this guild when it started
         foreach (var feed in gc.FeedSubs)
-            _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (_, old) =>
+            subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (_, old) =>
             {
                 old.Add(feed);
                 return old;
@@ -314,13 +314,13 @@ public class FeedsService : INService
     {
         if (index < 0)
             return false;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var items = uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs)).GetAwaiter().GetResult()
                        .FeedSubs
                        .OrderBy(x => x.Id)
                        .ToList();
         var toupdate = items[index];
-        _subs.AddOrUpdate(toupdate.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
+        subs.AddOrUpdate(toupdate.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
         {
             old.Remove(toupdate);
             return old;
@@ -328,7 +328,7 @@ public class FeedsService : INService
         toupdate.Message = message;
         uow.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _subs.AddOrUpdate(toupdate.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
+        subs.AddOrUpdate(toupdate.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
         {
             old.Add(toupdate);
             return old;
@@ -340,7 +340,7 @@ public class FeedsService : INService
         if (index < 0)
             return false;
 
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var items = uow.ForGuildId(guildId, set => set.Include(x => x.FeedSubs)).GetAwaiter().GetResult()
             .FeedSubs
             .OrderBy(x => x.Id)
@@ -349,7 +349,7 @@ public class FeedsService : INService
         if (items.Count <= index)
             return false;
         var toRemove = items[index];
-        _subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
+        subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
         {
             old.Remove(toRemove);
             return old;

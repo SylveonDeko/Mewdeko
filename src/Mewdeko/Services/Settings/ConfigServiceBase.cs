@@ -4,10 +4,7 @@ using Mewdeko.Common.Yml;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
-using CultureInfoConverter = Mewdeko.Common.JsonConverters.CultureInfoConverter;
-using Rgba32Converter = Mewdeko.Common.JsonConverters.Rgba32Converter;
 
 namespace Mewdeko.Services.Settings;
 
@@ -19,15 +16,15 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     where TSettings : new()
 {
 
-    private readonly TypedKey<TSettings> _changeKey;
-    private readonly Dictionary<string, string> _propComments = new();
-    private readonly Dictionary<string, Func<object, string>> _propPrinters = new();
-    private readonly Dictionary<string, Func<object>> _propSelectors = new();
+    private readonly TypedKey<TSettings> changeKey;
+    private readonly Dictionary<string, string> propComments = new();
+    private readonly Dictionary<string, Func<object, string>> propPrinters = new();
+    private readonly Dictionary<string, Func<object>> propSelectors = new();
 
-    private readonly Dictionary<string, Func<TSettings, string, bool>> _propSetters = new();
-    protected readonly IPubSub _pubSub;
-    protected readonly IConfigSeria _serializer;
-    protected readonly string _filePath;
+    private readonly Dictionary<string, Func<TSettings, string, bool>> propSetters = new();
+    protected readonly IPubSub PubSub;
+    protected readonly IConfigSeria Serializer;
+    protected readonly string FilePath;
 
     protected TSettings data;
 
@@ -41,13 +38,13 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     protected ConfigServiceBase(string filePath, IConfigSeria serializer, IPubSub pubSub,
         TypedKey<TSettings> changeKey)
     {
-        _filePath = filePath;
-        _serializer = serializer;
-        _pubSub = pubSub;
-        _changeKey = changeKey;
+        FilePath = filePath;
+        Serializer = serializer;
+        PubSub = pubSub;
+        this.changeKey = changeKey;
 
         Load();
-        _pubSub.Sub(_changeKey, OnChangePublished);
+        PubSub.Sub(this.changeKey, OnChangePublished);
     }
 
     public TSettings Data => CreateCopy1();
@@ -60,16 +57,16 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     public void Reload()
     {
         Load();
-        _pubSub.Pub(_changeKey, data);
+        PubSub.Pub(changeKey, data);
     }
 
-    public IReadOnlyList<string> GetSettableProps() => _propSetters.Keys.ToList();
+    public IReadOnlyList<string> GetSettableProps() => propSetters.Keys.ToList();
 
     public string? GetSetting(string prop)
     {
         prop = prop.ToLowerInvariant();
-        if (!_propSelectors.TryGetValue(prop, out var selector) ||
-            !_propPrinters.TryGetValue(prop, out var printer))
+        if (!propSelectors.TryGetValue(prop, out var selector) ||
+            !propPrinters.TryGetValue(prop, out var printer))
         {
             return default;
         }
@@ -77,7 +74,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         return printer(selector());
     }
 
-    public string? GetComment(string prop) => _propComments.TryGetValue(prop, out var comment) ? comment : null;
+    public string? GetComment(string prop) => propComments.TryGetValue(prop, out var comment) ? comment : null;
 
     public bool SetSetting(string prop, string newValue)
     {
@@ -90,7 +87,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         return success;
     }
 
-    private void PublishChange() => _pubSub.Pub(_changeKey, data);
+    private void PublishChange() => PubSub.Pub(changeKey, data);
 
     private ValueTask OnChangePublished(TSettings newData)
     {
@@ -101,8 +98,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
 
     private TSettings CreateCopy1()
     {
-        var serializedData = _serializer.Serialize(data);
-        return _serializer.Deserialize<TSettings>(serializedData);
+        var serializedData = Serializer.Serialize(data);
+        return Serializer.Deserialize<TSettings>(serializedData);
     }
 
     /// <summary>
@@ -111,18 +108,18 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     private void Load()
     {
         // if file is deleted, regenerate it with default values
-        if (!File.Exists(_filePath))
+        if (!File.Exists(FilePath))
         {
             data = new TSettings();
             Save();
         }
 
-        data = _serializer.Deserialize<TSettings>(File.ReadAllText(_filePath));
+        data = Serializer.Deserialize<TSettings>(File.ReadAllText(FilePath));
     }
 
     /// <summary>
     ///     Doesn't do anything by default. This method will be executed after
-    ///     <see cref="data" /> is reloaded from <see cref="_filePath" /> or new data is recieved
+    ///     <see cref="data" /> is reloaded from <see cref="FilePath" /> or new data is recieved
     ///     from the publish event
     /// </summary>
     protected virtual void OnStateUpdate()
@@ -140,8 +137,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
 
     private void Save()
     {
-        var strData = _serializer.Serialize(data);
-        File.WriteAllText(_filePath, strData);
+        var strData = Serializer.Serialize(data);
+        File.WriteAllText(FilePath, strData);
     }
 
     protected void AddParsedProp<TProp>(
@@ -153,10 +150,10 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     {
         checker ??= _ => true;
         key = key.ToLowerInvariant();
-        _propPrinters[key] = obj => printer((TProp)obj);
-        _propSelectors[key] = () => selector.Compile()(data);
-        _propSetters[key] = Magic(selector, parser, checker);
-        _propComments[key] = ((MemberExpression)selector.Body).Member.GetCustomAttribute<CommentAttribute>()
+        propPrinters[key] = obj => printer((TProp)obj);
+        propSelectors[key] = () => selector.Compile()(data);
+        propSetters[key] = Magic(selector, parser, checker);
+        propComments[key] = ((MemberExpression)selector.Body).Member.GetCustomAttribute<CommentAttribute>()
             ?.Comment;
     }
 
@@ -196,6 +193,6 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         };
 
     private bool SetProperty(TSettings target, string key, string value) =>
-        _propSetters.TryGetValue(key.ToLowerInvariant(), out var magic)
+        propSetters.TryGetValue(key.ToLowerInvariant(), out var magic)
         && magic(target, value);
 }

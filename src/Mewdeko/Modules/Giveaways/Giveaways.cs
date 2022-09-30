@@ -11,18 +11,18 @@ namespace Mewdeko.Modules.Giveaways;
 
 public class Giveaways : MewdekoModuleBase<GiveawayService>
 {
-    private readonly IServiceProvider _servs;
-    private readonly DbService _db;
-    private readonly InteractiveService _interactivity;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly IServiceProvider servs;
+    private readonly DbService db;
+    private readonly InteractiveService interactivity;
+    private readonly GuildSettingsService guildSettings;
 
     public Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService,
         GuildSettingsService guildSettings)
     {
-        _interactivity = interactiveService;
-        _guildSettings = guildSettings;
-        _db = db;
-        _servs = servs;
+        interactivity = interactiveService;
+        this.guildSettings = guildSettings;
+        this.db = db;
+        this.servs = servs;
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
@@ -46,7 +46,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
@@ -69,7 +69,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
-        var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
+        var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!").ConfigureAwait(false);
@@ -164,7 +164,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
         var reader = new ChannelTypeReader<ITextChannel>();
-        var e = await reader.ReadAsync(ctx, next, _servs).ConfigureAwait(false);
+        var e = await reader.ReadAsync(ctx, next, servs).ConfigureAwait(false);
         if (!e.IsSuccess)
         {
             await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
@@ -246,7 +246,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             var reader1 = new UserTypeReader<IUser>();
             try
             {
-                var result = await reader1.ReadAsync(ctx, next, _servs).ConfigureAwait(false);
+                var result = await reader1.ReadAsync(ctx, next, servs).ConfigureAwait(false);
                 host = (IUser)result.BestMatch;
             }
             catch
@@ -290,7 +290,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
@@ -306,7 +306,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -326,7 +326,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
@@ -337,7 +337,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{await _guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
+                $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
         }
         else
         {

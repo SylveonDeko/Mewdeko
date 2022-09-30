@@ -16,19 +16,19 @@ namespace Mewdeko.Modules.OwnerOnly.Services;
 
 public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 {
-    private readonly Mewdeko _bot;
-    private readonly BotConfigService _bss;
+    private readonly Mewdeko bot;
+    private readonly BotConfigService bss;
 
-    private readonly IDataCache _cache;
+    private readonly IDataCache cache;
     private int currentStatusNum;
-    private readonly DiscordSocketClient _client;
-    private readonly CommandHandler _cmdHandler;
-    private readonly IBotCredentials _creds;
-    private readonly DbService _db;
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly Replacer _rep;
-    private readonly IBotStrings _strings;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DiscordSocketClient client;
+    private readonly CommandHandler cmdHandler;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly Replacer rep;
+    private readonly IBotStrings strings;
+    private readonly GuildSettingsService guildSettings;
 
 #pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
@@ -44,20 +44,20 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         GuildSettingsService guildSettings)
     {
         var redis = cache.Redis;
-        _cmdHandler = cmdHandler;
-        _db = db;
-        _strings = strings;
-        _client = client;
-        _creds = creds;
-        _cache = cache;
-        _bot = bot;
-        _guildSettings = guildSettings;
+        this.cmdHandler = cmdHandler;
+        this.db = db;
+        this.strings = strings;
+        this.client = client;
+        this.creds = creds;
+        this.cache = cache;
+        this.bot = bot;
+        this.guildSettings = guildSettings;
         var imgs = cache.LocalImages;
-        _httpFactory = factory;
-        _bss = bss;
+        httpFactory = factory;
+        this.bss = bss;
         if (client.ShardId == 0)
         {
-            _rep = new ReplacementBuilder()
+            rep = new ReplacementBuilder()
                 .WithClient(client)
                 .WithProviders(phProviders)
                 .Build();
@@ -66,25 +66,25 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
 
         var sub = redis.GetSubscriber();
-        if (_client.ShardId == 0)
+        if (this.client.ShardId == 0)
         {
-            sub.Subscribe($"{_creds.RedisKey()}_reload_images",
+            sub.Subscribe($"{this.creds.RedisKey()}_reload_images",
                 delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
         }
 
-        sub.Subscribe($"{_creds.RedisKey()}_leave_guild", async (_, v) =>
+        sub.Subscribe($"{this.creds.RedisKey()}_leave_guild", async (_, v) =>
         {
             try
             {
                 var guildStr = v.ToString()?.Trim().ToUpperInvariant();
                 if (string.IsNullOrWhiteSpace(guildStr))
                     return;
-                var server = _client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
-                             _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
+                var server = this.client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
+                             this.client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
 
                 if (server == null) return;
 
-                if (server.OwnerId != _client.CurrentUser.Id)
+                if (server.OwnerId != this.client.CurrentUser.Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
                     Log.Information($"Left server {server.Name} [{server.Id}]");
@@ -105,12 +105,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     // forwards dms
     public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {
-        var bs = _bss.Data;
-        if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Count > 0)
+        var bs = bss.Data;
+        if (msg.Channel is IDMChannel && bss.Data.ForwardMessages && ownerChannels.Count > 0)
         {
-            var title = $"{_strings.GetText("dm_from")} [{msg.Author}]({msg.Author.Id})";
+            var title = $"{strings.GetText("dm_from")} [{msg.Author}]({msg.Author.Id})";
 
-            var attachamentsTxt = _strings.GetText("attachments");
+            var attachamentsTxt = strings.GetText("attachments");
 
             var toSend = msg.Content;
 
@@ -156,7 +156,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public async Task OnReadyAsync()
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
 
         autoCommands =
             uow.AutoCommands
@@ -181,14 +181,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }
         }
 
-        if (_client.ShardId == 0)
+        if (client.ShardId == 0)
         {
-            var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
+            var channels = await Task.WhenAll(creds.OwnerIds.Select(id =>
             {
-                var user = _client.GetUser(id);
+                var user = client.GetUser(id);
                 return user == null ? Task.FromResult<IDMChannel?>(null) : user.CreateDMChannelAsync();
             })).ConfigureAwait(false);
-            
+
             ownerChannels = channels.Where(x => x is not null)
                                     .ToDictionary(x => x.Recipient.Id, x => x)
                                     .ToImmutableDictionary();
@@ -201,7 +201,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             else
             {
                 Log.Information(
-                                $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+                                $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
             }
         }
     }
@@ -213,10 +213,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         {
             try
             {
-                if (!_bss.Data.RotateStatuses) continue;
+                if (!bss.Data.RotateStatuses) continue;
 
                 IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using (uow.ConfigureAwait(false))
                 {
                     rotatingStatuses = uow.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToList();
@@ -227,8 +227,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
                 var playingStatus = currentStatusNum >= rotatingStatuses.Count ? rotatingStatuses[currentStatusNum = 0] : rotatingStatuses[currentStatusNum++];
 
-                var statusText = _rep.Replace(playingStatus.Status);
-                await _bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
+                var statusText = rep.Replace(playingStatus.Status);
+                await bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -242,7 +242,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var toRemove = await uow.RotatingStatus
                                 .AsQueryable()
                                 .AsNoTracking()
@@ -259,7 +259,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public async Task AddPlaying(ActivityType t, string status)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
         uow.Add(toAdd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -268,13 +268,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool ToggleRotatePlaying()
     {
         var enabled = false;
-        _bss.ModifyConfig(bs => enabled = bs.RotateStatuses = !bs.RotateStatuses);
+        bss.ModifyConfig(bs => enabled = bs.RotateStatuses = !bs.RotateStatuses);
         return enabled;
     }
 
     public IReadOnlyList<RotatingPlayingStatus> GetRotatingStatuses()
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.RotatingStatus.AsNoTracking().ToList();
     }
 
@@ -290,14 +290,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         {
             if (cmd.GuildId is null)
                 return;
-            var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
-            if (guildShard != _client.ShardId)
+            var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)creds.TotalShards);
+            if (guildShard != client.ShardId)
                 return;
-            var prefix = await _guildSettings.GetPrefix(cmd.GuildId.Value);
+            var prefix = await guildSettings.GetPrefix(cmd.GuildId.Value);
             //if someone already has .die as their startup command, ignore it
             if (cmd.CommandText.StartsWith($"{prefix}die", StringComparison.InvariantCulture))
                 return;
-            await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText).ConfigureAwait(false);
+            await cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -307,7 +307,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public void AddNewAutoCommand(AutoCommand cmd)
     {
-        using (var uow = _db.GetDbContext())
+        using (var uow = db.GetDbContext())
         {
             uow.AutoCommands.Add(cmd);
             uow.SaveChanges();
@@ -328,14 +328,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (string.IsNullOrWhiteSpace(prefix))
             throw new ArgumentNullException(nameof(prefix));
 
-        _bss.ModifyConfig(bs => bs.Prefix = prefix);
+        bss.ModifyConfig(bs => bs.Prefix = prefix);
 
         return prefix;
     }
 
     public IEnumerable<AutoCommand> GetStartupCommands()
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return
             uow.AutoCommands
             .AsNoTracking()
@@ -346,7 +346,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public IEnumerable<AutoCommand> GetAutoCommands()
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return
             uow.AutoCommands
             .AsNoTracking()
@@ -357,13 +357,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public Task LeaveGuild(string guildStr)
     {
-        var sub = _cache.Redis.GetSubscriber();
-        return sub.PublishAsync($"{_creds.RedisKey()}_leave_guild", guildStr);
+        var sub = cache.Redis.GetSubscriber();
+        return sub.PublishAsync($"{creds.RedisKey()}_leave_guild", guildStr);
     }
 
     public bool RestartBot()
     {
-        var cmd = _creds.RestartCommand;
+        var cmd = creds.RestartCommand;
         if (string.IsNullOrWhiteSpace(cmd.Cmd)) return false;
 
         Restart();
@@ -372,7 +372,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public bool RemoveStartupCommand(int index, out AutoCommand cmd)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         cmd = uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
@@ -391,7 +391,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public bool RemoveAutoCommand(int index, out AutoCommand cmd)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         cmd = uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
@@ -420,7 +420,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         var uri = new Uri(img);
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         if (!sr.IsImage())
             return false;
@@ -429,14 +429,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         var imgStream = imgData.ToStream();
         await using var _ = imgStream.ConfigureAwait(false);
-        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+        await client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
 
         return true;
     }
 
     public void ClearStartupCommands()
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var toRemove =
             uow.AutoCommands
             .AsNoTracking()
@@ -448,30 +448,30 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public void ReloadImages()
     {
-        var sub = _cache.Redis.GetSubscriber();
-        sub.Publish($"{_creds.RedisKey()}_reload_images", "");
+        var sub = cache.Redis.GetSubscriber();
+        sub.Publish($"{creds.RedisKey()}_reload_images", "");
     }
 
     public void Die()
     {
-        var sub = _cache.Redis.GetSubscriber();
-        sub.Publish($"{_creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
+        var sub = cache.Redis.GetSubscriber();
+        sub.Publish($"{creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
     }
 
     public void Restart()
     {
-        Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
-        var sub = _cache.Redis.GetSubscriber();
-        sub.Publish($"{_creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
+        Process.Start(creds.RestartCommand.Cmd, creds.RestartCommand.Args);
+        var sub = cache.Redis.GetSubscriber();
+        sub.Publish($"{creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
     }
 
     public bool RestartShard(int shardId)
     {
-        if (shardId < 0 || shardId >= _creds.TotalShards)
+        if (shardId < 0 || shardId >= creds.TotalShards)
             return false;
 
-        var pub = _cache.Redis.GetSubscriber();
-        pub.Publish($"{_creds.RedisKey()}_shardcoord_stop",
+        var pub = cache.Redis.GetSubscriber();
+        pub.Publish($"{creds.RedisKey()}_shardcoord_stop",
             JsonConvert.SerializeObject(shardId),
             CommandFlags.FireAndForget);
 
@@ -481,7 +481,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool ForwardMessages()
     {
         var isForwarding = false;
-        _bss.ModifyConfig(config => isForwarding = config.ForwardMessages = !config.ForwardMessages);
+        bss.ModifyConfig(config => isForwarding = config.ForwardMessages = !config.ForwardMessages);
 
         return isForwarding;
     }
@@ -489,8 +489,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool ForwardToAll()
     {
         var isToAll = false;
-        _bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
+        bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
         return isToAll;
     }
-    
+
 }

@@ -8,18 +8,18 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class GlobalPermissionService : ILateBlocker, INService
 {
-    private readonly BotConfigService _bss;
+    private readonly BotConfigService bss;
 
-    public GlobalPermissionService(BotConfigService bss) => _bss = bss;
+    public GlobalPermissionService(BotConfigService bss) => this.bss = bss;
 
-    public HashSet<string> BlockedCommands => _bss.Data.Blocked.Commands;
-    public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;
+    public HashSet<string> BlockedCommands => bss.Data.Blocked.Commands;
+    public HashSet<string> BlockedModules => bss.Data.Blocked.Modules;
     public int Priority { get; } = 0;
 
     public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
         CommandInfo command)
     {
-        var settings = _bss.Data;
+        var settings = bss.Data;
         var commandName = command.Name.ToLowerInvariant();
 
         if (commandName != "resetglobalperms" &&
@@ -34,7 +34,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
         ICommandInfo command)
     {
-        var settings = _bss.Data;
+        var settings = bss.Data;
         var commandName = command.MethodName.ToLowerInvariant();
 
         if (commandName != "resetglobalperms" &&
@@ -54,7 +54,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     public bool ToggleModule(string moduleName)
     {
         var added = false;
-        _bss.ModifyConfig(bs =>
+        bss.ModifyConfig(bs =>
         {
             if (bs.Blocked.Modules.Add(moduleName))
             {
@@ -78,7 +78,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     public bool ToggleCommand(string commandName)
     {
         var added = false;
-        _bss.ModifyConfig(bs =>
+        bss.ModifyConfig(bs =>
         {
             if (bs.Blocked.Commands.Add(commandName))
             {
@@ -99,7 +99,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     /// </summary>
     public Task Reset()
     {
-        _bss.ModifyConfig(bs =>
+        bss.ModifyConfig(bs =>
         {
             bs.Blocked.Commands.Clear();
             bs.Blocked.Modules.Clear();

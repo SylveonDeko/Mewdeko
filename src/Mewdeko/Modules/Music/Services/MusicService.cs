@@ -4,7 +4,6 @@ using Lavalink4NET.Rest;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Services.Settings;
 using SpotifyAPI.Web;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music.Services;
@@ -12,26 +11,26 @@ namespace Mewdeko.Modules.Music.Services;
 public class MusicService : INService
 {
     public readonly ConcurrentDictionary<ulong, List<LavalinkTrack?>> Queues;
-    private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
-    private readonly DbService _db;
-    private readonly LavalinkNode _lavaNode;
-    private readonly IBotCredentials _creds;
-    private readonly IGoogleApiService _googleApi;
-    private readonly DiscordSocketClient _client;
-    private readonly BotConfigService _config;
+    private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> settings;
+    private readonly DbService db;
+    private readonly LavalinkNode lavaNode;
+    private readonly IBotCredentials creds;
+    private readonly IGoogleApiService googleApi;
+    private readonly DiscordSocketClient client;
+    private readonly BotConfigService config;
 
     public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler,
         IGoogleApiService googleApi,
         DiscordSocketClient client,
         BotConfigService config)
     {
-        _lavaNode = lavaNode;
-        _creds = creds;
-        _db = db;
-        _googleApi = googleApi;
-        _client = client;
-        _config = config;
-        _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
+        this.lavaNode = lavaNode;
+        this.creds = creds;
+        this.db = db;
+        this.googleApi = googleApi;
+        this.client = client;
+        this.config = config;
+        settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
         Queues = new ConcurrentDictionary<ulong, List<LavalinkTrack>>();
         eventHandler.UserVoiceStateUpdated += HandleDisconnect;
     }
@@ -46,7 +45,7 @@ public class MusicService : INService
     }
     public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var def = await uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
         if (def != null)
         {
@@ -110,12 +109,11 @@ public class MusicService : INService
         LavalinkPlayer player,
         string? uri)
     {
-        Debug.Assert(uri != null, $"{nameof(uri)} != null");
         var spotifyUrl = new Uri(uri);
         switch (spotifyUrl.Segments[1])
         {
             case "playlist/":
-                if (_creds.SpotifyClientId is null or "")
+                if (creds.SpotifyClientId is null or "")
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.").ConfigureAwait(false);
@@ -131,19 +129,19 @@ public class MusicService : INService
                                  "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png").WithOkColor()
                              .WithDescription($"Trying to queue {items!.Count} tracks from {result.Name}...")
                              .WithThumbnailUrl(result.Images?.FirstOrDefault()?.Url);
-                    var msg = await chan!.SendMessageAsync(embed: eb.Build(), 
-                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                                    .WithButton(style: ButtonStyle.Link, 
-                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
-                                                                        label: "Invite Me!", 
+                    var msg = await chan!.SendMessageAsync(embed: eb.Build(),
+                        components: config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link,
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                                                        label: "Invite Me!",
                                                                         emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items.Select(i => i.Track as FullTrack))
                     {
                         if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                             return;
-                        var lavaTrack = await _lavaNode.GetTrackAsync(
-                            $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", SearchMode.YouTube).ConfigureAwait(false);
+                        var lavaTrack = await lavaNode.GetTrackAsync(
+                            $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube).ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
                         if (player.State != PlayerState.Playing && player.State != PlayerState.Destroyed)
@@ -171,7 +169,7 @@ public class MusicService : INService
 
                 break;
             case "album/":
-                if (string.IsNullOrEmpty(_creds.SpotifyClientId))
+                if (string.IsNullOrEmpty(creds.SpotifyClientId))
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.").ConfigureAwait(false);
@@ -187,19 +185,19 @@ public class MusicService : INService
                                  "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png").WithOkColor()
                              .WithDescription($"Trying to queue {items.Count} tracks from {result1.Name}...")
                              .WithThumbnailUrl(result1.Images.FirstOrDefault()?.Url);
-                    var msg = await chan!.SendMessageAsync(embed: eb.Build(), 
-                        components: _config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                                    .WithButton(style: ButtonStyle.Link, 
-                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
-                                                                        label: "Invite Me!", 
+                    var msg = await chan!.SendMessageAsync(embed: eb.Build(),
+                        components: config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                                    .WithButton(style: ButtonStyle.Link,
+                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                                                        label: "Invite Me!",
                                                                         emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items)
                     {
                         if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                             return;
-                        var lavaTrack = await _lavaNode.GetTrackAsync(
-                            $"{track.Name} {track.Artists.FirstOrDefault()?.Name}").ConfigureAwait(false);
+                        var lavaTrack = await lavaNode.GetTrackAsync(
+                            $"{track.Name} {track.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube).ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
                         if (player.State != PlayerState.Playing)
@@ -228,7 +226,7 @@ public class MusicService : INService
                 break;
 
             case "track/":
-                if (string.IsNullOrEmpty(_creds.SpotifyClientId))
+                if (string.IsNullOrEmpty(creds.SpotifyClientId))
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.").ConfigureAwait(false);
@@ -243,8 +241,8 @@ public class MusicService : INService
                     return;
                 }
 
-                var lavaTrack3 = await _lavaNode.GetTrackAsync(
-                    $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}", SearchMode.YouTube).ConfigureAwait(false);
+                var lavaTrack3 = await lavaNode.GetTrackAsync(
+                    $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube).ConfigureAwait(false);
                 if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                     return;
                 await Enqueue(guild.Id, user, lavaTrack3, Platform.Spotify).ConfigureAwait(false);
@@ -288,10 +286,10 @@ public class MusicService : INService
 
     public async Task AutoPlay(ulong guildId)
     {
-        var guild = _client.GetGuild(guildId) as IGuild;
+        var guild = this.client.GetGuild(guildId) as IGuild;
         var setting = await GetSettingsInternalAsync(guild.Id);
         var musicChannel = await guild.GetTextChannelAsync(setting.MusicChannelId.Value);
-        if (string.IsNullOrWhiteSpace(_creds.GoogleApiKey) && string.IsNullOrWhiteSpace(_creds.SpotifyClientId))
+        if (string.IsNullOrWhiteSpace(creds.GoogleApiKey) && string.IsNullOrWhiteSpace(creds.SpotifyClientId))
         {
             await musicChannel.SendErrorAsync(
                 "Autoplay relies on either the google or spotify api. Please add a google or spotify api key to the credentials file to use autoplay.");
@@ -302,17 +300,17 @@ public class MusicService : INService
         if (lastSong is null)
             return;
         var result = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, lastSong.Title));
-        if (_creds.SpotifyClientId.IsNullOrWhiteSpace() || !result.Tracks.Items.Any())
+        if (creds.SpotifyClientId.IsNullOrWhiteSpace() || !result.Tracks.Items.Any())
         {
             if (!lastSong.SourceName.Contains("youtube"))
                 return;
-            var recommendById = await _googleApi.GetVideoLinksByVideoId(lastSong.TrackIdentifier, setting.AutoPlay);
+            var recommendById = await googleApi.GetVideoLinksByVideoId(lastSong.TrackIdentifier, setting.AutoPlay);
             foreach (var i in recommendById)
             {
-                var track = await _lavaNode.LoadTracksAsync($"https://www.youtube.com/watch?v={i.Id.VideoId}");
+                var track = await lavaNode.LoadTracksAsync($"https://www.youtube.com/watch?v={i.Id.VideoId}");
                 if (!track.Tracks.Any())
                     continue;
-                await Enqueue(guild.Id, _client.CurrentUser, track.Tracks.FirstOrDefault());
+                await Enqueue(guild.Id, this.client.CurrentUser, track.Tracks.FirstOrDefault());
             }
             return;
         }
@@ -329,10 +327,10 @@ public class MusicService : INService
         }
         foreach (var i in recommendations.Tracks.Take(setting.AutoPlay))
         {
-            var track = await _lavaNode.GetTracksAsync($"{i.Artists.FirstOrDefault().Name} {i.Name}", SearchMode.YouTube);
+            var track = await lavaNode.GetTracksAsync($"{i.Artists.FirstOrDefault().Name} {i.Name}", SearchMode.YouTube);
             if (!track.Any())
                 continue;
-            await Enqueue(guild.Id, _client.CurrentUser, track.FirstOrDefault());
+            await Enqueue(guild.Id, this.client.CurrentUser, track.FirstOrDefault());
         }
     }
 
@@ -341,21 +339,16 @@ public class MusicService : INService
         var queue = GetQueue(guild.Id);
         if (queue.Count == 0)
             return false;
-        var player = _lavaNode.GetPlayer(guild.Id);
+        var player = lavaNode.GetPlayer(guild.Id);
         var toRemove = queue?.ElementAt(trackNum - 1);
         var curTrack = GetCurrentTrack(player, guild);
         if (toRemove is null)
             return false;
         var toReplace = queue?.ElementAt(queue.IndexOf(curTrack) + 1);
         if (curTrack == toRemove && toReplace is not null)
-        {
             await player.PlayAsync(toReplace).ConfigureAwait(false);
-        }
-        else
-        {
-            await player.StopAsync().ConfigureAwait(false);
-        }
-
+        else if (curTrack == toRemove && toReplace is null)
+            await player.StopAsync();
         Queues[guild.Id].Remove(queue.ElementAt(trackNum - 1));
         return true;
     }
@@ -369,7 +362,7 @@ public class MusicService : INService
     {
         var config = SpotifyClientConfig.CreateDefault();
         var request =
-            new ClientCredentialsRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret);
+            new ClientCredentialsRequest(creds.SpotifyClientId, creds.SpotifyClientSecret);
         var response = await new OAuthClient(config).RequestToken(request).ConfigureAwait(false);
         return new SpotifyClient(config.WithToken(response.AccessToken));
     }
@@ -413,31 +406,20 @@ public class MusicService : INService
         }
     }
 
-    private Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
+    private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
     {
-        _ = Task.Run(async () =>
-        {
-            var player = _lavaNode.GetPlayer(before.VoiceChannel?.Guild.Id ?? after.VoiceChannel.Guild.Id);
-            if (before.VoiceChannel is not null && player is not null)
+            var player = lavaNode.GetPlayer(before.VoiceChannel?.Guild.Id ?? after.VoiceChannel.Guild.Id);
+            if (before.VoiceChannel is null || player is null) return;
+            if (player.VoiceChannelId != before.VoiceChannel.Id)
+                return;
+            if ((await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id)).AutoDisconnect is AutoDisconnect.Either or AutoDisconnect.Voice)
             {
-                if (player.VoiceChannelId != before.VoiceChannel.Id)
-                    return;
-                if (before.VoiceChannel.Users.Count == 1
-                    && (await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id).ConfigureAwait(false)).AutoDisconnect is AutoDisconnect.Either or AutoDisconnect.Voice)
+                if (after.VoiceChannel.Users.Count <= 1)
                 {
-                    try
-                    {
-                        await player.StopAsync(true).ConfigureAwait(false);
-                        await QueueClear(before.VoiceChannel.Guild.Id).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    await player.StopAsync(true);
+                    await QueueClear(after.VoiceChannel.Guild.Id);
                 }
             }
-        });
-        return Task.CompletedTask;
     }
 
     public void Shuffle(IGuild guild) =>
@@ -451,24 +433,24 @@ public class MusicService : INService
     }
     public async Task<int> GetVolume(ulong guildid) => (await GetSettingsInternalAsync(guildid).ConfigureAwait(false)).Volume;
 
-    public async Task<MusicPlaylist> GetDefaultPlaylist(IUser user)
+    public async Task<MusicPlaylist?> GetDefaultPlaylist(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
     }
     public IEnumerable<MusicPlaylist?> GetPlaylists(IUser user)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var a = uow.MusicPlaylists.GetPlaylistsByUser(user.Id);
         return a.ToList();
     }
     public async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
     {
-        if (_settings.TryGetValue(guildId, out var settings))
+        if (this.settings.TryGetValue(guildId, out var settings))
             return settings;
 
-        await using var uow = _db.GetDbContext();
-        var toReturn = _settings[guildId] = await uow.MusicPlayerSettings.ForGuildAsync(guildId).ConfigureAwait(false);
+        await using var uow = db.GetDbContext();
+        var toReturn = this.settings[guildId] = await uow.MusicPlayerSettings.ForGuildAsync(guildId).ConfigureAwait(false);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return toReturn;
@@ -479,10 +461,10 @@ public class MusicService : INService
         Action<MusicPlayerSettings, TState> action,
         TState state)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var ms = await uow.MusicPlayerSettings.ForGuildAsync(guildId).ConfigureAwait(false);
         action(ms, state);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _settings[guildId] = ms;
+        settings[guildId] = ms;
     }
 }

@@ -7,13 +7,13 @@ namespace Mewdeko.Modules.Administration.Services;
 
 public class VcRoleService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly DbService _db;
+    private readonly DiscordSocketClient client;
+    private readonly DbService db;
 
     public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db, EventHandler eventHandler)
     {
-        _db = db;
-        _client = client;
+        this.db = db;
+        this.client = client;
 
         eventHandler.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
         VcRoles = new NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>>();
@@ -77,7 +77,7 @@ public class VcRoleService : INService
             }
         });
 
-        _client.LeftGuild += _client_LeftGuild;
+        this.client.LeftGuild += _client_LeftGuild;
         bot.JoinedGuild += Bot_JoinedGuild;
     }
 
@@ -87,8 +87,8 @@ public class VcRoleService : INService
     private async Task Bot_JoinedGuild(GuildConfig arg)
     {
         // includeall no longer loads vcrole
-        // need to load new guildconfig with vc role included 
-        await using var uow = _db.GetDbContext();
+        // need to load new guildconfig with vc role included
+        await using var uow = db.GetDbContext();
         var configWithVcRole = await uow.ForGuildId(
             arg.GuildId,
             set => set.Include(x => x.VcRoleInfos)
@@ -106,7 +106,7 @@ public class VcRoleService : INService
     private async Task InitializeVcRole(GuildConfig gconf)
     {
         await Task.Yield();
-        var g = _client.GetGuild(gconf.GuildId);
+        var g = client.GetGuild(gconf.GuildId);
         if (g == null)
             return;
 
@@ -127,7 +127,7 @@ public class VcRoleService : INService
 
         if (missingRoles.Count > 0)
         {
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             Log.Warning("Removing {MissingRolesCount} missing roles from {VcRoleServiceName}", missingRoles.Count, nameof(VcRoleService));
             uow.RemoveRange(missingRoles);
@@ -143,7 +143,7 @@ public class VcRoleService : INService
         var guildVcRoles = VcRoles.GetOrAdd(guildId, new NonBlocking.ConcurrentDictionary<ulong, IRole>());
 
         guildVcRoles.AddOrUpdate(vcId, role, (_, _) => role);
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
         if (toDelete != null) uow.Remove(toDelete);
@@ -163,7 +163,7 @@ public class VcRoleService : INService
         if (!guildVcRoles.TryRemove(vcId, out _))
             return false;
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
         uow.RemoveRange(toRemove);

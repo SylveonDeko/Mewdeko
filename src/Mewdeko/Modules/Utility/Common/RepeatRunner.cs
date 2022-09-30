@@ -8,9 +8,9 @@ namespace Mewdeko.Modules.Utility.Common;
 
 public class RepeatRunner
 {
-    private readonly DiscordSocketClient _client;
+    private readonly DiscordSocketClient client;
 
-    private readonly MessageRepeaterService _mrs;
+    private readonly MessageRepeaterService mrs;
 
     private TimeSpan initialInterval;
 
@@ -21,8 +21,8 @@ public class RepeatRunner
     {
         Repeater = repeater;
         Guild = guild;
-        _mrs = mrs;
-        _client = client;
+        this.mrs = mrs;
+        this.client = client;
 
         InitialInterval = Repeater.Interval;
 
@@ -154,7 +154,7 @@ public class RepeatRunner
             Log.Warning("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}",
                 Channel?.Id);
             Stop();
-            await _mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
+            await mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
         }
 
         // next execution is interval amount of time after now
@@ -196,7 +196,7 @@ public class RepeatRunner
             }
 
             var rep = new ReplacementBuilder()
-                .WithDefault(Guild.CurrentUser, Channel, Guild, _client)
+                .WithDefault(Guild.CurrentUser, Channel, Guild, client)
                 .Build();
 
             IMessage newMsg;
@@ -211,7 +211,7 @@ public class RepeatRunner
 
             if (Repeater.NoRedundant)
             {
-                _mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
+                mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
                 Repeater.LastMessageId = newMsg.Id;
             }
         }
@@ -224,7 +224,7 @@ public class RepeatRunner
         {
             Log.Warning(ex, "Exception in repeat trigger");
             Stop();
-            await _mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
+            await mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
         }
     }
 

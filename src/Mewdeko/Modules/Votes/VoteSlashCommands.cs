@@ -12,9 +12,9 @@ namespace Mewdeko.Modules.Votes;
 [Group("votes", "Configure vote settings for the bot")]
 public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
 {
-    private readonly InteractiveService _interactivity;
+    private readonly InteractiveService interactivity;
 
-    public VoteSlashCommands(InteractiveService interactivity) => _interactivity = interactivity;
+    public VoteSlashCommands(InteractiveService interactivity) => this.interactivity = interactivity;
 
     [SlashCommand("channel", "Set the channel"), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions, RequireContext(ContextType.Guild)]
     public async Task VoteChannel(ITextChannel channel)
@@ -49,7 +49,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                                   .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
                                   .WithOverride("%votestotalcount%", () => votes.Count.ToString())
                                   .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
-            
+
                         if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
                         {
                             await ctx.Interaction.FollowupAsync(plainText, embeds: embeds, components: components.Build());
@@ -78,7 +78,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                 break;
         }
     }
-    
+
     [SlashCommand("password", "Sets the password using a modal."), SlashUserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VotePassword()
     {
@@ -91,7 +91,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
             await ctx.Interaction.FollowupAsync("_ _", components: component.Build());
         }
     }
-    
+
     [SlashCommand("roleadd", "Add a role as a vote role"), SlashUserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VoteRoleAdd(IRole role, string time = null)
     {
@@ -159,7 +159,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
     }
 
     [ComponentInteraction("setvotepassword", true), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions, RequireContext(ContextType.Guild)]
-    public async Task VotePasswordButton() 
+    public async Task VotePasswordButton()
         => await RespondWithModalAsync<VotePasswordModal>("votepassmodal");
 
     [ModalInteraction("votepassmodal", true), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions, RequireContext(ContextType.Guild)]
@@ -168,18 +168,18 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         await ctx.Interaction.SendEphemeralConfirmAsync("Vote password set.");
         await Service.SetVotePassword(ctx.Guild.Id, modal.Password);
     }
-    
+
     [SlashCommand("votes", "Shows your total and this months votes"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Votes(IUser user = null)
     {
         var curUser = user ?? ctx.User;
         await ctx.Interaction.RespondAsync(embed: (await Service.GetTotalVotes(curUser, ctx.Guild)).Build());
     }
-    
+
     [SlashCommand("leaderboard", "Shows the current or monthly leaderboard for votes"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VotesLeaderboard(bool monthly = false)
     {
-        
+
         List<Database.Models.Votes> votes;
         if (monthly)
             votes = (await Service.GetVotes(ctx.Guild.Id)).Where(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToList();
@@ -189,7 +189,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
             await ctx.Channel.SendErrorAsync(monthly ? "Not enough monthly votes for a leaderboard." : "Not enough votes for a leaderboard.");
             return;
         }
-        
+
         var voteList = new List<CustomVoteThingy>();
         foreach (var i in votes)
         {
@@ -217,14 +217,14 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                         .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-        
+        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
             var eb = new PageBuilder().WithTitle(monthly ? "Votes leaaderboard for this month" : "Votes Leaderboard").WithOkColor();
-            
+
             for (var i = 0; i < voteList.Count; i++)
             {
 

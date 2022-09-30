@@ -9,15 +9,15 @@ namespace Mewdeko.Modules.Giveaways;
 [Group("giveaways", "Create or manage giveaways!")]
 public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
 {
-    private readonly DbService _db;
-    private readonly InteractiveService _interactivity;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DbService db;
+    private readonly InteractiveService interactivity;
+    private readonly GuildSettingsService guildSettings;
 
     public SlashGiveaways(DbService db, InteractiveService interactiveService, GuildSettingsService guildSettings)
     {
-        _interactivity = interactiveService;
-        _guildSettings = guildSettings;
-        _db = db;
+        interactivity = interactiveService;
+        this.guildSettings = guildSettings;
+        this.db = db;
     }
 
     [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
@@ -49,7 +49,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
@@ -72,7 +72,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
-        var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
+        var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!").ConfigureAwait(false);
@@ -138,7 +138,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
@@ -154,7 +154,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -175,7 +175,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
@@ -186,7 +186,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                $"This giveaway has already ended! Plase use `{await _guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
+                $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
         }
         else
         {

@@ -11,7 +11,7 @@ public class LevelStats
 
         TotalXp = xp;
 
-        const int baseXp = XpService.XP_REQUIRED_LVL_1;
+        const int baseXp = XpService.XpRequiredLvl1;
 
         int required;
         var totalXp = 0;

@@ -6,10 +6,10 @@ namespace Mewdeko.Modules.Gambling.Services.Impl;
 
 public class ShopService : IShopService
 {
-    private readonly DbService _db;
-    
+    private readonly DbService db;
 
-    public ShopService(DbService db) => _db = db;
+
+    public ShopService(DbService db) => this.db = db;
 
     public async Task<bool> ChangeEntryPriceAsync(ulong guildId, int index, int newPrice)
     {
@@ -18,7 +18,7 @@ public class ShopService : IShopService
         if (newPrice <= 0)
             throw new ArgumentOutOfRangeException(nameof(newPrice));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var entries = await GetEntriesInternal(uow, guildId);
 
         if (index >= entries.Count)
@@ -36,7 +36,7 @@ public class ShopService : IShopService
         if (string.IsNullOrWhiteSpace(newName))
             throw new ArgumentNullException(nameof(newName));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var entries = await GetEntriesInternal(uow, guildId);
 
         if (index >= entries.Count)
@@ -54,7 +54,7 @@ public class ShopService : IShopService
         if (index2 < 0)
             throw new ArgumentOutOfRangeException(nameof(index2));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var entries = await GetEntriesInternal(uow, guildId);
 
         if (index1 >= entries.Count || index2 >= entries.Count || index1 == index2)
@@ -74,7 +74,7 @@ public class ShopService : IShopService
         if (toIndex < 0)
             throw new ArgumentOutOfRangeException(nameof(toIndex));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var entries = await GetEntriesInternal(uow, guildId);
 
         if (fromIndex >= entries.Count || toIndex >= entries.Count || fromIndex == toIndex)

@@ -11,7 +11,7 @@ namespace Mewdeko.Services.Impl;
 
 public class BotCredentials : IBotCredentials
 {
-    private readonly string _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
+    private readonly string credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
 
     public BotCredentials()
     {
@@ -25,7 +25,7 @@ public class BotCredentials : IBotCredentials
             // ignored
         }
 
-        if (!File.Exists(_credsFileName))
+        if (!File.Exists(credsFileName))
         {
             Log.Warning(
                 $"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'Mewdeko_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
@@ -44,7 +44,7 @@ public class BotCredentials : IBotCredentials
         try
         {
             var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile(_credsFileName, true)
+            configBuilder.AddJsonFile(credsFileName, true)
                 .AddEnvironmentVariables("Mewdeko_");
 
             var data = configBuilder.Build();
@@ -217,7 +217,7 @@ public class BotCredentials : IBotCredentials
         public string TrovoClientId { get; } = "";
         public string TwitchClientId { get; } = "";
         public string CleverbotApiKey { get; } = "";
-        
+
         public string CarbonKey { get; } = "";
         public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
         public int TotalShards { get; } = 1;

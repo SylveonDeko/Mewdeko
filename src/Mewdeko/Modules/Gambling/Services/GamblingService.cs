@@ -12,39 +12,39 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public class GamblingService : INService
 {
-    private readonly IDataCache _cache;
-    private readonly DiscordSocketClient _client;
-    private readonly ICurrencyService _cs;
-    private readonly DbService _db;
-    private readonly IBotCredentials _creds;
-    private readonly HttpClient _httpClient;
+    private readonly IDataCache cache;
+    private readonly DiscordSocketClient client;
+    private readonly ICurrencyService cs;
+    private readonly DbService db;
+    private readonly IBotCredentials creds;
+    private readonly HttpClient httpClient;
 
-    private readonly GamblingConfigService _gss;
+    private readonly GamblingConfigService gss;
 
     public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
         DiscordSocketClient client, IDataCache cache, GamblingConfigService gss,
         IBotCredentials creds,
         HttpClient httpClient)
     {
-        _db = db;
-        _cs = cs;
-        _client = client;
-        _cache = cache;
-        _gss = gss;
-        _creds = creds;
-        _httpClient = httpClient;
+        this.db = db;
+        this.cs = cs;
+        this.client = client;
+        this.cache = cache;
+        this.gss = gss;
+        this.creds = creds;
+        this.httpClient = httpClient;
 
         if (bot.Client.ShardId == 0)
         {
             _ = new Timer(_ =>
             {
-                var config = _gss.Data;
+                var config = this.gss.Data;
                 var maxDecay = config.Decay.MaxDecay;
                 if (config.Decay.Percent is <= 0 or > 1 || maxDecay < 0)
                     return;
 
-                using var uow = _db.GetDbContext();
-                var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
+                using var uow = this.db.GetDbContext();
+                var lastCurrencyDecay = this.cache.GetLastCurrencyDecay();
 
                 if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
                     return;
@@ -66,9 +66,9 @@ SET CurrencyAmount=
     ELSE
     CurrencyAmount - {maxDecay}
     END
-WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentUser.Id};");
+WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={this.client.CurrentUser.Id};");
 
-                _cache.SetLastCurrencyDecay();
+                this.cache.SetLastCurrencyDecay();
                 uow.SaveChanges();
             }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
         }
@@ -79,14 +79,14 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
     public async Task<bool> GetVoted(ulong id)
     {
-        _httpClient.DefaultRequestHeaders.Add("Authorization", _creds.VotesToken);
-        var tocheck = await _httpClient.GetStringAsync($"https://top.gg/api/bots/{_client.CurrentUser.Id}/check?userId={id}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", creds.VotesToken);
+        var tocheck = await httpClient.GetStringAsync($"https://top.gg/api/bots/{client.CurrentUser.Id}/check?userId={id}");
         return tocheck.Contains('1');
     }
 
     public async Task<EconomyResult> GetEconomy()
     {
-        if (_cache.TryGetEconomy(out var data))
+        if (cache.TryGetEconomy(out var data))
         {
             try
             {
@@ -104,13 +104,13 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
         decimal waifus;
         long bot;
 
-        await using (var uow = _db.GetDbContext())
+        await using (var uow = db.GetDbContext())
         {
             cash = uow.DiscordUser.GetTotalCurrency();
-            onePercent = uow.DiscordUser.GetTopOnePercentCurrency(_client.CurrentUser.Id);
+            onePercent = uow.DiscordUser.GetTopOnePercentCurrency(client.CurrentUser.Id);
             planted = uow.PlantedCurrency.AsQueryable().Sum(x => x.Amount);
             waifus = await uow.WaifuInfo.GetTotalValue();
-            bot = await uow.DiscordUser.GetUserCurrency(_client.CurrentUser.Id);
+            bot = await uow.DiscordUser.GetUserCurrency(client.CurrentUser.Id);
         }
 
         var result = new EconomyResult
@@ -122,11 +122,11 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
             OnePercent = onePercent
         };
 
-        _cache.SetEconomy(JsonConvert.SerializeObject(result));
+        cache.SetEconomy(JsonConvert.SerializeObject(result));
         return result;
     }
 
-    public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet) => new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
+    public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet) => new WheelOfFortuneGame(userId, bet, gss.Data, cs).SpinAsync();
 
     public struct EconomyResult
     {

@@ -13,13 +13,13 @@ namespace Mewdeko.Modules.Help;
 
 public class Help : MewdekoModuleBase<HelpService>
 {
-    private readonly CommandService _cmds;
-    private readonly InteractiveService _interactive;
-    private readonly GlobalPermissionService _perms;
-    private readonly IServiceProvider _services;
-    private readonly IBotStrings _strings;
-    private readonly GuildSettingsService _guildSettings;
-    private readonly BotConfigService _config;
+    private readonly CommandService cmds;
+    private readonly InteractiveService interactive;
+    private readonly GlobalPermissionService perms;
+    private readonly IServiceProvider services;
+    private readonly IBotStrings strings;
+    private readonly GuildSettingsService guildSettings;
+    private readonly BotConfigService config;
 
     public Help(GlobalPermissionService perms, CommandService cmds,
         IServiceProvider services, IBotStrings strings,
@@ -27,19 +27,19 @@ public class Help : MewdekoModuleBase<HelpService>
         GuildSettingsService guildSettings,
         BotConfigService config)
     {
-        _interactive = serv;
-        _guildSettings = guildSettings;
-        _config = config;
-        _cmds = cmds;
-        _perms = perms;
-        _services = services;
-        _strings = strings;
+        interactive = serv;
+        this.guildSettings = guildSettings;
+        this.config = config;
+        this.cmds = cmds;
+        this.perms = perms;
+        this.services = services;
+        this.strings = strings;
     }
 
     [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
     {
-        var cmds = _cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
+        var cmds = this.cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
         if (!cmds.Any())
         {
             await ctx.Channel.SendErrorAsync(
@@ -52,7 +52,7 @@ public class Help : MewdekoModuleBase<HelpService>
             foreach (var i in cmds)
             {
                 cmdnames += $"\n{i.Name}";
-                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, await _guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
+                cmdremarks += $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
             var eb = new EmbedBuilder()
                      .WithOkColor()
@@ -84,14 +84,14 @@ public class Help : MewdekoModuleBase<HelpService>
             return;
         }
 
-        var prefix = await _guildSettings.GetPrefix(ctx.Guild);
+        var prefix = await guildSettings.GetPrefix(ctx.Guild);
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
-        var cmds = _cmds.Commands.Where(c =>
+        var cmds = this.cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
                     .StartsWith(module, StringComparison.InvariantCulture))
-            .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+            .Where(c => !perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
 
@@ -99,7 +99,7 @@ public class Help : MewdekoModuleBase<HelpService>
         // because all will show all commands anyway, no need to check
         var succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
             {
-                var pre = await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false);
+                var pre = await x.CheckPreconditionsAsync(Context, services).ConfigureAwait(false);
                 return (Cmd: x, Succ: pre.IsSuccess);
             })).ConfigureAwait(false))
             .Where(x => x.Succ)
@@ -126,7 +126,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactive.SendPaginatorAsync(paginator, Context.Channel,
+        await interactive.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -150,7 +150,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n{_config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n{config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
@@ -159,7 +159,7 @@ public class Help : MewdekoModuleBase<HelpService>
     public async Task H([Remainder] string fail)
     {
         var prefixless =
-            _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
+            cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
         if (prefixless != null)
         {
             await H(prefixless).ConfigureAwait(false);

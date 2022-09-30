@@ -1,6 +1,5 @@
 using Mewdeko.Modules.Nsfw.Common;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using System.Net.Http;
 using System.Threading;
@@ -18,11 +17,11 @@ public record UrlReply
 
 public class SearchImagesService : ISearchImagesService, INService
 {
-    private readonly Random _rng;
-    private readonly HttpClient _http;
-    private readonly SearchImageCacher _cache;
-    private readonly DbService _db;
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
+    private readonly Random rng;
+    private readonly HttpClient http;
+    private readonly SearchImageCacher cache;
+    private readonly DbService db;
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
 
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -33,14 +32,14 @@ public class SearchImagesService : ISearchImagesService, INService
         SearchImageCacher cacher, DiscordSocketClient client,
         DbService db)
     {
-        _rng = new MewdekoRandom();
-        _http = http.CreateClient();
-        _http.AddFakeHeaders();
-        _cache = cacher;
-        _db = db;
+        rng = new MewdekoRandom();
+        this.http = http.CreateClient();
+        this.http.AddFakeHeaders();
+        cache = cacher;
+        this.db = db;
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
-        _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
+        blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
@@ -70,7 +69,7 @@ public class SearchImagesService : ISearchImagesService, INService
 #endif
         try
         {
-            _blacklistedTags.TryGetValue(guildId, out var blTags);
+            blacklistedTags.TryGetValue(guildId, out var blTags);
 
             switch (dapi)
             {
@@ -96,7 +95,7 @@ public class SearchImagesService : ISearchImagesService, INService
                     }
             }
 
-            var result = await _cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
+            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
                                      .ConfigureAwait(false);
 
             if (result is null)
@@ -158,7 +157,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
-    
+
     public Task<UrlReply?> RealBooru(ulong? guildId, bool forceExplicit, string[] tags)
         => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Realbooru);
 
@@ -201,9 +200,9 @@ public class SearchImagesService : ISearchImagesService, INService
             Error = "No hentai image found."
         };
     }
-    
 
-    private readonly object _taglock = new();
+
+    private readonly object taglock = new();
     public async ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
@@ -212,7 +211,7 @@ public class SearchImagesService : ISearchImagesService, INService
         };
 
         bool added;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
@@ -228,7 +227,7 @@ public class SearchImagesService : ISearchImagesService, INService
         }
 
         var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
-        _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
+        blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -237,9 +236,9 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public ValueTask<string[]> GetBlacklistedTags(ulong guildId)
     {
-        lock (_taglock)
+        lock (taglock)
         {
-            return _blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
+            return blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
         }
     }
 }

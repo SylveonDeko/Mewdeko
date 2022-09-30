@@ -30,15 +30,15 @@ public class LogCommandService : INService
         UserMuted
     }
 
-    private readonly DiscordSocketClient _client;
-    private readonly DbService _db;
-    private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new();
-    private readonly IMemoryCache _memoryCache;
-    private readonly IBotStrings _strings;
-    private readonly Mewdeko _bot;
-    private readonly GuildSettingsService _gss;
+    private readonly DiscordSocketClient client;
+    private readonly DbService db;
+    private readonly ConcurrentHashSet<ulong> ignoreMessageIds = new();
+    private readonly IMemoryCache memoryCache;
+    private readonly IBotStrings strings;
+    private readonly Mewdeko bot;
+    private readonly GuildSettingsService gss;
 
-    private readonly GuildTimezoneService _tz;
+    private readonly GuildTimezoneService tz;
 
     public readonly Timer ClearTimer;
 
@@ -54,13 +54,13 @@ public class LogCommandService : INService
         GuildSettingsService gss,
         EventHandler eventHandler)
     {
-        _bot = bot;
-        _gss = gss;
-        _client = client;
-        _memoryCache = memoryCache;
-        _strings = strings;
-        _db = db;
-        _tz = tz;
+        this.bot = bot;
+        this.gss = gss;
+        this.client = client;
+        this.memoryCache = memoryCache;
+        this.strings = strings;
+        this.db = db;
+        this.tz = tz;
 
         using (var uow = db.GetDbContext())
         {
@@ -94,18 +94,18 @@ public class LogCommandService : INService
         //_client.ThreadCreated += ThreadCreated;
         prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
 
-        ClearTimer = new Timer(_ => _ignoreMessageIds.Clear(), null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
+        ClearTimer = new Timer(_ => ignoreMessageIds.Clear(), null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
     }
 
 
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
-    public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
+    public void AddDeleteIgnore(ulong messageId) => ignoreMessageIds.Add(messageId);
 
     public async Task<bool> LogIgnore(ulong gid, ulong cid)
     {
         int removed;
-        using (var uow = _db.GetDbContext())
+        using (var uow = db.GetDbContext())
         {
             var config = await uow.LogSettingsFor(gid);
             var logSetting = GuildLogSettings.GetOrAdd(gid, _ => config.LogSetting);
@@ -124,20 +124,20 @@ public class LogCommandService : INService
         return removed > 0;
     }
 
-    private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
+    private string GetText(IGuild guild, string key, params object[] replacements) => strings.GetText(key, guild.Id, replacements);
 
     private string CurrentTime(IGuild? g)
     {
         var time = DateTime.UtcNow;
         if (g != null)
-            time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
+            time = TimeZoneInfo.ConvertTime(time, tz.GetTimeZoneOrUtc(g.Id));
 
         return $"{time:HH:mm:ss}";
     }
 
     public async Task LogServer(ulong guildId, ulong channelId, bool value)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         logSetting.LogOtherId = logSetting.MessageUpdatedId = logSetting.MessageDeletedId = logSetting.UserJoinedId = logSetting.UserLeftId =
@@ -201,7 +201,7 @@ public class LogCommandService : INService
     public async Task<bool> Log(ulong gid, ulong? cid, LogType type /*, string options*/)
     {
         ulong? channelId;
-        await using (var uow = _db.GetDbContext())
+        await using (var uow = db.GetDbContext())
         {
             var logSetting = (await uow.LogSettingsFor(gid)).LogSetting;
             GuildLogSettings.AddOrUpdate(gid, _ => logSetting, (_, _) => logSetting);
@@ -232,11 +232,11 @@ public class LogCommandService : INService
 
     public async Task UpdateCommandLogChannel(IGuild guild, ulong id)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CommandLogChannel = id;
         await uow.SaveChangesAsync();
-        _gss.UpdateGuildConfig(guild.Id, gc);
+        gss.UpdateGuildConfig(guild.Id, gc);
     }
 
     private async Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
@@ -412,13 +412,13 @@ public class LogCommandService : INService
     private Task Client_RoleDeleted(SocketRole socketRole)
     {
         Serilog.Log.Information("Role deleted {RoleId}", socketRole.Id);
-        _memoryCache.Set(GetRoleDeletedKey(socketRole.Id), true, TimeSpan.FromMinutes(5));
+        memoryCache.Set(GetRoleDeletedKey(socketRole.Id), true, TimeSpan.FromMinutes(5));
         return Task.CompletedTask;
     }
 
     private bool IsRoleDeleted(ulong roleId)
     {
-        var isDeleted = _memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out var _);
+        var isDeleted = memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out var _);
         return isDeleted;
     }
 
@@ -426,7 +426,7 @@ public class LogCommandService : INService
     {
         try
         {
-            if (!_bot.Ready.Task.IsCompleted)
+            if (!bot.Ready.Task.IsCompleted)
                 return;
 
             if (!cacheable.HasValue)
@@ -435,7 +435,7 @@ public class LogCommandService : INService
             if (after is null)
                 return;
 
-            if (!GuildLogSettings.TryGetValue((ulong)cacheable.Value?.Guild.Id, out var logSetting))
+            if (!GuildLogSettings.TryGetValue(cacheable.Value.Guild.Id, out var logSetting))
                 return;
 
             ITextChannel logChannel;
@@ -752,7 +752,7 @@ public class LogCommandService : INService
 
         var toSend = new List<IUserMessage>();
         foreach (var message in messages)
-            if ((message.HasValue ? message.Value : null) is IUserMessage msg && !msg.IsAuthor(_client) && !_ignoreMessageIds.Contains(msg.Id))
+            if ((message.HasValue ? message.Value : null) is IUserMessage msg && !msg.IsAuthor(client) && !ignoreMessageIds.Contains(msg.Id))
                 toSend.Add(msg);
         var count = toSend.Count;
 
@@ -779,10 +779,10 @@ public class LogCommandService : INService
     {
         try
         {
-            if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.IsAuthor(_client))
+            if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.IsAuthor(client))
                 return;
 
-            if (_ignoreMessageIds.Contains(msg.Id))
+            if (ignoreMessageIds.Contains(msg.Id))
                 return;
 
             if (ch.Value is not ITextChannel channel)
@@ -819,7 +819,7 @@ public class LogCommandService : INService
     {
         try
         {
-            if (imsg2 is not IUserMessage after || after.IsAuthor(_client))
+            if (imsg2 is not IUserMessage after || after.IsAuthor(client))
                 return;
 
             if ((optmsg.HasValue ? optmsg.Value : null) is not IUserMessage before)
@@ -861,7 +861,7 @@ public class LogCommandService : INService
         }
     }
 
-    private async Task<ITextChannel>? TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
+    private async Task<ITextChannel?> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
     {
         var id = logChannelType switch
         {
@@ -901,7 +901,7 @@ public class LogCommandService : INService
 
     private async void UnsetLogSetting(ulong guildId, LogType logChannelType)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var newLogSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
         switch (logChannelType)
         {

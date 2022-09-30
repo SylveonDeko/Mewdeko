@@ -8,25 +8,25 @@ namespace Mewdeko.Modules.Gambling.Common.Events;
 
 public class ReactionEvent : ICurrencyEvent
 {
-    private readonly long _amount;
-    private readonly ConcurrentHashSet<ulong> _awardedUsers = new();
-    private readonly ITextChannel _channel;
-    private readonly GamblingConfig _config;
-    private readonly ICurrencyService _cs;
+    private readonly long amount;
+    private readonly ConcurrentHashSet<ulong> awardedUsers = new();
+    private readonly ITextChannel channel;
+    private readonly GamblingConfig config;
+    private readonly ICurrencyService cs;
 
-    private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> _embedFunc;
-    private readonly IGuild _guild;
-    private readonly bool _isPotLimited;
-    private readonly bool _noRecentlyJoinedServer;
-    private readonly EventHandler _eventHandler;
-    private readonly EventOptions _opts;
-    private readonly Timer _t;
-    private readonly Timer _timeout;
-    private readonly ConcurrentQueue<ulong> _toAward = new();
+    private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc;
+    private readonly IGuild guild;
+    private readonly bool isPotLimited;
+    private readonly bool noRecentlyJoinedServer;
+    private readonly EventHandler eventHandler;
+    private readonly EventOptions opts;
+    private readonly Timer t;
+    private readonly Timer timeout;
+    private readonly ConcurrentQueue<ulong> toAward = new();
 
-    private readonly object _potLock = new();
+    private readonly object potLock = new();
 
-    private readonly object _stopLock = new();
+    private readonly object stopLock = new();
     private IEmote emote;
     private IUserMessage? msg;
 
@@ -36,21 +36,21 @@ public class ReactionEvent : ICurrencyEvent
         Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
         EventHandler eventHandler)
     {
-        _guild = g;
-        _cs = cs;
-        _amount = opt.Amount;
+        guild = g;
+        this.cs = cs;
+        amount = opt.Amount;
         PotSize = opt.PotSize;
-        _embedFunc = embedFunc;
-        _eventHandler = eventHandler;
-        _isPotLimited = PotSize > 0;
-        _channel = ch;
-        _noRecentlyJoinedServer = false;
-        _opts = opt;
-        _config = config;
+        this.embedFunc = embedFunc;
+        this.eventHandler = eventHandler;
+        isPotLimited = PotSize > 0;
+        channel = ch;
+        noRecentlyJoinedServer = false;
+        opts = opt;
+        this.config = config;
 
-        _t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
-        if (_opts.Hours > 0)
-            _timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(_opts.Hours), Timeout.InfiniteTimeSpan);
+        t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
+        if (opts.Hours > 0)
+            timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(opts.Hours), Timeout.InfiniteTimeSpan);
     }
 
     private long PotSize { get; set; }
@@ -61,29 +61,29 @@ public class ReactionEvent : ICurrencyEvent
 
     public async Task StartEvent()
     {
-        if (Emote.TryParse(_config.Currency.Sign, out var result))
+        if (Emote.TryParse(config.Currency.Sign, out var result))
             emote = result;
         else
-            emote = new Emoji(_config.Currency.Sign);
-        msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
+            emote = new Emoji(config.Currency.Sign);
+        msg = await channel.EmbedAsync(GetEmbed(opts.PotSize)).ConfigureAwait(false);
         await msg.AddReactionAsync(emote).ConfigureAwait(false);
-        _eventHandler.MessageDeleted += OnMessageDeleted;
-        _eventHandler.ReactionAdded += HandleReaction;
-        _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+        eventHandler.MessageDeleted += OnMessageDeleted;
+        eventHandler.ReactionAdded += HandleReaction;
+        t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
     public async Task StopEvent()
     {
         await Task.Yield();
-        lock (_stopLock)
+        lock (stopLock)
         {
             if (Stopped)
                 return;
             Stopped = true;
-            _eventHandler.MessageDeleted -= OnMessageDeleted;
-            _eventHandler.ReactionAdded -= HandleReaction;
-            _t.Change(Timeout.Infinite, Timeout.Infinite);
-            _timeout.Change(Timeout.Infinite, Timeout.Infinite);
+            eventHandler.MessageDeleted -= OnMessageDeleted;
+            eventHandler.ReactionAdded -= HandleReaction;
+            t.Change(Timeout.Infinite, Timeout.Infinite);
+            timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
                 var _ = msg.DeleteAsync();
@@ -94,7 +94,7 @@ public class ReactionEvent : ICurrencyEvent
             }
 
 #pragma warning disable CS4014
-            OnEnded(_guild.Id);
+            OnEnded(guild.Id);
 #pragma warning restore CS4014
         }
     }
@@ -107,29 +107,29 @@ public class ReactionEvent : ICurrencyEvent
     private async void OnTimerTick(object state)
     {
         var potEmpty = PotEmptied;
-        var toAward = new List<ulong>();
-        while (_toAward.TryDequeue(out var x)) toAward.Add(x);
+        var award = new List<ulong>();
+        while (this.toAward.TryDequeue(out var x)) award.Add(x);
 
-        if (toAward.Count == 0)
+        if (award.Count == 0)
             return;
 
         try
         {
-            await _cs.AddBulkAsync(toAward,
-                toAward.Select(_ => "Reaction Event"),
-                toAward.Select(_ => _amount),
+            await cs.AddBulkAsync(award,
+                award.Select(_ => "Reaction Event"),
+                award.Select(_ => amount),
                 true).ConfigureAwait(false);
 
-            if (_isPotLimited)
+            if (isPotLimited)
             {
                 await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
                     new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
             }
 
             Log.Information("Awarded {0} users {1} currency.{2}",
-                toAward.Count,
-                _amount,
-                _isPotLimited ? $" {PotSize} left." : "");
+                award.Count,
+                amount,
+                isPotLimited ? $" {PotSize} left." : "");
 
             if (potEmpty)
             {
@@ -142,7 +142,7 @@ public class ReactionEvent : ICurrencyEvent
         }
     }
 
-    private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.Reaction, _opts, pot);
+    private EmbedBuilder GetEmbed(long pot) => embedFunc(CurrencyEvent.Type.Reaction, opts, pot);
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> message, Cacheable<IMessageChannel, ulong> _)
     {
@@ -162,7 +162,7 @@ public class ReactionEvent : ICurrencyEvent
                 || message.Id != msg.Id // same message
                 || gu.IsBot // no bots
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5 // no recently created accounts
-                || (_noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h
+                || (noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h
                     (gu.JoinedAt == null ||
                      (DateTime.UtcNow - gu.JoinedAt.Value).TotalDays <
                      1))) // and no users for who we don't know when they joined
@@ -171,10 +171,10 @@ public class ReactionEvent : ICurrencyEvent
             }
             // there has to be money left in the pot
             // and the user wasn't rewarded
-            if (_awardedUsers.Add(r.UserId) && TryTakeFromPot())
+            if (awardedUsers.Add(r.UserId) && TryTakeFromPot())
             {
-                _toAward.Enqueue(r.UserId);
-                if (_isPotLimited && PotSize < _amount)
+                toAward.Enqueue(r.UserId);
+                if (isPotLimited && PotSize < amount)
                     PotEmptied = true;
             }
         });
@@ -183,14 +183,14 @@ public class ReactionEvent : ICurrencyEvent
 
     private bool TryTakeFromPot()
     {
-        if (_isPotLimited)
+        if (isPotLimited)
         {
-            lock (_potLock)
+            lock (potLock)
             {
-                if (PotSize < _amount)
+                if (PotSize < amount)
                     return false;
 
-                PotSize -= _amount;
+                PotSize -= amount;
                 return true;
             }
         }

@@ -7,11 +7,11 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
 {
-    private const string FILE_PATH = "data/gambling.yml";
-    private static readonly TypedKey<GamblingConfig> _changeKey = new("config.gambling.updated");
+    private new const string FilePath = "data/gambling.yml";
+    private static readonly TypedKey<GamblingConfig> ChangeKey = new("config.gambling.updated");
 
     public GamblingConfigService(IConfigSeria serializer, IPubSub pubSub)
-        : base(FILE_PATH, serializer, pubSub, _changeKey)
+        : base(FilePath, serializer, pubSub, ChangeKey)
     {
         AddParsedProp("currency.name", gs => gs.Currency.Name, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("currency.sign", gs => gs.Currency.Sign, ConfigParsers.String, ConfigPrinters.ToString);

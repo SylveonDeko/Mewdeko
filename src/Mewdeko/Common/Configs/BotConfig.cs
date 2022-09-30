@@ -6,8 +6,7 @@ using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Configs;
 
-public sealed class 
-    BotConfig
+public sealed class BotConfig
 {
     public BotConfig()
     {
@@ -57,8 +56,7 @@ Allowed values: Simple, Normal, None")]
     [Comment(@"Do you want any messages sent by users in Bot's DM to be forwarded to the owner(s)?")]
     public bool ForwardMessages { get; set; }
 
-    [Comment(
-        @"Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
+    [Comment(@"Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
 or all owners? (this might cause the bot to lag if there's a lot of owners specified)")]
     public bool ForwardToAllOwners { get; set; }
 
@@ -109,13 +107,13 @@ See RotatingStatuses submodule in Administration.")]
     //     : Prefix + text;
     [Comment("Used to set the error emote used across the bot.")]
     public string ErrorEmote { get; set; }
-    
+
     [Comment("Used to set the success emote used across the bot.")]
     public string SuccessEmote { get; set; }
-    
+
     [Comment("Used to set the loading emote for the bot.")]
     public string LoadingEmote { get; set; }
-    
+
     [Comment("Used to set the support server invite on public Mewdeko")]
     public string SupportServer { get; set; }
 

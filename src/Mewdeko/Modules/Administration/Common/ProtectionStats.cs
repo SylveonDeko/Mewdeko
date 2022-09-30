@@ -31,16 +31,16 @@ public class AntiSpamStats
 
 public class AntiAltStats
 {
-    private readonly AntiAltSetting _setting;
+    private readonly AntiAltSetting setting;
 
     private int counter;
 
-    public AntiAltStats(AntiAltSetting setting) => _setting = setting;
+    public AntiAltStats(AntiAltSetting setting) => this.setting = setting;
 
-    public PunishmentAction Action => _setting.Action;
-    public int ActionDurationMinutes => _setting.ActionDurationMinutes;
-    public ulong? RoleId => _setting.RoleId;
-    public TimeSpan MinAge => _setting.MinAge;
+    public PunishmentAction Action => setting.Action;
+    public int ActionDurationMinutes => setting.ActionDurationMinutes;
+    public ulong? RoleId => setting.RoleId;
+    public TimeSpan MinAge => setting.MinAge;
     public int Counter => counter;
 
     public void Increment() => Interlocked.Increment(ref counter);

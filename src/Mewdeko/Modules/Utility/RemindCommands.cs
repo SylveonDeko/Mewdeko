@@ -18,13 +18,13 @@ public partial class Utility
             Here
         }
 
-        private readonly DbService _db;
-        private readonly GuildTimezoneService _tz;
+        private readonly DbService db;
+        private readonly GuildTimezoneService tz;
 
         public RemindCommands(DbService db, GuildTimezoneService tz)
         {
-            _db = db;
-            _tz = tz;
+            this.db = db;
+            this.tz = tz;
         }
 
         [Cmd, Aliases, Priority(1)]
@@ -80,7 +80,7 @@ public partial class Utility
                 .WithTitle(GetText("reminder_list"));
 
             List<Reminder> rems;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
@@ -117,7 +117,7 @@ public partial class Utility
                 return;
 
             Reminder? rem = null;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
@@ -160,7 +160,7 @@ public partial class Utility
                 ServerId = ctx.Guild?.Id ?? 0
             };
 
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 uow.Reminders.Add(rem);
@@ -169,7 +169,7 @@ public partial class Utility
 
             var gTime = ctx.Guild == null
                 ? time
-                : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
+                : TimeZoneInfo.ConvertTime(time, tz.GetTimeZoneOrUtc(ctx.Guild.Id));
             try
             {
                 var unixTime = time.ToUnixEpochDate();

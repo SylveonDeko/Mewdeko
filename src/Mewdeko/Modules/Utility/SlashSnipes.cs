@@ -15,18 +15,18 @@ public partial class Utility
     [Group("snipe", "Snipe edited or delete messages!")]
     public class SlashSnipes : MewdekoSlashModuleBase<UtilityService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly InteractiveService _interactivity;
-        private readonly GuildSettingsService _guildSettings;
-        private readonly BotConfigService _config;
+        private readonly DiscordSocketClient client;
+        private readonly InteractiveService interactivity;
+        private readonly GuildSettingsService guildSettings;
+        private readonly BotConfigService config;
 
         public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService, GuildSettingsService guildSettings,
             BotConfigService config)
         {
-            _client = client;
-            _interactivity = interactiveService;
-            _guildSettings = guildSettings;
-            _config = config;
+            this.client = client;
+            interactivity = interactiveService;
+            this.guildSettings = guildSettings;
+            this.config = config;
         }
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
@@ -55,7 +55,7 @@ public partial class Utility
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -69,11 +69,11 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build(), 
-                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                            .WithButton(style: ButtonStyle.Link, 
-                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
-                                                                label: "Invite Me!", 
+            await ctx.Interaction.RespondAsync(embed: em.Build(),
+                components: config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link,
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                                                label: "Invite Me!",
                                                                 emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
 
@@ -103,7 +103,7 @@ public partial class Utility
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await _client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -117,11 +117,11 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Interaction.RespondAsync(embed: em.Build(), 
-                components: _config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                            .WithButton(style: ButtonStyle.Link, 
-                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands", 
-                                                                label: "Invite Me!", 
+            await ctx.Interaction.RespondAsync(embed: em.Build(),
+                components: config.Data.ShowInviteButton ? new ComponentBuilder()
+                                                            .WithButton(style: ButtonStyle.Link,
+                                                                url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                                                label: "Invite Me!",
                                                                 emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
         }
 
@@ -132,7 +132,7 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{await _guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
+                    $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 
@@ -154,13 +154,13 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
                     var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
-                               ?? await _client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
+                               ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
                     return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()
@@ -179,7 +179,7 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{await _guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
+                    $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
                 return;
             }
 
@@ -201,13 +201,13 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                           .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
                     var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
-                               ?? await _client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
+                               ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
                     return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()

@@ -15,13 +15,13 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         All
     }
 
-    private readonly IHttpClientFactory _clientFactory;
-    private readonly InteractiveService _interactivity;
+    private readonly IHttpClientFactory clientFactory;
+    private readonly InteractiveService interactivity;
 
     public ChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
     {
-        _interactivity = serv;
-        _clientFactory = clientFactory;
+        interactivity = serv;
+        this.clientFactory = clientFactory;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
@@ -51,7 +51,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 return;
             }
 
-            using var client = _clientFactory.CreateClient();
+            using var client = clientFactory.CreateClient();
             input = await client.GetStringAsync(attachment.Url).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(input))
@@ -63,7 +63,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         if (ctx.Message.Attachments.Count == 0)
         {
-            using var client = _clientFactory.CreateClient();
+            using var client = clientFactory.CreateClient();
             input = await client.GetStringAsync(input).ConfigureAwait(false);
         }
 
@@ -123,7 +123,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                                                   .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
                                                   .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
                             .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -164,7 +164,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                                                       .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
                                                       .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
                                 .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)

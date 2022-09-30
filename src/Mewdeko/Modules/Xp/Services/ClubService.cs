@@ -7,20 +7,20 @@ namespace Mewdeko.Modules.Xp.Services;
 
 public class ClubService : INService
 {
-    private readonly DbService _db;
-    private readonly IHttpClientFactory _httpFactory;
+    private readonly DbService db;
+    private readonly IHttpClientFactory httpFactory;
 
     public ClubService(DbService db, IHttpClientFactory httpFactory)
     {
-        _db = db;
-        _httpFactory = httpFactory;
+        this.db = db;
+        this.httpFactory = httpFactory;
     }
 
     public async Task<(bool, ClubInfo)> CreateClub(IUser user, string clubName)
     {
         //must be lvl 5 and must not be in a club already
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var xp = new LevelStats(du.TotalXp);
@@ -53,7 +53,7 @@ public class ClubService : INService
 
     public async Task<ClubInfo?> TransferClub(IUser from, IUser newOwner)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(from.Id).ConfigureAwait(false);
         var newOwnerUser = await uow.GetOrCreateUser(newOwner).ConfigureAwait(false);
 
@@ -74,7 +74,7 @@ public class ClubService : INService
 
     public async Task<bool> ToggleAdmin(IUser owner, IUser toAdmin)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(owner.Id).ConfigureAwait(false);
         var adminUser = await uow.GetOrCreateUser(toAdmin).ConfigureAwait(false);
 
@@ -95,7 +95,7 @@ public class ClubService : INService
 
     public async Task<ClubInfo?> GetClubByMember(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Clubs.GetByMember(user.Id).ConfigureAwait(false);
     }
 
@@ -103,14 +103,14 @@ public class ClubService : INService
     {
         if (url != null)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             using var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
                                        .ConfigureAwait(false);
             if (!temp.IsImage() || temp.GetImageSize() > 11)
                 return false;
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(ownerUserId).ConfigureAwait(false);
 
         if (club == null)
@@ -135,7 +135,7 @@ public class ClubService : INService
         if (string.IsNullOrWhiteSpace(name))
             return false;
 
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         club = uow.Clubs.GetByName(name, discrim);
         if (club == null)
             return false;
@@ -144,7 +144,7 @@ public class ClubService : INService
 
     public async Task<bool> ApplyToClub(IUser user, ClubInfo club)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -173,7 +173,7 @@ public class ClubService : INService
 
     public async Task<(bool, DiscordUser)> AcceptApplication(ulong clubOwnerUserId, string userName)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         DiscordUser discordUser = await uow.DiscordUser.FirstOrDefaultAsync(x => x.Username == userName);
         var club = await uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId).ConfigureAwait(false);
 
@@ -200,13 +200,13 @@ public class ClubService : INService
 
     public async Task<ClubInfo?> GetClubWithBansAndApplications(ulong ownerUserId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Clubs.GetByOwnerOrAdmin(ownerUserId).ConfigureAwait(false);
     }
 
     public async Task<bool> LeaveClub(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         if (du.Club == null || du.Club.OwnerId == du.Id)
             return false;
@@ -223,7 +223,7 @@ public class ClubService : INService
         if (level < 5)
             return false;
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
             return false;
@@ -236,7 +236,7 @@ public class ClubService : INService
 
     public async Task<bool> ChangeClubDescription(ulong userId, string? desc)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
             return false;
@@ -249,7 +249,7 @@ public class ClubService : INService
 
     public async Task<(bool, ClubInfo)> Disband(ulong userId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
             return (false, club);
@@ -262,7 +262,7 @@ public class ClubService : INService
 
     public async Task<(bool, ClubInfo)> Ban(ulong bannerId, string userName)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwnerOrAdmin(bannerId).ConfigureAwait(false);
         if (club == null)
             return (false, null);
@@ -297,7 +297,7 @@ public class ClubService : INService
 
     public async Task<(bool, ClubInfo)> UnBan(ulong ownerUserId, string userName)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwnerOrAdmin(ownerUserId).ConfigureAwait(false);
 
         var ban = club?.Bans.Find(x =>
@@ -313,7 +313,7 @@ public class ClubService : INService
 
     public async Task<(bool, ClubInfo)> Kick(ulong kickerId, string userName)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwnerOrAdmin(kickerId).ConfigureAwait(false);
 
         var usr = club?.Users.Find(x =>
@@ -338,7 +338,7 @@ public class ClubService : INService
         if (page < 0)
             throw new ArgumentOutOfRangeException(nameof(page));
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Clubs.GetClubLeaderboardPage(page);
     }
 }

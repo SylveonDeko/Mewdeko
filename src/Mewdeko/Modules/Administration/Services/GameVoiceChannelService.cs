@@ -5,14 +5,14 @@ namespace Mewdeko.Modules.Administration.Services;
 
 public class GameVoiceChannelService : INService
 {
-    private readonly DbService _db;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DbService db;
+    private readonly GuildSettingsService guildSettings;
 
-    public GameVoiceChannelService(DiscordSocketClient client, DbService db,
+    public GameVoiceChannelService(DbService db,
         GuildSettingsService guildSettings, EventHandler eventHandler)
     {
-        _db = db;
-        _guildSettings = guildSettings;
+        this.db = db;
+        this.guildSettings = guildSettings;
 
         eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         eventHandler.GuildMemberUpdated += _client_GuildMemberUpdated;
@@ -24,7 +24,7 @@ public class GameVoiceChannelService : INService
             {
                 if (after is null)
                     return;
-                if ((await _guildSettings.GetGuildConfig(after.Guild.Id)).GameVoiceChannel != after?.VoiceChannel?.Id)
+                if ((await guildSettings.GetGuildConfig(after.Guild.Id)).GameVoiceChannel != after?.VoiceChannel?.Id)
                     return;
                 //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
@@ -47,18 +47,18 @@ public class GameVoiceChannelService : INService
     public async Task<ulong?> ToggleGameVoiceChannel(ulong guildId, ulong vchId)
     {
         ulong? id;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
 
         if (gc.GameVoiceChannel == vchId)
         {
             id = gc.GameVoiceChannel = 0;
-            _guildSettings.UpdateGuildConfig(guildId, gc);
+            guildSettings.UpdateGuildConfig(guildId, gc);
         }
         else
         {
             id = gc.GameVoiceChannel = vchId;
-            _guildSettings.UpdateGuildConfig(guildId, gc);
+            guildSettings.UpdateGuildConfig(guildId, gc);
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -81,7 +81,7 @@ public class GameVoiceChannelService : INService
                     return;
                 }
 
-                if ((await _guildSettings.GetGuildConfig(gUser.Guild.Id)).GameVoiceChannel != newState.VoiceChannel.Id ||
+                if ((await guildSettings.GetGuildConfig(gUser.Guild.Id)).GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
                 {
                     return;

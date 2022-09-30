@@ -16,13 +16,13 @@ public partial class Searches
             Nodel
         }
 
-        private readonly IGoogleApiService _google;
-        private readonly SearchesService _searches;
+        private readonly IGoogleApiService google;
+        private readonly SearchesService searches;
 
         public TranslateCommands(SearchesService searches, IGoogleApiService google)
         {
-            _searches = searches;
-            _google = google;
+            this.searches = searches;
+            this.google = google;
         }
 
         [Cmd, Aliases]
@@ -48,18 +48,18 @@ public partial class Searches
 
             if (autoDelete == AutoDeleteAutoTranslate.Del)
             {
-                _searches.TranslatedChannels.AddOrUpdate(channel.Id, true, (_, _) => true);
+                searches.TranslatedChannels.AddOrUpdate(channel.Id, true, (_, _) => true);
                 await ReplyConfirmLocalizedAsync("atl_ad_started").ConfigureAwait(false);
                 return;
             }
 
-            if (_searches.TranslatedChannels.TryRemove(channel.Id, out _))
+            if (searches.TranslatedChannels.TryRemove(channel.Id, out _))
             {
                 await ReplyConfirmLocalizedAsync("atl_stopped").ConfigureAwait(false);
                 return;
             }
 
-            if (_searches.TranslatedChannels.TryAdd(channel.Id, autoDelete == AutoDeleteAutoTranslate.Del))
+            if (searches.TranslatedChannels.TryAdd(channel.Id, autoDelete == AutoDeleteAutoTranslate.Del))
                 await ReplyConfirmLocalizedAsync("atl_started").ConfigureAwait(false);
         }
 
@@ -70,7 +70,7 @@ public partial class Searches
 
             if (string.IsNullOrWhiteSpace(langs))
             {
-                if (_searches.UserLanguages.TryRemove(ucp, out langs))
+                if (searches.UserLanguages.TryRemove(ucp, out langs))
                     await ReplyConfirmLocalizedAsync("atl_removed").ConfigureAwait(false);
                 return;
             }
@@ -81,18 +81,18 @@ public partial class Searches
             var from = langarr[0];
             var to = langarr[1];
 
-            if (!_google.Languages.Contains(from) || !_google.Languages.Contains(to))
+            if (!google.Languages.Contains(from) || !google.Languages.Contains(to))
             {
                 await ReplyErrorLocalizedAsync("invalid_lang").ConfigureAwait(false);
                 return;
             }
 
-            _searches.UserLanguages.AddOrUpdate(ucp, langs, (_, _) => langs);
+            searches.UserLanguages.AddOrUpdate(ucp, langs, (_, _) => langs);
 
             await ReplyConfirmLocalizedAsync("atl_set", from, to).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Translangs() => await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
+        public async Task Translangs() => await ctx.Channel.SendTableAsync(google.Languages, str => $"{str,-15}").ConfigureAwait(false);
     }
 }

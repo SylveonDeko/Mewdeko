@@ -15,20 +15,20 @@ public partial class Permissions
     [Group]
     public class CmdCdsCommands : MewdekoSubmodule
     {
-        private readonly DbService _db;
-        private readonly CmdCdService _service;
+        private readonly DbService db;
+        private readonly CmdCdService service;
 
         public CmdCdsCommands(CmdCdService service, DbService db)
         {
-            _service = service;
-            _db = db;
+            this.service = service;
+            this.db = db;
         }
 
         private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns
-            => _service.CommandCooldowns;
+            => service.CommandCooldowns;
 
         private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
-            => _service.ActiveCooldowns;
+            => service.ActiveCooldowns;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task CmdCooldown(CommandOrCrInfo command, StoopidTime time = default)
@@ -42,7 +42,7 @@ public partial class Permissions
             }
 
             var name = command.Name.ToLowerInvariant();
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));

@@ -9,9 +9,9 @@ public partial class Administration
     [Group]
     public class PrefixCommands : MewdekoSubmodule
     {
-        private readonly GuildSettingsService _guildSettings;
+        private readonly GuildSettingsService guildSettings;
 
-        public PrefixCommands(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
+        public PrefixCommands(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
 
         public enum Set
         {
@@ -20,7 +20,7 @@ public partial class Administration
 
         [Cmd, Aliases, Priority(1)]
         public async Task PrefixCommand() =>
-            await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(await _guildSettings.GetPrefix(ctx.Guild)))
+            await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(await guildSettings.GetPrefix(ctx.Guild)))
                 .ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -34,8 +34,8 @@ public partial class Administration
             if (string.IsNullOrWhiteSpace(prefix))
                 return;
 
-            var oldPrefix = await _guildSettings.GetPrefix(ctx.Guild);
-            var newPrefix = await _guildSettings.SetPrefix(ctx.Guild, prefix);
+            var oldPrefix = await guildSettings.GetPrefix(ctx.Guild);
+            var newPrefix = await guildSettings.SetPrefix(ctx.Guild, prefix);
 
             await ReplyConfirmLocalizedAsync("prefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
                 .ConfigureAwait(false);

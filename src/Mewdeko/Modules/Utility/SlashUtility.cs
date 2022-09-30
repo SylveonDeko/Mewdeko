@@ -12,11 +12,11 @@ namespace Mewdeko.Modules.Utility;
 [Group("utility", "Utility commands like userinfo")]
 public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
 {
-    private readonly DiscordSocketClient _client;
-    private readonly ICoordinator _coordinator;
-    private readonly StatsService _stats;
-    private readonly IBotCredentials _creds;
-    private readonly MuteService _muteService;
+    private readonly DiscordSocketClient client;
+    private readonly ICoordinator coordinator;
+    private readonly StatsService stats;
+    private readonly IBotCredentials creds;
+    private readonly MuteService muteService;
 
     public SlashUtility(
         DiscordSocketClient client,
@@ -25,11 +25,11 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         IBotCredentials credentials,
         MuteService muteService)
     {
-        _client = client;
-        _coordinator = coord;
-        _stats = stats;
-        _creds = credentials;
-        _muteService = muteService;
+        this.client = client;
+        coordinator = coord;
+        this.stats = stats;
+        creds = credentials;
+        this.muteService = muteService;
     }
 
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
@@ -68,17 +68,17 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     [SlashCommand("stats", "Shows the bots current stats"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Stats()
     {
-        var user = await _client.Rest.GetUserAsync(280835732728184843);
+        var user = await client.Rest.GetUserAsync(280835732728184843);
         var eb = new EmbedBuilder().WithOkColor()
-                                   .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BOT_VERSION}")
-                                                         .WithUrl("https://discord.gg/mewdeko").WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
+                                   .WithAuthor(eab => eab.WithName($"{client.CurrentUser.Username} v{StatsService.BotVersion}")
+                                                         .WithUrl("https://discord.gg/mewdeko").WithIconUrl(client.CurrentUser.GetAvatarUrl()))
                                    .AddField(efb => efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}").WithIsInline(false))
-                                   .AddField(efb => efb.WithName("Library").WithValue(_stats.Library).WithIsInline(false))
-                                   .AddField(GetText("owner_ids"), string.Join("\n", _creds.OwnerIds.Select(x => $"<@{x}>")))
-                                   .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}").WithIsInline(false))
-                                   .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
-                                   .AddField(efb => efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false)).AddField(efb =>
-                                       efb.WithName("Servers").WithValue($"{_coordinator.GetGuildCount()} Servers").WithIsInline(false));
+                                   .AddField(efb => efb.WithName("Library").WithValue(stats.Library).WithIsInline(false))
+                                   .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
+                                   .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{client.ShardId} / {creds.TotalShards}").WithIsInline(false))
+                                   .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(false))
+                                   .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(false)).AddField(efb =>
+                                       efb.WithName("Servers").WithValue($"{coordinator.GetGuildCount()} Servers").WithIsInline(false));
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
@@ -152,7 +152,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             return;
         }
 
-        var usr = await _client.Rest.GetUserAsync(userId).ConfigureAwait(false);
+        var usr = await client.Rest.GetUserAsync(userId).ConfigureAwait(false);
         if (usr is null)
         {
             await ctx.Interaction.SendErrorAsync("That user could not be found. Please ensure that was the correct ID.");
@@ -230,9 +230,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             await DeferAsync();
         var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
         var user = usr as IGuildUser ?? ctx.User as IGuildUser;
-        var userbanner = (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
+        var userbanner = (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
         var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
-        var restUser = await _client.Rest.GetUserAsync(user.Id);
+        var restUser = await client.Rest.GetUserAsync(user.Id);
         var embed = new EmbedBuilder().AddField("Username", user.ToString()).WithColor(restUser.AccentColor ?? Mewdeko.OkColor);
 
         if (!string.IsNullOrWhiteSpace(user.Nickname))
@@ -271,7 +271,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
 
             embed.AddField("Deafened", user.IsDeafened);
             embed.AddField("Is VC Muted", user.IsMuted);
-            embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
+            embed.AddField("Is Server Muted", user.GetRoles().Contains(await muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
             await ctx.Interaction.ModifyOriginalResponseAsync(x =>
             {
                 x.Embed = embed.Build();
@@ -298,7 +298,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             await DeferAsync(true);
         else
             await DeferAsync();
-        
+
         usr ??= (IGuildUser)ctx.User;
 
         var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);

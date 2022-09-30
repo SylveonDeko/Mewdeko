@@ -1,5 +1,4 @@
-﻿using LinqToDB.EntityFrameworkCore;
-using Mewdeko.Modules.Gambling.Services;
+﻿using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +11,17 @@ namespace Mewdeko.Modules.UserProfile.Services;
 
 public class UserProfileService : INService
 {
-    private readonly DbService _db;
-    private readonly HttpClient _http;
-    private readonly List<string> _zodiacList;
-    private readonly GamblingConfigService _gss;
+    private readonly DbService db;
+    private readonly HttpClient http;
+    private readonly List<string> zodiacList;
+    private readonly GamblingConfigService gss;
     public UserProfileService(DbService db, HttpClient http,
         GamblingConfigService gss)
     {
-        _db = db;
-        _http = http;
-        _gss = gss;
-        _zodiacList = new List<string>
+        this.db = db;
+        this.http = http;
+        this.gss = gss;
+        zodiacList = new List<string>
         {
             "Aries",
             "Taurus",
@@ -41,10 +40,10 @@ public class UserProfileService : INService
 
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
-        var result = await _http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
+        var result = await http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
         var pronouns = JsonConvert.DeserializeObject<PronounDbResult>(result);
         return new PronounSearchResult((pronouns?.Pronouns ?? "unspecified") switch
         {
@@ -75,7 +74,7 @@ public class UserProfileService : INService
 
     public async Task<(bool, ZodiacResult)> GetZodiacInfo(ulong discordId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(user.ZodiacSign))
             return (false, null);
@@ -86,85 +85,85 @@ public class UserProfileService : INService
 
     public async Task<string?> GetBio(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         return dbUser.Bio ?? string.Empty;
     }
-    
+
     public async Task SetBio(IUser user, string bio)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.Bio = bio;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
     }
-    
+
     public async Task<DiscordUser.ProfilePrivacyEnum> GetProfilePrivacy(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         return dbUser.ProfilePrivacy;
     }
-    
+
     public async Task SetPrivacy(IUser user, DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.ProfilePrivacy = privacyEnum;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
     }
-    
+
     public async Task SetBirthdayDisplayMode(IUser user, DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.BirthdayDisplayMode = birthdayDisplayModeEnum;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
     }
-    
+
     public async Task SetBirthday(IUser user, DateTime time)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.Birthday = time;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
     }
-    
+
     public async Task<string> GetZodiac(IUser user)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         return dbUser.ZodiacSign;
     }
-    
+
     public async Task<bool> SetZodiac(IUser user, string zodiacSign)
     {
-        if (!_zodiacList.Contains(zodiacSign.ToTitleCase()))
+        if (!zodiacList.Contains(zodiacSign.ToTitleCase()))
             return false;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.ZodiacSign = zodiacSign.ToTitleCase();
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
         return true;
     }
-    
+
     public async Task SetProfileColor(IUser user, Color color)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.ProfileColor = color.RawValue;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
     }
-    
+
     public async Task SetProfileImage(IUser user, string url)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
         dbUser.ProfileImageUrl = url;
         uow.DiscordUser.Update(dbUser);
@@ -174,7 +173,7 @@ public class UserProfileService : INService
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
         var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
-            await using var uow = _db.GetDbContext();
+            await using var uow = db.GetDbContext();
             var dbUser = await uow.GetOrCreateUser(user);
             if (dbUser.ProfilePrivacy == DiscordUser.ProfilePrivacyEnum.Private && user.Id != profileCaller.Id)
                 return null;
@@ -185,7 +184,7 @@ public class UserProfileService : INService
             eb.WithThumbnailUrl(user.RealAvatarUrl().ToString());
             if (!string.IsNullOrEmpty(dbUser.Bio))
                 eb.WithDescription(dbUser.Bio);
-            eb.AddField("Currency", $"{dbUser.CurrencyAmount} {_gss.Data.Currency.Sign}");
+            eb.AddField("Currency", $"{dbUser.CurrencyAmount} {gss.Data.Currency.Sign}");
             eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns, true);
             eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign, true);
             if (!string.IsNullOrEmpty(dbUser.ZodiacSign))

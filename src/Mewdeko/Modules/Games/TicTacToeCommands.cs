@@ -12,10 +12,10 @@ public partial class Games
     [Group]
     public class TicTacToeCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly SemaphoreSlim _sem = new(1, 1);
+        private readonly DiscordSocketClient client;
+        private readonly SemaphoreSlim sem = new(1, 1);
 
-        public TicTacToeCommands(DiscordSocketClient client) => _client = client;
+        public TicTacToeCommands(DiscordSocketClient client) => this.client = client;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(TicTacToe.Options))]
@@ -24,7 +24,7 @@ public partial class Games
             var (options, _) = OptionsParser.ParseFrom(new TicTacToe.Options(), args);
             var channel = (ITextChannel)ctx.Channel;
 
-            await _sem.WaitAsync(1000).ConfigureAwait(false);
+            await sem.WaitAsync(1000).ConfigureAwait(false);
             try
             {
                 if (Service.TicTacToeGames.TryGetValue(channel.Id, out var game))
@@ -33,19 +33,19 @@ public partial class Games
                     return;
                 }
 
-                game = new TicTacToe(Strings, _client, channel, (IGuildUser)ctx.User, options);
+                game = new TicTacToe(Strings, client, channel, (IGuildUser)ctx.User, options);
                 Service.TicTacToeGames.Add(channel.Id, game);
                 await ReplyConfirmLocalizedAsync("ttt_created").ConfigureAwait(false);
 
                 game.OnEnded += _ =>
                 {
                     Service.TicTacToeGames.Remove(channel.Id);
-                    _sem.Dispose();
+                    sem.Dispose();
                 };
             }
             finally
             {
-                _sem.Release();
+                sem.Release();
             }
         }
     }

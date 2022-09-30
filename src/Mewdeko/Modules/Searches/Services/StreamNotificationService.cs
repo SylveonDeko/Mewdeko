@@ -16,26 +16,26 @@ namespace Mewdeko.Modules.Searches.Services;
 
 public class StreamNotificationService : IReadyExecutor, INService
 {
-    private readonly DbService _db;
-    private readonly IBotStrings _strings;
-    private readonly Random _rng = new MewdekoRandom();
-    private readonly DiscordSocketClient _client;
-    private readonly NotifChecker _streamTracker;
+    private readonly DbService db;
+    private readonly IBotStrings strings;
+    private readonly Random rng = new MewdekoRandom();
+    private readonly DiscordSocketClient client;
+    private readonly NotifChecker streamTracker;
 
-    private readonly object _shardLock = new();
+    private readonly object shardLock = new();
 
-    private readonly Dictionary<StreamDataKey, HashSet<ulong>> _trackCounter = new();
+    private readonly Dictionary<StreamDataKey, HashSet<ulong>> trackCounter = new();
 
-    private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> _shardTrackedStreams;
-    private readonly List<ulong> _offlineNotificationServers;
+    private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> shardTrackedStreams;
+    private readonly List<ulong> offlineNotificationServers;
 
-    private readonly IPubSub _pubSub;
+    private readonly IPubSub pubSub;
 
-    private readonly TypedKey<List<StreamData>> _streamsOnlineKey;
-    private readonly TypedKey<List<StreamData>> _streamsOfflineKey;
+    private readonly TypedKey<List<StreamData>> streamsOnlineKey;
+    private readonly TypedKey<List<StreamData>> streamsOfflineKey;
 
-    private readonly TypedKey<FollowStreamPubData> _streamFollowKey;
-    private readonly TypedKey<FollowStreamPubData> _streamUnfollowKey;
+    private readonly TypedKey<FollowStreamPubData> streamFollowKey;
+    private readonly TypedKey<FollowStreamPubData> streamUnfollowKey;
 
     public StreamNotificationService(
         DbService db,
@@ -47,17 +47,17 @@ public class StreamNotificationService : IReadyExecutor, INService
         Mewdeko bot,
         IPubSub pubSub)
     {
-        _db = db;
-        _client = client;
-        _strings = strings;
-        _pubSub = pubSub;
-        _streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), client.ShardId == 0);
+        this.db = db;
+        this.client = client;
+        this.strings = strings;
+        this.pubSub = pubSub;
+        streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), client.ShardId == 0);
 
-        _streamsOnlineKey = new TypedKey<List<StreamData>>("streams.online");
-        _streamsOfflineKey = new TypedKey<List<StreamData>>("streams.offline");
+        streamsOnlineKey = new TypedKey<List<StreamData>>("streams.online");
+        streamsOfflineKey = new TypedKey<List<StreamData>>("streams.offline");
 
-        _streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
-        _streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
+        streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
+        streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
 
         using (var uow = db.GetDbContext())
         {
@@ -68,14 +68,14 @@ public class StreamNotificationService : IReadyExecutor, INService
                                   .Where(x => ids.Contains(x.GuildId))
                                   .ToList();
 
-            _offlineNotificationServers = new List<ulong>(guildConfigs
+            offlineNotificationServers = new List<ulong>(guildConfigs
                                                                        .Where(gc => gc.NotifyStreamOffline)
                                                                        .Select(x => x.GuildId)
                                                                        .ToList());
 
             var followedStreams = guildConfigs.SelectMany(x => x.FollowedStreams).ToList();
 
-            _shardTrackedStreams = followedStreams.GroupBy(x => new
+            shardTrackedStreams = followedStreams.GroupBy(x => new
             {
                 x.Type,
                 Name = x.Username.ToLower()
@@ -93,9 +93,9 @@ public class StreamNotificationService : IReadyExecutor, INService
                 var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
 
                 foreach (var fs in allFollowedStreams)
-                    _streamTracker.CacheAddData(fs.CreateKey(), null, false);
+                    streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
-                _trackCounter = allFollowedStreams.GroupBy(x => new
+                trackCounter = allFollowedStreams.GroupBy(x => new
                 {
                     x.Type,
                     Name = x.Username.ToLower()
@@ -105,19 +105,19 @@ public class StreamNotificationService : IReadyExecutor, INService
             }
         }
 
-        _pubSub.Sub(_streamsOfflineKey, HandleStreamsOffline);
-        _pubSub.Sub(_streamsOnlineKey, HandleStreamsOnline);
+        this.pubSub.Sub(streamsOfflineKey, HandleStreamsOffline);
+        this.pubSub.Sub(streamsOnlineKey, HandleStreamsOnline);
 
         if (client.ShardId == 0)
         {
             // only shard 0 will run the tracker,
-            // and then publish updates with redis to other shards 
-            _streamTracker.OnStreamsOffline += OnStreamsOffline;
-            _streamTracker.OnStreamsOnline += OnStreamsOnline;
-            _ = _streamTracker.RunAsync();
+            // and then publish updates with redis to other shards
+            streamTracker.OnStreamsOffline += OnStreamsOffline;
+            streamTracker.OnStreamsOnline += OnStreamsOnline;
+            _ = streamTracker.RunAsync();
 
-            _pubSub.Sub(_streamFollowKey, HandleFollowStream);
-            _pubSub.Sub(_streamUnfollowKey, HandleUnfollowStream);
+            this.pubSub.Sub(streamFollowKey, HandleFollowStream);
+            this.pubSub.Sub(streamUnfollowKey, HandleUnfollowStream);
         }
 
         bot.JoinedGuild += ClientOnJoinedGuild;
@@ -126,7 +126,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public async Task OnReadyAsync()
     {
-        if (_client.ShardId != 0)
+        if (client.ShardId != 0)
             return;
 
         using var timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
@@ -135,7 +135,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             try
             {
                 var errorLimit = TimeSpan.FromHours(12);
-                var failingStreams = _streamTracker.GetFailingStreams(errorLimit, true).ToList();
+                var failingStreams = streamTracker.GetFailingStreams(errorLimit, true).ToList();
 
                 if (failingStreams.Count == 0)
                     continue;
@@ -143,7 +143,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 var deleteGroups = failingStreams.GroupBy(x => x.Type)
                                                  .ToDictionary(x => x.Key, x => x.Select(y => y.Name).ToList());
 
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using var _ = uow.ConfigureAwait(false);
                 foreach (var kvp in deleteGroups)
                 {
@@ -163,7 +163,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                     await uow.SaveChangesAsync().ConfigureAwait(false);
 
                     foreach (var loginToDelete in kvp.Value)
-                        _streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
+                        streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
                 }
             }
             catch (Exception ex)
@@ -180,17 +180,17 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// </summary>
     private ValueTask HandleFollowStream(FollowStreamPubData info)
     {
-        _streamTracker.CacheAddData(info.Key, null, false);
-        lock (_shardLock)
+        streamTracker.CacheAddData(info.Key, null, false);
+        lock (shardLock)
         {
             var key = info.Key;
-            if (_trackCounter.TryGetValue(key, out _))
+            if (trackCounter.TryGetValue(key, out _))
             {
-                _trackCounter[key].Add(info.GuildId);
+                trackCounter[key].Add(info.GuildId);
             }
             else
             {
-                _trackCounter[key] = new HashSet<ulong>
+                trackCounter[key] = new HashSet<ulong>
                 {
                     info.GuildId
                 };
@@ -207,13 +207,13 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// </summary>
     private ValueTask HandleUnfollowStream(FollowStreamPubData info)
     {
-        lock (_shardLock)
+        lock (shardLock)
         {
             var key = info.Key;
-            if (!_trackCounter.TryGetValue(key, out var set))
+            if (!trackCounter.TryGetValue(key, out var set))
             {
                 // it should've been removed already?
-                _streamTracker.UntrackStreamByKey(in key);
+                streamTracker.UntrackStreamByKey(in key);
                 return default;
             }
 
@@ -221,10 +221,10 @@ public class StreamNotificationService : IReadyExecutor, INService
             if (set.Count != 0)
                 return default;
 
-            _trackCounter.Remove(key);
+            trackCounter.Remove(key);
             // if no other guilds are following this stream
             // untrack the stream
-            _streamTracker.UntrackStreamByKey(in key);
+            streamTracker.UntrackStreamByKey(in key);
         }
 
         return default;
@@ -235,13 +235,13 @@ public class StreamNotificationService : IReadyExecutor, INService
         foreach (var stream in offlineStreams)
         {
             var key = stream.CreateKey();
-            if (_shardTrackedStreams.TryGetValue(key, out var fss))
+            if (shardTrackedStreams.TryGetValue(key, out var fss))
             {
                 await fss
                       // send offline stream notifications only to guilds which enable it with .stoff
                       .SelectMany(x => x.Value)
-                      .Where(x => _offlineNotificationServers.Contains(x.GuildId))
-                      .Select(fs => _client.GetGuild(fs.GuildId)
+                      .Where(x => offlineNotificationServers.Contains(x.GuildId))
+                      .Select(fs => client.GetGuild(fs.GuildId)
                                            ?.GetTextChannel(fs.ChannelId)
                                            ?.EmbedAsync(GetEmbed(fs.GuildId, stream)))
                       .WhenAll().ConfigureAwait(false);
@@ -254,12 +254,12 @@ public class StreamNotificationService : IReadyExecutor, INService
         foreach (var stream in onlineStreams)
         {
             var key = stream.CreateKey();
-            if (_shardTrackedStreams.TryGetValue(key, out var fss))
+            if (shardTrackedStreams.TryGetValue(key, out var fss))
             {
                 await fss.SelectMany(x => x.Value)
                          .Select(fs =>
                          {
-                             var textChannel = _client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+                             var textChannel = client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
 
                              if (textChannel is null)
                                  return Task.CompletedTask;
@@ -278,14 +278,14 @@ public class StreamNotificationService : IReadyExecutor, INService
     }
 
     private Task OnStreamsOnline(List<StreamData> data)
-        => _pubSub.Pub(_streamsOnlineKey, data);
+        => pubSub.Pub(streamsOnlineKey, data);
 
     private Task OnStreamsOffline(List<StreamData> data)
-        => _pubSub.Pub(_streamsOfflineKey, data);
+        => pubSub.Pub(streamsOfflineKey, data);
 
     private Task ClientOnJoinedGuild(GuildConfig guildConfig)
     {
-        using (var uow = _db.GetDbContext())
+        using (var uow = db.GetDbContext())
         {
             var gc = uow.GuildConfigs.AsQueryable()
                         .Include(x => x.FollowedStreams)
@@ -295,7 +295,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 return Task.CompletedTask;
 
             if (gc.NotifyStreamOffline)
-                _offlineNotificationServers.Add(gc.GuildId);
+                offlineNotificationServers.Add(gc.GuildId);
 
             foreach (var followedStream in gc.FollowedStreams)
             {
@@ -313,11 +313,11 @@ public class StreamNotificationService : IReadyExecutor, INService
     {
         _ = Task.Run(async () =>
         {
-            await using var uow = _db.GetDbContext();
+            await using var uow = db.GetDbContext();
             var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.FollowedStreams));
 
-            if (_offlineNotificationServers.Contains(gc.GuildId))
-                _offlineNotificationServers.Remove(gc.GuildId);
+            if (offlineNotificationServers.Contains(gc.GuildId))
+                offlineNotificationServers.Remove(gc.GuildId);
 
             foreach (var followedStream in gc.FollowedStreams)
             {
@@ -332,7 +332,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public async Task<int> ClearAllStreams(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.FollowedStreams));
         uow.RemoveRange(gc.FollowedStreams);
         var removedCount = gc.FollowedStreams.Count;
@@ -347,7 +347,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     public async Task<FollowedStream>? UnfollowStreamAsync(ulong guildId, int index)
     {
         FollowedStream fs;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var fss = uow.Set<FollowedStream>()
@@ -366,7 +366,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             await uow.SaveChangesAsync().ConfigureAwait(false);
 
             // remove from local cache
-            lock (_shardLock)
+            lock (shardLock)
             {
                 var key = fs.CreateKey();
                 var streams = GetLocalGuildStreams(key, guildId);
@@ -380,7 +380,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     }
 
     private void PublishFollowStream(FollowedStream fs)
-        => _pubSub.Pub(_streamFollowKey,
+        => pubSub.Pub(streamFollowKey,
             new FollowStreamPubData
             {
                 Key = fs.CreateKey(),
@@ -388,7 +388,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             });
 
     private Task PublishUnfollowStream(FollowedStream fs)
-        => _pubSub.Pub(_streamUnfollowKey,
+        => pubSub.Pub(streamUnfollowKey,
             new FollowStreamPubData
             {
                 Key = fs.CreateKey(),
@@ -397,14 +397,14 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public async Task<StreamData>? FollowStream(ulong guildId, ulong channelId, string url)
     {
-        // this will 
-        var data = await _streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
+        // this will
+        var data = await streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
 
         if (data is null)
             return null;
 
         FollowedStream fs;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.FollowedStreams));
@@ -426,8 +426,8 @@ public class StreamNotificationService : IReadyExecutor, INService
 
             // add it to the local cache of tracked streams
             // this way this shard will know it needs to post a message to discord
-            // when shard 0 publishes stream status changes for this stream 
-            lock (_shardLock)
+            // when shard 0 publishes stream status changes for this stream
+            lock (shardLock)
             {
                 var key = data.CreateKey();
                 var streams = GetLocalGuildStreams(key, guildId);
@@ -463,46 +463,46 @@ public class StreamNotificationService : IReadyExecutor, INService
             embed.WithThumbnailUrl(status.AvatarUrl);
 
         if (!string.IsNullOrWhiteSpace(status.Preview))
-            embed.WithImageUrl($"{status.Preview}?dv={_rng.Next()}");
+            embed.WithImageUrl($"{status.Preview}?dv={rng.Next()}");
 
         return embed;
     }
 
     private string GetText(ulong guildId, string key, params object[] replacements)
-        => _strings.GetText(key, guildId, replacements);
+        => strings.GetText(key, guildId, replacements);
 
     public async Task<bool> ToggleStreamOffline(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         var newValue = gc.NotifyStreamOffline = !gc.NotifyStreamOffline;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         if (newValue)
-            _offlineNotificationServers.Add(guildId);
+            offlineNotificationServers.Add(guildId);
         else
-            _offlineNotificationServers.Remove(guildId);
+            offlineNotificationServers.Remove(guildId);
 
         return newValue;
     }
 
     public Task<StreamData> GetStreamDataAsync(string url)
-        => _streamTracker.GetStreamDataByUrlAsync(url);
+        => streamTracker.GetStreamDataByUrlAsync(url);
 
     private HashSet<FollowedStream> GetLocalGuildStreams(in StreamDataKey key, ulong guildId)
     {
-        if (_shardTrackedStreams.TryGetValue(key, out var map))
+        if (shardTrackedStreams.TryGetValue(key, out var map))
         {
             if (map.TryGetValue(guildId, out var set))
                 return set;
             return map[guildId] = new HashSet<FollowedStream>();
         }
 
-        _shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
+        shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
         {
             { guildId, new() }
         };
-        return _shardTrackedStreams[key][guildId];
+        return shardTrackedStreams[key][guildId];
     }
 
     public bool SetStreamMessage(
@@ -511,7 +511,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         string message,
         out FollowedStream fs)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var fss = uow.Set<FollowedStream>().AsQueryable().Where(x => x.GuildId == guildId).OrderBy(x => x.Id).ToList();
 
         if (fss.Count <= index)
@@ -522,7 +522,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
         fs = fss[index];
         fs.Message = message;
-        lock (_shardLock)
+        lock (shardLock)
         {
             var streams = GetLocalGuildStreams(fs.CreateKey(), guildId);
 
@@ -539,7 +539,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public int SetStreamMessageForAll(ulong guildId, string message)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
 
         var all = uow.Set<FollowedStream>().ToList();
 

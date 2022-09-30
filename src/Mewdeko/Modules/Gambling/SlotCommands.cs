@@ -20,19 +20,19 @@ public partial class Gambling
         private static long totalBet;
         private static long totalPaidOut;
 
-        private static readonly HashSet<ulong> _runningUsers = new();
-        private readonly ICurrencyService _cs;
+        private static readonly HashSet<ulong> RunningUsers = new();
+        private readonly ICurrencyService cs;
 
         //here is a payout chart
         //https://lh6.googleusercontent.com/-i1hjAJy_kN4/UswKxmhrbPI/AAAAAAAAB1U/82wq_4ZZc-Y/DE6B0895-6FC1-48BE-AC4F-14D1B91AB75B.jpg
         //thanks to judge for helping me with this
 
-        private readonly IImageCache _images;
+        private readonly IImageCache images;
 
         public SlotCommands(IDataCache data, ICurrencyService cs, GamblingConfigService gamb) : base(gamb)
         {
-            _images = data.LocalImages;
-            _cs = cs;
+            images = data.LocalImages;
+            this.cs = cs;
         }
 
         [Cmd, Aliases, OwnerOnly]
@@ -88,7 +88,7 @@ public partial class Gambling
         [Cmd, Aliases]
         public async Task Slot(ShmartNumber amount)
         {
-            if (!_runningUsers.Add(ctx.User.Id))
+            if (!RunningUsers.Add(ctx.User.Id))
                 return;
             try
             {
@@ -101,20 +101,20 @@ public partial class Gambling
                     return;
                 }
 
-                if (!await _cs.RemoveAsync(ctx.User, "Slot Machine", amount, false, true).ConfigureAwait(false))
+                if (!await cs.RemoveAsync(ctx.User, "Slot Machine", amount, false, true).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
                 Interlocked.Add(ref totalBet, amount.Value);
-                using var bgImage = Image.Load<Rgba32>(_images.SlotBackground, out var format);
+                using var bgImage = Image.Load<Rgba32>(images.SlotBackground, out var format);
                 var result = SlotMachine.Pull();
                 var numbers = result.Numbers;
 
                 for (var i = 0; i < 3; i++)
                 {
-                    using var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]);
+                    using var randomImage = Image.Load(images.SlotEmojis[numbers[i]]);
                     bgImage.Mutate(x =>
                         x.DrawImage(randomImage, new Point(95 + (142 * i), 330), new GraphicsOptions()));
                 }
@@ -124,7 +124,7 @@ public partial class Gambling
                 do
                 {
                     var digit = (int)(printWon % 10);
-                    using (var img = Image.Load(_images.SlotEmojis[digit]))
+                    using (var img = Image.Load(images.SlotEmojis[digit]))
                     {
                         bgImage.Mutate(x =>
                             x.DrawImage(img, new Point(230 - (n * 16), 462), new GraphicsOptions()));
@@ -138,7 +138,7 @@ public partial class Gambling
                 do
                 {
                     var digit = (int)(printAmount % 10);
-                    using (var img = Image.Load(_images.SlotEmojis[numbers[digit]]))
+                    using (var img = Image.Load(images.SlotEmojis[numbers[digit]]))
                     {
                         bgImage.Mutate(x => x.DrawImage(img, new Point(148 + (105 * digit), 217), 1f));
                     }
@@ -149,7 +149,7 @@ public partial class Gambling
                 var msg = GetText("better_luck");
                 if (result.Multiplier != 0)
                 {
-                    await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
+                    await cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
                         amount * result.Multiplier, false, true).ConfigureAwait(false);
                     Interlocked.Add(ref totalPaidOut, amount * result.Multiplier);
                     if (result.Multiplier == 1)
@@ -172,33 +172,33 @@ public partial class Gambling
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(1000).ConfigureAwait(false);
-                    _runningUsers.Remove(ctx.User.Id);
+                    RunningUsers.Remove(ctx.User.Id);
                 });
             }
         }
 
         public sealed class SlotMachine
         {
-            public const int MAX_VALUE = 5;
+            public const int MaxValue = 5;
 
-            private static readonly List<Func<int[], int>> _winningCombos = new()
+            private static readonly List<Func<int[], int>> WinningCombos = new()
             {
                 //three flowers
-                arr => arr.All(a => a == MAX_VALUE) ? 30 : 0,
+                arr => arr.All(a => a == MaxValue) ? 30 : 0,
                 //three of the same
                 arr => !arr.Any(a => a != arr[0]) ? 10 : 0,
                 //two flowers
-                arr => arr.Count(a => a == MAX_VALUE) == 2 ? 4 : 0,
+                arr => arr.Count(a => a == MaxValue) == 2 ? 4 : 0,
                 //one flower
-                arr => arr.Any(a => a == MAX_VALUE) ? 1 : 0
+                arr => arr.Any(a => a == MaxValue) ? 1 : 0
             };
 
             public static SlotResult Pull()
             {
                 var numbers = new int[3];
-                for (var i = 0; i < numbers.Length; i++) numbers[i] = new MewdekoRandom().Next(0, MAX_VALUE + 1);
+                for (var i = 0; i < numbers.Length; i++) numbers[i] = new MewdekoRandom().Next(0, MaxValue + 1);
                 var multi = 0;
-                foreach (var t in _winningCombos)
+                foreach (var t in WinningCombos)
                 {
                     multi = t(numbers);
                     if (multi != 0)

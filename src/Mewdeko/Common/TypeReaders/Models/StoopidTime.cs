@@ -4,7 +4,7 @@ namespace Mewdeko.Common.TypeReaders.Models;
 
 public class StoopidTime
 {
-    private static readonly Regex _regex = new(
+    private static readonly Regex Regex = new(
         @"^(?:(?<years>\d)y)?(?:(?<months>\d)mo)?(?:(?<weeks>\d{1,2})w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,4})h)?(?:(?<minutes>\d{1,5})m)?(?:(?<seconds>\d{1,6})s)?$"
         ,
         RegexOptions.Compiled | RegexOptions.Multiline);
@@ -14,13 +14,13 @@ public class StoopidTime
 
     public static StoopidTime FromInput(string input)
     {
-        var m = _regex.Match(input);
+        var m = Regex.Match(input);
 
         if (m.Length == 0) throw new ArgumentException("Invalid Time! Valid Example: 1h2d3m");
 
         var namesAndValues = new Dictionary<string, int>();
 
-        foreach (var groupName in _regex.GetGroupNames())
+        foreach (var groupName in Regex.GetGroupNames())
         {
             if (groupName == "0") continue;
             if (!int.TryParse(m.Groups[groupName].Value, out var value))

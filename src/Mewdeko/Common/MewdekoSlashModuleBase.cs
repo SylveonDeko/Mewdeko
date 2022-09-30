@@ -1,6 +1,5 @@
 using Discord.Interactions;
 using Mewdeko.Services.strings;
-using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -103,7 +102,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
             await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
         return false;
     }
-    
+
 
     public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {

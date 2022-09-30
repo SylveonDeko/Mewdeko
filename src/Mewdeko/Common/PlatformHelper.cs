@@ -2,7 +2,7 @@
 
 public static class PlatformHelper
 {
-    private const int PROCESSOR_COUNT_REFRESH_INTERVAL_MS = 30000;
+    private const int ProcessorCountRefreshIntervalMs = 30000;
 
     private static volatile int processorCount;
     private static volatile int lastProcessorCountRefreshTicks;
@@ -12,7 +12,7 @@ public static class PlatformHelper
         get
         {
             var now = Environment.TickCount;
-            if (processorCount == 0 || now - lastProcessorCountRefreshTicks >= PROCESSOR_COUNT_REFRESH_INTERVAL_MS)
+            if (processorCount == 0 || now - lastProcessorCountRefreshTicks >= ProcessorCountRefreshIntervalMs)
             {
                 processorCount = Environment.ProcessorCount;
                 lastProcessorCountRefreshTicks = now;

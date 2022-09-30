@@ -5,7 +5,7 @@ namespace Mewdeko.Common;
 
 public class DownloadTracker : INService
 {
-    private readonly SemaphoreSlim _downloadUsersSemaphore = new(1, 1);
+    private readonly SemaphoreSlim downloadUsersSemaphore = new(1, 1);
     private ConcurrentDictionary<ulong, DateTime> LastDownloads { get; } = new();
 
     /// <summary>
@@ -15,7 +15,7 @@ public class DownloadTracker : INService
     /// <returns>Task representing download state</returns>
     public async Task EnsureUsersDownloadedAsync(IGuild guild)
     {
-        await _downloadUsersSemaphore.WaitAsync().ConfigureAwait(false);
+        await downloadUsersSemaphore.WaitAsync().ConfigureAwait(false);
         try
         {
             var now = DateTime.UtcNow;
@@ -32,7 +32,7 @@ public class DownloadTracker : INService
         }
         finally
         {
-            _downloadUsersSemaphore.Release();
+            downloadUsersSemaphore.Release();
         }
     }
 }

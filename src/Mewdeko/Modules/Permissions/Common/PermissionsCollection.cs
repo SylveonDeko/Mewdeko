@@ -4,7 +4,7 @@ namespace Mewdeko.Modules.Permissions.Common;
 
 public class PermissionsCollection<T> : IndexedCollection<T> where T : class, IIndexed
 {
-    private readonly object _localLocker = new();
+    private readonly object localLocker = new();
 
     public PermissionsCollection(IEnumerable<T> source) : base(source)
     {
@@ -15,7 +15,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
         get => Source[index];
         set
         {
-            lock (_localLocker)
+            lock (localLocker)
             {
                 if (index == 0) // can't set first element. It's always allow all
                     throw new IndexOutOfRangeException(nameof(index));
@@ -28,7 +28,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
 
     public override void Clear()
     {
-        lock (_localLocker)
+        lock (localLocker)
         {
             var first = Source[0];
             base.Clear();
@@ -39,7 +39,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
     public override bool Remove(T item)
     {
         bool removed;
-        lock (_localLocker)
+        lock (localLocker)
         {
             if (Source.IndexOf(item) == 0)
                 throw new ArgumentException("You can't remove first permsission (allow all)");
@@ -51,7 +51,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
 
     public override void Insert(int index, T item)
     {
-        lock (_localLocker)
+        lock (localLocker)
         {
             if (index == 0) // can't insert on first place. Last item is always allow all.
                 throw new IndexOutOfRangeException(nameof(index));
@@ -61,7 +61,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
 
     public override void RemoveAt(int index)
     {
-        lock (_localLocker)
+        lock (localLocker)
         {
             if (index == 0) // you can't remove first permission (allow all)
                 throw new IndexOutOfRangeException(nameof(index));

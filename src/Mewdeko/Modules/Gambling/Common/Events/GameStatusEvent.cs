@@ -8,55 +8,55 @@ namespace Mewdeko.Modules.Gambling.Common.Events;
 
 public class GameStatusEvent : ICurrencyEvent
 {
-    private readonly long _amount;
-    private readonly ConcurrentHashSet<ulong> _awardedUsers = new();
-    private readonly ITextChannel _channel;
-    private readonly DiscordSocketClient _client;
+    private readonly long amount;
+    private readonly ConcurrentHashSet<ulong> awardedUsers = new();
+    private readonly ITextChannel channel;
+    private readonly DiscordSocketClient client;
 
-    private readonly string _code;
-    private readonly ICurrencyService _cs;
+    private readonly string code;
+    private readonly ICurrencyService cs;
 
-    private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> _embedFunc;
-    private readonly IGuild _guild;
-    private readonly bool _isPotLimited;
-    private readonly EventOptions _opts;
-    private readonly EventHandler _eventHandler;
+    private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc;
+    private readonly IGuild guild;
+    private readonly bool isPotLimited;
+    private readonly EventOptions opts;
+    private readonly EventHandler eventHandler;
 
-    private readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
+    private readonly char[] sneakyGameStatusChars = Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
         .Concat(Enumerable.Range(97, 26))
         .Select(x => (char)x)
         .ToArray();
 
-    private readonly Timer _t;
-    private readonly Timer _timeout;
-    private readonly ConcurrentQueue<ulong> _toAward = new();
+    private readonly Timer t;
+    private readonly Timer timeout;
+    private readonly ConcurrentQueue<ulong> toAward = new();
 
-    private readonly object _potLock = new();
+    private readonly object potLock = new();
 
-    private readonly object _stopLock = new();
+    private readonly object stopLock = new();
     private IUserMessage? msg;
 
     public GameStatusEvent(DiscordSocketClient client, ICurrencyService cs, SocketGuild g, ITextChannel ch,
         EventOptions opt, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc,
         EventHandler eventHandler)
     {
-        _client = client;
-        _guild = g;
-        _cs = cs;
-        _amount = opt.Amount;
+        this.client = client;
+        guild = g;
+        this.cs = cs;
+        amount = opt.Amount;
         PotSize = opt.PotSize;
-        _embedFunc = embedFunc;
-        _eventHandler = eventHandler;
-        _isPotLimited = PotSize > 0;
-        _channel = ch;
-        _opts = opt;
+        this.embedFunc = embedFunc;
+        this.eventHandler = eventHandler;
+        isPotLimited = PotSize > 0;
+        channel = ch;
+        opts = opt;
         // generate code
-        _code = new string(_sneakyGameStatusChars.Shuffle().Take(5).ToArray());
+        code = new string(sneakyGameStatusChars.Shuffle().Take(5).ToArray());
 
-        _t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
-        if (_opts.Hours > 0)
-            _timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(_opts.Hours), Timeout.InfiniteTimeSpan);
+        t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
+        if (opts.Hours > 0)
+            timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(opts.Hours), Timeout.InfiniteTimeSpan);
     }
 
     private long PotSize { get; set; }
@@ -67,28 +67,28 @@ public class GameStatusEvent : ICurrencyEvent
 
     public async Task StartEvent()
     {
-        msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
-        await _client.SetGameAsync(_code).ConfigureAwait(false);
-        _eventHandler.MessageDeleted += OnMessageDeleted;
-        _eventHandler.MessageReceived += HandleMessage;
-        _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+        msg = await channel.EmbedAsync(GetEmbed(opts.PotSize)).ConfigureAwait(false);
+        await client.SetGameAsync(code).ConfigureAwait(false);
+        eventHandler.MessageDeleted += OnMessageDeleted;
+        eventHandler.MessageReceived += HandleMessage;
+        t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
     }
 
     public async Task StopEvent()
     {
         await Task.Yield();
-        lock (_stopLock)
+        lock (stopLock)
         {
             if (Stopped)
                 return;
             Stopped = true;
-            _eventHandler.MessageDeleted -= OnMessageDeleted;
-            _eventHandler.MessageReceived -= HandleMessage;
+            eventHandler.MessageDeleted -= OnMessageDeleted;
+            eventHandler.MessageReceived -= HandleMessage;
 #pragma warning disable CS4014
-            _client.SetGameAsync(null);
+            client.SetGameAsync(null);
 #pragma warning restore CS4014
-            _t.Change(Timeout.Infinite, Timeout.Infinite);
-            _timeout.Change(Timeout.Infinite, Timeout.Infinite);
+            t.Change(Timeout.Infinite, Timeout.Infinite);
+            timeout.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
                 _ = msg.DeleteAsync();
@@ -99,7 +99,7 @@ public class GameStatusEvent : ICurrencyEvent
             }
 
 #pragma warning disable CS4014
-            OnEnded(_guild.Id);
+            OnEnded(guild.Id);
 #pragma warning restore CS4014
         }
     }
@@ -112,29 +112,29 @@ public class GameStatusEvent : ICurrencyEvent
     private async void OnTimerTick(object state)
     {
         var potEmpty = PotEmptied;
-        var toAward = new List<ulong>();
-        while (_toAward.TryDequeue(out var x)) toAward.Add(x);
+        var award = new List<ulong>();
+        while (this.toAward.TryDequeue(out var x)) award.Add(x);
 
-        if (toAward.Count == 0)
+        if (award.Count == 0)
             return;
 
         try
         {
-            await _cs.AddBulkAsync(toAward,
-                toAward.Select(_ => "GameStatus Event"),
-                toAward.Select(_ => _amount),
+            await cs.AddBulkAsync(award,
+                award.Select(_ => "GameStatus Event"),
+                award.Select(_ => amount),
                 true).ConfigureAwait(false);
 
-            if (_isPotLimited)
+            if (isPotLimited)
             {
                 await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
                     new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
             }
 
             Log.Information("Awarded {0} users {1} currency.{2}",
-                toAward.Count,
-                _amount,
-                _isPotLimited ? $" {PotSize} left." : "");
+                award.Count,
+                amount,
+                isPotLimited ? $" {PotSize} left." : "");
 
             if (potEmpty)
             {
@@ -147,7 +147,7 @@ public class GameStatusEvent : ICurrencyEvent
         }
     }
 
-    private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
+    private EmbedBuilder GetEmbed(long pot) => embedFunc(CurrencyEvent.Type.GameStatus, opts, pot);
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> message, Cacheable<IMessageChannel, ulong> _)
     {
@@ -160,17 +160,17 @@ public class GameStatusEvent : ICurrencyEvent
         {
             if (message.Author is not IGuildUser gu // no unknown users, as they could be bots, or alts
                 || gu.IsBot // no bots
-                || message.Content != _code // code has to be the same
+                || message.Content != code // code has to be the same
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5) // no recently created accounts
             {
                 return;
             }
             // there has to be money left in the pot
             // and the user wasn't rewarded
-            if (_awardedUsers.Add(message.Author.Id) && TryTakeFromPot())
+            if (awardedUsers.Add(message.Author.Id) && TryTakeFromPot())
             {
-                _toAward.Enqueue(message.Author.Id);
-                if (_isPotLimited && PotSize < _amount)
+                toAward.Enqueue(message.Author.Id);
+                if (isPotLimited && PotSize < amount)
                     PotEmptied = true;
             }
 
@@ -191,14 +191,14 @@ public class GameStatusEvent : ICurrencyEvent
 
     private bool TryTakeFromPot()
     {
-        if (_isPotLimited)
+        if (isPotLimited)
         {
-            lock (_potLock)
+            lock (potLock)
             {
-                if (PotSize < _amount)
+                if (PotSize < amount)
                     return false;
 
-                PotSize -= _amount;
+                PotSize -= amount;
                 return true;
             }
         }

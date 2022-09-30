@@ -2,13 +2,13 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaQuestionPool
 {
-    private readonly IDataCache _cache;
+    private readonly IDataCache cache;
 
-    private readonly MewdekoRandom _rng = new();
+    private readonly MewdekoRandom rng = new();
 
-    public TriviaQuestionPool(IDataCache cache) => _cache = cache;
+    public TriviaQuestionPool(IDataCache cache) => this.cache = cache;
 
-    private TriviaQuestion[] Pool => _cache.LocalData.TriviaQuestions;
+    private TriviaQuestion[] Pool => cache.LocalData.TriviaQuestions;
 
     public TriviaQuestion? GetRandomQuestion(HashSet<TriviaQuestion> exclude)
     {
@@ -16,7 +16,7 @@ public class TriviaQuestionPool
             return null;
 
         TriviaQuestion randomQuestion;
-        while (exclude.Contains(randomQuestion = Pool[_rng.Next(0, Pool.Length)]))
+        while (exclude.Contains(randomQuestion = Pool[rng.Next(0, Pool.Length)]))
         {
         }
 

@@ -19,12 +19,12 @@ public partial class Gambling
             Double
         }
 
-        private readonly ICurrencyService _cs;
+        private readonly ICurrencyService cs;
         private IUserMessage? msg;
 
         public BlackJackCommands(ICurrencyService cs,
             GamblingConfigService gamblingConf) : base(gamblingConf) =>
-            _cs = cs;
+            this.cs = cs;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task BlackJack(ShmartNumber amount)
@@ -32,7 +32,7 @@ public partial class Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                 return;
 
-            var newBj = new Blackjack(_cs);
+            var newBj = new Blackjack(cs);
             Blackjack bj;
             if (newBj == (bj = Service.Games.GetOrAdd(ctx.Channel.Id, newBj)))
             {

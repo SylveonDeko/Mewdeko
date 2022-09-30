@@ -14,27 +14,27 @@ public sealed class AnimalRace : IDisposable
         Ended
     }
 
-    private readonly Queue<RaceAnimal?> _animalsQueue;
-    private readonly ICurrencyService _currency;
+    private readonly Queue<RaceAnimal?> animalsQueue;
+    private readonly ICurrencyService currency;
 
-    private readonly SemaphoreSlim _locker = new(1, 1);
-    private readonly RaceOptions _options;
-    private readonly HashSet<AnimalRacingUser> _users = new();
+    private readonly SemaphoreSlim locker = new(1, 1);
+    private readonly RaceOptions options;
+    private readonly HashSet<AnimalRacingUser> users = new();
 
     public AnimalRace(RaceOptions options, ICurrencyService currency, IEnumerable<RaceAnimal> availableAnimals)
     {
-        _currency = currency;
-        _options = options;
-        _animalsQueue = new Queue<RaceAnimal?>(availableAnimals);
-        MaxUsers = _animalsQueue.Count;
+        this.currency = currency;
+        this.options = options;
+        animalsQueue = new Queue<RaceAnimal?>(availableAnimals);
+        MaxUsers = animalsQueue.Count;
 
-        if (_animalsQueue.Count == 0)
+        if (animalsQueue.Count == 0)
             CurrentPhase = Phase.Ended;
     }
 
     public Phase CurrentPhase { get; private set; } = Phase.WaitingForPlayers;
 
-    public IReadOnlyCollection<AnimalRacingUser> Users => _users.ToList();
+    public IReadOnlyCollection<AnimalRacingUser> Users => users.ToList();
     public List<AnimalRacingUser> FinishedUsers { get; } = new();
     public int MaxUsers { get; }
 
@@ -45,8 +45,8 @@ public sealed class AnimalRace : IDisposable
         OnEnded = null;
         OnStartingFailed = null;
         OnStateUpdate = null;
-        _locker.Dispose();
-        _users.Clear();
+        locker.Dispose();
+        users.Clear();
     }
 
     public event Func<AnimalRace, Task> OnStarted = delegate { return Task.CompletedTask; };
@@ -58,9 +58,9 @@ public sealed class AnimalRace : IDisposable
         =>
             Task.Run(async () =>
             {
-                await Task.Delay(_options.StartTime * 1000).ConfigureAwait(false);
+                await Task.Delay(options.StartTime * 1000).ConfigureAwait(false);
 
-                await _locker.WaitAsync().ConfigureAwait(false);
+                await locker.WaitAsync().ConfigureAwait(false);
                 try
                 {
                     if (CurrentPhase != Phase.WaitingForPlayers)
@@ -70,7 +70,7 @@ public sealed class AnimalRace : IDisposable
                 }
                 finally
                 {
-                    _locker.Release();
+                    locker.Release();
                 }
             });
 
@@ -81,44 +81,44 @@ public sealed class AnimalRace : IDisposable
 
         var user = new AnimalRacingUser(userName, userId, bet);
 
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            if (_users.Count == MaxUsers)
+            if (users.Count == MaxUsers)
                 throw new AnimalRaceFullException();
 
             if (CurrentPhase != Phase.WaitingForPlayers)
                 throw new AlreadyStartedException();
 
-            if (!await _currency.RemoveAsync(userId, "BetRace", bet).ConfigureAwait(false))
+            if (!await currency.RemoveAsync(userId, "BetRace", bet).ConfigureAwait(false))
                 throw new NotEnoughFundsException();
 
-            if (_users.Contains(user))
+            if (users.Contains(user))
                 throw new AlreadyJoinedException();
 
-            user.Animal = _animalsQueue.Dequeue();
-            _users.Add(user);
+            user.Animal = animalsQueue.Dequeue();
+            users.Add(user);
 
-            if (_animalsQueue.Count == 0) //start if no more spots left
+            if (animalsQueue.Count == 0) //start if no more spots left
                 await Start().ConfigureAwait(false);
 
             return user;
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
     private async Task Start()
     {
         CurrentPhase = Phase.Running;
-        if (_users.Count <= 1)
+        if (users.Count <= 1)
         {
-            foreach (var user in _users)
+            foreach (var user in users)
             {
                 if (user.Bet > 0)
-                    await _currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
+                    await currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
             }
 
             await OnStartingFailed.Invoke(this);
@@ -130,16 +130,16 @@ public sealed class AnimalRace : IDisposable
         await Task.Run(async () =>
         {
             var rng = new MewdekoRandom();
-            while (!_users.All(x => x.Progress >= 60))
+            while (!users.All(x => x.Progress >= 60))
             {
-                foreach (var user in _users)
+                foreach (var user in users)
                 {
                     user.Progress += rng.Next(1, 11);
                     if (user.Progress >= 60)
                         user.Progress = 60;
                 }
 
-                var finished = _users.Where(x => x.Progress >= 60 && !FinishedUsers.Contains(x))
+                var finished = users.Where(x => x.Progress >= 60 && !FinishedUsers.Contains(x))
                                      .Shuffle();
 
                 FinishedUsers.AddRange(finished);
@@ -150,8 +150,8 @@ public sealed class AnimalRace : IDisposable
 
             if (FinishedUsers[0].Bet > 0)
             {
-                await _currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
-                                   FinishedUsers[0].Bet * (_users.Count - 1))
+                await currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
+                                   FinishedUsers[0].Bet * (users.Count - 1))
                                .ConfigureAwait(false);
             }
 

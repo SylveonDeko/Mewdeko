@@ -8,15 +8,15 @@ namespace Mewdeko.Modules.Searches;
 
 public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
 {
-    private readonly MartineApi _martineApi;
-    public SlashSearches(MartineApi martineApi) => _martineApi = martineApi;
+    private readonly MartineApi martineApi;
+    public SlashSearches(MartineApi martineApi) => this.martineApi = martineApi;
 
     [ComponentInteraction("meme:*")]
     public async Task Meme(string userid)
     {
         await DeferAsync().ConfigureAwait(false);
         ulong.TryParse(userid, out var id);
-        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
+        var image = await martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder { Name = $"u/{image.Data.Author.Name}" },
@@ -39,7 +39,7 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         await DeferAsync().ConfigureAwait(false);
         ulong.TryParse(userId, out var id);
 
-        var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
+        var image = await martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
 
         var em = new EmbedBuilder
         {

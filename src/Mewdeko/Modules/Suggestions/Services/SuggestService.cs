@@ -11,13 +11,13 @@ namespace Mewdeko.Modules.Suggestions.Services;
 
 public class SuggestionsService : INService
 {
-    private readonly DbService _db;
-    private readonly PermissionService _perms;
+    private readonly DbService db;
+    private readonly PermissionService perms;
     public readonly DiscordSocketClient Client;
     public readonly AdministrationService Adminserv;
-    private readonly List<ulong> _repostChecking;
-    private readonly List<ulong> _spamCheck;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly List<ulong> repostChecking;
+    private readonly List<ulong> spamCheck;
+    private readonly GuildSettingsService guildSettings;
 
     public SuggestionsService(
         DbService db,
@@ -26,17 +26,17 @@ public class SuggestionsService : INService
         PermissionService permserv,
         GuildSettingsService guildSettings, EventHandler eventHandler)
     {
-        _perms = permserv;
-        _guildSettings = guildSettings;
-        _repostChecking = new List<ulong>();
-        _spamCheck = new List<ulong>();
+        perms = permserv;
+        this.guildSettings = guildSettings;
+        repostChecking = new List<ulong>();
+        spamCheck = new List<ulong>();
         Adminserv = aserv;
         Client = client;
         eventHandler.MessageReceived += MessageRecieved;
         eventHandler.ReactionAdded += UpdateCountOnReact;
         eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
         eventHandler.MessageReceived += RepostButton;
-        _db = db;
+        this.db = db;
     }
 
     public enum SuggestState
@@ -60,13 +60,13 @@ public class SuggestionsService : INService
 
             if (await GetSuggestButtonRepost(channel.Guild) == 0)
                 return;
-            if (_repostChecking.Contains(channel.Id))
+            if (repostChecking.Contains(channel.Id))
                 return;
-            _repostChecking.Add(channel.Id);
+            repostChecking.Add(channel.Id);
             var buttonId = await GetSuggestButtonMessageId(channel.Guild);
             if (await GetSuggestButtonRepost(channel.Guild) is 0)
             {
-                _repostChecking.Remove(channel.Id);
+                repostChecking.Remove(channel.Id);
                 return;
             }
 
@@ -76,13 +76,13 @@ public class SuggestionsService : INService
             }
             catch (HttpException)
             {
-                _repostChecking.Remove(channel.Id);
+                repostChecking.Remove(channel.Id);
                 return;
             }
 
             if (messages.Select(x => x.Id).Contains(buttonId))
             {
-                _repostChecking.Remove(channel.Id);
+                repostChecking.Remove(channel.Id);
                 return;
             }
 
@@ -95,7 +95,7 @@ public class SuggestionsService : INService
                 catch (HttpException)
                 {
                     Log.Error($"Button Repost will not work because of missing permissions in guild {channel.Guild}");
-                    _repostChecking.Remove(channel.Id);
+                    repostChecking.Remove(channel.Id);
                     return;
                 }
             }
@@ -106,7 +106,7 @@ public class SuggestionsService : INService
                 var eb = new EmbedBuilder().WithOkColor().WithDescription("Press the button below to make a suggestion!");
                 var toAdd = await channel.SendMessageAsync(embed: eb.Build(), components: (await GetSuggestButton(channel.Guild)).Build()).ConfigureAwait(false);
                 await SetSuggestionButtonId(channel.Guild, toAdd.Id).ConfigureAwait(false);
-                _repostChecking.Remove(channel.Id);
+                repostChecking.Remove(channel.Id);
                 return;
             }
 
@@ -116,11 +116,11 @@ public class SuggestionsService : INService
                 {
                     var toadd = await channel.SendMessageAsync(plainText, embeds: embed, components: (await GetSuggestButton(channel.Guild)).Build()).ConfigureAwait(false);
                     await SetSuggestionButtonId(channel.Guild, toadd.Id).ConfigureAwait(false);
-                    _repostChecking.Remove(channel.Id);
+                    repostChecking.Remove(channel.Id);
                 }
                 catch (NullReferenceException)
                 {
-                    _repostChecking.Remove(channel.Id);
+                    repostChecking.Remove(channel.Id);
                 }
             }
             else
@@ -129,15 +129,15 @@ public class SuggestionsService : INService
                 {
                     var toadd = await channel.SendMessageAsync(await GetSuggestButtonMessage(channel.Guild), components: (await GetSuggestButton(channel.Guild)).Build()).ConfigureAwait(false);
                     await SetSuggestionButtonId(channel.Guild, toadd.Id).ConfigureAwait(false);
-                    _repostChecking.Remove(channel.Id);
+                    repostChecking.Remove(channel.Id);
                 }
                 catch (NullReferenceException)
                 {
-                    _repostChecking.Remove(channel.Id);
+                    repostChecking.Remove(channel.Id);
                 }
             }
 
-            _repostChecking.Remove(channel.Id);
+            repostChecking.Remove(channel.Id);
     }
 
     private async Task UpdateCountOnReact(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
@@ -149,8 +149,8 @@ public class SuggestionsService : INService
             var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
             if (message is null)
                 return;
-            
-            var uow = _db.GetDbContext();
+
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
             if (maybeSuggest is null)
@@ -206,7 +206,7 @@ public class SuggestionsService : INService
                 return;
             if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
                 return;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var maybeSuggest = uow.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
             if (maybeSuggest is null)
@@ -258,31 +258,31 @@ public class SuggestionsService : INService
         {
             if (msg.Channel is not ITextChannel chan)
                 return;
-            if (_spamCheck.Contains(chan.Id))
+            if (spamCheck.Contains(chan.Id))
                 return;
-            _spamCheck.Add(chan.Id);
+            spamCheck.Add(chan.Id);
             var guild = chan?.Guild;
-            var prefix = await _guildSettings.GetPrefix(guild);
+            var prefix = await guildSettings.GetPrefix(guild);
             if (guild != null && !msg.Author.IsBot && !msg.Content.StartsWith(prefix))
             {
                 if (chan.Id != await GetSuggestionChannel(guild.Id))
                 {
-                    _spamCheck.Remove(chan.Id);
+                    spamCheck.Remove(chan.Id);
                     return;
                 }
 
                 var guser = msg.Author as IGuildUser;
-                var pc = await _perms.GetCacheFor(guild.Id);
+                var pc = await perms.GetCacheFor(guild.Id);
                 var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
                 if (!test)
                 {
-                    _spamCheck.Remove(chan.Id);
+                    spamCheck.Remove(chan.Id);
                     return;
                 }
 
                 if (guser.RoleIds.Contains(await Adminserv.GetStaffRole(guser.Guild.Id)))
                 {
-                    _spamCheck.Remove(chan.Id);
+                    spamCheck.Remove(chan.Id);
                     return;
                 }
 
@@ -300,7 +300,7 @@ public class SuggestionsService : INService
                     try
                     {
                         await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({await GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
-                        _spamCheck.Remove(chan.Id);
+                        spamCheck.Remove(chan.Id);
                     }
                     catch
                     {
@@ -324,7 +324,7 @@ public class SuggestionsService : INService
                     try
                     {
                         await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({await GetMaxLength(guild.Id)})` of this server!").ConfigureAwait(false);
-                        _spamCheck.Remove(chan.Id);
+                        spamCheck.Remove(chan.Id);
                     }
                     catch
                     {
@@ -335,7 +335,7 @@ public class SuggestionsService : INService
                 }
 
                 await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel).ConfigureAwait(false);
-                _spamCheck.Remove(chan.Id);
+                spamCheck.Remove(chan.Id);
                 try
                 {
                     await msg.DeleteAsync().ConfigureAwait(false);
@@ -349,15 +349,15 @@ public class SuggestionsService : INService
         return Task.CompletedTask;
     }
 
-    public async Task<ulong> GetSNum(ulong id) => (await _guildSettings.GetGuildConfig(id)).sugnum;
-    public async Task<int> GetMaxLength(ulong id) => (await _guildSettings.GetGuildConfig(id)).MaxSuggestLength;
-    public async Task<int> GetMinLength(ulong id) => (await _guildSettings.GetGuildConfig(id)).MinSuggestLength;
+    public async Task<ulong> GetSNum(ulong id) => (await guildSettings.GetGuildConfig(id)).sugnum;
+    public async Task<int> GetMaxLength(ulong id) => (await guildSettings.GetGuildConfig(id)).MaxSuggestLength;
+    public async Task<int> GetMinLength(ulong id) => (await guildSettings.GetGuildConfig(id)).MinSuggestLength;
 
-    public async Task<string> GetEmotes(ulong id) => (await _guildSettings.GetGuildConfig(id)).SuggestEmotes;
+    public async Task<string> GetEmotes(ulong id) => (await guildSettings.GetGuildConfig(id)).SuggestEmotes;
 
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         switch (buttonId)
         {
@@ -379,7 +379,7 @@ public class SuggestionsService : INService
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<(ulong, ulong)> GetRepostedMessageAndChannel(SuggestionsModel suggestions, IGuild guild)
@@ -397,32 +397,32 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestEmotes = parsedEmotes;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonColor(IGuild guild, int colorNum)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonColor = colorNum;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
     {
         try
         {
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.SuggestButtonMessageId = messageId;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            _guildSettings.UpdateGuildConfig(guild.Id, gc);
+            guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
         catch (Exception e)
         {
@@ -433,29 +433,29 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.sugchan = channel;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetMinLength(IGuild guild, int minLength)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MinSuggestLength = minLength;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MaxSuggestLength = maxLength;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ComponentBuilder> GetSuggestButton(IGuild guild)
@@ -477,7 +477,7 @@ public class SuggestionsService : INService
 
     public async Task SuggestReset(IGuild guild)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         await uow.Suggestions.Where(x => x.GuildId == guild.Id).DeleteAsync().ConfigureAwait(false);
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.sugnum = 1;
@@ -568,61 +568,61 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestButtonMessage(IGuild guild, string? message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonLabel(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonName = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetAcceptMessage(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.AcceptMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetDenyMessage(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.DenyMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetImplementMessage(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ImplementMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UpdateSuggestState(SuggestionsModel suggestionsModel, int state, ulong stateChangeId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         suggestionsModel.CurrentState = state;
         suggestionsModel.StateChangeUser = stateChangeId;
         suggestionsModel.StateChangeCount++;
@@ -632,7 +632,7 @@ public class SuggestionsService : INService
 
     public async Task UpdateStateMessageId(SuggestionsModel suggestionsModel, ulong messageStateId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         suggestionsModel.StateChangeMessageId = messageStateId;
         uow.Suggestions.Update(suggestionsModel);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -640,138 +640,138 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestionThreadType = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConsiderMessage = message;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task Sugnum(IGuild guild, ulong num)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.sugnum = num;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetArchiveOnDeny(IGuild guild, bool value)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnDeny = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnAccept(IGuild guild, bool value)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnAccept = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnConsider(IGuild guild, bool value)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnConsider = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetArchiveOnImplement(IGuild guild, bool value)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnImplement = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.EmoteMode = mode;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetAcceptChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.AcceptChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetDenyChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.DenyChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetConsiderChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConsiderChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetImplementChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ImplementChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonEmote(IGuild guild, string emote)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonEmote = emote;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestButtonRepostThreshold(IGuild guild, int repostThreshold)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonRepostThreshold = repostThreshold;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var suggest = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         uow.Suggestions.Remove(suggest);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -827,7 +827,7 @@ public class SuggestionsService : INService
 
     public async Task<int> GetCurrentCount(ulong messageId, int emoteNumber)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var toupdate = uow.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         return emoteNumber switch
         {
@@ -844,7 +844,7 @@ public class SuggestionsService : INService
     {
         var tup = new Emoji("\uD83D\uDC4D");
         var tdown = new Emoji("\uD83D\uDC4E");
-        var emotes = (await _guildSettings.GetGuildConfig(guild.Id)).SuggestEmotes;
+        var emotes = (await guildSettings.GetGuildConfig(guild.Id)).SuggestEmotes;
         if (emotes is null or "disabled")
         {
             return num == 1 ? tup : tdown;
@@ -852,83 +852,83 @@ public class SuggestionsService : INService
 
         return emotes.Split(",")[num - 1].ToIEmote();
     }
-    public async Task<ulong> GetSuggestionChannel(ulong id) 
-        => (await _guildSettings.GetGuildConfig(id)).sugchan;
+    public async Task<ulong> GetSuggestionChannel(ulong id)
+        => (await guildSettings.GetGuildConfig(id)).sugchan;
 
-    public async Task<string>? GetSuggestionMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestMessage;
+    public async Task<string>? GetSuggestionMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestMessage;
 
-    public async Task<string>? GetAcceptMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).AcceptMessage;
+    public async Task<string>? GetAcceptMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).AcceptMessage;
 
-    public async Task<string>? GetDenyMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).DenyMessage;
+    public async Task<string>? GetDenyMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).DenyMessage;
 
-    public async Task<string>? GetImplementMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ImplementMessage;
+    public async Task<string>? GetImplementMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ImplementMessage;
 
-    public async Task<string>? GetConsiderMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ConsiderMessage;
+    public async Task<string>? GetConsiderMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ConsiderMessage;
 
-    public async Task<int> GetThreadType(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestionThreadType;
+    public async Task<int> GetThreadType(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestionThreadType;
 
-    public async Task<int> GetEmoteMode(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).EmoteMode;
+    public async Task<int> GetEmoteMode(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).EmoteMode;
 
-    public async Task<ulong> GetConsiderChannel(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ConsiderChannel;
+    public async Task<ulong> GetConsiderChannel(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ConsiderChannel;
 
-    public async Task<ulong> GetAcceptChannel(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).AcceptChannel;
+    public async Task<ulong> GetAcceptChannel(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).AcceptChannel;
 
-    public async Task<ulong> GetImplementChannel(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ImplementChannel;
+    public async Task<ulong> GetImplementChannel(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ImplementChannel;
 
-    public async Task<ulong> GetDenyChannel(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).DenyChannel;
+    public async Task<ulong> GetDenyChannel(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).DenyChannel;
 
-    public async Task<bool> GetArchiveOnDeny(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny;
+    public async Task<bool> GetArchiveOnDeny(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny;
 
-    public async Task<bool> GetArchiveOnAccept(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept;
+    public async Task<bool> GetArchiveOnAccept(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept;
 
-    public async Task<bool> GetArchiveOnConsider(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider;
+    public async Task<bool> GetArchiveOnConsider(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider;
 
-    public async Task<bool> GetArchiveOnImplement(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement;
+    public async Task<bool> GetArchiveOnImplement(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement;
 
-    public async Task<string> GetSuggestButtonName(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonName;
+    public async Task<string> GetSuggestButtonName(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonName;
 
-    public async Task<ulong> GetSuggestButtonChannel(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonChannel;
+    public async Task<ulong> GetSuggestButtonChannel(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonChannel;
 
-    public async Task<string> GetSuggestButtonEmote(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonEmote;
+    public async Task<string> GetSuggestButtonEmote(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonEmote;
 
-    public async Task<string>? GetSuggestButtonMessage(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessage;
+    public async Task<string>? GetSuggestButtonMessage(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessage;
 
-    public async Task<int> GetSuggestButtonRepost(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonRepostThreshold;
+    public async Task<int> GetSuggestButtonRepost(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonRepostThreshold;
 
-    public async Task<ulong> GetSuggestButtonMessageId(IGuild guild) 
-        => (await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessageId;
+    public async Task<ulong> GetSuggestButtonMessageId(IGuild guild)
+        => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessageId;
 
-    public async Task<ButtonStyle> GetSuggestButtonColor(IGuild guild) 
-        => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).SuggestButtonColor;
+    public async Task<ButtonStyle> GetSuggestButtonColor(IGuild guild)
+        => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonColor;
 
     public async Task<ButtonStyle> GetButtonStyle(IGuild guild, int id) =>
         id switch
         {
-            1 => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).Emote1Style,
-            2 => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).Emote2Style,
-            3 => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).Emote3Style,
-            4 => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).Emote4Style,
-            5 => (ButtonStyle)(await _guildSettings.GetGuildConfig(guild.Id)).Emote5Style,
+            1 => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).Emote1Style,
+            2 => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).Emote2Style,
+            3 => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).Emote3Style,
+            4 => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).Emote4Style,
+            5 => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).Emote5Style,
             _ => ButtonStyle.Secondary
         };
 
@@ -1016,7 +1016,7 @@ public class SuggestionsService : INService
             {
                 var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 suggest.MessageId = msg.Id;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using var _ = uow.ConfigureAwait(false);
                 uow.Update(suggest);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1139,7 +1139,7 @@ public class SuggestionsService : INService
                 {
                     var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetDenyMessage(guild))).ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     uow.Suggestions.Update(suggest);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1193,7 +1193,7 @@ public class SuggestionsService : INService
                 else
                 {
                     var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1344,7 +1344,7 @@ public class SuggestionsService : INService
             {
                 var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 suggest.MessageId = msg.Id;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using var _ = uow.ConfigureAwait(false);
                 uow.Update(suggest);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1466,7 +1466,7 @@ public class SuggestionsService : INService
                 {
                     var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetConsiderMessage(guild))).ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     uow.Suggestions.Update(suggest);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1520,7 +1520,7 @@ public class SuggestionsService : INService
                 else
                 {
                     var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1671,7 +1671,7 @@ public class SuggestionsService : INService
             {
                 var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 suggest.MessageId = msg.Id;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using var _ = uow.ConfigureAwait(false);
                 uow.Update(suggest);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1794,7 +1794,7 @@ public class SuggestionsService : INService
                 {
                     var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetImplementMessage(guild))).ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     uow.Suggestions.Update(suggest);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -1848,7 +1848,7 @@ public class SuggestionsService : INService
                 else
                 {
                     var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -1999,7 +1999,7 @@ public class SuggestionsService : INService
             {
                 var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 suggest.MessageId = msg.Id;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using var _ = uow.ConfigureAwait(false);
                 uow.Update(suggest);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -2123,7 +2123,7 @@ public class SuggestionsService : INService
                 {
                     var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetAcceptMessage(guild))).ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     uow.Suggestions.Update(suggest);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -2177,7 +2177,7 @@ public class SuggestionsService : INService
                 else
                 {
                     var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                    var uow = _db.GetDbContext();
+                    var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
                     suggest.MessageId = toReplace.Id;
                     uow.Suggestions.Update(suggest);
@@ -2400,7 +2400,7 @@ public class SuggestionsService : INService
         };
         try
         {
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
             uow.Suggestions.Add(suggest);
 
@@ -2415,38 +2415,38 @@ public class SuggestionsService : INService
 
     public async Task<SuggestionsModel[]> Suggestions(ulong gid, ulong sid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Suggestions.ForId(gid, sid);
     }
 
     public List<SuggestionsModel> Suggestions(ulong gid)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.Suggestions.Where(x => x.GuildId == gid).ToList();
     }
 
     public async Task<SuggestionsModel> GetSuggestByMessage(ulong msgId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Suggestions.FirstOrDefaultAsyncEF(x => x.MessageId == msgId);
     }
 
     public async Task<SuggestionsModel[]> ForUser(ulong guildId, ulong userId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return await uow.Suggestions.ForUser(guildId, userId);
     }
 
     public async Task<int> GetPickedEmote(ulong messageId, ulong userId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var toreturn = uow.SuggestVotes.FirstOrDefault(x => x.UserId == userId && x.MessageId == messageId);
         return toreturn?.EmotePicked ?? 0;
     }
 
     public async Task UpdatePickedEmote(ulong messageId, ulong userId, int emotePicked)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var tocheck = uow.SuggestVotes.FirstOrDefault(x => x.MessageId == messageId && x.UserId == userId);
         if (tocheck is null)
         {
@@ -2464,14 +2464,14 @@ public class SuggestionsService : INService
 
     public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         uow.SuggestThreads.Add(new SuggestThreads { MessageId = messageId, ThreadChannelId = threadChannelId });
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task<ulong> GetThreadByMessage(ulong messageId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return uow.SuggestThreads.FirstOrDefault(x => x.MessageId == messageId)?.ThreadChannelId ?? 0;
     }
 }

@@ -33,7 +33,7 @@ public class SearchesService : INService, IUnloadableService
         Birds
     }
 
-    private static readonly HtmlParser _googleParser = new(new HtmlParserOptions
+    private static readonly HtmlParser GoogleParser = new(new HtmlParserOptions
     {
         IsScripting = false,
         IsEmbedded = false,
@@ -42,38 +42,38 @@ public class SearchesService : INService, IUnloadableService
         IsNotSupportingFrames = true
     });
 
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
-    private readonly IDataCache _cache;
-    private readonly IBotCredentials _creds;
-    private readonly DbService _db;
-    private readonly FontProvider _fonts;
-    private readonly IGoogleApiService _google;
-    private readonly IHttpClientFactory _httpFactory;
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
+    private readonly IDataCache cache;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly FontProvider fonts;
+    private readonly IGoogleApiService google;
+    private readonly IHttpClientFactory httpFactory;
 
-    private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new();
-    private readonly IImageCache _imgs;
-    private readonly List<string> _nsfwreddits;
-    private readonly MewdekoRandom _rng;
-    private readonly List<string?> _yomamaJokes;
+    private readonly ConcurrentDictionary<ulong, SearchImageCacher> imageCacher = new();
+    private readonly IImageCache imgs;
+    private readonly List<string> nsfwreddits;
+    private readonly MewdekoRandom rng;
+    private readonly List<string?> yomamaJokes;
 
-    private readonly object _yomamaLock = new();
+    private readonly object yomamaLock = new();
     private int yomamaJokeIndex;
 
     public SearchesService(DiscordSocketClient client, IGoogleApiService google,
         DbService db, IDataCache cache, IHttpClientFactory factory,
         FontProvider fonts, IBotCredentials creds)
     {
-        _httpFactory = factory;
-        _google = google;
-        _db = db;
-        _imgs = cache.LocalImages;
-        _cache = cache;
-        _fonts = fonts;
-        _creds = creds;
-        _rng = new MewdekoRandom();
+        httpFactory = factory;
+        this.google = google;
+        this.db = db;
+        imgs = cache.LocalImages;
+        this.cache = cache;
+        this.fonts = fonts;
+        this.creds = creds;
+        rng = new MewdekoRandom();
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
-        _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
+        blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
@@ -145,14 +145,14 @@ public class SearchesService : INService, IUnloadableService
 
         if (File.Exists("data/yomama.txt"))
         {
-            _yomamaJokes = File.ReadAllLines("data/yomama.txt")
+            yomamaJokes = File.ReadAllLines("data/yomama.txt")
                 .Shuffle()
                 .ToList();
         }
 
         if (File.Exists("data/ultimatelist.txt"))
         {
-            _nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
+            nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
                 .ToList();
         }
     }
@@ -178,13 +178,13 @@ public class SearchesService : INService, IUnloadableService
         AutoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
         AutoHentaiTimers.Clear();
 
-        _imageCacher.Clear();
+        imageCacher.Clear();
         return Task.CompletedTask;
     }
 
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
     {
-        var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
+        var data = await cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
             GetRipPictureFactory,
             (text, imgUrl),
             TimeSpan.FromDays(1)).ConfigureAwait(false);
@@ -197,11 +197,11 @@ public class SearchesService : INService, IUnloadableService
     public async Task<byte[]> GetRipPictureFactory((string text, Uri avatarUrl) arg)
     {
         var (text, avatarUrl) = arg;
-        using var bg = Image.Load<Rgba32>(_imgs.Rip.ToArray());
+        using var bg = Image.Load<Rgba32>(imgs.Rip.ToArray());
         var (succ, data) = (false, (byte[])null); //await _cache.TryGetImageDataAsync(avatarUrl);
         if (!succ)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             data = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
             using (var avatarImg = Image.Load<Rgba32>(data))
             {
@@ -212,7 +212,7 @@ public class SearchesService : INService, IUnloadableService
                 DrawAvatar(bg, avatarImg);
             }
 
-            await _cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
+            await cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
         }
         else
         {
@@ -220,10 +220,10 @@ public class SearchesService : INService, IUnloadableService
             DrawAvatar(bg, avatarImg);
         }
 
-        bg.Mutate(x => x.DrawText(text, _fonts.RipFont, Color.Black, new PointF(25, 225)));
+        bg.Mutate(x => x.DrawText(text, fonts.RipFont, Color.Black, new PointF(25, 225)));
 
         //flowa
-        using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
+        using (var flowers = Image.Load(imgs.RipOverlay.ToArray()))
         {
             bg.Mutate(x => x.DrawImage(flowers, new Point(0, 0), new GraphicsOptions()));
         }
@@ -235,7 +235,7 @@ public class SearchesService : INService, IUnloadableService
     {
         query = query.Trim().ToLowerInvariant();
 
-        return _cache.GetOrAddCachedDataAsync($"Mewdeko_weather_{query}",
+        return cache.GetOrAddCachedDataAsync($"Mewdeko_weather_{query}",
             GetWeatherDataFactory,
             query,
             TimeSpan.FromHours(3));
@@ -243,7 +243,7 @@ public class SearchesService : INService, IUnloadableService
 
     private async Task<WeatherData>? GetWeatherDataFactory(string query)
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         try
         {
             var data = await http.GetStringAsync(
@@ -271,19 +271,19 @@ public class SearchesService : INService, IUnloadableService
 
         if (string.IsNullOrEmpty(query)) return (default, TimeErrors.InvalidInput);
 
-        if (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey)
-            || string.IsNullOrWhiteSpace(_creds.TimezoneDbApiKey))
+        if (string.IsNullOrWhiteSpace(creds.LocationIqApiKey)
+            || string.IsNullOrWhiteSpace(creds.TimezoneDbApiKey))
         {
             return (default, TimeErrors.ApiKeyMissing);
         }
 
         try
         {
-            using var http = _httpFactory.CreateClient();
-            var res = await _cache.GetOrAddCachedDataAsync($"geo_{query}", _ =>
+            using var http = httpFactory.CreateClient();
+            var res = await cache.GetOrAddCachedDataAsync($"geo_{query}", _ =>
             {
                 var url =
-                    $"https://eu1.locationiq.com/v1/search.php?{(string.IsNullOrWhiteSpace(_creds.LocationIqApiKey) ? "key=" : $"key={_creds.LocationIqApiKey}&")}q={Uri.EscapeDataString(query)}&format=json";
+                    $"https://eu1.locationiq.com/v1/search.php?{(string.IsNullOrWhiteSpace(creds.LocationIqApiKey) ? "key=" : $"key={creds.LocationIqApiKey}&")}q={Uri.EscapeDataString(query)}&format=json";
 
                 return http.GetStringAsync(url);
             }, "", TimeSpan.FromHours(1)).ConfigureAwait(false);
@@ -298,7 +298,7 @@ public class SearchesService : INService, IUnloadableService
             var geoData = responses[0];
 
             using var req = new HttpRequestMessage(HttpMethod.Get,
-                $"http://api.timezonedb.com/v2.1/get-time-zone?key={_creds.TimezoneDbApiKey}&format=json&by=position&lat={geoData.Lat}&lng={geoData.Lon}");
+                $"http://api.timezonedb.com/v2.1/get-time-zone?key={creds.TimezoneDbApiKey}&format=json&by=position&lat={geoData.Lat}&lng={geoData.Lon}");
             using var geoRes = await http.SendAsync(req).ConfigureAwait(false);
             var resString = await geoRes.Content.ReadAsStringAsync().ConfigureAwait(false);
             var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(resString);
@@ -332,7 +332,7 @@ public class SearchesService : INService, IUnloadableService
             _ => 100
         };
 
-        return new Uri($"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png");
+        return new Uri($"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{rng.Next(1, max):000}.png");
     }
 
     public static async Task<string> AutoTranslate(string str, string from, string to)
@@ -368,13 +368,13 @@ public class SearchesService : INService, IUnloadableService
         {
             var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-            var cacher = _imageCacher.GetOrAdd(guild.Value, _ => new SearchImageCacher(_httpFactory));
+            var cacher = imageCacher.GetOrAdd(guild.Value, _ => new SearchImageCacher(httpFactory));
 
             return cacher.GetImage(tags, isExplicit, type, blacklistedTags);
         }
         else
         {
-            var cacher = _imageCacher.GetOrAdd(guild ?? 0, _ => new SearchImageCacher(_httpFactory));
+            var cacher = imageCacher.GetOrAdd(guild ?? 0, _ => new SearchImageCacher(httpFactory));
 
             return cacher.GetImage(tags, isExplicit, type);
         }
@@ -382,7 +382,7 @@ public class SearchesService : INService, IUnloadableService
 
     public HashSet<string> GetBlacklistedTags(ulong guildId)
     {
-        if (_blacklistedTags.TryGetValue(guildId, out var tags))
+        if (blacklistedTags.TryGetValue(guildId, out var tags))
             return tags;
         return new HashSet<string>();
     }
@@ -395,7 +395,7 @@ public class SearchesService : INService, IUnloadableService
         };
 
         bool added;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
@@ -411,7 +411,7 @@ public class SearchesService : INService, IUnloadableService
         }
 
         var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
-        _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
+        blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -420,25 +420,25 @@ public class SearchesService : INService, IUnloadableService
 
     public void ClearCache()
     {
-        foreach (var c in _imageCacher) c.Value.Clear();
+        foreach (var c in imageCacher) c.Value.Clear();
     }
 
-    public bool NsfwCheck(string reddit) => _nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
+    public bool NsfwCheck(string reddit) => nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
 
     public Task<string?> GetYomamaJoke()
     {
         string? joke;
-        lock (_yomamaLock)
+        lock (yomamaLock)
         {
-            if (yomamaJokeIndex >= _yomamaJokes.Count)
+            if (yomamaJokeIndex >= yomamaJokes.Count)
             {
                 yomamaJokeIndex = 0;
-                var newList = _yomamaJokes.ToList();
-                _yomamaJokes.Clear();
-                _yomamaJokes.AddRange(newList.Shuffle());
+                var newList = yomamaJokes.ToList();
+                yomamaJokes.Clear();
+                yomamaJokes.AddRange(newList.Shuffle());
             }
 
-            joke = _yomamaJokes[yomamaJokeIndex++];
+            joke = yomamaJokes[yomamaJokeIndex++];
         }
 
         return Task.FromResult(joke);
@@ -452,7 +452,7 @@ public class SearchesService : INService, IUnloadableService
 
     public async Task<(string? Setup, string Punchline)> GetRandomJoke()
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke").ConfigureAwait(false);
         var resObj = JsonConvert.DeserializeAnonymousType(res, new { setup = "", punchline = "" });
         return (resObj.setup, resObj.punchline);
@@ -460,7 +460,7 @@ public class SearchesService : INService, IUnloadableService
 
     public async Task<string?> GetChuckNorrisJoke()
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var response = await http.GetStringAsync(new Uri("https://api.icndb.com/jokes/random/"))
             .ConfigureAwait(false);
         return $"{JObject.Parse(response)["value"]["joke"]} 😆";
@@ -469,12 +469,12 @@ public class SearchesService : INService, IUnloadableService
     public async Task<MtgData?> GetMtgCardAsync(string search)
     {
         search = search.Trim().ToLowerInvariant();
-        var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_mtg_{search}",
+        var data = await cache.GetOrAddCachedDataAsync($"Mewdeko_mtg_{search}",
             GetMtgCardFactory,
             search,
             TimeSpan.FromDays(1)).ConfigureAwait(false);
 
-        return !data.Any() ? null : data[_rng.Next(0, data.Length)];
+        return !data.Any() ? null : data[rng.Next(0, data.Length)];
     }
 
     private async Task<MtgData[]> GetMtgCardFactory(string search)
@@ -484,7 +484,7 @@ public class SearchesService : INService, IUnloadableService
             string storeUrl;
             try
             {
-                storeUrl = await _google.ShortenUrl(
+                storeUrl = await google.ShortenUrl(
                                             $"https://shop.tcgplayer.com/productcatalog/product/show?newSearch=false&ProductType=All&IsProductNameExact=false&ProductName={Uri.EscapeDataString(card.Name)}")
                     .ConfigureAwait(false);
             }
@@ -504,7 +504,7 @@ public class SearchesService : INService, IUnloadableService
             };
         }
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         var response = await http
             .GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeDataString(search)}")
@@ -532,7 +532,7 @@ public class SearchesService : INService, IUnloadableService
     public Task<HearthstoneCardData?> GetHearthstoneCardDataAsync(string name)
     {
         name = name.ToLowerInvariant();
-        return _cache.GetOrAddCachedDataAsync($"Mewdeko_hearthstone_{name}",
+        return cache.GetOrAddCachedDataAsync($"Mewdeko_hearthstone_{name}",
             HearthstoneCardDataFactory,
             name,
             TimeSpan.FromDays(1));
@@ -540,9 +540,9 @@ public class SearchesService : INService, IUnloadableService
 
     private async Task<HearthstoneCardData>? HearthstoneCardDataFactory(string name)
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
-        http.DefaultRequestHeaders.Add("x-rapidapi-key", _creds.MashapeKey);
+        http.DefaultRequestHeaders.Add("x-rapidapi-key", creds.MashapeKey);
         try
         {
             var response = await http.GetStringAsync(
@@ -557,7 +557,7 @@ public class SearchesService : INService, IUnloadableService
             if (data == null)
                 return null;
             if (!string.IsNullOrWhiteSpace(data.Img))
-                data.Img = await _google.ShortenUrl(data.Img).ConfigureAwait(false);
+                data.Img = await google.ShortenUrl(data.Img).ConfigureAwait(false);
             if (!string.IsNullOrWhiteSpace(data.Text))
             {
                 var converter = new Converter();
@@ -576,7 +576,7 @@ public class SearchesService : INService, IUnloadableService
     public Task<OmdbMovie?> GetMovieDataAsync(string name)
     {
         name = name.Trim().ToLowerInvariant();
-        return _cache.GetOrAddCachedDataAsync($"Mewdeko_movie_{name}",
+        return cache.GetOrAddCachedDataAsync($"Mewdeko_movie_{name}",
             GetMovieDataFactory,
             name,
             TimeSpan.FromDays(1));
@@ -584,18 +584,18 @@ public class SearchesService : INService, IUnloadableService
 
     private async Task<OmdbMovie?> GetMovieDataFactory(string name)
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var res = await http.GetStringAsync($"https://omdbapi.nadeko.bot/?t={name.Trim().Replace(' ', '+')}&y=&plot=full&r=json").ConfigureAwait(false);
         var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
         if (movie?.Title == null)
             return null;
-        movie.Poster = await _google.ShortenUrl(movie.Poster).ConfigureAwait(false);
+        movie.Poster = await google.ShortenUrl(movie.Poster).ConfigureAwait(false);
         return movie;
     }
 
     public async Task<int> GetSteamAppIdByName(string query)
     {
-        var redis = _cache.Redis;
+        var redis = cache.Redis;
         var db = redis.GetDatabase();
         const string steamGameIdsKey = "steam_names_to_appid";
         await db.KeyExistsAsync(steamGameIdsKey).ConfigureAwait(false);
@@ -615,9 +615,9 @@ public class SearchesService : INService, IUnloadableService
         //    }
         //}
 
-        var gamesMap = await _cache.GetOrAddCachedDataAsync(steamGameIdsKey, async _ =>
+        var gamesMap = await cache.GetOrAddCachedDataAsync(steamGameIdsKey, async _ =>
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             // https://api.steampowered.com/ISteamApps/GetAppList/v2/
             var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
                                      .ConfigureAwait(false);
@@ -678,7 +678,7 @@ public class SearchesService : INService, IUnloadableService
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
         msg.Headers.Add("Cookie", "CONSENT=YES+shp.gws-20210601-0-RC2.en+FX+423;");
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         var sw = Stopwatch.StartNew();
         using var response = await http.SendAsync(msg).ConfigureAwait(false);
@@ -686,7 +686,7 @@ public class SearchesService : INService, IUnloadableService
         sw.Stop();
         Log.Information("Took {Miliseconds}ms to parse results", sw.ElapsedMilliseconds);
 
-        using var document = await _googleParser.ParseDocumentAsync(content).ConfigureAwait(false);
+        using var document = await GoogleParser.ParseDocumentAsync(content).ConfigureAwait(false);
         var elems = document.QuerySelectorAll("div.g > div > div");
 
         var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
@@ -729,7 +729,7 @@ public class SearchesService : INService, IUnloadableService
 
         const string fullQueryLink = "https://html.duckduckgo.com/html";
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
 
@@ -740,7 +740,7 @@ public class SearchesService : INService, IUnloadableService
         using var response = await http.PostAsync(fullQueryLink, formData).ConfigureAwait(false);
         var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-        using var document = await _googleParser.ParseDocumentAsync(content).ConfigureAwait(false);
+        using var document = await GoogleParser.ParseDocumentAsync(content).ConfigureAwait(false);
         var searchResults = document.QuerySelector(".results");
         var elems = searchResults.QuerySelectorAll(".result");
 

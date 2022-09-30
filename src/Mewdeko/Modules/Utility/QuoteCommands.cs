@@ -9,9 +9,9 @@ public partial class Utility
     [Group]
     public class QuoteCommands : MewdekoSubmodule
     {
-        private readonly DbService _db;
+        private readonly DbService db;
 
-        public QuoteCommands(DbService db) => _db = db;
+        public QuoteCommands(DbService db) => this.db = db;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task ListQuotes(OrderType order = OrderType.Keyword) => ListQuotes(1, order);
@@ -24,7 +24,7 @@ public partial class Utility
                 return;
 
             IEnumerable<Quote> quotes;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
@@ -54,7 +54,7 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote quote;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
@@ -83,7 +83,7 @@ public partial class Utility
         public async Task QuoteShow(int id)
         {
             Quote quote;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 quote = await uow.Quotes.GetById(id);
@@ -120,7 +120,7 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote keywordquote;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text).ConfigureAwait(false);
@@ -145,7 +145,7 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 quote = await uow.Quotes.GetById(id);
@@ -181,7 +181,7 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote q;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 uow.Quotes.Add(q = new Quote
@@ -205,7 +205,7 @@ public partial class Utility
 
             var success = false;
             string? response;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var q = await uow.Quotes.GetById(id);
@@ -238,7 +238,7 @@ public partial class Utility
 
             keyword = keyword.ToUpperInvariant();
 
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());

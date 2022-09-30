@@ -17,14 +17,14 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         Reset
     }
 
-    private readonly DbService _db;
-    private readonly InteractiveService _interactivity;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DbService db;
+    private readonly InteractiveService interactivity;
+    private readonly GuildSettingsService guildSettings;
     public Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
     {
-        _interactivity = inter;
-        _guildSettings = guildSettings;
-        _db = db;
+        interactivity = inter;
+        this.guildSettings = guildSettings;
+        this.db = db;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -38,7 +38,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction? action = null)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -78,7 +78,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return;
         }
 
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -94,7 +94,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -123,7 +123,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -131,7 +131,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return new PageBuilder().WithDescription(string.Join("\n",
                 perms.Skip(page * 10).Take(10).Select(p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -148,7 +148,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         try
         {
             Permissionv2 p;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -162,7 +162,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {
@@ -180,7 +180,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             try
             {
                 Permissionv2 fromPerm;
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using (uow.ConfigureAwait(false))
                 {
                     var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -210,7 +210,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 }
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
-                        Format.Code(fromPerm.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
+                        Format.Code(fromPerm.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
                         ++from,
                         ++to)
                     .ConfigureAwait(false);

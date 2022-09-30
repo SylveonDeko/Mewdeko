@@ -5,11 +5,11 @@ namespace Mewdeko.Modules.Gambling.Common;
 
 public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
 {
-    private readonly Lazy<GamblingConfig> _lazyConfig;
+    private readonly Lazy<GamblingConfig> lazyConfig;
 
-    protected GamblingModuleBase(GamblingConfigService gambService) => _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
+    protected GamblingModuleBase(GamblingConfigService gambService) => lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
 
-    protected GamblingConfig Config => _lazyConfig.Value;
+    protected GamblingConfig Config => lazyConfig.Value;
     protected string? CurrencySign => Config.Currency.Sign;
     protected string? CurrencyName => Config.Currency.Name;
 

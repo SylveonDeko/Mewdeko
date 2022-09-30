@@ -9,32 +9,32 @@ namespace Mewdeko.Services.Impl;
 
 public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
 {
-    private readonly DiscordSocketClient _client;
-    private readonly Coordinator.Coordinator.CoordinatorClient _coordClient;
+    private readonly DiscordSocketClient client;
+    private readonly Coordinator.Coordinator.CoordinatorClient coordClient;
 
     public RemoteGrpcCoordinator(DiscordSocketClient client, IBotCredentials credentials)
     {
         var channel = GrpcChannel.ForAddress($"http://localhost:{credentials.ShardRunPort}");
-        _coordClient = new Coordinator.Coordinator.CoordinatorClient(channel);
-        _client = client;
+        coordClient = new Coordinator.Coordinator.CoordinatorClient(channel);
+        this.client = client;
     }
 
     public bool RestartBot()
     {
-        _coordClient.RestartAllShards(new RestartAllRequest());
+        coordClient.RestartAllShards(new RestartAllRequest());
 
         return true;
     }
 
     public void Die() =>
-        _coordClient.Die(new DieRequest
+        coordClient.Die(new DieRequest
         {
             Graceful = false
         });
 
     public bool RestartShard(int shardId)
     {
-        _coordClient.RestartShard(new RestartShardRequest
+        coordClient.RestartShard(new RestartShardRequest
         {
             ShardId = shardId
         });
@@ -44,7 +44,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
 
     public IList<ShardStatus> GetAllShardStatuses()
     {
-        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
+        var res = coordClient.GetAllStatuses(new GetAllStatusesRequest());
 
         return res.Statuses
             .ToArray()
@@ -59,14 +59,14 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
     }
     public int GetGuildCount()
     {
-        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
+        var res = coordClient.GetAllStatuses(new GetAllStatusesRequest());
 
         return res.Statuses.Sum(x => x.GuildCount);
     }
 
     public int GetUserCount()
     {
-        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
+        var res = coordClient.GetAllStatuses(new GetAllStatusesRequest());
 
         return res.Statuses.Sum(x => x.UserCount);
     }
@@ -80,12 +80,12 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
             {
                 try
                 {
-                    var reply = await _coordClient.HeartbeatAsync(new HeartbeatRequest
+                    var reply = await coordClient.HeartbeatAsync(new HeartbeatRequest
                     {
-                        State = ToCoordConnState(_client.ConnectionState),
-                        GuildCount = _client.ConnectionState == ConnectionState.Connected ? _client.Guilds.Count : 0,
-                        ShardId = _client.ShardId,
-                        UserCount = _client.Guilds.SelectMany(x => x.Users).Distinct().Count()
+                        State = ToCoordConnState(client.ConnectionState),
+                        GuildCount = client.ConnectionState == ConnectionState.Connected ? client.Guilds.Count : 0,
+                        ShardId = client.ShardId,
+                        UserCount = client.Guilds.SelectMany(x => x.Users).Distinct().Count()
                     }, deadline: DateTime.UtcNow + TimeSpan.FromSeconds(10));
                     gracefulImminent = reply.GracefulImminent;
                 }

@@ -11,22 +11,22 @@ namespace Mewdeko.Tests;
 
 public class CommandStringsTests
 {
-    private const string RESPONSES_PATH = "../../../../../src/Mewdeko/data/strings/responses";
-    private const string COMMANDS_PATH = "../../../../../src/Mewdeko/data/strings/commands";
-    private const string ALIASES_PATH = "../../../../../src/Mewdeko/data/aliases.yml";
+    private const string ResponsesPath = "../../../../../src/Mewdeko/data/strings/responses";
+    private const string CommandsPath = "../../../../../src/Mewdeko/data/strings/commands";
+    private const string AliasesPath = "../../../../../src/Mewdeko/data/aliases.yml";
 
     [Test]
     public void AllCommandNamesHaveStrings()
     {
         var stringsSource = new LocalFileStringsSource(
-            RESPONSES_PATH,
-            COMMANDS_PATH);
+            ResponsesPath,
+            CommandsPath);
         var strings = new LocalBotStringsProvider(stringsSource);
 
         var culture = new CultureInfo("en-US");
 
         var isSuccess = true;
-        foreach (var entry in CommandNameLoadHelper.LoadCommandNames(ALIASES_PATH))
+        foreach (var entry in CommandNameLoadHelper.LoadCommandNames(AliasesPath))
         {
             var commandName = entry.Value[0];
 
@@ -54,7 +54,7 @@ public class CommandStringsTests
     public void AllCommandMethodsHaveNames()
     {
         var allAliases = CommandNameLoadHelper.LoadCommandNames(
-            ALIASES_PATH);
+            AliasesPath);
 
         var methodNames = GetCommandMethodNames();
 
@@ -72,7 +72,7 @@ public class CommandStringsTests
     [Test]
     public void NoObsoleteAliases()
     {
-        var allAliases = CommandNameLoadHelper.LoadCommandNames(ALIASES_PATH);
+        var allAliases = CommandNameLoadHelper.LoadCommandNames(AliasesPath);
 
         var methodNames = GetCommandMethodNames()
             .ToHashSet();

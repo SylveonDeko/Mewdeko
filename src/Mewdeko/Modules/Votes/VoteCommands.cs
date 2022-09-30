@@ -12,9 +12,9 @@ namespace Mewdeko.Modules.Votes;
 
 public class Vote : MewdekoModuleBase<VoteService>
 {
-    private readonly InteractiveService _interactivity;
+    private readonly InteractiveService interactivity;
 
-    public Vote(InteractiveService interactivity) => _interactivity = interactivity;
+    public Vote(InteractiveService interactivity) => this.interactivity = interactivity;
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteChannel([Remainder]ITextChannel channel)
@@ -48,7 +48,7 @@ public class Vote : MewdekoModuleBase<VoteService>
                                   .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
                                   .WithOverride("%votestotalcount%", () => votes.Count.ToString())
                                   .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
-            
+
                         if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
                         {
                             await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
@@ -188,7 +188,7 @@ public class Vote : MewdekoModuleBase<VoteService>
             await ctx.Channel.SendErrorAsync(monthly ? "Not enough monthly votes for a leaderboard." : "Not enough votes for a leaderboard.");
             return;
         }
-        
+
         var voteList = new List<CustomVoteThingy>();
         foreach (var i in votes)
         {
@@ -216,14 +216,14 @@ public class Vote : MewdekoModuleBase<VoteService>
                         .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-        
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
             var eb = new PageBuilder().WithTitle(monthly ? "Votes leaaderboard for this month" : "Votes Leaderboard").WithOkColor();
-            
+
             for (var i = 0; i < voteList.Count; i++)
             {
 

@@ -10,15 +10,15 @@ namespace Mewdeko.Services.Impl;
 
 public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 {
-    private readonly ConnectionMultiplexer _con;
-    private readonly IBotCredentials _creds;
-    private readonly HttpClient _http;
-    private readonly string _imagesPath;
+    private readonly ConnectionMultiplexer con;
+    private readonly IBotCredentials creds;
+    private readonly HttpClient http;
+    private readonly string imagesPath;
 
-    private IDatabase Db => _con.GetDatabase();
+    private IDatabase Db => con.GetDatabase();
 
-    private const string BASE_PATH = "data/";
-    private const string CARDS_PATH = "data/images/cards";
+    private const string BasePath = "data/";
+    private const string CardsPath = "data/images/cards";
 
     public ImageUrls ImageUrls { get; private set; }
 
@@ -64,7 +64,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public byte[] GetCard(string key) =>
         // since cards are always local for now, don't cache them
-        File.ReadAllBytes(Path.Join(CARDS_PATH, $"{key}.jpg"));
+        File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
 
     public async Task OnReadyAsync()
     {
@@ -76,17 +76,17 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
     {
-        _con = con;
-        _creds = creds;
-        _http = new HttpClient();
-        _imagesPath = Path.Combine(BASE_PATH, "images.yml");
+        this.con = con;
+        this.creds = creds;
+        http = new HttpClient();
+        imagesPath = Path.Combine(BasePath, "images.yml");
 
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(_imagesPath));
+        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(imagesPath));
     }
 
     public async Task Reload()
     {
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(_imagesPath).ConfigureAwait(false));
+        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(imagesPath).ConfigureAwait(false));
         foreach (var key in GetAllKeys())
         {
             switch (key)
@@ -169,7 +169,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
         try
         {
-            return await _http.GetByteArrayAsync(uri).ConfigureAwait(false);
+            return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -196,5 +196,5 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         => Db.StringGet(GetRedisKey(key));
 
     private RedisKey GetRedisKey(ImageKeys key)
-        => $"{_creds.RedisKey()}_image_{key}";
+        => $"{creds.RedisKey()}_image_{key}";
 }

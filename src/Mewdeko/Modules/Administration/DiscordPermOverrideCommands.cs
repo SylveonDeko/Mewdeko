@@ -13,10 +13,10 @@ public partial class Administration
     [Group]
     public class DiscordPermOverrideCommands : MewdekoSubmodule<DiscordPermOverrideService>
     {
-        private readonly InteractiveService _interactivity;
+        private readonly InteractiveService interactivity;
 
-        public DiscordPermOverrideCommands(InteractiveService serv) => _interactivity = serv;
-        
+        public DiscordPermOverrideCommands(InteractiveService serv) => interactivity = serv;
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[]? perms)
@@ -65,7 +65,7 @@ public partial class Administration
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

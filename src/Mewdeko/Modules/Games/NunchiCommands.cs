@@ -11,9 +11,9 @@ public partial class Games
     [Group]
     public class NunchiCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient _client;
+        private readonly DiscordSocketClient client;
 
-        public NunchiCommands(DiscordSocketClient client) => _client = client;
+        public NunchiCommands(DiscordSocketClient client) => this.client = client;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Nunchi()
@@ -50,7 +50,7 @@ public partial class Games
             nunchi.OnRoundEnded += Nunchi_OnRoundEnded;
             nunchi.OnUserGuessed += Nunchi_OnUserGuessed;
             nunchi.OnRoundStarted += Nunchi_OnRoundStarted;
-            _client.MessageReceived += ClientMessageReceived;
+            client.MessageReceived += ClientMessageReceived;
 
             var success = await nunchi.Initialize().ConfigureAwait(false);
             if (!success)
@@ -85,7 +85,7 @@ public partial class Games
             {
                 if (Service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
                 {
-                    _client.MessageReceived -= ClientMessageReceived;
+                    client.MessageReceived -= ClientMessageReceived;
                     game.Dispose();
                 }
 

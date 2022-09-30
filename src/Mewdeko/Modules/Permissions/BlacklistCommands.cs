@@ -11,9 +11,9 @@ public partial class Permissions
     [Group, OwnerOnly]
     public class BlacklistCommands : MewdekoSubmodule<BlacklistService>
     {
-        private readonly IBotCredentials _creds;
+        private readonly IBotCredentials creds;
 
-        public BlacklistCommands(IBotCredentials creds) => _creds = creds;
+        public BlacklistCommands(IBotCredentials creds) => this.creds = creds;
 
         [Cmd, Aliases]
         public Task UserBlacklist(AddRemove action, ulong id, [Remainder] string? reason) => Blacklist(action, id, BlacklistType.User, reason);
@@ -34,7 +34,7 @@ public partial class Permissions
         {
             switch (action)
             {
-                case AddRemove.Add when _creds.OwnerIds.Contains(id):
+                case AddRemove.Add when creds.OwnerIds.Contains(id):
                     return;
                 case AddRemove.Add:
                     Service.Blacklist(type, id, reason);

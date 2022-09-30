@@ -11,13 +11,13 @@ namespace Mewdeko.Modules.Server_Management;
 
 public partial class ServerManagement : MewdekoModuleBase<ServerManagementService>
 {
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly BotConfigService _config;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly BotConfigService config;
 
     public ServerManagement(IHttpClientFactory factory, BotConfigService config)
     {
-        _httpFactory = factory;
-        _config = config;
+        httpFactory = factory;
+        this.config = config;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -65,7 +65,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var guild = ctx.Guild;
         var uri = new Uri(img);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         var imgStream = imgData.ToStream();
@@ -80,7 +80,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var guild = ctx.Guild;
         var uri = new Uri(img);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         var imgStream = imgData.ToStream();
@@ -95,7 +95,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var guild = ctx.Guild;
         var uri = new Uri(img);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         var imgStream = imgData.ToStream();
@@ -135,7 +135,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
 
         var uri = new Uri(acturl);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         var imgStream = imgData.ToStream();
@@ -203,7 +203,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = $"{_config.Data.LoadingEmote} Adding Emotes...",
+            Description = $"{config.Data.LoadingEmote} Adding Emotes...",
             Color = Mewdeko.OkColor
         };
         var errored = new List<string>();
@@ -213,7 +213,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         foreach (var i in tags)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
@@ -247,7 +247,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = $"{_config.Data.LoadingEmote} Adding Emotes to {role.Mention}...",
+            Description = $"{config.Data.LoadingEmote} Adding Emotes to {role.Mention}...",
             Color = Mewdeko.OkColor
         };
         var list = new Optional<IEnumerable<IRole>>(new[] { role });
@@ -259,7 +259,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
         foreach (var i in tags)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);

@@ -13,13 +13,13 @@ public partial class Searches
     [Group]
     public class StreamNotificationCommands : MewdekoSubmodule<StreamNotificationService>
     {
-        private readonly DbService _db;
-        private readonly InteractiveService _interactivity;
+        private readonly DbService db;
+        private readonly InteractiveService interactivity;
 
         public StreamNotificationCommands(DbService db, InteractiveService serv)
         {
-            _interactivity = serv;
-            _db = db;
+            interactivity = serv;
+            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
@@ -67,7 +67,7 @@ public partial class Searches
         public async Task StreamList()
         {
             var streams = new List<FollowedStream>();
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var all = (await uow
@@ -95,7 +95,7 @@ public partial class Searches
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

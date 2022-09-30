@@ -21,18 +21,18 @@ namespace Mewdeko.Modules.Moderation;
         {
             AddRole
         }
-        private readonly InteractiveService _interactivity;
+        private readonly InteractiveService interactivity;
 
-        private readonly DbService _db;
-        private readonly NekosBestApi _nekos;
+        private readonly DbService db;
+        private readonly NekosBestApi nekos;
 
         public SlashPunishCommands( DbService db,
             InteractiveService serv,
             NekosBestApi nekos)
         {
-            _interactivity = serv;
-            _nekos = nekos;
-            _db = db;
+            interactivity = serv;
+            this.nekos = nekos;
+            this.db = db;
         }
 
         [SlashCommand("setwarnchannel", "Set the channel where warns are logged!"), RequireContext(ContextType.Guild),
@@ -64,7 +64,7 @@ namespace Mewdeko.Modules.Moderation;
         {
             if (!await CheckRoleHierarchy(user))
                 return;
-            
+
             StoopidTime time;
             try
             {
@@ -75,7 +75,7 @@ namespace Mewdeko.Modules.Moderation;
                 await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`");
                 return;
             }
-            
+
             reason ??= $"{ctx.User} || None Specified";
             if (time.Time.Days > 28)
             {
@@ -155,7 +155,7 @@ namespace Mewdeko.Modules.Moderation;
             await ctx.Interaction.RespondAsync(embed: embed.Build());
             if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 var warnings = uow.Warnings
                                   .ForId(ctx.Guild.Id, user.Id)
                                   .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -222,7 +222,7 @@ namespace Mewdeko.Modules.Moderation;
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -276,7 +276,7 @@ namespace Mewdeko.Modules.Moderation;
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -347,7 +347,7 @@ namespace Mewdeko.Modules.Moderation;
             }
             switch (punish)
             {
-                // this should never happen. Addrole has its own method with higher 
+                // this should never happen. Addrole has its own method with higher
                 case PunishmentAction.AddRole:
                 case PunishmentAction.Warn:
                     return;
@@ -389,7 +389,7 @@ namespace Mewdeko.Modules.Moderation;
                                 Format.Bold(time.Input)).ConfigureAwait(false);
             }
         }
-        
+
         [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild)]
         public async Task WarnPunishList()
         {
@@ -410,7 +410,7 @@ namespace Mewdeko.Modules.Moderation;
             await ctx.Interaction.SendConfirmAsync(
                 GetText("warn_punish_list"), list).ConfigureAwait(false);
         }
-        
+
 
         [SlashCommand("hackban", "Bans a user by their ID"), RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers) ]
@@ -436,7 +436,7 @@ namespace Mewdeko.Modules.Moderation;
                 await InternalBanAsync(userId.Id, reason: msg, hackBan: true);
             }
         }
-        
+
         [SlashCommand("ban", "Bans a user by their ID"), RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers) ]
         public async Task Ban(IGuildUser user, string reason = null, string time = null)
@@ -516,7 +516,7 @@ namespace Mewdeko.Modules.Moderation;
                                                    .WithTitle($"⛔️ {GetText("banned_user")}")
                                                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                                                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                                                   .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                                                   .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
                     if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -548,7 +548,7 @@ namespace Mewdeko.Modules.Moderation;
                                                    .WithTitle($"⛔️ {GetText("banned_user")}")
                                                    .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                                                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                                                   .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                                                   .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
                     if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -557,7 +557,7 @@ namespace Mewdeko.Modules.Moderation;
                 }
             }
         }
-        
+
 
         [SlashCommand("unban", "Unban a user."), RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
@@ -616,7 +616,7 @@ namespace Mewdeko.Modules.Moderation;
                 .WithTitle($"☣ {GetText("sb_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -627,7 +627,7 @@ namespace Mewdeko.Modules.Moderation;
         [SlashCommand("kick", "Kicks a user with an optional reason"), RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers) ]
         public async Task Kick(IGuildUser user,  string? msg = null) => await KickInternal(user, msg);
-        
+
 
         public async Task KickInternal(IGuildUser user, string? msg = null)
         {
@@ -652,7 +652,7 @@ namespace Mewdeko.Modules.Moderation;
                 .WithTitle(GetText("kicked_user"))
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
