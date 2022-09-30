@@ -9,15 +9,15 @@ namespace Mewdeko.Modules.Highlights;
 
 public class Highlights : MewdekoModuleBase<HighlightsService>
 {
-    private readonly InteractiveService _interactivity;
-    private readonly IServiceProvider _svcs;
-    private readonly DbService _db;
+    private readonly InteractiveService interactivity;
+    private readonly IServiceProvider svcs;
+    private readonly DbService db;
 
     public Highlights(InteractiveService interactivity, IServiceProvider svcs, DbService db)
     {
-        _interactivity = interactivity;
-        _svcs = svcs;
-        _db = db;
+        this.interactivity = interactivity;
+        this.svcs = svcs;
+        this.db = db;
     }
 
     public enum HighlightActions
@@ -34,7 +34,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         switch (action)
         {
@@ -75,7 +75,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                 .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -145,7 +145,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                 .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory1(int page)
@@ -163,7 +163,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 if (string.IsNullOrWhiteSpace(words))
                     return;
                 var reader1 = new ChannelTypeReader<ITextChannel>();
-                var result = await reader1.ReadAsync(ctx, words, _svcs).ConfigureAwait(false);
+                var result = await reader1.ReadAsync(ctx, words, svcs).ConfigureAwait(false);
                 if (!result.IsSuccess)
                 {
                     var reader2 = new UserTypeReader<IUser>();

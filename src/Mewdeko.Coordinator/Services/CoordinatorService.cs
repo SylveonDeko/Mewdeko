@@ -8,13 +8,13 @@ namespace Mewdeko.Coordinator.Services;
 
 public sealed class CoordinatorService : Coordinator.CoordinatorBase
 {
-    private readonly CoordinatorRunner _runner;
+    private readonly CoordinatorRunner runner;
 
-    public CoordinatorService(CoordinatorRunner runner) => _runner = runner;
+    public CoordinatorService(CoordinatorRunner runner) => this.runner = runner;
 
     public override Task<HeartbeatReply> Heartbeat(HeartbeatRequest request, ServerCallContext context)
     {
-        var gracefulImminent = _runner.Heartbeat(request.ShardId, request.GuildCount, request.State, request.UserCount);
+        var gracefulImminent = runner.Heartbeat(request.ShardId, request.GuildCount, request.State, request.UserCount);
         return Task.FromResult(new HeartbeatReply
         {
             GracefulImminent = gracefulImminent
@@ -23,25 +23,25 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
 
     public override Task<ReshardReply> Reshard(ReshardRequest request, ServerCallContext context)
     {
-        _runner.SetShardCount(request.Shards);
+        runner.SetShardCount(request.Shards);
         return Task.FromResult(new ReshardReply());
     }
 
     public override Task<RestartShardReply> RestartShard(RestartShardRequest request, ServerCallContext context)
     {
-        _runner.RestartShard(request.ShardId);
+        runner.RestartShard(request.ShardId);
         return Task.FromResult(new RestartShardReply());
     }
 
     public override Task<ReloadReply> Reload(ReloadRequest request, ServerCallContext context)
     {
-        _runner.ReloadConfig();
+        runner.ReloadConfig();
         return Task.FromResult(new ReloadReply());
     }
 
     public override Task<GetStatusReply> GetStatus(GetStatusRequest request, ServerCallContext context)
     {
-        var status = _runner.GetShardStatus(request.ShardId);
+        var status = runner.GetShardStatus(request.ShardId);
 
 
         return Task.FromResult(StatusToStatusReply(status));
@@ -50,7 +50,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
     public override Task<GetAllStatusesReply> GetAllStatuses(GetAllStatusesRequest request,
         ServerCallContext context)
     {
-        var statuses = _runner
+        var statuses = runner
             .GetAllStatuses();
 
         var reply = new GetAllStatusesReply();
@@ -88,7 +88,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
 
     public override Task<RestartAllReply> RestartAllShards(RestartAllRequest request, ServerCallContext context)
     {
-        _runner.RestartAll(request.Nuke);
+        runner.RestartAll(request.Nuke);
         return Task.FromResult(new RestartAllReply());
     }
 
@@ -96,11 +96,11 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
     {
         if (request.Graceful)
         {
-            _runner.PrepareGracefulShutdown();
+            runner.PrepareGracefulShutdown();
             await Task.Delay(10_000).ConfigureAwait(false);
         }
 
-        _runner.SaveState();
+        runner.SaveState();
         _ = Task.Run(async () =>
         {
             await Task.Delay(250).ConfigureAwait(false);
@@ -118,7 +118,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
         var success = true;
         try
         {
-            _runner.SetConfigText(request.ConfigYml);
+            runner.SetConfigText(request.ConfigYml);
         }
         catch (Exception ex)
         {

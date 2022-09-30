@@ -23,17 +23,17 @@ public sealed class AcrophobiaGame : IDisposable
         Failed
     }
 
-    private readonly MewdekoRandom _rng;
+    private readonly MewdekoRandom rng;
 
-    private readonly HashSet<ulong> _usersWhoVoted = new();
-    private readonly SemaphoreSlim _locker = new(1, 1);
+    private readonly HashSet<ulong> usersWhoVoted = new();
+    private readonly SemaphoreSlim locker = new(1, 1);
 
-    private readonly Dictionary<AcrophobiaUser, int> _submissions = new();
+    private readonly Dictionary<AcrophobiaUser, int> submissions = new();
 
     public AcrophobiaGame(Options options)
     {
         Opts = options;
-        _rng = new MewdekoRandom();
+        rng = new MewdekoRandom();
         InitializeStartingLetters();
     }
 
@@ -48,9 +48,9 @@ public sealed class AcrophobiaGame : IDisposable
         OnEnded = null;
         OnUserVoted = null;
         OnVotingStarted = null;
-        _usersWhoVoted.Clear();
-        _submissions.Clear();
-        _locker.Dispose();
+        usersWhoVoted.Clear();
+        submissions.Clear();
+        locker.Dispose();
     }
 
     public event Func<AcrophobiaGame, Task> OnStarted = delegate { return Task.CompletedTask; };
@@ -69,10 +69,10 @@ public sealed class AcrophobiaGame : IDisposable
     {
         await OnStarted(this).ConfigureAwait(false);
         await Task.Delay(Opts.SubmissionTime * 1000).ConfigureAwait(false);
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            switch (_submissions.Count)
+            switch (submissions.Count)
             {
                 case 0:
                     CurrentPhase = Phase.Ended;
@@ -81,43 +81,43 @@ public sealed class AcrophobiaGame : IDisposable
                     return;
                 case 1:
                     CurrentPhase = Phase.Ended;
-                    await OnVotingStarted(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                    await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
                     return;
                 default:
                     CurrentPhase = Phase.Voting;
 
-                    await OnVotingStarted(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                    await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
                     break;
             }
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
 
         await Task.Delay(Opts.VoteTime * 1000).ConfigureAwait(false);
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             CurrentPhase = Phase.Ended;
-            await OnEnded(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+            await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
     private void InitializeStartingLetters()
     {
-        var wordCount = _rng.Next(3, 6);
+        var wordCount = rng.Next(3, 6);
 
         var lettersArr = new char[wordCount];
 
         for (var i = 0; i < wordCount; i++)
         {
-            var randChar = (char)_rng.Next(65, 91);
-            lettersArr[i] = randChar == 'X' ? (char)_rng.Next(65, 88) : randChar;
+            var randChar = (char)rng.Next(65, 91);
+            lettersArr[i] = randChar == 'X' ? (char)rng.Next(65, 88) : randChar;
         }
 
         StartingLetters = lettersArr.ToImmutableArray();
@@ -127,29 +127,29 @@ public sealed class AcrophobiaGame : IDisposable
     {
         var user = new AcrophobiaUser(userId, userName, input.ToLowerInvariant().ToTitleCase());
 
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             switch (CurrentPhase)
             {
                 case Phase.Submission:
-                    if (_submissions.ContainsKey(user) || !IsValidAnswer(input))
+                    if (submissions.ContainsKey(user) || !IsValidAnswer(input))
                         break;
 
-                    _submissions.Add(user, 0);
+                    submissions.Add(user, 0);
                     return true;
                 case Phase.Voting:
                     AcrophobiaUser toVoteFor;
                     if (!int.TryParse(input, out var index)
                         || --index < 0
-                        || index >= _submissions.Count
-                        || (toVoteFor = _submissions.ToArray()[index].Key).UserId == user.UserId
-                        || !_usersWhoVoted.Add(userId))
+                        || index >= submissions.Count
+                        || (toVoteFor = submissions.ToArray()[index].Key).UserId == user.UserId
+                        || !usersWhoVoted.Add(userId))
                     {
                         break;
                     }
 
-                    ++_submissions[toVoteFor];
+                    ++submissions[toVoteFor];
                     _ = Task.Run(() => OnUserVoted(userName));
                     return true;
             }
@@ -158,7 +158,7 @@ public sealed class AcrophobiaGame : IDisposable
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 

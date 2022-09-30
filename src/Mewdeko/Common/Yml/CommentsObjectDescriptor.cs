@@ -5,18 +5,18 @@ namespace Mewdeko.Common.Yml;
 
 public sealed class CommentsObjectDescriptor : IObjectDescriptor
 {
-    private readonly IObjectDescriptor _innerDescriptor;
+    private readonly IObjectDescriptor innerDescriptor;
 
     public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
     {
-        _innerDescriptor = innerDescriptor;
+        this.innerDescriptor = innerDescriptor;
         Comment = comment;
     }
 
     public string Comment { get; }
 
-    public object Value => _innerDescriptor.Value;
-    public Type Type => _innerDescriptor.Type;
-    public Type StaticType => _innerDescriptor.StaticType;
-    public ScalarStyle ScalarStyle => _innerDescriptor.ScalarStyle;
+    public object Value => innerDescriptor.Value;
+    public Type Type => innerDescriptor.Type;
+    public Type StaticType => innerDescriptor.StaticType;
+    public ScalarStyle ScalarStyle => innerDescriptor.ScalarStyle;
 }

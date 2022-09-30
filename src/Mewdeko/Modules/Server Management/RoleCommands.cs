@@ -14,13 +14,13 @@ public partial class ServerManagement
     [Group]
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
-        private readonly GuildSettingsService _guildSettings;
-        private readonly BotConfigService _config;
+        private readonly GuildSettingsService guildSettings;
+        private readonly BotConfigService config;
 
         public RoleCommands(GuildSettingsService guildSettings, BotConfigService config)
         {
-            _guildSettings = guildSettings;
-            _config = config;
+            this.guildSettings = guildSettings;
+            this.config = config;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -36,7 +36,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....").ConfigureAwait(false);
+                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....").ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel or SocketVoiceChannel))
             {
                 if (perms != null)
@@ -71,7 +71,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....").ConfigureAwait(false);
+                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....").ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel))
             {
                 if (perms != null)
@@ -100,7 +100,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{_config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....").ConfigureAwait(false);
+                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....").ConfigureAwait(false);
             foreach (var i in await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false))
             {
                 if (perms != null)
@@ -154,7 +154,7 @@ public partial class ServerManagement
             };
             if (await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
             {
-                var msg = await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Deleting {roles.Length} roles...").ConfigureAwait(false);
+                var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Deleting {roles.Length} roles...").ConfigureAwait(false);
                 foreach (var i in roles) await i.DeleteAsync().ConfigureAwait(false);
                 var newemb = new EmbedBuilder
                 {
@@ -174,7 +174,7 @@ public partial class ServerManagement
             if (list == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No job with that ID exists, please check the list again with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`").ConfigureAwait(false);
+                    $"No job with that ID exists, please check the list again with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`").ConfigureAwait(false);
                 return;
             }
 
@@ -349,7 +349,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -425,7 +425,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -500,7 +500,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -575,7 +575,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -653,7 +653,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -730,7 +730,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -806,7 +806,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -882,7 +882,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 
@@ -960,7 +960,7 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await _guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
                 return;
             }
 

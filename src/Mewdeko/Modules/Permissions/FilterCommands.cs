@@ -14,13 +14,13 @@ public partial class Permissions
     [Group]
     public class FilterCommands : MewdekoSubmodule<FilterService>
     {
-        private readonly DbService _db;
-        private readonly InteractiveService _interactivity;
+        private readonly DbService db;
+        private readonly InteractiveService interactivity;
 
         public FilterCommands(DbService db, InteractiveService serv)
         {
-            _interactivity = serv;
-            _db = db;
+            interactivity = serv;
+            this.db = db;
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
@@ -57,7 +57,7 @@ public partial class Permissions
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -114,7 +114,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
@@ -140,7 +140,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             FilterChannelId removed;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id,
@@ -176,7 +176,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
@@ -202,7 +202,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             FilterLinksChannelId removed;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id,
@@ -238,7 +238,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             bool enabled;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
@@ -264,7 +264,7 @@ public partial class Permissions
             var channel = (ITextChannel)ctx.Channel;
 
             FilterChannelId removed;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id,
@@ -305,7 +305,7 @@ public partial class Permissions
                 return;
 
             FilteredWord removed;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
@@ -353,7 +353,7 @@ public partial class Permissions
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

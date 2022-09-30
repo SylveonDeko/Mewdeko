@@ -8,15 +8,15 @@ namespace Mewdeko.Modules.Searches.Services;
 
 public class ToneTagService
 {
-    private readonly Regex _toneTagRegex = new(@"(?:\/|\\)([^\\\/ ]*)", RegexOptions.Compiled);
-    private readonly IBotStrings _strings;
+    private readonly Regex toneTagRegex = new(@"(?:\/|\\)([^\\\/ ]*)", RegexOptions.Compiled);
+    private readonly IBotStrings strings;
     public IReadOnlyList<ToneTag> Tags { get; private set; }
 
     public ToneTagService(IBotStrings strings, BotConfigService bss) =>
-        (_strings, _, Tags) = (strings, bss, JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
+        (this.strings, _, Tags) = (strings, bss, JsonSerializer.Deserialize<List<ToneTag>>(File.ReadAllText("data/tags.json")));
 
     public List<string> GetToneTags(string input) =>
-        _toneTagRegex.Matches(input.RemoveUrls()).Select(x => x.Value[1..]).ToList();
+        toneTagRegex.Matches(input.RemoveUrls()).Select(x => x.Value[1..]).ToList();
 
     public ParseResult ParseTags(List<string> rawTags)
     {
@@ -40,29 +40,29 @@ public class ToneTagService
 
         if (result.Tags.Count + result.MissingTags.Count == 0)
         {
-            eb.WithTitle(_strings.GetText("tonetags_none", guild?.Id))
-              .WithDescription(_strings.GetText("tonetags_none_body", guild?.Id)).WithErrorColor();
+            eb.WithTitle(strings.GetText("tonetags_none", guild?.Id))
+              .WithDescription(strings.GetText("tonetags_none_body", guild?.Id)).WithErrorColor();
         }
         else if (result.Tags.Count == 1 && result.MissingTags.Count == 0)
         {
             var tag = result.Tags.First();
             eb.WithTitle($"/{result.ActualTags.First()}").WithDescription(tag.Description)
-              .AddField(_strings.GetText("tonetags_source", guild?.Id), GetMarkdownLink(tag.Source))
-              .AddField(_strings.GetText("tonetags_aliases", guild?.Id), string.Join(", ", tag.GetAllValues()))
+              .AddField(strings.GetText("tonetags_source", guild?.Id), GetMarkdownLink(tag.Source))
+              .AddField(strings.GetText("tonetags_aliases", guild?.Id), string.Join(", ", tag.GetAllValues()))
               .WithOkColor();
         }
         else
         {
-            eb.WithTitle(_strings.GetText("tonetags_tonetags", guild?.Id));
+            eb.WithTitle(strings.GetText("tonetags_tonetags", guild?.Id));
             var i = -1;
             result.Tags.ForEach(x => eb.AddField(result.ActualTags[++i], x.Description));
             if (result.MissingTags.Count > 0)
             {
-                eb.AddField(_strings.GetText("tonetags_not_found", guild?.Id),
+                eb.AddField(strings.GetText("tonetags_not_found", guild?.Id),
                     string.Join(", ", result.MissingTags.Distinct()));
             }
 
-            eb.AddField(_strings.GetText("tonetags_sources", guild?.Id),
+            eb.AddField(strings.GetText("tonetags_sources", guild?.Id),
                 string.Join(", ", result.Tags.Select(x => GetMarkdownLink(x.Source)).Distinct()));
             eb.WithOkColor();
         }

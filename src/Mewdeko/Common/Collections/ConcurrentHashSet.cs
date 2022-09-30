@@ -13,16 +13,16 @@ namespace Mewdeko.Common.Collections;
 [DebuggerDisplay("Count = {Count}")]
 public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T> where T : notnull
 {
-    private readonly ConcurrentDictionary<T, bool> _backingStore;
-    
+    private readonly ConcurrentDictionary<T, bool> backingStore;
+
     public ConcurrentHashSet()
-        => _backingStore = new ConcurrentDictionary<T, bool>();
+        => backingStore = new ConcurrentDictionary<T, bool>();
 
     public ConcurrentHashSet(IEnumerable<T> values, IEqualityComparer<T>? comparer = null)
-        => _backingStore = new ConcurrentDictionary<T, bool>(values.Select(x => new KeyValuePair<T, bool>(x, true)), comparer);
+        => backingStore = new ConcurrentDictionary<T, bool>(values.Select(x => new KeyValuePair<T, bool>(x, true)), comparer);
 
     public IEnumerator<T> GetEnumerator()
-        => _backingStore.Keys.GetEnumerator();
+        => backingStore.Keys.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
@@ -40,24 +40,24 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     ///     contains too many items.
     /// </exception>
     public bool Add(T item)
-        => _backingStore.TryAdd(item, true);
+        => backingStore.TryAdd(item, true);
 
     void ICollection<T>.Add(T item)
         => Add(item);
 
     public void Clear()
-        => _backingStore.Clear();
+        => backingStore.Clear();
 
     public bool Contains(T item)
-        => _backingStore.ContainsKey(item);
+        => backingStore.ContainsKey(item);
 
     public void CopyTo(T[] array, int arrayIndex)
     {
         ArgumentNullException.ThrowIfNull(array);
-        
+
         if (arrayIndex < 0)
             throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-        
+
         if (arrayIndex >= array.Length)
             throw new ArgumentOutOfRangeException(nameof(arrayIndex));
 
@@ -67,11 +67,11 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     private void CopyToInternal(T[] array, int arrayIndex)
     {
         var len = array.Length;
-        foreach (var (k, _) in _backingStore)
+        foreach (var (k, _) in backingStore)
         {
             if (arrayIndex >= len)
                 throw new IndexOutOfRangeException(nameof(arrayIndex));
-            
+
             array[arrayIndex++] = k;
         }
     }
@@ -80,7 +80,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         => TryRemove(item);
 
     public bool TryRemove(T item)
-        => _backingStore.TryRemove(item, out _);
+        => backingStore.TryRemove(item, out _);
 
     public void RemoveWhere(Func<T, bool> predicate)
     {
@@ -89,7 +89,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     }
 
     public int Count
-        => _backingStore.Count;
+        => backingStore.Count;
 
     public bool IsReadOnly
         => false;

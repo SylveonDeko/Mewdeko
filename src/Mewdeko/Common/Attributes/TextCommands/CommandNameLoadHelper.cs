@@ -5,7 +5,7 @@ namespace Mewdeko.Common.Attributes.TextCommands;
 
 public static class CommandNameLoadHelper
 {
-    private static readonly IDeserializer _deserializer
+    private static readonly IDeserializer Deserializer
         = new Deserializer();
 
     public static Lazy<Dictionary<string, string[]>> LazyCommandAliases
@@ -14,7 +14,7 @@ public static class CommandNameLoadHelper
     public static Dictionary<string, string[]> LoadCommandNames(string aliasesFilePath = "data/aliases.yml")
     {
         var text = File.ReadAllText(aliasesFilePath);
-        return _deserializer.Deserialize<Dictionary<string, string[]>>(text);
+        return Deserializer.Deserialize<Dictionary<string, string[]>>(text);
     }
 
     public static string[] GetAliasesFor(string methodName) =>

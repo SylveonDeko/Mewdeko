@@ -10,9 +10,9 @@ namespace Mewdeko.Modules.UserProfile;
 
 public class UserProfile : MewdekoModuleBase<UserProfileService>
 {
-    private readonly DbService _db;
+    private readonly DbService db;
 
-    public UserProfile(DbService db) => _db = db;
+    public UserProfile(DbService db) => this.db = db;
 
     [Cmd, Aliases]
     public async Task Profile(IUser user = null)
@@ -96,7 +96,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     public async Task Pronouns(IUser? user = null)
     {
         user ??= ctx.User;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         if (await PronounsDisabled(dbUser).ConfigureAwait(false)) return;
@@ -112,7 +112,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases]
     public async Task SetPronouns([Remainder] string? pronouns = null)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
@@ -146,7 +146,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
         dbUser.PronounsDisabled = pronounsDisabledAbuse;
@@ -158,7 +158,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
         dbUser.PronounsDisabled = pronounsDisabledAbuse;

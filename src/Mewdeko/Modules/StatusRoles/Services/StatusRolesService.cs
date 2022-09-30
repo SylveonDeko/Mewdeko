@@ -2,12 +2,12 @@
 
 public class StatusRolesService : INService
 {
-    private readonly DiscordSocketClient _client;
-    public readonly DbService _db;
+    private readonly DiscordSocketClient client;
+    public readonly DbService Db;
 
     public StatusRolesService(DiscordSocketClient client, DbService db)
     {
-        _client = client;
-        _db = db;
+        this.client = client;
+        Db = db;
     }
 }

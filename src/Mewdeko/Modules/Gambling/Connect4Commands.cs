@@ -14,11 +14,11 @@ public partial class Gambling
     [Group]
     public class Connect4Commands : GamblingSubmodule<GamblingService>
     {
-        private static readonly string[] _numbers =
+        private static readonly string[] Numbers =
             {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
 
-        private readonly DiscordSocketClient _client;
-        private readonly ICurrencyService _cs;
+        private readonly DiscordSocketClient client;
+        private readonly ICurrencyService cs;
 
         private int repostCounter;
 
@@ -27,8 +27,8 @@ public partial class Gambling
         public Connect4Commands(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService gamb)
             : base(gamb)
         {
-            _client = client;
-            _cs = cs;
+            this.client = client;
+            this.cs = cs;
         }
 
         private int RepostCounter
@@ -50,7 +50,7 @@ public partial class Gambling
             if (!await CheckBetOptional(options.Bet).ConfigureAwait(false))
                 return;
 
-            var newGame = new Connect4Game(ctx.User.Id, ctx.User.ToString(), options, _cs);
+            var newGame = new Connect4Game(ctx.User.Id, ctx.User.ToString(), options, cs);
             Connect4Game game;
             if ((game = Service.Connect4Games.GetOrAdd(ctx.Channel.Id, newGame)) != newGame)
             {
@@ -65,7 +65,7 @@ public partial class Gambling
 
             if (options.Bet > 0)
             {
-                if (!await _cs.RemoveAsync(ctx.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
+                if (!await cs.RemoveAsync(ctx.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                     Service.Connect4Games.TryRemove(ctx.Channel.Id, out _);
@@ -77,7 +77,7 @@ public partial class Gambling
             game.OnGameStateUpdated += Game_OnGameStateUpdated;
             game.OnGameFailedToStart += GameOnGameFailedToStart;
             game.OnGameEnded += GameOnGameEnded;
-            _client.MessageReceived += ClientMessageReceived;
+            client.MessageReceived += ClientMessageReceived;
 
             game.Initialize();
             if (options.Bet == 0)
@@ -138,7 +138,7 @@ public partial class Gambling
             {
                 if (Service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
                 {
-                    _client.MessageReceived -= ClientMessageReceived;
+                    client.MessageReceived -= ClientMessageReceived;
                     toDispose.Dispose();
                 }
 
@@ -149,7 +149,7 @@ public partial class Gambling
             {
                 if (Service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
                 {
-                    _client.MessageReceived -= ClientMessageReceived;
+                    client.MessageReceived -= ClientMessageReceived;
                     toDispose.Dispose();
                 }
 
@@ -197,11 +197,11 @@ public partial class Gambling
             if (game.CurrentPhase is Connect4Game.Phase.P1Move or Connect4Game.Phase.P2Move)
                 sb.AppendLine(GetText("connect4_player_to_move", Format.Bold(game.CurrentPlayer.Username)));
 
-            for (var i = Connect4Game.NUMBER_OF_ROWS; i > 0; i--)
+            for (var i = Connect4Game.NumberOfRows; i > 0; i--)
             {
-                for (var j = 0; j < Connect4Game.NUMBER_OF_COLUMNS; j++)
+                for (var j = 0; j < Connect4Game.NumberOfColumns; j++)
                 {
-                    switch (game.GameState[i + (j * Connect4Game.NUMBER_OF_ROWS) - 1])
+                    switch (game.GameState[i + (j * Connect4Game.NumberOfRows) - 1])
                     {
                         case Connect4Game.Field.Empty:
                             sb.Append("⚫"); //black circle
@@ -218,7 +218,7 @@ public partial class Gambling
                 sb.AppendLine();
             }
 
-            for (var i = 0; i < Connect4Game.NUMBER_OF_COLUMNS; i++) sb.Append(_numbers[i]);
+            for (var i = 0; i < Connect4Game.NumberOfColumns; i++) sb.Append(Numbers[i]);
             return sb.ToString();
         }
     }

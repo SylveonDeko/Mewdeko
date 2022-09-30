@@ -13,13 +13,13 @@ public partial class Administration
     [Group]
     public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
     {
-        private readonly InteractiveService _interactivity;
-        private readonly GuildSettingsService _guildSettings;
+        private readonly InteractiveService interactivity;
+        private readonly GuildSettingsService guildSettings;
 
         public SelfAssignedRolesCommands(InteractiveService serv, GuildSettingsService guildSettings)
         {
-            _interactivity = serv;
-            _guildSettings = guildSettings;
+            interactivity = serv;
+            this.guildSettings = guildSettings;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -29,9 +29,9 @@ public partial class Administration
             var newVal = await Service.ToggleAdSarm(ctx.Guild.Id);
 
             if (newVal)
-                await ReplyConfirmLocalizedAsync("adsarm_enable", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_enable", await guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("adsarm_disable", await _guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_disable", await guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -105,7 +105,7 @@ public partial class Administration
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

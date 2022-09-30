@@ -11,10 +11,10 @@ namespace Mewdeko.Modules.Utility;
 [Group("remind", "remind")]
 public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
 {
-    private readonly DbService _db;
-    private readonly GuildTimezoneService _tz;
+    private readonly DbService db;
+    private readonly GuildTimezoneService tz;
 
-    public SlashRemindCommands(DbService db, GuildTimezoneService tz) => (_db, _tz) = (db, tz);
+    public SlashRemindCommands(DbService db, GuildTimezoneService tz) => (this.db, this.tz) = (db, tz);
 
     [SlashCommand("me", "Send a reminder to yourself.")]
     // ReSharper disable once MemberCanBePrivate.Global
@@ -115,7 +115,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             ServerId = ctx.Guild?.Id ?? 0
         };
 
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             uow.Reminders.Add(rem);
@@ -124,7 +124,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
 
         var gTime = ctx.Guild == null
             ? time
-            : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
+            : TimeZoneInfo.ConvertTime(time, tz.GetTimeZoneOrUtc(ctx.Guild.Id));
 
         try
         {
@@ -152,7 +152,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
                     .WithTitle(GetText("reminder_list"));
 
         List<Reminder> rems;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
@@ -189,7 +189,7 @@ public class SlashRemindCommands : MewdekoSlashModuleBase<RemindService>
             return;
 
         Reminder? rem = null;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)

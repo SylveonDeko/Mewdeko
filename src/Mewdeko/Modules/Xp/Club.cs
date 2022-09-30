@@ -13,9 +13,9 @@ public partial class Xp
     [Group]
     public class Club : MewdekoSubmodule<ClubService>
     {
-        private readonly InteractiveService _interactivity;
+        private readonly InteractiveService interactivity;
 
-        public Club(InteractiveService serv) => _interactivity = serv;
+        public Club(InteractiveService serv) => interactivity = serv;
 
         [Cmd, Aliases]
         public async Task ClubTransfer([Remainder] IUser newOwner)
@@ -96,7 +96,7 @@ public partial class Xp
         public async Task ClubInformation(IUser? user = null)
         {
             user ??= ctx.User;
-            var club = Service.GetClubByMember(user);
+            var club = await Service.GetClubByMember(user);
             if (club == null)
             {
                 await ErrorLocalizedAsync("club_user_not_in_club", Format.Bold(user.ToString())).ConfigureAwait(false);
@@ -142,7 +142,7 @@ public partial class Xp
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -196,7 +196,7 @@ public partial class Xp
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -237,7 +237,7 @@ public partial class Xp
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

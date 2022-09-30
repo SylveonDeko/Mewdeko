@@ -7,14 +7,14 @@ namespace Mewdeko.Modules.Confessions;
 
 public class Confessions : MewdekoModuleBase<ConfessionService>
 {
-    private readonly GuildSettingsService _guildSettings;
+    private readonly GuildSettingsService guildSettings;
 
-    public Confessions(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
+    public Confessions(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
 
     [Cmd, Aliases, RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string? confession = null)
     {
-        var gc = await _guildSettings.GetGuildConfig(serverId);
+        var gc = await guildSettings.GetGuildConfig(serverId);
         var attachment = ctx.Message.Attachments.FirstOrDefault().Url;
         var user = ctx.User as SocketUser;
         if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
@@ -89,7 +89,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionBlacklist(IUser user)
     {
-        var blacklists = (await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
+        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         if (blacklists.Length > 0)
         {
             if (blacklists.Contains(user.Id.ToString()))
@@ -106,7 +106,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionUnblacklist(IUser user)
     {
-        var blacklists = (await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
+        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         if (blacklists.Length > 0)
         {
             if (!blacklists.Contains(user.Id.ToString()))

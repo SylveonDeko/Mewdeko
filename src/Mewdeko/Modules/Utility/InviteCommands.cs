@@ -13,13 +13,13 @@ public partial class Utility
     [Group]
     public class InviteCommands : MewdekoSubmodule<InviteService>
     {
-        private readonly InteractiveService _interactivity;
-        private readonly DiscordSocketClient _client;
+        private readonly InteractiveService interactivity;
+        private readonly DiscordSocketClient client;
 
         public InviteCommands(InteractiveService serv, DiscordSocketClient client)
         {
-            _client = client;
-            _interactivity = serv;
+            this.client = client;
+            interactivity = serv;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -43,10 +43,10 @@ public partial class Utility
         public async Task InviteInfo(string text)
         {
             RestGuild? guild = null;
-            var invinfo = await _client.Rest.GetInviteAsync(text).ConfigureAwait(false);
+            var invinfo = await client.Rest.GetInviteAsync(text).ConfigureAwait(false);
             try
-            {   
-                guild = await _client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);
+            {
+                guild = await client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);
             }
             catch
             {
@@ -91,7 +91,7 @@ public partial class Utility
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

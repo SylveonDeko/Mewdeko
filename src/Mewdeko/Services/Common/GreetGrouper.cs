@@ -2,10 +2,10 @@
 
 public class GreetGrouper<T>
 {
-    private readonly Dictionary<ulong, HashSet<T>> _group;
-    private readonly object _locker = new();
+    private readonly Dictionary<ulong, HashSet<T>> group;
+    private readonly object locker = new();
 
-    public GreetGrouper() => _group = new Dictionary<ulong, HashSet<T>>();
+    public GreetGrouper() => group = new Dictionary<ulong, HashSet<T>>();
 
     /// <summary>
     ///     Creates a group, if group already exists, adds the specified user
@@ -15,15 +15,15 @@ public class GreetGrouper<T>
     /// <returns></returns>
     public bool CreateOrAdd(ulong guildId, T toAddIfExists)
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (_group.TryGetValue(guildId, out var list))
+            if (group.TryGetValue(guildId, out var list))
             {
                 list.Add(toAddIfExists);
                 return false;
             }
 
-            _group[guildId] = new HashSet<T>();
+            group[guildId] = new HashSet<T>();
             return true;
         }
     }
@@ -37,15 +37,15 @@ public class GreetGrouper<T>
     /// <returns>Whether the group has no more items left and is deleted</returns>
     public bool ClearGroup(ulong guildId, int count, out IEnumerable<T> items)
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (_group.TryGetValue(guildId, out var set))
+            if (group.TryGetValue(guildId, out var set))
             {
                 // if we want more than there are, return everything
                 if (count >= set.Count)
                 {
                     items = set;
-                    _group.Remove(guildId);
+                    group.Remove(guildId);
                     return true;
                 }
 

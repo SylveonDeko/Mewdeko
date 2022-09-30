@@ -6,9 +6,9 @@ namespace Mewdeko.Modules.Moderation.Services;
 public class PurgeService : INService
 {
     //channelids where Purges are currently occuring
-    private readonly ConcurrentHashSet<ulong> _pruningGuilds = new();
+    private readonly ConcurrentHashSet<ulong> pruningGuilds = new();
 
-    private readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
+    private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
     public async Task PurgeWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
     {
@@ -16,7 +16,7 @@ public class PurgeService : INService
         if (amount <= 0)
             throw new ArgumentOutOfRangeException(nameof(amount));
 
-        if (!_pruningGuilds.Add(channel.GuildId))
+        if (!pruningGuilds.Add(channel.GuildId))
             return;
 
         try
@@ -31,7 +31,7 @@ public class PurgeService : INService
                 var singleDeletable = new List<IMessage>();
                 foreach (var x in msgs)
                 {
-                    if (DateTime.UtcNow - x.CreatedAt < _twoWeeks)
+                    if (DateTime.UtcNow - x.CreatedAt < twoWeeks)
                         bulkDeletable.Add(x);
                     else
                         singleDeletable.Add(x);
@@ -66,7 +66,7 @@ public class PurgeService : INService
         }
         finally
         {
-            _pruningGuilds.TryRemove(channel.GuildId);
+            pruningGuilds.TryRemove(channel.GuildId);
         }
     }
 }

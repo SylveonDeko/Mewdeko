@@ -23,8 +23,7 @@ public class SlashUserPermAttribute : PreconditionAttribute
         if (permService.TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName.ToUpperInvariant(), out var a))
         {
             var user = await context.Guild.GetUserAsync(context.User.Id);
-            Debug.Assert(a != null, nameof(a) + " != null");
-            if (!user.GuildPermissions.Has((GuildPermission)a))
+            if (!user.GuildPermissions.Has(a))
                 return PreconditionResult.FromError($"You need the `{a}` permission to use this command.");
         }
         else

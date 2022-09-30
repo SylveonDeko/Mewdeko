@@ -17,32 +17,32 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public class PlantPickService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly ICurrencyService _cs;
-    private readonly DbService _db;
-    private readonly FontProvider _fonts;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DiscordSocketClient client;
+    private readonly ICurrencyService cs;
+    private readonly DbService db;
+    private readonly FontProvider fonts;
+    private readonly GuildSettingsService guildSettings;
 
     public readonly ConcurrentHashSet<ulong> GenerationChannels;
-    private readonly GamblingConfigService _gss;
-    private readonly IImageCache _images;
-    private readonly MewdekoRandom _rng;
-    private readonly IBotStrings _strings;
-    private readonly SemaphoreSlim _pickLock = new(1, 1);
+    private readonly GamblingConfigService gss;
+    private readonly IImageCache images;
+    private readonly MewdekoRandom rng;
+    private readonly IBotStrings strings;
+    private readonly SemaphoreSlim pickLock = new(1, 1);
 
     public PlantPickService(DbService db, CommandHandler cmd, IBotStrings strings,
         IDataCache cache, FontProvider fonts, ICurrencyService cs, DiscordSocketClient client, GamblingConfigService gss,
         GuildSettingsService guildSettings)
     {
-        _db = db;
-        _strings = strings;
-        _images = cache.LocalImages;
-        _fonts = fonts;
-        _cs = cs;
-        _rng = new MewdekoRandom();
-        _client = client;
-        _gss = gss;
-        _guildSettings = guildSettings;
+        this.db = db;
+        this.strings = strings;
+        images = cache.LocalImages;
+        this.fonts = fonts;
+        this.cs = cs;
+        rng = new MewdekoRandom();
+        this.client = client;
+        this.gss = gss;
+        this.guildSettings = guildSettings;
 
         cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
         using var uow = db.GetDbContext();
@@ -60,12 +60,12 @@ public class PlantPickService : INService
     //channelId/last generation
     public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new();
 
-    private string? GetText(ulong gid, string? key, params object?[] rep) => _strings.GetText(key, gid, rep);
+    private string? GetText(ulong gid, string? key, params object?[] rep) => strings.GetText(key, gid, rep);
 
     public async Task<bool> ToggleCurrencyGeneration(ulong gid, ulong cid)
     {
         bool enabled;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
         var toAdd = new GcChannelId { ChannelId = cid };
@@ -90,7 +90,7 @@ public class PlantPickService : INService
 
     public IEnumerable<GuildConfigExtensions.GeneratingChannel> GetAllGeneratingChannels()
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return (IEnumerable<GuildConfigExtensions.GeneratingChannel>)uow.GuildConfigs.GetGeneratingChannels();
     }
 
@@ -103,18 +103,18 @@ public class PlantPickService : INService
     public Stream GetRandomCurrencyImage(string pass, out string extension)
     {
         // get a random currency image bytes
-        var rng = new MewdekoRandom();
+        var mewdekoRandom = new MewdekoRandom();
         byte[] curImg;
         try
         {
-            curImg = _images.Currency[rng.Next(0, _images.Currency.Count)];
+            curImg = images.Currency[mewdekoRandom.Next(0, images.Currency.Count)];
         }
         catch
         {
             extension = null;
             return Stream.Null;
         }
-        
+
 
         if (string.IsNullOrWhiteSpace(pass))
         {
@@ -148,7 +148,7 @@ public class PlantPickService : INService
         pass = pass.TrimTo(10, true).ToLowerInvariant();
         using var img = Image.Load<Rgba32>(curImg, out var format);
         // choose font size based on the image height, so that it's visible
-        var font = _fonts.NotoSans.CreateFont(img.Height / 12, FontStyle.Bold);
+        var font = fonts.NotoSans.CreateFont(img.Height / 12, FontStyle.Bold);
         img.Mutate(x =>
         {
             // measure the size of the text to be drawing
@@ -186,9 +186,9 @@ public class PlantPickService : INService
         {
             try
             {
-                var config = _gss.Data;
+                var config = gss.Data;
                 var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
-                var rng = new MewdekoRandom();
+                var mewdekoRandom = new MewdekoRandom();
 
                 if (DateTime.UtcNow - TimeSpan.FromSeconds(config.Generation.GenCooldown) <
                     lastGeneration) //recently generated in this channel, don't generate again
@@ -196,7 +196,7 @@ public class PlantPickService : INService
                     return;
                 }
 
-                var num = rng.Next(1, 101) + (config.Generation.Chance * 100);
+                var num = mewdekoRandom.Next(1, 101) + (config.Generation.Chance * 100);
                 if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
                 {
                     var dropAmount = config.Generation.MinAmount;
@@ -207,7 +207,7 @@ public class PlantPickService : INService
 
                     if (dropAmount > 0)
                     {
-                        var prefix = await _guildSettings.GetPrefix(channel.Guild.Id);
+                        var prefix = await guildSettings.GetPrefix(channel.Guild.Id);
                         var toSend = dropAmount == 1
                             ? $"{GetText(channel.GuildId, "curgen_sn", config.Currency.Sign)} {GetText(channel.GuildId, "pick_sn", prefix)}"
                             : $"{GetText(channel.GuildId, "curgen_pl", dropAmount, config.Currency.Sign)} {GetText(channel.GuildId, "pick_pl", prefix)}";
@@ -230,7 +230,7 @@ public class PlantPickService : INService
 
                         await AddPlantToDatabase(channel.GuildId,
                             channel.Id,
-                            _client.CurrentUser.Id,
+                            client.CurrentUser.Id,
                             sent.Id,
                             dropAmount,
                             pw).ConfigureAwait(false);
@@ -252,19 +252,19 @@ public class PlantPickService : INService
     private string GenerateCurrencyPassword()
     {
         // generate a number from 1000 to ffff
-        var num = _rng.Next(4096, 65536);
+        var num = rng.Next(4096, 65536);
         // convert it to hexadecimal
         return num.ToString("x4");
     }
 
     public async Task<long> PickAsync(ulong gid, ITextChannel ch, ulong uid, string? pass)
     {
-        await _pickLock.WaitAsync();
+        await pickLock.WaitAsync();
         try
         {
             long amount;
             ulong[] ids;
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 // this method will sum all plants with that password,
                 // remove them, and get messageids of the removed plants
@@ -284,7 +284,7 @@ public class PlantPickService : INService
                 if (amount > 0)
                 {
                     // give the picked currency to the user
-                    await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
+                    await cs.AddAsync(uid, "Picked currency", amount, gamble: false);
                 }
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
@@ -304,7 +304,7 @@ public class PlantPickService : INService
         }
         finally
         {
-            _pickLock.Release();
+            pickLock.Release();
         }
     }
 
@@ -314,11 +314,11 @@ public class PlantPickService : INService
         try
         {
             // get the text
-            var prefix = await _guildSettings.GetPrefix(gid);
+            var prefix = await guildSettings.GetPrefix(gid);
             var msgToSend = GetText(gid,
                 "planted",
                 Format.Bold(user),
-                amount + _gss.Data.Currency.Sign,
+                amount + gss.Data.Currency.Sign,
                 prefix);
 
             if (amount > 1)
@@ -358,14 +358,14 @@ public class PlantPickService : INService
             return false;
 
         // remove currency from the user who's planting
-        if (await _cs.RemoveAsync(uid, "Planted currency", amount))
+        if (await cs.RemoveAsync(uid, "Planted currency", amount))
         {
             // try to send the message with the currency image
             var msgId = await SendPlantMessageAsync(gid, ch, user, amount, pass).ConfigureAwait(false);
             if (msgId == null)
             {
                 // if it fails it will return null, if it returns null, refund
-                await _cs.AddAsync(uid, "Planted currency refund", amount);
+                await cs.AddAsync(uid, "Planted currency refund", amount);
                 return false;
             }
 
@@ -380,7 +380,7 @@ public class PlantPickService : INService
 
     private async Task AddPlantToDatabase(ulong gid, ulong cid, ulong uid, ulong mid, long amount, string pass)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         uow.PlantedCurrency.Add(new PlantedCurrency
         {
             Amount = amount,

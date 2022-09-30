@@ -9,13 +9,13 @@ namespace Mewdeko.Modules.Server_Management;
 
 public class EmoteStealer : MewdekoSlashCommandModule
 {
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly BotConfigService _config;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly BotConfigService config;
 
     public EmoteStealer(IHttpClientFactory factory, BotConfigService config)
     {
-        _httpFactory = factory;
-        _config = config;
+        httpFactory = factory;
+        this.config = config;
     }
 
     [MessageCommand("Steal Emotes"),
@@ -27,7 +27,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
         var eb = new EmbedBuilder
         {
-            Description = $"{_config.Data.LoadingEmote} Adding Emotes...",
+            Description = $"{config.Data.LoadingEmote} Adding Emotes...",
             Color = Mewdeko.OkColor
         };
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
@@ -41,7 +41,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
         foreach (var i in tags)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);

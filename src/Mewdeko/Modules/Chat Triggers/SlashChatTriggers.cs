@@ -13,13 +13,13 @@ namespace Mewdeko.Modules.Chat_Triggers;
 [Group("triggers", "Manage chat triggers.")]
 public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 {
-    private readonly IHttpClientFactory _clientFactory;
-    private readonly InteractiveService _interactivity;
+    private readonly IHttpClientFactory clientFactory;
+    private readonly InteractiveService interactivity;
 
     public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
     {
-        _interactivity = serv;
-        _clientFactory = clientFactory;
+        interactivity = serv;
+        this.clientFactory = clientFactory;
     }
 
     [ComponentInteraction("trigger.*.runin.*$*", true), CheckPermissions]
@@ -27,7 +27,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         guildId ??= 0;
         var ct = await Service.GetChatTriggers(guildId, triggerId);
-        await Service.RunInteractionTrigger(ctx.Client as DiscordSocketClient, ctx.Interaction as SocketInteraction, ct).ConfigureAwait(false);
+        await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction, ct).ConfigureAwait(false);
     }
 
     [SlashCommand("export", "Exports Chat Triggers into a .yml file."),
@@ -53,7 +53,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         await DeferAsync().ConfigureAwait(false);
 
-        using var client = _clientFactory.CreateClient();
+        using var client = clientFactory.CreateClient();
         var content = await client.GetStringAsync(file.Url).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(content))
@@ -161,7 +161,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -214,7 +214,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -595,15 +595,15 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
                 return;
             }
-            
+
             // validate the name based on type
             if (type != CtApplicationCommandType.None && !ChatTriggersService.IsValidName(type,
-                    string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName)) 
+                    string.IsNullOrWhiteSpace(ct.ApplicationCommandName) ? ct.Trigger : ct.ApplicationCommandName))
             {
                 await ReplyErrorLocalizedAsync("ct_interaction_name_invalid").ConfigureAwait(false);
                 return;
             }
-            
+
             var res = await Service.SetInteractionType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
 
             if (res is null)
@@ -626,7 +626,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("name", "The name of the interaction.")] string name)
         {
             var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -639,7 +639,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
             await FollowupWithTriggerStatus().ConfigureAwait(false);
         }
-        
+
         [SlashCommand("description", "Sets the description of the interaction."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterDesc(
@@ -647,7 +647,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("description", "The description of the interaction.")] string description)
         {
             var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -660,7 +660,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
             await FollowupWithTriggerStatus().ConfigureAwait(false);
         }
-        
+
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
          InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
         public async Task CtInterEphemeral(
@@ -668,7 +668,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
         {
             var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
-            
+
             if (res is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);

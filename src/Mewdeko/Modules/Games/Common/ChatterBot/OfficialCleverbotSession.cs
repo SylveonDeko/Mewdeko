@@ -7,22 +7,22 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot;
 
 public class OfficialCleverbotSession : IChatterBotSession
 {
-    private readonly string _apiKey;
-    private readonly IHttpClientFactory _httpFactory;
+    private readonly string apiKey;
+    private readonly IHttpClientFactory httpFactory;
     private string cs;
 
     public OfficialCleverbotSession(string apiKey, IHttpClientFactory factory)
     {
-        _apiKey = apiKey;
-        _httpFactory = factory;
+        this.apiKey = apiKey;
+        httpFactory = factory;
     }
 
     private string QueryString =>
-        $"https://www.cleverbot.com/getreply?key={_apiKey}&wrapper=Mewdeko&input={{0}}&cs={{1}}";
+        $"https://www.cleverbot.com/getreply?key={apiKey}&wrapper=Mewdeko&input={{0}}&cs={{1}}";
 
     public async Task<string>? Think(string input)
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var dataString = await http.GetStringAsync(string.Format(QueryString, input, cs))
             .ConfigureAwait(false);
         try
@@ -43,34 +43,34 @@ public class OfficialCleverbotSession : IChatterBotSession
 
 public class CleverbotIoSession : IChatterBotSession
 {
-    private readonly string _askEndpoint = "https://cleverbot.io/1.0/ask";
+    private readonly string askEndpoint = "https://cleverbot.io/1.0/ask";
 
-    private readonly string _createEndpoint = "https://cleverbot.io/1.0/create";
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly string _key;
-    private readonly AsyncLazy<string> _nick;
-    private readonly string _user;
+    private readonly string createEndpoint = "https://cleverbot.io/1.0/create";
+    private readonly IHttpClientFactory httpFactory;
+    private readonly string key;
+    private readonly AsyncLazy<string> nick;
+    private readonly string user;
 
     public CleverbotIoSession(string user, string key, IHttpClientFactory factory)
     {
-        _key = key;
-        _user = user;
-        _httpFactory = factory;
+        this.key = key;
+        this.user = user;
+        httpFactory = factory;
 
-        _nick = new AsyncLazy<string>(GetNick);
+        nick = new AsyncLazy<string>(GetNick);
     }
 
     public async Task<string> Think(string input)
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("user", _user),
-            new KeyValuePair<string, string>("key", _key),
-            new KeyValuePair<string, string>("nick", await _nick),
+            new KeyValuePair<string, string>("user", user),
+            new KeyValuePair<string, string>("key", key),
+            new KeyValuePair<string, string>("nick", await nick),
             new KeyValuePair<string, string>("text", input)
         });
-        using var data = await http.PostAsync(_askEndpoint, msg).ConfigureAwait(false);
+        using var data = await http.PostAsync(askEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
         var obj = JsonConvert.DeserializeObject<CleverbotIoAskResponse>(str);
         if (obj.Status != "success")
@@ -81,13 +81,13 @@ public class CleverbotIoSession : IChatterBotSession
 
     private async Task<string> GetNick()
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("user", _user),
-            new KeyValuePair<string, string>("key", _key)
+            new KeyValuePair<string, string>("user", user),
+            new KeyValuePair<string, string>("key", key)
         });
-        using var data = await http.PostAsync(_createEndpoint, msg).ConfigureAwait(false);
+        using var data = await http.PostAsync(createEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
         var obj = JsonConvert.DeserializeObject<CleverbotIoCreateResponse>(str);
         if (obj.Status != "success")

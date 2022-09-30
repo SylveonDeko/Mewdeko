@@ -14,14 +14,14 @@ public partial class Games
     [Group]
     public class PlantPickCommands : GamblingSubmodule<PlantPickService>
     {
-        private readonly InteractiveService _interactivity;
-        private readonly LogCommandService _logService;
+        private readonly InteractiveService interactivity;
+        private readonly LogCommandService logService;
 
         public PlantPickCommands(LogCommandService logService, GamblingConfigService gss,
             InteractiveService serv) : base(gss)
         {
-            _interactivity = serv;
-            _logService = logService;
+            interactivity = serv;
+            this.logService = logService;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -42,7 +42,7 @@ public partial class Games
             {
                 try
                 {
-                    _logService.AddDeleteIgnore(ctx.Message.Id);
+                    logService.AddDeleteIgnore(ctx.Message.Id);
                     await ctx.Message.DeleteAsync().ConfigureAwait(false);
                 }
                 catch
@@ -70,7 +70,7 @@ public partial class Games
 
             if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
             {
-                _logService.AddDeleteIgnore(ctx.Message.Id);
+                logService.AddDeleteIgnore(ctx.Message.Id);
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
         }
@@ -103,7 +103,7 @@ public partial class Games
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

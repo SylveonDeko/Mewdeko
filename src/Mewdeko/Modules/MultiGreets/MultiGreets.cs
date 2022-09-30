@@ -12,9 +12,9 @@ namespace Mewdeko.Modules.MultiGreets;
 
 public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 {
-    private readonly InteractiveService _interactivity;
+    private readonly InteractiveService interactivity;
 
-    public MultiGreets(InteractiveService interactivity) => _interactivity = interactivity;
+    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
 
     public enum MultiGreetTypes
     {
@@ -22,7 +22,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         RandomGreet,
         Off
     }
-    
+
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetAdd ([Remainder] ITextChannel? channel = null)
     {
@@ -98,7 +98,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!").ConfigureAwait(false);
             return;
         }
-        
+
         await Service.ChangeMgDelete(greet, howlong).ConfigureAwait(false);
         if (howlong > 0)
             await ctx.Channel.SendConfirmAsync(
@@ -244,7 +244,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -254,6 +254,6 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                                         $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor();
         }
-        
+
     }
 }

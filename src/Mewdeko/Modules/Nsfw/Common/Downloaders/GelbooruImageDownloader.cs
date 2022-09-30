@@ -19,13 +19,13 @@ public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
         var uri =
             $"https://gelbooru.com/index.php?page=dapi&s=post&json=1&q=index&limit=100&tags={tagString}&pid={page}";
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
-        using var res = await _http.SendAsync(req, cancel).ConfigureAwait(false);
+        using var res = await Http.SendAsync(req, cancel).ConfigureAwait(false);
         res.EnsureSuccessStatusCode();
         var resString = await res.Content.ReadAsStringAsync(cancel).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(resString))
             return new List<DapiImageObject>();
 
-        var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, _serializerOptions);
+        var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, SerializerOptions);
         if (images is null or { Post: null })
             return new List<DapiImageObject>();
 

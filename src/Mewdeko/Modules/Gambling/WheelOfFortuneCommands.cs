@@ -10,7 +10,7 @@ public partial class Gambling
 {
     public class WheelOfFortuneCommands : GamblingSubmodule<GamblingService>
     {
-        private static readonly ImmutableArray<string> _emojis = new[]
+        private static readonly ImmutableArray<string> Emojis = new[]
         {
             "⬆",
             "↖",
@@ -22,11 +22,11 @@ public partial class Gambling
             "↗"
         }.ToImmutableArray();
 
-        private readonly ICurrencyService _cs;
+        private readonly ICurrencyService cs;
 
         public WheelOfFortuneCommands(ICurrencyService cs, GamblingConfigService gamblingConfService)
             : base(gamblingConfService) =>
-            _cs = cs;
+            this.cs = cs;
 
         [Cmd, Aliases]
         public async Task WheelOfFortune(ShmartNumber amount)
@@ -34,7 +34,7 @@ public partial class Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                 return;
 
-            if (!await _cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, true).ConfigureAwait(false))
+            if (!await cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, true).ConfigureAwait(false))
             {
                 await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                 return;
@@ -48,7 +48,7 @@ public partial class Gambling
 
    『{wofMultipliers[1]}』   『{wofMultipliers[0]}』   『{wofMultipliers[7]}』
 
-『{wofMultipliers[2]}』      {_emojis[result.Index]}      『{wofMultipliers[6]}』
+『{wofMultipliers[2]}』      {Emojis[result.Index]}      『{wofMultipliers[6]}』
 
      『{wofMultipliers[3]}』   『{wofMultipliers[4]}』   『{wofMultipliers[5]}』")).ConfigureAwait(false);
         }

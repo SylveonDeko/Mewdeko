@@ -12,20 +12,20 @@ public partial class Games
     [Group]
     public class HangmanCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly GuildSettingsService _guildSettings;
+        private readonly DiscordSocketClient client;
+        private readonly GuildSettingsService guildSettings;
 
         public HangmanCommands(DiscordSocketClient client, GuildSettingsService guildSettings)
         {
-            _client = client;
-            _guildSettings = guildSettings;
+            this.client = client;
+            this.guildSettings = guildSettings;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangmanlist() =>
             await ctx.Channel
                      .SendConfirmAsync(
-                         $"{Format.Code(GetText("hangman_types", await _guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
+                         $"{Format.Code(GetText("hangman_types", await guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
@@ -51,7 +51,7 @@ public partial class Games
             hm.OnGuessFailed += Hm_OnGuessFailed;
             hm.OnGuessSucceeded += Hm_OnGuessSucceeded;
             hm.OnLetterAlreadyUsed += Hm_OnLetterAlreadyUsed;
-            _client.MessageReceived += ClientMessageReceived;
+            client.MessageReceived += ClientMessageReceived;
 
             try
             {
@@ -66,7 +66,7 @@ public partial class Games
 
             await hm.EndedTask.ConfigureAwait(false);
 
-            _client.MessageReceived -= ClientMessageReceived;
+            client.MessageReceived -= ClientMessageReceived;
             Service.HangmanGames.TryRemove(ctx.Channel.Id, out _);
             hm.Dispose();
 

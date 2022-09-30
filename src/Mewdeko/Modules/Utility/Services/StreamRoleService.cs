@@ -11,16 +11,16 @@ namespace Mewdeko.Modules.Utility.Services;
 public class StreamRoleService : INService, IUnloadableService
 {
     private readonly EventHandler eventHandler;
-    private readonly DbService _db;
-    private readonly ConcurrentDictionary<ulong, StreamRoleSettings> _guildSettings;
+    private readonly DbService db;
+    private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
 
     public StreamRoleService(DiscordSocketClient client, DbService db, EventHandler eventHandler)
     {
-        _db = db;
+        this.db = db;
         this.eventHandler = eventHandler;
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
-        _guildSettings = gc
+        guildSettings = gc
             .ToDictionary(x => x.GuildId, x => x.StreamRole)
             .Where(x => x.Value != null && x.Value.Enabled)
             .ToConcurrent();
@@ -51,7 +51,7 @@ public class StreamRoleService : INService, IUnloadableService
         _ = Task.Run(async () =>
         {
             //if user wasn't streaming or didn't have a game status at all
-            if (_guildSettings.TryGetValue(after.Guild.Id, out var setting))
+            if (guildSettings.TryGetValue(after.Guild.Id, out var setting))
                 await RescanUser(after, setting).ConfigureAwait(false);
         });
 
@@ -64,7 +64,7 @@ public class StreamRoleService : INService, IUnloadableService
         userName.ThrowIfNull(nameof(userName));
 
         var success = false;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var streamRoleSettings = await uow.GetStreamRoleSettings(guild.Id);
@@ -131,7 +131,7 @@ public class StreamRoleService : INService, IUnloadableService
     {
         keyword = keyword?.Trim().ToLowerInvariant();
 
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var streamRoleSettings = await uow.GetStreamRoleSettings(guild.Id);
@@ -152,11 +152,11 @@ public class StreamRoleService : INService, IUnloadableService
     /// <returns>The keyword set</returns>
     public async Task<string> GetKeyword(ulong guildId)
     {
-        if (_guildSettings.TryGetValue(guildId, out var outSetting))
+        if (guildSettings.TryGetValue(guildId, out var outSetting))
             return outSetting.Keyword;
 
         StreamRoleSettings setting;
-        await using (var uow = _db.GetDbContext())
+        await using (var uow = db.GetDbContext())
         {
             setting = await uow.GetStreamRoleSettings(guildId);
         }
@@ -178,7 +178,7 @@ public class StreamRoleService : INService, IUnloadableService
         addRole.ThrowIfNull(nameof(addRole));
 
         StreamRoleSettings setting;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var streamRoleSettings = await uow.GetStreamRoleSettings(fromRole.Guild.Id);
@@ -201,7 +201,7 @@ public class StreamRoleService : INService, IUnloadableService
     }
     public async Task StopStreamRole(IGuild guild, bool cleanup = false)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var streamRoleSettings = await uow.GetStreamRoleSettings(guild.Id);
@@ -211,7 +211,7 @@ public class StreamRoleService : INService, IUnloadableService
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        if (_guildSettings.TryRemove(guild.Id, out _) && cleanup)
+        if (guildSettings.TryRemove(guild.Id, out _) && cleanup)
             await RescanUsers(guild).ConfigureAwait(false);
     }
 
@@ -281,7 +281,7 @@ public class StreamRoleService : INService, IUnloadableService
 
     private async Task RescanUsers(IGuild guild)
     {
-        if (!_guildSettings.TryGetValue(guild.Id, out var setting))
+        if (!guildSettings.TryGetValue(guild.Id, out var setting))
             return;
 
         var addRole = guild.GetRole(setting.AddRoleId);
@@ -300,5 +300,5 @@ public class StreamRoleService : INService, IUnloadableService
         }
     }
 
-    private void UpdateCache(ulong guildId, StreamRoleSettings setting) => _guildSettings.AddOrUpdate(guildId, _ => setting, (_, _) => setting);
+    private void UpdateCache(ulong guildId, StreamRoleSettings setting) => guildSettings.AddOrUpdate(guildId, _ => setting, (_, _) => setting);
 }

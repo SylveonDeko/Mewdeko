@@ -29,18 +29,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         Dnd
     }
 
-    private readonly Mewdeko _bot;
-    private readonly DiscordSocketClient _client;
-    private readonly DbService _db;
-    private readonly ICoordinator _coord;
-    private readonly IEnumerable<IConfigService> _settingServices;
-    private readonly IBotStrings _strings;
-    private readonly InteractiveService _interactivity;
-    private readonly IDataCache _cache;
-    private readonly CommandService _commandService;
-    private readonly IServiceProvider _services;
-    private readonly GuildSettingsService _guildSettings;
-    private readonly CommandHandler _commandHandler;
+    private readonly Mewdeko bot;
+    private readonly DiscordSocketClient client;
+    private readonly DbService db;
+    private readonly ICoordinator coord;
+    private readonly IEnumerable<IConfigService> settingServices;
+    private readonly IBotStrings strings;
+    private readonly InteractiveService interactivity;
+    private readonly IDataCache cache;
+    private readonly CommandService commandService;
+    private readonly IServiceProvider services;
+    private readonly GuildSettingsService guildSettings;
+    private readonly CommandHandler commandHandler;
 
     public OwnerOnly(
         DiscordSocketClient client,
@@ -56,18 +56,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         GuildSettingsService guildSettings,
         CommandHandler commandHandler)
     {
-        _interactivity = serv;
-        _client = client;
-        _bot = bot;
-        _strings = strings;
-        _coord = coord;
-        _settingServices = settingServices;
-        _db = db;
-        _cache = cache;
-        _commandService = commandService;
-        _services = services;
-        _guildSettings = guildSettings;
-        _commandHandler = commandHandler;
+        interactivity = serv;
+        this.client = client;
+        this.bot = bot;
+        this.strings = strings;
+        this.coord = coord;
+        this.settingServices = settingServices;
+        this.db = db;
+        this.cache = cache;
+        this.commandService = commandService;
+        this.services = services;
+        this.guildSettings = guildSettings;
+        this.commandHandler = commandHandler;
     }
 
     [Cmd, Aliases]
@@ -75,17 +75,17 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await _guildSettings.GetPrefix(ctx.Guild)}{args}",
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
             Author = user,
             Channel = ctx.Channel
         };
-        _commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await _commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        commandHandler.AddCommandToParseQueue(msg);
+        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
     [Cmd, Aliases]
     public async Task RedisExec([Remainder] string command)
     {
-        var result = await _cache.ExecuteRedisCommand(command).ConfigureAwait(false);
+        var result = await cache.ExecuteRedisCommand(command).ConfigureAwait(false);
         var eb = new EmbedBuilder().WithOkColor().WithTitle(result.Type.ToString()).WithDescription(result.ToString());
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
@@ -94,14 +94,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
         await ctx.Channel.SendErrorAsync($"Affected {affected} rows.").ConfigureAwait(false);
     }
     [Cmd, Aliases]
     public async Task ListServers()
     {
-        var guilds = _client.Guilds;
+        var guilds = client.Guilds;
         var paginator = new LazyPaginatorBuilder()
                         .AddUser(ctx.User)
                         .WithPageFactory(PageFactory)
@@ -111,7 +111,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                         .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -134,7 +134,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
     {
-        var configNames = _settingServices.Select(x => x.Name);
+        var configNames = settingServices.Select(x => x.Name);
 
         // if name is not provided, print available configs
         name = name?.ToLowerInvariant();
@@ -149,7 +149,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             return;
         }
 
-        var setting = _settingServices.FirstOrDefault(x =>
+        var setting = settingServices.FirstOrDefault(x =>
             x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
 
         // if config name is not found, print error and the list of configs
@@ -180,7 +180,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             return;
         }
-        // if the prop is invalid -> print error and list of 
+        // if the prop is invalid -> print error and list of
 
         var exists = propNames.Any(x => x == prop);
 
@@ -197,7 +197,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
 
         // if prop is sent, but value is not, then we have to check
-        // if prop is valid -> 
+        // if prop is valid ->
         if (string.IsNullOrWhiteSpace(value))
         {
             value = setting.GetSetting(prop);
@@ -287,11 +287,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            await ReplyConfirmLocalizedAsync("defprefix_current", await _guildSettings.GetPrefix()).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("defprefix_current", await guildSettings.GetPrefix()).ConfigureAwait(false);
             return;
         }
 
-        var oldPrefix = await _guildSettings.GetPrefix();
+        var oldPrefix = await guildSettings.GetPrefix();
         var newPrefix = Service.SetDefaultPrefix(prefix);
 
         await ReplyConfirmLocalizedAsync("defprefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
@@ -341,7 +341,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) || cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser)ctx.User;
@@ -372,14 +372,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
-        if (cmdText.StartsWith($"{await _guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
             return;
-        var command = _commandService.Search(cmdText.Replace(await _guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
+        var command = commandService.Search(cmdText.Replace(await guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
         if (!command.IsSuccess)
             return;
         foreach (var i in command.Commands)
         {
-            if (!(await i.CheckPreconditionsAsync(ctx, _services).ConfigureAwait(false)).IsSuccess)
+            if (!(await i.CheckPreconditionsAsync(ctx, services).ConfigureAwait(false)).IsSuccess)
                 return;
         }
         var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
@@ -547,7 +547,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task ShardStats()
     {
-        var statuses = _coord.GetAllShardStatuses();
+        var statuses = coord.GetAllShardStatuses();
 
         var status = string.Join(" : ", statuses
             .Select(x => (ConnectionStateToEmoji(x), x))
@@ -575,7 +575,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -608,7 +608,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task RestartShard(int shardId)
     {
-        var success = _coord.RestartShard(shardId);
+        var success = coord.RestartShard(shardId);
         if (success)
             await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}")).ConfigureAwait(false);
         else
@@ -633,13 +633,13 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await Task.Delay(2000).ConfigureAwait(false);
         Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
         Environment.SetEnvironmentVariable("AFK_CACHED", "0");
-        _coord.Die();
+        coord.Die();
     }
 
     [Cmd, Aliases]
     public async Task Restart()
     {
-        var success = _coord.RestartBot();
+        var success = coord.RestartBot();
         if (!success)
         {
             await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
@@ -664,7 +664,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         try
         {
-            await _client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
+            await client.CurrentUser.ModifyAsync(u => u.Username = newName).ConfigureAwait(false);
         }
         catch (RateLimitedException)
         {
@@ -677,7 +677,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task SetStatus([Remainder] SettableUserStatus status)
     {
-        await _client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
+        await client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
         await ReplyConfirmLocalizedAsync("bot_status", Format.Bold(status.ToString())).ConfigureAwait(false);
     }
@@ -697,7 +697,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithDefault(Context)
             .Build();
 
-        await _bot.SetGameAsync(game == null ? game : rep.Replace(game), type).ConfigureAwait(false);
+        await bot.SetGameAsync(game == null ? game : rep.Replace(game), type).ConfigureAwait(false);
 
         await ReplyConfirmLocalizedAsync("set_game").ConfigureAwait(false);
     }
@@ -707,7 +707,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         name ??= "";
 
-        await _client.SetGameAsync(name, url, ActivityType.Streaming).ConfigureAwait(false);
+        await client.SetGameAsync(name, url, ActivityType.Streaming).ConfigureAwait(false);
 
         await ReplyConfirmLocalizedAsync("set_stream").ConfigureAwait(false);
     }
@@ -723,11 +723,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         RestGuild potentialServer;
         try
         {
-            potentialServer = await _client.Rest.GetGuildAsync(whereOrTo).ConfigureAwait(false);
+            potentialServer = await client.Rest.GetGuildAsync(whereOrTo).ConfigureAwait(false);
         }
         catch
         {
-            var potentialUser = _client.GetUser(whereOrTo);
+            var potentialUser = client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
                 await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!").ConfigureAwait(false);
@@ -792,7 +792,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task StringsReload()
     {
-        _strings.Reload();
+        strings.Reload();
         await ReplyConfirmLocalizedAsync("bot_strings_reloaded").ConfigureAwait(false);
     }
 

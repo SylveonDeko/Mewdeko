@@ -14,11 +14,11 @@ public partial class Gambling
     [Group]
     public class WaifuClaimCommands : GamblingSubmodule<WaifuService>
     {
-        private readonly InteractiveService _interactivity;
+        private readonly InteractiveService interactivity;
 
         public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(
             gamblingConfService) =>
-            _interactivity = serv;
+            interactivity = serv;
 
         [Cmd, Aliases]
         public async Task WaifuReset()
@@ -287,7 +287,7 @@ public partial class Gambling
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

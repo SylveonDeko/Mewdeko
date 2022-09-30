@@ -33,7 +33,7 @@ namespace Mewdeko;
 
 public class Mewdeko
 {
-    private readonly DbService _db;
+    private readonly DbService db;
 
     public Mewdeko(int shardId)
     {
@@ -42,10 +42,10 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-        _db = new DbService(Credentials.TotalShards);
-        
+        db = new DbService(Credentials.TotalShards);
 
-        if (shardId == 0) _db.Setup();
+
+        if (shardId == 0) db.Setup();
 
         Client = new DiscordSocketClient(new DiscordSocketConfig
         {
@@ -82,7 +82,7 @@ public class Mewdeko
 
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
-    
+
 
     private void AddServices()
     {
@@ -90,15 +90,15 @@ public class Mewdeko
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
 
-        using var uow = _db.GetDbContext();
-        var guildSettingsService = new GuildSettingsService(_db, null, Client);
+        using var uow = db.GetDbContext();
+        var guildSettingsService = new GuildSettingsService(db, null, Client);
         uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
         Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
 
         var s = new ServiceCollection()
                 .AddSingleton<IBotCredentials>(Credentials)
-                .AddSingleton(_db)
+                .AddSingleton(db)
                 .AddSingleton(Client)
                 .AddSingleton(new EventHandler(Client))
                 .AddSingleton(CommandService)
@@ -292,7 +292,7 @@ public class Mewdeko
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
 
             GuildConfig gc;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 gc = await uow.ForGuildId(arg.Id);
@@ -361,7 +361,7 @@ public class Mewdeko
         if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
             await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
 #endif
-        
+
 
         _ = Task.Run(HandleStatusChanges);
         _ = Task.Run(ExecuteReadySubscriptions);

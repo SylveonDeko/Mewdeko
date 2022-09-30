@@ -8,19 +8,19 @@ namespace Mewdeko.Services.Impl;
 
 public class RedisLocalDataCache : ILocalDataCache
 {
-    private const string QUESTIONS_FILE = "data/trivia_questions.json";
-    private readonly ConnectionMultiplexer _con;
-    private readonly IBotCredentials _creds;
+    private const string QuestionsFile = "data/trivia_questions.json";
+    private readonly ConnectionMultiplexer con;
+    private readonly IBotCredentials creds;
 
     public RedisLocalDataCache(ConnectionMultiplexer con, IBotCredentials creds, int shardId)
     {
-        _con = con;
-        _creds = creds;
+        this.con = con;
+        this.creds = creds;
 
         if (shardId != 0) return;
         try
         {
-            TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(QUESTIONS_FILE));
+            TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(QuestionsFile));
         }
         catch (Exception ex)
         {
@@ -29,7 +29,7 @@ public class RedisLocalDataCache : ILocalDataCache
         }
     }
 
-    private IDatabase Db => _con.GetDatabase();
+    private IDatabase Db => con.GetDatabase();
 
     public TriviaQuestion[] TriviaQuestions
     {
@@ -37,7 +37,7 @@ public class RedisLocalDataCache : ILocalDataCache
         private set => Set("trivia_questions", value);
     }
 
-    private T Get<T>(string key) where T : class => JsonConvert.DeserializeObject<T>(Db.StringGet($"{_creds.RedisKey()}_localdata_{key}"));
+    private T Get<T>(string key) where T : class => JsonConvert.DeserializeObject<T>(Db.StringGet($"{creds.RedisKey()}_localdata_{key}"));
 
-    private void Set(string key, object obj) => Db.StringSet($"{_creds.RedisKey()}_localdata_{key}", JsonConvert.SerializeObject(obj));
+    private void Set(string key, object obj) => Db.StringSet($"{creds.RedisKey()}_localdata_{key}", JsonConvert.SerializeObject(obj));
 }

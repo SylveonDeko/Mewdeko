@@ -2,21 +2,21 @@
 
 public class Betroll
 {
-    private readonly Random _rng;
+    private readonly Random rng;
 
-    private readonly IOrderedEnumerable<GamblingConfig.BetRollConfig.Pair> _thresholdPairs;
+    private readonly IOrderedEnumerable<GamblingConfig.BetRollConfig.Pair> thresholdPairs;
 
     public Betroll(GamblingConfig.BetRollConfig settings)
     {
-        _thresholdPairs = settings.Pairs.OrderByDescending(x => x.WhenAbove);
-        _rng = new Random();
+        thresholdPairs = settings.Pairs.OrderByDescending(x => x.WhenAbove);
+        rng = new Random();
     }
 
     public Result Roll()
     {
-        var roll = _rng.Next(0, 101);
+        var roll = rng.Next(0, 101);
 
-        var pair = _thresholdPairs.FirstOrDefault(x => x.WhenAbove < roll);
+        var pair = thresholdPairs.FirstOrDefault(x => x.WhenAbove < roll);
         if (pair is null)
         {
             return new Result

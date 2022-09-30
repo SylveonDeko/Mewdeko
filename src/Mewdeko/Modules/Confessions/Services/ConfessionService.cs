@@ -4,15 +4,15 @@ namespace Mewdeko.Modules.Confessions.Services;
 
 public class ConfessionService : INService
 {
-    private readonly DbService _db;
-    private readonly DiscordSocketClient _client;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DbService db;
+    private readonly DiscordSocketClient client;
+    private readonly GuildSettingsService guildSettings;
     public ConfessionService(DbService db, DiscordSocketClient client,
         GuildSettingsService guildSettings)
     {
-        _db = db;
-        _client = client;
-        _guildSettings = guildSettings;
+        this.db = db;
+        this.client = client;
+        this.guildSettings = guildSettings;
     }
 
     public async Task SendConfession(
@@ -21,17 +21,17 @@ public class ConfessionService : INService
         string confession,
         IMessageChannel currentChannel, IInteractionContext ctx = null, string? imageUrl = null)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         var confessions = uow.Confessions.ForGuild(serverId);
         if (confessions.Count > 0)
         {
-            var guild = _client.GetGuild(serverId);
+            var guild = client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
-            var currentUser = guild.GetUser(_client.CurrentUser.Id);
-            var confessionChannel = guild.GetTextChannel((await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel);
+            var currentUser = guild.GetUser(client.CurrentUser.Id);
+            var confessionChannel = guild.GetTextChannel((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel);
             if (confessionChannel is null)
             {
-                if (ctx is not null)
+                if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
                         "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
@@ -53,7 +53,7 @@ public class ConfessionService : INService
             var perms = currentUser.GetPermissions(confessionChannel);
             if (!perms.EmbedLinks || !perms.SendMessages)
             {
-                if (ctx is not null)
+                if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
                         "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
@@ -65,7 +65,7 @@ public class ConfessionService : INService
             }
 
             var msg = await confessionChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            if (ctx is not null)
+            if (ctx?.Interaction is not null)
             {
                 await ctx.Interaction.SendEphemeralConfirmAsync("Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`").ConfigureAwait(false);
             }
@@ -100,8 +100,8 @@ public class ConfessionService : INService
         }
         else
         {
-            var guild = _client.GetGuild(serverId);
-            var currentUser = guild.GetUser(_client.CurrentUser.Id);
+            var guild = client.GetGuild(serverId);
+            var currentUser = guild.GetUser(client.CurrentUser.Id);
             var confessionChannel = guild.GetTextChannel(await GetConfessionChannel(guild.Id));
             if (confessionChannel is null)
             {
@@ -176,19 +176,19 @@ public class ConfessionService : INService
 
     public async Task SetConfessionChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetConfessionChannel(ulong id)
-        => (await _guildSettings.GetGuildConfig(id)).ConfessionChannel;
+        => (await guildSettings.GetGuildConfig(id)).ConfessionChannel;
 
     public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         var blacklists = gc.GetConfessionBlacklists();
         if (!blacklists.Remove(roleId))
@@ -196,20 +196,20 @@ public class ConfessionService : INService
 
         gc.SetConfessionBlacklists(blacklists);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guildId, gc);
+        guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionLogChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetConfessionLogChannel(ulong id)
-        => (await _guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
+        => (await guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
 }
 
 public static class ConfessionExtensions

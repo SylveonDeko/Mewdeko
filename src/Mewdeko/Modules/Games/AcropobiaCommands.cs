@@ -12,9 +12,9 @@ public partial class Games
     [Group]
     public class AcropobiaCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient _client;
+        private readonly DiscordSocketClient client;
 
-        public AcropobiaCommands(DiscordSocketClient client) => _client = client;
+        public AcropobiaCommands(DiscordSocketClient client) => this.client = client;
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(AcrophobiaGame.Options))]
@@ -32,12 +32,12 @@ public partial class Games
                     game.OnEnded += Game_OnEnded;
                     game.OnVotingStarted += Game_OnVotingStarted;
                     game.OnUserVoted += Game_OnUserVoted;
-                    _client.MessageReceived += ClientMessageReceived;
+                    client.MessageReceived += ClientMessageReceived;
                     await game.Run().ConfigureAwait(false);
                 }
                 finally
                 {
-                    _client.MessageReceived -= ClientMessageReceived;
+                    client.MessageReceived -= ClientMessageReceived;
                     Service.AcrophobiaGames.TryRemove(channel.Id, out game);
                     game.Dispose();
                 }

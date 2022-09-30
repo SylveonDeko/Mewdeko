@@ -1,6 +1,4 @@
-﻿
-
-#nullable enable
+﻿#nullable enable
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;

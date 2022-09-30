@@ -6,25 +6,25 @@ namespace Mewdeko.Services.Impl;
 
 public class SingleProcessCoordinator : ICoordinator
 {
-    private readonly DiscordSocketClient _client;
-    private readonly IBotCredentials _creds;
+    private readonly DiscordSocketClient client;
+    private readonly IBotCredentials creds;
 
     public SingleProcessCoordinator(IBotCredentials creds, DiscordSocketClient client)
     {
-        _creds = creds;
-        _client = client;
+        this.creds = creds;
+        this.client = client;
     }
 
     public bool RestartBot()
     {
-        if (string.IsNullOrWhiteSpace(_creds.RestartCommand.Cmd)
-            || string.IsNullOrWhiteSpace(_creds.RestartCommand.Args))
+        if (string.IsNullOrWhiteSpace(creds.RestartCommand.Cmd)
+            || string.IsNullOrWhiteSpace(creds.RestartCommand.Args))
         {
             Log.Error("You must set RestartCommand.Cmd and RestartCommand.Args in creds.yml");
             return false;
         }
 
-        Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
+        Process.Start(creds.RestartCommand.Cmd, creds.RestartCommand.Args);
         _ = Task.Run(async () =>
         {
             await Task.Delay(2000).ConfigureAwait(false);
@@ -42,14 +42,14 @@ public class SingleProcessCoordinator : ICoordinator
         {
             new ShardStatus
             {
-                ConnectionState = _client.ConnectionState,
-                GuildCount = _client.Guilds.Count,
+                ConnectionState = client.ConnectionState,
+                GuildCount = client.Guilds.Count,
                 LastUpdate = DateTime.UtcNow,
-                ShardId = _client.ShardId,
-                UserCount = _client.Guilds.SelectMany(x => x.Users).Distinct().Count()
+                ShardId = client.ShardId,
+                UserCount = client.Guilds.SelectMany(x => x.Users).Distinct().Count()
             }
         };
 
-    public int GetGuildCount() => _client.Guilds.Count;
-    public int GetUserCount() => _client.Guilds.SelectMany(x => x.Users).Distinct().Count();
+    public int GetGuildCount() => client.Guilds.Count;
+    public int GetUserCount() => client.Guilds.SelectMany(x => x.Users).Distinct().Count();
 }

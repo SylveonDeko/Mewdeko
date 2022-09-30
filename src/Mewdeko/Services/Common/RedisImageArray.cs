@@ -4,16 +4,16 @@ namespace Mewdeko.Services.Common;
 
 public sealed class RedisImageArray : IReadOnlyList<byte[]>
 {
-    private readonly ConnectionMultiplexer _con;
+    private readonly ConnectionMultiplexer con;
 
-    private readonly Lazy<byte[][]> _data;
-    private readonly string _key;
+    private readonly Lazy<byte[][]> data;
+    private readonly string key;
 
     public RedisImageArray(string key, ConnectionMultiplexer con)
     {
-        _con = con;
-        _key = key;
-        _data = new Lazy<byte[][]>(() => _con.GetDatabase().ListRange(_key).Select(x => (byte[])x).ToArray(),
+        this.con = con;
+        this.key = key;
+        data = new Lazy<byte[][]>(() => this.con.GetDatabase().ListRange(this.key).Select(x => (byte[])x).ToArray(),
             true);
     }
 
@@ -24,19 +24,19 @@ public sealed class RedisImageArray : IReadOnlyList<byte[]>
             if (index < 0)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            return _con.GetDatabase().ListGetByIndex(_key, index);
+            return con.GetDatabase().ListGetByIndex(key, index);
         }
     }
 
-    public int Count => _data.IsValueCreated
-        ? _data.Value.Length
-        : (int)_con.GetDatabase().ListLength(_key);
+    public int Count => data.IsValueCreated
+        ? data.Value.Length
+        : (int)con.GetDatabase().ListLength(key);
 
     public IEnumerator<byte[]> GetEnumerator()
     {
-        foreach (var t in _data.Value)
+        foreach (var t in data.Value)
             yield return t;
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => _data.Value.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => data.Value.GetEnumerator();
 }

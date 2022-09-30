@@ -11,19 +11,19 @@ namespace Mewdeko.Modules.Highlights;
 [Group("highlights", "Set or manage highlights")]
 public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 {
-    private readonly InteractiveService _interactivity;
-    private readonly DbService _db;
+    private readonly InteractiveService interactivity;
+    private readonly DbService db;
 
     public SlashHighlights(InteractiveService interactivity, DbService db)
     {
-        _interactivity = interactivity;
-        _db = db;
+        this.interactivity = interactivity;
+        this.db = db;
     }
 
     [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         if (string.IsNullOrWhiteSpace(words))
         {
@@ -45,7 +45,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ListHighlights()
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         if (highlightsForUser.Count == 0)
@@ -63,7 +63,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
+        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -86,7 +86,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         if (highlightsForUser.Count == 0)
@@ -127,7 +127,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
@@ -146,7 +146,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory1(int page)

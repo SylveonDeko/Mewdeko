@@ -24,27 +24,27 @@ public partial class Searches
     public class AnimeCommands : MewdekoSubmodule
     {
         public readonly NekosBestApi NekosBestApi;
-        private readonly MartineApi _martineApi;
-        private readonly InteractiveService _interactivity;
-        private readonly HttpClient _httpClient;
-        private readonly BotConfigService _config;
+        private readonly MartineApi martineApi;
+        private readonly InteractiveService interactivity;
+        private readonly HttpClient httpClient;
+        private readonly BotConfigService config;
 
         public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi,
             HttpClient httpClient,
             BotConfigService config)
         {
-            _interactivity = service;
-            _martineApi = martineApi;
+            interactivity = service;
+            this.martineApi = martineApi;
             NekosBestApi = nekosBestApi;
-            _httpClient = httpClient;
-            _config = config;
+            this.httpClient = httpClient;
+            this.config = config;
         }
 
         [Cmd, Aliases]
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
             var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
             var ms = new MemoryStream(bytes);
             await using var _ = ms.ConfigureAwait(false);
@@ -81,7 +81,7 @@ public partial class Searches
         public async Task Ship(IUser user)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await _martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
             var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
             var ms = new MemoryStream(bytes);
             await using var _ = ms.ConfigureAwait(false);
@@ -260,7 +260,7 @@ public partial class Searches
             }
 
             var c2 = new Client();
-            var response = await _httpClient.PostAsync(
+            var response = await httpClient.PostAsync(
                 $"https://api.trace.moe/search?url={t}", null).ConfigureAwait(false);
             var responseContent = response.Content;
             using var reader = new StreamReader(await responseContent.ReadAsStreamAsync().ConfigureAwait(false));
@@ -370,7 +370,7 @@ public partial class Searches
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{_config.Data.LoadingEmote} Getting results for {query}...").ConfigureAwait(false);
+                $"{config.Data.LoadingEmote} Getting results for {query}...").ConfigureAwait(false);
             IJikan jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
@@ -383,7 +383,7 @@ public partial class Searches
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                             .Build();
             await msg.DeleteAsync().ConfigureAwait(false);
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

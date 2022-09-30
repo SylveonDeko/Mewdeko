@@ -4,21 +4,21 @@ namespace Mewdeko.Modules.RoleGreets.Services;
 
 public class RoleGreetService : INService
 {
-    private readonly DbService _db;
-    private readonly DiscordSocketClient _client;
+    private readonly DbService db;
+    private readonly DiscordSocketClient client;
 
     public RoleGreetService(DbService db, DiscordSocketClient client, EventHandler eventHandler)
     {
-        _client = client;
-        _db = db;
+        this.client = client;
+        this.db = db;
         eventHandler.GuildMemberUpdated += DoRoleGreet;
     }
 
-    public async Task<RoleGreet[]> GetGreets(ulong roleId) => await _db.GetDbContext().RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
+    public async Task<RoleGreet[]> GetGreets(ulong roleId) => await db.GetDbContext().RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
 
     // ReSharper disable once ReturnTypeCanBeNotNullable
     public RoleGreet[]? GetListGreets(ulong guildId) =>
-        _db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
+        db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
     private async Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
@@ -56,7 +56,7 @@ public class RoleGreetService : INService
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
         if (!checkGreets.Any())
             return;
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(_client).WithServer(_client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in checkGreets)
         {
             if (i.Disabled)
@@ -108,7 +108,7 @@ public class RoleGreetService : INService
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
         if (!checkGreets.Any())
             return;
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(_client).WithServer(_client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in checkGreets)
         {
             if (i.WebhookUrl == null)
@@ -164,7 +164,7 @@ public class RoleGreetService : INService
         if ((await GetGreets(guildId)).Length == 10)
             return false;
         var toadd = new RoleGreet { ChannelId = channelId, GuildId = guildId, RoleId = roleId };
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         uow.RoleGreets.Add(toadd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         return true;
@@ -172,7 +172,7 @@ public class RoleGreetService : INService
 
     public async Task ChangeMgMessage(RoleGreet greet, string code)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         greet.Message = code;
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -180,7 +180,7 @@ public class RoleGreetService : INService
 
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         greet.Disabled = disabled;
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -188,14 +188,14 @@ public class RoleGreetService : INService
 
     public async Task ChangeRgDelete(RoleGreet greet, int howlong)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         greet.DeleteTime = howlong;
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         greet.WebhookUrl = webhookurl;
         uow.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -203,7 +203,7 @@ public class RoleGreetService : INService
 
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         greet.GreetBots = enabled;
         uow.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -211,13 +211,13 @@ public class RoleGreetService : INService
 
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         uow.RoleGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         uow.RoleGreets.RemoveRange(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

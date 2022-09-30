@@ -11,21 +11,21 @@ public partial class Games
     [Group]
     public class TriviaCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly IDataCache _cache;
-        private readonly DiscordSocketClient _client;
-        private readonly ICurrencyService _cs;
-        private readonly GamesConfigService _gamesConfig;
-        private readonly GuildSettingsService _guildSettings;
+        private readonly IDataCache cache;
+        private readonly DiscordSocketClient client;
+        private readonly ICurrencyService cs;
+        private readonly GamesConfigService gamesConfig;
+        private readonly GuildSettingsService guildSettings;
 
         public TriviaCommands(DiscordSocketClient client, IDataCache cache, ICurrencyService cs,
             GamesConfigService gamesConfig,
             GuildSettingsService guildSettings)
         {
-            _cache = cache;
-            _cs = cs;
-            _gamesConfig = gamesConfig;
-            _guildSettings = guildSettings;
-            _client = client;
+            this.cache = cache;
+            this.cs = cs;
+            this.gamesConfig = gamesConfig;
+            this.guildSettings = guildSettings;
+            this.client = client;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0),
@@ -38,10 +38,10 @@ public partial class Games
 
             var (opts, _) = OptionsParser.ParseFrom(new TriviaOptions(), args);
 
-            var config = _gamesConfig.Data;
+            var config = gamesConfig.Data;
             if (config.Trivia.MinimumWinReq > 0 && config.Trivia.MinimumWinReq > opts.WinRequirement) return;
-            var trivia = new TriviaGame(Strings, _client, config, _cache, _cs, channel.Guild, channel, opts,
-                $"{await _guildSettings.GetPrefix(ctx.Guild)}tq");
+            var trivia = new TriviaGame(Strings, client, config, cache, cs, channel.Guild, channel, opts,
+                $"{await guildSettings.GetPrefix(ctx.Guild)}tq");
             if (Service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
             {
                 try

@@ -32,13 +32,13 @@ public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
 
 public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
 {
-    private readonly DiscordSocketClient _client;
-    private readonly CommandService _cmds;
+    private readonly DiscordSocketClient client;
+    private readonly CommandService cmds;
 
     public CommandOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
     {
-        _client = client;
-        _cmds = cmds;
+        this.client = client;
+        this.cmds = cmds;
     }
 
     public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
@@ -52,7 +52,7 @@ public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
         if (crs.ReactionExists(context.Guild?.Id, input))
             return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
 
-        var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services)
+        var cmd = await new CommandTypeReader(client, cmds).ReadAsync(context, input, services)
             .ConfigureAwait(false);
         if (cmd.IsSuccess)
         {

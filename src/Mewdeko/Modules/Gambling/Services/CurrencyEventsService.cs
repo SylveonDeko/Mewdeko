@@ -6,27 +6,27 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public class CurrencyEventsService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly GamblingConfigService _configService;
-    private readonly ICurrencyService _cs;
-    private readonly EventHandler _eventHandler;
+    private readonly DiscordSocketClient client;
+    private readonly GamblingConfigService configService;
+    private readonly ICurrencyService cs;
+    private readonly EventHandler eventHandler;
 
-    private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
+    private readonly ConcurrentDictionary<ulong, ICurrencyEvent> events =
         new();
 
     public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService configService,
         EventHandler eventHandler)
     {
-        _client = client;
-        _cs = cs;
-        _configService = configService;
-        _eventHandler = eventHandler;
+        this.client = client;
+        this.cs = cs;
+        this.configService = configService;
+        this.eventHandler = eventHandler;
     }
 
     public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, CurrencyEvent.Type type,
         EventOptions opts, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed)
     {
-        var g = _client.GetGuild(guildId);
+        var g = client.GetGuild(guildId);
         if (g?.GetChannel(channelId) is not SocketTextChannel ch)
             return false;
 
@@ -35,16 +35,16 @@ public class CurrencyEventsService : INService
         switch (type)
         {
             case CurrencyEvent.Type.Reaction:
-                ce = new ReactionEvent(_cs, g, ch, opts, _configService.Data, embed, _eventHandler);
+                ce = new ReactionEvent(cs, g, ch, opts, configService.Data, embed, eventHandler);
                 break;
             case CurrencyEvent.Type.GameStatus:
-                ce = new GameStatusEvent(_client, _cs, g, ch, opts, embed, _eventHandler);
+                ce = new GameStatusEvent(client, cs, g, ch, opts, embed, eventHandler);
                 break;
             default:
                 return false;
         }
 
-        var added = _events.TryAdd(guildId, ce);
+        var added = events.TryAdd(guildId, ce);
         if (!added) return added;
         try
         {
@@ -54,7 +54,7 @@ public class CurrencyEventsService : INService
         catch (Exception ex)
         {
             Log.Warning(ex, "Error starting event");
-            _events.TryRemove(guildId, out ce);
+            events.TryRemove(guildId, out ce);
             return false;
         }
 
@@ -63,7 +63,7 @@ public class CurrencyEventsService : INService
 
     private Task OnEventEnded(ulong gid)
     {
-        _events.TryRemove(gid, out _);
+        events.TryRemove(gid, out _);
         return Task.CompletedTask;
     }
 

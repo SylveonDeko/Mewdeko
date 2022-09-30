@@ -7,21 +7,21 @@ namespace Mewdeko.Services.strings.impl;
 
 public class BotStrings : IBotStrings
 {
-    private readonly ILocalization _localization;
-    private readonly IBotStringsProvider _stringsProvider;
+    private readonly ILocalization localization;
+    private readonly IBotStringsProvider stringsProvider;
 
     /// <summary>
     ///     Used as failsafe in case response key doesn't exist in the selected or default language.
     /// </summary>
-    private readonly CultureInfo? _usCultureInfo = new("en-US");
+    private readonly CultureInfo? usCultureInfo = new("en-US");
 
     public BotStrings(ILocalization loc, IBotStringsProvider stringsProvider)
     {
-        _localization = loc;
-        _stringsProvider = stringsProvider;
+        localization = loc;
+        this.stringsProvider = stringsProvider;
     }
 
-    public string? GetText(string? key, ulong? guildId = null, params object?[] data) => GetText(key, _localization.GetCultureInfo(guildId), data);
+    public string? GetText(string? key, ulong? guildId = null, params object?[] data) => GetText(key, localization.GetCultureInfo(guildId), data);
 
     public string? GetText(string? key, CultureInfo? cultureInfo, params object?[] data)
     {
@@ -36,26 +36,26 @@ public class BotStrings : IBotStrings
             Log.Warning(
                 " Key '{Key}' is not properly formatted in '{LanguageName}' response strings. Please report this",
                 key, cultureInfo.Name);
-            if (cultureInfo.Name != _usCultureInfo.Name)
-                return GetText(key, _usCultureInfo, data);
+            if (cultureInfo.Name != usCultureInfo.Name)
+                return GetText(key, usCultureInfo, data);
             return
                 $"I can't tell you if the command is executed, because there was an error printing out the response.\nKey '{key}' is not properly formatted. Please report this.";
         }
     }
 
-    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) => GetCommandStrings(commandName, _localization.GetCultureInfo(guildId));
+    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) => GetCommandStrings(commandName, localization.GetCultureInfo(guildId));
 
     public CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
     {
-        var cmdStrings = _stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
+        var cmdStrings = stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
         if (cmdStrings is not null) return cmdStrings;
         if (cultureInfo.Name == "owo")
         {
-            cmdStrings = _stringsProvider.GetCommandStrings("en-US", commandName);
+            cmdStrings = stringsProvider.GetCommandStrings("en-US", commandName);
             cmdStrings.Desc = OwoServices.OwoIfy(cmdStrings.Desc);
             cmdStrings.Args = cmdStrings.Args.Select(x => OwoServices.OwoIfy(x)).ToArray();
         }
-        if (cultureInfo.Name != _usCultureInfo.Name) return GetCommandStrings(commandName, _usCultureInfo);
+        if (cultureInfo.Name != usCultureInfo.Name) return GetCommandStrings(commandName, usCultureInfo);
         Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
             commandName);
 
@@ -66,9 +66,9 @@ public class BotStrings : IBotStrings
         };
     }
 
-    public void Reload() => _stringsProvider.Reload();
+    public void Reload() => stringsProvider.Reload();
 
-    private string? GetString(string? key, CultureInfo? cultureInfo) => _stringsProvider.GetText(cultureInfo.Name, key);
+    private string? GetString(string? key, CultureInfo? cultureInfo) => stringsProvider.GetText(cultureInfo.Name, key);
 
     public string GetText(string? key, CultureInfo? cultureInfo)
     {
@@ -77,11 +77,11 @@ public class BotStrings : IBotStrings
         if (string.IsNullOrWhiteSpace(text))
         {
             if (cultureInfo.Name == "owo")
-                return OwoServices.OwoIfy(GetString(key, _usCultureInfo));
+                return OwoServices.OwoIfy(GetString(key, usCultureInfo));
             Log.Warning(
                 "'{Key}' key is missing from '{LanguageName}' response strings. You may ignore this message", key,
                 cultureInfo.Name);
-            text = GetString(key, _usCultureInfo) ?? $"Error: dkey {key} not found!";
+            text = GetString(key, usCultureInfo) ?? $"Error: dkey {key} not found!";
             if (string.IsNullOrWhiteSpace(text))
             {
                 return

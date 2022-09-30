@@ -10,7 +10,7 @@ public partial class Administration
     [Group]
     public class LocalizationCommands : MewdekoSubmodule
     {
-        private static readonly IReadOnlyDictionary<string, string> _supportedLocales =
+        private static readonly IReadOnlyDictionary<string, string> SupportedLocales =
             new Dictionary<string, string>
             {
                 {"ar", "العربية"},
@@ -108,10 +108,10 @@ public partial class Administration
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .WithTitle(GetText("lang_list"))
                                                            .WithDescription(string.Join("\n",
-                                                               _supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
+                                                               SupportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
     }
 }
-/* list of language codes for reference. 
+/* list of language codes for reference.
  * taken from https://github.com/dotnet/coreclr/blob/ee5862c6a257e60e263537d975ab6c513179d47f/src/mscorlib/src/System/Globalization/CultureData.cs#L192
             { "029", "en-029" },
             { "AE",  "ar-AE" },

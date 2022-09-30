@@ -9,11 +9,11 @@ namespace Mewdeko.Services.Settings;
 /// </summary>
 public sealed class BotConfigService : ConfigServiceBase<BotConfig>
 {
-    private const string FILE_PATH = "data/bot.yml";
-    private static readonly TypedKey<BotConfig> _changeKey = new("config.bot.updated");
+    private const string FilePath = "data/bot.yml";
+    private static readonly TypedKey<BotConfig> ChangeKey = new("config.bot.updated");
 
     public BotConfigService(IConfigSeria serializer, IPubSub pubSub)
-        : base(FILE_PATH, serializer, pubSub, _changeKey)
+        : base(FilePath, serializer, pubSub, ChangeKey)
     {
         AddParsedProp("color.ok", bs => bs.Color.Ok, Rgba32.TryParseHex, ConfigPrinters.Color);
         AddParsedProp("color.error", bs => bs.Color.Error, Rgba32.TryParseHex, ConfigPrinters.Color);
@@ -28,6 +28,7 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("successemote", bs => bs.SuccessEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("erroremote", bs => bs.ErrorEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("supportserver", bs => bs.SupportServer, ConfigParsers.String, ConfigPrinters.ToString);
 
         UpdateColors();
     }
@@ -41,7 +42,7 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         Mewdeko.OkColor = new Color(ok.R, ok.G, ok.B);
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }
-    
+
 
     protected override void OnStateUpdate() => UpdateColors();
 }

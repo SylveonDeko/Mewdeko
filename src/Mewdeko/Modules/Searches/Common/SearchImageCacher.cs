@@ -9,23 +9,23 @@ namespace Mewdeko.Modules.Searches.Common;
 
 public class SearchImageCacher
 {
-    private static readonly List<string> _defaultTagBlacklist = new()
+    private static readonly List<string> DefaultTagBlacklist = new()
     {
         "loli",
         "lolicon",
         "shota"
     };
 
-    private readonly SortedSet<ImageCacherObject> _cache;
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly SemaphoreSlim _lock = new(1, 1);
-    private readonly Random _rng;
+    private readonly SortedSet<ImageCacherObject> cache;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly SemaphoreSlim @lock = new(1, 1);
+    private readonly Random rng;
 
     public SearchImageCacher(IHttpClientFactory http)
     {
-        _httpFactory = http;
-        _rng = new Random();
-        _cache = new SortedSet<ImageCacherObject>();
+        httpFactory = http;
+        rng = new Random();
+        cache = new SortedSet<ImageCacherObject>();
     }
 
     public async Task<ImageCacherObject>? GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
@@ -35,7 +35,7 @@ public class SearchImageCacher
 
         blacklistedTags ??= new HashSet<string>();
 
-        foreach (var item in _defaultTagBlacklist) blacklistedTags.Add(item);
+        foreach (var item in DefaultTagBlacklist) blacklistedTags.Add(item);
 
         blacklistedTags = blacklistedTags.Select(t => t.ToLowerInvariant()).ToHashSet();
 
@@ -48,19 +48,19 @@ public class SearchImageCacher
                 .ToArray();
         }
 
-        await _lock.WaitAsync().ConfigureAwait(false);
+        await @lock.WaitAsync().ConfigureAwait(false);
         try
         {
             ImageCacherObject[] imgs;
             if (tags.Length > 0)
             {
-                imgs = _cache.Where(x =>
+                imgs = cache.Where(x =>
                                     x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e"))
                                 .ToArray();
             }
             else
             {
-                imgs = _cache.Where(x => x.SearchType == type).ToArray();
+                imgs = cache.Where(x => x.SearchType == type).ToArray();
             }
 
             imgs = imgs.Where(x => x.Tags.All(t => !blacklistedTags.Contains(t.ToLowerInvariant()))).ToArray();
@@ -68,11 +68,11 @@ public class SearchImageCacher
             if (imgs.Length == 0)
                 img = null;
             else
-                img = imgs[_rng.Next(imgs.Length)];
+                img = imgs[rng.Next(imgs.Length)];
 
             if (img != null)
             {
-                _cache.Remove(img);
+                cache.Remove(img);
                 return img;
             }
             else
@@ -83,11 +83,11 @@ public class SearchImageCacher
                     .ToArray();
                 if (images.Length == 0)
                     return null;
-                var toReturn = images[_rng.Next(images.Length)];
+                var toReturn = images[rng.Next(images.Length)];
                 foreach (var dledImg in images)
                 {
                     if (dledImg != toReturn)
-                        _cache.Add(dledImg);
+                        cache.Add(dledImg);
                 }
 
                 return toReturn;
@@ -95,7 +95,7 @@ public class SearchImageCacher
         }
         finally
         {
-            _lock.Release();
+            @lock.Release();
         }
     }
 
@@ -141,7 +141,7 @@ public class SearchImageCacher
 
         try
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             http.AddFakeHeaders();
             switch (type)
             {
@@ -194,7 +194,7 @@ public class SearchImageCacher
     private async Task<ImageCacherObject[]> LoadXmlAsync(string website, DapiSearchType type)
     {
         var list = new List<ImageCacherObject>();
-        using (var http = _httpFactory.CreateClient())
+        using (var http = httpFactory.CreateClient())
         {
             var stream = await http.GetStreamAsync(website).ConfigureAwait(false);
             await using (stream.ConfigureAwait(false))
@@ -220,7 +220,7 @@ public class SearchImageCacher
         return list.ToArray();
     }
 
-    public void Clear() => _cache.Clear();
+    public void Clear() => cache.Clear();
 }
 
 public class DapiImageObject

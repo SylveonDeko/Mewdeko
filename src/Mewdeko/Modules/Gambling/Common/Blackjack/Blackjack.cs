@@ -13,15 +13,15 @@ public class Blackjack
         Ended
     }
 
-    private readonly ICurrencyService _cs;
+    private readonly ICurrencyService cs;
 
-    private readonly SemaphoreSlim _locker = new(1, 1);
+    private readonly SemaphoreSlim locker = new(1, 1);
 
     private TaskCompletionSource<bool> currentUserMove;
 
     public Blackjack(ICurrencyService cs)
     {
-        _cs = cs;
+        this.cs = cs;
         Dealer = new Dealer();
     }
 
@@ -46,14 +46,14 @@ public class Blackjack
         {
             //wait for players to join
             await Task.Delay(20000).ConfigureAwait(false);
-            await _locker.WaitAsync().ConfigureAwait(false);
+            await locker.WaitAsync().ConfigureAwait(false);
             try
             {
                 State = GameState.Playing;
             }
             finally
             {
-                _locker.Release();
+                locker.Release();
             }
 
             await PrintState().ConfigureAwait(false);
@@ -118,7 +118,7 @@ public class Blackjack
 
     public async Task<bool> Join(IUser user, long bet)
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             if (State != GameState.Starting)
@@ -127,7 +127,7 @@ public class Blackjack
             if (Players.Count >= 5)
                 return false;
 
-            if (!await _cs.RemoveAsync(user, "BlackJack-gamble", bet, gamble: true).ConfigureAwait(false))
+            if (!await cs.RemoveAsync(user, "BlackJack-gamble", bet, gamble: true).ConfigureAwait(false))
                 return false;
 
             Players.Add(new User(user, bet));
@@ -136,7 +136,7 @@ public class Blackjack
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
@@ -152,7 +152,7 @@ public class Blackjack
 
     public async Task<bool> Stand(User u)
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             if (State != GameState.Playing)
@@ -167,7 +167,7 @@ public class Blackjack
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
@@ -184,7 +184,7 @@ public class Blackjack
                  hw == 17 => true
                  number of aces = 1
                  1 > 17-17 /10 => true
-                
+
                  AA 5
                  That's 17, again soft, since one ace is worth 11, even though another one is 1
                  hw == 17 => true
@@ -235,7 +235,7 @@ public class Blackjack
         foreach (var usr in Players)
         {
             if (usr.State is User.UserState.Won or User.UserState.Blackjack)
-                await _cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, true).ConfigureAwait(false);
+                await cs.AddAsync(usr.DiscordUser.Id, "BlackJack-win", usr.Bet * 2, true).ConfigureAwait(false);
         }
     }
 
@@ -251,7 +251,7 @@ public class Blackjack
 
     public async Task<bool> Double(User u)
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             if (State != GameState.Playing)
@@ -260,7 +260,7 @@ public class Blackjack
             if (CurrentUser != u)
                 return false;
 
-            if (!await _cs.RemoveAsync(u.DiscordUser.Id, "Blackjack-double", u.Bet).ConfigureAwait(false))
+            if (!await cs.RemoveAsync(u.DiscordUser.Id, "Blackjack-double", u.Bet).ConfigureAwait(false))
                 return false;
 
             u.Bet *= 2;
@@ -289,7 +289,7 @@ public class Blackjack
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
@@ -305,7 +305,7 @@ public class Blackjack
 
     public async Task<bool> Hit(User u)
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             if (State != GameState.Playing)
@@ -333,7 +333,7 @@ public class Blackjack
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 

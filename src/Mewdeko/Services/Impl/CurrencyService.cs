@@ -5,16 +5,16 @@ namespace Mewdeko.Services.Impl;
 
 public class CurrencyService : ICurrencyService
 {
-    private readonly IUser _bot;
-    private readonly DbService _db;
-    private readonly GamblingConfigService _gss;
+    private readonly IUser bot;
+    private readonly DbService db;
+    private readonly GamblingConfigService gss;
 
     public CurrencyService(DbService db, DiscordSocketClient c,
         GamblingConfigService gss)
     {
-        _db = db;
-        _gss = gss;
-        _bot = c.CurrentUser;
+        this.db = db;
+        this.gss = gss;
+        bot = c.CurrentUser;
     }
 
     public Task AddAsync(ulong userId, string reason, long amount, bool gamble = false) => InternalAddAsync(userId, null, null, null, reason, amount, gamble);
@@ -31,7 +31,7 @@ public class CurrencyService : ICurrencyService
                     .EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("Received Currency")
-                        .AddField("Amount", amount + _gss.Data.Currency.Sign)
+                        .AddField("Amount", amount + gss.Data.Currency.Sign)
                         .AddField("Reason", reason));
             }
             catch
@@ -52,7 +52,7 @@ public class CurrencyService : ICurrencyService
             throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
 
         var userIdHashSet = new HashSet<ulong>(idArray.Length);
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         for (var i = 0; i < idArray.Length; i++)
         {
             // i have to prevent same user changing more than once as it will cause db error
@@ -87,9 +87,9 @@ public class CurrencyService : ICurrencyService
         uow.CurrencyTransactions.Add(t);
 
         if (!gamble) return result;
-        var t2 = GetCurrencyTransaction(_bot.Id, reason, -amount);
+        var t2 = GetCurrencyTransaction(bot.Id, reason, -amount);
         uow.CurrencyTransactions.Add(t2);
-        uow.TryUpdateCurrencyState(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId,
+        uow.TryUpdateCurrencyState(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId,
             -amount, true);
 
         return result;
@@ -104,7 +104,7 @@ public class CurrencyService : ICurrencyService
                 nameof(amount));
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -118,7 +118,7 @@ public class CurrencyService : ICurrencyService
                 nameof(amount));
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         return result;

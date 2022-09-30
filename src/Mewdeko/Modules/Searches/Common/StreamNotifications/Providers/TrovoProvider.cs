@@ -9,18 +9,18 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class TrovoProvider : Provider
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHttpClientFactory httpClientFactory;
 
     public override FollowedStream.FType Platform
         => FollowedStream.FType.Trovo;
 
-    private readonly Regex _urlRegex = new(@"trovo.live\/(Mewdeko<channel>[\w\d\-_]+)/Mewdeko", RegexOptions.Compiled);
+    private readonly Regex urlRegex = new(@"trovo.live\/(Mewdeko<channel>[\w\d\-_]+)/Mewdeko", RegexOptions.Compiled);
 
-    private readonly IBotCredentials _creds;
+    private readonly IBotCredentials creds;
 
     public TrovoProvider(IHttpClientFactory httpClientFactory, IBotCredentials creds)
     {
-        (_httpClientFactory, _creds) = (httpClientFactory, creds);
+        (this.httpClientFactory, this.creds) = (httpClientFactory, creds);
 
         if (string.IsNullOrWhiteSpace(creds.TrovoClientId))
         {
@@ -30,11 +30,11 @@ If you are experiencing ratelimits, you should create your own application at: h
     }
 
     public override Task<bool> IsValidUrl(string url)
-        => Task.FromResult(_urlRegex.IsMatch(url));
+        => Task.FromResult(urlRegex.IsMatch(url));
 
     public override Task<StreamData> GetStreamDataByUrlAsync(string url)
     {
-        var match = _urlRegex.Match(url);
+        var match = urlRegex.Match(url);
         if (match.Length == 0)
             return Task.FromResult(default(StreamData));
 
@@ -43,9 +43,9 @@ If you are experiencing ratelimits, you should create your own application at: h
 
     public override async Task<StreamData?> GetStreamDataAsync(string login)
     {
-        using var http = _httpClientFactory.CreateClient();
+        using var http = httpClientFactory.CreateClient();
 
-        var trovoClientId = _creds.TrovoClientId;
+        var trovoClientId = creds.TrovoClientId;
 
         if (string.IsNullOrWhiteSpace(trovoClientId))
         {
@@ -74,11 +74,11 @@ If you are experiencing ratelimits, you should create your own application at: h
             if (data is null)
             {
                 Log.Warning("An empty response received while retrieving stream data for trovo.live/{TrovoId}", login);
-                _failingStreams.TryAdd(login, DateTime.UtcNow);
+                FailingStreams.TryAdd(login, DateTime.UtcNow);
                 return null;
             }
 
-            _failingStreams.TryRemove(data.Username, out _);
+            FailingStreams.TryRemove(data.Username, out _);
             return new StreamData
             {
                 IsLive = data.IsLive,
@@ -96,14 +96,14 @@ If you are experiencing ratelimits, you should create your own application at: h
         catch (Exception ex)
         {
             Log.Warning(ex, "Error retrieving stream data for trovo.live/{TrovoId}", login);
-            _failingStreams.TryAdd(login, DateTime.UtcNow);
+            FailingStreams.TryAdd(login, DateTime.UtcNow);
             return null;
         }
     }
 
     public override async Task<IReadOnlyCollection<StreamData?>> GetStreamDataAsync(List<string> usernames)
     {
-        var trovoClientId = _creds.TrovoClientId;
+        var trovoClientId = creds.TrovoClientId;
 
         if (string.IsNullOrWhiteSpace(trovoClientId))
         {

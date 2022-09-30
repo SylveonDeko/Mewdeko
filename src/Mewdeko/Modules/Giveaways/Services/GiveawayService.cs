@@ -8,17 +8,17 @@ namespace Mewdeko.Modules.Giveaways.Services;
 
 public class GiveawayService : INService, IReadyExecutor
 {
-    private readonly DiscordSocketClient _client;
-    private readonly IBotCredentials _creds;
-    private readonly DbService _db;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DiscordSocketClient client;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly GuildSettingsService guildSettings;
     public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds,
         GuildSettingsService guildSettings)
     {
-        _client = client;
-        _db = db;
-        _creds = creds;
-        _guildSettings = guildSettings;
+        this.client = client;
+        this.db = db;
+        this.creds = creds;
+        this.guildSettings = guildSettings;
     }
 
     public async Task OnReadyAsync()
@@ -57,18 +57,18 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<string> GetGiveawayEmote(ulong id)
-        => (await _guildSettings.GetGuildConfig(id)).GiveawayEmote;
+        => (await guildSettings.GetGuildConfig(id)).GiveawayEmote;
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         foreach (var i in g)
         {
             var toupdate = new Database.Models.Giveaways
@@ -93,10 +93,10 @@ public class GiveawayService : INService, IReadyExecutor
 
     private Task<List<Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.Giveaways
             .FromSqlInterpolated(
-                $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
+                $"select * from giveaways where ((serverid >> 22) % {creds.TotalShards}) == {client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
             .ToListAsync();
     }
 
@@ -128,7 +128,7 @@ public class GiveawayService : INService, IReadyExecutor
                 }
                 catch
                 {
-                    //ignored 
+                    //ignored
                 }
             }
             if (reqrolesparsed.Count > 0)
@@ -155,7 +155,7 @@ public class GiveawayService : INService, IReadyExecutor
         if (!string.IsNullOrWhiteSpace(reqroles))
             rem.RestrictTo = reqroles;
 
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             uow.Giveaways.Add(rem);
@@ -170,9 +170,9 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task GiveawayTimerAction(Database.Models.Giveaways r)
     {
-        if (_client.GetGuild(r.ServerId) is not { } guild)
+        if (client.GetGuild(r.ServerId) is not { } guild)
             return;
-        if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is not { } channel)
+        if (client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is not { } channel)
             return;
         IUserMessage ch;
         try
@@ -190,7 +190,7 @@ public class GiveawayService : INService, IReadyExecutor
             return;
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {
@@ -326,9 +326,9 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task GiveawayReroll(Database.Models.Giveaways r)
     {
-        if (_client.GetGuild(r.ServerId) is not { } guild)
+        if (client.GetGuild(r.ServerId) is not { } guild)
             return;
-        if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is not { } channel)
+        if (client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is not { } channel)
             return;
         IUserMessage ch;
         try
@@ -346,7 +346,7 @@ public class GiveawayService : INService, IReadyExecutor
             return;
         }
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {

@@ -7,19 +7,19 @@ namespace Mewdeko.Modules.Administration.Services;
 
 public class AdministrationService : INService
 {
-    private readonly DbService _db;
-    private readonly LogCommandService _logService;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DbService db;
+    private readonly LogCommandService logService;
+    private readonly GuildSettingsService guildSettings;
 
     public AdministrationService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         LogCommandService logService,
-        GuildSettingsService guildSettings, EventHandler handler)
+        GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
-        _db = db;
-        _logService = logService;
-        _guildSettings = guildSettings;
+        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        this.db = db;
+        this.logService = logService;
+        this.guildSettings = guildSettings;
 
         DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
                                                                .Where(g => g.DeleteMessageOnCommand)
@@ -31,7 +31,7 @@ public class AdministrationService : INService
             .ToConcurrent());
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
-    
+
 
 
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
@@ -39,29 +39,29 @@ public class AdministrationService : INService
 
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<ulong> GetStaffRole(ulong id) => (await _guildSettings.GetGuildConfig(id)).StaffRole;
+    public async Task<ulong> GetStaffRole(ulong id) => (await guildSettings.GetGuildConfig(id)).StaffRole;
 
-    public async Task<ulong> GetMemberRole(ulong id) => (await _guildSettings.GetGuildConfig(id)).MemberRole;
+    public async Task<ulong> GetMemberRole(ulong id) => (await guildSettings.GetGuildConfig(id)).MemberRole;
 
     public async Task<(bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels)> GetDelMsgOnCmdData(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));
 
@@ -78,7 +78,7 @@ public class AdministrationService : INService
                 {
                     if (state && cmd.Name != "Purge" && cmd.Name != "pick")
                     {
-                        _logService.AddDeleteIgnore(msg.Id);
+                        logService.AddDeleteIgnore(msg.Id);
                         try
                         {
                             await msg.DeleteAsync().ConfigureAwait(false);
@@ -93,7 +93,7 @@ public class AdministrationService : INService
                 else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
                          cmd.Name != "pick")
                 {
-                    _logService.AddDeleteIgnore(msg.Id);
+                    logService.AddDeleteIgnore(msg.Id);
                     try
                     {
                         await msg.DeleteAsync().ConfigureAwait(false);
@@ -112,10 +112,10 @@ public class AdministrationService : INService
 
     public async Task<bool> ToggleDeleteMessageOnCommand(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         var enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-        _guildSettings.UpdateGuildConfig(guildId, conf);
+        guildSettings.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return enabled;
@@ -123,7 +123,7 @@ public class AdministrationService : INService
 
     public async Task SetDelMsgOnCmdState(ulong guildId, ulong chId, Administration.State newState)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var conf = await uow.ForGuildId(guildId,

@@ -10,12 +10,12 @@ namespace Mewdeko.Modules.Games.Services;
 
 public class ChatterBotService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly BlacklistService _blacklistService;
-    private readonly IBotCredentials _creds;
-    private readonly DbService _db;
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly DiscordSocketClient client;
+    private readonly BlacklistService blacklistService;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly GuildSettingsService guildSettings;
     public List<ulong> LimitUser = new();
 
     public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
@@ -23,12 +23,12 @@ public class ChatterBotService : INService
         BlacklistService blacklistService,
         GuildSettingsService guildSettings, EventHandler eventHandler)
     {
-        _db = db;
-        _blacklistService = blacklistService;
-        _guildSettings = guildSettings;
-        _client = client;
-        _creds = creds;
-        _httpFactory = factory;
+        this.db = db;
+        this.blacklistService = blacklistService;
+        this.guildSettings = guildSettings;
+        this.client = client;
+        this.creds = creds;
+        httpFactory = factory;
         eventHandler.MessageReceived += MessageRecieved;
     }
 
@@ -39,14 +39,14 @@ public class ChatterBotService : INService
 
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task<ulong> GetCleverbotChannel(ulong id) => (await _guildSettings.GetGuildConfig(id)).CleverbotChannel;
+    public async Task<ulong> GetCleverbotChannel(ulong id) => (await guildSettings.GetGuildConfig(id)).CleverbotChannel;
 
     public async Task MessageRecieved(SocketMessage msg)
     {
@@ -89,9 +89,9 @@ public class ChatterBotService : INService
 
     public IChatterBotSession CreateSession()
     {
-        if (!string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
-            return new OfficialCleverbotSession(_creds.CleverbotApiKey, _httpFactory);
-        return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
+        if (!string.IsNullOrWhiteSpace(creds.CleverbotApiKey))
+            return new OfficialCleverbotSession(creds.CleverbotApiKey, httpFactory);
+        return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", httpFactory);
     }
 
     private async Task<(string, IChatterBotSession)> PrepareMessage(IMessage? msg)
@@ -103,13 +103,13 @@ public class ChatterBotService : INService
         if (await GetCleverbotChannel(channel.Guild.Id) != channel.Id)
             return (null, null);
 
-        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(channel.Guild.Id))
+        if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(channel.Guild.Id))
         {
             await channel.SendErrorAsync("This server is blacklisted. Please join using the button below for an explanation or to appeal.");
             return (null, null);
         }
 
-        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
+        if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
         {
             (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
             return (null, null);
@@ -119,9 +119,9 @@ public class ChatterBotService : INService
             CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));
             CleverbotUsers.TryGetValue(msg.Author.Id, out lazyCleverbot);
         }
-        
 
-        var mewdekoId = _client.CurrentUser.Id;
+
+        var mewdekoId = client.CurrentUser.Id;
         var normalMention = $"<@{mewdekoId}> ";
         var nickMention = $"<@!{mewdekoId}> ";
         string message;
@@ -130,7 +130,7 @@ public class ChatterBotService : INService
             message = msg.Content[normalMention.Length..].Trim();
         else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
             message = msg.Content[nickMention.Length..].Trim();
-        else if (msg.Content.StartsWith(await _guildSettings.GetPrefix(channel.Guild)))
+        else if (msg.Content.StartsWith(await guildSettings.GetPrefix(channel.Guild)))
             return (null, null);
         else
             message = msg.Content;

@@ -9,20 +9,20 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class PronounsService : INService
 {
-    private readonly DbService _db;
-    private readonly HttpClient _http;
+    private readonly DbService db;
+    private readonly HttpClient http;
     public PronounsService(DbService db, HttpClient http)
     {
-        _db = db;
-        _http = http;
+        this.db = db;
+        this.http = http;
     }
 
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
-        var result = await _http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
+        var result = await http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
         var pronouns = JsonConvert.DeserializeObject<PronounDbResult>(result);
         return new PronounSearchResult((pronouns?.Pronouns ?? "unspecified") switch
         {

@@ -7,19 +7,19 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public sealed class BlacklistService : IEarlyBehavior, INService
 {
-    private readonly DbService _db;
-    private readonly IPubSub _pubSub;
+    private readonly DbService db;
+    private readonly IPubSub pubSub;
 
-    private readonly TypedKey<BlacklistEntry[]> _blPubKey = new("blacklist.reload");
+    private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
     public IList<BlacklistEntry> BlacklistEntries;
 
     public BlacklistService(DbService db, IPubSub pubSub, DiscordSocketClient client)
     {
-        _db = db;
-        _pubSub = pubSub;
+        this.db = db;
+        this.pubSub = pubSub;
 
         Reload(false);
-        _pubSub.Sub(_blPubKey, OnReload);
+        this.pubSub.Sub(blPubKey, OnReload);
         client.JoinedGuild += CheckBlacklist;
         BlacklistEntries.Add(new BlacklistEntry
         {
@@ -65,7 +65,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
-    public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
+    public Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage usrMsg)
     {
         foreach (var bl in BlacklistEntries)
         {
@@ -92,15 +92,15 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public void Reload(bool publish = true)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var toPublish = uow.Blacklist.AsNoTracking().ToArray();
         BlacklistEntries = toPublish.ToList();
-        if (publish) _pubSub.Pub(_blPubKey, toPublish);
+        if (publish) pubSub.Pub(blPubKey, toPublish);
     }
 
     public void Blacklist(BlacklistType type, ulong id, string? reason)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var item = new BlacklistEntry { ItemId = id, Type = type, Reason = reason ?? "No reason provided." };
         uow.Blacklist.Add(item);
         uow.SaveChanges();
@@ -110,7 +110,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public void UnBlacklist(BlacklistType type, ulong id)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var toRemove = uow.Blacklist
             .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
@@ -124,7 +124,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public async void BlacklistUsers(IEnumerable<ulong> toBlacklist)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var bc = uow.Blacklist;

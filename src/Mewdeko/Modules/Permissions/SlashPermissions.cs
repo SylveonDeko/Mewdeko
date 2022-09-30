@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Permissions;
 [Discord.Interactions.Group("permissions", "Change or view command permissions.")]
 public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 {
-    private readonly GuildSettingsService _guildSettings;
+    private readonly GuildSettingsService guildSettings;
     public enum PermissionSlash
     {
         Allow = 1,
@@ -24,14 +24,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         Reset
     }
 
-    private readonly DbService _db;
-    private readonly InteractiveService _interactivity;
+    private readonly DbService db;
+    private readonly InteractiveService interactivity;
 
     public SlashPermissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
     {
-        _interactivity = inter;
-        _guildSettings = guildSettings;
-        _db = db;
+        interactivity = inter;
+        this.guildSettings = guildSettings;
+        this.db = db;
     }
 
     [SlashCommand("resetperms", "Reset Command Permissions"), Discord.Interactions.RequireContext(ContextType.Guild),
@@ -45,7 +45,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     [SlashCommand("verbose", "Enables or Disables command errors"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task Verbose(PermissionSlash? action = null)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -66,7 +66,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     {
         if (role != null && role == role.Guild.EveryoneRole)
             return;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
 
         if (role == null)
         {
@@ -105,7 +105,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
-        await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -113,7 +113,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return new PageBuilder().WithDescription(string.Join("\n",
                 perms.Skip(page * 10).Take(10).Select( p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(_guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -133,7 +133,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         try
         {
             Permissionv2 p;
-            var uow = _db.GetDbContext();
+            var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -147,7 +147,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
             await ReplyConfirmLocalizedAsync("removed",
                 index + 1,
-                Format.Code(p.GetCommand(await _guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                Format.Code(p.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {

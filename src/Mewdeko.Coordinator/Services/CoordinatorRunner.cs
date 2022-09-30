@@ -15,27 +15,27 @@ namespace Mewdeko.Coordinator.Services;
 
 public sealed class CoordinatorRunner : BackgroundService
 {
-    private const string CONFIG_PATH = "coord.yml";
+    private const string ConfigPath = "coord.yml";
 
-    private const string GRACEFUL_STATE_PATH = "graceful.json";
-    private const string GRACEFUL_STATE_BACKUP_PATH = "graceful_old.json";
+    private const string GracefulStatePath = "graceful.json";
+    private const string GracefulStateBackupPath = "graceful_old.json";
 
-    private readonly Serializer _serializer;
-    private readonly Deserializer _deserializer;
+    private readonly Serializer serializer;
+    private readonly Deserializer deserializer;
 
     private Config config;
     private ShardStatus[] shardStatuses;
 
-    private readonly object _locker = new();
-    private readonly Random _rng;
+    private readonly object locker = new();
+    private readonly Random rng;
     private bool gracefulImminent;
 
     public CoordinatorRunner()
     {
-        _serializer = new Serializer();
-        _deserializer = new Deserializer();
+        serializer = new Serializer();
+        deserializer = new Deserializer();
         config = LoadConfig();
-        _rng = new Random();
+        rng = new Random();
 
         if (!TryRestoreOldState())
             InitAll();
@@ -43,24 +43,24 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private Config LoadConfig()
     {
-        lock (_locker)
+        lock (locker)
         {
-            return _deserializer.Deserialize<Config>(File.ReadAllText(CONFIG_PATH));
+            return deserializer.Deserialize<Config>(File.ReadAllText(ConfigPath));
         }
     }
 
     private void SaveConfig(in Config coordConfig)
     {
-        lock (_locker)
+        lock (locker)
         {
-            var output = _serializer.Serialize(coordConfig);
-            File.WriteAllText(CONFIG_PATH, output);
+            var output = serializer.Serialize(coordConfig);
+            File.WriteAllText(ConfigPath, output);
         }
     }
 
     public void ReloadConfig()
     {
-        lock (_locker)
+        lock (locker)
         {
             var oldConfig = config;
             var newConfig = LoadConfig();
@@ -92,11 +92,11 @@ public sealed class CoordinatorRunner : BackgroundService
             try
             {
                 var hadAction = false;
-                lock (_locker)
+                lock (locker)
                 {
                     var shardIds = Enumerable.Range(0, 1)
                                              .Concat(Enumerable.Range(1, config.TotalShards - 1)
-                                                               .OrderBy(_ => _rng.Next())) // then all other shards in a random order
+                                                               .OrderBy(_ => rng.Next())) // then all other shards in a random order
                                              .Distinct()
                                              .ToList();
 
@@ -214,7 +214,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public bool Heartbeat(int shardId, int guildCount, ConnState state, int userCount)
     {
-        lock (_locker)
+        lock (locker)
         {
             if (shardId >= shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -243,7 +243,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void SetShardCount(int totalShards)
     {
-        lock (_locker)
+        lock (locker)
         {
             SaveConfig(new Config(
                 totalShards,
@@ -257,7 +257,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void RestartShard(int shardId)
     {
-        lock (_locker)
+        lock (locker)
         {
             if (shardId >= shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -272,7 +272,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void RestartAll(bool nuke)
     {
-        lock (_locker)
+        lock (locker)
         {
             if (nuke)
             {
@@ -285,7 +285,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void KillAll()
     {
-        lock (_locker)
+        lock (locker)
         {
             for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
             {
@@ -325,13 +325,13 @@ public sealed class CoordinatorRunner : BackgroundService
         {
             WriteIndented = true
         });
-        File.WriteAllText(GRACEFUL_STATE_PATH, jsonState);
+        File.WriteAllText(GracefulStatePath, jsonState);
     }
     private bool TryRestoreOldState()
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (!File.Exists(GRACEFUL_STATE_PATH))
+            if (!File.Exists(GracefulStatePath))
                 return false;
 
             Log.Information("Restoring old coordinator state...");
@@ -339,7 +339,7 @@ public sealed class CoordinatorRunner : BackgroundService
             CoordState savedState;
             try
             {
-                savedState = JsonSerializer.Deserialize<CoordState>(File.ReadAllText(GRACEFUL_STATE_PATH));
+                savedState = JsonSerializer.Deserialize<CoordState>(File.ReadAllText(GracefulStatePath));
 
                 if (savedState is null)
                     throw new ArgumentException("Old state is null?!");
@@ -347,14 +347,14 @@ public sealed class CoordinatorRunner : BackgroundService
             catch (Exception ex)
             {
                 Log.Error(ex, "Error deserializing old state: {Message}", ex.Message);
-                File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
+                File.Move(GracefulStatePath, GracefulStateBackupPath, overwrite: true);
                 return false;
             }
 
             if (savedState.StatusObjects.Count != config.TotalShards)
             {
                 Log.Error("Unable to restore old state because shard count doesn't match");
-                File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
+                File.Move(GracefulStatePath, GracefulStateBackupPath, overwrite: true);
                 return false;
             }
 
@@ -386,7 +386,7 @@ public sealed class CoordinatorRunner : BackgroundService
                     UserCount: statusObj.UserCount);
             }
 
-            File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
+            File.Move(GracefulStatePath, GracefulStateBackupPath, overwrite: true);
             Log.Information("Old state restored!");
             return true;
         }
@@ -394,7 +394,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void InitAll()
     {
-        lock (_locker)
+        lock (locker)
         {
             shardStatuses = new ShardStatus[config.TotalShards];
             for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
@@ -406,7 +406,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void QueueAll()
     {
-        lock (_locker)
+        lock (locker)
         {
             for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
             {
@@ -421,7 +421,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public ShardStatus GetShardStatus(int shardId)
     {
-        lock (_locker)
+        lock (locker)
         {
             if (shardId >= shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -432,7 +432,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public List<ShardStatus> GetAllStatuses()
     {
-        lock (_locker)
+        lock (locker)
         {
             var toReturn = new List<ShardStatus>(shardStatuses.Length);
             toReturn.AddRange(shardStatuses);
@@ -442,20 +442,20 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void PrepareGracefulShutdown()
     {
-        lock (_locker)
+        lock (locker)
         {
             gracefulImminent = true;
         }
     }
 
     public static string GetConfigText() =>
-        File.ReadAllText(CONFIG_PATH);
+        File.ReadAllText(ConfigPath);
 
     public void SetConfigText(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentNullException(nameof(text), "coord.yml can't be empty");
-        var coordConfig = _deserializer.Deserialize<Config>(text);
+        var coordConfig = deserializer.Deserialize<Config>(text);
         SaveConfig(in coordConfig);
         ReloadConfig();
     }

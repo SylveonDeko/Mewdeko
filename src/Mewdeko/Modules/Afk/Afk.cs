@@ -12,13 +12,13 @@ namespace Mewdeko.Modules.Afk;
 
 public class Afk : MewdekoModuleBase<AfkService>
 {
-    private readonly InteractiveService _interactivity;
-    private readonly DiscordSocketClient _client;
+    private readonly InteractiveService interactivity;
+    private readonly DiscordSocketClient client;
 
     public Afk(InteractiveService serv, DiscordSocketClient client)
     {
-        _interactivity = serv;
-        _client = client;
+        interactivity = serv;
+        this.client = client;
     }
 
     public enum AfkTypeEnum
@@ -33,8 +33,8 @@ public class Afk : MewdekoModuleBase<AfkService>
     public async Task SetAfk([Remainder] string? message = null)
     {
 
-        
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -105,7 +105,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -122,7 +122,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(1)]
     public async Task AfkDel(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
@@ -145,7 +145,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0)]
     public async Task TimedAfk(StoopidTime time, [Remainder] string message)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
@@ -175,7 +175,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0)]
     public async Task GetActiveAfks()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
@@ -196,7 +196,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -212,7 +212,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (!await CheckRoleHierarchy(user))
             return;
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
@@ -253,7 +253,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -268,7 +268,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!").ConfigureAwait(false);
             return;
@@ -288,7 +288,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(AfkTypeEnum afkTypeEnum)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -301,7 +301,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -319,7 +319,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -365,7 +365,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -425,7 +425,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             if (!await CheckRoleHierarchy(i))
                 return;
         }
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -477,7 +477,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         if (!await CheckRoleHierarchy(user))
             return;
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;

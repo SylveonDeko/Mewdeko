@@ -7,22 +7,22 @@ namespace Mewdeko.Modules.Confessions;
 [Group("confessions", "Manage confessions.")]
 public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 {
-    private readonly GuildSettingsService _guildSettings;
-    private readonly IBotCredentials _credentials;
+    private readonly GuildSettingsService guildSettings;
+    private readonly IBotCredentials credentials;
 
     public SlashConfessions(GuildSettingsService guildSettings, IBotCredentials credentials)
     {
-        _guildSettings = guildSettings;
-        _credentials = credentials;
+        this.guildSettings = guildSettings;
+        this.credentials = credentials;
     }
 
 
     [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Confess(string confession, IAttachment? attachment = null)
     {
-        var blacklists = (await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
+        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         var attachUrl = attachment?.Url;
-        if ((await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
+        if ((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
         {
             await ctx.Interaction.SendEphemeralErrorAsync("This server does not have confessions enabled!").ConfigureAwait(false);
             return;
@@ -87,7 +87,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     [SlashCommand("blacklist", "Add a user to the confession blacklist"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionBlacklist(IUser user)
     {
-        var blacklists = (await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
+        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         if (blacklists.Length > 0)
         {
             if (blacklists.Contains(user.Id.ToString()))
@@ -104,7 +104,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     [SlashCommand("unblacklist", "Unblacklists a user from confessions"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ConfessionUnblacklist(IUser user)
     {
-        var blacklists = (await _guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
+        var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         if (blacklists.Length > 0)
         {
             if (!blacklists.Contains(user.Id.ToString()))
@@ -128,7 +128,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
 
         var reportedGuild = await ((DiscordSocketClient)ctx.Client).Rest.GetGuildAsync(serverId).ConfigureAwait(false);
-        var channel = await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(_credentials.ConfessionReportChannelId).ConfigureAwait(false) as ITextChannel;
+        var channel = await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(credentials.ConfessionReportChannelId).ConfigureAwait(false) as ITextChannel;
         var eb = new EmbedBuilder().WithErrorColor().WithTitle("Confessions Abuse Report Recieved")
                                    .AddField("Report", how)
                                    .AddField("Report User", $"{ctx.User} | {ctx.User.Id}")

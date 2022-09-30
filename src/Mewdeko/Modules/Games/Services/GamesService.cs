@@ -12,22 +12,22 @@ namespace Mewdeko.Modules.Games.Services;
 
 public class GamesService : INService, IUnloadableService
 {
-    private const string TYPING_ARTICLES_PATH = "data/typing_articles3.json";
-    private readonly GamesConfigService _gamesConfig;
-    private readonly Random _rng;
+    private const string TypingArticlesPath = "data/typing_articles3.json";
+    private readonly GamesConfigService gamesConfig;
+    private readonly Random rng;
 
     public GamesService(GamesConfigService gamesConfig)
     {
-        _gamesConfig = gamesConfig;
+        this.gamesConfig = gamesConfig;
 
-        _rng = new MewdekoRandom();
+        rng = new MewdekoRandom();
 
         // girl ratings is a stupid command
 
         try
         {
             TypingArticles =
-                JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TYPING_ARTICLES_PATH));
+                JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
         }
         catch (Exception ex)
         {
@@ -36,7 +36,7 @@ public class GamesService : INService, IUnloadableService
         }
     }
 
-    public IReadOnlyList<string> EightBallResponses => _gamesConfig.Data.EightBallResponses;
+    public IReadOnlyList<string> EightBallResponses => gamesConfig.Data.EightBallResponses;
 
     public List<TypingArticle> TypingArticles { get; }
 
@@ -80,10 +80,10 @@ public class GamesService : INService, IUnloadableService
             Text = text.SanitizeMentions(true)
         });
 
-        File.WriteAllText(TYPING_ARTICLES_PATH, JsonConvert.SerializeObject(TypingArticles));
+        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
     }
 
-    public string GetEightballResponse(string _) => EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
+    public string GetEightballResponse(string _) => EightBallResponses[rng.Next(0, EightBallResponses.Count)];
 
     public TypingArticle? RemoveTypingArticle(int index)
     {
@@ -94,7 +94,7 @@ public class GamesService : INService, IUnloadableService
         var removed = articles[index];
         TypingArticles.RemoveAt(index);
 
-        File.WriteAllText(TYPING_ARTICLES_PATH, JsonConvert.SerializeObject(articles));
+        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(articles));
         return removed;
     }
 

@@ -1,5 +1,3 @@
-using Mewdeko.Services.Settings;
-
 namespace Mewdeko.Extensions;
 
 public static class MessageExtensions

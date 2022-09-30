@@ -28,7 +28,7 @@ public class Deck
         Clubs = 4
     }
 
-    private static readonly Dictionary<int, string> _cardNames = new()
+    private static readonly Dictionary<int, string> CardNames = new()
     {
         {1, "Ace"},
         {2, "Two"},
@@ -46,7 +46,7 @@ public class Deck
     };
 
     private static Dictionary<string, Func<List<Card>, bool>>? handValues;
-    private readonly Random _r = new MewdekoRandom();
+    private readonly Random r = new MewdekoRandom();
 
     static Deck() => InitHandValues();
 
@@ -96,7 +96,7 @@ public class Deck
             Restart();
         //you can either do this if your deck is not shuffled
 
-        var num = _r.Next(0, CardPool.Count);
+        var num = r.Next(0, CardPool.Count);
         var c = CardPool[num];
         CardPool.RemoveAt(num);
         return c;
@@ -178,7 +178,7 @@ public class Deck
 
     public class Card : IComparable
     {
-        private static readonly IReadOnlyDictionary<CardSuit, string> _suitToSuitChar =
+        private static readonly IReadOnlyDictionary<CardSuit, string> SuitToSuitChar =
             new Dictionary<CardSuit, string>
             {
                 {CardSuit.Diamonds, "♦"},
@@ -187,7 +187,7 @@ public class Deck
                 {CardSuit.Hearts, "♥"}
             };
 
-        private static readonly IReadOnlyDictionary<string, CardSuit> _suitCharToSuit =
+        private static readonly IReadOnlyDictionary<string, CardSuit> SuitCharToSuit =
             new Dictionary<string, CardSuit>
             {
                 {"♦", CardSuit.Diamonds},
@@ -200,7 +200,7 @@ public class Deck
                 {"h", CardSuit.Hearts}
             };
 
-        private static readonly IReadOnlyDictionary<char, int> _numberCharToNumber = new Dictionary<char, int>
+        private static readonly IReadOnlyDictionary<char, int> NumberCharToNumber = new Dictionary<char, int>
         {
             {'a', 1},
             {'2', 2},
@@ -217,7 +217,7 @@ public class Deck
             {'k', 13}
         };
 
-        private readonly string[] _regIndicators =
+        private readonly string[] regIndicators =
         {
             "🇦",
             ":two:",
@@ -263,9 +263,9 @@ public class Deck
             return Number - card.Number;
         }
 
-        public string GetValueText() => _cardNames[Number];
+        public string GetValueText() => CardNames[Number];
 
-        public override string ToString() => $"{_cardNames[Number]} Of {Suit}";
+        public override string ToString() => $"{CardNames[Number]} Of {Suit}";
 
         public static Card Parse(string input)
         {
@@ -273,8 +273,8 @@ public class Deck
                 throw new ArgumentNullException(nameof(input));
 
             if (input.Length != 2
-                || !_numberCharToNumber.TryGetValue(input[0], out var n)
-                || !_suitCharToSuit.TryGetValue(input[1].ToString(), out var s))
+                || !NumberCharToNumber.TryGetValue(input[0], out var n)
+                || !SuitCharToSuit.TryGetValue(input[1].ToString(), out var s))
             {
                 throw new ArgumentException("Invalid input", nameof(input));
             }
@@ -286,8 +286,8 @@ public class Deck
         {
             var str = "";
 
-            str += _regIndicators[Number - 1];
-            str += _suitToSuitChar[Suit];
+            str += regIndicators[Number - 1];
+            str += SuitToSuitChar[Suit];
 
             return str;
         }

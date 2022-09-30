@@ -13,13 +13,13 @@ public partial class Utility
     [Group]
     public class CommandMapCommands : MewdekoSubmodule<CommandMapService>
     {
-        private readonly DbService _db;
-        private readonly InteractiveService _interactivity;
+        private readonly DbService db;
+        private readonly InteractiveService interactivity;
 
         public CommandMapCommands(DbService db, InteractiveService serv)
         {
-            _interactivity = serv;
-            _db = db;
+            interactivity = serv;
+            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -47,7 +47,7 @@ public partial class Utility
                     return;
                 }
 
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 await using (uow.ConfigureAwait(false))
                 {
                     var config = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
@@ -63,7 +63,7 @@ public partial class Utility
 
             Service.AliasMaps.AddOrUpdate(ctx.Guild.Id, _ =>
             {
-                using (var uow = _db.GetDbContext())
+                using (var uow = db.GetDbContext())
                 {
                     var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     config.CommandAliases.Add(new CommandAlias
@@ -80,7 +80,7 @@ public partial class Utility
                 });
             }, (_, map) =>
             {
-                using (var uow = _db.GetDbContext())
+                using (var uow = db.GetDbContext())
                 {
                     var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     var toAdd = new CommandAlias
@@ -123,7 +123,7 @@ public partial class Utility
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

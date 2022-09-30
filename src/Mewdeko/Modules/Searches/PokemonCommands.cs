@@ -12,7 +12,7 @@ public partial class Searches
     [Group]
     public class PokemonCommands : MewdekoSubmodule
     {
-        private readonly PokeApiClient _pokeClient = new();
+        private readonly PokeApiClient pokeClient = new();
 
         [Cmd, Aliases]
         public async Task Pokemon([Remainder] string name)
@@ -27,7 +27,7 @@ public partial class Searches
 
             try
             {
-                poke = await _pokeClient.GetResourceAsync<Pokemon>(name.Replace(" ", "")).ConfigureAwait(false);
+                poke = await pokeClient.GetResourceAsync<Pokemon>(name.Replace(" ", "")).ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
             {
@@ -44,7 +44,7 @@ public partial class Searches
             {
                 foreach (var i in poke.Abilities)
                 {
-                    var ability = await _pokeClient.GetResourceAsync<Ability>(i.Ability.Name).ConfigureAwait(false);
+                    var ability = await pokeClient.GetResourceAsync<Ability>(i.Ability.Name).ConfigureAwait(false);
                     abilities.Add(ability);
                 }
             }

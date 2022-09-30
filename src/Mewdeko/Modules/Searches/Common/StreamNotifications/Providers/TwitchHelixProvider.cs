@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class TwitchHelixProvider : Provider
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHttpClientFactory httpClientFactory;
 
     private static Regex Regex { get; } = new(@"twitch.tv/(?<name>[\w\d\-_]+)/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -18,23 +18,23 @@ public class TwitchHelixProvider : Provider
     public override FollowedStream.FType Platform
         => FollowedStream.FType.Twitch;
 
-    private readonly Lazy<TwitchAPI> _api;
-    private readonly string _clientId;
+    private readonly Lazy<TwitchAPI> api;
+    private readonly string clientId;
 
     public TwitchHelixProvider(IHttpClientFactory httpClientFactory, IBotCredentials credsProvider)
     {
-        _httpClientFactory = httpClientFactory;
+        this.httpClientFactory = httpClientFactory;
 
         var creds = credsProvider;
-        _clientId = creds.TwitchClientId;
+        clientId = creds.TwitchClientId;
         var clientSecret = creds.TwitchClientSecret;
-        _api = new Lazy<TwitchAPI>(() => new TwitchAPI
+        api = new Lazy<TwitchAPI>(() => new TwitchAPI
         {
             Helix =
             {
                 Settings =
                 {
-                    ClientId = _clientId,
+                    ClientId = clientId,
                     Secret = clientSecret
                 }
             }
@@ -42,7 +42,7 @@ public class TwitchHelixProvider : Provider
     }
 
     private async Task<string?> EnsureTokenValidAsync()
-        => await _api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
+        => await api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
 
     public override Task<bool> IsValidUrl(string url)
     {
@@ -88,9 +88,9 @@ public class TwitchHelixProvider : Provider
             return Array.Empty<StreamData>();
         }
 
-        using var http = _httpClientFactory.CreateClient();
+        using var http = httpClientFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
-        http.DefaultRequestHeaders.Add("Client-Id", _clientId);
+        http.DefaultRequestHeaders.Add("Client-Id", clientId);
         http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
         var loginsSet = logins.Select(x => x.ToLowerInvariant())
@@ -130,7 +130,7 @@ public class TwitchHelixProvider : Provider
         // any item left over loginsSet is an invalid username
         foreach (var login in loginsSet)
         {
-            _failingStreams.TryAdd(login, DateTime.UtcNow);
+            FailingStreams.TryAdd(login, DateTime.UtcNow);
         }
 
         // only get streams for users which exist

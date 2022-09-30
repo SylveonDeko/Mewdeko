@@ -17,10 +17,10 @@ public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
         var uri = $"https://www.derpibooru.org/api/v1/json/search/images?q={tagString.Replace('+', ',')}&per_page=49&page={page}";
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
         req.Headers.AddFakeHeaders();
-        using var res = await _http.SendAsync(req, cancel).ConfigureAwait(false);
+        using var res = await Http.SendAsync(req, cancel).ConfigureAwait(false);
         res.EnsureSuccessStatusCode();
 
-        var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(_serializerOptions, cancel).ConfigureAwait(false);
+        var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(SerializerOptions, cancel).ConfigureAwait(false);
         if (container?.Images is null)
             return new List<DerpiImageObject>();
 

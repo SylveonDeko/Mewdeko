@@ -27,7 +27,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         Ls = 0
     }
 
-    public enum Server 
+    public enum Server
     {
         Server
     }
@@ -39,15 +39,15 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         Inherit
     }
 
-    private readonly InteractiveService _interactivity;
-    private readonly GuildSettingsService _guildSettingsService;
+    private readonly InteractiveService interactivity;
+    private readonly GuildSettingsService guildSettingsService;
 
     public Administration(InteractiveService serv, GuildSettingsService guildSettingsService)
     {
-        _interactivity = serv;
-        _guildSettingsService = guildSettingsService;
+        interactivity = serv;
+        this.guildSettingsService = guildSettingsService;
     }
-    
+
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
@@ -103,7 +103,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory).WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(users.Count() / 20).WithDefaultCanceledPage().WithDefaultEmotes()
                                                           .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -172,7 +172,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -223,7 +223,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No users to prune, if you meant to prune users inyour member role please set it with {await _guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                    $"No users to prune, if you meant to prune users inyour member role please set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
                 return;
             }
 
@@ -235,7 +235,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
                 await ctx.Channel.SendConfirmAsync(
-                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await _guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
             }
             else
             {

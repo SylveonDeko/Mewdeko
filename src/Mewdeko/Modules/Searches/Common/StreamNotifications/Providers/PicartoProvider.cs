@@ -19,10 +19,10 @@ public class PicartoProvider : Provider
     public override FollowedStream.FType Platform
         => FollowedStream.FType.Picarto;
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHttpClientFactory httpClientFactory;
 
     public PicartoProvider(IHttpClientFactory httpClientFactory)
-        => _httpClientFactory = httpClientFactory;
+        => this.httpClientFactory = httpClientFactory;
 
     public override Task<bool> IsValidUrl(string url)
     {
@@ -63,7 +63,7 @@ public class PicartoProvider : Provider
         if (logins.Count == 0)
             return new List<StreamData>();
 
-        using var http = _httpClientFactory.CreateClient();
+        using var http = httpClientFactory.CreateClient();
         var toReturn = new List<StreamData>();
         foreach (var login in logins)
         {
@@ -80,7 +80,7 @@ public class PicartoProvider : Provider
                     JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync().ConfigureAwait(false))!;
 
                 toReturn.Add(ToStreamData(userData));
-                _failingStreams.TryRemove(login, out _);
+                FailingStreams.TryRemove(login, out _);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ public class PicartoProvider : Provider
                     Platform,
                     login,
                     ex.Message);
-                _failingStreams.TryAdd(login, DateTime.UtcNow);
+                    FailingStreams.TryAdd(login, DateTime.UtcNow);
             }
         }
 
