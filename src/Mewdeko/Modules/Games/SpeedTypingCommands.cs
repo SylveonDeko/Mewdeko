@@ -11,15 +11,15 @@ public partial class Games
     [Group]
     public class SpeedTypingCommands : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly GamesService _games;
-        private readonly GuildSettingsService _guildSettings;
+        private readonly DiscordSocketClient client;
+        private readonly GamesService games;
+        private readonly GuildSettingsService guildSettings;
 
         public SpeedTypingCommands(DiscordSocketClient client, GamesService games, GuildSettingsService guildSettings)
         {
-            _games = games;
-            _guildSettings = guildSettings;
-            _client = client;
+            this.games = games;
+            this.guildSettings = guildSettings;
+            this.client = client;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -29,7 +29,7 @@ public partial class Games
             var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
             var channel = (ITextChannel)ctx.Channel;
 
-            var game = Service.RunningContests.GetOrAdd(channel.Guild.Id, _ => new TypingGame(_games, _client, channel, _guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
+            var game = Service.RunningContests.GetOrAdd(channel.Guild.Id, _ => new TypingGame(games, client, channel, guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
 
             if (game.IsActive)
             {
@@ -62,7 +62,7 @@ public partial class Games
             if (string.IsNullOrWhiteSpace(text))
                 return;
 
-            _games.AddTypingArticle(ctx.User, text);
+            games.AddTypingArticle(ctx.User, text);
 
             await channel.SendConfirmAsync("Added new article for typing game.").ConfigureAwait(false);
         }
@@ -75,7 +75,7 @@ public partial class Games
             if (page < 1)
                 return;
 
-            var articles = _games.TypingArticles.Skip((page - 1) * 15).Take(15).ToArray();
+            var articles = games.TypingArticles.Skip((page - 1) * 15).Take(15).ToArray();
 
             if (articles.Length == 0)
             {

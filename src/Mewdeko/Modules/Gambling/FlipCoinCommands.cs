@@ -24,15 +24,15 @@ public partial class Gambling
             Tails = 2
         }
 
-        private static readonly MewdekoRandom _rng = new();
-        private readonly ICurrencyService _cs;
-        private readonly IImageCache _images;
+        private static readonly MewdekoRandom Rng = new();
+        private readonly ICurrencyService cs;
+        private readonly IImageCache images;
 
         public FlipCoinCommands(IDataCache data, ICurrencyService cs,
             GamblingConfigService gss) : base(gss)
         {
-            _images = data.LocalImages;
-            _cs = cs;
+            images = data.LocalImages;
+            this.cs = cs;
         }
 
         [Cmd, Aliases]
@@ -49,9 +49,9 @@ public partial class Gambling
             var imgs = new Image<Rgba32>[count];
             for (var i = 0; i < count; i++)
             {
-                var headsArr = _images.Heads[_rng.Next(0, _images.Heads.Count)];
-                var tailsArr = _images.Tails[_rng.Next(0, _images.Tails.Count)];
-                if (_rng.Next(0, 10) < 5)
+                var headsArr = images.Heads[Rng.Next(0, images.Heads.Count)];
+                var tailsArr = images.Tails[Rng.Next(0, images.Tails.Count)];
+                if (Rng.Next(0, 10) < 5)
                 {
                     imgs[i] = Image.Load<Rgba32>(headsArr);
                     headCount++;
@@ -79,7 +79,7 @@ public partial class Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false) || amount == 1)
                 return;
 
-            var removed = await _cs.RemoveAsync(ctx.User, "Betflip Gamble", amount, false, true)
+            var removed = await cs.RemoveAsync(ctx.User, "Betflip Gamble", amount, false, true)
                 .ConfigureAwait(false);
             if (!removed)
             {
@@ -89,15 +89,15 @@ public partial class Gambling
 
             BetFlipGuess result;
             Uri imageToSend;
-            var coins = _images.ImageUrls.Coins;
-            if (_rng.Next(0, 1000) <= 499)
+            var coins = images.ImageUrls.Coins;
+            if (Rng.Next(0, 1000) <= 499)
             {
-                imageToSend = coins.Heads[_rng.Next(0, coins.Heads.Length)];
+                imageToSend = coins.Heads[Rng.Next(0, coins.Heads.Length)];
                 result = BetFlipGuess.Heads;
             }
             else
             {
-                imageToSend = coins.Tails[_rng.Next(0, coins.Tails.Length)];
+                imageToSend = coins.Tails[Rng.Next(0, coins.Tails.Length)];
                 result = BetFlipGuess.Tails;
             }
 
@@ -106,7 +106,7 @@ public partial class Gambling
             {
                 var toWin = (long)(amount * Config.BetFlip.Multiplier);
                 str = $"{Format.Bold(ctx.User.ToString())} {GetText("flip_guess", toWin + CurrencySign)}";
-                await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
+                await cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
             }
             else
             {

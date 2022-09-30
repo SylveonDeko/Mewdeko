@@ -21,13 +21,13 @@ public partial class Administration
             Excl
         }
 
-        private readonly IServiceProvider _services;
-        private readonly InteractiveService _interactivity;
+        private readonly IServiceProvider services;
+        private readonly InteractiveService interactivity;
 
         public RoleCommands(IServiceProvider services, InteractiveService intserv)
         {
-            _services = services;
-            _interactivity = intserv;
+            this.services = services;
+            interactivity = intserv;
         }
 
         public async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
@@ -48,7 +48,7 @@ public partial class Administration
                 {
                     var inputRoleStr = x.First();
                     var roleReader = new RoleTypeReader<SocketRole>();
-                    var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services).ConfigureAwait(false);
+                    var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, services).ConfigureAwait(false);
                     if (!roleResult.IsSuccess)
                     {
                         Log.Warning("Role {0} not found.", inputRoleStr);
@@ -152,7 +152,7 @@ public partial class Administration
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {

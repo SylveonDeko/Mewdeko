@@ -10,15 +10,15 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaGame
 {
-    private readonly DiscordSocketClient _client;
-    private readonly GamesConfig _config;
-    private readonly ICurrencyService _cs;
-    private readonly SemaphoreSlim _guessLock = new(1, 1);
-    private readonly TriviaOptions _options;
+    private readonly DiscordSocketClient client;
+    private readonly GamesConfig config;
+    private readonly ICurrencyService cs;
+    private readonly SemaphoreSlim guessLock = new(1, 1);
+    private readonly TriviaOptions options;
 
-    private readonly TriviaQuestionPool _questionPool;
-    private readonly string? _quitCommand;
-    private readonly IBotStrings _strings;
+    private readonly TriviaQuestionPool questionPool;
+    private readonly string? quitCommand;
+    private readonly IBotStrings strings;
     private int timeoutCount;
 
     private CancellationTokenSource triviaCancelSource;
@@ -27,13 +27,13 @@ public class TriviaGame
         IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
         TriviaOptions options, string? quitCommand)
     {
-        _questionPool = new TriviaQuestionPool(cache);
-        _strings = strings;
-        _client = client;
-        _config = config;
-        _cs = cs;
-        _options = options;
-        _quitCommand = quitCommand;
+        questionPool = new TriviaQuestionPool(cache);
+        this.strings = strings;
+        this.client = client;
+        this.config = config;
+        this.cs = cs;
+        this.options = options;
+        this.quitCommand = quitCommand;
 
         Guild = guild;
         Channel = channel;
@@ -50,19 +50,19 @@ public class TriviaGame
     public bool GameActive { get; private set; }
     public bool ShouldStopGame { get; private set; }
 
-    private string? GetText(string? key, params object?[] replacements) => _strings.GetText(key, Channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) => strings.GetText(key, Channel.GuildId, replacements);
 
     public async Task StartGame()
     {
         var showHowToQuit = false;
         while (!ShouldStopGame)
         {
-            // reset the cancellation source    
+            // reset the cancellation source
             triviaCancelSource = new CancellationTokenSource();
             showHowToQuit = !showHowToQuit;
 
             // load question
-            CurrentQuestion = _questionPool.GetRandomQuestion(OldQuestions);
+            CurrentQuestion = questionPool.GetRandomQuestion(OldQuestions);
             if (string.IsNullOrWhiteSpace(CurrentQuestion.Answer) ||
                 string.IsNullOrWhiteSpace(CurrentQuestion.Question))
             {
@@ -83,7 +83,7 @@ public class TriviaGame
                     .AddField(eab => eab.WithName(GetText("question")).WithValue(CurrentQuestion.Question));
 
                 if (showHowToQuit)
-                    questionEmbed.WithFooter(GetText("trivia_quit", _quitCommand));
+                    questionEmbed.WithFooter(GetText("trivia_quit", quitCommand));
 
                 if (Uri.IsWellFormedUriString(CurrentQuestion.ImageUrl, UriKind.Absolute))
                     questionEmbed.WithImageUrl(CurrentQuestion.ImageUrl);
@@ -104,16 +104,16 @@ public class TriviaGame
             //receive messages
             try
             {
-                _client.MessageReceived += PotentialGuess;
+                client.MessageReceived += PotentialGuess;
 
                 //allow people to guess
                 GameActive = true;
                 try
                 {
                     //hint
-                    await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
+                    await Task.Delay(options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
                         .ConfigureAwait(false);
-                    if (!_options.NoHint)
+                    if (!options.NoHint)
                     {
                         try
                         {
@@ -133,7 +133,7 @@ public class TriviaGame
                     }
 
                     //timeout
-                    await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
+                    await Task.Delay(options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
                         .ConfigureAwait(false);
                 }
                 catch (TaskCanceledException)
@@ -144,7 +144,7 @@ public class TriviaGame
             finally
             {
                 GameActive = false;
-                _client.MessageReceived -= PotentialGuess;
+                client.MessageReceived -= PotentialGuess;
             }
 
             if (!triviaCancelSource.IsCancellationRequested)
@@ -159,7 +159,7 @@ public class TriviaGame
 
                     await Channel.EmbedAsync(embed).ConfigureAwait(false);
 
-                    if (_options.Timeout != 0 && ++timeoutCount >= _options.Timeout)
+                    if (options.Timeout != 0 && ++timeoutCount >= options.Timeout)
                         await StopGame().ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -217,7 +217,7 @@ public class TriviaGame
                 var guildUser = (IGuildUser)umsg.Author;
 
                 var guess = false;
-                await _guessLock.WaitAsync().ConfigureAwait(false);
+                await guessLock.WaitAsync().ConfigureAwait(false);
                 try
                 {
                     if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) &&
@@ -229,13 +229,13 @@ public class TriviaGame
                 }
                 finally
                 {
-                    _guessLock.Release();
+                    guessLock.Release();
                 }
 
                 if (!guess) return;
                 triviaCancelSource.Cancel();
 
-                if (_options.WinRequirement != 0 && Users[guildUser] == _options.WinRequirement)
+                if (options.WinRequirement != 0 && Users[guildUser] == options.WinRequirement)
                 {
                     ShouldStopGame = true;
                     try
@@ -254,9 +254,9 @@ public class TriviaGame
                         // ignored
                     }
 
-                    var reward = _config.Trivia.CurrencyReward;
+                    var reward = config.Trivia.CurrencyReward;
                     if (reward > 0)
-                        await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
+                        await cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                     return;
                 }
 

@@ -26,22 +26,22 @@ public partial class Gambling
             Role
         }
 
-        private readonly ICurrencyService _cs;
-        private readonly DbService _db;
-        private readonly InteractiveService _interactivity;
+        private readonly ICurrencyService cs;
+        private readonly DbService db;
+        private readonly InteractiveService interactivity;
 
         public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf,
             InteractiveService serv)
             : base(gamblingConf)
         {
-            _interactivity = serv;
-            _db = db;
-            _cs = cs;
+            interactivity = serv;
+            this.db = db;
+            this.cs = cs;
         }
 
         private async Task ShopInternalAsync()
         {
-            await using var uow = _db.GetDbContext();
+            await using var uow = db.GetDbContext();
             var entries = (await uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items))).ShopEntries
@@ -55,7 +55,7 @@ public partial class Gambling
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -95,7 +95,7 @@ public partial class Gambling
             if (index < 0)
                 return;
             ShopEntry entry;
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 var config = await uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)
@@ -130,7 +130,7 @@ public partial class Gambling
                             return;
                         }
 
-                        if (await _cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
+                        if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
                                      .ConfigureAwait(false))
                         {
                             try
@@ -140,15 +140,15 @@ public partial class Gambling
                             catch (Exception ex)
                             {
                                 Log.Warning(ex, "Error adding shop role");
-                                await _cs.AddAsync(ctx.User.Id, "Shop error refund", entry.Price).ConfigureAwait(false);
+                                await cs.AddAsync(ctx.User.Id, "Shop error refund", entry.Price).ConfigureAwait(false);
                                 await ReplyErrorLocalizedAsync("shop_role_purchase_error").ConfigureAwait(false);
                                 return;
                             }
 
                             var profit = GetProfitAmount(entry.Price);
-                            await _cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", profit)
+                            await cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", profit)
                                      .ConfigureAwait(false);
-                            await _cs.AddAsync(ctx.Client.CurrentUser.Id, "Shop sell item - cut", entry.Price - profit)
+                            await cs.AddAsync(ctx.Client.CurrentUser.Id, "Shop sell item - cut", entry.Price - profit)
                                      .ConfigureAwait(false);
                             await ReplyConfirmLocalizedAsync("shop_role_purchase", Format.Bold(role.Name))
                                 .ConfigureAwait(false);
@@ -167,10 +167,10 @@ public partial class Gambling
                     {
                         var item = entry.Items.ToArray()[new MewdekoRandom().Next(0, entry.Items.Count)];
 
-                        if (await _cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
+                        if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
                                      .ConfigureAwait(false))
                         {
-                            await using (var uow = _db.GetDbContext())
+                            await using (var uow = db.GetDbContext())
                             {
                                 uow.Set<ShopEntryItem>().Remove(item);
                                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -190,16 +190,16 @@ public partial class Gambling
                                                                         efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true)))
                                       .ConfigureAwait(false);
 
-                                await _cs.AddAsync(entry.AuthorId,
+                                await cs.AddAsync(entry.AuthorId,
                                     $"Shop sell item - {entry.Name}",
                                     GetProfitAmount(entry.Price)).ConfigureAwait(false);
                             }
                             catch
                             {
-                                await _cs.AddAsync(ctx.User.Id,
+                                await cs.AddAsync(ctx.User.Id,
                                     $"Shop error refund - {entry.Name}",
                                     entry.Price).ConfigureAwait(false);
-                                await using (var uow = _db.GetDbContext())
+                                await using (var uow = db.GetDbContext())
                                 {
                                     var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
                                             set => set.Include(x => x.ShopEntries)
@@ -244,7 +244,7 @@ public partial class Gambling
                 RoleId = role.Id,
                 RoleName = role.Name
             };
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 (await uow.ForGuildId(ctx.Guild.Id, set => set)).ShopEntries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
@@ -271,7 +271,7 @@ public partial class Gambling
                 AuthorId = ctx.User.Id,
                 Items = new HashSet<ShopEntryItem>()
             };
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 (await uow.ForGuildId(ctx.Guild.Id, set => set)).ShopEntries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
@@ -300,7 +300,7 @@ public partial class Gambling
             ShopEntry entry;
             var rightType = false;
             var added = false;
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
@@ -332,7 +332,7 @@ public partial class Gambling
             if (index < 0)
                 return;
             ShopEntry removed;
-            await using (var uow = _db.GetDbContext())
+            await using (var uow = db.GetDbContext())
             {
                 var config = await uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)

@@ -5,14 +5,14 @@ namespace Mewdeko.Common.TypeReaders;
 
 public class GuildTypeReader : MewdekoTypeReader<IGuild>
 {
-    private readonly DiscordSocketClient _client;
+    private readonly DiscordSocketClient client;
 
-    public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) => _client = client;
+    public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) => this.client = client;
 
     public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
         input = input.Trim().ToUpperInvariant();
-        var guilds = _client.Guilds;
+        var guilds = client.Guilds;
         var guild = guilds.FirstOrDefault(g => g.Id.ToString().Trim().ToUpperInvariant() == input) ?? //by id
                     guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == input); //by name
 

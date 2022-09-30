@@ -24,20 +24,20 @@ public partial class Moderation : MewdekoModule
             AddRole
         }
 
-        private readonly MuteService _mute;
-        private readonly InteractiveService _interactivity;
+        private readonly MuteService mute;
+        private readonly InteractiveService interactivity;
 
-        private readonly DbService _db;
-        private readonly NekosBestApi _nekos;
+        private readonly DbService db;
+        private readonly NekosBestApi nekos;
 
         public UserPunishCommands(MuteService mute, DbService db,
             InteractiveService serv,
             NekosBestApi nekos)
         {
-            _interactivity = serv;
-            _nekos = nekos;
-            _mute = mute;
-            _db = db;
+            interactivity = serv;
+            this.nekos = nekos;
+            this.mute = mute;
+            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
@@ -146,7 +146,7 @@ public partial class Moderation : MewdekoModule
             await ctx.Channel.EmbedAsync(embed);
             if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = _db.GetDbContext();
+                var uow = db.GetDbContext();
                 var warnings = uow.Warnings
                                   .ForId(ctx.Guild.Id, user.Id)
                                   .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -214,7 +214,7 @@ public partial class Moderation : MewdekoModule
                 .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -268,7 +268,7 @@ public partial class Moderation : MewdekoModule
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -417,7 +417,7 @@ public partial class Moderation : MewdekoModule
                 GetText("warn_punish_list"),
                 list).ConfigureAwait(false);
         }
-        
+
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
@@ -428,7 +428,7 @@ public partial class Moderation : MewdekoModule
 
             if (pruneTime.Time > TimeSpan.FromDays(49))
                 return;
-            
+
 
             if (user != null && !await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
@@ -453,7 +453,7 @@ public partial class Moderation : MewdekoModule
                 }
             }
 
-            await _mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}", pruneTime.Time).ConfigureAwait(false);
+            await mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}", pruneTime.Time).ConfigureAwait(false);
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
@@ -494,7 +494,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
         {
-            
+
             await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
@@ -533,7 +533,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -571,7 +571,7 @@ public partial class Moderation : MewdekoModule
                                            .WithTitle($"⛔️ {GetText("banned_user")}")
                                            .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                                            .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                                           .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                                           .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -732,7 +732,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle($"☣ {GetText("sb_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
@@ -779,7 +779,7 @@ public partial class Moderation : MewdekoModule
                 .WithTitle(GetText("kicked_user"))
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                .WithImageUrl((await _nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
 
             if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 

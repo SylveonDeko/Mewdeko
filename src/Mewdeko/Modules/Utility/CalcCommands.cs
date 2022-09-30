@@ -11,9 +11,9 @@ public partial class Utility
     [Group]
     public class CalcCommands : MewdekoSubmodule
     {
-        private readonly GuildSettingsService _guildSettings;
+        private readonly GuildSettingsService guildSettings;
 
-        public CalcCommands(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
+        public CalcCommands(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
 
         [Cmd, Aliases]
         public async Task Calculate([Remainder] string expression)
@@ -54,7 +54,7 @@ public partial class Utility
                     "GetHashCode",
                     "GetType"
                 });
-            await ctx.Channel.SendConfirmAsync(GetText("calcops", await _guildSettings.GetPrefix(ctx.Guild)), string.Join(", ", selection))
+            await ctx.Channel.SendConfirmAsync(GetText("calcops", await guildSettings.GetPrefix(ctx.Guild)), string.Join(", ", selection))
                 .ConfigureAwait(false);
         }
     }

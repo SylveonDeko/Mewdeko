@@ -8,17 +8,17 @@ namespace Mewdeko.Modules.Games.Common;
 
 public class TicTacToe
 {
-    private readonly ITextChannel _channel;
-    private readonly DiscordSocketClient _client;
-    private readonly SemaphoreSlim _moveLock;
+    private readonly ITextChannel channel;
+    private readonly DiscordSocketClient client;
+    private readonly SemaphoreSlim moveLock;
 
-    private readonly string[] _numbers =
+    private readonly string[] numbers =
         {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"};
 
-    private readonly Options _options;
-    private readonly int?[,] _state;
-    private readonly IBotStrings _strings;
-    private readonly IGuildUser?[] _users;
+    private readonly Options options;
+    private readonly int?[,] state;
+    private readonly IBotStrings strings;
+    private readonly IGuildUser?[] users;
     private int curUserIndex;
     private Phase phase;
 
@@ -30,13 +30,13 @@ public class TicTacToe
     public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
         IGuildUser firstUser, Options options)
     {
-        _channel = channel;
-        _strings = strings;
-        _client = client;
-        _options = options;
+        this.channel = channel;
+        this.strings = strings;
+        this.client = client;
+        this.options = options;
 
-        _users = new[] { firstUser, null };
-        _state = new int?[,]
+        users = new[] { firstUser, null };
+        state = new int?[,]
         {
             {null, null, null},
             {null, null, null},
@@ -44,26 +44,26 @@ public class TicTacToe
         };
 
         phase = Phase.Starting;
-        _moveLock = new SemaphoreSlim(1, 1);
+        moveLock = new SemaphoreSlim(1, 1);
     }
 
     public event Action<TicTacToe> OnEnded;
 
-    private string? GetText(string? key, params object?[] replacements) => _strings.GetText(key, _channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) => strings.GetText(key, channel.GuildId, replacements);
 
     public string GetState()
     {
         var sb = new StringBuilder();
-        for (var i = 0; i < _state.GetLength(0); i++)
+        for (var i = 0; i < state.GetLength(0); i++)
         {
-            for (var j = 0; j < _state.GetLength(1); j++)
+            for (var j = 0; j < state.GetLength(1); j++)
             {
-                sb.Append(_state[i, j] == null ? _numbers[(i * 3) + j] : GetIcon(_state[i, j]));
-                if (j < _state.GetLength(1) - 1)
+                sb.Append(state[i, j] == null ? numbers[(i * 3) + j] : GetIcon(state[i, j]));
+                if (j < state.GetLength(1) - 1)
                     sb.Append('┃');
             }
 
-            if (i < _state.GetLength(0) - 1)
+            if (i < state.GetLength(0) - 1)
                 sb.AppendLine("\n──────────");
         }
 
@@ -75,7 +75,7 @@ public class TicTacToe
         var embed = new EmbedBuilder()
             .WithOkColor()
             .WithDescription(Environment.NewLine + GetState())
-            .WithAuthor(eab => eab.WithName(GetText("vs", _users[0], _users[1])));
+            .WithAuthor(eab => eab.WithName(GetText("vs", users[0], users[1])));
 
         if (!string.IsNullOrWhiteSpace(title))
             embed.WithTitle(title);
@@ -85,7 +85,7 @@ public class TicTacToe
             if (phase == Phase.Ended)
                 embed.WithFooter(efb => efb.WithText(GetText("ttt_no_moves")));
             else
-                embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[curUserIndex])));
+                embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", users[curUserIndex])));
         }
         else
         {
@@ -109,36 +109,36 @@ public class TicTacToe
     {
         if (phase is Phase.Started or Phase.Ended)
         {
-            await _channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
+            await channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
             return;
         }
 
-        if (_users[0] == user)
+        if (users[0] == user)
         {
-            await _channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself")).ConfigureAwait(false);
+            await channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself")).ConfigureAwait(false);
             return;
         }
 
-        _users[1] = user;
+        users[1] = user;
 
         phase = Phase.Started;
 
         timeoutTimer = new Timer(async _ =>
         {
-            await _moveLock.WaitAsync().ConfigureAwait(false);
+            await moveLock.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (phase == Phase.Ended)
                     return;
 
                 phase = Phase.Ended;
-                if (_users[1].Username != null)
+                if (users[1].Username != null)
                 {
-                    winner = _users[curUserIndex ^= 1];
+                    winner = users[curUserIndex ^= 1];
                     var del = previousMessage?.DeleteAsync();
                     try
                     {
-                        await _channel.EmbedAsync(GetEmbed(GetText("ttt_time_expired"))).ConfigureAwait(false);
+                        await channel.EmbedAsync(GetEmbed(GetText("ttt_time_expired"))).ConfigureAwait(false);
                         if (del != null)
                             await del.ConfigureAwait(false);
                     }
@@ -156,13 +156,13 @@ public class TicTacToe
             }
             finally
             {
-                _moveLock.Release();
+                moveLock.Release();
             }
-        }, null, _options.TurnTimer * 1000, Timeout.Infinite);
+        }, null, options.TurnTimer * 1000, Timeout.Infinite);
 
-        _client.MessageReceived += Client_MessageReceived;
+        client.MessageReceived += Client_MessageReceived;
 
-        previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
+        previousMessage = await channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
     }
 
     private bool IsDraw()
@@ -171,7 +171,7 @@ public class TicTacToe
         {
             for (var j = 0; j < 3; j++)
             {
-                if (_state[i, j] == null)
+                if (state[i, j] == null)
                     return false;
             }
         }
@@ -183,54 +183,54 @@ public class TicTacToe
     {
         _ = Task.Run(async () =>
         {
-            await _moveLock.WaitAsync().ConfigureAwait(false);
+            await moveLock.WaitAsync().ConfigureAwait(false);
             try
             {
-                var curUser = _users[curUserIndex];
+                var curUser = users[curUserIndex];
                 if (phase == Phase.Ended || msg.Author?.Id != curUser.Id)
                     return;
 
                 if (int.TryParse(msg.Content, out var index) &&
                     --index >= 0 &&
                     index <= 9 &&
-                    _state[index / 3, index % 3] == null)
+                    state[index / 3, index % 3] == null)
                 {
-                    _state[index / 3, index % 3] = curUserIndex;
+                    state[index / 3, index % 3] = curUserIndex;
 
                     // i'm lazy
-                    if (_state[index / 3, 0] == _state[index / 3, 1] &&
-                        _state[index / 3, 1] == _state[index / 3, 2])
+                    if (state[index / 3, 0] == state[index / 3, 1] &&
+                        state[index / 3, 1] == state[index / 3, 2])
                     {
-                        _state[index / 3, 0] = curUserIndex + 2;
-                        _state[index / 3, 1] = curUserIndex + 2;
-                        _state[index / 3, 2] = curUserIndex + 2;
+                        state[index / 3, 0] = curUserIndex + 2;
+                        state[index / 3, 1] = curUserIndex + 2;
+                        state[index / 3, 2] = curUserIndex + 2;
 
                         phase = Phase.Ended;
                     }
-                    else if (_state[0, index % 3] == _state[1, index % 3] &&
-                             _state[1, index % 3] == _state[2, index % 3])
+                    else if (state[0, index % 3] == state[1, index % 3] &&
+                             state[1, index % 3] == state[2, index % 3])
                     {
-                        _state[0, index % 3] = curUserIndex + 2;
-                        _state[1, index % 3] = curUserIndex + 2;
-                        _state[2, index % 3] = curUserIndex + 2;
+                        state[0, index % 3] = curUserIndex + 2;
+                        state[1, index % 3] = curUserIndex + 2;
+                        state[2, index % 3] = curUserIndex + 2;
 
                         phase = Phase.Ended;
                     }
-                    else if (curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] &&
-                             _state[1, 1] == _state[2, 2])
+                    else if (curUserIndex == state[0, 0] && state[0, 0] == state[1, 1] &&
+                             state[1, 1] == state[2, 2])
                     {
-                        _state[0, 0] = curUserIndex + 2;
-                        _state[1, 1] = curUserIndex + 2;
-                        _state[2, 2] = curUserIndex + 2;
+                        state[0, 0] = curUserIndex + 2;
+                        state[1, 1] = curUserIndex + 2;
+                        state[2, 2] = curUserIndex + 2;
 
                         phase = Phase.Ended;
                     }
-                    else if (curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] &&
-                             _state[1, 1] == _state[2, 0])
+                    else if (curUserIndex == state[0, 2] && state[0, 2] == state[1, 1] &&
+                             state[1, 1] == state[2, 0])
                     {
-                        _state[0, 2] = curUserIndex + 2;
-                        _state[1, 1] = curUserIndex + 2;
-                        _state[2, 0] = curUserIndex + 2;
+                        state[0, 2] = curUserIndex + 2;
+                        state[1, 1] = curUserIndex + 2;
+                        state[2, 0] = curUserIndex + 2;
 
                         phase = Phase.Ended;
                     }
@@ -240,15 +240,15 @@ public class TicTacToe
                     if (phase == Phase.Ended) // if user won, stop receiving moves
                     {
                         reason = GetText("ttt_matched_three");
-                        winner = _users[curUserIndex];
-                        _client.MessageReceived -= Client_MessageReceived;
+                        winner = users[curUserIndex];
+                        client.MessageReceived -= Client_MessageReceived;
                         OnEnded.Invoke(this);
                     }
                     else if (IsDraw())
                     {
                         reason = GetText("ttt_a_draw");
                         phase = Phase.Ended;
-                        _client.MessageReceived -= Client_MessageReceived;
+                        client.MessageReceived -= Client_MessageReceived;
                         OnEnded.Invoke(this);
                     }
 
@@ -258,7 +258,7 @@ public class TicTacToe
                         var del2 = previousMessage?.DeleteAsync();
                         try
                         {
-                            previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false);
+                            previousMessage = await channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -285,12 +285,12 @@ public class TicTacToe
                     });
                     curUserIndex ^= 1;
 
-                    timeoutTimer.Change(_options.TurnTimer * 1000, Timeout.Infinite);
+                    timeoutTimer.Change(options.TurnTimer * 1000, Timeout.Infinite);
                 }
             }
             finally
             {
-                _moveLock.Release();
+                moveLock.Release();
             }
         });
 

@@ -15,7 +15,7 @@ public class RealBooruImageDownloader : ImageDownloader<RealBooruElement>
     {
         var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit: false);
         var uri = $"https://realbooru.com/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
-        var images = await _http.GetFromJsonAsync<List<RealBooruElement>>(uri, _serializerOptions, cancellationToken: cancel).ConfigureAwait(false);
+        var images = await Http.GetFromJsonAsync<List<RealBooruElement>>(uri, SerializerOptions, cancellationToken: cancel).ConfigureAwait(false);
         return images ?? new List<RealBooruElement>();
     }
 }

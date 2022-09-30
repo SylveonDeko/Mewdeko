@@ -15,10 +15,10 @@ public partial class Gambling
     [Group]
     public class AnimalRacingCommands : GamblingSubmodule<AnimalRaceService>
     {
-        private readonly ICurrencyService _cs;
-        private readonly GamesConfigService _gamesConf;
-        private readonly GuildSettingsService _guildSettings;
-        private readonly EventHandler _eventHandler;
+        private readonly ICurrencyService cs;
+        private readonly GamesConfigService gamesConf;
+        private readonly GuildSettingsService guildSettings;
+        private readonly EventHandler eventHandler;
 
         private IUserMessage? raceMessage;
 
@@ -27,10 +27,10 @@ public partial class Gambling
             GuildSettingsService guildSettings,
             EventHandler eventHandler) : base(gamblingConf)
         {
-            _cs = cs;
-            _gamesConf = gamesConf;
-            _guildSettings = guildSettings;
-            _eventHandler = eventHandler;
+            this.cs = cs;
+            this.gamesConf = gamesConf;
+            this.guildSettings = guildSettings;
+            this.eventHandler = eventHandler;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -39,7 +39,7 @@ public partial class Gambling
         {
             var (options, _) = OptionsParser.ParseFrom(new RaceOptions(), args);
 
-            var ar = new AnimalRace(options, _cs, _gamesConf.Data.RaceAnimals.Shuffle());
+            var ar = new AnimalRace(options, cs, gamesConf.Data.RaceAnimals.Shuffle());
             if (!Service.AnimalRaces.TryAdd(ctx.Guild.Id, ar))
                 return ctx.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
@@ -67,7 +67,7 @@ public partial class Gambling
 
             async Task<IUserMessage> ArOnEnded(AnimalRace race)
             {
-                _eventHandler.MessageReceived -= ClientMessageReceived;
+                eventHandler.MessageReceived -= ClientMessageReceived;
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 var winner = race.FinishedUsers[0];
                 if (race.FinishedUsers[0].Bet > 0)
@@ -85,14 +85,14 @@ public partial class Gambling
             ar.OnStateUpdate += Ar_OnStateUpdate;
             ar.OnEnded += ArOnEnded;
             ar.OnStarted += Ar_OnStarted;
-            _eventHandler.MessageReceived += ClientMessageReceived;
+            eventHandler.MessageReceived += ClientMessageReceived;
 
             return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                 GetText("animal_race_starting", options.StartTime),
-                footer: GetText("animal_race_join_instr", await _guildSettings.GetPrefix(ctx.Guild)));
+                footer: GetText("animal_race_join_instr", await guildSettings.GetPrefix(ctx.Guild)));
         }
 
-        private Task Ar_OnStarted(AnimalRace race) 
+        private Task Ar_OnStarted(AnimalRace race)
             => ctx.Channel.SendConfirmAsync(GetText("animal_race"), race.Users.Count == race.MaxUsers ? GetText("animal_race_full") : GetText("animal_race_starting_with_x", race.Users.Count));
 
         private async Task Ar_OnStateUpdate(AnimalRace race)

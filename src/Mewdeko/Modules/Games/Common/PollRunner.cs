@@ -5,13 +5,13 @@ namespace Mewdeko.Modules.Games.Common;
 
 public class PollRunner
 {
-    private readonly DbService _db;
+    private readonly DbService db;
 
-    private readonly SemaphoreSlim _locker = new(1, 1);
+    private readonly SemaphoreSlim locker = new(1, 1);
 
     public PollRunner(DbService db, Poll poll)
     {
-        _db = db;
+        this.db = db;
         Poll = poll;
     }
 
@@ -20,7 +20,7 @@ public class PollRunner
     public async Task<(bool allowed, PollType type)> TryVote(int num, IUser user)
     {
         PollVote voteObj;
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             voteObj = new PollVote
@@ -33,7 +33,7 @@ public class PollRunner
             {
                 case PollType.SingleAnswer when !Poll.Votes.Contains(voteObj):
                     {
-                        await using var uow = _db.GetDbContext();
+                        await using var uow = db.GetDbContext();
                         var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
                         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -46,7 +46,7 @@ public class PollRunner
 
                 case PollType.AllowChange when voteCheck:
                     {
-                        await using var uow = _db.GetDbContext();
+                        await using var uow = db.GetDbContext();
                         var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(trackedPoll.Votes.Find(x => x.UserId == user.Id));
                         trackedPoll.Votes.Add(voteObj);
@@ -61,7 +61,7 @@ public class PollRunner
 
                 case PollType.MultiAnswer when !voteCheck:
                     {
-                        await using var uow = _db.GetDbContext();
+                        await using var uow = db.GetDbContext();
                         var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(voteObj);
                         Poll.Votes.Remove(voteObj);
@@ -71,7 +71,7 @@ public class PollRunner
 
                 case PollType.MultiAnswer when voteCheck:
                     {
-                        await using var uow = _db.GetDbContext();
+                        await using var uow = db.GetDbContext();
                         var trackedPoll = await uow.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
                         Poll.Votes.Add(voteObj);
@@ -82,7 +82,7 @@ public class PollRunner
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
 
         return (true, Poll.PollType);

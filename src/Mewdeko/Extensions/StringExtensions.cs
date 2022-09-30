@@ -1,5 +1,4 @@
 ﻿using Mewdeko.Common.Yml;
-using MoreLinq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
@@ -10,31 +9,31 @@ namespace Mewdeko.Extensions;
 
 public static class StringExtensions
 {
-    private static readonly HashSet<char> _lettersAndDigits = new(Enumerable.Range(48, 10)
+    private static readonly HashSet<char> LettersAndDigits = new(Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
         .Concat(Enumerable.Range(97, 26))
         .Select(x => (char)x));
 
-    private static readonly Regex _filterRegex =
+    private static readonly Regex FilterRegex =
         new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
                                                                             RegexOptions.IgnoreCase);
 
-    private static readonly Regex _codePointRegex
+    private static readonly Regex CodePointRegex
         = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
     public static string GenerateSecureString(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
- 
+
         var sb = new StringBuilder();
         var rnd = new Random();
- 
+
         for (var i = 0; i < length; i++)
         {
             var index = rnd.Next(chars.Length);
             sb.Append(chars[index]);
         }
- 
+
         return sb.ToString();
     }
     public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
@@ -48,15 +47,15 @@ public static class StringExtensions
     }
 
     public static string UnescapeUnicodeCodePoints(this string input) =>
-        _codePointRegex.Replace(input, me =>
+        CodePointRegex.Replace(input, me =>
         {
             var str = me.Groups["code"].Value;
             return YamlHelper.UnescapeUnicodeCodePoint(str);
         });
 
     public static bool IsImage(this string input) =>
-        input.EndsWith(".png") || 
-        input.EndsWith(".gif") || 
+        input.EndsWith(".png") ||
+        input.EndsWith(".gif") ||
         input.EndsWith(".jpg") ||
         input.EndsWith(".jpeg");
 
@@ -160,7 +159,7 @@ public static class StringExtensions
         return ms;
     }
 
-    public static bool IsDiscordInvite(this string str) => _filterRegex.IsMatch(str);
+    public static bool IsDiscordInvite(this string str) => FilterRegex.IsMatch(str);
 
     public static string SanitizeMentions(this string? str, bool sanitizeRoleMentions = false)
     {
@@ -190,7 +189,7 @@ public static class StringExtensions
 
     public static string GetInitials(this string txt, string glue = "") => string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
-    public static bool IsAlphaNumeric(this string txt) => txt.All(c => _lettersAndDigits.Contains(c));
+    public static bool IsAlphaNumeric(this string txt) => txt.All(c => LettersAndDigits.Contains(c));
 
     public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
 

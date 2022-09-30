@@ -12,35 +12,35 @@ namespace Mewdeko.Modules.Moderation.Services;
 
 public class UserPunishService : INService
 {
-    private readonly BlacklistService _blacklistService;
-    private readonly DbService _db;
-    private readonly MuteService _mute;
-    private readonly DiscordSocketClient _client;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly BlacklistService blacklistService;
+    private readonly DbService db;
+    private readonly MuteService mute;
+    private readonly DiscordSocketClient client;
+    private readonly GuildSettingsService guildSettings;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         DiscordSocketClient client,
         GuildSettingsService guildSettings)
     {
-        _mute = mute;
-        _db = db;
-        _blacklistService = blacklistService;
-        _client = client;
-        _guildSettings = guildSettings;
+        this.mute = mute;
+        this.db = db;
+        this.blacklistService = blacklistService;
+        this.client = client;
+        this.guildSettings = guildSettings;
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync().ConfigureAwait(false), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
     public async Task<ulong> GetWarnlogChannel(ulong id)
-        => (await _guildSettings.GetGuildConfig(id)).WarnlogChannelId;
+        => (await guildSettings.GetGuildConfig(id)).WarnlogChannelId;
 
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.WarnlogChannelId = channel.Id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<WarningPunishment>? Warn(IGuild guild, ulong userId, IUser mod, string reason)
@@ -63,7 +63,7 @@ public class UserPunishService : INService
 
         var warnings = 1;
         List<WarningPunishment> ps;
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments)))
@@ -102,11 +102,11 @@ public class UserPunishService : INService
             case PunishmentAction.Mute:
                 if (minutes == 0)
                 {
-                    await _mute.MuteUser(user, mod, reason: reason).ConfigureAwait(false);
+                    await mute.MuteUser(user, mod, reason: reason).ConfigureAwait(false);
                 }
                 else
                 {
-                    await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), reason: reason)
+                    await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), reason: reason)
                                         .ConfigureAwait(false);
                 }
 
@@ -114,11 +114,11 @@ public class UserPunishService : INService
             case PunishmentAction.VoiceMute:
                 if (minutes == 0)
                 {
-                    await _mute.MuteUser(user, mod, MuteType.Voice, reason).ConfigureAwait(false);
+                    await mute.MuteUser(user, mod, MuteType.Voice, reason).ConfigureAwait(false);
                 }
                 else
                 {
-                    await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Voice, reason)
+                    await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Voice, reason)
                                         .ConfigureAwait(false);
                 }
 
@@ -126,11 +126,11 @@ public class UserPunishService : INService
             case PunishmentAction.ChatMute:
                 if (minutes == 0)
                 {
-                    await _mute.MuteUser(user, mod, MuteType.Chat, reason).ConfigureAwait(false);
+                    await mute.MuteUser(user, mod, MuteType.Chat, reason).ConfigureAwait(false);
                 }
                 else
                 {
-                    await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Chat, reason)
+                    await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Chat, reason)
                                         .ConfigureAwait(false);
                 }
 
@@ -145,7 +145,7 @@ public class UserPunishService : INService
                 }
                 else
                 {
-                    await _mute.TimedBan(user.Guild, user, TimeSpan.FromMinutes(minutes), reason)
+                    await mute.TimedBan(user.Guild, user, TimeSpan.FromMinutes(minutes), reason)
                                         .ConfigureAwait(false);
                 }
 
@@ -178,7 +178,7 @@ public class UserPunishService : INService
                     }
                     else
                     {
-                        await _mute.TimedRole(user, TimeSpan.FromMinutes(minutes), reason, role)
+                        await mute.TimedRole(user, TimeSpan.FromMinutes(minutes), reason, role)
                                                 .ConfigureAwait(false);
                     }
                 }
@@ -188,7 +188,7 @@ public class UserPunishService : INService
                 }
                 break;
             case PunishmentAction.Warn:
-                await Warn(guild, user.Id, _client.CurrentUser, reason).ConfigureAwait(false);
+                await Warn(guild, user.Id, client.CurrentUser, reason).ConfigureAwait(false);
                 break;
             case PunishmentAction.Timeout:
                 try
@@ -206,7 +206,7 @@ public class UserPunishService : INService
 
     public async Task CheckAllWarnExpiresAsync()
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var cleared = await uow.Database.ExecuteSqlRawAsync(@"UPDATE Warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
@@ -224,7 +224,7 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 
     public async Task CheckWarnExpiresAsync(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var config = await uow.ForGuildId(guildId, inc => inc);
 
         if (config.WarnExpireHours == 0)
@@ -253,7 +253,7 @@ WHERE GuildId={guildId}
 
     public async Task WarnExpireAsync(ulong guildId, int days, bool delete)
     {
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.ForGuildId(guildId, inc => inc);
@@ -272,20 +272,20 @@ WHERE GuildId={guildId}
 
     public async Task<IGrouping<ulong, Warning>[]> WarnlogAll(ulong gid)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return (await uow.Warnings.GetForGuild(gid)).GroupBy(x => x.UserId).ToArray();
     }
 
     public Warning[] UserWarnings(ulong gid, ulong userId)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.Warnings.ForId(gid, userId);
     }
 
     public async Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
     {
         var toReturn = true;
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         if (index == 0)
             await uow.Warnings.ForgiveAll(guildId, userId, moderator).ConfigureAwait(false);
         else
@@ -303,7 +303,7 @@ WHERE GuildId={guildId}
         if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
             return false;
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments))).WarnPunishments;
         var toDelete = ps.Where(x => x.Count == number);
 
@@ -326,7 +326,7 @@ WHERE GuildId={guildId}
         if (number <= 0)
             return false;
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments))).WarnPunishments;
         var p = ps.Find(x => x.Count == number);
 
@@ -341,7 +341,7 @@ WHERE GuildId={guildId}
 
     public async Task<WarningPunishment[]> WarnPunishList(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         return (await uow.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments)))
             .WarnPunishments
             .OrderBy(x => x.Count)
@@ -381,14 +381,14 @@ WHERE GuildId={guildId}
             .Select(x => x.Id.Value)
             .ToList();
 
-        _blacklistService.BlacklistUsers(found);
+        blacklistService.BlacklistUsers(found);
 
         return (bans, missing);
     }
 
     public string? GetBanTemplate(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var template = uow.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
@@ -397,13 +397,13 @@ WHERE GuildId={guildId}
 
     public string GetWarnMessageTemplate(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.GuildConfigs.AsQueryable().FirstOrDefault(x => x.GuildId == guildId).WarnMessage;
     }
 
     public void SetBanTemplate(ulong guildId, string? text)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         var template = uow.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
@@ -441,7 +441,7 @@ WHERE GuildId={guildId}
             defaultMessage,
             banReason,
             duration);
-    
+
     public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context, IGuildUser target, string? defaultMessage,
         string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(

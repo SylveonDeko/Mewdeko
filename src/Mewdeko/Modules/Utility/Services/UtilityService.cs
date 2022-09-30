@@ -8,10 +8,10 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class UtilityService : INService
 {
-    private readonly DbService _db;
-    private readonly IDataCache _cache;
-    private readonly GuildSettingsService _guildSettings;
-    private readonly DiscordSocketClient _client;
+    private readonly DbService db;
+    private readonly IDataCache cache;
+    private readonly GuildSettingsService guildSettings;
+    private readonly DiscordSocketClient client;
 
     public UtilityService(
         DbService db,
@@ -25,31 +25,31 @@ public class UtilityService : INService
         eventHandler.MessageReceived += MsgReciev;
         eventHandler.MessageReceived += MsgReciev2;
         eventHandler.MessagesBulkDeleted += BulkMsgStore;
-        _db = db;
-        _cache = cache;
-        _guildSettings = guildSettings;
-        _client = client;
+        this.db = db;
+        this.cache = cache;
+        this.guildSettings = guildSettings;
+        this.client = client;
     }
 
-    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) => await _cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
+    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) => await cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
 
-    public async Task<int> GetPLinks(ulong id) => (await _guildSettings.GetGuildConfig(id)).PreviewLinks;
+    public async Task<int> GetPLinks(ulong id) => (await guildSettings.GetGuildConfig(id)).PreviewLinks;
 
-    public async Task<ulong> GetReactChans(ulong id) => (await _guildSettings.GetGuildConfig(id)).ReactChannel;
+    public async Task<ulong> GetReactChans(ulong id) => (await guildSettings.GetGuildConfig(id)).ReactChannel;
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ReactChannel = yesnt;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (_db.GetDbContext().ConfigureAwait(false))
+        await using (db.GetDbContext().ConfigureAwait(false))
         {
             yesno = yesnt switch
             {
@@ -59,34 +59,34 @@ public class UtilityService : INService
             };
         }
 
-        var uow = _db.GetDbContext();
+        var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            _guildSettings.UpdateGuildConfig(guild.Id, gc);
+            guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
     }
 
-    public async Task<bool> GetSnipeSet(ulong id) => (await _guildSettings.GetGuildConfig(id)).snipeset;
+    public async Task<bool> GetSnipeSet(ulong id) => (await guildSettings.GetGuildConfig(id)).snipeset;
 
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        _guildSettings.UpdateGuildConfig(guild.Id, gc);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     private async Task BulkMsgStore(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages, Cacheable<IMessageChannel, ulong> channel)
@@ -102,7 +102,7 @@ public class UtilityService : INService
 
         if (!messages.Select(x => x.HasValue).Any())
             return;
-        
+
 
         var msgs = messages.Where(x => x.HasValue).Where(x => !x.Value.Author.IsBot)?.Select(x => new SnipeStore
         {
@@ -113,11 +113,11 @@ public class UtilityService : INService
             Edited = false,
             DateAdded = DateTime.UtcNow
         });
-        
+
         if (!msgs.Any())
             return;
-        
-        var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+
+        var snipes = await cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
         if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -126,7 +126,7 @@ public class UtilityService : INService
         }
 
         snipes.AddRange(msgs);
-        await _cache.AddSnipeToCache(chan.Guild.Id, snipes).ConfigureAwait(false);
+        await cache.AddSnipeToCache(chan.Guild.Id, snipes).ConfigureAwait(false);
     }
 
     private async Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
@@ -147,7 +147,7 @@ public class UtilityService : INService
                 Edited = false,
                 DateAdded = DateTime.UtcNow
             };
-            var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+            var snipes = await cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
             if (snipes.Count == 0)
             {
                 var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -156,7 +156,7 @@ public class UtilityService : INService
             }
 
             snipes.Add(snipemsg);
-            await _cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes).ConfigureAwait(false);
+            await cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes).ConfigureAwait(false);
         }
     }
 
@@ -181,7 +181,7 @@ public class UtilityService : INService
                 Edited = true,
                 DateAdded = DateTime.UtcNow
             };
-            var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+            var snipes = await cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
             if (snipes.Count == 0)
             {
                 var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -190,7 +190,7 @@ public class UtilityService : INService
             }
 
             snipes.Add(snipemsg);
-            await _cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes).ConfigureAwait(false);
+            await cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes).ConfigureAwait(false);
         }
     }
 
@@ -237,7 +237,7 @@ public class UtilityService : INService
                     SocketGuild guild;
                     if (gid.Id != Convert.ToUInt64(eb[2]))
                     {
-                        guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
+                        guild = client.GetGuild(Convert.ToUInt64(eb[2]));
                         if (guild is null) return;
                     }
                     else

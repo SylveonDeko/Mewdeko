@@ -2,13 +2,13 @@ namespace Mewdeko.Services.strings.impl;
 
 public class LocalBotStringsProvider : IBotStringsProvider
 {
-    private readonly IStringsSource _source;
+    private readonly IStringsSource source;
     private IReadOnlyDictionary<string, Dictionary<string, CommandStrings>> commandStrings;
     private IReadOnlyDictionary<string, Dictionary<string, string>> responseStrings;
 
     public LocalBotStringsProvider(IStringsSource source)
     {
-        _source = source;
+        this.source = source;
         Reload();
     }
 
@@ -25,8 +25,8 @@ public class LocalBotStringsProvider : IBotStringsProvider
 
     public void Reload()
     {
-        responseStrings = _source.GetResponseStrings();
-        commandStrings = _source.GetCommandStrings();
+        responseStrings = source.GetResponseStrings();
+        commandStrings = source.GetCommandStrings();
     }
 
     public CommandStrings? GetCommandStrings(string localeName, string commandName)

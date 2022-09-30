@@ -12,17 +12,17 @@ public class CurrencyRaffleService : INService
         AlreadyJoinedOrInvalidAmount
     }
 
-    private readonly ICurrencyService _cs;
-    private readonly SemaphoreSlim _locker = new(1, 1);
+    private readonly ICurrencyService cs;
+    private readonly SemaphoreSlim locker = new(1, 1);
 
-    public CurrencyRaffleService(ICurrencyService cs) => _cs = cs;
+    public CurrencyRaffleService(ICurrencyService cs) => this.cs = cs;
 
     public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new();
 
     public async Task<(CurrencyRaffleGame?, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user,
         long amount, bool mixed, Func<IUser, long, Task> onEnded)
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             var newGame = false;
@@ -35,9 +35,9 @@ public class CurrencyRaffleService : INService
                 Games.Add(channelId, crg);
             }
 
-            //remove money, and stop the game if this 
+            //remove money, and stop the game if this
             // user created it and doesn't have the money
-            if (!await _cs.RemoveAsync(user.Id, "Currency Raffle Join", amount).ConfigureAwait(false))
+            if (!await cs.RemoveAsync(user.Id, "Currency Raffle Join", amount).ConfigureAwait(false))
             {
                 if (newGame)
                     Games.Remove(channelId);
@@ -46,7 +46,7 @@ public class CurrencyRaffleService : INService
 
             if (!crg.AddUser(user, amount))
             {
-                await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
+                await cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
                 return (null, JoinErrorType.AlreadyJoinedOrInvalidAmount);
             }
 
@@ -55,13 +55,13 @@ public class CurrencyRaffleService : INService
                 await Task.Run(async () =>
                 {
                     await Task.Delay(60000).ConfigureAwait(false);
-                    await _locker.WaitAsync().ConfigureAwait(false);
+                    await locker.WaitAsync().ConfigureAwait(false);
                     try
                     {
                         var winner = crg.GetWinner();
                         var won = crg.Users.Sum(x => x.Amount);
 
-                        await _cs.AddAsync(winner.DiscordUser.Id, "Currency Raffle Win",
+                        await cs.AddAsync(winner.DiscordUser.Id, "Currency Raffle Win",
                             won).ConfigureAwait(false);
                         Games.Remove(channelId, out _);
                         await onEnded(winner.DiscordUser, won);
@@ -72,7 +72,7 @@ public class CurrencyRaffleService : INService
                     }
                     finally
                     {
-                        _locker.Release();
+                        locker.Release();
                     }
                 });
             }
@@ -81,7 +81,7 @@ public class CurrencyRaffleService : INService
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 }

@@ -15,7 +15,7 @@ public partial class Searches
     [Group]
     public class MemegenCommands : MewdekoSubmodule
     {
-        private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>
+        private static readonly ImmutableDictionary<char, string> Map = new Dictionary<char, string>
         {
             {'?', "~q"},
             {'%', "~p"},
@@ -27,19 +27,19 @@ public partial class Searches
             {'"', "''"}
         }.ToImmutableDictionary();
 
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly InteractiveService _interactivity;
+        private readonly IHttpClientFactory httpFactory;
+        private readonly InteractiveService interactivity;
 
         public MemegenCommands(IHttpClientFactory factory, InteractiveService serv)
         {
-            _interactivity = serv;
-            _httpFactory = factory;
+            interactivity = serv;
+            httpFactory = factory;
         }
 
         [Cmd, Aliases]
         public async Task Memelist()
         {
-            using var http = _httpFactory.CreateClient("memelist");
+            using var http = httpFactory.CreateClient("memelist");
             var res = await http.GetAsync("https://api.memegen.link/templates/")
                 .ConfigureAwait(false);
 
@@ -56,7 +56,7 @@ public partial class Searches
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -92,7 +92,7 @@ public partial class Searches
 
             foreach (var c in input)
             {
-                if (_map.TryGetValue(c, out var tmp))
+                if (Map.TryGetValue(c, out var tmp))
                     sb.Append(tmp);
                 else
                     sb.Append(c);

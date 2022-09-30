@@ -14,11 +14,11 @@ public class NotifChecker
 {
     public event Func<List<StreamData>, Task> OnStreamsOffline = _ => Task.CompletedTask;
     public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
-    private readonly ConnectionMultiplexer _multi;
-    private readonly string _key;
+    private readonly ConnectionMultiplexer multi;
+    private readonly string key;
 
-    private readonly Dictionary<FollowedStream.FType, Provider> _streamProviders;
-    private readonly HashSet<(FollowedStream.FType, string)> _offlineBuffer;
+    private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
+    private readonly HashSet<(FollowedStream.FType, string)> offlineBuffer;
 
     public NotifChecker(
         IHttpClientFactory httpClientFactory,
@@ -27,15 +27,15 @@ public class NotifChecker
         string uniqueCacheKey,
         bool isMaster)
     {
-        _multi = multi;
-        _key = $"{uniqueCacheKey}_followed_streams_data";
-        _streamProviders = new Dictionary<FollowedStream.FType, Provider>
+        this.multi = multi;
+        key = $"{uniqueCacheKey}_followed_streams_data";
+        streamProviders = new Dictionary<FollowedStream.FType, Provider>
         {
             { FollowedStream.FType.Twitch, new TwitchHelixProvider(httpClientFactory, credsProvider) },
             { FollowedStream.FType.Picarto, new PicartoProvider(httpClientFactory) },
             { FollowedStream.FType.Trovo, new TrovoProvider(httpClientFactory, credsProvider) }
         };
-        _offlineBuffer = new HashSet<(FollowedStream.FType, string)>();
+        offlineBuffer = new HashSet<(FollowedStream.FType, string)>();
         if (isMaster)
             CacheClearAllData();
     }
@@ -43,16 +43,16 @@ public class NotifChecker
     // gets all streams which have been failing for more than the provided timespan
     public IEnumerable<StreamDataKey> GetFailingStreams(TimeSpan duration, bool remove = false)
     {
-        var toReturn = _streamProviders
+        var toReturn = streamProviders
                        .SelectMany(prov => prov.Value
-                                               .FailingStreams
+                                               .FailingStreamsDictionary
                                                .Where(fs => DateTime.UtcNow - fs.Value > duration)
                                                .Select(fs => new StreamDataKey(prov.Value.Platform, fs.Key)))
                        .ToList();
 
         if (!remove) return toReturn;
         foreach (var toBeRemoved in toReturn)
-            _streamProviders[toBeRemoved.Type].ClearErrorsFor(toBeRemoved.Name);
+            streamProviders[toBeRemoved.Type].ClearErrorsFor(toBeRemoved.Name);
 
         return toReturn;
     }
@@ -77,7 +77,7 @@ public class NotifChecker
                                              .Select(x =>
                                              {
                                                  // get all stream data for the streams of this type
-                                                 if (_streamProviders.TryGetValue(x.Key,
+                                                 if (streamProviders.TryGetValue(x.Key,
                                                          out var provider))
                                                  {
                                                      return provider.GetStreamDataAsync(x.Value
@@ -124,7 +124,7 @@ public class NotifChecker
                        //       This offlineBuffer will make it so that the stream has to be marked as offline TWICE
                        //       before it sends an offline notification to the subscribers.
                        var streamId = (key.Type, key.Name);
-                       if (!newData.IsLive && _offlineBuffer.Remove(streamId))
+                       if (!newData.IsLive && offlineBuffer.Remove(streamId))
                        {
                            newlyOffline.Add(newData);
                        }
@@ -132,12 +132,12 @@ public class NotifChecker
                        {
                            if (newData.IsLive)
                            {
-                               _offlineBuffer.Remove(streamId);
+                               offlineBuffer.Remove(streamId);
                                newlyOnline.Add(newData);
                            }
                            else
                            {
-                               _offlineBuffer.Add(streamId);
+                               offlineBuffer.Add(streamId);
                                // newlyOffline.Add(newData);
                            }
                        }
@@ -165,8 +165,8 @@ public class NotifChecker
 
     public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
     {
-        var db = _multi.GetDatabase();
-        return db.HashSet(_key,
+        var db = multi.GetDatabase();
+        return db.HashSet(this.key,
             JsonConvert.SerializeObject(key),
             JsonConvert.SerializeObject(data),
             replace ? When.Always : When.NotExists);
@@ -174,23 +174,23 @@ public class NotifChecker
 
     public void CacheDeleteData(StreamDataKey key)
     {
-        var db = _multi.GetDatabase();
-        db.HashDelete(_key, JsonConvert.SerializeObject(key));
+        var db = multi.GetDatabase();
+        db.HashDelete(this.key, JsonConvert.SerializeObject(key));
     }
 
     public void CacheClearAllData()
     {
-        var db = _multi.GetDatabase();
-        db.KeyDelete(_key);
+        var db = multi.GetDatabase();
+        db.KeyDelete(key);
     }
 
     public Dictionary<StreamDataKey, StreamData?> CacheGetAllData()
     {
-        var db = _multi.GetDatabase();
-        if (!db.KeyExists(_key))
+        var db = multi.GetDatabase();
+        if (!db.KeyExists(key))
             return new Dictionary<StreamDataKey, StreamData?>();
 
-        return db.HashGetAll(_key)
+        return db.HashGetAll(key)
             .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name), Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
             .Where(keyValuePair => keyValuePair.Key.Name is not null)
             .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
@@ -199,7 +199,7 @@ public class NotifChecker
     public async Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         // loop through all providers and see which regex matches
-        foreach (var (_, provider) in _streamProviders)
+        foreach (var (_, provider) in streamProviders)
         {
             var isValid = await provider.IsValidUrl(url).ConfigureAwait(false);
             if (!isValid)

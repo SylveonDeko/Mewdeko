@@ -6,31 +6,31 @@ namespace Mewdeko.Common.TypeReaders;
 
 public class TimeSpanConverter : TypeConverter<TimeSpan>
 {
-    private readonly Dictionary<string, Func<string, TimeSpan>> _callback = new();
+    private readonly Dictionary<string, Func<string, TimeSpan>> callback = new();
 
-    private readonly Regex _regex = new(@"(\d*)\s*([a-zA-Z]*)\s*(?:and|,)?\s*", RegexOptions.Compiled);
+    private readonly Regex regex = new(@"(\d*)\s*([a-zA-Z]*)\s*(?:and|,)?\s*", RegexOptions.Compiled);
 
     public TimeSpanConverter()
     {
-        _callback["second"] = Seconds;
-        _callback["seconds"] = Seconds;
-        _callback["sec"] = Seconds;
-        _callback["s"] = Seconds;
-        _callback["minute"] = Minutes;
-        _callback["minutes"] = Minutes;
-        _callback["min"] = Minutes;
-        _callback["m"] = Minutes;
-        _callback["hour"] = Hours;
-        _callback["hours"] = Hours;
-        _callback["h"] = Hours;
-        _callback["day"] = Days;
-        _callback["days"] = Days;
-        _callback["d"] = Days;
-        _callback["week"] = Weeks;
-        _callback["weeks"] = Weeks;
-        _callback["w"] = Weeks;
-        _callback["month"] = Months;
-        _callback["months"] = Months;
+        callback["second"] = Seconds;
+        callback["seconds"] = Seconds;
+        callback["sec"] = Seconds;
+        callback["s"] = Seconds;
+        callback["minute"] = Minutes;
+        callback["minutes"] = Minutes;
+        callback["min"] = Minutes;
+        callback["m"] = Minutes;
+        callback["hour"] = Hours;
+        callback["hours"] = Hours;
+        callback["h"] = Hours;
+        callback["day"] = Days;
+        callback["days"] = Days;
+        callback["d"] = Days;
+        callback["week"] = Weeks;
+        callback["weeks"] = Weeks;
+        callback["w"] = Weeks;
+        callback["month"] = Months;
+        callback["months"] = Months;
     }
 
     public override ApplicationCommandOptionType GetDiscordType() => ApplicationCommandOptionType.String;
@@ -44,11 +44,11 @@ public class TimeSpanConverter : TypeConverter<TimeSpan>
         if (!TimeSpan.TryParse(@string, out var span))
         {
             @string = @string?.ToLower().Trim();
-            var matches = _regex.Matches(@string ?? string.Empty);
+            var matches = regex.Matches(@string ?? string.Empty);
             if (matches.Count > 0)
             {
                 foreach (Match match in matches)
-                    if (_callback.TryGetValue(match.Groups[2].Value, out var result))
+                    if (callback.TryGetValue(match.Groups[2].Value, out var result))
                         span += result(match.Groups[1].Value);
             }
         }

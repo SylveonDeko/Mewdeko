@@ -13,7 +13,7 @@ namespace Mewdeko.WebApp.Reimplementations.Impl;
 
 public class BotCredentials : IBotCredentials
 {
-    private readonly string? _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "../Mewdeko/credentials.json");
+    private readonly string? credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "../Mewdeko/credentials.json");
 
     public BotCredentials()
     {
@@ -27,9 +27,9 @@ public class BotCredentials : IBotCredentials
             // ignored
         }
 
-        if (!File.Exists(_credsFileName))
+        if (!File.Exists(credsFileName))
         {
-            Log.Warning("credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}", Path.GetFullPath("./credentials_example.json")); 
+            Log.Warning("credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}", Path.GetFullPath("./credentials_example.json"));
             Environment.Exit(5);
         }
 
@@ -46,7 +46,7 @@ public class BotCredentials : IBotCredentials
         try
         {
             var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile(_credsFileName)
+            configBuilder.AddJsonFile(credsFileName)
                 .AddEnvironmentVariables("Mewdeko_");
 
             var data = configBuilder.Build();
@@ -57,7 +57,7 @@ public class BotCredentials : IBotCredentials
                 Log.Error(
                     "Token is missing from credentials.json or Environment variables. Add it and restart the program");
             }
-            
+
             OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => c.Value != null ? ulong.Parse(c.Value) : 0)
                 .ToImmutableArray();
             OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => c.Value != null ? ulong.Parse(c.Value) : 0)
@@ -212,7 +212,7 @@ public class BotCredentials : IBotCredentials
         public string? TrovoClientId { get; } = "";
         public string? TwitchClientId { get; } = "";
         public string? CleverbotApiKey { get; } = "";
-        
+
         public string? CarbonKey { get; } = "";
         public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
         public int TotalShards { get; } = 1;
@@ -241,7 +241,7 @@ public class BotCredentials : IBotCredentials
         [JsonIgnore] public ImmutableArray<ulong?> OwnerIds { get; }
 
         [JsonIgnore] public ImmutableArray<ulong?> OfficialMods { get; }
-        
+
 
         public bool IsOwner(IUser u) => throw new NotImplementedException();
 

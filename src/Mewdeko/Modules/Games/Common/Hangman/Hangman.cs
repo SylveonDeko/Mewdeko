@@ -6,13 +6,13 @@ namespace Mewdeko.Modules.Games.Common.Hangman;
 
 public sealed class Hangman : IDisposable
 {
-    private readonly TaskCompletionSource<bool> _endingCompletionSource = new();
+    private readonly TaskCompletionSource<bool> endingCompletionSource = new();
 
-    private readonly SemaphoreSlim _locker = new(1, 1);
+    private readonly SemaphoreSlim locker = new(1, 1);
 
-    private readonly HashSet<char> _previousGuesses = new();
+    private readonly HashSet<char> previousGuesses = new();
 
-    private readonly HashSet<ulong> _recentUsers = new();
+    private readonly HashSet<ulong> recentUsers = new();
 
     private Phase currentPhase = Phase.Active;
 
@@ -28,7 +28,7 @@ public sealed class Hangman : IDisposable
     public HangmanObject Term { get; }
 
     public string ScrambledWord =>
-        $"`{string.Concat(Term.Word.Select(c => { if (c == ' ') return " \u2000"; if (!(char.IsLetter(c) || char.IsDigit(c))) return $" {c}"; c = char.ToLowerInvariant(c); return _previousGuesses.Contains(c) ? $" {c}" : " ◯"; }))}`";
+        $"`{string.Concat(Term.Word.Select(c => { if (c == ' ') return " \u2000"; if (!(char.IsLetter(c) || char.IsDigit(c))) return $" {c}"; c = char.ToLowerInvariant(c); return previousGuesses.Contains(c) ? $" {c}" : " ◯"; }))}`";
 
     public Phase CurrentPhase
     {
@@ -36,7 +36,7 @@ public sealed class Hangman : IDisposable
         set
         {
             if (value == Phase.Ended)
-                _endingCompletionSource.TrySetResult(true);
+                endingCompletionSource.TrySetResult(true);
 
             currentPhase = value;
         }
@@ -44,9 +44,9 @@ public sealed class Hangman : IDisposable
 
     public uint Errors { get; private set; }
     public uint MaxErrors { get; } = 6;
-    public ImmutableArray<char> PreviousGuesses => _previousGuesses.ToImmutableArray();
+    public ImmutableArray<char> PreviousGuesses => previousGuesses.ToImmutableArray();
 
-    public Task EndedTask => _endingCompletionSource.Task;
+    public Task EndedTask => endingCompletionSource.Task;
 
     public void Dispose()
     {
@@ -54,8 +54,8 @@ public sealed class Hangman : IDisposable
         OnGuessFailed = null;
         OnGuessSucceeded = null;
         OnLetterAlreadyUsed = null;
-        _previousGuesses.Clear();
-        _recentUsers.Clear();
+        previousGuesses.Clear();
+        recentUsers.Clear();
         // _locker.Dispose();
     }
 
@@ -92,7 +92,7 @@ public sealed class Hangman : IDisposable
 
         input = input.Trim().ToLowerInvariant();
 
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             if (CurrentPhase == Phase.Ended)
@@ -113,10 +113,10 @@ public sealed class Hangman : IDisposable
             if (!char.IsLetterOrDigit(ch))
                 return;
 
-            if (!_recentUsers.Add(userId)) // don't let a single user spam guesses
+            if (!recentUsers.Add(userId)) // don't let a single user spam guesses
                 return;
 
-            if (!_previousGuesses.Add(ch)) // that letter was already guessed
+            if (!previousGuesses.Add(ch)) // that letter was already guessed
             {
                 var _ = OnLetterAlreadyUsed.Invoke(this, userName, ch);
             }
@@ -125,7 +125,7 @@ public sealed class Hangman : IDisposable
                 var _ = OnGuessFailed.Invoke(this, userName, ch);
                 AddError();
             }
-            else if (Term.Word.All(_ => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
+            else if (Term.Word.All(_ => previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
                          .Where(char.IsLetterOrDigit))))
             {
                 var _ = OnGameEnded.Invoke(this, userName); // if all letters are guessed
@@ -134,32 +134,32 @@ public sealed class Hangman : IDisposable
             else // guessed but not last letter
             {
                 var _ = OnGuessSucceeded.Invoke(this, userName, ch);
-                _recentUsers.Remove(userId); // he can guess again right away
+                recentUsers.Remove(userId); // he can guess again right away
                 return;
             }
 
             await Task.Run(async () =>
             {
                 await Task.Delay(3000).ConfigureAwait(false); // remove the user from the spamlist after 5 seconds
-                _recentUsers.Remove(userId);
+                recentUsers.Remove(userId);
             });
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 
     public async Task Stop()
     {
-        await _locker.WaitAsync().ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
         try
         {
             CurrentPhase = Phase.Ended;
         }
         finally
         {
-            _locker.Release();
+            locker.Release();
         }
     }
 }

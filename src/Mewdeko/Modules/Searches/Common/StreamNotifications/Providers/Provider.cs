@@ -18,13 +18,13 @@ public abstract class Provider
     ///     This can happen if stream name is invalid, or if the stream doesn't exist anymore.
     ///     Override to provide a custom implementation
     /// </summary>
-    public virtual IReadOnlyDictionary<string, DateTime> FailingStreams
-        => _failingStreams;
+    public virtual IReadOnlyDictionary<string, DateTime> FailingStreamsDictionary
+        => FailingStreams;
 
     /// <summary>
     ///     When was the first time the stream continually had errors while being retrieved
     /// </summary>
-    protected readonly ConcurrentDictionary<string, DateTime> _failingStreams = new();
+    protected readonly ConcurrentDictionary<string, DateTime> FailingStreams = new();
 
     /// <summary>
     ///     Checks whether the specified url is a valid stream url for this platform.
@@ -60,5 +60,5 @@ public abstract class Provider
     /// </summary>
     /// <param name="login"></param>
     public virtual void ClearErrorsFor(string login)
-        => _failingStreams.Clear();
+        => FailingStreams.Clear();
 }

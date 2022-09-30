@@ -7,15 +7,15 @@ namespace Mewdeko.Modules.Administration.Services;
 
 public class RoleCommandsService : INService
 {
-    private readonly DbService _db;
-    private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
+    private readonly DbService db;
+    private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> models;
 
     public RoleCommandsService(DiscordSocketClient client, DbService db, EventHandler eventHandler)
     {
-        _db = db;
+        this.db = db;
         using var uow = db.GetDbContext();
         var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
-        _models = gc.ToDictionary(x => x.GuildId,
+        models = gc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
         eventHandler.ReactionAdded += _client_ReactionAdded;
@@ -37,7 +37,7 @@ public class RoleCommandsService : INService
                 if (chan.Value is not SocketGuildChannel gch)
                     return;
 
-                if (!_models.TryGetValue(gch.Guild.Id, out var confs))
+                if (!models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
                 IUserMessage message;
                 if (msg.HasValue)
@@ -58,7 +58,7 @@ public class RoleCommandsService : INService
                                       .Where(x => x != reactionRole.RoleId)
                                       .Select(x => gusr.Guild.GetRole(x))
                                       .Where(x => x != null);
-                        
+
                     try
                     {
                         //if the role is exclusive,
@@ -117,8 +117,8 @@ public class RoleCommandsService : INService
                     message = msg.Value;
                 else
                     message = await msg.GetOrDownloadAsync();
-                
-                if (!_models.TryGetValue(gch.Guild.Id, out var confs))
+
+                if (!models.TryGetValue(gch.Guild.Id, out var confs))
                     return;
                 var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
 
@@ -143,16 +143,16 @@ public class RoleCommandsService : INService
             }
     }
 
-    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
+    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => models.TryGetValue(id, out rrs);
 
     public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
-        _models.AddOrUpdate(id,
+        models.AddOrUpdate(id,
             gc.ReactionRoleMessages,
             delegate { return gc.ReactionRoleMessages; });
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -162,14 +162,14 @@ public class RoleCommandsService : INService
 
     public async Task Remove(ulong id, int index)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));
         uow.Set<ReactionRole>()
             .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
         gc.ReactionRoleMessages.RemoveAt(index);
-        _models.AddOrUpdate(id,
+        models.AddOrUpdate(id,
             gc.ReactionRoleMessages,
             delegate { return gc.ReactionRoleMessages; });
         await uow.SaveChangesAsync().ConfigureAwait(false);

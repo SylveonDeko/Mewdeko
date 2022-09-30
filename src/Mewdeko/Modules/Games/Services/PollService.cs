@@ -7,11 +7,11 @@ namespace Mewdeko.Modules.Games.Services;
 
 public class PollService : INService
 {
-    private readonly DbService _db;
+    private readonly DbService db;
 
     public PollService(DbService db)
     {
-        _db = db;
+        this.db = db;
 
         using var uow = db.GetDbContext();
         ActivePolls = uow.Poll.GetAllPolls()
@@ -62,9 +62,9 @@ public class PollService : INService
 
     public bool StartPoll(Poll p)
     {
-        var pr = new PollRunner(_db, p);
+        var pr = new PollRunner(db, p);
         if (!ActivePolls.TryAdd(p.GuildId, pr)) return false;
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         uow.Poll.Add(p);
         uow.SaveChanges();
         return true;
@@ -73,7 +73,7 @@ public class PollService : INService
     public async Task<Poll>? StopPoll(ulong guildId)
     {
         if (!ActivePolls.TryRemove(guildId, out var pr)) return null;
-        await using (var uow = _db.GetDbContext())
+        await using (var uow = db.GetDbContext())
         {
             await uow.RemovePoll(pr.Poll.Id);
             await uow.SaveChangesAsync();

@@ -11,9 +11,9 @@ namespace Mewdeko.Modules.Permissions.Services;
 public class PermissionService : ILateBlocker, INService
 {
 
-    private readonly DbService _db;
+    private readonly DbService db;
     public readonly IBotStrings Strings;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly GuildSettingsService guildSettings;
 
     public PermissionService(
         DiscordSocketClient client,
@@ -21,11 +21,11 @@ public class PermissionService : ILateBlocker, INService
         IBotStrings strings,
         GuildSettingsService guildSettings)
     {
-        _db = db;
+        this.db = db;
         Strings = strings;
-        _guildSettings = guildSettings;
+        this.guildSettings = guildSettings;
 
-        using var uow = _db.GetDbContext();
+        using var uow = this.db.GetDbContext();
         foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
         {
             Cache.TryAdd(x.GuildId,
@@ -69,7 +69,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                                      Format.Bold(pc.Permissions[index]
-                                                   .GetCommand(await _guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                                                   .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                                  .ConfigureAwait(false);
                 }
                 catch
@@ -151,7 +151,7 @@ public class PermissionService : ILateBlocker, INService
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                         Format.Bold(pc.Permissions[index].GetCommand(await _guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                         Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                      .ConfigureAwait(false);
         }
         catch
@@ -165,7 +165,7 @@ public class PermissionService : ILateBlocker, INService
     public async Task<PermissionCache?> GetCacheFor(ulong guildId)
     {
         if (Cache.TryGetValue(guildId, out var pc)) return pc;
-        await using (var uow = _db.GetDbContext())
+        await using (var uow = db.GetDbContext())
         {
             var config = await uow.ForGuildId(guildId,
                 set => set.Include(x => x.Permissions));
@@ -178,7 +178,7 @@ public class PermissionService : ILateBlocker, INService
 
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var config = await uow.GcWithPermissionsv2For(guildId);
         //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
         var max = config.Permissions.Max(x => x.Index); //have to set its index to be the highest
@@ -208,7 +208,7 @@ public class PermissionService : ILateBlocker, INService
 
     public async Task Reset(ulong guildId)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var config = await uow.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
         await uow.SaveChangesAsync().ConfigureAwait(false);

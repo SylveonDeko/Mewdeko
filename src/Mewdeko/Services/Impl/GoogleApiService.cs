@@ -14,10 +14,10 @@ namespace Mewdeko.Services.Impl;
 
 public class GoogleApiService : IGoogleApiService
 {
-    private readonly IBotCredentials _creds;
-    private readonly IHttpClientFactory _httpFactory;
+    private readonly IBotCredentials creds;
+    private readonly IHttpClientFactory httpFactory;
 
-    private readonly Dictionary<string?, string> _languageDictionary = new()
+    private readonly Dictionary<string?, string> languageDictionary = new()
     {
         {"afrikaans", "af"},
         {"albanian", "sq"},
@@ -151,23 +151,23 @@ public class GoogleApiService : IGoogleApiService
         {"yi", "yi"}
     };
 
-    private readonly UrlshortenerService _sh;
+    private readonly UrlshortenerService sh;
 
-    private readonly YouTubeService _yt;
+    private readonly YouTubeService yt;
 
     public GoogleApiService(IBotCredentials creds, IHttpClientFactory factory)
     {
-        _creds = creds;
-        _httpFactory = factory;
+        this.creds = creds;
+        httpFactory = factory;
 
         var bcs = new BaseClientService.Initializer
         {
             ApplicationName = "Mewdeko Bot",
-            ApiKey = _creds.GoogleApiKey
+            ApiKey = this.creds.GoogleApiKey
         };
 
-        _yt = new YouTubeService(bcs);
-        _sh = new UrlshortenerService(bcs);
+        yt = new YouTubeService(bcs);
+        sh = new UrlshortenerService(bcs);
     }
 
     public async Task<SearchResult[]> GetVideoLinksByKeywordAsync(string keywords)
@@ -175,8 +175,8 @@ public class GoogleApiService : IGoogleApiService
         await Task.Yield();
         if (string.IsNullOrWhiteSpace(keywords))
             throw new ArgumentNullException(nameof(keywords));
-        
-        var query = _yt.Search.List("snippet");
+
+        var query = yt.Search.List("snippet");
         query.MaxResults = 10;
         query.Q = keywords;
         query.Type = "video";
@@ -184,14 +184,14 @@ public class GoogleApiService : IGoogleApiService
 
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.ToArray();
     }
-    
+
     public async Task<SearchResult[]> GetVideoLinksByVideoId(string keywords, int max)
     {
         await Task.Yield();
         if (string.IsNullOrWhiteSpace(keywords))
             throw new ArgumentNullException(nameof(keywords));
-        
-        var query = _yt.Search.List("snippet");
+
+        var query = yt.Search.List("snippet");
         query.MaxResults = max;
         query.Type = "video";
         query.RelatedToVideoId = keywords;
@@ -199,7 +199,7 @@ public class GoogleApiService : IGoogleApiService
 
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.ToArray();
     }
-    
+
 
     public async Task<string> ShortenUrl(string url)
     {
@@ -207,12 +207,12 @@ public class GoogleApiService : IGoogleApiService
         if (string.IsNullOrWhiteSpace(url))
             throw new ArgumentNullException(nameof(url));
 
-        if (string.IsNullOrWhiteSpace(_creds.GoogleApiKey))
+        if (string.IsNullOrWhiteSpace(creds.GoogleApiKey))
             return url;
 
         try
         {
-            var response = await _sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync().ConfigureAwait(false);
+            var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync().ConfigureAwait(false);
             return response.Id;
         }
         catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.Forbidden)
@@ -226,22 +226,22 @@ public class GoogleApiService : IGoogleApiService
         }
     }
 
-    public IEnumerable<string?> Languages => _languageDictionary.Keys.OrderBy(x => x);
+    public IEnumerable<string?> Languages => languageDictionary.Keys.OrderBy(x => x);
 
     public async Task<string> Translate(string sourceText, string? sourceLanguage, string? targetLanguage)
     {
         await Task.Yield();
         string text;
 
-        if (!_languageDictionary.ContainsKey(sourceLanguage) ||
-            !_languageDictionary.ContainsKey(targetLanguage))
+        if (!languageDictionary.ContainsKey(sourceLanguage) ||
+            !languageDictionary.ContainsKey(targetLanguage))
         {
             throw new ArgumentException($"{nameof(sourceLanguage)}/{nameof(targetLanguage)}");
         }
 
         var url = new Uri(
             $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
-        using (var http = _httpFactory.CreateClient())
+        using (var http = httpFactory.CreateClient())
         {
             http.DefaultRequestHeaders.Add("user-agent",
                 "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
@@ -253,7 +253,7 @@ public class GoogleApiService : IGoogleApiService
 
     private string ConvertToLanguageCode(string? language)
     {
-        _languageDictionary.TryGetValue(language, out var mode);
+        languageDictionary.TryGetValue(language, out var mode);
         return mode;
     }
 }

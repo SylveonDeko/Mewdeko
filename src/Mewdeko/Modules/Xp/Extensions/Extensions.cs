@@ -6,7 +6,7 @@ public static class Extensions
 {
     public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(this UserXpStats stats)
     {
-        const int baseXp = XpService.XP_REQUIRED_LVL_1;
+        const int baseXp = XpService.XpRequiredLvl1;
 
         int required;
         var totalXp = 0;

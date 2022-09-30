@@ -13,13 +13,13 @@ namespace Mewdeko.Modules.RoleGreets;
 
 public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 {
-    private readonly InteractiveService _interactivity;
-    private readonly HttpClient _http;
+    private readonly InteractiveService interactivity;
+    private readonly HttpClient http;
 
     public RoleGreets(InteractiveService interactivity, HttpClient http)
     {
-        _interactivity = interactivity;
-        _http = http;
+        this.interactivity = interactivity;
+        this.http = http;
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
@@ -159,7 +159,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
                     "The avatar url used is not a direct url or is invalid! Please use a different url.").ConfigureAwait(false);
                 return;
             }
-            using var sr = await _http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
+            using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
                                       .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             var imgStream = imgData.ToStream();
@@ -232,7 +232,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)

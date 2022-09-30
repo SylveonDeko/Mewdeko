@@ -14,18 +14,18 @@ public partial class Gambling
     [Group]
     public class DrawCommands : MewdekoSubmodule
     {
-        private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
-        private readonly IImageCache _images;
+        private static readonly ConcurrentDictionary<IGuild, Deck> AllDecks = new();
+        private readonly IImageCache images;
 
-        public DrawCommands(IDataCache data) => _images = data.LocalImages;
+        public DrawCommands(IDataCache data) => images = data.LocalImages;
 
         private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
         {
             if (num is < 1 or > 10)
                 throw new ArgumentOutOfRangeException(nameof(num));
 
-            var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, _ => new Deck());
-            var images = new List<Image<Rgba32>>();
+            var cards = guildId == null ? new Deck() : AllDecks.GetOrAdd(ctx.Guild, _ => new Deck());
+            var list = new List<Image<Rgba32>>();
             var cardObjects = new List<Deck.Card>();
             for (var i = 0; i < num; i++)
             {
@@ -45,12 +45,12 @@ public partial class Gambling
 
                 var currentCard = cards.Draw();
                 cardObjects.Add(currentCard);
-                images.Add(Image.Load<Rgba32>(_images.GetCard(currentCard.ToString().ToLowerInvariant()
+                list.Add(Image.Load<Rgba32>(this.images.GetCard(currentCard.ToString().ToLowerInvariant()
                     .Replace(' ', '_'))));
             }
 
-            using var img = images.Merge();
-            foreach (var i in images) i.Dispose();
+            using var img = list.Merge();
+            foreach (var i in list) i.Dispose();
 
             var toSend = $"{Format.Bold(ctx.User.ToString())}";
             if (cardObjects.Count == 5)
@@ -97,7 +97,7 @@ public partial class Gambling
         {
             //var channel = (ITextChannel)ctx.Channel;
 
-            _allDecks.AddOrUpdate(ctx.Guild,
+            AllDecks.AddOrUpdate(ctx.Guild,
                 _ => new Deck(),
                 (_, c) =>
                 {

@@ -32,18 +32,18 @@ public partial class Xp : MewdekoModuleBase<XpService>
     {
         Server
     }
-    private readonly DownloadTracker _tracker;
-    private readonly XpConfigService _xpConfig;
-    private readonly InteractiveService _interactivity;
-    private readonly GamblingConfigService _gss;
+    private readonly DownloadTracker tracker;
+    private readonly XpConfigService xpConfig;
+    private readonly InteractiveService interactivity;
+    private readonly GamblingConfigService gss;
 
     public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
         GamblingConfigService gss)
     {
-        _xpConfig = xpconfig;
-        _tracker = tracker;
-        _interactivity = serv;
-        _gss = gss;
+        xpConfig = xpconfig;
+        this.tracker = tracker;
+        interactivity = serv;
+        this.gss = gss;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -54,7 +54,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             var toadd = new XpStuffs
             {
                 Setting = "xptextrate",
-                Value = $"{_xpConfig.Data.XpPerMessage} (Global Default)"
+                Value = $"{xpConfig.Data.XpPerMessage} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -73,7 +73,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             var toadd = new XpStuffs
             {
                 Setting = "voicexprate",
-                Value = $"{_xpConfig.Data.VoiceXpPerMinute} (Global Default)"
+                Value = $"{xpConfig.Data.VoiceXpPerMinute} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -92,7 +92,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             var toadd = new XpStuffs
             {
                 Setting = "txtxptimeout",
-                Value = $"{_xpConfig.Data.MessageXpCooldown} (Global Default)"
+                Value = $"{xpConfig.Data.MessageXpCooldown} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -111,7 +111,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             var toadd = new XpStuffs
             {
                 Setting = "voiceminutestimeout",
-                Value = $"{_xpConfig.Data.VoiceMaxMinutes} (Global Default)"
+                Value = $"{xpConfig.Data.VoiceMaxMinutes} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -263,7 +263,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -410,7 +410,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -435,7 +435,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         if (opts.Clean)
         {
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
+            await tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
             allUsers = (await Service.GetTopUserXps(ctx.Guild.Id))
                 .Where(user => socketGuild.GetUser(user.UserId) is not null)
@@ -444,7 +444,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         else
         {
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
+            await tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
             allUsers = (await Service.GetTopUserXps(ctx.Guild.Id)).ToList();
         }
 
@@ -457,7 +457,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -516,7 +516,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             return;
 
         Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
-        var config = _gss.Data;
+        var config = gss.Data;
 
         if (amount == 0)
         {

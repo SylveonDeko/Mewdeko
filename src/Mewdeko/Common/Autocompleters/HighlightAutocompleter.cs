@@ -8,17 +8,17 @@ public class HighlightAutocompleter : AutocompleteHandler
     public HighlightAutocompleter(DbService db, IDataCache cache)
     {
         Db = db;
-        _cache = cache;
+        this.cache = cache;
     }
 
     public readonly DbService Db;
-    private readonly IDataCache _cache;
+    private readonly IDataCache cache;
 
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter, IServiceProvider services)
     {
 
         var content = (string)interaction.Data.Current.Value;
-        var highlights = _cache.GetHighlightsForGuild(context.Guild.Id);
+        var highlights = cache.GetHighlightsForGuild(context.Guild.Id);
 
         return Task.FromResult(AutocompletionResult.FromSuccess(highlights
                                                                 .Where(x => x.UserId == context.User.Id && x.GuildId == context.Guild.Id)

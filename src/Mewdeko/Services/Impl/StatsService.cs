@@ -16,10 +16,10 @@ public class StatsService : IStatsService
     public IHttpClientFactory Factory { get; }
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
-    private readonly HttpClient _http;
-    public const string BOT_VERSION = "7.1";
+    private readonly HttpClient http;
+    public const string BotVersion = "7.1";
 
-    private readonly DateTime _started;
+    private readonly DateTime started;
 
     public StatsService(
         DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
@@ -29,9 +29,9 @@ public class StatsService : IStatsService
         Factory = factory;
         Creds = creds;
         Coord = coord;
-        _http = http;
+        this.http = http;
         _ = new DllVersionChecker();
-        _started = DateTime.UtcNow;
+        started = DateTime.UtcNow;
         _ = PostToTopGg();
         _ = PostToStatcord(coord, client, cmdServ);
     }
@@ -41,7 +41,7 @@ public class StatsService : IStatsService
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
 
-    private TimeSpan GetUptime() => DateTime.UtcNow - _started;
+    private TimeSpan GetUptime() => DateTime.UtcNow - started;
 
     public string GetUptimeString(string separator = ", ")
     {
@@ -60,7 +60,7 @@ public class StatsService : IStatsService
                 $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/json");
-            await _http.PostAsync("https://api.statcord.com/beta/stats", content).ConfigureAwait(false);
+            await http.PostAsync("https://api.statcord.com/beta/stats", content).ConfigureAwait(false);
         }
     }
     public async Task PostToTopGg()

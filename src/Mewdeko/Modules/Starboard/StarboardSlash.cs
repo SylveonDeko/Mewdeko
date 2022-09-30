@@ -7,9 +7,9 @@ namespace Mewdeko.Modules.Starboard;
 [Group("starboard", "Manage the starboard!")]
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
-    private readonly GuildSettingsService _guildSettings;
+    private readonly GuildSettingsService guildSettings;
 
-    public StarboardSlash(GuildSettingsService guildSettings) => _guildSettings = guildSettings;
+    public StarboardSlash(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
 
     [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStarboard(ITextChannel? chn = null)
@@ -86,11 +86,11 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()).ConfigureAwait(false))
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await _guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
         }
         else
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {await _guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
         }
     }
 

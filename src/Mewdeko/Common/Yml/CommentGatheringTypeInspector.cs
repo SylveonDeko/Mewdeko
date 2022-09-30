@@ -6,56 +6,56 @@ namespace Mewdeko.Common.Yml;
 
 public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 {
-    private readonly ITypeInspector _innerTypeDescriptor;
+    private readonly ITypeInspector innerTypeDescriptor;
 
-    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => _innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
+    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
 
     public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container) =>
-        _innerTypeDescriptor
+        innerTypeDescriptor
             .GetProperties(type, container)
             .Select(d => new CommentsPropertyDescriptor(d));
 
     private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
     {
-        private readonly IPropertyDescriptor _baseDescriptor;
+        private readonly IPropertyDescriptor baseDescriptor;
 
         public CommentsPropertyDescriptor(IPropertyDescriptor baseDescriptor)
         {
-            _baseDescriptor = baseDescriptor;
+            this.baseDescriptor = baseDescriptor;
             Name = baseDescriptor.Name;
         }
 
         public string Name { get; }
 
-        public Type Type => _baseDescriptor.Type;
+        public Type Type => baseDescriptor.Type;
 
         public Type? TypeOverride
         {
-            get => _baseDescriptor.TypeOverride;
-            set => _baseDescriptor.TypeOverride = value;
+            get => baseDescriptor.TypeOverride;
+            set => baseDescriptor.TypeOverride = value;
         }
 
         public int Order { get; set; }
 
         public ScalarStyle ScalarStyle
         {
-            get => _baseDescriptor.ScalarStyle;
-            set => _baseDescriptor.ScalarStyle = value;
+            get => baseDescriptor.ScalarStyle;
+            set => baseDescriptor.ScalarStyle = value;
         }
 
-        public bool CanWrite => _baseDescriptor.CanWrite;
+        public bool CanWrite => baseDescriptor.CanWrite;
 
-        public void Write(object target, object? value) => _baseDescriptor.Write(target, value);
+        public void Write(object target, object? value) => baseDescriptor.Write(target, value);
 
-        public T GetCustomAttribute<T>() where T : Attribute => _baseDescriptor.GetCustomAttribute<T>();
+        public T GetCustomAttribute<T>() where T : Attribute => baseDescriptor.GetCustomAttribute<T>();
 
         public IObjectDescriptor Read(object target)
         {
-            var comment = _baseDescriptor.GetCustomAttribute<CommentAttribute>();
+            var comment = baseDescriptor.GetCustomAttribute<CommentAttribute>();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             return comment is not null
-                ? new CommentsObjectDescriptor(_baseDescriptor.Read(target), comment.Comment)
-                : _baseDescriptor.Read(target);
+                ? new CommentsObjectDescriptor(baseDescriptor.Read(target), comment.Comment)
+                : baseDescriptor.Read(target);
         }
     }
 }

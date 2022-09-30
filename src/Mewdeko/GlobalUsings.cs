@@ -2,7 +2,6 @@
 global using Discord.Webhook;
 global using Discord.WebSocket;
 global using Mewdeko.Database;
-global using Mewdeko;
 global using Mewdeko.Common;
 global using Mewdeko.Common.Replacements;
 global using Mewdeko.Database.Extensions;

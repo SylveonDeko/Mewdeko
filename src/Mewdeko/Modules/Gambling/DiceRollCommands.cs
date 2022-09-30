@@ -13,15 +13,15 @@ public partial class Gambling
     [Group]
     public class DiceRollCommands : MewdekoSubmodule
     {
-        private static readonly Regex _dndRegex =
+        private static readonly Regex DndRegex =
             new(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
 
-        private static readonly Regex _fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+        private static readonly Regex FudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-        private static readonly char[] _fateRolls = { '-', ' ', '+' };
-        private readonly IImageCache _images;
+        private static readonly char[] FateRolls = { '-', ' ', '+' };
+        private readonly IImageCache images;
 
-        public DiceRollCommands(IDataCache data) => _images = data.LocalImages;
+        public DiceRollCommands(IDataCache data) => images = data.LocalImages;
 
         [Cmd, Aliases]
         public async Task Roll()
@@ -108,7 +108,7 @@ public partial class Gambling
         private async Task InternallDndRoll(string arg, bool ordered)
         {
             Match match;
-            if ((match = _fudgeRegex.Match(arg)).Length != 0 &&
+            if ((match = FudgeRegex.Match(arg)).Length != 0 &&
                 int.TryParse(match.Groups["n1"].ToString(), out var n1) &&
                 n1 > 0 && n1 < 500)
             {
@@ -116,14 +116,14 @@ public partial class Gambling
 
                 var rolls = new List<char>();
 
-                for (var i = 0; i < n1; i++) rolls.Add(_fateRolls[rng.Next(0, _fateRolls.Length)]);
+                for (var i = 0; i < n1; i++) rolls.Add(FateRolls[rng.Next(0, FateRolls.Length)]);
                 var embed = new EmbedBuilder().WithOkColor().WithDescription(
                                                   $"{ctx.User.Mention} {GetText("dice_rolled_num", Format.Bold(n1.ToString()))}")
                     .AddField(efb => efb.WithName(Format.Bold("Result"))
                         .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-            else if ((match = _dndRegex.Match(arg)).Length != 0)
+            else if ((match = DndRegex.Match(arg)).Length != 0)
             {
                 var rng = new MewdekoRandom();
                 if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
@@ -186,13 +186,13 @@ public partial class Gambling
                     throw new ArgumentOutOfRangeException(nameof(num));
                 case 10:
                     {
-                        var images = _images.Dice;
-                        using var imgOne = Image.Load<Rgba32>(images[1]);
-                        using var imgZero = Image.Load<Rgba32>(images[0]);
+                        var imagesDice = this.images.Dice;
+                        using var imgOne = Image.Load<Rgba32>(imagesDice[1]);
+                        using var imgZero = Image.Load<Rgba32>(imagesDice[0]);
                         return new[] { imgOne, imgZero }.Merge();
                     }
                 default:
-                    return Image.Load<Rgba32>(_images.Dice[num]);
+                    return Image.Load<Rgba32>(images.Dice[num]);
             }
         }
     }

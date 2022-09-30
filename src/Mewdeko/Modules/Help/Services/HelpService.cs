@@ -15,17 +15,17 @@ namespace Mewdeko.Modules.Help.Services;
 
 public class HelpService : ILateExecutor, INService
 {
-    private readonly BotConfigService _bss;
-    private readonly DiscordSocketClient _client;
-    private readonly DiscordPermOverrideService _dpos;
-    private readonly Mewdeko _bot;
-    private readonly BlacklistService _blacklistService;
-    private readonly IBotStrings _strings;
-    private readonly CommandService _cmds;
-    private readonly GlobalPermissionService _perms;
-    private readonly PermissionService _nPerms;
-    private readonly InteractionService _interactionService;
-    private readonly GuildSettingsService _guildSettings;
+    private readonly BotConfigService bss;
+    private readonly DiscordSocketClient client;
+    private readonly DiscordPermOverrideService dpos;
+    private readonly Mewdeko bot;
+    private readonly BlacklistService blacklistService;
+    private readonly IBotStrings strings;
+    private readonly CommandService cmds;
+    private readonly GlobalPermissionService perms;
+    private readonly PermissionService nPerms;
+    private readonly InteractionService interactionService;
+    private readonly GuildSettingsService guildSettings;
 
     public HelpService(
         IBotStrings strings,
@@ -40,31 +40,31 @@ public class HelpService : ILateExecutor, INService
         InteractionService interactionService,
         GuildSettingsService guildSettings)
     {
-        _dpos = dpos;
-        _strings = strings;
-        _client = client;
-        _bot = bot;
-        _blacklistService = blacklistService;
-        _cmds = cmds;
-        _bss = bss;
-        _client.MessageReceived += HandlePing;
-        _client.JoinedGuild += HandleJoin;
-        _perms = perms;
-        _nPerms = nPerms;
-        _interactionService = interactionService;
-        _guildSettings = guildSettings;
+        this.dpos = dpos;
+        this.strings = strings;
+        this.client = client;
+        this.bot = bot;
+        this.blacklistService = blacklistService;
+        this.cmds = cmds;
+        this.bss = bss;
+        this.client.MessageReceived += HandlePing;
+        this.client.JoinedGuild += HandleJoin;
+        this.perms = perms;
+        this.nPerms = nPerms;
+        this.interactionService = interactionService;
+        this.guildSettings = guildSettings;
     }
 
     public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
     {
-        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
         var compBuilder = new ComponentBuilder();
         var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
         foreach (var i in modules.Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
         {
             selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
-        
+
         compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions},{user.Id}");
         compBuilder.WithButton("Invite Me!", style: ButtonStyle.Link,
             url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands");
@@ -76,14 +76,14 @@ public class HelpService : ILateExecutor, INService
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         EmbedBuilder embed = new();
-        embed.WithTitle($"{_client.CurrentUser.Username} Help");
+        embed.WithTitle($"{client.CurrentUser.Username} Help");
         embed.WithOkColor();
         embed.WithDescription(
-            $"\nDo `{await _guildSettings.GetPrefix(guild?.Id)}help command` to see a description of a command you need more info on!" +
-            $"\nDo `{await _guildSettings.GetPrefix(guild?.Id)}cmds category` to see the commands in that module." +
+            $"\nDo `{await guildSettings.GetPrefix(guild?.Id)}help command` to see a description of a command you need more info on!" +
+            $"\nDo `{await guildSettings.GetPrefix(guild?.Id)}cmds category` to see the commands in that module." +
             "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
-            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={_bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
-        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
+            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
+        var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
         var count = 0;
         if (description)
         {
@@ -108,8 +108,8 @@ public class HelpService : ILateExecutor, INService
     {
         if (!guildId.HasValue || guildId is null)
             return "✅";
-        var pc = await _nPerms.GetCacheFor(guildId.Value);
-        if (_perms.BlockedModules.Contains(moduleName.ToLower())) return "🌐❌";
+        var pc = await nPerms.GetCacheFor(guildId.Value);
+        if (perms.BlockedModules.Contains(moduleName.ToLower())) return "🌐❌";
         return !pc.Permissions.CheckSlashPermissions(moduleName, "none", user, channel, out _) ? "❌" : "✅";
     }
 
@@ -117,7 +117,7 @@ public class HelpService : ILateExecutor, INService
 
     public Task LateExecute(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
     {
-        var settings = _bss.Data;
+        var settings = bss.Data;
         if (guild != null) return Task.CompletedTask;
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
@@ -131,16 +131,16 @@ public class HelpService : ILateExecutor, INService
     {
         _ = Task.Run(async () =>
         {
-            if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>")
+            if (msg.Content == $"<@{client.CurrentUser.Id}>" || msg.Content == $"<@!{client.CurrentUser.Id}>")
             {
                 if (msg.Channel is ITextChannel chan)
                 {
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{await _guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await _guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{await guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
-                    eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username).WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
+                    eb.WithFooter(new EmbedFooterBuilder().WithText(client.CurrentUser.Username).WithIconUrl(client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
             }
@@ -152,11 +152,11 @@ public class HelpService : ILateExecutor, INService
     {
         _ = Task.Run(async () =>
         {
-            if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
+            if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
                 return;
 
             var e = guild.DefaultChannel;
-            var px = await _guildSettings.GetPrefix(guild);
+            var px = await guildSettings.GetPrefix(guild);
             var eb = new EmbedBuilder
             {
                 Description =
@@ -178,16 +178,16 @@ public class HelpService : ILateExecutor, INService
     {
         if (com.Attributes.Any(x => x is HelpDisabled))
             return new EmbedBuilder().WithDescription("Help is disabled for this command.");
-        var prefix = await _guildSettings.GetPrefix(guild);
-        var potentialCommand = _interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
+        var prefix = await guildSettings.GetPrefix(guild);
+        var potentialCommand = interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
         var str = $"**`{prefix + com.Aliases[0]}`**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
             str += $" **/ `{prefix + alias}`**";
         var em = new EmbedBuilder().AddField(fb =>
-            fb.WithName(str).WithValue($"{com.RealSummary(_strings, guild.Id, prefix)}").WithIsInline(true));
+            fb.WithName(str).WithValue($"{com.RealSummary(strings, guild.Id, prefix)}").WithIsInline(true));
 
-        _dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
+        dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
         var reqs = GetCommandRequirements(com, overrides);
         var botReqs = GetCommandBotRequirements(com);
         var attribute = (RatelimitAttribute)com.Preconditions.FirstOrDefault(x => x is RatelimitAttribute);
@@ -201,7 +201,7 @@ public class HelpService : ILateExecutor, INService
         }
         em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"`/{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}`");
         em.AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(string.Join("\n",
-                                Array.ConvertAll(com.RealRemarksArr(_strings, guild?.Id, prefix),
+                                Array.ConvertAll(com.RealRemarksArr(strings, guild?.Id, prefix),
                                     arg => Format.Code(arg))))
                             .WithIsInline(false))
           .WithFooter($"Module: {com.Module.GetTopLevelModule().Name} || Submodule: {com.Module.Name.Replace("Commands", "")}")
@@ -303,5 +303,5 @@ public class HelpService : ILateExecutor, INService
         (perm + " Server Permission").Replace("Guild", "Server", StringComparison.InvariantCulture);
 
     private string? GetText(string? text, IGuild? guild, params object?[] replacements) =>
-        _strings.GetText(text, guild?.Id, replacements);
+        strings.GetText(text, guild?.Id, replacements);
 }

@@ -8,26 +8,26 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 public sealed class DanbooruImageDownloader : DapiImageDownloader
 {
     // using them as concurrent hashsets, value doesn't matter
-    private static readonly ConcurrentDictionary<string, bool> _existentTags = new();
-    private static readonly ConcurrentDictionary<string, bool> _nonexistentTags = new();
+    private static readonly ConcurrentDictionary<string, bool> ExistentTags = new();
+    private static readonly ConcurrentDictionary<string, bool> NonexistentTags = new();
 
     public override async Task<bool> IsTagValid(string tag, CancellationToken cancel = default)
     {
-        if (_existentTags.ContainsKey(tag))
+        if (ExistentTags.ContainsKey(tag))
             return true;
 
-        if (_nonexistentTags.ContainsKey(tag))
+        if (NonexistentTags.ContainsKey(tag))
             return false;
 
-        var tags = await _http.GetFromJsonAsync<DapiTag[]>($"{_baseUrl}/tags.json?search[name_or_alias_matches]={tag}",
-            options: _serializerOptions,
+        var tags = await Http.GetFromJsonAsync<DapiTag[]>($"{BaseUrl}/tags.json?search[name_or_alias_matches]={tag}",
+            options: SerializerOptions,
             cancellationToken: cancel).ConfigureAwait(false);
         if (tags is { Length: > 0 })
         {
-            return _existentTags[tag] = true;
+            return ExistentTags[tag] = true;
         }
 
-        return _nonexistentTags[tag] = false;
+        return NonexistentTags[tag] = false;
     }
 
     public DanbooruImageDownloader(HttpClient http)

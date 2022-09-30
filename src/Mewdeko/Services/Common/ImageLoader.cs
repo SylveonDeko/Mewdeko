@@ -9,25 +9,25 @@ namespace Mewdeko.Services.Common;
 
 public class ImageLoader
 {
-    private readonly ConnectionMultiplexer _con;
-    private readonly HttpClient _http;
+    private readonly ConnectionMultiplexer con;
+    private readonly HttpClient http;
 
-    private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> _uriTasks = new();
+    private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = new();
 
     public ImageLoader(HttpClient http, ConnectionMultiplexer con, Func<string, RedisKey> getKey)
     {
-        _http = http;
-        _con = con;
+        this.http = http;
+        this.con = con;
         GetKey = getKey;
     }
 
     public Func<string, RedisKey> GetKey { get; }
 
-    private IDatabase Db => _con.GetDatabase();
+    private IDatabase Db => con.GetDatabase();
 
     private async Task<byte[]>? GetImageData(Uri uri)
     {
-        if (!uri.IsFile) return await _http.GetByteArrayAsync(uri).ConfigureAwait(false);
+        if (!uri.IsFile) return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
         try
         {
             return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
@@ -113,7 +113,7 @@ public class ImageLoader
                 case JTokenType.String:
                     {
                         var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
-                        _uriTasks.Add(uriTask);
+                        uriTasks.Add(uriTask);
                         break;
                     }
                 case JTokenType.Object:
@@ -129,7 +129,7 @@ public class ImageLoader
     public async Task LoadAsync(JObject obj)
     {
         await HandleJObject(obj).ConfigureAwait(false);
-        var results = await Task.WhenAll(_uriTasks).ConfigureAwait(false);
+        var results = await Task.WhenAll(uriTasks).ConfigureAwait(false);
         await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(),  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 }

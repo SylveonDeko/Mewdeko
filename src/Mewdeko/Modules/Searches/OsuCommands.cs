@@ -13,13 +13,13 @@ public partial class Searches
     [Group]
     public class OsuCommands : MewdekoSubmodule
     {
-        private readonly IBotCredentials _creds;
-        private readonly IHttpClientFactory _httpFactory;
+        private readonly IBotCredentials creds;
+        private readonly IHttpClientFactory httpFactory;
 
         public OsuCommands(IBotCredentials creds, IHttpClientFactory factory)
         {
-            _creds = creds;
-            _httpFactory = factory;
+            this.creds = creds;
+            httpFactory = factory;
         }
 
         [Cmd, Aliases]
@@ -28,21 +28,21 @@ public partial class Searches
             if (string.IsNullOrWhiteSpace(user))
                 return;
 
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             var modeNumber = string.IsNullOrWhiteSpace(mode)
                 ? 0
                 : ResolveGameMode(mode);
 
             try
             {
-                if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
+                if (string.IsNullOrWhiteSpace(creds.OsuApiKey))
                 {
                     await ReplyErrorLocalizedAsync("osu_api_key").ConfigureAwait(false);
                     return;
                 }
 
                 var smode = ResolveGameMode(modeNumber);
-                var userReq = $"https://osu.ppy.sh/api/get_user?k={_creds.OsuApiKey}&u={user}&m={modeNumber}";
+                var userReq = $"https://osu.ppy.sh/api/get_user?k={creds.OsuApiKey}&u={user}&m={modeNumber}";
                 var userResString = await http.GetStringAsync(userReq)
                     .ConfigureAwait(false);
                 var objs = JsonConvert.DeserializeObject<List<OsuUserData>>(userResString);
@@ -83,7 +83,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Gatari(string user, [Remainder] string? mode = null)
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             var modeNumber = string.IsNullOrWhiteSpace(mode)
                 ? 0
                 : ResolveGameMode(mode);
@@ -125,7 +125,7 @@ public partial class Searches
         public async Task Osu5(string user, [Remainder] string? mode = null)
         {
             var channel = (ITextChannel)ctx.Channel;
-            if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
+            if (string.IsNullOrWhiteSpace(creds.OsuApiKey))
             {
                 await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
                 return;
@@ -137,19 +137,19 @@ public partial class Searches
                 return;
             }
 
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             var m = 0;
             if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
 
             var reqString =
-                $"https://osu.ppy.sh/api/get_user_best?k={_creds.OsuApiKey}&u={Uri.EscapeDataString(user)}&type=string&limit=5&m={m}";
+                $"https://osu.ppy.sh/api/get_user_best?k={creds.OsuApiKey}&u={Uri.EscapeDataString(user)}&type=string&limit=5&m={m}";
 
             var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<List<OsuUserBests>>(resString);
 
             var mapTasks = obj.Select(async item =>
             {
-                var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={_creds.OsuApiKey}&b={item.BeatmapId}";
+                var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={creds.OsuApiKey}&b={item.BeatmapId}";
 
                 var mapResString = await http.GetStringAsync(mapReqString).ConfigureAwait(false);
                 var map = JsonConvert.DeserializeObject<List<OsuMapData>>(mapResString).FirstOrDefault();

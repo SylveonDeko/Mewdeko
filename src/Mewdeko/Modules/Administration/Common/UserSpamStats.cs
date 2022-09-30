@@ -5,7 +5,7 @@ namespace Mewdeko.Modules.Administration.Common;
 
 public sealed class UserSpamStats : IDisposable
 {
-    private readonly object _applyLock = new();
+    private readonly object applyLock = new();
 
     public UserSpamStats(IUserMessage msg)
     {
@@ -28,7 +28,7 @@ public sealed class UserSpamStats : IDisposable
 
     public void ApplyNextMessage(IUserMessage message)
     {
-        lock (_applyLock)
+        lock (applyLock)
         {
             var upperMsg = message.Content.ToUpperInvariant();
             if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Count > 0))

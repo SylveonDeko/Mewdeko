@@ -6,24 +6,24 @@ using YamlDotNet.Serialization;
 namespace Mewdeko.Services.strings.impl;
 
 /// <summary>
-///     Loads strings from the local default filepath <see cref="_responsesPath" />
+///     Loads strings from the local default filepath <see cref="responsesPath" />
 /// </summary>
 public class LocalFileStringsSource : IStringsSource
 {
-    private readonly string _commandsPath;
-    private readonly string _responsesPath;
+    private readonly string commandsPath;
+    private readonly string responsesPath;
 
     public LocalFileStringsSource(string responsesPath = "data/strings/responses",
         string commandsPath = "data/strings/commands")
     {
-        _responsesPath = responsesPath;
-        _commandsPath = commandsPath;
+        this.responsesPath = responsesPath;
+        this.commandsPath = commandsPath;
     }
 
     public Dictionary<string, Dictionary<string, string>> GetResponseStrings()
     {
         var outputDict = new Dictionary<string, Dictionary<string, string>>();
-        foreach (var file in Directory.GetFiles(_responsesPath))
+        foreach (var file in Directory.GetFiles(responsesPath))
         {
             try
             {
@@ -46,7 +46,7 @@ public class LocalFileStringsSource : IStringsSource
             .Build();
 
         var outputDict = new Dictionary<string, Dictionary<string, CommandStrings>>();
-        foreach (var file in Directory.GetFiles(_commandsPath))
+        foreach (var file in Directory.GetFiles(commandsPath))
         {
             try
             {

@@ -7,11 +7,11 @@ namespace Mewdeko.Modules.Games.Services;
 
 public sealed class GamesConfigService : ConfigServiceBase<GamesConfig>
 {
-    private const string FILE_PATH = "data/games.yml";
-    private static readonly TypedKey<GamesConfig> _changeKey = new("config.games.updated");
+    private const string FilePath = "data/games.yml";
+    private static readonly TypedKey<GamesConfig> ChangeKey = new("config.games.updated");
 
     public GamesConfigService(IConfigSeria serializer, IPubSub pubSub)
-        : base(FILE_PATH, serializer, pubSub, _changeKey)
+        : base(FilePath, serializer, pubSub, ChangeKey)
     {
         AddParsedProp("trivia.min_win_req", gs => gs.Trivia.MinimumWinReq, int.TryParse,
             ConfigPrinters.ToString, val => val > 0);

@@ -7,11 +7,11 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class RemindService : INService
 {
-    private readonly DiscordSocketClient _client;
-    private readonly IBotCredentials _creds;
-    private readonly DbService _db;
+    private readonly DiscordSocketClient client;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
 
-    private readonly Regex _regex =
+    private readonly Regex regex =
         new(
             @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)"
             ,
@@ -19,9 +19,9 @@ public class RemindService : INService
 
     public RemindService(DiscordSocketClient client, DbService db, IBotCredentials creds)
     {
-        _client = client;
-        _db = db;
-        _creds = creds;
+        this.client = client;
+        this.db = db;
+        this.creds = creds;
         _ = StartReminderLoop();
     }
 
@@ -60,7 +60,7 @@ public class RemindService : INService
 
     private async Task RemoveReminders(List<Reminder> reminders)
     {
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         uow.Set<Reminder>()
            .RemoveRange(reminders);
 
@@ -69,16 +69,16 @@ public class RemindService : INService
 
     private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
-        using var uow = _db.GetDbContext();
+        using var uow = db.GetDbContext();
         return uow.Reminders
             .FromSqlInterpolated(
-                $"select * from reminders where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
+                $"select * from reminders where ((serverid >> 22) % {creds.TotalShards}) == {client.ShardId} and \"when\" < {now};")
             .ToListAsync();
     }
 
     public bool TryParseRemindMessage(string input, out RemindObject obj)
     {
-        var m = _regex.Match(input);
+        var m = regex.Match(input);
 
         obj = default;
         if (m.Length == 0) return false;
@@ -93,7 +93,7 @@ public class RemindService : INService
             return false;
         }
 
-        foreach (var groupName in _regex.GetGroupNames())
+        foreach (var groupName in regex.GetGroupNames())
         {
             if (groupName is "0" or "what") continue;
             if (string.IsNullOrWhiteSpace(m.Groups[groupName].Value))
@@ -141,14 +141,14 @@ public class RemindService : INService
             IMessageChannel ch;
             if (r.IsPrivate)
             {
-                var user = _client.GetUser(r.ChannelId);
+                var user = client.GetUser(r.ChannelId);
                 if (user == null)
                     return;
                 ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
             }
             else
             {
-                ch = _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
+                ch = client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
             }
 
             if (ch == null)

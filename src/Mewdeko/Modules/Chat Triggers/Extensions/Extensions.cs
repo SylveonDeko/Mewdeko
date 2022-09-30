@@ -9,12 +9,12 @@ namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
 public static class Extensions
 {
-    private static readonly Regex _imgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
+    private static readonly Regex ImgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
 
     private static Dictionary<Regex, Func<Match, Task<string>>> RegexPlaceholders { get; } = new()
     {
         {
-            _imgRegex, async match =>
+            ImgRegex, async match =>
             {
                 var tag = match.Groups["tag"].ToString();
                 if (string.IsNullOrWhiteSpace(tag))
@@ -119,7 +119,7 @@ public static class Extensions
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
-            
+
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
                             .SendMessageAsync(plainText, embeds: crembed).ConfigureAwait(false);
@@ -156,7 +156,7 @@ public static class Extensions
             return null;
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
-    
+
     public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {

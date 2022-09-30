@@ -3,7 +3,6 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
-using Serilog.Formatting.Compact;
 using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
@@ -13,13 +12,13 @@ public partial class Utility
     [Group]
     public class InfoCommands : MewdekoSubmodule<UtilityService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly MuteService _muteService;
+        private readonly DiscordSocketClient client;
+        private readonly MuteService muteService;
 
         public InfoCommands(DiscordSocketClient client, MuteService muteService)
         {
-            _client = client;
-            _muteService = muteService;
+            this.client = client;
+            this.muteService = muteService;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -92,7 +91,7 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Fetch(ulong id)
         {
-            var usr = await _client.Rest.GetUserAsync(id).ConfigureAwait(false);
+            var usr = await client.Rest.GetUserAsync(id).ConfigureAwait(false);
             if (usr is null)
             {
                 await ctx.Channel.SendErrorAsync("That user could not be found. Please ensure that was the correct ID.");
@@ -122,7 +121,7 @@ public partial class Utility
             }
             else
             {
-                guild = _client.Guilds.FirstOrDefault(
+                guild = client.Guilds.FirstOrDefault(
                                 g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
             }
 
@@ -200,9 +199,9 @@ public partial class Utility
         {
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;
-            var userbanner = (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
+            var userbanner = (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
             var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
-            var restUser = await _client.Rest.GetUserAsync(user.Id);
+            var restUser = await client.Rest.GetUserAsync(user.Id);
             var embed = new EmbedBuilder()
                 .AddField("Username", user.ToString())
                 .WithColor(restUser.AccentColor ?? Mewdeko.OkColor);
@@ -248,7 +247,7 @@ public partial class Utility
 
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
-                embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
+                embed.AddField("Is Server Muted", user.GetRoles().Contains(await muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();
@@ -256,7 +255,7 @@ public partial class Utility
                 }).ConfigureAwait(false);
             }
         }
-        
+
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Avatar([Remainder] IGuildUser? usr = null)
         {

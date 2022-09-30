@@ -8,24 +8,24 @@ public class CurrencyRaffleGame
         Normal
     }
 
-    private readonly HashSet<User> _users = new();
+    private readonly HashSet<User> users = new();
 
     public CurrencyRaffleGame(Type type) => GameType = type;
 
-    public IEnumerable<User> Users => _users;
+    public IEnumerable<User> Users => users;
     public Type GameType { get; }
 
     public bool AddUser(IUser usr, long amount)
     {
-        // if game type is normal, and someone already joined the game 
+        // if game type is normal, and someone already joined the game
         // (that's the user who created it)
-        if (GameType == Type.Normal && _users.Count > 0 &&
-            _users.First().Amount != amount)
+        if (GameType == Type.Normal && users.Count > 0 &&
+            users.First().Amount != amount)
         {
             return false;
         }
 
-        if (!_users.Add(new User
+        if (!users.Add(new User
         {
             DiscordUser = usr,
             Amount = amount
@@ -52,7 +52,7 @@ public class CurrencyRaffleGame
             }
         }
 
-        var usrs = _users.ToArray();
+        var usrs = users.ToArray();
         return usrs[rng.Next(0, usrs.Length)];
     }
 

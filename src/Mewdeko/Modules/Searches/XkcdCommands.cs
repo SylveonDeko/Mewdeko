@@ -11,10 +11,10 @@ public partial class Searches
     [Group]
     public class XkcdCommands : MewdekoSubmodule
     {
-        private const string XKCD_URL = "https://xkcd.com";
-        private readonly IHttpClientFactory _httpFactory;
+        private const string XkcdUrl = "https://xkcd.com";
+        private readonly IHttpClientFactory httpFactory;
 
-        public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
+        public XkcdCommands(IHttpClientFactory factory) => httpFactory = factory;
 
         [Cmd, Aliases, Priority(0)]
         public async Task Xkcd(string? arg = null)
@@ -23,13 +23,13 @@ public partial class Searches
             {
                 try
                 {
-                    using var http = _httpFactory.CreateClient();
-                    var res = await http.GetStringAsync($"{XKCD_URL}/info.0.json").ConfigureAwait(false);
+                    using var http = httpFactory.CreateClient();
+                    var res = await http.GetStringAsync($"{XkcdUrl}/info.0.json").ConfigureAwait(false);
                     var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                     var embed = new EmbedBuilder().WithColor(Mewdeko.OkColor)
                         .WithImageUrl(comic.ImageLink)
                         .WithAuthor(eab =>
-                            eab.WithName(comic.Title).WithUrl($"{XKCD_URL}/{comic.Num}")
+                            eab.WithName(comic.Title).WithUrl($"{XkcdUrl}/{comic.Num}")
                                 .WithIconUrl("https://xkcd.com/s/919f27.ico"))
                         .AddField(efb =>
                             efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
@@ -65,14 +65,14 @@ public partial class Searches
                 return;
             try
             {
-                using var http = _httpFactory.CreateClient();
-                var res = await http.GetStringAsync($"{XKCD_URL}/{num}/info.0.json").ConfigureAwait(false);
+                using var http = httpFactory.CreateClient();
+                var res = await http.GetStringAsync($"{XkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
                 var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                 var embed = new EmbedBuilder().WithColor(Mewdeko.OkColor)
                     .WithImageUrl(comic.ImageLink)
                     .WithAuthor(eab =>
-                        eab.WithName(comic.Title).WithUrl($"{XKCD_URL}/{num}")
+                        eab.WithName(comic.Title).WithUrl($"{XkcdUrl}/{num}")
                             .WithIconUrl("https://xkcd.com/s/919f27.ico"))
                     .AddField(efb =>
                         efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())

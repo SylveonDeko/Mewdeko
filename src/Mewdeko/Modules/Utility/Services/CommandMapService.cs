@@ -6,7 +6,7 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class CommandMapService : IInputTransformer, INService
 {
-    private readonly DbService _db;
+    private readonly DbService db;
 
     //commandmap
     public CommandMapService(DiscordSocketClient client, DbService db)
@@ -25,7 +25,7 @@ public class CommandMapService : IInputTransformer, INService
                     .Distinct(new CommandAliasEqualityComparer())
                     .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
 
-        _db = db;
+        this.db = db;
     }
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; }
@@ -65,7 +65,7 @@ public class CommandMapService : IInputTransformer, INService
     {
         AliasMaps.TryRemove(guildId, out _);
 
-        await using var uow = _db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();

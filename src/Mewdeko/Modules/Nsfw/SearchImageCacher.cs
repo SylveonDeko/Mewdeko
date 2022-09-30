@@ -10,10 +10,10 @@ namespace Mewdeko.Modules.Nsfw;
 
 public class SearchImageCacher : INService
 {
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly Random _rng;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly Random rng;
 
-    private static readonly ISet<string> _defaultTagBlacklist = new HashSet<string>
+    private static readonly ISet<string> DefaultTagBlacklist = new HashSet<string>
     {
         "loli",
         "lolicon",
@@ -22,21 +22,21 @@ public class SearchImageCacher : INService
         "cub"
     };
 
-    private readonly Dictionary<Booru, object> _typeLocks = new();
-    private readonly Dictionary<Booru, HashSet<string>> _usedTags = new();
-    private readonly IMemoryCache _cache;
+    private readonly Dictionary<Booru, object> typeLocks = new();
+    private readonly Dictionary<Booru, HashSet<string>> usedTags = new();
+    private readonly IMemoryCache cache;
 
     public SearchImageCacher(IHttpClientFactory httpFactory, IMemoryCache cache)
     {
-        _httpFactory = httpFactory;
-        _rng = new MewdekoRandom();
-        _cache = cache;
+        this.httpFactory = httpFactory;
+        rng = new MewdekoRandom();
+        this.cache = cache;
 
         // initialize new cache with empty values
         foreach (var type in Enum.GetValues<Booru>())
         {
-            _typeLocks[type] = new object();
-            _usedTags[type] = new HashSet<string>();
+            typeLocks[type] = new object();
+            usedTags[type] = new HashSet<string>();
         }
     }
 
@@ -62,9 +62,9 @@ public class SearchImageCacher : INService
 #if DEBUG
         Log.Information("Updating {0}...", type);
 #endif
-        lock (_typeLocks[type])
+        lock (typeLocks[type])
         {
-            var typeUsedTags = _usedTags[type];
+            var typeUsedTags = usedTags[type];
             foreach (var tag in tags)
                 typeUsedTags.Add(tag);
 
@@ -83,7 +83,7 @@ public class SearchImageCacher : INService
             {
                 // if any of the tags is a tag banned by discord
                 // do not put that image in the cache
-                if (_defaultTagBlacklist.Overlaps(img.Tags))
+                if (DefaultTagBlacklist.Overlaps(img.Tags))
                     continue;
 
                 // if image doesn't have a proper absolute uri, skip it
@@ -97,7 +97,7 @@ public class SearchImageCacher : INService
                 foreach (var tag in img.Tags.Concat(tags).Distinct())
                 {
                     if (!typeUsedTags.Contains(tag)) continue;
-                    var set = _cache.GetOrCreate(Key(type, tag), e =>
+                    var set = cache.GetOrCreate(Key(type, tag), e =>
                     {
                         e.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
                         return new HashSet<ImageData>();
@@ -117,16 +117,16 @@ public class SearchImageCacher : INService
         var setList = new List<HashSet<ImageData>>();
 
         // ofc make sure no changes are happening while we're getting a random one
-        lock (_typeLocks[type])
+        lock (typeLocks[type])
         {
             // if no tags are provided, get a random tag
             if (tags.Length == 0)
             {
                 // get all tags in the cache
-                if (_usedTags.TryGetValue(type, out var allTags)
+                if (usedTags.TryGetValue(type, out var allTags)
                     && allTags.Count > 0)
                 {
-                    tags = new[] { allTags.ToList()[_rng.Next(0, allTags.Count)] };
+                    tags = new[] { allTags.ToList()[rng.Next(0, allTags.Count)] };
                 }
                 else
                 {
@@ -137,7 +137,7 @@ public class SearchImageCacher : INService
             foreach (var tag in tags)
             {
                 // if any tag is missing from cache, that means there is no result
-                if (_cache.TryGetValue<HashSet<ImageData>>(Key(type, tag), out var set))
+                if (cache.TryGetValue<HashSet<ImageData>>(Key(type, tag), out var set))
                     setList.Add(set);
                 else
                     return null;
@@ -177,12 +177,12 @@ public class SearchImageCacher : INService
             if (resultList.Count == 0)
                 return null;
 
-            var toReturn = resultList[_rng.Next(0, resultList.Count)];
+            var toReturn = resultList[rng.Next(0, resultList.Count)];
 
             // remove from cache
             foreach (var tag in tags)
             {
-                if (_cache.TryGetValue<HashSet<ImageData>>(Key(type, tag), out var items))
+                if (cache.TryGetValue<HashSet<ImageData>>(Key(type, tag), out var items))
                 {
                     items.Remove(toReturn);
                 }
@@ -204,8 +204,8 @@ public class SearchImageCacher : INService
         if (tags.Length > 2 && type == Booru.Danbooru)
             tags = tags[..2];
 
-        // use both tags banned by discord and tags banned on the server 
-        if (blacklistedTags.Overlaps(tags) || _defaultTagBlacklist.Overlaps(tags))
+        // use both tags banned by discord and tags banned on the server
+        if (blacklistedTags.Overlaps(tags) || DefaultTagBlacklist.Overlaps(tags))
             return default;
 
         // query for an image
@@ -227,7 +227,7 @@ public class SearchImageCacher : INService
         return !success ? default : QueryLocal(tags, type, blacklistedTags);
     }
 
-    private readonly ConcurrentDictionary<(Booru, string), int> _maxPages = new();
+    private readonly ConcurrentDictionary<(Booru, string), int> maxPages = new();
 
     public async Task<List<ImageData?>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, CancellationToken cancel)
     {
@@ -237,7 +237,7 @@ public class SearchImageCacher : INService
         while (attempt++ <= 10)
         {
             int page;
-            if (_maxPages.TryGetValue((type, tagStr), out var maxPage))
+            if (maxPages.TryGetValue((type, tagStr), out var maxPage))
             {
                 if (maxPage == 0)
                 {
@@ -247,11 +247,11 @@ public class SearchImageCacher : INService
                     return new List<ImageData>();
                 }
 
-                page = _rng.Next(0, maxPage);
+                page = rng.Next(0, maxPage);
             }
             else
             {
-                page = _rng.Next(0, 11);
+                page = rng.Next(0, 11);
             }
 
             var result = await DownloadImagesAsync(tags, isExplicit, type, page, cancel).ConfigureAwait(false);
@@ -291,13 +291,13 @@ public class SearchImageCacher : INService
             Log.Information("Downloading from {0} (page {1})...", type, page);
 #endif
 
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             var downloader = GetImageDownloader(type, http);
 
             var images = await downloader.DownloadImageDataAsync(tags, page, isExplicit, cancel).ConfigureAwait(false);
             if (images.Count != 0) return images;
             var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
-            _maxPages[(type, tagStr)] = page;
+            maxPages[(type, tagStr)] = page;
 
             return images;
         }

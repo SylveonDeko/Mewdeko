@@ -31,16 +31,16 @@ namespace Mewdeko.Modules.Searches;
 
 public partial class Searches : MewdekoModuleBase<SearchesService>
 {
-    private static readonly ConcurrentDictionary<string, string> _cachedShortenedLinks = new();
-    private readonly IMemoryCache _cache;
-    private readonly IBotCredentials _creds;
-    private readonly IGoogleApiService _google;
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly GuildTimezoneService _tzSvc;
-    private readonly InteractiveService _interactivity;
-    private readonly MartineApi _martineApi;
-    private readonly ToneTagService _toneTagService;
-    private readonly BotConfigService _config;
+    private static readonly ConcurrentDictionary<string, string> CachedShortenedLinks = new();
+    private readonly IMemoryCache cache;
+    private readonly IBotCredentials creds;
+    private readonly IGoogleApiService google;
+    private readonly IHttpClientFactory httpFactory;
+    private readonly GuildTimezoneService tzSvc;
+    private readonly InteractiveService interactivity;
+    private readonly MartineApi martineApi;
+    private readonly ToneTagService toneTagService;
+    private readonly BotConfigService config;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
@@ -48,22 +48,22 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         MartineApi martineApi, ToneTagService toneTagService,
         BotConfigService config)
     {
-        _interactivity = serv;
-        _martineApi = martineApi;
-        _creds = creds;
-        _google = google;
-        _httpFactory = factory;
-        _cache = cache;
-        _tzSvc = tzSvc;
-        _toneTagService = toneTagService;
-        _config = config;
+        interactivity = serv;
+        this.martineApi = martineApi;
+        this.creds = creds;
+        this.google = google;
+        httpFactory = factory;
+        this.cache = cache;
+        this.tzSvc = tzSvc;
+        this.toneTagService = toneTagService;
+        this.config = config;
     }
-    
+
     [Cmd, Aliases]
     public async Task Meme()
     {
-        var msg = await ctx.Channel.SendConfirmAsync($"{_config.Data.LoadingEmote} Fetching random meme...").ConfigureAwait(false);
-        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
+        var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Fetching random meme...").ConfigureAwait(false);
+        var image = await martineApi.RedditApi.GetRandomMeme(Toptype.year).ConfigureAwait(false);
 
         var button = new ComponentBuilder().WithButton("Another!", $"meme:{ctx.User.Id}");
         var em = new EmbedBuilder
@@ -106,7 +106,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         RedditPost image;
         try
         {
-            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit).ConfigureAwait(false);
+            image = await martineApi.RedditApi.GetRandomFromSubreddit(subreddit).ConfigureAwait(false);
         }
         catch (ApiException)
         {
@@ -169,7 +169,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
             var tz = Context.Guild is null
                 ? TimeZoneInfo.Utc
-                : _tzSvc.GetTimeZoneOrUtc(Context.Guild.Id);
+                : tzSvc.GetTimeZoneOrUtc(Context.Guild.Id);
             var sunrise = data.Sys.Sunrise.ToUnixTimestamp();
             var sunset = data.Sys.Sunset.ToUnixTimestamp();
             sunrise = sunrise.ToOffset(tz.GetUtcOffset(sunrise));
@@ -263,7 +263,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
             return;
 
-        var result = await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false);
+        var result = await google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false);
         if (!result.Any())
         {
             await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
@@ -278,7 +278,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                         .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                         .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -369,7 +369,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                           .WithMaxPageIndex(duckDuckGoImageResults.Length)
                                                           .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -390,7 +390,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                       .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                                                       .Build();
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -412,7 +412,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         await ctx.Channel.SendConfirmAsync(
-                     $"<{await _google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}").ConfigureAwait(false)}>")
+                     $"<{await google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}").ConfigureAwait(false)}>")
             .ConfigureAwait(false);
     }
 
@@ -423,11 +423,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         query = query.Trim();
-        if (!_cachedShortenedLinks.TryGetValue(query, out var shortLink))
+        if (!CachedShortenedLinks.TryGetValue(query, out var shortLink))
         {
             try
             {
-                using var http = _httpFactory.CreateClient();
+                using var http = httpFactory.CreateClient();
                 using var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten");
                 req.Content = new MultipartFormDataContent
                 {
@@ -439,7 +439,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 var data = JsonConvert.DeserializeObject<ShortenData>(content);
 
                 if (!string.IsNullOrWhiteSpace(data?.ResultUrl))
-                    _cachedShortenedLinks.TryAdd(query, data.ResultUrl);
+                    CachedShortenedLinks.TryAdd(query, data.ResultUrl);
                 else
                     return;
 
@@ -535,7 +535,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, name).ConfigureAwait(false))
             return;
 
-        if (string.IsNullOrWhiteSpace(_creds.MashapeKey))
+        if (string.IsNullOrWhiteSpace(creds.MashapeKey))
         {
             await ReplyErrorLocalizedAsync("mashape_api_missing").ConfigureAwait(false);
             return;
@@ -567,7 +567,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var res = await http
             .GetStringAsync($"https://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query)}")
             .ConfigureAwait(false);
@@ -585,7 +585,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -616,10 +616,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
             return;
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         try
         {
-            var res = await _cache.GetOrCreateAsync($"define_{word}", e =>
+            var res = await cache.GetOrCreateAsync($"define_{word}", e =>
             {
                 e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
                 return http.GetStringAsync(
@@ -660,7 +660,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -689,7 +689,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases]
     public async Task Catfact()
     {
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var response = await http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(response))
             return;
@@ -736,7 +736,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
             return;
 
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         var result = await http
             .GetStringAsync(
                 $"https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles={Uri.EscapeDataString(query)}").ConfigureAwait(false);
@@ -780,7 +780,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
 
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        using var http = _httpFactory.CreateClient();
+        using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         try
         {
@@ -813,7 +813,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var obj = new BibleVerses();
         try
         {
-            using var http = _httpFactory.CreateClient();
+            using var http = httpFactory.CreateClient();
             var res = await http
                 .GetStringAsync($"https://bible-api.com/{book} {chapterAndVerse}").ConfigureAwait(false);
 
@@ -869,7 +869,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases]
     public async Task ResolveToneTags([Remainder] string tag)
     {
-        var embed = _toneTagService.GetEmbed(_toneTagService.ParseTags(tag), ctx.Guild);
+        var embed = toneTagService.GetEmbed(toneTagService.ParseTags(tag), ctx.Guild);
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
