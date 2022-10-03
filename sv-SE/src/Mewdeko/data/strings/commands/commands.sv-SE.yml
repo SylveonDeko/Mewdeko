@@ -879,6 +879,16 @@ ctnr:
     - '69420'
   desc: >-
     Toggles whether the bot sends a message with a Chat Trigger. Turning this off automatically makes any emote reactions react to the trigger.
+ctprefix:
+  args:
+    - '12 *'
+  desc: >-
+    Sets the prefix triggers will be matched with when using the custom prefix type.
+ctprefixtype:
+  args:
+    - '42 custom'
+  desc: >-
+    Sets the prefix type a trigger checks itself against when it's executed. Valid types are None, Global, GuildOrGlobal, GuildOrNone, and Custom
 ctreact:
   args:
     - '59 👍 👎 '
