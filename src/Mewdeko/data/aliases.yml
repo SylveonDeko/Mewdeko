@@ -425,6 +425,14 @@ ctdm:
 ctnr:
   - ctnr
   - chattriggernoresponse
+ctprefix:
+  - ctprefix
+  - chattriggersprefix
+  - chattriggerprefix
+ctprefixtype:
+  - ctprefixtype
+  - chattriggersprefixtype
+  - chattriggerprefixtype
 ctreact:
   - ctreact
   - ctr
