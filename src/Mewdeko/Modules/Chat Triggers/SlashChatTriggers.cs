@@ -146,6 +146,47 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
+    [SlashCommand("prefix-type", "Sets the type of prefix this chat trigger will use"),
+     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    public async Task CtPrefixType
+    (
+        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
+        [Summary("type", "The type of prefix to use.")] RequirePrefixType type
+    )
+    {
+        var res = await Service.SetPrefixType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await RespondAsync(embed:Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("prefix", "Sets  prefix this chat trigger when prefix type is custom"),
+     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    public async Task CtPrefix
+    (
+        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
+        [Summary("prefix", "The prefix to use when prefix type is custom")] string prefix)
+    {
+        var res = await Service.SetPrefix(ctx.Guild?.Id, id, prefix).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await RespondAsync(embed:Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
+        }
+    }
+
     [SlashCommand("list", "List chat triggers."),
     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggers()
