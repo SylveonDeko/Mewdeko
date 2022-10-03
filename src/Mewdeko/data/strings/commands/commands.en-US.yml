@@ -1020,6 +1020,17 @@ ctnr:
   desc: >-
     Toggles whether the bot sends a message with a Chat Trigger. Turning this
     off automatically makes any emote reactions react to the trigger.
+ctprefix:
+  args:
+    - '12 *'
+  desc: >-
+    Sets the prefix triggers will be matched with when using the custom prefix type.
+ctprefixtype:
+  args:
+    - '42 custom'
+  desc: >-
+    Sets the prefix type a trigger checks itself against when it's executed. Valid types are None, Global,
+    GuildOrGlobal, GuildOrNone, and Custom
 ctreact:
   args:
     - '59 👍 👎 '
@@ -4083,13 +4094,13 @@ chattriggerscrosspostwebhook:
   args:
     - 1234 https://discord.com/...
   desc: >-
-    Sends chat triggers messages to a webhook, in addition to the normal response 
+    Sends chat triggers messages to a webhook, in addition to the normal response
     location. This will delete a crossposting channel set with `{0}ctcpsetchannel`
 chattriggerscrosspostchannel:
   args:
     - 1234 \#mod-logs
   desc: >-
-    Sends chat triggers messages to a channel, in addition to the normal response 
+    Sends chat triggers messages to a channel, in addition to the normal response
     location. This will delete a crossposting webhook set with `{0}ctcpsetwebhook`
 setctintertype:
   args:
@@ -4098,8 +4109,8 @@ setctintertype:
     - Message
     - User
   desc: >-
-    Sets the type of a chat triggers application commands, slash commands are shown when 
-    a user types `/`, Message commands are shown when a user right-clicks or long-taps 
+    Sets the type of a chat triggers application commands, slash commands are shown when
+    a user types `/`, Message commands are shown when a user right-clicks or long-taps
     a message, and user commands are when when a user right-clicks or long-taps a user.
 setctintername:
   args:
@@ -4127,7 +4138,7 @@ chattriggervalidtype:
     - 1234 Message true
     - 1234 Interaction false
     - 1234 Button true
-  desc: >- 
+  desc: >-
     Enables or disables triggers used in the specified context.
 ctinterephemeral:
   args:

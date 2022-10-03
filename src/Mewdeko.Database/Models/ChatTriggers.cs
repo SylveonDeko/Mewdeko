@@ -10,6 +10,9 @@ public class ChatTriggers : DbEntity
     public string Response { get; set; }
     public string Trigger { get; set; }
 
+    public RequirePrefixType PrefixType { get; set; } = RequirePrefixType.None;
+    public string CustomPrefix { get; set; } = "";
+
     public bool AutoDeleteTrigger { get; set; }
     public bool ReactToTrigger { get; set; }
     public bool NoRespond { get; set; }
@@ -70,4 +73,13 @@ public enum ChatTriggerType
     Button = 0b0100
     // not yet developed
     // Reactions = 0b10000,
+}
+
+public enum RequirePrefixType
+{
+    None,
+    Global,
+    GuildOrGlobal,
+    GuildOrNone,
+    Custom
 }

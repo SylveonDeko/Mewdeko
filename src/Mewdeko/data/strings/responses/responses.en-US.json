@@ -1202,5 +1202,7 @@
     "channel_renamed": "Channel Renamed",
     "ct_crossposting_webhook": "To a webhook",
     "ct_crossposting": "Crossposting",
-    "ct_crossposting_channel": "To <#{0}>"
+    "ct_crossposting_channel": "To <#{0}>",
+    "ct_prefix_type": "Prefix Type",
+    "ct_custom_prefix": "Custom Prefix"
 }

@@ -13,6 +13,7 @@ using Serilog;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Services.Settings;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using CTModel = Mewdeko.Database.Models.ChatTriggers;
@@ -78,6 +79,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly Random rng;
     private readonly IBotStrings strings;
     private readonly GuildSettingsService guildSettings;
+    private readonly BotConfigService configService;
 
     // it is perfectly fine to have global chattriggers as an array
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
@@ -98,7 +100,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         CmdCdService cmdCds,
         IPubSub pubSub,
         DiscordPermOverrideService discordPermOverride,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        BotConfigService configService)
     {
         this.db = db;
         this.client = client;
@@ -109,6 +112,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         this.pubSub = pubSub;
         this.discordPermOverride = discordPermOverride;
         this.guildSettings = guildSettings;
+        this.configService = configService;
         rng = new MewdekoRandom();
 
         this.pubSub.Sub(crsReloadedKey, OnCrsShouldReload);
@@ -126,7 +130,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage msg)
     {
         // maybe this message is a custom reaction
-        var ct = TryGetChatTriggers(msg);
+        var ct = await TryGetChatTriggers(msg);
 
         if (ct is null)
             return false;
@@ -473,7 +477,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ready = true;
     }
 
-    private CTModel? TryGetChatTriggers(IUserMessage umsg)
+    private async Task<CTModel?> TryGetChatTriggers(IUserMessage umsg)
     {
         if (!ready)
             return null;
@@ -485,7 +489,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         if (newGuildReactions.TryGetValue(channel.Guild.Id, out var reactions) && reactions.Length > 0)
         {
-            var cr = MatchChatTriggers(content, reactions);
+            var cr = await MatchChatTriggers(content, reactions, channel.Guild);
             if (cr is not null)
                 return cr;
         }
@@ -493,16 +497,42 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         // ReSharper disable once InconsistentlySynchronizedField
         var localGrs = globalReactions;
 
-        return MatchChatTriggers(content, localGrs);
+        return await MatchChatTriggers(content, localGrs, channel.Guild);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private CTModel? MatchChatTriggers(string content, CTModel[] crs)
+    private async Task<CTModel?> MatchChatTriggers(string content, CTModel[] crs, SocketGuild guild)
     {
+        var guildPrefix = await guildSettings.GetPrefix(guild);
+        var globalPrefix = configService.Data.Prefix;
+
         var result = new List<CTModel>(1);
         foreach (var ct in crs)
         {
             var trigger = ct.Trigger;
+
+            switch (ct.PrefixType)
+            {
+                case RequirePrefixType.Custom:
+                    if (!content.StartsWith(ct.CustomPrefix)) continue;
+                    content = content[ct.CustomPrefix.Length..];
+                break;
+                case RequirePrefixType.GuildOrNone:
+                    if(guildPrefix is null || !content.StartsWith(guildPrefix)) continue;
+                    content = content[guildPrefix.Length..];
+                break;
+                case RequirePrefixType.GuildOrGlobal:
+                    if(!content.StartsWith(guildPrefix ?? globalPrefix)) continue;
+                    content = content[(guildPrefix ?? globalPrefix).Length..];
+                break;
+                case RequirePrefixType.Global:
+                    if(!content.StartsWith(globalPrefix)) continue;
+                    content = content[globalPrefix.Length..];
+                break;
+                case RequirePrefixType.None:
+                default:
+                    break;
+            }
 
             // regex triggers are only checked on regex content
             if (ct.IsRegex)
@@ -981,6 +1011,36 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return ct;
     }
 
+    public async Task<CTModel?> SetPrefixType(ulong? guildId, int id, RequirePrefixType type)
+    {
+        await using var uow = db.GetDbContext();
+        var ct = await uow.ChatTriggers.GetById(id);
+
+        if (ct == null || ct.GuildId != guildId)
+            return null;
+
+        ct.PrefixType = type;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+
+        return ct;
+    }
+
+    public async Task<CTModel?> SetPrefix(ulong? guildId, int id, string name)
+    {
+        await using var uow = db.GetDbContext();
+        var ct = await uow.ChatTriggers.GetById(id);
+
+        if (ct == null || ct.GuildId != guildId)
+            return null;
+
+        ct.CustomPrefix = name;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+
+        return ct;
+    }
+
     public async Task<(CTModel? Trigger, bool Valid)> SetCrosspostingWebhookUrl(ulong? guildId, int id, string webhookUrl, bool bypassTest = false)
     {
         if (!bypassTest)
@@ -1101,12 +1161,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         var eb = new EmbedBuilder().WithOkColor()
             .WithTitle(title)
             .WithDescription($"#{ct.Id}")
-            .AddField(strings.GetText("ct_interaction_type_title", gId), strings.GetText("ct_interaction_type_body", gId, ct.ApplicationCommandType.ToString()))
+            .AddField(strings.GetText("ct_interaction_type_title", gId),
+                strings.GetText("ct_interaction_type_body", gId, ct.ApplicationCommandType.ToString()))
             .AddField(strings.GetText("ct_realname", gId), ct.RealName)
             .AddField(efb => efb.WithName(strings.GetText("trigger", gId)).WithValue(ct.Trigger.TrimTo(1024)))
             .AddField(efb =>
                 efb.WithName(strings.GetText("response", gId))
-                    .WithValue($"{(ct.Response + "\n```css\n" + ct.Response).TrimTo(1024 - 11)}```"));
+                    .WithValue($"{(ct.Response + "\n```css\n" + ct.Response).TrimTo(1024 - 11)}```"))
+            .AddField(strings.GetText("ct_prefix_type"), ct.PrefixType);
         var reactions = ct.GetReactions();
         if (reactions.Length >= 1)
             eb.AddField(strings.GetText("trigger_reactions", gId), string.Concat(reactions));
@@ -1129,6 +1191,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (ct.CrosspostingChannelId != 0)
             eb.AddField(strings.GetText("ct_crossposting", gId),
                 strings.GetText("ct_crossposting_channel", gId, ct.CrosspostingChannelId));
+        if (ct.PrefixType == RequirePrefixType.Custom)
+            eb.AddField(strings.GetText("ct_custom_prefix", gId), ct.CustomPrefix);
         return eb;
     }
 

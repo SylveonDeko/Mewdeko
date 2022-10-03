@@ -562,6 +562,38 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
     }
 
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtPrefixType(int id, RequirePrefixType type)
+    {
+        var res = await Service.SetPrefixType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                .ConfigureAwait(false);
+        }
+    }
+
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    public async Task CtPrefix(int id, string prefix)
+    {
+        var res = await Service.SetPrefix(ctx.Guild?.Id, id, prefix).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                .ConfigureAwait(false);
+        }
+    }
+
     public async Task FollowupWithTriggerStatus()
     {
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
