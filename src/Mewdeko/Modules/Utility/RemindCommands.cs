@@ -139,7 +139,7 @@ public partial class Utility
 
         private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string? message)
         {
-            if (ts > TimeSpan.FromDays(60))
+            if (ts > TimeSpan.FromDays(367))
                 return false;
 
             var time = DateTime.UtcNow + ts;
