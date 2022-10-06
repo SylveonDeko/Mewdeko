@@ -926,7 +926,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 using var sr = await httpClient.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                await using var imgStream = imgData.ToStream();
+                var imgStream = imgData.ToStream();
                 attachments.Add(new FileAttachment(imgStream, i.Filename));
             }
         }
@@ -937,8 +937,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         if (SmartEmbed.TryParse(rep.Replace(message), ctx.Guild?.Id, out var embedData, out var plainText, out var components))
         {
             if (anyAttachments)
+            {
                 await channel.SendFilesAsync(attachments: attachments, plainText, embeds: embedData, components:components?.Build(), allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                              .ConfigureAwait(false);
+                _ = attachments.Select(async x => await x.Stream.DisposeAsync());
+            }
             else
                 await channel.SendMessageAsync(plainText, embeds: embedData, components:components?.Build(), allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                              .ConfigureAwait(false);
@@ -948,7 +951,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             var msg = rep.Replace(message);
             if (!string.IsNullOrWhiteSpace(msg))
                 if (anyAttachments)
+                {
                     await channel.SendFilesAsync(attachments, msg, allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All).ConfigureAwait(false);
+                    _ = attachments.Select(async x => await x.Stream.DisposeAsync());
+                }
                 else
                     await channel.SendConfirmAsync(msg).ConfigureAwait(false);
         }
