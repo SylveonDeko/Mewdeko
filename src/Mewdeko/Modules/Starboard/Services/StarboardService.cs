@@ -283,7 +283,7 @@ public class StarboardService : INService, IReadyExecutor
             var enumerable = count as IUser[] ?? count.ToArray();
             if (enumerable.Length < await GetStarCount(textChannel.GuildId))
                 return;
-            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link).Build();
+            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link, label: "Jump To Message").Build();
             var maybePost = starboardPosts.Find(x => x.MessageId == newMessage.Id);
             if (maybePost != null)
             {
@@ -426,7 +426,7 @@ public class StarboardService : INService, IReadyExecutor
 
             string content;
             string imageurl;
-            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link).Build();
+            var component = new ComponentBuilder().WithButton(url: newMessage.GetJumpUrl(), style: ButtonStyle.Link, label: "Jump To Message").Build();
             switch (newMessage.Author.IsBot)
             {
                 case true when !await GetAllowBots(textChannel.GuildId):
