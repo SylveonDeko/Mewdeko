@@ -1,19 +1,17 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Common.ModuleBehaviors;
 
 namespace Mewdeko.Modules.Utility.Services;
 
-public class MessageDeleteService : INService, IReadyExecutor
+public class MessageDeleteService : INService
 {
-    private readonly DiscordSocketClient _client;
     public MessageDeleteService(DiscordSocketClient client)
     {
-        _client = client;
+        _ = Task.Run(async () => await MessageDeleteLoop(client));
     }
-    public async Task OnReadyAsync()
+    public static async Task MessageDeleteLoop(DiscordSocketClient client)
     {
-        var guild = _client.GetGuild(708154079695601685);
+        var guild = client.GetGuild(708154079695601685);
         var channel = guild.GetTextChannel(991163300903669821);
         var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
         while (await timer.WaitForNextTickAsync())
