@@ -32,6 +32,7 @@
       <Compile Remove="Migrations\TestMigration2.Designer.cs" />
       <Compile Remove="Migrations\TestMigration1.cs" />
       <Compile Remove="Migrations\TestMigration1.Designer.cs" />
+      <Compile Remove="Migrations\AddBirthdayStuff.cs" />
     </ItemGroup>
 
 </Project>
