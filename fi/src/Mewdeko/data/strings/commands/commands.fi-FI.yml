@@ -3638,6 +3638,61 @@ voteroleadd:
     - "role 2m5s"
     - "role"
   desc: "Add a role thats given when a user has voted along with the time its present. Set no time for it to be permanent."
+voteroleremove:
+  args:
+    - "role"
+  desc: "Removes a vote role"
+voterolesclear:
+  args:
+    - ""
+  desc: "Clears all vote roles with a confirmation"
+profile:
+  args:
+    - ""
+    - "@user"
+  desc: "Opens your or another user's customized profile, if it's not set to private."
+setzodiac:
+  args:
+    - "libra"
+  desc: "Set your zodiac for horoscopes in your custom profile"
+setprofilecolor:
+  args:
+    - "Yellow"
+    - "Hex, im not looking up a hex just for this command"
+  desc: "Opens your or another user's customized profile, if it's not set to private."
+setbirthday:
+  args:
+    - "10/04/2003"
+  desc: "Sets your birthday to be shown (depending on how its set), in your user profile, will be used with the birthday module."
+setbirthdayprivacy:
+  args:
+    - "MonthOnly"
+    - "MonthAndDateOnly"
+  desc: >-
+    Sets the way your birthday is disabled when someone views your profile. 
+
+    `Default`: 10/04/2003 
+    `MonthOnly`: October 
+    `MonthAndDate`: October 4 
+    `YearOnly`: 2003 
+    `Disabled`: Private
+setprofileimage:
+  args:
+    - "imagelink"
+  desc: "A link to a direct image that will shows on your userprofile"
+setprivacy:
+  args:
+    - "Private"
+    - "Public"
+  desc: "Sets whether others can view your profile."
+setbio:
+  args:
+    - "Hi there, owner of Mewdeko!"
+  desc: "Sets what the description will show on your userprofile."
+voteroleslist:
+  args:
+    - ""
+  desc: "Lists all vote roles."
 voteroleedit:
   args:
     - "role 2m5s"
