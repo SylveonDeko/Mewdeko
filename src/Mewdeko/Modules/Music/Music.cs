@@ -748,8 +748,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 await ctx.Channel.SendMessageAsync(embed: eb);
                 return;
             }
-            if (
-                searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.Contains("soundcloud.app.goo.gl") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
+            if ( searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") || searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.Contains("soundcloud.app.goo.gl") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
             {
                 if (player is null)
                 {
