@@ -180,15 +180,15 @@ public class HelpService : ILateExecutor, INService
             return new EmbedBuilder().WithDescription("Help is disabled for this command.");
         var prefix = await guildSettings.GetPrefix(guild);
         var potentialCommand = interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
-        var str = $"**`{prefix + com.Aliases[0]}`**";
+        var str = $"**{prefix + com.Aliases[0]}**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
-            str += $" **/ `{prefix + alias}`**";
+            str += $" **/{prefix + alias}**";
         var em = new EmbedBuilder().AddField(fb =>
             fb.WithName(str).WithValue($"{com.RealSummary(strings, guild.Id, prefix)}").WithIsInline(true));
 
-        dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
-        var reqs = GetCommandRequirements(com, overrides);
+        var tryGetOverrides = dpos.TryGetOverrides(guild.Id, com.Name, out var overrides);
+        var reqs = GetCommandRequirements(com, tryGetOverrides ? overrides : null);
         var botReqs = GetCommandBotRequirements(com);
         var attribute = (RatelimitAttribute)com.Preconditions.FirstOrDefault(x => x is RatelimitAttribute);
         if (reqs.Length > 0)
@@ -199,12 +199,23 @@ public class HelpService : ILateExecutor, INService
         {
             em.AddField("Ratelimit", $"{attribute.Seconds} seconds");
         }
-        em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"`/{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}`");
+
+        if (potentialCommand is not null)
+        {
+            var globalCommands = await client.Rest.GetGlobalApplicationCommands();
+            var guildCommands = await client.Rest.GetGuildApplicationCommands(guild.Id);
+            var globalCommand = globalCommands.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
+            var guildCommand = guildCommands.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
+            if (globalCommand is not null)
+                em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{globalCommand.Id}>");
+            else if (guildCommand is not null)
+                em.AddField("Slash Command", potentialCommand == null ? "`None`" : $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{guildCommand.Id}>");
+        }
         em.AddField(fb => fb.WithName(GetText("usage", guild)).WithValue(string.Join("\n",
                                 Array.ConvertAll(com.RealRemarksArr(strings, guild?.Id, prefix),
                                     arg => Format.Code(arg))))
                             .WithIsInline(false))
-          .WithFooter($"Module: {com.Module.GetTopLevelModule().Name} || Submodule: {com.Module.Name.Replace("Commands", "")}")
+          .WithFooter($"Module: {com.Module.GetTopLevelModule().Name} || Submodule: {com.Module.Name.Replace("Commands", "")} || Method Name: {com.MethodName()}")
           .WithColor(Mewdeko.OkColor);
 
         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))

@@ -43,7 +43,7 @@ public class CommandStringsTests
                           .GetExportedTypes()
                           .Where(type => type.IsClass && !type.IsAbstract)
                           .Where(type => typeof(MewdekoModule).IsAssignableFrom(type) // if its a top level module
-                                         || !(type.GetCustomAttribute<GroupAttribute>(true) is null)) // or a submodule
+                                         || type.GetCustomAttribute<GroupAttribute>(true) is not null) // or a submodule
                           .SelectMany(x => x.GetMethods()
                                             .Where(mi => mi.CustomAttributes
                                                            .Any(ca => ca.AttributeType == typeof(Cmd))))

@@ -185,10 +185,10 @@ public class UserProfileService : INService
             if (!string.IsNullOrEmpty(dbUser.Bio))
                 eb.WithDescription(dbUser.Bio);
             eb.AddField("Currency", $"{dbUser.CurrencyAmount} {gss.Data.Currency.Sign}");
-            eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns, true);
-            eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign, true);
+            eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns);
+            eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign);
             if (!string.IsNullOrEmpty(dbUser.ZodiacSign))
-                eb.AddField("Horoscope", (await GetZodiacInfo(user.Id)).Item2.Description, true);
+                eb.AddField("Horoscope", (await GetZodiacInfo(user.Id)).Item2.Description);
             if (dbUser.Birthday.HasValue)
                 switch (dbUser.BirthdayDisplayMode)
                 {
@@ -196,22 +196,22 @@ public class UserProfileService : INService
                         eb.AddField("Birthday", dbUser.Birthday.Value.ToString("d"));
                         break;
                     case DiscordUser.BirthdayDisplayModeEnum.Disabled:
-                        eb.AddField("Birthday", "Private", true);
+                        eb.AddField("Birthday", "Private");
                         break;
                     case DiscordUser.BirthdayDisplayModeEnum.MonthOnly:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("MMMM"), true);
+                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("MMMM"));
                         break;
                     case DiscordUser.BirthdayDisplayModeEnum.YearOnly:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("YYYY"), true);
+                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("YYYY"));
                         break;
                     case DiscordUser.BirthdayDisplayModeEnum.MonthAndDate:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("M"), true);
+                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("M"));
                         break;
                 }
             else
-                eb.AddField("Birthday", "Unspecified", true);
+                eb.AddField("Birthday", "Unspecified");
 
-            eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count, true);
+            eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count);
 
             if (!string.IsNullOrEmpty(dbUser.ProfileImageUrl))
                 eb.WithImageUrl(dbUser.ProfileImageUrl);
