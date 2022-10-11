@@ -4,6 +4,7 @@ accept:
   - acceptsuggest
 acceptchannel:
   - acceptchannel
+
 acceptmessage:
   - acceptmessage
   - acceptmsg
@@ -411,9 +412,6 @@ creatxtchanl:
   - ctch
 cry:
   - cry
-crypto:
-  - crypto
-  - c
 ctad:
   - ctad
 ctat:
@@ -623,8 +621,8 @@ getactiveafks:
   - getactiveafks
   - activeafks
 pronouns:
-  - getpronouns
   - pronouns
+  - getpronouns
 give:
   - give
 glist:
@@ -1924,6 +1922,33 @@ votemessage:
 voteroleadd:
   - voteroleadd
   - vra
+voteroleremove:
+  - voteroleremove
+  - vrr
+voterolesclear:
+  - voterolesclear
+  - vrc
+voteroleslist:
+  - voteroleslist
+  - vrl
+profile:
+  - profile
+  - userprofile
+setzodiac:
+  - setzodiac
+setprofilecolor:
+  -  setprofilecolor
+setbirthday:
+  - setbirthday
+setbirthdayprivacy:
+  - setbirthdayprivacy
+setprofileimage:
+  - setprofileimage
+setprivacy:
+  - setprivacy
+  - profilepricvacy
+setbio:
+  - setbio
 voteroleedit:
   - voteroleedit
   - vre
