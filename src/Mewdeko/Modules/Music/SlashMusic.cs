@@ -728,8 +728,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
         var player = lavaNode.GetPlayer<MusicPlayer>(ctx.Guild);
-        if (!Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute) ||
-            searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
+        if (!Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute)
+             || searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") || searchQuery.Contains("soundcloud.com") || searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
         {
                 if (player is null)
                 {
