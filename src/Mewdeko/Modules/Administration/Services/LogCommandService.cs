@@ -104,22 +104,19 @@ public class LogCommandService : INService
 
     public async Task<bool> LogIgnore(ulong gid, ulong cid)
     {
-        int removed;
-        using (var uow = db.GetDbContext())
+        await using var uow = db.GetDbContext();
+        var config = await uow.LogSettingsFor(gid);
+        var logSetting = GuildLogSettings.GetOrAdd(gid, _ => config.LogSetting);
+        var removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
+        config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
+        if (removed == 0)
         {
-            var config = await uow.LogSettingsFor(gid);
-            var logSetting = GuildLogSettings.GetOrAdd(gid, _ => config.LogSetting);
-            removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
-            config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
-            if (removed == 0)
-            {
-                var toAdd = new IgnoredLogChannel { ChannelId = cid };
-                logSetting.IgnoredChannels.Add(toAdd);
-                config.LogSetting.IgnoredChannels.Add(toAdd);
-            }
-
-            await uow.SaveChangesAsync();
+            var toAdd = new IgnoredLogChannel { ChannelId = cid };
+            logSetting.IgnoredChannels.Add(toAdd);
+            config.LogSetting.IgnoredChannels.Add(toAdd);
         }
+
+        await uow.SaveChangesAsync();
 
         return removed > 0;
     }
