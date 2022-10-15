@@ -151,7 +151,7 @@ public class HelpService : ILateExecutor, INService
             "suggestions" => "<:BlackHaneBlush:1026548279661580288>",
             "userprofile" => "<a:Nyahahaha:1026529117933408317>",
             "utility" => "<a:HaneEmbarrassed:941348725484298250>",
-            "vote" => "<:HaneLoli:1026544375657934878>",
+            "vote" => "<:HaneLoli:1030678744425312306>",
             "xp" => "<:BlackHaneCulture:1026529110941507684>",
             _ => "<a:HaneMeow:941348630927925318>"
         };
