@@ -8,6 +8,7 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Swan;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Help;
 
@@ -66,7 +67,14 @@ public class Help : MewdekoModuleBase<HelpService>
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild ?? null, ctx.Channel, ctx.User);
-        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
+        try
+        {
+            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Log.Information(e.ToString());
+        }
     }
 
     [Cmd, Aliases]
