@@ -131,7 +131,7 @@ public static class Extensions
         return false;
     }
 
-    public static IEmote ToIEmote(this string emojiStr) =>
+    public static IEmote? ToIEmote(this string emojiStr) =>
         Emote.TryParse(emojiStr, out var maybeEmote)
             ? maybeEmote
             : new Emoji(emojiStr);
@@ -309,7 +309,7 @@ public static class Extensions
     public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
         (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
             u.RoleIds.Contains(role.Id));
-    
+
 
     public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
     {

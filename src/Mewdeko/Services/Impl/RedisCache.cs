@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Net;
 using System.Threading.Tasks;
+using Swan.Formatters;
 
 // ReSharper disable CollectionNeverQueried.Local
 
@@ -60,6 +61,21 @@ public class RedisCache : IDataCache
         }),  flags: CommandFlags.FireAndForget);
     }
 
+    public async Task<bool> SetUserStatusCache(ulong id, int hashCode)
+    {
+        var db = Redis.GetDatabase();
+        var value = await db.StringGetAsync($"{redisKey}:statushash:{id}");
+        if (value.HasValue)
+        {
+            var returned = JsonConvert.DeserializeObject<int>(value);
+            if (returned == hashCode)
+                return false;
+            await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+            return true;
+        }
+        await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+        return true;
+    }
     public GuildConfig? GetGuildConfig(ulong guildId)
     {
         var db = Redis.GetDatabase();

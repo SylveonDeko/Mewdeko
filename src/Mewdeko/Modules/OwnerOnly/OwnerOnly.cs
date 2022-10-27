@@ -237,14 +237,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         {
             var val = config.GetSetting(pr);
             if (pr != "currency.sign")
-                val = val.TrimTo(28);
+                val = val.TrimTo(40);
             return val?.Replace("\n", "") ?? "-";
         });
 
         var strings = names.Zip(propValues, (name, value) =>
             $"{name,-25} = {value}\n");
 
-        return Format.Code(string.Concat(strings), "hs");
+        return string.Concat(strings);
     }
 
     [Cmd, Aliases]

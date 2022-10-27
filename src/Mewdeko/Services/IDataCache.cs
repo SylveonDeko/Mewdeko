@@ -12,6 +12,7 @@ public interface IDataCache
 
     Task CacheAfk(ulong id, List<Afk> objectList);
     List<Afk?>? GetAfkForGuild(ulong id);
+    Task<bool> SetUserStatusCache(ulong id, int hashCode);
     Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
     Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
     Task AddAfkToCache(ulong id, List<Afk?> newAfk);

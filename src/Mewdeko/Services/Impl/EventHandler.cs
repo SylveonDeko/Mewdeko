@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using LinqToDB.SqlQuery;
 
 
 namespace Mewdeko.Services.Impl;
 
-public class EventHandler 
+public class EventHandler
 {
     public delegate Task AsyncEventHandler<in TEventArgs>(TEventArgs args);
 
@@ -11,7 +12,7 @@ public class EventHandler
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3);
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
-    
+
     public event AsyncEventHandler<SocketMessage>? MessageReceived;
     public event AsyncEventHandler<IGuildUser>? UserJoined;
     public event AsyncEventHandler<IGuild, IUser>? UserLeft;
@@ -32,6 +33,7 @@ public class EventHandler
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
     public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
     public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
+    public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
 
 
     public EventHandler(DiscordSocketClient client)
@@ -56,6 +58,14 @@ public class EventHandler
         client.ReactionsCleared += ClientOnReactionsCleared;
         client.InteractionCreated += ClientOnInteractionCreated;
         client.UserIsTyping += ClientOnUserIsTyping;
+        client.PresenceUpdated += ClientOnPresenceUpdated;
+    }
+
+    private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
+    {
+        if (PresenceUpdated is not null)
+            _ = PresenceUpdated(arg1, arg2, arg3);
+        return Task.CompletedTask;
     }
 
     private Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)

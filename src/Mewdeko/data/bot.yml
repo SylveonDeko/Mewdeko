@@ -42,7 +42,7 @@ prefix: .
 # Toggles whether your bot will group greet/bye messages into a single message every 5 seconds.
 # # 1st user who joins will get greeted immediately
 # # If more users join within the next 5 seconds, they will be greeted in groups of 5.
-# # This will cause %user.mention% and other placeholders to be replaced with multiple users. 
+# # This will cause %user.mention% and other placeholders to be replaced with multiple users.
 # # Keep in mind this might break some of your embeds - for example if you have %user.avatar% in the thumbnail,
 # # it will become invalid, as it will resolve to a list of avatars of grouped users.
 # # note: This setting is primarily used if you're afraid of raids, or you're running medium/large bots where some
@@ -53,6 +53,8 @@ groupGreets: false
 # # This setting can be changed via .rots command.
 # # See RotatingStatuses submodule in Administration.
 rotateStatuses: false
+# Used for global command logs
+commandLogChannel: 970494956420603955
 # Used to enable or disable showing the invite button on some commands
 showInviteButton: true
 # Used to set the error emote used across the bot.
@@ -61,4 +63,29 @@ errorEmote: <:HaneNo:914307917954576414>
 successEmote: <:hane_wow:945005763829575680>
 # Used to set the loading emote for the bot.
 loadingEmote: <a:HaneMeow:968564817784877066>
-commandLogChannel: 970494956420603955
+# Below are the emotes used in the cmds command select, change them as you will.
+administrationEmote: <:BlackHaneCoolSunglasses:1035117238824472656>
+afkEmote: <a:HaneTilt:1026529104046067772>
+chatTriggersEmote: <a:HaneWave:1026529124350701568>
+confessionsEmote: <:HaneFlushed:1026952327803961445>
+gamesEmote: <a:HaneLaugh:1026529085675024495>
+gamblingEmote: <:BlackHaneOhayou:1026595194033934346>
+giveawaysEmote: <:HaneLove:977990148006510612>
+helpEmote: <:HaneGlimpse:1026548813076385833>
+highlightsEmote: <:HaneQuestion:1026527135927640075>
+multiGreetsEmote: <a:HaneSmirk:1026598979024207975>
+musicEmote: <a:HaneDance:1026568010128953355>
+nsfwEmote: <:HaneBooba:1026601308981055519>
+ownerOnlyEmote: <:HanePOG:1026522537959637002>
+permissionsEmote: <:HaneNay:1026529090586554508>
+roleGreetsEmote: <:HanePlush:1026529096412438558>
+searchesEmote: <:HaneGun:1026533974287335466>
+starboardEmote: <:HaneWow:941359116008423484>
+serverManagementEmote: <a:BlackHanePat:1026594026515869797>
+suggestionsEmote: <:BlackHaneBlush:1026548279661580288>
+userProfileEmote: <a:Nyahahaha:1026529117933408317>
+utilityEmote: <a:HaneEmbarrassed:941348725484298250>
+voteEmote: <:HaneLoli:1030678744425312306>
+xpEmote: <:BlackHaneCulture:1026529110941507684>
+# Used to set the support server invite on public Mewdeko
+supportServer: https://discord.gg/mewdeko
