@@ -16,6 +16,7 @@ public class GuildConfig : DbEntity
     public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string AutoAssignRoleId { get; set; } = "0";
+   // public string StatusEmbedDefault { get; set; }
     // Starboard
     public bool StarboardAllowBots { get; set; } = true;
     public bool StarboardRemoveOnDelete { get; set; } = false;
@@ -23,7 +24,7 @@ public class GuildConfig : DbEntity
     public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
     public bool UseStarboardBlacklist { get; set; } = true;
     public string StarboardCheckChannels { get; set; } = "0";
-    
+
     // Votes
     public string VotesPassword { get; set; }
     public ulong VotesChannel { get; set; }

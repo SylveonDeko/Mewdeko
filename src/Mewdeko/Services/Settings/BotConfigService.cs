@@ -29,6 +29,29 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("erroremote", bs => bs.ErrorEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("supportserver", bs => bs.SupportServer, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("administrationemote", bs => bs.AdministrationEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("afkemote", bs => bs.AfkEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("chattriggeremote", bs => bs.ChatTriggersEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("confessionsemote", bs => bs.ConfessionsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("gamesemote", bs => bs.GamesEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("gamblingemote", bs => bs.GamblingEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("giveawaysemote", bs => bs.GiveawaysEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("helpemote", bs => bs.HelpEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("highlightsemote", bs => bs.HighlightsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("multigreetsemote", bs => bs.MultiGreetsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("musicemote", bs => bs.MusicEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("nsfwemote", bs => bs.NsfwEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("owneronlyemote", bs => bs.OwnerOnlyEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("permissionsemote", bs => bs.PermissionsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("rolegreetsemote", bs => bs.RoleGreetsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("searchesemote", bs => bs.SearchesEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("starboardemote", bs => bs.StarboardEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("servermanagementemote", bs => bs.ServerManagementEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("suggestionsemote", bs => bs.SuggestionsEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("userprofileemote", bs => bs.UserProfileEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("voteemote", bs => bs.VoteEmote, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("xpemote", bs => bs.XpEmote, ConfigParsers.String, ConfigPrinters.ToString);
+
 
         UpdateColors();
     }

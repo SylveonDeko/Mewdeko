@@ -6,5 +6,6 @@ public class StatusRoles : DbEntity
     public string Status { get; set; }
     public string ToAdd { get; set; }
     public string ToRemove { get; set; }
-    public bool IsRegex { get; set; } = false;
+    public string StatusEmbed { get; set; }
+    public bool ReaddRemoved { get; set; } = false;
 }
