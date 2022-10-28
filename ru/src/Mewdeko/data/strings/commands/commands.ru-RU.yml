@@ -2,14 +2,14 @@ acadd:
   args:
     - 60 {0}Purge 1000
   desc: >-
-    Adds a command to the list of commands which will be executed automatically every X seconds.
+    Добавляет команду в список команд которые будут автоматически выполняться каждые X секунд.
 accept:
   args:
-    - number reason
-  desc: Accepts a suggestion with an optional reason.
+    - числовая причина
+  desc: Принимает предложение без обязательной причины.
 acceptchannel:
   args:
-    - accepted
+    - принято
     - ''
   desc: >-
     Sets a channel for suggestions to send accepted ones to. Put nothing to disable.
