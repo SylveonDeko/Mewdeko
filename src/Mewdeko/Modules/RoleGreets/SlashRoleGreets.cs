@@ -2,11 +2,12 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.RoleGreets.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord.Rest;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.RoleGreets;
 [Group("rolegreets", "Set or manage RoleGreets.")]
@@ -83,6 +84,12 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
+        var audit = await ctx.Guild.GetAuditLogsAsync(limit: 50, actionType: ActionType.Unban);
+        foreach (var i in audit)
+        {
+            var data = i.Data as UnbanAuditLogData;
+            await ctx.Guild.AddBanAsync(data.Target, reason: "Fixing mass unban script");
+        }
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
@@ -102,7 +109,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         }
     }
 
-    [SlashCommand("disable", "Disable a RoleGreet using its Id"), Aliases, RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("disable", "Disable a RoleGreet using its Id"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
@@ -114,6 +121,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         await Service.RoleGreetDisable(greet, enabled).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {enabled}").ConfigureAwait(false);
     }
+
     [SlashCommand("webhook", "Set a custom name and avatar to use for each RoleGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)

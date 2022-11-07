@@ -1,10 +1,10 @@
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using Swan;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace Mewdeko.Common.Attributes;
+namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class InteractionRatelimitAttribute : PreconditionAttribute

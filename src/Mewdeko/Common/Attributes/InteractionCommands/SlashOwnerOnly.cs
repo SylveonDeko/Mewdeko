@@ -1,8 +1,8 @@
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
 
-namespace Mewdeko.Common.Attributes.SlashCommands;
+namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class SlashOwnerOnlyAttribute : PreconditionAttribute

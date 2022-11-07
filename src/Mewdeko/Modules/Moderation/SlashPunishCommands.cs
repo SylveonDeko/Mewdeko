@@ -3,13 +3,13 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Humanizer.Localisation;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using Swan;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using NekosBestApiNet;
 
 namespace Mewdeko.Modules.Moderation;

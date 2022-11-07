@@ -2,10 +2,10 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Afk.Services;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Afk;
 

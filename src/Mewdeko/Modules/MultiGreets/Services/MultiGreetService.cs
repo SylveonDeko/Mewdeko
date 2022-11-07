@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Discord.Net;
+using Serilog;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 
@@ -52,18 +54,31 @@ public class MultiGreetService : INService
                 return;
             var webhook = new DiscordWebhookClient(greet.WebhookUrl);
             var content = replacer.Replace(greet.Message);
-            if (SmartEmbed.TryParse(content , user.Guild.Id, out var embedData, out var plainText, out var components2))
+            try
             {
+                if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
+                {
 
                     var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2.Build()).ConfigureAwait(false);
                     if (greet.DeleteTime > 0)
-                        (await (await user.Guild.GetTextChannelAsync(greet.ChannelId)).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                        (await (await user.Guild.GetTextChannelAsync(greet.ChannelId)).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(
+                            int.Parse(greet.DeleteTime.ToString()));
+                }
+                else
+                {
+                    var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
+                    if (greet.DeleteTime > 0)
+                        (await (await user.Guild.GetTextChannelAsync(greet.ChannelId)).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(
+                            int.Parse(greet.DeleteTime.ToString()));
+                }
             }
-            else
+            catch (HttpException ex)
             {
-                var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
-                if (greet.DeleteTime > 0)
-                    (await (await user.Guild.GetTextChannelAsync(greet.ChannelId)).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                if (ex.DiscordCode is DiscordErrorCode.UnknownWebhook or DiscordErrorCode.InvalidWebhookToken)
+                {
+                    await MultiGreetDisable(greet, true);
+                    Log.Information($"MultiGreet disabled in {user.Guild} due to missing permissions.");
+                }
             }
         }
         else
@@ -72,27 +87,44 @@ public class MultiGreetService : INService
                 return;
             var channel = await user.Guild.GetTextChannelAsync(greet.ChannelId);
             var content = replacer.Replace(greet.Message);
-            if (SmartEmbed.TryParse(content , user.Guild.Id, out var embedData, out var plainText, out var components2))
+            if (channel is null)
             {
-                if (embedData is not null && plainText is not "")
+                await RemoveMultiGreetInternal(greet);
+                return;
+            }
+
+            try
+            {
+                if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
                 {
-                    var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build(), options: new RequestOptions
+                    if (embedData is not null && plainText is not "")
+                    {
+                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build(), options: new RequestOptions
+                        {
+                            RetryMode = RetryMode.RetryRatelimit
+                        }).ConfigureAwait(false);
+                        if (greet.DeleteTime > 0)
+                            msg.DeleteAfter(greet.DeleteTime);
+
+                    }
+                }
+                else
+                {
+                    var msg = await channel.SendMessageAsync(content, options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     }).ConfigureAwait(false);
                     if (greet.DeleteTime > 0)
                         msg.DeleteAfter(greet.DeleteTime);
-
                 }
             }
-            else
+            catch (HttpException ex)
             {
-                var msg = await channel.SendMessageAsync(content, options: new RequestOptions
+                if (ex.DiscordCode == DiscordErrorCode.MissingPermissions)
                 {
-                    RetryMode = RetryMode.RetryRatelimit
-                }).ConfigureAwait(false);
-                if (greet.DeleteTime > 0)
-                    msg.DeleteAfter(greet.DeleteTime);
+                    await MultiGreetDisable(greet, true);
+                    Log.Information($"MultiGreet disabled in {user.Guild} due to missing permissions.");
+                }
             }
         }
     }
@@ -224,6 +256,14 @@ public class MultiGreetService : INService
         var uow =  db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         uow.MultiGreets.RemoveRange(greet);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+    }
+
+    public async Task MultiGreetDisable(MultiGreet greet, bool disabled)
+    {
+        var uow = db.GetDbContext();
+        greet.Disabled = disabled;
+        uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 

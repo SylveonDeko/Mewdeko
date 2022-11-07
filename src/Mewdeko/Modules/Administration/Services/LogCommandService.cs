@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Rest;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -81,9 +82,7 @@ public class LogCommandService : INService
         eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         eventHandler.GuildMemberUpdated += Client_GuildUserUpdated;
-#if !GLOBAL_Mewdeko
         eventHandler.UserUpdated += Client_UserUpdated;
-#endif
         eventHandler.ChannelCreated += Client_ChannelCreated;
         eventHandler.ChannelDestroyed += Client_ChannelDestroyed;
         eventHandler.ChannelUpdated += Client_ChannelUpdated;
@@ -415,7 +414,7 @@ public class LogCommandService : INService
 
     private bool IsRoleDeleted(ulong roleId)
     {
-        var isDeleted = memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out var _);
+        var isDeleted = memoryCache.TryGetValue(GetRoleDeletedKey(roleId), out _);
         return isDeleted;
     }
 
@@ -670,10 +669,8 @@ public class LogCommandService : INService
         }
     }
 
-    private Task Client_UserUnbanned(IUser usr, IGuild guild)
+    private async Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
-        _ = Task.Run(async () =>
-        {
             try
             {
                 if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting) || logSetting.UserUnbannedId == null)
@@ -682,8 +679,11 @@ public class LogCommandService : INService
                 ITextChannel logChannel;
                 if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned).ConfigureAwait(false)) == null)
                     return;
+                var unbandata = await guild.GetAuditLogsAsync(actionType: ActionType.Unban);
+                var user = unbandata.FirstOrDefault(x => (x.Data as UnbanAuditLogData).Target == usr);
                 var embed = new EmbedBuilder().WithOkColor().WithTitle($"♻️ {GetText(logChannel.Guild, "user_unbanned")}").WithDescription(usr.ToString())
-                                              .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
+                    .AddField("Unbanned By", user is null ? "Unknown" : $"{user.User} | {user.Id}")
+                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
 
                 if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
                     embed.WithThumbnailUrl(usr.GetAvatarUrl());
@@ -694,8 +694,6 @@ public class LogCommandService : INService
             {
                 // ignored
             }
-        });
-        return Task.CompletedTask;
     }
 
     private Task Client_UserBanned(IUser usr, IGuild guild)
@@ -898,7 +896,7 @@ public class LogCommandService : INService
 
     private async void UnsetLogSetting(ulong guildId, LogType logChannelType)
     {
-        using var uow = db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var newLogSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
         switch (logChannelType)
         {
@@ -947,6 +945,6 @@ public class LogCommandService : INService
         }
 
         GuildLogSettings.AddOrUpdate(guildId, newLogSetting, (_, _) => newLogSetting);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
     }
 }

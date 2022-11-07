@@ -1,7 +1,7 @@
 ﻿using Discord.Interactions;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Confessions.Services;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Confessions;
 [Group("confessions", "Manage confessions.")]

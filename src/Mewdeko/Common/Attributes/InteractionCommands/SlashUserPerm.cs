@@ -1,21 +1,21 @@
-﻿using Discord.Commands;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace Mewdeko.Common.Attributes.TextCommands;
+namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class UserPermAttribute : PreconditionAttribute
+public class SlashUserPermAttribute : PreconditionAttribute
 {
-    public UserPermAttribute(GuildPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    public SlashUserPermAttribute(GuildPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
-    public UserPermAttribute(ChannelPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    public SlashUserPermAttribute(ChannelPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 
-    public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
+    public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo command,
         IServiceProvider services)
     {
         var permService = services.GetService<DiscordPermOverrideService>();
@@ -31,11 +31,11 @@ public class UserPermAttribute : PreconditionAttribute
             if (permResult)
                 if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
                     return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
-            return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
+            return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
         }
         if (permResult)
             if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
                 return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
-        return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
+        return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
     }
 }

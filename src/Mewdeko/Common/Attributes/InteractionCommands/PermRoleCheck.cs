@@ -1,9 +1,9 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
 
-namespace Mewdeko.Common.Attributes.SlashCommands;
+namespace Mewdeko.Common.Attributes.InteractionCommands;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class PermRoleCheck : PreconditionAttribute
 {

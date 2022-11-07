@@ -2,11 +2,11 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Utility;
 
