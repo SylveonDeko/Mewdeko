@@ -24,7 +24,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         this.clientFactory = clientFactory;
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -35,7 +35,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.SendFileAsync(stream, "crs-export.yml").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task CtsImport([Remainder] string? input = null)
     {
         input = input?.Trim();
@@ -77,7 +77,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.OkAsync().ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AddChatTrigger(string key, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -88,7 +88,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AddChatTriggerRegex(string key, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -99,7 +99,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task EditChatTrigger(int id, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || id < 0)
@@ -113,7 +113,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, Priority(1), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggers()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -146,7 +146,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -178,7 +178,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ShowChatTrigger(int id)
     {
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -189,7 +189,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ctx.Channel.EmbedAsync(Service.GetEmbed(found, ctx.Guild?.Id)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task DeleteChatTrigger(int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
@@ -200,7 +200,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CtReact(int id, params string[] emojiStrs)
     {
         var cr = await Service.GetChatTriggers(Context.Guild?.Id, id);
@@ -250,25 +250,25 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task CtCa(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ContainsAnywhere);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task Rtt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ReactToTrigger);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task CtDm(int id) => InternalCtEdit(id, ChatTriggersService.CtField.DmResponse);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task CtAd(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AutoDelete);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task CtAt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AllowTarget);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ChatTriggerRoleGrantType(int id, CtRoleGrantType type)
     {
         var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
@@ -319,7 +319,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
         if (await PromptUserConfirmAsync(
@@ -333,7 +333,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task CtrGrantToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -364,7 +364,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task CtrRemoveToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -393,7 +393,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task ChatTriggerValidType(int id, ChatTriggerType type, bool enabled)
     {
         var res = await Service.SetValidTriggerType(ctx.Guild?.Id, id, type, enabled).ConfigureAwait(false);
@@ -412,7 +412,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task CtCpSetWebhook(int id, string webhookUrl)
     {
         var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl).ConfigureAwait(false);
@@ -434,7 +434,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task CtCpSetChannel(int id, ITextChannel channel)
     {
         var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id).ConfigureAwait(false);
@@ -450,7 +450,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterType(int id, CtApplicationCommandType type)
     {
         var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -484,7 +484,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterName(int id, string name)
     {
         var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
@@ -502,7 +502,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterDesc(int id, string description)
     {
         var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
@@ -521,7 +521,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task CtInterEphemeral(int id, bool ephemeral)
     {
         var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
@@ -539,7 +539,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [Cmd, Alias, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task CtInterErrors()
     {
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
@@ -562,7 +562,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CtPrefixType(int id, RequirePrefixType type)
     {
         var res = await Service.SetPrefixType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
@@ -578,7 +578,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CtPrefix(int id, string prefix)
     {
         var res = await Service.SetPrefix(ctx.Guild?.Id, id, prefix).ConfigureAwait(false);

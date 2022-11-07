@@ -2,10 +2,10 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.MultiGreets;
 [Group("multigreets", "Set or manage MultiGreets.")]
@@ -88,6 +88,19 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
         else
             await ctx.Interaction.SendConfirmAsync($"MultiGreet #{id} will no longer delete.").ConfigureAwait(false);
 
+    }
+
+    [SlashCommand("disable", "Disable a MultiGreet using its Id"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    public async Task RoleGreetDisable(int num, bool enabled)
+    {
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        if (greet is null)
+        {
+            await ctx.Interaction.SendErrorAsync("That MultiGreet does not exist!").ConfigureAwait(false);
+            return;
+        }
+        await Service.MultiGreetDisable(greet, enabled).ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"MultiGreet {num} set to {enabled}").ConfigureAwait(false);
     }
 
     [SlashCommand("type","Enable RandomGreet, MultiGreet, or turn off the entire system."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]

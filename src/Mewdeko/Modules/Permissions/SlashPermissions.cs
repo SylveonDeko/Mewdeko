@@ -2,11 +2,11 @@
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Permissions;

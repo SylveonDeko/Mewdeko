@@ -2,11 +2,11 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Votes.Services;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Votes;
 [Group("votes", "Configure vote settings for the bot")]

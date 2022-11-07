@@ -54,7 +54,7 @@ public partial class Searches
                 var eb = new EmbedBuilder();
                 eb.WithTitle($"Shiny {char.ToUpper(poke.Name[0]) + poke.Name[1..]}");
                 eb.WithOkColor();
-                eb.AddField("Abilites",
+                eb.AddField("Abilities",
                     string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
                 if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
                 {
@@ -70,7 +70,7 @@ public partial class Searches
                 var eb = new EmbedBuilder();
                 eb.WithTitle(char.ToUpper(poke.Name[0]) + poke.Name[1..]);
                 eb.WithOkColor();
-                eb.AddField("Abilites",
+                eb.AddField("Abilities",
                     string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
                 if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
                 {

@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Discord.Net;
+using Serilog;
 
 namespace Mewdeko.Modules.RoleGreets.Services;
 
@@ -72,34 +74,45 @@ public class RoleGreetService : INService
                 continue;
             }
             var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
+            try
             {
-                if (embedData is not null && plainText is not "")
+                if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
                 {
-                    var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build()).ConfigureAwait(false);
-                    if (i.DeleteTime > 0)
-                        msg.DeleteAfter(i.DeleteTime);
-                }
+                    if (embedData is not null && plainText is not "")
+                    {
+                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            msg.DeleteAfter(i.DeleteTime);
+                    }
 
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await channel.SendMessageAsync(plainText, components:components?.Build()).ConfigureAwait(false);
-                    if (i.DeleteTime > 0)
-                        msg.DeleteAfter(i.DeleteTime);
-                }
+                    if (embedData is null && plainText is not null)
+                    {
+                        var msg = await channel.SendMessageAsync(plainText, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            msg.DeleteAfter(i.DeleteTime);
+                    }
 
-                if (embedData is not null && plainText is "")
+                    if (embedData is not null && plainText is "")
+                    {
+                        var msg = await channel.SendMessageAsync(embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            msg.DeleteAfter(i.DeleteTime);
+                    }
+                }
+                else
                 {
-                    var msg = await channel.SendMessageAsync(embeds: embedData, components:components?.Build()).ConfigureAwait(false);
+                    var msg = await channel.SendMessageAsync(content).ConfigureAwait(false);
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(i.DeleteTime);
                 }
             }
-            else
+            catch (HttpException ex)
             {
-                var msg = await channel.SendMessageAsync(content).ConfigureAwait(false);
-                if (i.DeleteTime > 0)
-                    msg.DeleteAfter(i.DeleteTime);
+                if (ex.DiscordCode == DiscordErrorCode.MissingPermissions)
+                {
+                    await RoleGreetDisable(i, true);
+                    Log.Information($"RoleGreet disabled in {user.Guild} due to missing permissions.");
+                }
             }
         }
     }
@@ -118,7 +131,7 @@ public class RoleGreetService : INService
             if (!i.GreetBots && user.IsBot)
                 continue;
 
-            if (i.WebhookUrl is null) continue;
+            if (string.IsNullOrEmpty(i.WebhookUrl)) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             if (channel is null)
@@ -127,34 +140,45 @@ public class RoleGreetService : INService
                 continue;
             }
             var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText, out var components))
+            try
             {
-                if (embedData is not null && plainText is not "")
+                if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText, out var components))
                 {
-                    var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components:components?.Build()).ConfigureAwait(false);
-                    if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
-                }
+                    if (embedData is not null && plainText is not "")
+                    {
+                        var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                    }
 
-                if (embedData is null && plainText is not null)
-                {
-                    var msg = await webhook.SendMessageAsync(plainText, components: components?.Build()).ConfigureAwait(false);
-                    if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
-                }
+                    if (embedData is null && plainText is not null)
+                    {
+                        var msg = await webhook.SendMessageAsync(plainText, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                    }
 
-                if (embedData is not null && plainText is "")
+                    if (embedData is not null && plainText is "")
+                    {
+                        var msg = await webhook.SendMessageAsync(embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        if (i.DeleteTime > 0)
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                    }
+                }
+                else
                 {
-                    var msg = await webhook.SendMessageAsync(embeds: embedData, components:components?.Build()).ConfigureAwait(false);
+                    var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
                     if (i.DeleteTime > 0)
                         (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
                 }
             }
-            else
+            catch (HttpException ex)
             {
-                var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
-                if (i.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                if (ex.DiscordCode == DiscordErrorCode.MissingPermissions)
+                {
+                    await RoleGreetDisable(i, true);
+                    Log.Information($"RoleGreet disabled in {user.Guild} due to missing permissions.");
+                }
             }
         }
     }

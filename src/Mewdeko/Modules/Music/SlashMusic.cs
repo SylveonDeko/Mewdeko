@@ -7,12 +7,12 @@ using Lavalink4NET.Artwork;
 using Lavalink4NET.DiscordNet;
 using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Music;
 [Group("music", "Play Music!")]

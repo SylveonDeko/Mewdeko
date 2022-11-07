@@ -1,9 +1,9 @@
 ﻿using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Modules.Giveaways.Services;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Giveaways;
 [Group("giveaways", "Create or manage giveaways!")]
