@@ -683,6 +683,7 @@ public class LogCommandService : INService
                 var user = unbandata.FirstOrDefault(x => (x.Data as UnbanAuditLogData).Target == usr);
                 var embed = new EmbedBuilder().WithOkColor().WithTitle($"♻️ {GetText(logChannel.Guild, "user_unbanned")}").WithDescription(usr.ToString())
                     .AddField("Unbanned By", user is null ? "Unknown" : $"{user.User} | {user.Id}")
+                    .AddField("Reason", user is null ? "Unknown" : $"{user.Reason}")
                     .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
 
                 if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
