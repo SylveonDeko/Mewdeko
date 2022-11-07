@@ -10,7 +10,8 @@ public class EventPubSub : IPubSub
     public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
         where TData : notnull
     {
-        Func<object, ValueTask> localAction = obj => action((TData)obj);
+        ValueTask LocalAction(object obj) => action((TData)obj);
+
         lock (locker)
         {
             if (!actions.TryGetValue(key.Key, out var keyActions))
@@ -25,7 +26,7 @@ public class EventPubSub : IPubSub
                 keyActions[action] = sameActions;
             }
 
-            sameActions.Add(localAction);
+            sameActions.Add(LocalAction);
 
             return Task.CompletedTask;
         }

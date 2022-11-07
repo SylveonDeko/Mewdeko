@@ -49,7 +49,7 @@ public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
         var crs = services.GetService<ChatTriggersService>();
 
         Debug.Assert(crs != null, $"{nameof(crs)} != null");
-        if (crs.ReactionExists(context.Guild?.Id, input))
+        if (await crs.ReactionExists(context.Guild?.Id, input))
             return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
 
         var cmd = await new CommandTypeReader(client, cmds).ReadAsync(context, input, services)

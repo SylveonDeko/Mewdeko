@@ -109,6 +109,19 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    public async Task MultiGreetDisable(int num, bool enabled)
+    {
+        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(num - 1);
+        if (greet is null)
+        {
+            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!").ConfigureAwait(false);
+            return;
+        }
+        await Service.MultiGreetDisable(greet, enabled).ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"MultiGreet {num} set to {enabled}").ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetType(MultiGreetTypes types)
     {
         switch (types)

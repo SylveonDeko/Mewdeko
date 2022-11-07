@@ -2,7 +2,6 @@ using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
@@ -11,6 +10,7 @@ using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Help;
 

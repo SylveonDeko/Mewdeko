@@ -786,10 +786,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return count;
     }
 
-    public bool ReactionExists(ulong? guildId, string input)
+    public async Task<bool> ReactionExists(ulong? guildId, string input)
     {
         using var uow = db.GetDbContext();
-        var ct = uow.ChatTriggers.GetByGuildIdAndInput(guildId, input);
+        var ct = await uow.ChatTriggers.GetByGuildIdAndInput(guildId, input);
         return ct != null;
     }
 

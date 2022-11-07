@@ -1,10 +1,10 @@
 ﻿using Discord.Interactions;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.UserProfile.Services;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Microsoft.EntityFrameworkCore;
 using Color = SixLabors.ImageSharp.Color;
 

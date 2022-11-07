@@ -1,8 +1,8 @@
 ﻿using Discord.Interactions;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Services.Settings;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;

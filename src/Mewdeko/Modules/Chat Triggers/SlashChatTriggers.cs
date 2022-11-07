@@ -1,12 +1,12 @@
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.SlashCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
@@ -31,7 +31,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("export", "Exports Chat Triggers into a .yml file."),
-     RequireContext(ContextType.Guild), InteractionChatTriggerPermCheck(GuildPermission.Administrator),
+     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      CheckPermissions]
     public async Task CtsExport()
     {
@@ -46,7 +46,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("import", "Imports Chat Triggers from a .yml file."),
-    RequireContext(ContextType.Guild), InteractionChatTriggerPermCheck(GuildPermission.Administrator),
+    RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
     CheckPermissions]
     public async Task CtsImport(
         [Summary("file", "The yml file to import.")] IAttachment file)
@@ -77,12 +77,12 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
     // respond with a modal to support multiline responces.
     [SlashCommand("add", "Add new chat trigger."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
         => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
     [ModalInteraction("chat_trigger_add:*", true),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
     {
         var rgx = bool.Parse(sRgx);
@@ -100,7 +100,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("edit", "Edit a chat trigger."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task EditChatTrigger
     (
         [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -118,7 +118,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [ModalInteraction("chat_trigger_edit:*,*", true),
-     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
     {
         var id = int.Parse(sId);
@@ -147,7 +147,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("prefix-type", "Sets the type of prefix this chat trigger will use"),
-     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtPrefixType
     (
         [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -168,7 +168,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("prefix", "Sets  prefix this chat trigger when prefix type is custom"),
-     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtPrefix
     (
         [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
@@ -188,7 +188,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("list", "List chat triggers."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggers()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -230,7 +230,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("list-group", "List chat triggers.."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -271,7 +271,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("show", "Shows the responce of a chat trigger."),
-     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ShowChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -285,7 +285,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("delete", "delete a chat trigger."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task DeleteChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
@@ -308,7 +308,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("react", "add a reaction chat trigger.."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtReact
     (
         [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -371,7 +371,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("toggle-option", "Edit chat trigger options."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task InternalCtEdit
     (
         [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -406,7 +406,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("valid-types", "Change the valid types of the trigger"),
-     InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ChatTriggerValidType(
         [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
         [Summary("type", "The type to enable/disable.")] ChatTriggerType type,
@@ -428,7 +428,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("clear", "Clear all chat triggers."),
-    InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtsClear()
     {
         await DeferAsync().ConfigureAwait(false);
@@ -445,7 +445,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     [Group("crossposting", "crossposting")]
     public class Crossposting : MewdekoSlashModuleBase<ChatTriggersService>
     {
-        [SlashCommand("webhook", "crosspost triggers using a webhook"), InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("webhook", "crosspost triggers using a webhook"), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtCpSetWebhook
         (
             [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
@@ -470,7 +470,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("channel", "crosspost triggers to a channel"),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions,
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions,
          RequireContext(ContextType.Guild)]
         public async Task CtCpSetChannel
         (
@@ -507,7 +507,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public class Roles : MewdekoSlashModuleBase<ChatTriggersService>
     {
         [SlashCommand("add", "Toggle whether running this command will add the role to the user."),
-        InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+        SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtrGrantToggle
         (
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to add roles to.")] int id,
@@ -550,7 +550,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user."),
-        InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+        SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtrRemoveToggle
         (
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
@@ -589,7 +589,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await FollowupWithTriggerStatus().ConfigureAwait(false);
         }
 
-        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
+        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, SlashUserPerm(GuildPermission.Administrator)]
         public async Task ChatTriggerRoleGrantType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
             [Summary("mode", "How should roles be added when the trigger is used.")] CtRoleGrantType type)
@@ -624,7 +624,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public class Interactions : MewdekoSlashModuleBase<ChatTriggersService>
     {
         [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("type", "The type of command, use 'none' to disable commands in their entirety.")]
@@ -661,7 +661,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("name", "Sets the name of the interaction."),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterName(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("name", "The name of the interaction.")] string name)
@@ -682,7 +682,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("description", "Sets the description of the interaction."),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterDesc(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("description", "The description of the interaction.")] string description)
@@ -703,7 +703,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
-         InteractionChatTriggerPermCheck(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtInterEphemeral(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
             [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
@@ -734,7 +734,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
         }
 
-        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, InteractionChatTriggerPermCheck(GuildPermission.Administrator)]
+        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, SlashUserPerm(GuildPermission.Administrator)]
         // ReSharper disable once UnusedMember.Local
         private async Task CtInterErrors()
         {

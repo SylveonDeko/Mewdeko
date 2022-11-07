@@ -448,7 +448,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             }
             finally
             {
-                Service.Duels.TryRemove((u.Id, ctx.User.Id), out var _);
+                Service.Duels.TryRemove((u.Id, ctx.User.Id), out _);
             }
         }
     }
