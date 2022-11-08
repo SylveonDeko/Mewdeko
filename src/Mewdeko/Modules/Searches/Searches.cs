@@ -108,10 +108,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             image = await martineApi.RedditApi.GetRandomFromSubreddit(subreddit).ConfigureAwait(false);
         }
-        catch (ApiException)
+        catch (ApiException ex)
         {
             await msg.DeleteAsync().ConfigureAwait(false);
             await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!").ConfigureAwait(false);
+            Log.Error($"Seems that Meme fetching has failed. Here's the error:\nCode: {ex.StatusCode}\nContent: {(ex.HasContent ? ex.Content : "No Content.")}");
             return;
         }
         var em = new EmbedBuilder
