@@ -74,19 +74,15 @@ public class FilterService : IEarlyBehavior, INService
                     gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
         }
 
-        eventHandler.MessageUpdated += (oldData, newMsg, channel) =>
+        eventHandler.MessageUpdated += (_, newMsg, channel) =>
         {
-            _ = Task.Run(() =>
-            {
                 var guild = (channel as ITextChannel)?.Guild;
 
                 if (guild == null || newMsg is not IUserMessage usrMsg)
                     return Task.CompletedTask;
 
                 return RunBehavior(null, guild, usrMsg);
-            });
-            return Task.CompletedTask;
-        };
+            };
     }
 
     public IBotStrings Strings { get; set; }
@@ -246,32 +242,32 @@ public class FilterService : IEarlyBehavior, INService
         var bannedwords = Blacklist.Where(x => x.GuildId == guild.Id);
         foreach (var i in bannedwords.Select(x => x.Word))
         {
-            if (msg.Content.ToLower().Contains(i.ToLower()))
+            if (!msg.Content.ToLower().Contains(i.ToLower())) continue;
+            try
+            {
+                await msg.DeleteAsync().ConfigureAwait(false);
+                var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
+                    $"Banned for saying autoban word {i}");
+                var embed = await Upun.GetBanUserDmEmbed(client, guild as SocketGuild,
+                    await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false), msg.Author as IGuildUser, defaultMessage,
+                    $"Banned for saying autoban word {i}", null).ConfigureAwait(false);
+                await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build()).ConfigureAwait(false);
+                await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected").ConfigureAwait(false);
+                return true;
+            }
+            catch
+            {
                 try
                 {
-                    await msg.DeleteAsync().ConfigureAwait(false);
-                    var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
-                        $"Banned for saying autoban word {i}");
-                    var embed = await Upun.GetBanUserDmEmbed(client, guild as SocketGuild,
-                        await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false), msg.Author as IGuildUser, defaultMessage,
-                        $"Banned for saying autoban word {i}", null).ConfigureAwait(false);
-                    await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build()).ConfigureAwait(false);
-                    await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected").ConfigureAwait(false);
+                    await guild.AddBanAsync(msg.Author, 7, "Auto Ban Word Detected").ConfigureAwait(false);
                     return true;
                 }
                 catch
                 {
-                    try
-                    {
-                        await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected").ConfigureAwait(false);
-                        return true;
-                    }
-                    catch
-                    {
-                        Log.Error("Im unable to autoban in {ChannelName}", msg.Channel.Name);
-                        return false;
-                    }
+                    Log.Error("Im unable to autoban in {ChannelName}", msg.Channel.Name);
+                    return false;
                 }
+            }
         }
 
         return false;
@@ -287,7 +283,6 @@ public class FilterService : IEarlyBehavior, INService
         var filteredChannelWords =
             FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
         var filteredServerWords = FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
-        usrMsg.Content.ToLowerInvariant().Split(' ');
         if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
         {
             foreach (var word in filteredChannelWords)
@@ -316,27 +311,25 @@ public class FilterService : IEarlyBehavior, INService
 
         foreach (var word in filteredServerWords)
         {
-            if (usrMsg.Content.Contains(word))
+            if (!usrMsg.Content.Contains(word)) continue;
+            try
             {
-                try
+                await usrMsg.DeleteAsync().ConfigureAwait(false);
+                if (await GetFw(guild.Id) != 0)
                 {
-                    await usrMsg.DeleteAsync().ConfigureAwait(false);
-                    if (await GetFw(guild.Id) != 0)
-                    {
-                        await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
-                            "Warned for Filtered Word").ConfigureAwait(false);
-                        var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-                        await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}").ConfigureAwait(false);
-                    }
+                    await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
+                        "Warned for Filtered Word").ConfigureAwait(false);
+                    var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
+                    await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}").ConfigureAwait(false);
                 }
-                catch (HttpException ex)
-                {
-                    Log.Warning(
-                        "I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
-                }
-
-                return true;
             }
+            catch (HttpException ex)
+            {
+                Log.Warning(
+                    "I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
+            }
+
+            return true;
         }
 
         return false;
@@ -356,12 +349,10 @@ public class FilterService : IEarlyBehavior, INService
             try
             {
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
-                if (await GetInvWarn(guild.Id) != 0)
-                {
-                    await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite").ConfigureAwait(false);
-                    var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-                    await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!").ConfigureAwait(false);
-                }
+                if (await GetInvWarn(guild.Id) == 0) return true;
+                await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite").ConfigureAwait(false);
+                var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
+                await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!").ConfigureAwait(false);
 
                 return true;
             }
