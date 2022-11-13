@@ -8,20 +8,20 @@ namespace Mewdeko.Votes.Controllers;
 [ApiController]
 public class WebhookController : ControllerBase
 {
-    private readonly ILogger<WebhookController> _logger;
+    private readonly ILogger<WebhookController> logger;
     public readonly WebhookEvents Events;
 
     public WebhookController(ILogger<WebhookController> logger,
         WebhookEvents events)
     {
-        _logger = logger;
+        this.logger = logger;
         Events = events;
     }
 
     [HttpPost("/")]
     public Task<IActionResult> TopggWebhook([FromBody] VoteModel data)
     {
-        _logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
+        logger.LogInformation("User {UserId} has voted for Bot {BotId} on {Platform}",
             data.User,
             data.Bot,
             "top.gg");
@@ -31,5 +31,5 @@ public class WebhookController : ControllerBase
         });
         return Task.FromResult<IActionResult>(Ok());
     }
-    
+
 }

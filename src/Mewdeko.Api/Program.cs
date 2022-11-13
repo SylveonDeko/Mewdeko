@@ -5,6 +5,7 @@ var db = new DbService(2);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddMvc();
 builder.Services.AddSingleton(db);
 builder.Services.AddDbContext<MewdekoContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
