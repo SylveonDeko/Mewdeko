@@ -14,7 +14,7 @@ using NekosBestApiNet;
 
 namespace Mewdeko.Modules.Moderation;
 
-    [Group("moderation", "Do all your moderation stuffs here!")]
+    [Group("moderation", "Do all your moderation stuffs here!"), CheckPermissions]
     public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     {
         public enum AddRole
@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("setwarnchannel", "Set the channel where warns are logged!"), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator) ]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions ]
         public async Task SetWarnChannel(ITextChannel channel)
         {
             var warnlogChannel = await Service.GetWarnlogChannel(ctx.Guild.Id);
@@ -59,7 +59,7 @@ namespace Mewdeko.Modules.Moderation;
                 $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {channel.Mention}").ConfigureAwait(false);
         }
 
-        [SlashCommand("timeout", "Time a user out."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
+        [SlashCommand("timeout", "Time a user out."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers), CheckPermissions]
         public async Task Timeout(string inputTime, IGuildUser user, string? reason = null)
         {
             if (!await CheckRoleHierarchy(user))
@@ -87,7 +87,7 @@ namespace Mewdeko.Modules.Moderation;
             await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day)).ConfigureAwait(false);
         }
 
-        [SlashCommand("untimeout", "Remove a users timeout."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers)]
+        [SlashCommand("untimeout", "Remove a users timeout."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers), CheckPermissions]
         public async Task UnTimeOut(IGuildUser user)
         {
             if (!await CheckRoleHierarchy(user))
@@ -96,7 +96,7 @@ namespace Mewdeko.Modules.Moderation;
             await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention).ConfigureAwait(false);
         }
         [SlashCommand("warn", "Warn a user with an optional reason"), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task Warn(IGuildUser user,  string? reason = null)
         {
             if (!await CheckRoleHierarchy(user))
@@ -173,7 +173,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("setwarnexpire", "Set when warns expire in days"), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator)]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task WarnExpire(int days, [Summary("todelete", "Set whether warns are deleted instead of cleared.")]bool delete)
         {
             if (days is < 0 or > 366)
@@ -262,7 +262,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("warnlogall", "Show the warn count of all users in the server."), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task WarnlogAll()
         {
             var warnings = await Service.WarnlogAll(ctx.Guild.Id);
@@ -301,7 +301,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("warnclear", "Clear all or a specific warn for a user."), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task Warnclear(IGuildUser user, int index = 0)
         {
             if (index < 0)
@@ -329,7 +329,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("warnpunish", "Set what each warn count does."), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task WarnPunish(int number, PunishmentAction punish = PunishmentAction.None, string? input = null)
         {
             var time = StoopidTime.FromInput("0s");
@@ -390,7 +390,7 @@ namespace Mewdeko.Modules.Moderation;
             }
         }
 
-        [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild)]
+        [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild), CheckPermissions]
         public async Task WarnPunishList()
         {
             var ps = await Service.WarnPunishList(ctx.Guild.Id);
@@ -560,7 +560,7 @@ namespace Mewdeko.Modules.Moderation;
 
 
         [SlashCommand("unban", "Unban a user."), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task Unban(ulong userId)
         {
 
@@ -583,7 +583,7 @@ namespace Mewdeko.Modules.Moderation;
         }
 
         [SlashCommand("softban", "Bans then unbans a user."), RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers)]
+         SlashUserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers), CheckPermissions]
         public async Task Softban(IGuildUser user,  string? msg = null) => await SoftbanInternal(user, msg);
 
         private async Task SoftbanInternal(IGuildUser user,  string? msg = null)
