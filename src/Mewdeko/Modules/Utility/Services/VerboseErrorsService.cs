@@ -6,6 +6,7 @@ using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -17,15 +18,17 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly ConcurrentHashSet<ulong> guildsEnabled;
     private readonly GuildSettingsService guildSettings;
     private readonly IServiceProvider services;
+    private readonly BotConfigService botConfigService;
 
     public VerboseErrorsService(DiscordSocketClient client, DbService db, CommandHandler ch,
         IBotStrings strings,
         GuildSettingsService guildSettings,
-        IServiceProvider services)
+        IServiceProvider services, BotConfigService botConfigService)
     {
         this.strings = strings;
         this.guildSettings = guildSettings;
         this.services = services;
+        this.botConfigService = botConfigService;
         this.db = db;
         this.ch = ch;
         using var uow = db.GetDbContext();
@@ -69,8 +72,11 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .WithFooter($"Run {await guildSettings.GetPrefix(channel.Guild.Id)}ve to disable these prompts.")
                 .WithErrorColor();
 
-            await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build()).ConfigureAwait(false);
+            if (!botConfigService.Data.ShowInviteButton)
+                await channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: botConfigService.Data.SupportServer).Build()).ConfigureAwait(false);
         }
         catch
         {
