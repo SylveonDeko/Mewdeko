@@ -1,0 +1,4 @@
+store/
+bin/
+obj/
+*.json
