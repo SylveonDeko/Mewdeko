@@ -1,0 +1,4247 @@
+acadd:
+  args:
+    - 60 {0}Purge 1000
+  desc: >-
+    Adds a command to the list of commands which will be executed automatically
+    every X seconds.
+accept:
+  args:
+    - number reason
+  desc: Accepts a suggestion with an optional reason.
+acceptchannel:
+  args:
+    - accepted
+    - ''
+  desc: >-
+    Sets a channel for suggestions to send accepted ones to. Put nothing to
+    disable.
+acceptmessage:
+  args:
+    - embedcodehere
+  desc: >-
+    Allows you to set the message sent when a suggestion is accepted. Use the
+    embed builder at https://eb.mewdeko.tech and the placeholders at
+    https://blog.mewdeko.tech/placeholders.
+aclist:
+  args:
+    - ''
+  desc: Lists all auto commands and the intervals in which they execute.
+acrm:
+  args:
+    - '3'
+  desc: Removes an auto command on the specified index.
+acrophobia:
+  args:
+    - ''
+    - '-s 30'
+  desc: Starts an Acrophobia game.
+activity:
+  args:
+    - ''
+  desc: Checks for spammers.
+addchattrigger:
+  args:
+    - '"hello" Hi there %user.mention%'
+  desc: >-
+    Add a Chat Trigger with a trigger and a response. Running this command in
+    server requires the Administration permission. Running this command in DM is
+    Bot Owner only and adds a new global Chat Trigger. Guide here:
+    https://blog.mewdeko.tech/chattriggers
+addchattriggerregex:
+  args:
+    - \d{3,}cats you have lots of cats
+    - \dcats you have a reasonable number of cats
+  desc: >-
+    Add a Chat Trigger with a regex trigger and a response. Running this command
+    in server requires the Administration permission. Running this command in DM
+    is Bot Owner only and adds a new global Chat Trigger. Guide here:
+    https://blog.mewdeko.tech/chattriggers
+addemote:
+  args:
+    - name emote
+    - name url
+  desc: 'Adds an emote from a emote, link, or uploaded file. '
+addplaying:
+  args:
+    - Playing with you
+    - Watching you sleep
+  desc: >-
+    Adds a specified string to the list of playing strings to rotate. You have
+    to pick either 'Playing', 'Watching' or 'Listening' as the first parameter.
+addroletolist:
+  args:
+    - role
+  desc: >-
+    Allows you to add a role to userIDs in a list. Provide one ID per line in
+    the txt file.
+addroletorole:
+  args:
+    - inrole addrole
+  desc: Adds a role to users in a different role
+addthenremove:
+  args:
+    - roletoremove roletoadd
+  desc: >-
+    Removes the first role from everyone that has it, and adds the second role
+    to the users in the first role
+addtoall:
+  args:
+    - roletoadd
+  desc: Adds a role to everyone
+addtoallbots:
+  args:
+    - roletoadd
+  desc: 'Adds a role to only bots. '
+addtoallusers:
+  args:
+    - roletoadd
+  desc: 'Adds a role to only users. '
+adduserstorole:
+  args:
+    - '@role @user user userID'
+  desc: Add users to a role
+adsarm:
+  args:
+    - ''
+  desc: >-
+    Toggles the automatic deletion of the user's message and Mewdeko's
+    confirmations for `{0}iam` and `{0}iamn` commands.
+affinity:
+  args:
+    - '@MyHusband'
+    - ''
+  desc: >-
+    Sets your affinity towards someone you want to be claimed by. Setting
+    affinity will reduce their `{0}claim` on you by 20%. Provide no parameters
+    to clear your affinity. 30 minutes cooldown.
+afk:
+  args:
+    - Hi, I'm Bob!
+  desc: Sets your afk message.
+afkdel:
+  args:
+    - '30'
+    - '0'
+  desc: Allows you to set after how long an afk message is deleted in seconds.
+afkdisable:
+  args:
+    - channel channel
+  desc: Disables afk messages in channels you specify.
+afkdisabledlist:
+  args:
+    - ''
+  desc: Lists disabled afk channels
+afklength:
+  args:
+    - '2098'
+  desc: >-
+    Allows you to set the servers max message length for afk messages. Limited
+    to 4096 due to discord limits
+afkmessagetype:
+  args:
+    - '1'
+    - '2'
+  desc: |-
+    Allows you to set your servers afk message type.
+    AFK Message Types:
+
+    1 - AFK is entierely embedded (this is the default option)
+    2 - Afk is Text Only
+    3 - User who is afk and for how long is in text, message is in an embed
+    4 - User who is AFK is embedded while the message is regular text.
+afkrm:
+  args:
+    - '@user @user @user'
+  desc: >-
+    Mods can use this to remove an afk from one or more users that are abusing
+    afk.
+afktimeout:
+  args:
+    - 30s
+  desc: Sets how long it takes for Mewdeko to time out Active AFKs..
+afktype:
+  args:
+    - onmessage
+    - ontype
+    - selfdisable
+    - '3'
+    - '2'
+    - '1'
+  desc: >-
+    Sets the type of Afk used in the server.Default is type 3.
+
+
+    Type 1: Is only able to be disabled by the user who set it or by an admin
+    using the afkrm command.
+
+    Type 2: Is disabled when a user types after having their afk enabled for a
+    time you set.
+
+    Type 3: Is disabled when a user sends a message after having their afk
+    enabled for the time you set.
+
+    Type 4: Combines both 2 and 3
+afkundisable:
+  args:
+    - channel channel
+  desc: Undisables afk messages in channels you specify.
+afkview:
+  args:
+    - '@user'
+  desc: View a user's afk
+alias:
+  args:
+    - allin {0}bf all h
+    - '"linux thingy" >loonix Spyware Windows'
+  desc: >-
+    Create a custom alias for a certain Mewdeko command. Provide no alias to
+    remove the existing one.
+aliasesclear:
+  args:
+    - ''
+  desc: Deletes all aliases on this server.
+aliaslist:
+  args:
+    - ''
+    - '3'
+  desc: Shows the list of currently set aliases. Paginated.
+allcatmdls:
+  args:
+    - enable Category Name
+    - enable CategoryId
+  desc: Enable or disable all modules in a specified category.
+allchnlmdls:
+  args:
+    - 'enable #SomeChannel'
+  desc: Enable or disable all modules in a specified channel.
+allcmdcooldowns:
+  args:
+    - ''
+  desc: Shows a list of all commands and their respective cooldowns.
+allrolemdls:
+  args:
+    - '[enable/disable] MyRole'
+  desc: Enable or disable all modules for a specific role.
+allsrvrmdls:
+  args:
+    - '[enable/disable]'
+  desc: Enable or disable all modules for your server.
+allusrmdls:
+  args:
+    - enable @Someone
+  desc: Enable or disable all modules for a specific user.
+anime:
+  args:
+    - aquarion evol
+  desc: Queries anilist for an anime and shows the first result.
+antialt:
+  args:
+    - 1h Ban
+    - 3d Mute 1h
+  desc: >-
+    Applies a punishment action to any user whose account is younger than the
+    specified threshold. Specify time after the punishment to have a timed
+    punishment (not all punishments support timers).
+antilist:
+  args:
+    - ''
+  desc: Shows currently enabled protection features.
+antiraid:
+  args:
+    - 5 20 Kick
+    - 7 9 Ban
+    - 10 10 Ban 6h30m
+    - ''
+  desc: >-
+    Sets an anti-raid protection on the server. Provide no parameters to
+    disable. First parameter is number of people which will trigger the
+    protection. Second parameter is a time interval in which that number of
+    people needs to join in order to trigger the protection, and third parameter
+    is punishment for those people. You can specify an additional time argument
+    to do a timed punishment for actions which support it (Ban, Mute, etc) up to
+    24h. Available punishments: Ban, Kick, Softban, Mute, VoiceMute, ChatMute,
+    RemoveRoles, Timeout
+antispam:
+  args:
+    - 3 Mute
+    - 5 Ban
+    - 5 Ban 3h30m
+    - ''
+  desc: >-
+    Stops people from repeating same message X times in a row. Provide no
+    parameters to disable. You can specify to either mute, kick or ban the
+    offenders. You can specify an additional time argument to do a timed
+    punishment for actions which support it (Ban, Mute, etc) up to 24h. Max
+    message count is 10. Available punishments: Ban, Kick, Softban, Mute,
+    VoiceMute, ChatMute, AddRole, RemoveRoles, Timeout
+antispamignore:
+  args:
+    - ''
+  desc: Toggles whether antispam ignores current channel. Antispam must be enabled.
+archiveonaccept:
+  args:
+    - ''
+  desc: Toggles whether the suggestions thread is auto archived when accepted.
+archiveonconsider:
+  args:
+    - ''
+  desc: Toggles whether the suggestions thread is auto archived when considered.
+archiveondeny:
+  args:
+    - ''
+  desc: Toggles whether the suggestions thread is auto archived when denied.
+archiveonimplement:
+  args:
+    - ''
+  desc: Toggles whether the suggestions thread is auto archived when implemented.
+asar:
+  args:
+    - Gamer
+    - 1 Alliance
+    - 1 Horde
+  desc: >-
+    Adds a role to the list of self-assignable roles. You can also specify a
+    group. If 'Exclusive self-assignable roles' feature is enabled, users will
+    be able to pick one role per group.
+atuo:
+  args:
+    - 7d role
+  desc: Adds a role to users over or at a specified server join age
+atuu:
+  args:
+    - 7d role
+  desc: Adds a role to users under a specified server join age
+autoassignbotrole:
+  args:
+    - ''
+    - RoleName
+  desc: >-
+    Toggles the role which will be assigned to every bot who joins the server.
+    You can run this command multiple times to add multiple roles (up to 10).
+    Specifying the role that is already added will remove that role from the
+    list. Provide no parameters to list current roles.
+autoassignrole:
+  args:
+    - ''
+    - RoleName
+  desc: >-
+    Toggles the role which will be assigned to every bot who joins the server.
+    You can run this command multiple times to add multiple roles (up to 10).
+    Specifying the role that is already added will remove that role from the
+    list. Provide no parameters to list current roles.
+autobanword:
+  args:
+    - fuck
+  desc: >-
+    Sets a word that the autobans a user when said. Use the word again to remove
+    it.
+autobanwordlist:
+  args:
+    - ''
+  desc: Lists all autoban words.
+autoboobs:
+  args:
+    - '30'
+    - ''
+  desc: >-
+    Posts a boobs every X seconds. 20 seconds minimum. Provide no parameters to
+    disable.
+autobutts:
+  args:
+    - '30'
+    - ''
+  desc: >-
+    Posts a butt every X seconds. 20 seconds minimum. Provide no parameters to
+    disable.
+autodisconnect:
+  args:
+    - Either
+  desc: |-
+    Toggles autodisconnect from the following options:
+    > Queue: Disconnects when you reach the last queue item
+    > Voice: Disconnects when only the bot remains in vc
+    > Either: Disconnects when either of the above are met
+autohentai:
+  args:
+    - 30 yuri+kissing|tail+long_hair
+    - ''
+  desc: >-
+    Posts a hentai every X seconds with a random tag from the provided tags. Use
+    `|` to separate tag groups. Random group will be chosen every time the image
+    is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum.
+    Provide no parameters to disable.
+autoplay:
+  args:
+    - '0'
+    - '5'
+  desc: >-
+    Sets or turns off AutoPlay. You can request up to 5 songs to be added when the bot reaches the end of its queue. Set to `0` to disable.
+autotranslang:
+  args:
+    - en>fr
+  desc: >-
+    Sets your source and target language to be used with `{0}at`. Specify no
+    parameters to remove previously set value.
+autotranslate:
+  args:
+    - ''
+    - del
+  desc: >-
+    Starts automatic translation of all messages by users who set their `{0}atl`
+    in this channel. You can set "del" parameter to automatically delete all
+    translated user messages.
+avatar:
+  args:
+    - '@Someone'
+  desc: Shows a mentioned person's avatar.
+award:
+  args:
+    - 100 @person
+    - 5 Role Of Gamblers
+  desc: >-
+    Awards someone a certain amount of currency. You can specify the reason
+    after the Username. You can also specify a role name to award currency to
+    all users in a role.
+baka:
+  args:
+    - '@user'
+  desc: Returns a baka gif.
+ban:
+  args:
+    - '@Someone Get out!'
+    - '"Some Guy#1234" Your behaviour is toxic.'
+    - 1d12h @Someone Come back when u chill
+  desc: >-
+    Bans a user by ID or name with an optional message. You can specify a time
+    string before the user name to ban the user temporarily.
+banmessage:
+  args:
+    - '%ban.user%, you''ve been banned from %server.name%. Reason: %ban.reason%'
+    - >-
+      {{ "description": "%ban.user% you have been banned from %server.name% by
+      %ban.mod%" }}
+  desc: >-
+    Sets a ban message template which will be used when a user is banned from
+    this server. You can use embed strings and ban-specific placeholders:
+    %ban.mod%, %ban.user%, %ban.duration% and %ban.reason%. You can disable ban
+    message with `{0}banmsg -`
+banmsgreset:
+  args:
+    - ''
+  desc: >-
+    Resets ban message to default. If you want to completely disable ban
+    messages, use `{0}banmsg -`
+banmsgtest:
+  args:
+    - No reason
+    - 1h Test 1 hour ban message
+  desc: >-
+    If ban message is not disabled, bot will send you the message as if you were
+    banned by yourself. Used for testing the ban message.
+banunder:
+  args:
+    - 2y
+    - 2m -p
+  desc: >-
+    Allows you to ban users under a certain server join age in the server. Use
+    -p after the time to preview the users that will be banned.
+bash:
+  args:
+    - neofetch
+  desc: Executes a bash command.
+betflip:
+  args:
+    - 5 heads
+    - 3 t
+  desc: >-
+    Bet to guess will the result be heads or tails. Guessing awards you 1.95x
+    the currency you've bet (rounded up). Multiplier can be changed by the bot
+    owner.
+betroll:
+  args:
+    - '5'
+  desc: >-
+    Bets a certain amount of currency and rolls a dice. Rolling over 66 yields
+    x2 of your currency, over 90 - x4 and 100 x10.
+bible:
+  args:
+    - genesis 3:19
+  desc: Shows bible verse. You need to supply book name and chapter:verse
+bite:
+  args:
+    - '@user'
+  desc: Returns a bite gif.
+blackjack:
+  args:
+    - '50'
+  desc: >-
+    Start or join a blackjack game. You must specify the amount you're betting.
+    Use `{0}hit`, `{0}stand` and `{0}double` commands to play. Game is played
+    with 4 decks. Dealer hits on soft 17 and wins draws.
+blush:
+  args:
+    - '@user'
+  desc: Returns a blush gif.
+boobs:
+  args:
+    - ''
+  desc: Real adult content.
+boost:
+  args:
+    - ''
+  desc: Toggles anouncements on the current channel when someone boosts the server.
+boostdel:
+  args:
+    - '0'
+    - '30'
+  desc: >-
+    Sets the time it takes (in seconds) for boost messages to be auto-deleted.
+    Set it to `0` to disable automatic deletion.
+boostmsg:
+  args:
+    - '%user.mention% has boosted the server!!!'
+  desc: >-
+    Sets a new boost announcement message. Type `%user.mention%` if you want to
+    show the name the user who left. Full list of placeholders can be found here
+    <https://blog.mewdeko.tech/placeholders/> Using this command with no message will
+    show the current boost message. You can use embed json from
+    <https://eb.mewdeko.tech/> instead of a regular text, if you want the
+    message to be embedded.
+boosttest:
+  args:
+    - ''
+    - '@user'
+  desc: >-
+    Tests the current set boost message, optionally put a user to use them as an
+    example
+bored:
+  args:
+    - '@user'
+  desc: Returns a bored gif.
+botconfigedit:
+  args:
+    - color.ok 00ff00
+    - ''
+  desc: Obsolete, use `{0}config` or `{0}config bot` instead
+butts:
+  args:
+    - ''
+    - ''
+  desc: Real adult content.
+buy:
+  args:
+    - '2'
+  desc: >-
+    Buys an item from the shop on a given index. If buying items, make sure that
+    the bot can DM you.
+bye:
+  args:
+    - ''
+  desc: Toggles anouncements on the current channel when someone leaves the server.
+byedel:
+  args:
+    - '0'
+    - '30'
+  desc: >-
+    Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set
+    it to `0` to disable automatic deletion.
+byemsg:
+  args:
+    - '%user.mention% has left.'
+  desc: >-
+    Sets a new leave announcement message. Type `%user.mention%` if you want to
+    show the name the user who left. Type `%id%` to show id. Using this command
+    with no message will show the current bye message. You can use make embeds
+    using https://eb.mewdeko.tech/ instead of regular text, if you want the
+    message to be embedded.
+byetest:
+  args:
+    - ''
+    - '@SomeoneElse'
+  desc: >-
+    Sends the bye message in the current channel as if you just left the server.
+    You can optionally specify a different user.
+calcops:
+  args:
+    - ''
+  desc: Shows all available operations in the `{0}calc` command
+calculate:
+  args:
+    - 1+1
+  desc: Evaluate a mathematical expression.
+cash:
+  args:
+    - ''
+    - '@Someone'
+  desc: Check how much currency a person has. (Defaults to yourself)
+catcmd:
+  args:
+    - '{0}command name enable CategoryName'
+    - '{0}command enable CategoryId'
+  desc: Sets a command's permission at the category level.
+catfact:
+  args:
+    - ''
+  desc: Shows a random catfact from <https://catfacts-api.appspot.com/api/facts>
+catid:
+  args:
+    - CategoryName
+  desc: Shows the category ID for a category name you choose.
+catmdl:
+  args:
+    - ModuleName enable SomeChannel
+  desc: Sets a module's permission at the channel level.
+ccatc:
+  args:
+    - CategoryName Channel "Channel With Spaces"
+  desc: Creates a category and creates text channels under it with names you choose.
+ccavc:
+  args:
+    - CategoryName Channel "Channel With Spaces"
+  desc: ' Creates a category and creates voice channels under it with names you choose.'
+cctc:
+  args:
+    - CategoryName Channel "Channel With Spaces"
+  desc: 'Creates text channels under the category you choose. '
+ccvc:
+  args:
+    - CategoryName Channel "Channel With Spaces"
+  desc: 'Creates voice channels under the category you choose. '
+channelblacklist:
+  args:
+    - rem 12312312312
+  desc: Either [add]s or [rem]oves a channel specified by an ID from a blacklist.
+channelid:
+  args:
+    - ''
+  desc: Shows current channel ID.
+channelinfo:
+  args:
+    - '#some-channel'
+  desc: >-
+    Shows info about the channel. If no channel is supplied, it defaults to
+    current one.
+channeltopic:
+  args:
+    - ''
+  desc: Sends current channel's topic as a message.
+character:
+  args:
+    - Zero Two
+  desc: Finds an anime character using the AniList Api
+charinfo:
+  args:
+    - Sylveon
+  desc: Gets info for a character.
+chatmute:
+  args:
+    - '@Someone'
+    - '@Someone stop writing'
+    - 15m @Someone
+    - 1h30m @Someone
+    - 1h @Someone silence
+  desc: >-
+    Prevents a mentioned user from chatting in text channels. You can also
+    specify time string for how long the user should be muted. You can
+    optionally specify a reason.
+chattriggerrolegranttype:
+  args:
+    - 1234 sender
+    - 1234 Both
+  desc: >-
+    Changes the way roles are added when the reaction is triggered:
+
+    - `Sender` adds/removes roles from the person sending the message
+
+    - `Mentioned` adds/removes roles from people mentioned in the message, when
+    this option is enabled mentions will be removed before checking if the
+    trigger matches
+
+    - `Both` same as Mentioned, but sender also gets the role changes
+chatunmute:
+  args:
+    - '@Someone'
+  desc: >-
+    Removes a mute role previously set on a mentioned user with `{0}chatmute`
+    which prevented him from chatting in text channels.
+checkperms:
+  args:
+    - me
+    - bot
+  desc: Checks yours or bot's user-specific permissions on this channel.
+chnlcmd:
+  args:
+    - '{0}command enable SomeChannel'
+  desc: Sets a command's permission at the channel level.
+chnlfilterinv:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of invites posted in the channel. Does not negate
+    the `{0}srvrfilterinv` enabled setting. Does not affect users with the
+    Administrator permission.
+chnlfilterlin:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of links posted in the channel. Does not negate
+    the `{0}srvrfilterlin` enabled setting. Does not affect users with the
+    Administrator permission.
+chnlfilterwords:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of messages containing filtered words on the
+    channel. Does not negate the `{0}srvrfilterwords` enabled setting. Does not
+    affect users with the Administrator permission.
+chnlmdl:
+  args:
+    - ModuleName enable SomeChannel
+  desc: Sets a module's permission at the channel level.
+choose:
+  args:
+    - Get up;Sleep;Sleep more
+  desc: Chooses a thing from a list of things
+chucknorris:
+  args:
+    - ''
+  desc: Shows a random Chuck Norris joke.
+clearqueue:
+  args:
+    - ''
+  desc: Clears the queue.
+cleverbot:
+  args:
+    - ''
+  desc: >-
+    Toggles cleverbot session. When enabled, the bot will reply to messages
+    starting with bot mention in the server. Chat Triggers starting with
+    %bot.mention% won't work if cleverbot is enabled.
+close:
+  args:
+    - '#channel'
+  desc: >-
+    Closes an open ticket and sends you a transcript. Can be used in the ticket
+    channel or by mentioning the channel.
+clparew:
+  args:
+    - ''
+  desc: >-
+    Claim patreon rewards. If you're subscribed to bot owner's patreon you can
+    use this command to claim your rewards - assuming bot owner did setup has
+    their patreon key.
+clubaccept:
+  args:
+    - user#1337
+  desc: Accept a user who applied to your club.
+clubadmin:
+  args:
+    - '@Someone'
+  desc: >-
+    Assigns (or unassigns) staff role to the member of the club. Admins can ban,
+    kick and accept applications.
+clubapply:
+  args:
+    - My Brand New Club#23
+  desc: >-
+    Apply to join a club. You must meet that club's minimum level requirement,
+    and not be on its ban list.
+clubapps:
+  args:
+    - '2'
+  desc: >-
+    Shows the list of users who have applied to your club. Paginated. You must
+    be club owner to use this command.
+clubban:
+  args:
+    - user#1337
+  desc: >-
+    Bans the user from the club. You must be the club owner. They will not be
+    able to apply again.
+clubbans:
+  args:
+    - '2'
+  desc: >-
+    Shows the list of users who have banned from your club. Paginated. You must
+    be club owner to use this command.
+clubcreate:
+  args:
+    - My Brand New Club
+  desc: Creates a club. You must be at least level 5 and not be in the club already.
+clubdesc:
+  args:
+    - This is the best club please join.
+  desc: Sets the club description. Maximum 150 characters. Club owner only.
+clubdisband:
+  args:
+    - ''
+  desc: Disbands the club you're the owner of. This action is irreversible.
+clubicon:
+  args:
+    - https://i.imgur.com/htfDMfU.png
+  desc: Sets the club icon.
+clubinfo:
+  args:
+    - My Brand New Club#23
+  desc: Shows information about the club.
+clubkick:
+  args:
+    - user#1337
+  desc: >-
+    Kicks the user from the club. You must be the club owner. They will be able
+    to apply again.
+clublb:
+  args:
+    - '2'
+  desc: Shows club rankings on the specified page.
+clubleave:
+  args:
+    - ''
+  desc: Leaves the club you're currently in.
+clublevelreq:
+  args:
+    - '7'
+  desc: >-
+    Sets the club required level to apply to join the club. You must be club
+    owner. You can't set this number below 5.
+clubtransfer:
+  args:
+    - '@Someone'
+  desc: Transfers the ownership of the club to another member of the club.
+clubunban:
+  args:
+    - user#1337
+  desc: Unbans the previously banned user from the club. You must be the club owner.
+cmdcooldown:
+  args:
+    - '"some cmd" 10s'
+  desc: Sets a cooldown per user for a command. Put just the command to remove the cooldown.
+color:
+  args:
+    - 00ff00
+    - f00 0f0 00f
+  desc: >-
+    Shows you pictures of colors which correspond to the inputed hex values. Max
+    10.
+porn:
+  args:
+    -
+  desc: "Pulls something from the porn subreddit."
+bondage:
+  args:
+    -
+  desc: "Pulls something from the bondage subreddit."
+anal:
+  args:
+    -
+  desc: "Pulls something from the anal subreddit."
+pussy:
+  args:
+    -
+  desc: "Pulls something from the pussy subreddit."
+commandlogchannel:
+  args:
+    - command-logs
+    - ''
+  desc: >-
+    Sets where slash and regular commands are logged for the guild. Put nothing
+    to disable.
+commands:
+  args:
+    - ''
+  desc: Lists all bot modules.
+confess:
+  args:
+    - serverId confession
+    - confession (If in server, using the slash command)
+  desc: Sends a confession via dms. Or via the slash command in a server.
+confessblacklist:
+  args:
+    - '@user'
+  desc: Blacklist a user from confessions
+confesschannel:
+  args:
+    - '#channel'
+    - ''
+  desc: Sets the confession channel. Put nothing to disable.
+confesslogchannel:
+  args:
+    - '#channel'
+  desc: >-
+    Sets the channel used to log who made confessions. Put nothing to disable.
+    ***Keep in mind if I find you misusing this function I will find out,
+    blacklist this server. And tear out whatever reproductive organs you
+    have.***
+confessunblacklist:
+  args:
+    - '@user'
+  desc: Unblacklist a user from confessions
+config:
+  args:
+    - ''
+    - bot
+    - bot color.ok
+    - bot color.ok ff0000
+  desc: >-
+    Gets or sets configuration values.
+
+    Provide no arguments to see the list of configs you can edit/view.
+
+    Provide config name to see all properties in that configuration and their
+    values.
+
+    Provide config name and property name to see that property's description and
+    value.
+
+    Provide config name, property name and value to set that property to the new
+    value.
+configreload:
+  args:
+    - bot
+    - gambling
+  desc: Reloads specified configuration
+connect4:
+  args:
+    - ''
+  desc: >-
+    Creates or joins an existing connect4 game. 2 players are required for the
+    game. Objective of the game is to get 4 of your pieces next to each other in
+    a vertical, horizontal or diagonal line. You can specify a bet when you
+    create a game and only users who bet the same amount will be able to join
+    your game.
+consider:
+  args:
+    - number reason
+  desc: 'Considers a suggestion with an optional reason. '
+considerchannel:
+  args:
+    - considered
+    - ''
+  desc: >-
+    Sets a channel for suggestions to send considered ones to. Put nothing to
+    disable.
+considermessage:
+  args:
+    - embedcodehere
+  desc: >-
+    Allows you to set the message sent when a suggestion is considered.Use the
+    embed builder at https://eb.mewdeko.tech and the placeholders at
+    https://blog.mewdeko.tech/placeholders.
+convert:
+  args:
+    - m km 1000
+  desc: >-
+    Convert quantities. Use `{0}convertlist` to see supported dimensions and
+    currencies.
+convertlist:
+  args:
+    - ''
+  desc: List of the convertible dimensions and currencies.
+createcatandtxtchannels:
+  args:
+    - category name1 name2
+    - category "name 1" name2
+  desc: Creates the category you specify with the text channels you want
+createcatandvcchannels:
+  args:
+    - category name1 name2
+    - category "name 1" name2
+  desc: Creates the category you specify with the voice channels you want
+createcattxtchans:
+  args:
+    - category name1 name2
+    - category "name 1" name2
+  desc: Creates txt channels under the category you specify.
+createcatvcchans:
+  args:
+    - category name1 name2
+    - category "name 1" name2
+  desc: Creates vc channels under the category you specify.
+createrole:
+  args:
+    - Awesome Role
+  desc: Creates a role with a given name.
+creatvoicatchanl:
+  args:
+    - CategoryName/ID channelname
+  desc: Creates a voice channel under a category
+creatvoichanl:
+  args:
+    - VoiceChannelName
+  desc: Creates a new voice channel with a given name.
+creatxtcatchanl:
+  args:
+    - CategoryName/ID channelname
+  desc: Creates a text channel in a category
+creatxtchanl:
+  args:
+    - TextChannelName
+  desc: Creates a new text channel with a given name.
+cry:
+  args:
+    - '@user'
+  desc: Returns a cry gif.
+crypto:
+  args:
+    - btc
+    - bitcoin
+  desc: >-
+    Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use
+    either a name or an abbreviation of the currency.
+ctad:
+  args:
+    - '59'
+  desc: >-
+    Toggles whether the message triggering the Chat Trigger will be
+    automatically deleted.
+ctat:
+  args:
+    - '59'
+  desc: >-
+    Toggles whether the Chat Trigger will allow extra input after the trigger.
+    For example, with this feature enabled, Chat Trigger with trigger 'hi' will
+    also be invoked when a user types 'hi there'. This feature is automatically
+    enabled on Chat Triggers which have '%target%' in their response.
+ctca:
+  args:
+    - '44'
+  desc: >-
+    Toggles whether the Chat Trigger will trigger if the triggering message
+    contains the keyword (instead of only starting with it).
+ctdm:
+  args:
+    - '44'
+  desc: >-
+    Toggles whether the response message of the Chat Trigger will be sent as a
+    direct message.
+ctnr:
+  args:
+    - '69420'
+  desc: >-
+    Toggles whether the bot sends a message with a Chat Trigger. Turning this
+    off automatically makes any emote reactions react to the trigger.
+ctprefix:
+  args:
+    - '12 *'
+  desc: >-
+    Sets the prefix triggers will be matched with when using the custom prefix type.
+ctprefixtype:
+  args:
+    - '42 custom'
+  desc: >-
+    Sets the prefix type a trigger checks itself against when it's executed. Valid types are None, Global,
+    GuildOrGlobal, GuildOrNone, and Custom
+ctreact:
+  args:
+    - '59 👍 👎 '
+    - 59 <a:nFlower:408963839191941120>
+    - '59'
+  desc: >-
+    Sets or resets reactions (up to 3) which will be added to the response
+    message of the ChatTrigger with the specified ID. Provide no emojis to
+    reset.
+ctrgranttoggle:
+  args:
+    - 1 786375627892064257
+  desc: Toggles if a role should be granted when a user triggers a chat trigger.
+ctrremovetoggle:
+  args:
+    - 1 786375627892064257
+  desc: Toggles if a role should be removed when a user triggers a chat trigger.
+ctsclear:
+  args:
+    - ''
+  desc: Deletes all Chat Triggers on this server.
+ctsexport:
+  args:
+    - ''
+  desc: >-
+    Exports Chat Triggers from the current server (or global Chat Triggers in
+    DMs) into a .yml file
+ctsimport:
+  args:
+    - <upload .yml file>
+  desc: >-
+    Upload the file or send the raw .yml data with this command to import all
+    Chat Triggers from the specified string or file into the current server (or
+    as global Chat Triggers in dm)
+ctsreload:
+  args:
+    - ''
+  desc: >-
+    Reloads all Chat Triggers on all shards. Use this if you've made changes to
+    the database while the bot is running, or used `{0}deleteunusedcrnq`
+cuddle:
+  args:
+    - '@user'
+  desc: Returns a cuddle gif.
+curtrs:
+  args:
+    - '2'
+    - '@SomeUser 2'
+  desc: >-
+    Shows your currency transactions on the specified page. Bot owner can see
+    other people's transactions too.
+customafkmessage:
+  args:
+    - embedcode
+  desc: Allows you to set a custom message when a user is pinged with afk enabled.
+danbooru:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random hentai image from danbooru with a given tag. Tag is optional
+    but preferred. (multiple tags are appended with +)
+dance:
+  args:
+    - '@user'
+  desc: Returns a dance gif.
+deafen:
+  args:
+    - '"@Someguy"'
+    - '"@Someguy" "@Someguy"'
+  desc: Deafens mentioned user or users.
+deckshuffle:
+  args:
+    - ''
+  desc: Reshuffles all cards back into the deck.
+define:
+  args:
+    - heresy
+  desc: Finds a definition of a word.
+defprefix:
+  args:
+    - +
+  desc: >-
+    Sets bot's default prefix for all bot commands. Provide no parameters to see
+    the current default prefix. This will not change this server's current
+    prefix.
+delallquotes:
+  args:
+    - kek
+  desc: Deletes all quotes on a specified keyword.
+delete:
+  args:
+    - '#chat 771562360594628608'
+    - '771562360594628608'
+    - 771562360594628608 5m
+  desc: >-
+    Deletes a single message given the channel and message ID. If channel is
+    ommited, message will be searched for in the current channel. You can also
+    specify time parameter after which the message will be deleted (up to 7
+    days). This timer won't persist through bot restarts.
+deletechattrigger:
+  args:
+    - '5'
+  desc: >-
+    Deletes a Chat Trigger on a specific index. If ran in DM, it is bot owner
+    only and deletes a global Chat Trigger. If ran in a server, it requires
+    Administration privileges and removes server Chat Trigger.
+deletecurrency:
+  args:
+    - ''
+  desc: Deletes everything from Currency and CurrencyTransactions.
+deleteplaylists:
+  args:
+    - ''
+  desc: Deletes everything from MusicPlaylists.
+deleterole:
+  args:
+    - Awesome Role
+  desc: Deletes a role with a given name.
+deleteroles:
+  args:
+    - '@role @role'
+    - roleid roleid
+  desc: >-
+    Deletes a set of roles you mention. Must be below your highest role and the
+    bots highest for it to work.
+deletewaifu:
+  args:
+    - ''
+  desc: >-
+    Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the
+    specified user. Also makes specified user's waifus free.
+deletewaifus:
+  args:
+    - ''
+  desc: Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.
+deletexp:
+  args:
+    - ''
+  desc: Deletes everything from UserXpStats, Clubs and sets users' TotalXP to 0.
+delmsgoncmd:
+  args:
+    - ''
+    - channel enable
+    - ch inherit
+    - list
+  desc: >-
+    Toggles the automatic deletion of the user's successful command message to
+    prevent chat flood. You can use it either as a server toggle, channel
+    whitelist, or channel blacklist, as channel option has 3 settings: Enable
+    (always do it on this channel), Disable (never do it on this channel), and
+    Inherit (respect server setting). Use `list` parameter to see the current
+    states.
+deltxtchanl:
+  args:
+    - TextChannelName
+  desc: Deletes a text channel with a given name.
+delvoichanl:
+  args:
+    - VoiceChannelName
+  desc: Deletes a voice channel with a given name.
+deny:
+  args:
+    - number reason
+  desc: 'Denies a suggestion with an optional reason. '
+denychannel:
+  args:
+    - denied
+    - ''
+  desc: >-
+    Sets a channel for suggestions to send denied ones to. Put nothing to
+    disable.
+denymessage:
+  args:
+    - embedcodehere
+  desc: >-
+    Allows you to set the message sent when a suggestion is denied. Use the
+    embed builder at https://eb.mewdeko.tech and the placeholders at
+    https://blog.mewdeko.tech/placeholders.
+derpibooru:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random image from derpibooru with a given tag. Tag is optional but
+    preferred.
+die:
+  args:
+    - ''
+  desc: Shuts the bot down.
+divorce:
+  args:
+    - '@CheatingSloot'
+  desc: >-
+    Releases your claim on a specific waifu. You will get 50% of that waifu's
+    value back, unless that waifu has an affinity towards you, in which case
+    they will be reimbursed instead. 6 hours cooldown.
+donate:
+  args:
+    - ''
+  desc: Instructions for helping the project financially.
+double:
+  args:
+    - ''
+  desc: >-
+    In the blackjack game, double your bet in order to receive exactly one more
+    card, and your turn ends.
+dpo:
+  args:
+    - '{0}Purge ManageMessages BanMembers'
+    - '{0}Purge'
+  desc: >-
+    Overrides required user permissions that the command has with the specified
+    ones. You can only use server-level permissions. This action will make the
+    bot ignore user permission requirements which command has by default.
+    Provide no permissions to reset to default.
+dpol:
+  args:
+    - ''
+  desc: Lists all discord permission overrides on this server.
+dpor:
+  args:
+    - ''
+  desc: >-
+    Resets ALL currently set discord permission overrides on this server. This
+    will make all commands have default discord permission requirements.
+dragon:
+  args:
+    - never
+  desc: nuuuuu!
+draw:
+  args:
+    - ''
+    - '5'
+  desc: >-
+    Draws a card from this server's deck. You can draw up to 10 cards by
+    supplying a number of cards to draw.
+drawnew:
+  args:
+    - ''
+    - '5'
+  desc: >-
+    Draws a card from the NEW deck of cards. You can draw up to 10 cards by
+    supplying a number of cards to draw.
+e621:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random hentai image from e621.net with a given tag. Tag is optional
+    but preferred. (multiple tags are appended with +)
+economy:
+  args:
+    - ''
+  desc: >-
+    Breakdown of the current state of the bot's economy. Updates every 3
+    minutes.
+edit:
+  args:
+    - 7479498384 Hi :^)
+    - '#other-channel 771562360594628608 New message!'
+    - '#other-channel 771562360594628608 {{"description":"hello"}}'
+  desc: >-
+    Edits bot's message, you have to specify message ID and new text. You can
+    optionally specify target channel. Supports embeds.
+editchattrigger:
+  args:
+    - 123 I'm a magical girl
+  desc: Edits the Chat Trigger's response given its ID.
+editsnipe:
+  args:
+    - ''
+    - '#channel'
+    - '@user'
+    - '#channel @user'
+  desc: >-
+    Allows you to see the last edited message in the current or specified
+    channel, will tell you how to enable sniping if its disabled when running
+    the command.
+editsnipelist:
+  args:
+    - ''
+    - '20'
+  desc: Shows the last 5 edited messages, unless a different number is specified
+eightball:
+  args:
+    - Is b1nzy a nice guy?
+  desc: Ask the 8ball a yes/no question.
+emotelist:
+  args:
+    - animated
+    - nonanimated
+  desc: Shows the servers emotes. Specify animated or nonanimated to show that type
+evaluate:
+  args:
+    - 'no'
+  desc: Evaluates a c# expression
+eventstart:
+  args:
+    - reaction
+    - reaction -d 1 -a 50 --pot-size 1500
+  desc: >-
+    Starts one of the events seen on public Mewdeko. Events: `reaction`,
+    `gamestatus`
+experience:
+  args:
+    - ''
+    - '@someguy'
+  desc: Shows your xp stats. Specify the user to show that user's stats instead.
+facepalm:
+  args:
+    - '@user'
+  desc: Returns a facepalm gif.
+fairplay:
+  args:
+    - ''
+  desc: >-
+    Toggles fairplay. While enabled, the bot will prioritize songs from users
+    who didn't have their song recently played instead of the song's position in
+    the queue.
+feed:
+  args:
+    - '@user'
+  desc: Returns a feed gif.
+feedadd:
+  args:
+    - https://www.rt.com/rss/
+    - 'https://www.rt.com/rss/ #updates'
+  desc: >-
+    Subscribes to a feed. Bot will post an update up to once every 10 seconds.
+    You can have up to 10 feeds on one server. All feeds must have unique URLs.
+    Set a channel as a second optional parameter to specify where to send the
+    updates.
+feedlist:
+  args:
+    - ''
+  desc: Shows the list of feeds you've subscribed to on this server.
+feedmessage:
+  args:
+    - 1 embedcode
+  desc: >-
+    Add a custom message to a certain feed. Find the number using {0}feeds. You
+    can use https://eb.mewdeko.tech along with https://blog.mewdeko.tech/placeholders
+    to make cool embeds with this.
+feedremove:
+  args:
+    - '3'
+  desc: >-
+    Stops tracking a feed on the given index. Use `{0}feeds` command to see a
+    list of feeds and their indexes.
+fetch:
+  args:
+    - ID
+  desc: >-
+    Fetches user info from a user ID, regardless of if you are in a server with
+    them.
+filterword:
+  args:
+    - poop
+  desc: >-
+    Adds or removes (if it exists) a word from the list of filtered words.
+    Use`{0}sfw` or `{0}cfw` to toggle filtering.
+findanime:
+  args:
+    - ''
+  desc: Finds an anime using a clip or screenshot or a url. Not perfect.
+flip:
+  args:
+    - ''
+    - '3'
+  desc: Flips coin(s) - heads or tails, and shows an image.
+forwardmessages:
+  args:
+    - ''
+  desc: >-
+    Toggles forwarding of non-command messages sent to bot's DM to the bot
+    owners
+forwardtoall:
+  args:
+    - ''
+  desc: >-
+    Toggles whether messages will be forwarded to all bot owners or only to the
+    first one specified in the credentials.json file
+fwarn:
+  args:
+    - y/n
+  desc: >-
+    toggles warn on filtered word, make sure to enable filters with sfw and add
+    words with fw first.
+fwclear:
+  args:
+    - ''
+  desc: Deletes all filtered words on this server.
+gamevoicechannel:
+  args:
+    - ''
+  desc: >-
+    Toggles game voice channel feature in the voice channel you're currently in.
+    Users who join the game voice channel will get automatically redirected to
+    the voice channel with the name of their current game, if it exists. Can't
+    move users to channels that the bot has no connect permission for. One per
+    server.
+gatari:
+  args:
+    - Name
+    - Name ctb
+  desc: Shows osu!gatari stats for a player.
+gelbooru:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random hentai image from gelbooru with a given tag. Tag is optional
+    but preferred. (multiple tags are appended with +)
+realbooru:
+  args:
+    - anal
+  desc: >-
+    Shows a random porn image from realbooru with a given tag. Tag is optional
+    but preferred. (multiple tags are appended with +)
+gemote:
+  args:
+    - <:HaneBomb:914307912044802059>
+  desc: Sets a custom emote used in giveaways!
+gencurlist:
+  args:
+    - ''
+  desc: >-
+    Shows the list of server and channel ids where gc is enabled. Paginated with
+    9 per page.
+gencurrency:
+  args:
+    - ''
+  desc: >-
+    Toggles currency generation on this channel. Every posted message will have
+    chance to spawn currency. Chance is specified by the Bot Owner. (default is
+    2%)
+gend:
+  args:
+    - '2'
+  desc: Ends a giveaway using the number in `{0}glist`.
+getactiveafks:
+  args:
+    - ''
+  desc: Get all currently AFK Users in a paginated list
+pronouns:
+  args:
+    - '@user'
+    - ''
+  desc: >-
+    Gets a user's preferred pronouns, if they haven't specified them using
+    `pnoverride` it will  fetch the pronouns from
+    [pronoundb](https://pronoundb.org)
+give:
+  args:
+    - 1 @Someone
+    - 5 @CootGurl Ur so pwetty
+  desc: >-
+    Give someone a certain amount of currency. You can specify the reason after
+    the mention.
+glist:
+  args:
+    - ''
+  desc: Lists the currently running giveaways.
+globalcommand:
+  args:
+    - '{0}stats'
+  desc: Toggles whether a command can be used on any server.
+globalmodule:
+  args:
+    - nsfw
+  desc: Toggles whether a module can be used on any server.
+globalpermlist:
+  args:
+    - ''
+  desc: Lists global permissions set by the bot owner.
+google:
+  args:
+    - query
+  desc: Get a Google search link for some terms.
+grab:
+  args:
+    - '@user'
+  desc: >-
+    Moves the user you mention to your vc. ***The user you mention must already
+    be in a vc.***
+greet:
+  args:
+    - ''
+  desc: Toggles anouncements on the current channel when someone joins the server.
+greetdel:
+  args:
+    - '0'
+    - '30'
+  desc: >-
+    Sets the time it takes (in seconds) for greet messages to be auto-deleted.
+    Set it to 0 to disable automatic deletion.
+greetdm:
+  args:
+    - ''
+  desc: >-
+    Toggles whether the greet messages will be sent in a DM (This is separate
+    from greet - you can have both, any or neither enabled).
+greetdmmsg:
+  args:
+    - Welcome to the server, %user.mention%
+  desc: >-
+    Sets a new join announcement message which will be sent to the user who
+    joined. Type `%user.mention%` if you want to mention the new member. Using
+    it with no message will show the current DM greet message. You can use embed
+    json from <https://eb.Mewdeko.tech> instead of a regular text, if you want
+    the message to be embedded.
+greetdmtest:
+  args:
+    - ''
+    - '@SomeoneElse'
+  desc: >-
+    Sends the greet direct message to you as if you just joined the server. You
+    can optionally specify a different user.
+greethook:
+  args:
+    - channel name image
+    - channel name
+    - disable
+  desc: >-
+    Allows you to set a webhook used for welcome messages. You can either upload
+    an image to use or use a image url. Type disable to disable webhook greets.
+    set the message used for greets using the greetmsg command together with
+    https://eb.mewdeko.tech/ and https://blog.mewdeko.tech/placeholders
+greetmsg:
+  args:
+    - Welcome, %user.mention%.
+  desc: >-
+    Sets a new join announcement message which will be shown in the server's
+    channel. Type `%user.mention%` if you want to mention the new member. Using
+    it with no message will show the current greet message. You can use make
+    embeds  using https://eb.mewdeko.tech/ instead of regular text, if you want
+    the message to be embedded.
+greettest:
+  args:
+    - ''
+    - '@SomeoneElse'
+  desc: >-
+    Sends the greet message in the current channel as if you just joined the
+    server. You can optionally specify a different user.
+greroll:
+  args:
+    - messageid
+  desc: Rerolls a giveaway
+gstart:
+  args:
+    - ''
+    - '#channel 2d 1 nitro!'
+  desc: Starts giveaway configuration, or predefined values to start one immediately
+gstats:
+  args:
+    - ''
+  desc: Shows giveaway stats for the server.
+guide:
+  args:
+    - ''
+    - ''
+  desc: Sends a readme and a guide links to the channel.
+hangman:
+  args:
+    - ''
+    - movies
+  desc: >-
+    Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list
+    of available term types. Defaults to 'all'.
+hangmanlist:
+  args:
+    - ''
+  desc: Shows a list of hangman term types.
+hangmanstop:
+  args:
+    - ''
+  desc: Stops the active hangman game on this channel if it exists.
+happy:
+  args:
+    - '@user'
+  desc: Returns a happy gif.
+hearthstone:
+  args:
+    - Ysera
+  desc: >-
+    Searches for a Hearthstone card and shows its image. Takes a while to
+    complete.
+help:
+  args:
+    - '{0}cmds'
+    - ''
+  desc: >-
+    Either shows a help for a single command, or DMs you help link if no
+    parameters are specified.
+hentai:
+  args:
+    - yuri
+  desc: >-
+    Shows a hentai image from a random website (gelbooru, danbooru, konachan or
+    yandere) with a given tag. Tag is optional but preferred. Only 1 tag
+    allowed.
+hentaibomb:
+  args:
+    - yuri
+  desc: >-
+    Shows a total of 4 images (from gelbooru, danbooru, konachan and yandere). Tag
+    is optional but preferred.
+pornbomb:
+  args:
+    - anal
+  desc: >-
+    Shows a total of 4 images from realbooru. Tag
+    is optional but preferred.
+hentaigif:
+  args:
+    - ''
+  desc: Sends a random hentai gif from the hentai_gif subreddit
+highfive:
+  args:
+    - '@user'
+  desc: Returns a highfive gif.
+highlights:
+  args:
+    - add Sylveon
+    - delete Sylveon
+    - list
+    - 'toggleignore #chat/@user'
+    - enabled true
+  desc: |-
+    - `add` Adds a word to your highlights
+    - `delete/remove` Removes a word from your highlights
+    - `list` Lists your current highlights
+    - `toggleignore` Toggles the ignoring of a channnel or user.
+    - `enabled` Enables or disables highlights
+hit:
+  args:
+    - ''
+  desc: In the blackjack game, ask the dealer for an extra card.
+hug:
+  args:
+    - '@user'
+  desc: Returns a hug gif.
+iam:
+  args:
+    - Gamer
+  desc: >-
+    Adds a role to you that you choose. Role must be on a list of
+    self-assignable roles.
+iamnot:
+  args:
+    - Gamer
+  desc: >-
+    Removes a specified role from you. Role must be on a list of self-assignable
+    roles.
+image:
+  args:
+    - cute kitten
+  desc: Pulls a random image using a search parameter.
+imagesreload:
+  args:
+    - ''
+  desc: >-
+    Reloads images bot is using. Safe to use even when bot is being used
+    heavily.
+implementchannel:
+  args:
+    - implemented
+    - ''
+  desc: >-
+    Sets a channel for suggestions to send implemented ones to. Put nothing to
+    disable.
+implemented:
+  args:
+    - number reason
+  desc: 'Implements a suggestion with an optional reason. '
+implementmessage:
+  args:
+    - embedcodehere
+  desc: >-
+    Allows you to set the message sent when a suggestion is implemented. Use the
+    embed builder at https://eb.mewdeko.tech and the placeholders at
+    https://blog.mewdeko.tech/placeholders.
+inrole:
+  args:
+    - RoleName
+    - 5 RoleName
+  desc: >-
+    Lists every person from the specified role on this server. You can specify a
+    page before the role to jump to that page.
+inroles:
+  args:
+    - '@role @role2'
+  desc: Gets members that are in two specified roles.
+invite:
+  args:
+    - ''
+  desc: Pulls up the link to invite mewdeko.
+invitecreate:
+  args:
+    - ''
+  desc: Creates a new invite which has infinite max uses and never expires.
+invitedelete:
+  args:
+    - '2'
+  desc: >-
+    Deletes an invite on the specified index. Use `{0}invitelist` to see the
+    list of invites.
+inviteinfo:
+  args:
+    - spdvbdfih
+  desc: Gets info from an invite. Does not work on vanity invites.
+invitelist:
+  args:
+    - ''
+    - '3'
+  desc: Lists all invites for this channel. Paginated with 9 per page.
+invwarn:
+  args:
+    - y/n
+  desc: ' Toggles warning on inviteposting, make sure to enable .sfi first.'
+join:
+  args:
+    - ''
+  desc: Makes the bot join your voice channel.
+joinrace:
+  args:
+    - ''
+    - '5'
+  desc: >-
+    Joins a new race. You can specify an amount of currency for betting
+    (optional). You will get YourBet*(participants-1) back if you win.
+kick:
+  args:
+    - '@Someone Get out!'
+    - '"Some Guy#1234" Your behaviour is toxic.'
+  desc: Kicks a mentioned user.
+kickunder:
+  args:
+    - 2y
+    - 2m -p
+  desc: >-
+    Allows you to ban users under a certain server join age in the server. Use
+    -p after the time to preview the users that will be banned.
+kiss:
+  args:
+    - '@user'
+  desc: Returns a kiss gif.
+konachan:
+  args:
+    - yuri
+  desc: >-
+    Shows a random hentai image from konachan with a given tag. Tag is optional
+    but preferred.
+langsetdefault:
+  args:
+    - en-US
+    - default
+  desc: >-
+    Sets the bot's default response language. All servers which use a default
+    locale will use this one. Setting to `default` will use the host's current
+    culture. Provide no parameters to see currently set language.
+languageset:
+  args:
+    - 'de-DE '
+    - default
+  desc: >-
+    Sets this server's response language. If bot's response strings have been
+    translated to that language, bot will use that language in this server.
+    Reset by using `default` as the locale name. Provide no parameters to see
+    currently set language.
+languageslist:
+  args:
+    - ''
+  desc: List of languages for which translation (or part of it) exist atm.
+laugh:
+  args:
+    - '@user'
+  desc: Returns a laugh gif.
+leaderboard:
+  args:
+    - ''
+  desc: Displays the bot's currency leaderboard.
+leave:
+  args:
+    - ''
+  desc: Leaves the voice channel and clears the queue
+leavehook:
+  args:
+    - channel name image
+    - channel name
+    - disable
+  desc: >-
+    Allows you to set a webhook used for leave messages. You can either upload
+    an image to use or use a image url. Type disable to disable webhook greets.
+    set the message used for leaves using the byemsg command together with
+    https://eb.mewdeko.tech/ and https://blog.mewdeko.tech/placeholders
+leaveserver:
+  args:
+    - '123123123123'
+  desc: Leaves a server using its ID
+linux:
+  args:
+    - Spyware Windows
+  desc: Prints a customizable Linux interjection
+listchattriggers:
+  args:
+    - '1'
+    - all
+  desc: >-
+    Lists global or server Chat Triggers (20 commands per page). Running the
+    command in DM will list global Chat Triggers, while running it in server
+    will list that server's Chat Triggers. Specifying `all` parameter instead of
+    the number will DM you a text file with a list of all Chat Triggers.
+listchattriggersgroup:
+  args:
+    - '1'
+  desc: >-
+    Lists global or server Chat Triggers (20 commands per page) grouped by
+    trigger, and show a number of responses for each. Running the command in DM
+    will list global Chat Triggers, while running it in server will list that
+    server's Chat Triggers.
+listperms:
+  args:
+    - ''
+    - '3'
+  desc: >-
+    Lists whole permission chain with their indexes. You can specify an optional
+    page number if there are a lot of permissions.
+listplaying:
+  args:
+    - ''
+  desc: Lists all playing statuses with their corresponding number.
+listqueue:
+  args:
+    - ''
+    - '2'
+  desc: Lists the current queue.
+listquotes:
+  args:
+    - '3'
+    - 3 id
+  desc: Lists all quotes on the server ordered alphabetically or by ID. 15 Per page.
+listservers:
+  args:
+    - '3'
+  desc: Lists servers the bot is on with some basic info. 15 per page.
+lmgtfy:
+  args:
+    - query
+  desc: Google something for an idiot.
+lock:
+  args:
+    - ''
+  desc: 'Locks the current channel. '
+lockcheck:
+  args:
+    - ''
+  desc: Checks all roles to make sure they are lockdown compliant
+lockdown:
+  args:
+    - ''
+  desc: >-
+    Locks the server, will tell you to run lockcheck if some roles are in the
+    way of lockdown.
+log:
+  args:
+    - userpresence
+    - userbanned
+  desc: >-
+    Toggles logging event. Disables it if it is active anywhere on the server.
+    Enables if it isn't active. Use `{0}logevents` to see a list of all events
+    you can subscribe to.
+logcategory:
+  args:
+    - Users
+  desc: Placeholder until command is done
+logevents:
+  args:
+    - ''
+  desc: Shows a list of all events you can subscribe to with `{0}log`
+logignore:
+  args:
+    - ''
+  desc: >-
+    Toggles whether the `{0}logserver` command ignores this channel. Useful if
+    you have hidden admin channel and public log channel.
+logserver:
+  args:
+    - enable
+    - disable
+  desc: >-
+    Enables or Disables ALL log events. If enabled, all log events will log to
+    this channel.
+loop:
+  args:
+    - ''
+    - none
+    - track
+  desc: |-
+    - `none` Doesnt loop anything and stops when the queue ends
+    - `track` Loops the current song. Skip replays the current song.
+    - `queue` Loops the queue until its stopped
+lsar:
+  args:
+    - ''
+    - '2'
+  desc: Lists self-assignable roles. Shows 20 roles per page.
+lstfilterwords:
+  args:
+    - ''
+  desc: Shows a list of filtered words.
+magicitem:
+  args:
+    - ''
+  desc: >-
+    Shows a random magic item from
+    <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
+magicthegathering:
+  args:
+    - about face
+    - about face
+  desc: Searches for a Magic The Gathering card.
+mal:
+  args:
+    - straysocks
+  desc: Shows basic info from a MyAnimeList profile.
+manga:
+  args:
+    - Shingeki no kyojin
+  desc: Queries anilist for a manga and shows the first result.
+masskill:
+  args:
+    - BadPerson#1234 Toxic person
+  desc: >-
+    Specify a new-line separated list of `userid reason`. You can use
+    Username#discrim instead of UserId. Specified users will be banned from the
+    current server, blacklisted from the bot, and have all of their flowers
+    taken away.
+maxsuggestionlength:
+  args:
+    - '4098'
+  desc: Allows you to set the maximum length for suggestions.
+memberrole:
+  args:
+    - '@role'
+  desc: Sets the servers member role, will be used for other stuff later on
+meme:
+  args:
+    - ''
+  desc: Sends a random meme from reddit
+memegen:
+  args:
+    - biw gets iced coffee;in the winter
+    - ntot
+  desc: >-
+    Generates a meme from memelist with specified text. Separate multiple text
+    values with semicolons. Provide no meme text to see an example meme with
+    that template.
+memelist:
+  args:
+    - ''
+  desc: >-
+    Shows a list of template keys (and their repspective names) used for
+    `{0}memegen`.
+minsuggestionlength:
+  args:
+    - '10'
+  desc: >-
+    Alows you to set a minimum length to suggestions. Maximum value is 2048 to
+    avoid bad discord changes.
+modules:
+  args:
+    - ''
+  desc: Lists all bot modules.
+moveperm:
+  args:
+    - 2 4
+  desc: Moves permission from one position to another in the Permissions list.
+movesong:
+  args:
+    - 5 3
+  desc: Moves a song from one position to another.
+moveto:
+  args:
+    - calls
+  desc: >-
+    Moves you to a vc you name. ***You must already be in a vc for this to
+    work.***
+moveuserto:
+  args:
+    - '@Yuno Gasai calls'
+  desc: >-
+    Moves a user you mention to a different vc. ***The user must already be in a
+    vc.***
+movie:
+  args:
+    - Batman vs Superman
+  desc: Queries omdb for movies or series, show first result.
+multigreetadd:
+  args:
+    - ''
+    - '#channel'
+  desc: >-
+    Adds the current or mentioned channel to MultiGreets. 5 per channel, or 30
+    per guild
+multigreetdelete:
+  args:
+    - 1s
+    - '1'
+  desc: >-
+    Sets after how much time a MultiGreet is deleted. You can either use seconds
+    directly or format it like 2m2s. Setting it to 0 disables deletion. Default
+    is 1 second.
+multigreetgreetbots:
+  args:
+    - 1 false
+  desc: Sets whether a RoleGreet will also greet bots.
+multigreetlist:
+  args:
+    - ''
+  desc: Lists all MultiGreets and their properties.
+multigreetmessage:
+  args:
+    - '2'
+    - 2 embedcode/message
+  desc: >-
+    Gets or sets a MultiGreet message for a given MultiGreet ID. To set a custom
+    embed use https://eb.mewdeko.tech together with
+    https://blog.mewdeko.tech/placeholders
+multigreetremove:
+  args:
+    - '1'
+    - '#somechannel'
+  desc: >-
+    Removes a MultiGreet channel using the ID in {0}mgl. Can also remove all
+    MultiGreets if a channel is mentioned.
+multigreettype:
+  args:
+    - RandomGreet
+    - MultiGreet
+    - 'Off'
+  desc: >-
+    Sets wether to use MultiGreet(greets in all set channels),
+    RandomGreet(randomly chooses between all set MultiGreets then sends it to
+    that channel), or Off (Completely disables the MultiGreet system)
+multigreetwebhook:
+  args:
+    - 26 Mewdeko avatarurl
+    - 26 Mewdeko
+    - '26'
+  desc: >-
+    Allows you to set/update/remove a MultiGreet name and avatar. Put just the
+    MultiGreet ID to remove the webhook. Avatar is optional, but must be a
+    direct url to the img used.
+musicquality:
+  args:
+    - ''
+    - High
+    - Low
+  desc: >-
+    Gets or sets the default music player quality. Available settings: Highest,
+    High, Medium, Low. Default is **Highest**. Provide no argument to see
+    current setting.
+mute:
+  args:
+    - '@Someone'
+    - '@Someone too noisy'
+    - 1h30m @Someone
+    - 1h30m @Someone too noisy
+  desc: >-
+    Mutes a mentioned user both from speaking and chatting. You can also specify
+    time string for how long the user should be muted. You can optionally
+    specify a reason.
+muterole:
+  args:
+    - ''
+    - Silenced
+  desc: >-
+    Sets a name of the role which will be assigned to people who should be
+    muted. Provide no arguments to see currently set mute role. Default is
+    Mewdeko-mute.
+mwarn:
+  args:
+    - '@user'
+  desc: 'Gives a user a Minor Warn '
+mwarnclear:
+  args:
+    - '@user'
+    - '@user 3'
+  desc: >-
+    Clears all minor warns for a user, use with a number to clear that specific
+    warn
+mwarnexpire:
+  args:
+    - 30d
+  desc: ' Sets how long until a warning expires, see {0}h warne for more details'
+mwarnlog:
+  args:
+    - '@user'
+  desc: 'Shows the minor warnlog for a user or yourself if you dont mention a user. '
+mwarnlogall:
+  args:
+    - ''
+  desc: Gets all mini warned users
+mwarnpunish:
+  args:
+    - 1 Mute 15m
+    - 2 Ban 3d
+  desc: >-
+    Sets the punishments used for Minor Warns, punishments are the same as
+    regular WarnPunish
+mwarnpunishlist:
+  args:
+    - ''
+  desc: 'Shows your current Minor Warn punishment list. '
+next:
+  args:
+    - ''
+    - '5'
+  desc: >-
+    Goes to the next song in the queue. You have to be in the same voice channel
+    as the bot. You can skip multiple songs, but in that case songs will not be
+    requeued if {0}rcs or {0}rpl is enabled.
+nhentai:
+  args:
+    - '209519'
+  desc: Let's you read any doujin using the magic number.
+nhentaisearch:
+  args:
+    - futa
+    - cumdump -futa
+    - cumdump 3
+    - cumdump -futa 3
+  desc: >-
+    Lets you search nhentai for doujins using keywords. You can also specify
+    blacklisted words by putting a - in froint of the word. If the first set
+    doesnt have the results you wanted, you can also specify page number.
+novel:
+  args:
+    - the nine cauldrons
+  desc: >-
+    Searches for a novel on `https://novelupdates.com/`. You have to provide an
+    exact name.
+nowplaying:
+  args:
+    - ''
+  desc: Shows the song that the bot is currently playing.
+nroll:
+  args:
+    - '5'
+    - 5-15
+  desc: >-
+    Rolls in a given range. If you specify just one number instead of the range,
+    it will role from 0 to that number.
+nsfwcc:
+  args:
+    - ''
+  desc: Clears nsfw cache.
+nsfwtagbl:
+  args:
+    - poop
+  desc: >-
+    Toggles whether the tag is blacklisted or not in nsfw searches. Provide no
+    parameters to see the list of blacklisted tags.
+nsfwtoggle:
+  args:
+    - ''
+  desc: Toggles the NSFW parameter of the current text channel.
+nuke:
+  args:
+    - '#channel'
+  desc: >-
+    Completely deletes the current channel and remakes it as it was. Useful for
+    quick channel purges. Can be used directly in channel or by mentioning one.
+nunchi:
+  args:
+    - ''
+  desc: >-
+    Creates or joins an existing nunchi game. Users have to count up by 1 from
+    the starting number shown by the bot. If someone makes a mistake (types an
+    incorrect number, or repeats the same number) they are out of the game and a
+    new round starts without them.  Minimum 3 users required.
+osu:
+  args:
+    - Name
+    - Name taiko
+  desc: Shows osu! stats for a player.
+osu5:
+  args:
+    - Name
+  desc: Displays a user's top 5 plays.
+owoify:
+  args:
+    - cats are super duper cute
+    - snuggles
+  desc: >-
+    OwOifies a string, making it infinitly cuter. (for example "cats are super
+    duper cute" becomes  "kittehs awe supew dupew cute")
+pat:
+  args:
+    - '@user'
+  desc: Returns a pat gif.
+pathofexile:
+  args:
+    - '"Zizaran"'
+  desc: >-
+    Searches characters for a given Path of Exile account. May specify league
+    name to filter results.
+pathofexilecurrency:
+  args:
+    - Standard "Mirror of Kalandra"
+  desc: >-
+    Returns the chaos equivalent of a given currency or exchange rate between
+    two currencies.
+pathofexileleagues:
+  args:
+    - ''
+  desc: Returns a list of the main Path of Exile leagues.
+pause:
+  args:
+    - ''
+  desc: Pauses or Unpauses the song.
+permcontrol:
+  args:
+    - '#channel allow/deny user/role managemessages viewchannel'
+  desc: Allows you to set multiple permission for a role/user in a channel
+permrole:
+  args:
+    - Some Role
+    - reset
+  desc: >-
+    Sets a role which can change permissions. Supply no parameters to see the
+    current one. Type 'reset' instead of the role name to reset the currently
+    set permission role. Users with the Administrator server permissions can use
+    permission commands regardless of whether they have the specified role.
+    There is no default permission role.
+permview:
+  args:
+    - ''
+    - '@role'
+    - '@user'
+  desc: Shows guild permissions for a role or user.
+pick:
+  args:
+    - ''
+    - passwd
+  desc: >-
+    Picks the currency planted in this channel. If the plant has a password, you
+    need to specify it.
+ping:
+  args:
+    - ''
+  desc: Ping the bot to see if there are latency issues.
+place:
+  args:
+    - Cage
+    - steven 500 400
+  desc: >-
+    Shows a placeholder image of a given tag. Use `{0}placelist` to see all
+    available tags. You can specify the width and height of the image as the
+    last two optional parameters.
+placelist:
+  args:
+    - ''
+  desc: Shows the list of available tags for the `{0}place` command.
+plant:
+  args:
+    - '5'
+    - 10 meow
+  desc: >-
+    Spend an amount of currency to plant it in this channel. Default is 1. You
+    can specify the password after the amount. Password has to be alphanumeric
+    and it will be trimmed down to 10 characters if it's longer.
+play:
+  args:
+    - ''
+    - '5'
+    - Dream Of Venice
+  desc: >-
+    Plays/Queues a song. Use together with a song number in queue and it'll
+    play.
+playlist:
+  args:
+    - show playlistname
+    - delete playlistname
+    - create playlistname
+    - load
+    - load playlistname
+    - save songname
+    - default
+    - default playlistname
+  desc: |2-
+     Allows for you to manage your playlists.
+
+    Settings:
+     `show`: When used with a playlist name it shows that playlist. Shows your default playlist without a name.
+
+     `delete`: Deletes a playlist with a given name.
+
+     `create`: Creates a playlist using a given name. Stops you if theres a playlist with the same name already available.
+
+     `load`: Loads a playlist. If no name is provided it loads your default playlist.
+
+     `save`: Allows you to save a song to a playlist from either the queue or by searching. Defaults to searching the queue if the bot is playing something.
+
+     `default`: Allows you to set or see the current playlist, if one is set.
+playlists:
+  args:
+    - ''
+  desc: Lists all your playlists
+playlistshuffle:
+  args:
+    - ''
+  desc: Shuffles the current playlist.
+poke:
+  args:
+    - '@user'
+  desc: Returns a poke gif.
+pokemon:
+  args:
+    - Sylveon
+  desc: Searches for a pokemon.
+pokemonability:
+  args:
+    - overgrow
+  desc: Searches for a pokemon ability.
+poll:
+  args:
+    - Question?;Answer1;Answ 2;A_3
+    - MultiAnswer Question;answer;answer;answer
+  desc: >-
+    Creates a public poll which requires users to type a number of the voting
+    option in the channel command is ran in. Can have multiple modes: >
+    `SingleAnswer` - Users can only pick a single answer and cant change it.
+    Default when not used with a mode. > `AllowChange` - Users can change their
+    answers. > `MultiAnswer` - Users can select more than one answer.
+pollend:
+  args:
+    - ''
+  desc: Stops active poll on this server and prints the results in this channel.
+pollstats:
+  args:
+    - ''
+  desc: Shows the poll results without stopping the poll on this server.
+pout:
+  args:
+    - '@user'
+  desc: Returns a pout gif.
+prefix:
+  args:
+    - +
+  desc: >-
+    Sets this server's prefix for all bot commands. Provide no parameters to see
+    the current server prefix. **Setting prefix requires Administrator server
+    permission.**
+previewlinks:
+  args:
+    - enable
+  desc: Sets whether automatically embeds message links.
+pronounsforceclear:
+  args:
+    - '@user true pronouns contained transphobic message'
+    - >-
+      @user false pronouns being used to start conflict with another user,
+      cleared as a warning.
+  desc: >-
+    Forcefully clears a user's pronoun override and sets their PronounsDisabled
+    property
+prunemembers:
+  args:
+    - 7d
+  desc: Prunes members from the server. ***DANGEROUS, THIS CANNOT BE UNDONE***
+purge:
+  args:
+    - ''
+    - '-s'
+    - '5'
+    - 5 --safe
+    - '@Someone'
+    - '@Someone --safe'
+    - '@Someone X'
+    - '@Someone X -s'
+    - 20 --nb
+    - 20 --ob
+  desc: >-
+    `{0}Purge` removes all Mewdeko's messages in the last 100 messages.
+    `{0}Purge X` removes last `X` number of messages from the channel (up to
+    100). `{0}Purge @Someone` removes all Someone's messages in the last 100
+    messages. `{0}Purge @Someone X` removes last `X` number of 'Someone's'
+    messages in the channel. You can use the `-s` / `--safe` parameter at the
+    end to only Purge messages that are not pinned. You can use the `-nb` /
+    `--nobots` paramater to clear around bots. You can use the `-ob` /
+    `--onlybots` paramater to clear only bots.
+queue:
+  args:
+    - ''
+  desc: Shows the queue
+quoteadd:
+  args:
+    - sayhi Hi
+  desc: Adds a new quote with the specified name and message.
+quotedelete:
+  args:
+    - '123456'
+  desc: >-
+    Deletes a quote with the specified ID. You have to be either server
+    Administrator or the creator of the quote to delete it.
+quoteid:
+  args:
+    - '123456'
+  desc: >-
+    Displays the quote with the specified ID number. Quote ID numbers can be
+    found by typing `{0}liqu [num]` where `[num]` is a number of a page which
+    contains 15 quotes.
+quoteprint:
+  args:
+    - abc
+  desc: Prints a random quote with a specified name.
+quotesearch:
+  args:
+    - keyword text
+  desc: >-
+    Shows a random quote for a keyword that contains any text specified in the
+    search.
+quoteshow:
+  args:
+    - '123'
+  desc: Shows information about a quote with the specified ID.
+race:
+  args:
+    - ''
+  desc: Starts a new animal race.
+raffle:
+  args:
+    - ''
+    - RoleName
+  desc: >-
+    Prints a name and ID of a random online user from the server, or from the
+    online user in the specified role.
+raffleany:
+  args:
+    - ''
+    - ' RoleName'
+  desc: >-
+    Prints a name and ID of a random user from the server, or from the specified
+    role.
+rafflecur:
+  args:
+    - '20'
+    - mixed 15
+  desc: >-
+    Starts or joins a currency raffle with a specified amount. Users who join
+    the raffle will lose the amount of currency specified and add it to the pot.
+    After 30 seconds, random winner will be selected who will receive the whole
+    pot. There is also a `mixed` mode in which the users will be able to join
+    the game with any amount of currency, and have their chances be proportional
+    to the amount they've bet.
+randjoke:
+  args:
+    - ''
+  desc: Shows a random joke.
+randombird:
+  args:
+    - ''
+  desc: Shows a random bird image.
+randomcat:
+  args:
+    - ''
+  desc: Shows a random cat image.
+randomdog:
+  args:
+    - ''
+  desc: Shows a random dog image.
+randomfood:
+  args:
+    - ''
+  desc: Shows a random food image.
+randomkitsune:
+  args:
+    - ''
+  desc: What does the fox say? Returns a random kitsune.
+randomneko:
+  args:
+    - ''
+  desc: Nya~ Returns a random neko!
+randomreddit:
+  args:
+    - sylveon
+  desc: Gets an image from a specified subreddit. Must not be NSFW.
+randomwaifu:
+  args:
+    - ''
+  desc: Ara Ara~ Returns a random waifu.
+rategirl:
+  args:
+    - '@SomeGurl'
+  desc: >-
+    Use the universal hot-crazy wife zone matrix to determine the girl's worth.
+    It is everything young men need to know about women. At any moment in time,
+    any woman you have previously located on this chart can vanish from that
+    location and appear anywhere else on the chart.
+reactchannel:
+  args:
+    - '#channel'
+  desc: >-
+    Sets a channel where mewdeko will react with upvote and downvote arrows to
+    media. Provide no paramter to disable.
+reactionroles:
+  args:
+    - 'Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:'
+    - 'excl Horde :Horde: Alliance :Alliance:'
+    - '866309699531702302 Gamer :Nekoha_Yay:'
+  desc: >-
+    Specify role names and server emojis with which they're represented, the bot
+    will then add those emojis to the previous message in the channel, and users
+    will be able to get the roles by clicking on the emoji. You can set 'excl'
+    as the first parameter to make them exclusive. You can have up to 5 of these
+    enabled on one server at a time You can optionally use a message ID before
+    specifying roles.
+reactionroleslist:
+  args:
+    - ''
+  desc: Lists all ReactionRole messages on this channel and their indexes.
+reactionrolesremove:
+  args:
+    - '1'
+  desc: Removed a ReactionRole message on the specified index.
+redditnsfw:
+  args:
+    - waifus34
+  desc: Grabs a post from any subreddit. Regardless of NSFW Status
+redisexec:
+  args:
+    - ''
+  desc: Executes a redis command. There is no confirmation so be careful.
+remind:
+  args:
+    - me 1d5h Do something
+    - '#general 1m Start now!'
+  desc: >-
+    Sends a message to you or a channel after certain amount of time (max 2
+    months). First parameter is `me`/`here`/'channelname'. Second parameter is
+    time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter
+    is a (multiword) message.
+reminddelete:
+  args:
+    - '3'
+  desc: Deletes a reminder on the specified index.
+remindlist:
+  args:
+    - '1'
+  desc: Lists all reminders you created. Paginated.
+removeallroles:
+  args:
+    - '@User'
+  desc: >-
+    Removes all roles which are lower than your highest role in the role
+    hierarchy from the user you specify.
+removeemote:
+  args:
+    - emote
+  desc: Removes an emote you choose.
+removefromall:
+  args:
+    - roletoremove
+  desc: Removes a role from everyone.
+removefromallbots:
+  args:
+    - roletoremove
+  desc: Removes a role from all bots
+removefromallusers:
+  args:
+    - roletoremove
+  desc: Removes a role from all users.
+removefromrole:
+  args:
+    - inrole removethisfrominrole
+  desc: >-
+    Removes the second mentioned mentioned role from the users mentioned in the
+    first role.
+removeonmute:
+  args:
+    - 'yes'
+  desc: >-
+    Sets whether muting removes a users role on mute and puts them back on
+    unmute
+removeperm:
+  args:
+    - '1'
+  desc: Removes a permission from a given position in the Permissions list.
+removeplaying:
+  args:
+    - ''
+  desc: Removes a playing string on a given number.
+removerole:
+  args:
+    - Role @User
+  desc: >-
+    Removes a role from a user. The role you specify has to be lower in the role
+    hierarchy than your highest role.
+removerolefromrole:
+  args:
+    - inrole removerole
+  desc: Remvoes a role from users in a role
+removeroles:
+  args:
+    - '@user @role @role'
+  desc: 'Lets you set remove multiple roles from a user. '
+removeusersfromrole:
+  args:
+    - '@role @user user userID'
+  desc: Remove users from a role
+renameemote:
+  args:
+    - emote newname
+  desc: renames an emote you choose.
+renamerole:
+  args:
+    - '"First role" SecondRole'
+  desc: >-
+    Renames a role. The role you specify has to be lower in the role hierarchy
+    than your highest role.
+repeat:
+  args:
+    - Hello there
+    - 1h5m Hello @erryone
+    - 10:00 Daily have a nice day! This will execute once every 24h.
+    - >-
+      21:00 30m Starting at 21 and every 30 minutes after that i will send this
+      message!
+  desc: >-
+    Repeat a message once every specified amount of time in the current channel.
+    You can instead specify time of day for the message to be repeated daily
+    (make sure you've set your server's timezone). If you've specified time of
+    day, you can still override the default daily interval with your own
+    interval. You can have up to 5 repeating messages on the server in total.
+repeatchannel:
+  args:
+    - '1 #channel'
+    - null
+  desc: Sets the channel a repeater executes in.
+repeatinvoke:
+  args:
+    - '1'
+  desc: >-
+    Immediately shows the repeat message on a certain index and restarts its
+    timer.
+repeatlist:
+  args:
+    - ''
+  desc: Shows currently repeating messages and their indexes.
+repeatmessage:
+  args:
+    - 1 message/embedcode
+  desc: >-
+    Set's a repeaters message after it has been made. You can use this with
+    [embeds](https://eb.mewdeko.tech) and
+    [placeholders](https://blog.mewdeko.tech/placeholders)
+repeatredun:
+  args:
+    - '1'
+  desc: >-
+    Specify repeater's index (use `{0}repli` to find it) to toggle whether that
+    repeater's message should be reposted if the last message in the channel is
+    the same repeater's message. This is useful if you want to remind everyone
+    to be nice in the channel every so often, but don't want to have the bot
+    spam the channel. This is NOT useful if you want to periodically ping
+    someone.
+repeatremove:
+  args:
+    - '2'
+  desc: >-
+    Removes a repeating message on a specified index. Use `{0}repeatlist` to see
+    indexes.
+repostthreshold:
+  args:
+    - 0
+    - 5
+  desc: Sets after how many messages mewdeko reposts a starboard message
+reptcursong:
+  args:
+    - ''
+  desc: Toggles repeat of current song.
+resetglobalperms:
+  args:
+    - ''
+  desc: Resets global permissions set by bot owner.
+resetperms:
+  args:
+    - ''
+  desc: Resets the bot's permissions module on this server to the default value.
+resolvetonetags:
+  args:
+    - /gen
+    - I need some cuddles :3 /qp
+  desc: Resolves all tone tags found in a given string.
+restart:
+  args:
+    - ''
+  desc: Restarts the bot. Might not work.
+restartshard:
+  args:
+    - '2'
+  desc: >-
+    Try (re)connecting a shard with a certain shardid when it dies. No one knows
+    will it work. Keep an eye on the console for errors.
+resuggest:
+  args:
+    - number ressugestion
+  desc: ' Updates a suggestion that hasnt already been reviewed.'
+revav:
+  args:
+    - '@Someone'
+  desc: Returns a Google reverse image search for someone's avatar.
+revimg:
+  args:
+    - Image link
+  desc: Returns a Google reverse image search for an image from a link.
+rinfo:
+  args:
+    - '@role'
+    - rid
+  desc: Get info on a role
+rip:
+  args:
+    - '@Someone'
+  desc: Shows the inevitable fate of someone.
+rj:
+  args:
+    - ''
+  desc: Lists the current running massrole jobs
+rolecmd:
+  args:
+    - '"command name" disable MyRole'
+  desc: Sets a command's permission at the role level.
+rolecolor:
+  args:
+    - Admin
+    - Admin ffba55
+  desc: >-
+    Set a role's color using its hex value. Provide no color in order to see the
+    hex value of the color of the specified role. The role you specify has to be
+    lower in the role hierarchy than your highest role.
+rolegreetadd:
+  args:
+    - '@role'
+    - '@role #channel'
+  desc: >-
+    Adds a role to RoleGreets. Uses the current or mentioned channel to greet.
+    10 per guild,
+rolegreetdelete:
+  args:
+    - 1s
+    - '1'
+  desc: >-
+    Sets after how much time a RoleGreet is deleted. You can either use seconds
+    directly or format it like 2m2s. Setting it to 0 disables deletion. Default
+    is 0.
+rolegreetdisable:
+  args:
+    - '1'
+  desc: Disables a RoleGreet by Id
+rolegreetgreetbots:
+  args:
+    - 1 false
+  desc: Sets whether a RoleGreet will also greet bots.
+rolegreetlist:
+  args:
+    - ''
+  desc: Lists all RoleGreets and their properties.
+rolegreetmessage:
+  args:
+    - '2'
+    - 2 embedcode/message
+  desc: >-
+    Gets or sets a roleGreet message for a given RoleGreet ID. To set a custom
+    embed use https://eb.mewdeko.tech together with
+    https://blog.mewdeko.tech/placeholders
+rolegreetremove:
+  args:
+    - '1'
+    - '@role'
+  desc: >-
+    Removes a MultiGreet channel using the ID in {0}rgl. Can also remove all
+    RoleGreets for a mentioned role.
+rolegreetwebhook:
+  args:
+    - 26 Mewdeko avatarurl
+    - 26 Mewdeko
+    - '26'
+  desc: >-
+    Allows you to set/update/remove a RoleGreet name and avatar. Put just the
+    RoleGreet ID to remove the webhook. Avatar is optional, but must be a direct
+    url to the img used.
+rolehoist:
+  args:
+    - Guests
+    - '"Space Wizards"'
+  desc: >-
+    Toggles whether this role is displayed in the sidebar or not. The role you
+    specify has to be lower in the role hierarchy than your highest role.
+roleid:
+  args:
+    - Some Role
+  desc: Shows the id of the specified role.
+rolelevelreq:
+  args:
+    - 5 SomeRole
+  desc: Set a level requirement on a self-assignable role.
+rolemdl:
+  args:
+    - ModuleName enable MyRole
+  desc: Sets a module's permission at the role level.
+roles:
+  args:
+    - '2'
+    - '@Someone'
+  desc: >-
+    List roles on this server or roles of a user if specified. Paginated, 20
+    roles per page.
+roll:
+  args:
+    - 4d10 2d5 * 2
+    - d8
+    - 7d5, 2d100 / 2
+  desc: >-
+    Rolls a set of dice in DND notation, returns the total of all rolls and each
+    individual die's value.  Supported opererations are addition, subtraction,
+    multiplication, and division. The operation effects all dice,  for example
+    `3d1, 2d1 * 2` would be **10** instead of **7**.
+rollduel:
+  args:
+    - 50 @Someone
+    - '@Challenger'
+  desc: >-
+    Challenge someone to a roll duel by specifying the amount and the user you
+    wish to challenge as the parameters. To accept the challenge, just specify
+    the name of the user who challenged you, without the amount.
+rolluo:
+  args:
+    - ''
+    - '7'
+    - 3d5
+  desc: >-
+    Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with
+    letter `d` (`xdy`) it will roll `X` dice from 1 to `y`.
+rotateplaying:
+  args:
+    - ''
+  desc: >-
+    Toggles rotation of playing status of the dynamic strings you previously
+    specified.
+rps:
+  args:
+    - r 100
+    - scissors
+  desc: >-
+    Play a game of Rocket-Paperclip-Scissors with Mewdeko. You can bet on it.
+    Multiplier is the same as on betflip.
+rsar:
+  args:
+    - ''
+  desc: Removes a specified role from the list of self-assignable roles.
+rsstest:
+  args:
+    - '1'
+  desc: Tests an rss feed that you are subscribed to.
+rtt:
+  args:
+    - '420'
+  desc: >-
+    Toggles whether the bot responds to the response of a Chat Trigger or the
+    trigger.
+rule34:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random image from rule34.xx with a given tag. Tag is optional but
+    preferred. (multiple tags are appended with +)
+safebooru:
+  args:
+    - yuri+kissing
+  desc: >-
+    Shows a random image from safebooru with a given tag. Tag is optional but
+    preferred. (multiple tags are appended with +)
+sankaku:
+  args:
+    - Vanilla
+  desc: Grabs a random image from Sankaku using the tags you provide.
+sargn:
+  args:
+    - 1 Faction
+    - '2'
+  desc: Sets a self assignable role group name. Provide no name to remove.
+savechat:
+  args:
+    - '150'
+  desc: Saves a number of messages to a text file and sends it to you.
+say:
+  args:
+    - hi
+    - '#chat hi'
+  desc: >-
+    Bot will send the message you typed in the specified channel. If you omit
+    the channel name, it will send the message in the current channel. Supports
+    embeds.
+scadd:
+  args:
+    - '{0}stats'
+  desc: >-
+    Adds a command to the list of commands which will be executed automatically
+    in the current channel, in the order they were added in, by the bot when it
+    startups up.
+scclear:
+  args:
+    - ''
+  desc: Removes all startup commands.
+sclist:
+  args:
+    - ''
+  desc: Lists all startup commands in the order they will be executed in.
+scrm:
+  args:
+    - '3'
+  desc: Removes a startup command on the specified index.
+searchcommand:
+  args:
+    - emoteadd
+  desc: Search for commands by name
+seek:
+  args:
+    - 2m30s
+  desc: Allows you to play a song from a certain time.
+send:
+  args:
+    - serverid|c:channelid message
+    - serverid|u:userid message
+  desc: >-
+    Sends a message to someone on a different server through the bot.  Separate
+    server and channel/user ids with `|` and prefix the channel id with `c:` and
+    the user id with `u:`.
+serverblacklist:
+  args:
+    - add 12312321312
+    - rem SomeTrashServer
+  desc: >-
+    Either [add]s or [rem]oves a server specified by a Name or an ID from a
+    blacklist.
+serverid:
+  args:
+    - ''
+  desc: Shows current server ID.
+serverinfo:
+  args:
+    - Some Server
+  desc: >-
+    Shows info about the server the bot is on. If no server is supplied, it
+    defaults to current one.
+setafkchannel:
+  args:
+    - Channel
+  desc: 'Sets the voice channel used when a user is afk in vc '
+setafktimeout:
+  args:
+    - ''
+  desc: Sets the afk timeout for the afk vc.
+setavatar:
+  args:
+    - https://i.imgur.com/xTG3a1I.jpg
+  desc: Sets a new avatar image for Mewdeko. Parameter is a direct link to an image.
+setbanner:
+  args:
+    - url
+  desc: 'Sets the server banner, only works if you have enough boosts. '
+setchanlname:
+  args:
+    - NewName
+  desc: Changes the name of the current channel.
+setgame:
+  args:
+    - Playing with snakes.
+    - Watching anime.
+    - Listening music.
+  desc: Sets the bots game status to either Playing, Listening, or Watching.
+seticon:
+  args:
+    - url
+  desc: Sets the server icon
+setmaxplaytime:
+  args:
+    - '0'
+    - '270'
+  desc: >-
+    Sets a maximum number of seconds (>14) a song can run before being skipped
+    automatically. Set 0 to have no limit.
+setmaxqueue:
+  args:
+    - '50'
+    - ''
+  desc: Sets a maximum queue size. Specify no parameters to have no limit.
+setmusicchannel:
+  args:
+    - ''
+  desc: >-
+    Sets the current channel as the default music output channel. This will
+    output playing, finished, paused and removed songs to that channel instead
+    of the channel where the first song was queued in. Persistent server
+    setting.
+setmwarnchannel:
+  args:
+    - '#channel'
+  desc: 'Sets the channel used for logging minor warns. '
+setname:
+  args:
+    - BotName
+  desc: Gives the bot a new name.
+setnick:
+  args:
+    - BotNickname
+    - '@SomeUser New Nickname'
+  desc: >-
+    Changes the nickname of the bot on this server. You can also target other
+    users to change their nickname.
+setpronouns:
+  args:
+    - she/they/kits
+    - tig/vamps
+    - ''
+  desc: >-
+    Changes the default pronouns displayed when someone runs `getpronouns` on
+    you. Use the command with no args to clear the pronouns.
+setrole:
+  args:
+    - Role @User
+  desc: >-
+    Gives a role to a user. The role you specify has to be lower in the role
+    hierarchy than your highest role.
+setroles:
+  args:
+    - '@user @role @role'
+  desc: 'Lets you set mulitple roles on a user. '
+setservername:
+  args:
+    - name
+  desc: 'Sets the servers name '
+setsplash:
+  args:
+    - url
+  desc: Sets the invite splash, must have a high enough level.
+setstar:
+  args:
+    - emote
+  desc: Sets the star used for starboard.
+setstarboard:
+  args:
+    - '#channel'
+  desc: Sets the starboard channel
+setstars:
+  args:
+    - '90'
+  desc: Sets the amount of stars needed to reach starboard.
+setstatus:
+  args:
+    - Idle
+  desc: Sets the bot's status. (Online/Idle/Dnd/Invisible)
+setstream:
+  args:
+    - TWITCHLINK Hello
+  desc: >-
+    Sets the bots stream. First parameter is the twitch link, second parameter
+    is stream name.
+setsuggestchannel:
+  args:
+    - '#channel'
+  desc: 'Sets the channel used for suggestions '
+settopic:
+  args:
+    - My new topic
+  desc: Sets a topic on the current channel.
+setwarnchannel:
+  args:
+    - '#channel'
+  desc: Sets the channel used for logging regular warns.
+sfr:
+  args:
+    - role emote emote
+    - roleid emote emote
+  desc: Lets you steal emotes for specific roles
+shardstats:
+  args:
+    - ''
+    - '2'
+  desc: Stats for shards. Paginated with 25 shards per page.
+ship:
+  args:
+    - '@user'
+    - '@user1 @user2'
+  desc: Ship two users or ship yourself with another user!
+shoot:
+  args:
+    - '@user'
+  desc: Shoots a mentioned user
+shop:
+  args:
+    - ''
+    - '2'
+  desc: Lists this server's administrators' shop. Paginated.
+shopadd:
+  args:
+    - role 1000 Rich
+  desc: >-
+    Adds an item to the shop by specifying type price and name. Available types
+    are role and list. 90% of currency from each purchase will be received by
+    the user who added the item to the shop.
+shopchangename:
+  args:
+    - 3 Cool stuff
+  desc: >-
+    Change the name of a shop entry at the specified index. Only works for
+    non-role items
+shopchangeprice:
+  args:
+    - 1 500
+  desc: >-
+    Change the price of a shop entry at the specified index. Specify the index
+    of the entry, followed by the price
+shoplistadd:
+  args:
+    - 1 Uni-que-Steam-Key
+  desc: >-
+    Adds an item to the list of items for sale in the shop entry given the
+    index. You usually want to run this command in the secret channel, so that
+    the unique items are not leaked.
+shopmove:
+  args:
+    - 2 4
+  desc: Moves the shop entry from the current index to a new one
+shopremove:
+  args:
+    - '1'
+  desc: Removes an item from the shop by its ID.
+shopswap:
+  args:
+    - 1 5
+  desc: Swap the index of two shop entries
+shorten:
+  args:
+    - https://google.com
+  desc: Attempts to shorten an URL, if it fails, returns the input URL.
+showchattrigger:
+  args:
+    - '1'
+  desc: Shows a Chat Trigger's response on a given ID.
+showemojis:
+  args:
+    - A message full of SPECIAL emojis
+  desc: Shows a name and a link to every SPECIAL emoji in the message.
+shrug:
+  args:
+    - '@user'
+  desc: Returns a shrug gif.
+shuffle:
+  args:
+    - ''
+  desc: Shuffles the queue
+sj:
+  args:
+    - '1'
+  desc: Stops a massrole job with the given number.
+skip:
+  args:
+    - ''
+    - '9'
+  desc: Skips to the next track. Or skips ahead the mentioned number of tracks
+slap:
+  args:
+    - '@user'
+  desc: Returns a slap gif.
+sleep:
+  args:
+    - '@user'
+  desc: Returns a sleep gif.
+slot:
+  args:
+    - '5'
+  desc: Play Mewdeko slots. 1 second cooldown per user.
+slotstats:
+  args:
+    - ''
+  desc: Shows the total stats of the slot command for this bot's session.
+slottest:
+  args:
+    - '1000'
+  desc: Tests to see how much slots payout for X number of plays.
+slowmode:
+  args:
+    - ''
+    - channel
+    - seconds
+    - seconds channel
+  desc: >-
+    Toggles slowmode in the current or mentioned channel. Default value is 60s
+    without any parameters
+smile:
+  args:
+    - '@user'
+  desc: Returns a smile gif.
+smug:
+  args:
+    - '@user'
+  desc: Returns a smug gif.
+snipe:
+  args:
+    - ''
+    - '#channel'
+    - '@user'
+    - '#channel @user'
+  desc: >-
+    Allows you to see the last deleted message in the current or specified
+    channel, will tell you how to enable sniping if its disabled when running
+    the command.
+snipelist:
+  args:
+    - ''
+    - '20'
+  desc: Shows the last 5 deleted messages, unless a different number is specified
+snipeset:
+  args:
+    - enable
+    - disable
+  desc: Enables or Disables Sniping
+softban:
+  args:
+    - '@Someone Get out!'
+    - '"Some Guy#1234" Your behaviour is toxic.'
+  desc: Bans and then unbans a user by ID or name with an optional message.
+songremove:
+  args:
+    - '5'
+    - all
+    - ''
+  desc: >-
+    Remove a song by its # in the queue, or 'all' (or provide no parameter) to
+    remove all songs from the queue.
+source:
+  args:
+    - ''
+  desc: >-
+    Shows the github link for the bot. If this command exists in the lang files
+    and not in the source code, the bot has been tampered with in an improper
+    way.
+sqlexec:
+  args:
+    - UPDATE DiscordUser SET CurrencyAmount=CurrencyAmount+1234
+  desc: >-
+    Executes provided sql command and returns the number of affected rows.
+    Dangerous.
+sqlselect:
+  args:
+    - SELECT * FROM DiscordUser LIMIT 5
+  desc: Executes provided sql query and returns the results. Dangerous.
+srvrcmd:
+  args:
+    - '"command name" disable'
+  desc: Sets a command's permission at the server level.
+srvrfilterinv:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of invites posted in the server. Does not affect
+    users with the Administrator permission.
+srvrfilterlin:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of links posted in the server. Does not affect
+    users with the Administrator permission.
+srvrfilterwords:
+  args:
+    - ''
+  desc: >-
+    Toggles automatic deletion of messages containing filtered words on the
+    server. Does not affect users with the Administrator permission.
+srvrmdl:
+  args:
+    - ModuleName enable
+  desc: Sets a module's permission at the server level.
+staffrole:
+  args:
+    - role
+    - ''
+  desc: >-
+    sets a staff role that is used for the bot to ignore users when filtered
+    links, invites, words, or autobanwords are enabled. May be used for more in
+    the future.
+staffroledisable:
+  args:
+    - ''
+  desc: Disables the staff role, if set.
+stand:
+  args:
+    - ''
+  desc: Finish your turn in the blackjack game.
+starboardallowbots:
+  args:
+    - true
+  desc: Sets wether starboard ignores bots. Defaults to false.
+starboardchtoggle:
+  args:
+    - '#channel'
+  desc: >-
+    Adds or removes a channel from the black/whitelist depending on what's set
+    in `{0}swm`
+starboardremoveonbelowthreshold:
+  args:
+    - true
+  desc: Sets wether a post is removed when its below the set star count.
+starboardremoveondelete:
+  args:
+    - true
+  desc: Sets wether starboard removes a post when the origin message is deleted.
+starboardremoveonreactionscleared:
+  args:
+    - true
+  desc: >-
+    Sets wether starboard removes a post when the origin message's reactions get
+    cleared
+starboardwlmode:
+  args:
+    - whitelist
+    - blacklist
+  desc: Sets wether starboard is in blacklist/whitelist mode
+stare:
+  args:
+    - '@user'
+  desc: Returns a stare gif.
+stats:
+  args:
+    - ''
+  desc: Shows some basic stats for Mewdeko.
+steal:
+  args:
+    - emote emote emote
+  desc: 'Steals one or more emotes you mention. '
+steam:
+  args:
+    - Sakura Agent
+  desc: >-
+    Returns a store link for a steam game with the specified name. It doesn't
+    work very well because bundles.
+stfu:
+  args:
+    - '@user'
+  desc: 'Shuts the user up in the current channel '
+stop:
+  args:
+    - ''
+  desc: Stops the music and clears the queue.
+streamadd:
+  args:
+    - twitch.tv/someguy
+  desc: >-
+    Notifies this channel when the stream on the specified URL goes online or
+    offline. Offline notifications will only show if you enable `{0}streamoff`.
+    Maximum 10 per server.
+streamcheck:
+  args:
+    - https://twitch.tv/somedude
+  desc: Retrieves information about a stream.
+streamlist:
+  args:
+    - ''
+  desc: >-
+    Lists all streams you are following on this server and their respective
+    indexes.
+streammessage:
+  args:
+    - 1 Hey @erryone i'm back online!1!!
+  desc: >-
+    Sets the message which will show when the stream on the specified index
+    comes online.
+streamoffline:
+  args:
+    - ''
+  desc: Toggles whether the bot will also notify when added streams go offline.
+streamremove:
+  args:
+    - '2'
+  desc: >-
+    Stops following the stream on the specified index. (use `{0}stl` to see
+    indexes)
+streamrole:
+  args:
+    - '"Eligible Streamers" "Featured Streams"'
+  desc: >-
+    Sets a role which is monitored for streamers (FromRole), and a role to add
+    if a user from 'FromRole' is streaming (AddRole). When a user from
+    'FromRole' starts streaming, they will receive an 'AddRole'. You can only
+    have 1 Stream Role per server. Provide no parameters to disable
+streamroleblacklist:
+  args:
+    - add @Someone#1234
+    - rem @Someone#1234
+  desc: >-
+    Adds or removes a blacklisted user. Blacklisted users will never receive the
+    stream role.
+streamrolekeyword:
+  args:
+    - ''
+    - PUBG
+  desc: >-
+    Sets keyword which is required in the stream's title in order for the
+    streamrole to apply. Provide no keyword in order to reset.
+streamrolewhitelist:
+  args:
+    - add @Someone#1234
+    - rem @Someone#1234
+  desc: >-
+    Adds or removes a whitelisted user. Whitelisted users will receive the
+    stream role even if they don't have the specified keyword in their stream
+    title.
+streamsclear:
+  args:
+    - ''
+  desc: Clears all followed streams.
+stringsreload:
+  args:
+    - ''
+  desc: Reloads localized bot strings.
+suggest:
+  args:
+    - suggestion
+  desc: 'Sends a suggestion to the suggestion channel. '
+sudo:
+  args:
+    - "@sylveon make me a sandwich"
+  desc: Alows a bot owner to run commands as a user
+suggestbuttonchannel:
+  args:
+    - '#channel'
+  desc: Sets the channel where the suggest button is posted.
+suggestbuttoncolor:
+  args:
+    - red
+    - green
+    - blue
+    - grey
+  desc: Sets the color used for the suggest button. Updates Immediately.
+suggestbuttonemote:
+  args:
+    - hanebomb
+  desc: Sets the emote used in the suggest button. Updates Immediately.
+suggestbuttonlabel:
+  args:
+    - Suggest Here!
+  desc: >-
+    Sets the label used on the suggest button. Up to 80 characters. Updates
+    Immediately.
+suggestbuttonmessage:
+  args:
+    - embedcode
+    - Suggest Here!
+  desc: >-
+    Sets the message used for the suggest button, accepts embed code. Set to -
+    to set to default. Updates Immediately.
+suggestclear:
+  args:
+    - ''
+  desc: Resets and wipes suggestions. ***Cannot be undone***
+suggestinfo:
+  args:
+    - '10'
+  desc: Allows you to see stats of a suggestion using its number.
+suggestmessage:
+  args:
+    - embedcodehere
+  desc: Allows you to set the message sent when a suggestion is sent.
+suggestmotecolor:
+  args:
+    - 1 red
+    - 2 blue
+    - 3 gray
+    - 4 green
+  desc: Sets the color for each emote button if enabled
+suggestmotes:
+  args:
+    - emote1 emote2
+  desc: >-
+    Allows you to set up to 5 emotes the bot will react with when a suggestion
+    is sent. ***Must be a emote in the current server***
+suggestmotesmode:
+  args:
+    - emotes
+    - buttons
+  desc: Sets whether to use buttons or emotes for the set suggestion emotes
+suggestrole:
+  args:
+    - '@role'
+  desc: Sets a role to ping when someone suggests something.
+suggestthreadstype:
+  args:
+    - public
+    - none
+    - private
+  desc: >-
+    Sets the type of threads to use when suggestions are made. Can only be used
+    if your server has threads enabled
+
+    - `none` Disables threads for suggestions
+
+    - `public` Sets the button to open a public thread under that suggestion
+
+    - `private` Sets the button to open a private thread under that suggestion
+syncroletoall:
+  args:
+    - '@role'
+    - roleid
+  desc: >-
+    Allows you to sync role perms that are in this channel to all channels and
+    categories.
+syncroletoallcategories:
+  args:
+    - '@role'
+  desc: >-
+    Syncs a roles permissions from the current channel to all categories,
+    channels excluded unless they are synced.
+syncroletoallcchannels:
+  args:
+    - '@role'
+  desc: >-
+    Syncs a roles permissions from the current channel to all channels,
+    categories excluded.
+syncroletoallchannels:
+  args:
+    - '@role'
+  desc: Syncs the selected roles permissions from this channel to all channels
+take:
+  args:
+    - 1 @Someone
+  desc: Takes a certain amount of currency from someone.
+testsite:
+  args:
+    - ''
+  desc: Tests whether a site is up. Very primitive.
+think:
+  args:
+    - '@user'
+  desc: Returns a think gif.
+thumbsup:
+  args:
+    - '@user'
+  desc: Returns a thumbsup gif.
+ticket:
+  args:
+    - ''
+  desc: 'Opens a ticket channel '
+ticketcategory:
+  args:
+    - CategoryName/ID
+  desc: 'Sets a category to use with the ticket command '
+tickle:
+  args:
+    - '@user'
+  desc: Returns a tickle gif.
+tictactoe:
+  args:
+    - ''
+  desc: >-
+    Starts a game of tic tac toe. Another user must run the command in the same
+    channel in order to accept the challenge. Use numbers 1-9 to play.
+time:
+  args:
+    - London, UK
+  desc: Shows the current time and timezone in the specified location.
+timedafk:
+  args:
+    - 2m Test
+  desc: >-
+    Allows you to set a timed afk that auto removes itself and pings you when it
+    does. Afktimeout ignores timed AFKs.
+timely:
+  args:
+    - ''
+  desc: >-
+    Use to claim your 'timely' currency. Bot owner has to specify the amount and
+    the period on how often you can claim your currency.
+timelyreset:
+  args:
+    - ''
+  desc: Resets all user timeouts on `{0}timely` command.
+timelyset:
+  args:
+    - '100'
+    - 50 12
+  desc: >-
+    Sets the 'timely' currency allowance amount for users. Second parameter is
+    period in hours, default is 24 hours.
+timeout:
+  args:
+    - 10d @user bad boi
+    - 28d @user
+  desc: >-
+    Times out a user using discords Timeout with an optional reason. Max is 28
+    days.
+timezone:
+  args:
+    - ''
+    - GMT Standard Time
+  desc: >-
+    Sets this guilds timezone. This affects bot's time output in this server
+    (logs, etc..)
+timezones:
+  args:
+    - ''
+  desc: Lists all timezones available on the system to be used with `{0}timezone`.
+tl:
+  args:
+    - ''
+  desc: Shows a current trivia leaderboard.
+togglexclsar:
+  args:
+    - ''
+  desc: >-
+    Toggles whether the self-assigned roles are exclusive. While enabled, users
+    can only have one self-assignable role per group.
+tq:
+  args:
+    - ''
+  desc: Quits current trivia after current question.
+translangs:
+  args:
+    - ''
+  desc: Lists the valid languages for translation.
+translate:
+  args:
+    - fr Hello
+  desc: >-
+    Translates from>to text. From the given language to the destination
+    language.
+trivia:
+  args:
+    - ''
+    - '--timeout 5 -p -w 3 -q 10'
+  desc: >-
+    Starts a game of trivia. You can add `nohint` to prevent hints. First player
+    to get to 10 points wins by default. You can specify a different number. 30
+    seconds per question.
+typeadd:
+  args:
+    - wordswords
+  desc: Adds a new article to the typing contest.
+typedel:
+  args:
+    - '3'
+  desc: Deletes a typing article given the ID.
+typelist:
+  args:
+    - ''
+    - '3'
+  desc: Lists added typing articles with their IDs. 15 per page.
+typestart:
+  args:
+    - ''
+  desc: Starts a typing contest.
+typestop:
+  args:
+    - ''
+  desc: Stops a typing contest on the current channel.
+unban:
+  args:
+    - Sylveon#0069
+    - '123123123'
+  desc: Unbans a user with the provided user#discrim or id.
+undeafen:
+  args:
+    - '"@Someguy"'
+    - '"@Someguy" "@Someguy"'
+  desc: Undeafens mentioned user or users.
+unlock:
+  args:
+    - ''
+    - '#channel'
+  desc: 'Unlocks the current or mentioned channel '
+unlockdown:
+  args:
+    - ''
+  desc: Ends a server lockdown.
+unmute:
+  args:
+    - '@Someone'
+  desc: Unmutes a mentioned user previously muted with `{0}mute` command.
+unmuteall:
+  args:
+    - ''
+    - ''
+  desc: Unmutes all users with an optional reason.
+unsetmusicchannel:
+  args:
+    - ''
+  desc: >-
+    Bot will output playing, finished, paused and removed songs to the channel
+    where the first song was queued in. Persistent server setting.
+unstfu:
+  args:
+    - '@user'
+  desc: Lets the user speak in the channel again.
+untimeout:
+  args:
+    - '@user goodboi'
+  desc: Removes a users timeout with an option reason
+up:
+  args:
+    - image/url
+    - uploaded file
+  desc: Upscales an image by up to 4x
+urbandict:
+  args:
+    - Pineapple
+  desc: Searches Urban Dictionary for a word.
+userblacklist:
+  args:
+    - add @SomeUser spam pinging
+    - rem 12312312313 applied for unban
+  desc: >-
+    Either [add]s or [rem]oves a user specified by a Mention or an ID from a
+    blacklist.
+userid:
+  args:
+    - ''
+    - '@Someone'
+  desc: Shows user ID.
+userinfo:
+  args:
+    - '@SomeUser'
+  desc: >-
+    Shows info about the user. If no user is supplied, it defaults a user
+    running the command.
+usrcmd:
+  args:
+    - '{0}command enable SomeUsername'
+  desc: Sets a command's permission at the user level.
+usrmdl:
+  args:
+    - ModuleName enable SomeUsername
+  desc: Sets a module's permission at the user level.
+vcheck:
+  args:
+    - https://discord.com
+  desc: Uses VirusTotal to check a url for viruses
+vcrole:
+  args:
+    - SomeRole
+    - SomeVoiceChannel SomeRole
+  desc: >-
+    Sets or resets a role which will be given to users who join the voice
+    channel you're in when you run this command. Provide no role name to
+    disable. You can run this command in a voice channel with just the role
+    paramater to assign it a role.
+vcrolelist:
+  args:
+    - ''
+  desc: Shows a list of currently set voice channel roles.
+vcrolerm:
+  args:
+    - '123123123123123'
+  desc: >-
+    Removes vcrole associated with the specified voice channel ID. This is
+    useful if your vcrole has been enabled on a VC which has been deleted.
+verbose:
+  args:
+    - ''
+    - 'true'
+  desc: Toggles or sets whether to show when a command/module is blocked.
+verboseerror:
+  args:
+    - ''
+    - 'false'
+  desc: >-
+    Toggles or sets whether the bot should print command errors when a command
+    is incorrectly used.
+vinfo:
+  args:
+    - ''
+    - id/name
+  desc: Shows info for your current (if any) or mentioned voice channel
+voicemute:
+  args:
+    - '@Someone'
+    - '@Someone stop talking'
+    - 15m @Someone
+    - 1h30m @Someone
+    - 1h @Someone silence
+  desc: >-
+    Prevents a mentioned user from speaking in voice channels. User has to be in
+    a voice channel in order for the command to have an effect. You can also
+    specify time string for how long the user should be muted. You can You can
+    optionally specify a reason.
+voiceunmute:
+  args:
+    - '@Someguy'
+  desc: Gives a previously voice-muted user a permission to speak.
+volume:
+  args:
+    - '50'
+  desc: >-
+    Sets the music playback volume (0-100%). Persistent server setting. Default
+    100
+vote:
+  args:
+    - ''
+  desc: Vote for Mewdeko!
+voteclaim:
+  args:
+    - ''
+  desc: Claims the vote currency for voting for Mewdeko
+waifuclaim:
+  args:
+    - 50 @Himesama
+  desc: >-
+    Claim a waifu for yourself by spending currency.  You must spend at least
+    10% more than her current value unless she set `{0}affinity` towards you.
+waifugift:
+  args:
+    - ''
+    - Rose @Himesama
+  desc: >-
+    Gift an item to someone. This will increase their waifu value by 50% of the
+    gifted item's value if you are not their waifu, or 95% if you are. Provide
+    no parameters to see a list of items that you can gift.
+waifuinfo:
+  args:
+    - '@MyCrush'
+    - ''
+  desc: >-
+    Shows waifu stats for a target person. Defaults to you if no user is
+    provided.
+waifulb:
+  args:
+    - ''
+    - '3'
+  desc: Shows top 9 waifus. You can specify another page to show other waifus.
+waifureset:
+  args:
+    - ''
+  desc: Resets your waifu stats, except current waifus.
+waifutransfer:
+  args:
+    - '@ExWaifu @NewOwner'
+  desc: >-
+    Transfer the ownership of one of your waifus to another user. You must pay
+    10%  of your waifu's value unless that waifu has affinity towards you, in
+    which case you must pay 60% fee. Transferred waifu's price will be reduced
+    by the fee amount.
+wait:
+  args:
+    - '3000'
+  desc: >-
+    Used only as a startup command. Waits a certain number of miliseconds before
+    continuing the execution of the following startup commands.
+warn:
+  args:
+    - '@Someone Very rude person'
+  desc: Warns a user.
+warnclear:
+  args:
+    - '@PoorDude 3'
+    - '@PoorDude'
+  desc: >-
+    Clears all warnings from a certain user. You can specify a number to clear a
+    specific one.
+warnexpire:
+  args:
+    - '3'
+    - 6 --delete
+  desc: >-
+    Sets the number of days after which the warnings will be cleared
+    automatically. This setting works retroactively. If you want to delete the
+    warnings instead of clearing them, you can set the `--delete` optional
+    parameter.
+warnlog:
+  args:
+    - '@Someone'
+  desc: See a list of warnings of a certain user.
+warnlogall:
+  args:
+    - ''
+    - '2'
+  desc: See a list of all warnings on the server. 15 users per page.
+warnpunish:
+  args:
+    - '3'
+    - 5 Ban
+    - 5 Mute 2d12h
+    - 4 AddRole toxic 1h
+  desc: >-
+    Sets a punishment for a certain number of warnings. You can specify a time
+    string after 'Ban' or *'Mute' punishments to make it a temporary mute/ban.
+    Provide no punishment to remove. Available punishments: Ban, Kick, Softban,
+    Mute, VoiceMute, ChatMute, AddRole, RemoveRoles, Timeout
+warnpunishlist:
+  args:
+    - ''
+  desc: Lists punishments for warnings.
+wave:
+  args:
+    - '@user'
+  desc: Returns a wave gif.
+weather:
+  args:
+    - Moscow, RU
+  desc: >-
+    Shows weather data for a specified city. You can also specify a country
+    after a comma.
+webhook:
+  args:
+    - '#channel name image pastebinlinks'
+    - '#channel name image file(s)'
+  desc: >-
+    sends a webhook to the channel you select with the name and image you set.
+    You can send multiple embeds at once using multiple files or pastebin links.
+wheeloffortune:
+  args:
+    - '10'
+  desc: >-
+    Bets a certain amount of currency on the wheel of fortune. Wheel can stop on
+    one of many different multipliers. Won amount is rounded down to the nearest
+    whole number.
+whosplaying:
+  args:
+    - Overwatch
+  desc: Shows a list of users who are playing the specified game.
+wiki:
+  args:
+    - query
+  desc: Gives you back a wikipedia link
+wikia:
+  args:
+    - mtg Vigilance
+    - mlp Dashy
+  desc: Gives you back a fandom link
+wink:
+  args:
+    - '@user'
+  desc: Returns a wink gif.
+wowjoke:
+  args:
+    - ''
+  desc: Get one of Kwoth's penultimate WoW jokes.
+xkcd:
+  args:
+    - ''
+    - '1400'
+    - latest
+  desc: >-
+    Shows a XKCD comic. Specify no parameters to retrieve a random one. Number
+    parameter will retrieve a specific comic, and "latest" will get the latest
+    one.
+xpadd:
+  args:
+    - 100 @Someone
+  desc: >-
+    Adds xp to a user on the server. This does not affect their global ranking.
+    You can use negative values.
+xpcurreward:
+  args:
+    - 3 50
+  desc: >-
+    Sets a currency reward on a specified level. Provide no amount in order to
+    remove the reward.
+xpexclude:
+  args:
+    - Role Excluded-Role
+    - Server
+  desc: Exclude a channel, role or current server from the xp system.
+xpexclusionlist:
+  args:
+    - ''
+  desc: >-
+    Shows the roles and channels excluded from the XP system on this server, as
+    well as whether the whole server is excluded.
+xpgleaderboard:
+  args:
+    - ''
+  desc: Shows the global xp leaderboard.
+xpleaderboard:
+  args:
+    - ''
+  desc: Shows current server's xp leaderboard.
+xplvluprewards:
+  args:
+    - ''
+  desc: Shows currently set level up rewards.
+xpnotify:
+  args:
+    - global dm
+    - server channel
+  desc: >-
+    Sets how the bot should notify you when you get a `server` or `global`
+    level. This is a personal setting and affects only how you receive Global or
+    Server level-up notifications. You can set `dm` (for the bot to send you a
+    direct message), `channel` (to get notified in the channel you sent the last
+    message in) or `none` to disable.
+xpreset:
+  args:
+    - '@Someone'
+    - ''
+  desc: >-
+    Resets specified user's XP, or the XP of all users in the server. You can't
+    reverse this action.
+xprolereward:
+  args:
+    - 3 Social
+  desc: >-
+    Sets a role reward on a specified level. Provide no role name in order to
+    remove the role reward.
+xpsetting:
+  args:
+    - ''
+    - xptextrate 4
+    - xptextrate
+  desc: >-
+    Allows you to change server xp settings. Provide no paramters to view
+    current settings. Provide no parameters on a setting to reset it to its
+    default.
+
+    Settings and what they do:
+
+
+    `xptextrate`: Alows you to set the xp per message rate.
+
+    `txtxptimeout`: Allows you to set after how many minutes xp is given so
+    users cant spam for xp.
+
+    `xpvoicerate`: Allows you to set how much xp a person gets in vc per minute.
+
+    `voiceminutestimeout`: Allows you to set the maximum time a user can remain
+    in vc while gaining xp.
+xptempreload:
+  args:
+    - ''
+  desc: >-
+    Reloads the xp template file. Xp template file allows you to customize the
+    position and color of elements on the `{0}xp` card.
+yandere:
+  args:
+    - tag1+tag2
+  desc: >-
+    Shows a random image from yandere with a given tag. Tag is optional but
+    preferred. (multiple tags are appended with +)
+yomama:
+  args:
+    - ''
+  desc: Shows a random joke from <https://api.yomomma.info/>
+youtube:
+  args:
+    - query
+  desc: Searches youtubes and shows the first result
+renamechannel:
+  args:
+    - \#general cute-cat-chat
+  desc: >-
+    Renames a channel.
+chattriggerscrosspostwebhook:
+  args:
+    - 1234 https://discord.com/...
+  desc: >-
+    Sends chat triggers messages to a webhook, in addition to the normal response
+    location. This will delete a crossposting channel set with `{0}ctcpsetchannel`
+chattriggerscrosspostchannel:
+  args:
+    - 1234 \#mod-logs
+  desc: >-
+    Sends chat triggers messages to a channel, in addition to the normal response
+    location. This will delete a crossposting webhook set with `{0}ctcpsetwebhook`
+setctintertype:
+  args:
+    - None
+    - Slash
+    - Message
+    - User
+  desc: >-
+    Sets the type of a chat triggers application commands, slash commands are shown when
+    a user types `/`, Message commands are shown when a user right-clicks or long-taps
+    a message, and user commands are when when a user right-clicks or long-taps a user.
+setctintername:
+  args:
+    - 1234 roles cat-lover
+    - 1234 meow
+    - 1234 cats are cute
+    - 1234 tag no-arch-btw
+  desc: >-
+    sets the name of a chat trigger application command.
+setctinterdesc:
+  args:
+    - 1234 Gives you the cat lover role.
+    - 1234 trrrr mrrrrrrrppp
+    - 1234 your a cool cat
+    - 1234 why the spam???? why????????
+  desc: >-
+    sets the description of a chat trigger application command.
+ctintererrors:
+  args:
+    - ' '
+  desc: >-
+    Shows common errors in chat trigger application commands.
+chattriggervalidtype:
+  args:
+    - 1234 Message true
+    - 1234 Interaction false
+    - 1234 Button true
+  desc: >-
+    Enables or disables triggers used in the specified context.
+ctinterephemeral:
+  args:
+    - 1234 true
+    - 1234 false
+  desc: >-
+    Makes chat triggers from buttons or application commands use an ephemeral message.
+votechannel:
+  args:
+    - ""
+  desc: "Set the channel where vote messages appear."
+votemessage:
+  args:
+    - "embedcode"
+  desc: "Set the vote embed, or view the current one, Set to `-` to set it to default."
+voteroleadd:
+  args:
+    - "role 2m5s"
+    - "role"
+  desc: "Add a role thats given when a user has voted along with the time its present. Set no time for it to be permanent."
+voteroleremove:
+  args:
+    - "role"
+  desc: "Removes a vote role"
+voterolesclear:
+  args:
+    - ""
+  desc: "Clears all vote roles with a confirmation"
+profile:
+  args:
+    - ""
+    - "@user"
+  desc: "Opens your or another user's customized profile, if it's not set to private."
+setzodiac:
+  args:
+    - "libra"
+  desc: "Set your zodiac for horoscopes in your custom profile"
+setprofilecolor:
+  args:
+    - "Yellow"
+    - "Hex, im not looking up a hex just for this command"
+  desc: "Opens your or another user's customized profile, if it's not set to private."
+setbirthday:
+  args:
+    - "10/04/2003"
+  desc: "Sets your birthday to be shown (depending on how its set), in your user profile, will be used with the birthday module."
+setbirthdayprivacy:
+  args:
+    - "MonthOnly"
+    - "MonthAndDateOnly"
+  desc: >-
+    Sets the way your birthday is disabled when someone views your profile.
+
+
+    `Default`: 10/04/2003
+
+    `MonthOnly`: October
+
+    `MonthAndDate`: October 4
+
+    `YearOnly`: 2003
+
+    `Disabled`: Private
+setprofileimage:
+  args:
+    - "imagelink"
+  desc: "A link to a direct image that will shows on your userprofile"
+setprivacy:
+  args:
+    - "Private"
+    - "Public"
+  desc: "Sets whether others can view your profile."
+setbio:
+  args:
+    - "Hi there, owner of Mewdeko!"
+  desc: "Sets what the description will show on your userprofile."
+voteroleslist:
+  args:
+    - ""
+  desc: "Lists all vote roles."
+voteroleedit:
+  args:
+    - "role 2m5s"
+  desc: "Edit an existing vote role. Set no time to make it permanent."
+votes:
+  args:
+    - ""
+    - "@user"
+  desc: "Gets your or another users vote stats."
+votesleaderboard:
+  args:
+    - "true"
+    - ""
+  desc: "Show the current votes leaderboard. Run with true as a parameter to show the monthly vote leaderboard."
+votepassword:
+  args:
+    - ""
+  desc: "Pops a modal up to set the password used to authenticate votes. ***Do not share with anyone, we are not responsible if you leak it.***"
+handhold:
+  args:
+    - "@user"
+  desc: "... Lewd."
+punch:
+  args:
+    - ""
+  desc: "... Violent!"
