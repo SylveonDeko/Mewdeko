@@ -368,3 +368,6 @@ __pycache__/
 build/
 site/
 src/Mewdeko/data/bot.yml
+src\Mewdeko\data\bot.yml
+
+
