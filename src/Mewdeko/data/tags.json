@@ -1,0 +1,762 @@
+﻿[
+    {
+        "DefaultName": "Genuine",
+        "DefaultShortName": "gen",
+        "Description": "Indicates that a question is an actual question or a statement is true.",
+        "Aliases": [
+            "Genuine",
+            "Genuine-Question",
+            "GenuineQuestion",
+            "Genuine-Suggestion",
+            "GenuineSuggestion"
+        ],
+        "ShortAliases": [
+            "gen",
+            "genq",
+            "g",
+            "gs",
+            "gq",
+            "gens"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Platonic",
+        "DefaultShortName": "p",
+        "Description": "Indicates platonic affection.",
+        "Aliases": [
+            "Platonic"
+        ],
+        "ShortAliases": [
+            "p"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Romantic",
+        "DefaultShortName": "r",
+        "Description": "Indicates romantic affection.",
+        "Aliases": [
+            "Romantic"
+        ],
+        "ShortAliases": [
+            "r",
+            "rom"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Queer-Platonic",
+        "DefaultShortName": "qp",
+        "Description": "Indicates a type of semi-platonic affection between queer people.",
+        "Aliases": [
+            "Queer-Platonic",
+            "QueerPlatonic",
+            "Queer-p",
+            "Queerp"
+        ],
+        "ShortAliases": [
+            "qp"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Serious",
+        "DefaultShortName": "srs",
+        "Description": "Indicates a statement is very important in nature, or that a person is not joking.",
+        "Aliases": [
+            "Serious"
+        ],
+        "ShortAliases": [
+            "srs",
+            "nj"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Half-Joking",
+        "DefaultShortName": "hj",
+        "Description": "Indicates that a statement is partially a joke, or is significantly exaggerated but not entirely untrue.",
+        "Aliases": [
+            "Half-Joking",
+            "Half-Joke",
+            "HalfJoking",
+            "HalfJoke"
+        ],
+        "ShortAliases": [
+            "hj"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Joking",
+        "DefaultShortName": "j",
+        "Description": "Indicates that a statement is a joke, or is so significantly exaggerated it is almost entirely untrue.",
+        "Aliases": [
+            "Joking"
+        ],
+        "ShortAliases": [
+            "j"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Lie",
+        "DefaultShortName": "l",
+        "Description": "Indicates that a statement is a lie, untrue, or fake.",
+        "Aliases": [
+            "Lie",
+            "Fake",
+            "false"
+        ],
+        "ShortAliases": [
+            "l",
+            "f"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "CopyPasta",
+        "DefaultShortName": "cp",
+        "Description": "Indicates that the statement is a copypasta (copypasted statement sent in a lot of servers).",
+        "Aliases": [
+            "CopyPasta",
+            "Copy-Paste",
+            "CopyPaste"
+        ],
+        "ShortAliases": [
+            "cp"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Sarcasm",
+        "DefaultShortName": "s",
+        "Description": "Indicates the statement is sarcastic in nature.",
+        "Aliases": [
+            "Sarcasm",
+            "Sarcastic"
+        ],
+        "ShortAliases": [
+            "s",
+            "sarc"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Light-Hearted",
+        "DefaultShortName": "lh",
+        "Description": "Indicates the statement is light hearted / said in a friendly manner (especially when related to teasing).",
+        "Aliases": [
+            "Light-Hearted",
+            "LightHearted"
+        ],
+        "ShortAliases": [
+            "lh"
+        ]
+    },
+    {
+        "DefaultName": "Inside-Joke",
+        "DefaultShortName": "ij",
+        "Description": "Indicates that a statement or reference is an inside joke.",
+        "Aliases": [
+            "Inside-Joke",
+            "InsideJoke"
+        ],
+        "ShortAliases": [
+            "ij"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Teasing",
+        "DefaultShortName": "t",
+        "Description": "Indicates that a negative statement is just teasing.",
+        "Aliases": [
+            "Teasing",
+            "Teas"
+        ],
+        "ShortAliases": [
+            "t"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Rhetorical",
+        "DefaultShortName": "rq",
+        "Description": "Indicates that a question is rhetorical (no answer is wanted/expected).",
+        "Aliases": [
+            "Rhetorical",
+            "Rhetorical-Question",
+            "RhetoricalQuestion",
+            "RhetoricalQ"
+        ],
+        "ShortAliases": [
+            "rq",
+            "rhet",
+            "rhetq",
+            "rhet-q",
+            "rh",
+            "rt"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Negative",
+        "DefaultShortName": "neg",
+        "Description": "Indicates that a statement has negative connotations.",
+        "Aliases": [
+            "Negative"
+        ],
+        "ShortAliases": [
+            "neg"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Positive",
+        "DefaultShortName": "pos",
+        "Description": "Indicates that a statement has positive connotations.",
+        "Aliases": [
+            "Positive"
+        ],
+        "ShortAliases": [
+            "pos"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Excited",
+        "DefaultShortName": "!",
+        "Description": "Indicates that the person saying it is exited about something",
+        "Aliases": [
+            "Excited"
+        ],
+        "ShortAliases": [
+            "!"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Bragging",
+        "DefaultShortName": "br",
+        "Description": "Indicates that the person is bragging, flexing, or showing off",
+        "Aliases": [
+            "Bragging",
+            "Brag",
+            "Flexing",
+            "Flex",
+            "ShowOff",
+            "Show-Off"
+        ],
+        "ShortAliases": [
+            "br",
+            "fx",
+            "so"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Calm",
+        "DefaultShortName": "calm",
+        "Description": "Indicates that the something was said in a calm manner or calmly",
+        "Aliases": [
+            "Calm"
+        ],
+        "ShortAliases": [
+            "calm"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Comforting",
+        "DefaultShortName": "!",
+        "Description": "Indicates that something was sent with the intent to comfort someone",
+        "Aliases": [
+            "Comfort",
+            "Comforting"
+        ],
+        "ShortAliases": [
+            "co",
+            "cf"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Flirting",
+        "DefaultShortName": "fl",
+        "Description": "Indicates that the something was said in a flirty manner.",
+        "Aliases": [
+            "Flirting",
+            "Flirty",
+            "Flirt"
+        ],
+        "ShortAliases": [
+            "fl"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Hyperbole",
+        "DefaultShortName": "hyp",
+        "Description": "Indicates that the statement is significantly exaggerated.",
+        "Aliases": [
+            "Hyperbole"
+        ],
+        "ShortAliases": [
+            "hyp"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Literally",
+        "DefaultShortName": "l",
+        "Description": "Indicates that a statement is to be taken at its literal meaning.",
+        "Aliases": [
+            "literally"
+        ],
+        "ShortAliases": [
+            "li"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Lyrics",
+        "DefaultShortName": "ly",
+        "Description": "Indicates that the preceding text is lyrics from a song.",
+        "Aliases": [
+            "l",
+            "ly",
+            "lyr"
+        ],
+        "ShortAliases": [
+            "Lyrics"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Little-Upset",
+        "DefaultShortName": "lu",
+        "Description": "Indicates that the statement's author is a little upset.",
+        "Aliases": [
+            "LittleUpset",
+            "Little-Upset",
+            "LittleU"
+        ],
+        "ShortAliases": [
+            "lu"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Metaphor",
+        "DefaultShortName": "hyp",
+        "Description": "Indicates that the statement is a Metaphor.",
+        "Aliases": [
+            "Metaphor",
+            "Metaphorically"
+        ],
+        "ShortAliases": [
+            "m"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Bragging",
+        "DefaultShortName": "hyp",
+        "Description": "Indicates that the person is mot bragging, flexing, or showing off.",
+        "Aliases": [
+            "Not-Bragging",
+            "NBragging",
+            "NotBragging",
+            "Not-Flexing",
+            "Not-Flexing",
+            "NFlexing"
+        ],
+        "ShortAliases": [
+            "nabr",
+            "nafx",
+            "naso"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Flirting",
+        "DefaultShortName": "nfl",
+        "Description": "Indicates that the statement is not flirting/flirtatious.",
+        "Aliases": [
+            "Not-Flirting",
+            "NotFlirting",
+            "NFlirting",
+            "Not-Flirt",
+            "NotFlirt",
+            "NFlirt"
+        ],
+        "ShortAliases": [
+            "nfl",
+            "nflirt",
+            "nafl",
+            "naflirt"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Hyperbole",
+        "DefaultShortName": "hyp",
+        "Description": "Indicates that the statement is significantly exaggerated.",
+        "Aliases": [
+            "Hyperbole"
+        ],
+        "ShortAliases": [
+            "hyp"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Statement",
+        "DefaultShortName": "hyp",
+        "Description": "Indicates that something is a statement or not a question.",
+        "Aliases": [
+            "Statement",
+            "NotQuestion",
+            "Not-Question"
+        ],
+        "ShortAliases": [
+            "st",
+            "state",
+            "naq"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Vent",
+        "DefaultShortName": "nav",
+        "Description": "Indicates that the statement is not a vent.",
+        "Aliases": [
+            "NotVent",
+            "NotAVent",
+            "Not-Vent"
+        ],
+        "ShortAliases": [
+            "nav",
+            "nv"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-At-You",
+        "DefaultShortName": "nay",
+        "Description": "Indicates that the statement is not directed at you.",
+        "Aliases": [
+            "NotAtYou",
+            "Not-At-You",
+            "Not-You",
+            "NotYou"
+        ],
+        "ShortAliases": [
+            "nay",
+            "ny"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "No-Body-Here",
+        "DefaultShortName": "nbh",
+        "Description": "Indicates that the statement is directed at nobody in the channel.",
+        "Aliases": [
+            "No-Body-Here",
+            "NoBodyHere"
+        ],
+        "ShortAliases": [
+            "nbh"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Being-Rude",
+        "DefaultShortName": "nbr",
+        "Description": "Indicates that the statement is not intended to be rude.",
+        "Aliases": [
+            "Not-Being-Rude",
+            "NotBeingRude"
+        ],
+        "ShortAliases": [
+            "nbr"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Neutral-Connotation",
+        "DefaultShortName": "neu",
+        "Description": "Indicates that the statement is neutral.",
+        "Aliases": [
+            "Neutral-Connotation",
+            "NeutralConnotation"
+        ],
+        "ShortAliases": [
+            "neu"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Mad",
+        "DefaultShortName": "nm",
+        "Description": "Indicates that the person is not mad.",
+        "Aliases": [
+            "Not-Mad",
+            "NotMad"
+        ],
+        "ShortAliases": [
+            "nm"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Serious",
+        "DefaultShortName": "nsrs",
+        "Description": "Indicates that a statement is not serious.",
+        "Aliases": [
+            "NotSerious",
+            "Not-Serious"
+        ],
+        "ShortAliases": [
+            "nsrs"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Sexual",
+        "DefaultShortName": "nsx",
+        "Description": "Indicates that a statement is not sexual in nature.",
+        "Aliases": [
+            "Not-Sexual",
+            "NotSexual"
+        ],
+        "ShortAliases": [
+            "nsx",
+            "nx"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Passive-Aggressive",
+        "DefaultShortName": "pa",
+        "Description": "Indicates that a statement is passive aggressive.",
+        "Aliases": [
+            "Passive-Aggressive",
+            "PassiveAggressive"
+        ],
+        "ShortAliases": [
+            "pa"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Playful",
+        "DefaultShortName": "pf",
+        "Description": "Indicates that a statement is playful.",
+        "Aliases": [
+            "Playful"
+        ],
+        "ShortAliases": [
+            "pf"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Quote",
+        "DefaultShortName": "q",
+        "Description": "Indicates that a statement is quoted from someone else.",
+        "Aliases": [
+            "Quote"
+        ],
+        "ShortAliases": [
+            "q"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Sexual-Intent",
+        "DefaultShortName": "l",
+        "Description": "Indicates that a statement is sexual in nature.",
+        "Aliases": [
+            "Sexual-Intent",
+            "SexualIntent",
+            "Sexual"
+        ],
+        "ShortAliases": [
+            "sx",
+            "x"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Threat",
+        "DefaultShortName": "th",
+        "Description": "Indicates that a statement is a threat.",
+        "Aliases": [
+            "Threat"
+        ],
+        "ShortAliases": [
+            "th"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Tic",
+        "DefaultShortName": "tic",
+        "Description": "Indicates that something was typed out unintentionally due to a tic.",
+        "Aliases": [
+            "Tic"
+        ],
+        "ShortAliases": [
+            "tic"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Warm",
+        "DefaultShortName": "w",
+        "Description": "Indicates that a statement is meat to be warm or pleasant in nature.",
+        "Aliases": [
+            "warm",
+            "warmth"
+        ],
+        "ShortAliases": [
+            "w"
+        ],
+        "Source": {
+            "Title": "tonetaglist",
+            "Url": "https://tonetaglist.carrd.co/"
+        }
+    }
+]

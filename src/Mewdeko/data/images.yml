@@ -1,0 +1,35 @@
+version: 3
+coins:
+  heads:
+    - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
+  tails:
+    - https://media.discordapp.net/attachments/985686009662570561/993950440456736959/1_coins.png
+currency:
+  - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
+  - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
+dice:
+  - https://cdn.nadeko.bot/other/dice/0.png
+  - https://cdn.nadeko.bot/other/dice/1.png
+  - https://cdn.nadeko.bot/other/dice/2.png
+  - https://cdn.nadeko.bot/other/dice/3.png
+  - https://cdn.nadeko.bot/other/dice/4.png
+  - https://cdn.nadeko.bot/other/dice/5.png
+  - https://cdn.nadeko.bot/other/dice/6.png
+  - https://cdn.nadeko.bot/other/dice/7.png
+  - https://cdn.nadeko.bot/other/dice/8.png
+  - https://cdn.nadeko.bot/other/dice/9.png
+xp:
+  bg: https://cdn.discordapp.com/attachments/915770282579484693/938299686610141184/mewdeko_xp.png
+rip:
+  bg: https://cdn.nadeko.bot/other/rip/rip.png
+  overlay: https://cdn.nadeko.bot/other/rip/overlay.png
+slots:
+  emojis:
+    - https://cdn.nadeko.bot/slots/0.png
+    - https://cdn.nadeko.bot/slots/1.png
+    - https://cdn.nadeko.bot/slots/2.png
+    - https://cdn.nadeko.bot/slots/3.png
+    - https://cdn.nadeko.bot/slots/4.png
+    - https://cdn.nadeko.bot/slots/5.png
+  numbers: 
+  bg: https://media.discordapp.net/attachments/866308739334406174/881247064279875614/SlotsTest2.png
