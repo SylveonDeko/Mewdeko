@@ -93,6 +93,22 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     }
 
     [Cmd, Aliases]
+    public async Task SetSwitchFc(string switchFc = "")
+    {
+        if (!await Service.SetSwitchFc(ctx.User, switchFc))
+        {
+            await ctx.Channel.SendErrorAsync("The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+            return;
+        }
+
+
+        if (switchFc.Length == 0)
+            await ctx.Channel.SendConfirmAsync("Your Switch Friend Code has been removed.");
+        else
+            await ctx.Channel.SendConfirmAsync($"Your Switch Friend Code has been set to {switchFc}.");
+    }
+
+    [Cmd, Aliases]
     public async Task Pronouns(IUser? user = null)
     {
         user ??= ctx.User;

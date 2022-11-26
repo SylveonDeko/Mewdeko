@@ -17,7 +17,7 @@ public class DiscordUser : DbEntity
     public XpNotificationLocation NotifyOnLevelUp { get; set; }
 
     public long CurrencyAmount { get; set; }
-    
+
     public override int GetHashCode() => UserId.GetHashCode();
 
     public override string ToString() => $"{Username}#{Discriminator}";
@@ -32,6 +32,7 @@ public class DiscordUser : DbEntity
     public ProfilePrivacyEnum ProfilePrivacy { get; set; } = ProfilePrivacyEnum.Public;
     public uint? ProfileColor { get; set; } = 0;
     public DateTime? Birthday { get; set; }
+    public string? SwitchFriendCode { get; set; } = null;
     public BirthdayDisplayModeEnum BirthdayDisplayMode { get; set; } = BirthdayDisplayModeEnum.Default;
 
     public enum ProfilePrivacyEnum
