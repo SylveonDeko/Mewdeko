@@ -11,6 +11,7 @@ using Mewdeko.Common.Attributes.InteractionCommands;
 namespace Mewdeko.Modules.Chat_Triggers;
 
 [Group("triggers", "Manage chat triggers.")]
+// [RequireUserPermission(GuildPermission.Administrator)] coming soon???
 public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 {
     private readonly IHttpClientFactory clientFactory;
