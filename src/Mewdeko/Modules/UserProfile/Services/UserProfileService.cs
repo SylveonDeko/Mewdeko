@@ -4,6 +4,7 @@ using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
@@ -15,6 +16,8 @@ public class UserProfileService : INService
     private readonly HttpClient http;
     private readonly List<string> zodiacList;
     private readonly GamblingConfigService gss;
+    public readonly Regex FcRegex = new(@"sw(-\d{4}){3}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
     public UserProfileService(DbService db, HttpClient http,
         GamblingConfigService gss)
     {
@@ -170,51 +173,66 @@ public class UserProfileService : INService
         await uow.SaveChangesAsync();
     }
 
+    public async Task<bool> SetSwitchFc(IUser user, string fc)
+    {
+        if (fc.Length != 0 && !FcRegex.IsMatch(fc))
+            return false;
+        await using var uow = db.GetDbContext();
+        var dbUser = await uow.GetOrCreateUser(user);
+        dbUser.SwitchFriendCode = fc;
+        uow.DiscordUser.Update(dbUser);
+        await uow.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
         var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
-            await using var uow = db.GetDbContext();
-            var dbUser = await uow.GetOrCreateUser(user);
-            if (dbUser.ProfilePrivacy == DiscordUser.ProfilePrivacyEnum.Private && user.Id != profileCaller.Id)
-                return null;
-            if (dbUser.ProfileColor.HasValue && dbUser.ProfileColor.Value is not 0)
-                eb.WithColor(dbUser.ProfileColor.Value);
-            else
-                eb.WithOkColor();
-            eb.WithThumbnailUrl(user.RealAvatarUrl().ToString());
-            if (!string.IsNullOrEmpty(dbUser.Bio))
-                eb.WithDescription(dbUser.Bio);
-            eb.AddField("Currency", $"{dbUser.CurrencyAmount} {gss.Data.Currency.Sign}");
-            eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns);
-            eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign);
-            if (!string.IsNullOrEmpty(dbUser.ZodiacSign))
-                eb.AddField("Horoscope", (await GetZodiacInfo(user.Id)).Item2.Description);
-            if (dbUser.Birthday.HasValue)
-                switch (dbUser.BirthdayDisplayMode)
-                {
-                    case DiscordUser.BirthdayDisplayModeEnum.Default:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("d"));
-                        break;
-                    case DiscordUser.BirthdayDisplayModeEnum.Disabled:
-                        eb.AddField("Birthday", "Private");
-                        break;
-                    case DiscordUser.BirthdayDisplayModeEnum.MonthOnly:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("MMMM"));
-                        break;
-                    case DiscordUser.BirthdayDisplayModeEnum.YearOnly:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("YYYY"));
-                        break;
-                    case DiscordUser.BirthdayDisplayModeEnum.MonthAndDate:
-                        eb.AddField("Birthday", dbUser.Birthday.Value.ToString("M"));
-                        break;
-                }
-            else
-                eb.AddField("Birthday", "Unspecified");
+        await using var uow = db.GetDbContext();
+        var dbUser = await uow.GetOrCreateUser(user);
+        if (dbUser.ProfilePrivacy == DiscordUser.ProfilePrivacyEnum.Private && user.Id != profileCaller.Id)
+            return null;
+        if (dbUser.ProfileColor.HasValue && dbUser.ProfileColor.Value is not 0)
+            eb.WithColor(dbUser.ProfileColor.Value);
+        else
+            eb.WithOkColor();
+        eb.WithThumbnailUrl(user.RealAvatarUrl().ToString());
+        if (!string.IsNullOrEmpty(dbUser.Bio))
+            eb.WithDescription(dbUser.Bio);
+        eb.AddField("Currency", $"{dbUser.CurrencyAmount} {gss.Data.Currency.Sign}");
+        eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns);
+        eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign);
+        if (!string.IsNullOrEmpty(dbUser.ZodiacSign))
+            eb.AddField("Horoscope", (await GetZodiacInfo(user.Id)).Item2.Description);
+        if (dbUser.Birthday.HasValue)
+            switch (dbUser.BirthdayDisplayMode)
+            {
+                case DiscordUser.BirthdayDisplayModeEnum.Default:
+                    eb.AddField("Birthday", dbUser.Birthday.Value.ToString("d"));
+                    break;
+                case DiscordUser.BirthdayDisplayModeEnum.Disabled:
+                    eb.AddField("Birthday", "Private");
+                    break;
+                case DiscordUser.BirthdayDisplayModeEnum.MonthOnly:
+                    eb.AddField("Birthday", dbUser.Birthday.Value.ToString("MMMM"));
+                    break;
+                case DiscordUser.BirthdayDisplayModeEnum.YearOnly:
+                    eb.AddField("Birthday", dbUser.Birthday.Value.ToString("YYYY"));
+                    break;
+                case DiscordUser.BirthdayDisplayModeEnum.MonthAndDate:
+                    eb.AddField("Birthday", dbUser.Birthday.Value.ToString("M"));
+                    break;
+            }
+        else
+            eb.AddField("Birthday", "Unspecified");
 
-            eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count);
+        eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count);
 
-            if (!string.IsNullOrEmpty(dbUser.ProfileImageUrl))
-                eb.WithImageUrl(dbUser.ProfileImageUrl);
-            return eb.Build();
+        if (!dbUser.SwitchFriendCode.IsNullOrWhiteSpace())
+            eb.AddField("Switch Friend Code", dbUser.SwitchFriendCode);
+
+        if (!string.IsNullOrEmpty(dbUser.ProfileImageUrl))
+            eb.WithImageUrl(dbUser.ProfileImageUrl);
+        return eb.Build();
     }
 }

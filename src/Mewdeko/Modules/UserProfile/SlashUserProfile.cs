@@ -93,6 +93,22 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
     }
 
+    [SlashCommand("setswitchfriendcode", "Set's how your birthday is displayed in your profile"), CheckPermissions]
+    public async Task SetSwitchFc(
+        [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17), MaxLength(17)]string switchFc = "")
+    {
+        if (!await Service.SetSwitchFc(ctx.User, switchFc))
+        {
+            await Context.Interaction.SendErrorAsync("The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+            return;
+        }
+
+        if (switchFc.Length == 0)
+            await ctx.Interaction.SendConfirmAsync("Your Switch Friend Code has been removed.");
+        else
+            await ctx.Interaction.SendConfirmAsync($"Your Switch Friend Code has been set to {switchFc}.");
+    }
+
     [SlashCommand("setprofileimage", "Set's the image used in your profile"), CheckPermissions]
     public async Task SetProfileImage(string url)
     {
