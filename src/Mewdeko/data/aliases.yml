@@ -1400,6 +1400,11 @@ setsuggestchannel:
 settopic:
   - settopic
   - st
+setswitchfc:
+  - setswitchfc
+  - setfc
+  - setswitchfriendcode
+  - setfriendcode
 setwarnchannel:
   - setwarnchannel
   - warnchannel
