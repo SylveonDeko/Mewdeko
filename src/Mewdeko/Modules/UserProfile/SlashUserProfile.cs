@@ -86,14 +86,14 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Your birthday has been set to {dateTime:d}");
     }
 
-    [SlashCommand("setbirthdayprivacy", "Set's how your birthday is displayed in your profile"), CheckPermissions]
+    [SlashCommand("setbirthdayprivacy", "Sets how your birthday is displayed in your profile"), CheckPermissions]
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
         await Service.SetBirthdayDisplayMode(ctx.User, birthdayDisplayModeEnum);
         await ctx.Interaction.SendConfirmAsync($"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
     }
 
-    [SlashCommand("setswitchfriendcode", "Set's how your birthday is displayed in your profile"), CheckPermissions]
+    [SlashCommand("setswitchfriendcode", "Display your switch friend code on your user profile"), CheckPermissions]
     public async Task SetSwitchFc(
         [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17), MaxLength(17)]string switchFc = "")
     {
