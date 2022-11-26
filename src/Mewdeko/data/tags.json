@@ -131,8 +131,7 @@
             "false"
         ],
         "ShortAliases": [
-            "l",
-            "f"
+            "l"
         ],
         "Source": {
             "Title": "CottageDwellingCat",
@@ -183,7 +182,11 @@
         ],
         "ShortAliases": [
             "lh"
-        ]
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
     },
     {
         "DefaultName": "Inside-Joke",
@@ -757,6 +760,37 @@
         "Source": {
             "Title": "tonetaglist",
             "Url": "https://tonetaglist.carrd.co/"
+        }
+    },
+    {
+        "DefaultName": "Not-Forcing",
+        "DefaultShortName": "nf",
+        "Description": "Shows that a statement or request is a suggestion, and the person does not want you to feel obliged to complete it.",
+        "Aliases": [
+            "not-forcing",
+            "nforcing"
+        ],
+        "ShortAliases": [
+            "nf"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
+        }
+    },
+    {
+        "DefaultName": "Forcing",
+        "DefaultShortName": "f",
+        "Description": "Shows that the speaker wants you do something, and is not asking.",
+        "Aliases": [
+            "forcing"
+        ],
+        "ShortAliases": [
+            "f"
+        ],
+        "Source": {
+            "Title": "CottageDwellingCat",
+            "Url": "https://github.com/CottageDwellingCat/"
         }
     }
 ]

@@ -36,7 +36,8 @@ public class ToneTagService
 
     public EmbedBuilder GetEmbed(ParseResult result, IGuild? guild = null)
     {
-        var eb = new EmbedBuilder();
+        var eb = new EmbedBuilder()
+            .WithFooter(strings.GetText("tonetags_upsell", guild?.Id));
 
         if (result.Tags.Count + result.MissingTags.Count == 0)
         {
