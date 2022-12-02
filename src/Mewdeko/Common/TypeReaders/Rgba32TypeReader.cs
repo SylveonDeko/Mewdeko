@@ -1,5 +1,5 @@
-﻿using Discord.Commands;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Common.TypeReaders;

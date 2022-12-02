@@ -1,7 +1,7 @@
-﻿using Serilog;
+﻿using System.Text;
+using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
-using System.Text;
 
 namespace Mewdeko.Services;
 
@@ -24,6 +24,6 @@ public static class LogSetup
         Console.OutputEncoding = Encoding.UTF8;
     }
 
-    private static ConsoleTheme GetTheme() 
+    private static ConsoleTheme GetTheme()
         => Environment.OSVersion.Platform == PlatformID.Unix ? AnsiConsoleTheme.Code : ConsoleTheme.None;
 }

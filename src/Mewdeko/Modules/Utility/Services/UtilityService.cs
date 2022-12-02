@@ -1,6 +1,6 @@
-﻿using Mewdeko.Modules.Utility.Common;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Utility.Common;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 
@@ -254,8 +254,14 @@ public class UtilityService : INService
                     var en2 = new EmbedBuilder
                     {
                         Color = Mewdeko.OkColor,
-                        Author = new EmbedAuthorBuilder { Name = msg2.Author.Username, IconUrl = msg2.Author.GetAvatarUrl(size: 2048) },
-                        Footer = new EmbedFooterBuilder { IconUrl = ((IGuild)guild).IconUrl, Text = $"{((IGuild)guild).Name}: {em.Name}" }
+                        Author = new EmbedAuthorBuilder
+                        {
+                            Name = msg2.Author.Username, IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
+                        },
+                        Footer = new EmbedFooterBuilder
+                        {
+                            IconUrl = ((IGuild)guild).IconUrl, Text = $"{((IGuild)guild).Name}: {em.Name}"
+                        }
                     };
                     if (msg2.Embeds.Count > 0)
                     {

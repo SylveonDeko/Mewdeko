@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Services.strings.impl;
 using NUnit.Framework;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 
 namespace Mewdeko.Tests;
 
@@ -35,20 +35,21 @@ public class CommandStringsTests
             isSuccess = false;
             TestContext.Out.WriteLine($"{commandName} doesn't exist in commands.en-US.yml");
         }
+
         Assert.IsTrue(isSuccess);
     }
 
     private static string[] GetCommandMethodNames()
         => typeof(Mewdeko).Assembly
-                          .GetExportedTypes()
-                          .Where(type => type.IsClass && !type.IsAbstract)
-                          .Where(type => typeof(MewdekoModule).IsAssignableFrom(type) // if its a top level module
-                                         || type.GetCustomAttribute<GroupAttribute>(true) is not null) // or a submodule
-                          .SelectMany(x => x.GetMethods()
-                                            .Where(mi => mi.CustomAttributes
-                                                           .Any(ca => ca.AttributeType == typeof(Cmd))))
-                          .Select(x => x.Name.ToLowerInvariant())
-                          .ToArray();
+            .GetExportedTypes()
+            .Where(type => type.IsClass && !type.IsAbstract)
+            .Where(type => typeof(MewdekoModule).IsAssignableFrom(type) // if its a top level module
+                           || type.GetCustomAttribute<GroupAttribute>(true) is not null) // or a submodule
+            .SelectMany(x => x.GetMethods()
+                .Where(mi => mi.CustomAttributes
+                    .Any(ca => ca.AttributeType == typeof(Cmd))))
+            .Select(x => x.Name.ToLowerInvariant())
+            .ToArray();
 
     [Test]
     public void AllCommandMethodsHaveNames()

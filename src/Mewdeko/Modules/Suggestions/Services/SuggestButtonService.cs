@@ -1,6 +1,6 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Modals;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -28,6 +28,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
                 return;
             }
         }
+
         if (pickedEmote != 0 && pickedEmote != emoteNum)
         {
             if (!await PromptUserConfirmAsync("Are you sure you wanna change your vote?", ctx.User.Id, true, false).ConfigureAwait(false))
@@ -38,6 +39,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 
             await ctx.Interaction.SendEphemeralFollowupConfirmAsync("Vote changed!").ConfigureAwait(false);
         }
+
         await Service.UpdatePickedEmote(componentInteraction.Message.Id, ctx.User.Id, changed ? 0 : emoteNum).ConfigureAwait(false);
         var suggest = await Service.GetSuggestByMessage(componentInteraction.Message.Id);
         var builder = new ComponentBuilder();
@@ -65,17 +67,21 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
                     emote: await Service.GetSuggestMote(ctx.Guild, splitNum), style: await Service.GetButtonStyle(ctx.Guild, splitNum));
                 continue;
             }
+
             builder.WithButton(i.Label,
                 customId: $"emotebutton:{count}", await Service.GetButtonStyle(ctx.Guild, count), await Service.GetSuggestMote(ctx.Guild, count));
         }
+
         if (await Service.GetThreadType(ctx.Guild) == 1)
         {
             builder.WithButton("Join/Create Public Discussion", customId: $"publicsuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
+
         if (await Service.GetThreadType(ctx.Guild) == 2)
         {
             builder.WithButton("Join/Create Private Discussion", customId: $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
         }
+
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build()).ConfigureAwait(false);
     }
 
@@ -89,7 +95,8 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetSuggestionChannel(ctx.Guild.Id)).ConfigureAwait(false);
         if (await Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
-            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PublicThread, message: componentInteraction.Message).ConfigureAwait(false);
+            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PublicThread, message: componentInteraction.Message)
+                .ConfigureAwait(false);
             var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
             if (user is not null)
                 await threadChannel.AddUserAsync(user).ConfigureAwait(false);
@@ -113,7 +120,8 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetSuggestionChannel(ctx.Guild.Id)).ConfigureAwait(false);
         if (await Service.GetThreadByMessage(suggest.MessageId) is 0)
         {
-            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PrivateThread, message: componentInteraction.Message).ConfigureAwait(false);
+            var threadChannel = await channel.CreateThreadAsync($"Suggestion #{suggestnum} Discussion", ThreadType.PrivateThread, message: componentInteraction.Message)
+                .ConfigureAwait(false);
             var user = await ctx.Guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
             if (user is not null)
                 await threadChannel.AddUserAsync(user).ConfigureAwait(false);
@@ -130,8 +138,8 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
     [ComponentInteraction("suggestbutton")]
     public async Task SendSuggestModal()
         => await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
-                        null,
-                        x => x.UpdateTextInput("suggestion", async s 
-                            => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
-                                                                         .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000)))).ConfigureAwait(false);
+            null,
+            x => x.UpdateTextInput("suggestion", async s
+                => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
+                    .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000)))).ConfigureAwait(false);
 }

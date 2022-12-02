@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -29,7 +29,7 @@ public partial class Gambling
                 return;
 
             async Task OnEnded(IUser arg, long won) => await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", CurrencyName,
-                    Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
+                Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
 
             var res = await Service.JoinOrCreateGame(ctx.Channel.Id,
                     ctx.User, amount, mixed, OnEnded)

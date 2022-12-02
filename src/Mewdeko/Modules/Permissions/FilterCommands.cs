@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions;
 
@@ -54,7 +54,7 @@ public partial class Permissions
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                     .WithMaxPageIndex(words.Count() / 10)
                     .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -63,9 +63,9 @@ public partial class Permissions
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
                     return new PageBuilder().WithTitle("AutoBanWords")
-                                                            .WithDescription(string.Join("\n",
-                                                                words.Select(x => x.Word).Skip(page * 10).Take(10)))
-                                                            .WithOkColor();
+                        .WithDescription(string.Join("\n",
+                            words.Select(x => x.Word).Skip(page * 10).Take(10)))
+                        .WithOkColor();
                 }
             }
         }
@@ -313,7 +313,10 @@ public partial class Permissions
                 removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
                 if (removed == null)
-                    config.FilteredWords.Add(new FilteredWord { Word = word });
+                    config.FilteredWords.Add(new FilteredWord
+                    {
+                        Word = word
+                    });
                 else
                     uow.Remove(removed);
 
@@ -350,7 +353,7 @@ public partial class Permissions
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(fws.Length / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -359,9 +362,9 @@ public partial class Permissions
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithTitle(GetText("filter_word_list"))
-                                                        .WithDescription(
-                                                            string.Join("\n", fws.Skip(page * 10).Take(10)))
-                                                        .WithOkColor();
+                    .WithDescription(
+                        string.Join("\n", fws.Skip(page * 10).Take(10)))
+                    .WithOkColor();
             }
         }
     }

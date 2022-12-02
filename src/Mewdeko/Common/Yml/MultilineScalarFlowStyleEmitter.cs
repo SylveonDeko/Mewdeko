@@ -18,7 +18,10 @@ public class MultilineScalarFlowStyleEmitter : ChainedEventEmitter
             var value = eventInfo.Source.Value as string;
             if (!string.IsNullOrEmpty(value))
             {
-                var isMultiLine = value.IndexOfAny(new[] { '\r', '\n', '\x85', '\x2028', '\x2029' }) >= 0;
+                var isMultiLine = value.IndexOfAny(new[]
+                {
+                    '\r', '\n', '\x85', '\x2028', '\x2029'
+                }) >= 0;
                 if (isMultiLine)
                 {
                     eventInfo = new ScalarEventInfo(eventInfo.Source)

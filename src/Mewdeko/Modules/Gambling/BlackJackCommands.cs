@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Modules.Gambling.Services;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -58,7 +58,7 @@ public partial class Gambling
                 else
                 {
                     Log.Information($"{ctx.User} can't join a blackjack game as it's in " + bj.State +
-                                                    " state already.");
+                                    " state already.");
                 }
             }
 
@@ -169,11 +169,11 @@ public partial class Gambling
                     await bj.Stand(ctx.User).ConfigureAwait(false);
                     break;
                 case BjAction.Double:
-                    {
-                        if (!await bj.Double(ctx.User).ConfigureAwait(false))
-                            await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
-                        break;
-                    }
+                {
+                    if (!await bj.Double(ctx.User).ConfigureAwait(false))
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                    break;
+                }
             }
 
             await ctx.Message.DeleteAsync().ConfigureAwait(false);

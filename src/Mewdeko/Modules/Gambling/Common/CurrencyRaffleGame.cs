@@ -26,10 +26,9 @@ public class CurrencyRaffleGame
         }
 
         if (!users.Add(new User
-        {
-            DiscordUser = usr,
-            Amount = amount
-        }))
+            {
+                DiscordUser = usr, Amount = amount
+            }))
         {
             return false;
         }
@@ -65,6 +64,6 @@ public class CurrencyRaffleGame
 
         public override bool Equals(object? obj) =>
             obj is User u
-&& u.DiscordUser == DiscordUser;
+            && u.DiscordUser == DiscordUser;
     }
 }

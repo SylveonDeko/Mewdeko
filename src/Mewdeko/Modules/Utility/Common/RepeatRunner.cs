@@ -1,8 +1,8 @@
-﻿using Discord.Net;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Discord.Net;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Common;
 
@@ -202,7 +202,7 @@ public class RepeatRunner
             IMessage newMsg;
             if (SmartEmbed.TryParse(rep.Replace(toSend), Channel.GuildId, out var embed, out var plainText, out var components))
             {
-                newMsg = await Channel.SendMessageAsync(plainText, embeds: embed, components:components.Build()).ConfigureAwait(false);
+                newMsg = await Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build()).ConfigureAwait(false);
             }
             else
             {

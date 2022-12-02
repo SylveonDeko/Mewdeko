@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Text;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Connect4;
 using Mewdeko.Modules.Gambling.Services;
-using System.Text;
-using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Gambling;
@@ -15,7 +15,9 @@ public partial class Gambling
     public class Connect4Commands : GamblingSubmodule<GamblingService>
     {
         private static readonly string[] Numbers =
-            {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
+        {
+            ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"
+        };
 
         private readonly DiscordSocketClient client;
         private readonly ICurrencyService cs;
@@ -87,7 +89,7 @@ public partial class Gambling
             else
             {
                 await ReplyConfirmLocalizedAsync("connect4_created_bet", options.Bet + CurrencySign)
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
 
             Task ClientMessageReceived(SocketMessage arg)

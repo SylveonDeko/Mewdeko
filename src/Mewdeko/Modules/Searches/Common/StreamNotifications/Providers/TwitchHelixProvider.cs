@@ -1,9 +1,9 @@
-﻿using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Serilog;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Serilog;
 using TwitchLib.Api;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
@@ -34,8 +34,7 @@ public class TwitchHelixProvider : Provider
             {
                 Settings =
                 {
-                    ClientId = clientId,
-                    Secret = clientSecret
+                    ClientId = clientId, Secret = clientSecret
                 }
             }
         });
@@ -94,8 +93,8 @@ public class TwitchHelixProvider : Provider
         http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
         var loginsSet = logins.Select(x => x.ToLowerInvariant())
-                              .Distinct()
-                              .ToHashSet();
+            .Distinct()
+            .ToHashSet();
 
         var dataDict = new Dictionary<string, StreamData>();
 
@@ -187,8 +186,8 @@ public class TwitchHelixProvider : Provider
             Title = apiData.Title,
             IsLive = apiData.Type == "live",
             Preview = apiData.ThumbnailUrl
-                             .Replace("{width}", "640")
-                             .Replace("{height}", "480"),
+                .Replace("{width}", "640")
+                .Replace("{height}", "480"),
             Game = apiData.GameName
         };
 }

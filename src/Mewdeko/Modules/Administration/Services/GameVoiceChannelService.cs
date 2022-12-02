@@ -1,5 +1,5 @@
-﻿using Serilog;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -20,28 +20,28 @@ public class GameVoiceChannelService : INService
 
     private async Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
-            try
+        try
+        {
+            if (after is null)
+                return;
+            if ((await guildSettings.GetGuildConfig(after.Guild.Id)).GameVoiceChannel != after?.VoiceChannel?.Id)
+                return;
+            //if the user is in the voice channel and that voice channel is gvc
+            //if the activity has changed, and is a playing activity
+            if (!cacheable.HasValue)
+                return;
+            if (!Equals(cacheable.Value.Activities, after.Activities)
+                && after.Activities != null
+                && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
             {
-                if (after is null)
-                    return;
-                if ((await guildSettings.GetGuildConfig(after.Guild.Id)).GameVoiceChannel != after?.VoiceChannel?.Id)
-                    return;
-                //if the user is in the voice channel and that voice channel is gvc
-                //if the activity has changed, and is a playing activity
-                if (!cacheable.HasValue)
-                    return;
-                if (!Equals(cacheable.Value.Activities, after.Activities)
-                    && after.Activities != null
-                    && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
-                {
-                    //trigger gvc
-                    await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name).ConfigureAwait(false);
-                }
+                //trigger gvc
+                await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error running GuildMemberUpdated in gvc");
-            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Error running GuildMemberUpdated in gvc");
+        }
     }
 
     public async Task<ulong?> ToggleGameVoiceChannel(ulong guildId, ulong vchId)
@@ -68,31 +68,31 @@ public class GameVoiceChannelService : INService
 
     private async Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)
     {
-            try
+        try
+        {
+            if (usr is not SocketGuildUser gUser)
+                return;
+
+            var game = gUser.Activities.FirstOrDefault()?.Name;
+
+            if (oldState.VoiceChannel == newState.VoiceChannel ||
+                newState.VoiceChannel == null)
             {
-                if (usr is not SocketGuildUser gUser)
-                    return;
-
-                var game = gUser.Activities.FirstOrDefault()?.Name;
-
-                if (oldState.VoiceChannel == newState.VoiceChannel ||
-                    newState.VoiceChannel == null)
-                {
-                    return;
-                }
-
-                if ((await guildSettings.GetGuildConfig(gUser.Guild.Id)).GameVoiceChannel != newState.VoiceChannel.Id ||
-                    string.IsNullOrWhiteSpace(game))
-                {
-                    return;
-                }
-
-                await TriggerGvc(gUser, game).ConfigureAwait(false);
+                return;
             }
-            catch (Exception ex)
+
+            if ((await guildSettings.GetGuildConfig(gUser.Guild.Id)).GameVoiceChannel != newState.VoiceChannel.Id ||
+                string.IsNullOrWhiteSpace(game))
             {
-                Log.Warning(ex, "Error running VoiceStateUpdate in gvc");
+                return;
             }
+
+            await TriggerGvc(gUser, game).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Error running VoiceStateUpdate in gvc");
+        }
     }
 
     private static async Task TriggerGvc(SocketGuildUser gUser, string game)

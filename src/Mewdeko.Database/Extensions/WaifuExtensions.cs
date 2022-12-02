@@ -24,15 +24,15 @@ public static class WaifuExtensions
         if (includes is null)
         {
             return await waifus.Include(wi => wi.Waifu)
-                         .Include(wi => wi.Affinity)
-                         .Include(wi => wi.Claimer)
-                         .Include(wi => wi.Items)
-                         .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
+                .Include(wi => wi.Affinity)
+                .Include(wi => wi.Claimer)
+                .Include(wi => wi.Items)
+                .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
         }
 
         return await includes(waifus)
-               .AsQueryable()
-               .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
+            .AsQueryable()
+            .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
     }
 
     public static async Task<IEnumerable<WaifuLbResult>> GetTop(this DbSet<WaifuInfo> waifus, int count, int skip = 0)
@@ -43,22 +43,22 @@ public static class WaifuExtensions
             return new List<WaifuLbResult>();
 
         return await waifus.Include(wi => wi.Waifu)
-                     .Include(wi => wi.Affinity)
-                     .Include(wi => wi.Claimer)
-                     .OrderByDescending(wi => wi.Price)
-                     .Skip(skip)
-                     .Take(count)
-                     .Select(x => new WaifuLbResult
-                     {
-                         Affinity = x.Affinity == null ? null : x.Affinity.Username,
-                         AffinityDiscrim = x.Affinity == null ? null : x.Affinity.Discriminator,
-                         Claimer = x.Claimer == null ? null : x.Claimer.Username,
-                         ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
-                         Username = x.Waifu.Username,
-                         Discrim = x.Waifu.Discriminator,
-                         Price = x.Price
-                     })
-                     .ToListAsyncEF();
+            .Include(wi => wi.Affinity)
+            .Include(wi => wi.Claimer)
+            .OrderByDescending(wi => wi.Price)
+            .Skip(skip)
+            .Take(count)
+            .Select(x => new WaifuLbResult
+            {
+                Affinity = x.Affinity == null ? null : x.Affinity.Username,
+                AffinityDiscrim = x.Affinity == null ? null : x.Affinity.Discriminator,
+                Claimer = x.Claimer == null ? null : x.Claimer.Username,
+                ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
+                Username = x.Waifu.Username,
+                Discrim = x.Waifu.Discriminator,
+                Price = x.Price
+            })
+            .ToListAsyncEF();
     }
 
     public static async Task<decimal> GetTotalValue(this DbSet<WaifuInfo> waifus) =>
@@ -90,48 +90,40 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
             .Select(w => new WaifuInfoStats
             {
                 FullName = ctx.DiscordUser
-                              .AsQueryable()
-                              .Where(u => u.UserId == userId)
-                              .Select(u => $"{u.Username}#{u.Discriminator}")
-                              .FirstOrDefault(),
-
+                    .AsQueryable()
+                    .Where(u => u.UserId == userId)
+                    .Select(u => $"{u.Username}#{u.Discriminator}")
+                    .FirstOrDefault(),
                 AffinityCount = ctx.WaifuUpdates
                     .AsQueryable()
                     .Count(x => x.UserId == w.WaifuId &&
                                 x.UpdateType == WaifuUpdateType.AffinityChanged &&
                                 x.NewId != null),
-
                 AffinityName = ctx.DiscordUser
-                                  .AsQueryable()
-                                  .Where(u => u.Id == w.AffinityId)
-                                  .Select(u => $"{u.Username}#{u.Discriminator}")
-                                  .FirstOrDefault(),
-
+                    .AsQueryable()
+                    .Where(u => u.Id == w.AffinityId)
+                    .Select(u => $"{u.Username}#{u.Discriminator}")
+                    .FirstOrDefault(),
                 ClaimCount = ctx.WaifuInfo
                     .AsQueryable()
                     .Count(x => x.ClaimerId == w.WaifuId),
-
                 ClaimerName = ctx.DiscordUser
-                                 .AsQueryable()
-                                 .Where(u => u.Id == w.ClaimerId)
-                                 .Select(u => $"{u.Username}#{u.Discriminator}")
-                                 .FirstOrDefault(),
-
+                    .AsQueryable()
+                    .Where(u => u.Id == w.ClaimerId)
+                    .Select(u => $"{u.Username}#{u.Discriminator}")
+                    .FirstOrDefault(),
                 DivorceCount = ctx.WaifuUpdates
                     .AsQueryable()
                     .Count(x => x.OldId == w.WaifuId &&
                                 x.NewId == null &&
                                 x.UpdateType == WaifuUpdateType.Claimed),
-
                 Price = w.Price,
-
                 Claims30 = ctx.WaifuInfo
                     .AsQueryable()
                     .Include(x => x.Waifu)
                     .Where(x => x.ClaimerId == w.WaifuId)
                     .Select(x => $"{x.Waifu.Username}#{x.Waifu.Discriminator}")
                     .ToList(),
-
                 Items = w.Items
             })
             .FirstOrDefaultAsyncEF();

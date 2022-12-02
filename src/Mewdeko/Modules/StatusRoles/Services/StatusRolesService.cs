@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Discord.Net;
 using Serilog;
-using SQLitePCL;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
 
@@ -47,7 +46,7 @@ public class StatusRolesService : INService
             if (!string.IsNullOrWhiteSpace(i.ToRemove))
             {
                 var newRoleCollection = i.ToRemove.Split(" ").Select(ulong.Parse);
-                toRemove= newRoleCollection.Select(x => guild.GetRole(x)).ToList();
+                toRemove = newRoleCollection.Select(x => guild.GetRole(x)).ToList();
             }
 
             if (toAdd.Any())
@@ -62,7 +61,7 @@ public class StatusRolesService : INService
                         }
                         catch (HttpException ex)
                         {
-                                Log.Error($"Invalid permissions or not high enough to add status roles in {guild}.");
+                            Log.Error($"Invalid permissions or not high enough to add status roles in {guild}.");
                         }
                     }
                 }

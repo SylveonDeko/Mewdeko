@@ -1,7 +1,6 @@
-﻿using Mewdeko.Common.Yml;
+﻿using System.Globalization;
+using Mewdeko.Common.Yml;
 using SixLabors.ImageSharp.PixelFormats;
-using System.Globalization;
-using Mewdeko.Modules.Chat_Triggers;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
@@ -138,8 +137,10 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment("Used to set the loading emote for the bot.")]
     public string LoadingEmote { get; set; }
+
     [Comment("Below are the emotes used in the cmds command select, change them as you will.")]
     public string AdministrationEmote { get; set; }
+
     public string AfkEmote { get; set; }
     public string ChatTriggersEmote { get; set; }
     public string ConfessionsEmote { get; set; }

@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Mewdeko.Modules.Gambling.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -156,8 +156,8 @@ public partial class Gambling
                 if (remaining != null)
                 {
                     await ReplyErrorLocalizedAsync("waifu_affinity_cooldown",
-                                        Format.Bold(((int)remaining?.TotalHours).ToString()),
-                                        Format.Bold(remaining?.Minutes.ToString()));
+                        Format.Bold(((int)remaining?.TotalHours).ToString()),
+                        Format.Bold(remaining?.Minutes.ToString()));
                 }
                 else
                 {
@@ -178,7 +178,7 @@ public partial class Gambling
             else
             {
                 await ReplyConfirmLocalizedAsync("waifu_affinity_changed", Format.Bold(oldAff.ToString()),
-                                Format.Bold(u.ToString()));
+                    Format.Bold(u.ToString()));
             }
         }
 
@@ -284,7 +284,7 @@ public partial class Gambling
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(waifuItems.Count / 9)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -293,8 +293,8 @@ public partial class Gambling
             {
                 await Task.CompletedTask;
                 var embed = new PageBuilder()
-                            .WithTitle(GetText("waifu_gift_shop"))
-                            .WithOkColor();
+                    .WithTitle(GetText("waifu_gift_shop"))
+                    .WithOkColor();
 
                 waifuItems
                     .OrderBy(x => x.Price)
@@ -325,8 +325,8 @@ public partial class Gambling
             if (sucess)
             {
                 await ReplyConfirmLocalizedAsync("waifu_gift",
-                                Format.Bold($"{item} {item.ItemEmoji}"),
-                                Format.Bold(waifu.ToString()));
+                    Format.Bold($"{item} {item.ItemEmoji}"),
+                    Format.Bold(waifu.ToString()));
             }
             else
             {

@@ -1,9 +1,8 @@
-using AngleSharp;
-using AngleSharp.Html.Dom;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Configuration = AngleSharp.Configuration;
+using AngleSharp;
+using AngleSharp.Html.Dom;
 
 namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
@@ -77,6 +76,7 @@ public static class Extensions
         {
             str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);
         }
+
         return str;
     }
 
@@ -122,7 +122,7 @@ public static class Extensions
 
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embeds: crembed).ConfigureAwait(false);
+                    .SendMessageAsync(plainText, embeds: crembed).ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
@@ -131,12 +131,15 @@ public static class Extensions
                     await whClient.SendMessageAsync(plainText,
                         embeds: crembed).ConfigureAwait(false);
                 }
-                catch (TaskCanceledException) { /* ignored */ }
+                catch (TaskCanceledException)
+                {
+                    /* ignored */
+                }
             }
 
             if (ct.NoRespond)
                 return null;
-            return await channel.SendMessageAsync(plainText, embeds: crembed, components:components?.Build()).ConfigureAwait(false);
+            return await channel.SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
         }
 
         var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
@@ -150,8 +153,12 @@ public static class Extensions
                 using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                 await whClient.SendMessageAsync(context).ConfigureAwait(false);
             }
-            catch (TaskCanceledException) { /* ignored */ }
+            catch (TaskCanceledException)
+            {
+                /* ignored */
+            }
         }
+
         if (ct.NoRespond)
             return null;
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
@@ -161,24 +168,23 @@ public static class Extensions
         DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
     {
         var rep = new ReplacementBuilder()
-                  .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
-                  .WithOverride("%target%", () => inter switch
-                  {
-                      IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
-                      IUserCommandInteraction uData => uData.Data.User.Mention,
-                      _ => "%target%"
-                  })
-                  .Build();
+            .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
+            .WithOverride("%target%", () => inter switch
+            {
+                IMessageCommandInteraction mData => mData.Data.Message.Content.SanitizeAllMentions(),
+                IUserCommandInteraction uData => uData.Data.User.Mention,
+                _ => "%target%"
+            })
+            .Build();
         ct.Response = rep.Replace(ct.Response);
         if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
-
-            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components );
+            SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
             if (sanitize)
                 plainText = plainText.SanitizeMentions();
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                            .SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
+                    .SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
@@ -187,11 +193,15 @@ public static class Extensions
                     await whClient.SendMessageAsync(plainText,
                         embeds: crembed).ConfigureAwait(false);
                 }
-                catch (TaskCanceledException) { /* ignored */ }
+                catch (TaskCanceledException)
+                {
+                    /* ignored */
+                }
             }
+
             if (ct.NoRespond)
                 return null;
-            await inter.RespondAsync(plainText, embeds: crembed, ephemeral:ephemeral, components:components?.Build()).ConfigureAwait(false);
+            await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 
@@ -206,11 +216,15 @@ public static class Extensions
                 using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                 await whClient.SendMessageAsync(context).ConfigureAwait(false);
             }
-            catch (TaskCanceledException) { /* ignored */ }
+            catch (TaskCanceledException)
+            {
+                /* ignored */
+            }
         }
+
         if (ct.NoRespond)
             return null;
-        await inter.RespondAsync(context, ephemeral:ephemeral).ConfigureAwait(false);
+        await inter.RespondAsync(context, ephemeral: ephemeral).ConfigureAwait(false);
         return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
     }
 
@@ -223,25 +237,25 @@ public static class Extensions
             case -1:
                 return WordPosition.None;
             case 0:
-                {
-                    if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
-                        return WordPosition.Start;
-                    break;
-                }
+            {
+                if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
+                    return WordPosition.Start;
+                break;
+            }
             default:
+            {
+                if (wordIndex + word.Length == str.Length)
                 {
-                    if (wordIndex + word.Length == str.Length)
-                    {
-                        if (str.IsValidWordDivider(wordIndex - 1))
-                            return WordPosition.End;
-                    }
-                    else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
-                    {
-                        return WordPosition.Middle;
-                    }
-
-                    break;
+                    if (str.IsValidWordDivider(wordIndex - 1))
+                        return WordPosition.End;
                 }
+                else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
+                {
+                    return WordPosition.Middle;
+                }
+
+                break;
+            }
         }
 
         return WordPosition.None;

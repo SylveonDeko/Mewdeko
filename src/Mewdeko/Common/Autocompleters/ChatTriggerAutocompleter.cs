@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Modules.Chat_Triggers.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Autocompleters;
 
@@ -18,7 +18,6 @@ public class ChatTriggerAutocompleter : AutocompleteHandler
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
         IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services)
     {
-
         if ((autocompleteInteraction.User is IGuildUser user
              && user.Guild.OwnerId != user.Id
              && !user.GuildPermissions.Has(GuildPermission.Administrator))

@@ -1,9 +1,9 @@
-﻿using Mewdeko.Common.Yml;
-using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Common.Yml;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Extensions;
 
@@ -21,6 +21,7 @@ public static class StringExtensions
     private static readonly Regex CodePointRegex
         = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
+
     public static string GenerateSecureString(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -36,6 +37,7 @@ public static class StringExtensions
 
         return sb.ToString();
     }
+
     public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
     public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrWhiteSpace(str);
 
@@ -74,13 +76,17 @@ public static class StringExtensions
 
     public static bool CheckIfNotEmbeddable(this string input)
         => input.EndsWith("gifv") || input.EndsWith("mp4");
+
     public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 
     public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
 
     public static string ToTitleCase(this string str)
     {
-        var tokens = str.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+        var tokens = str.Split(new[]
+        {
+            " "
+        }, StringSplitOptions.RemoveEmptyEntries);
         for (var i = 0; i < tokens.Length; i++)
         {
             var token = tokens[i];

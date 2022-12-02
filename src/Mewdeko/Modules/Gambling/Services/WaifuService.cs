@@ -1,7 +1,7 @@
-﻿using Mewdeko.Modules.Gambling.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services;
 
@@ -81,9 +81,9 @@ public class WaifuService : INService
             return settings.Waifu.MinPrice;
 
         var divorces = uow.WaifuUpdates.Count(x => x.Old != null &&
-                                                            x.Old.UserId == user.Id &&
-                                                            x.UpdateType == WaifuUpdateType.Claimed &&
-                                                            x.New == null);
+                                                   x.Old.UserId == user.Id &&
+                                                   x.UpdateType == WaifuUpdateType.Claimed &&
+                                                   x.New == null);
         var affs = uow.WaifuUpdates
             .AsQueryable()
             .Where(w => w.User.UserId == user.Id && w.UpdateType == WaifuUpdateType.AffinityChanged &&
@@ -157,17 +157,11 @@ public class WaifuService : INService
                 {
                     uow.WaifuInfo.Add(w = new WaifuInfo
                     {
-                        Waifu = waifu,
-                        Claimer = claimer,
-                        Affinity = null,
-                        Price = amount
+                        Waifu = waifu, Claimer = claimer, Affinity = null, Price = amount
                     });
                     uow.WaifuUpdates.Add(new WaifuUpdate
                     {
-                        User = waifu,
-                        Old = null,
-                        New = claimer,
-                        UpdateType = WaifuUpdateType.Claimed
+                        User = waifu, Old = null, New = claimer, UpdateType = WaifuUpdateType.Claimed
                     });
                     result = WaifuClaimResult.Success;
                 }
@@ -187,10 +181,7 @@ public class WaifuService : INService
 
                     uow.WaifuUpdates.Add(new WaifuUpdate
                     {
-                        User = w.Waifu,
-                        Old = oldClaimer,
-                        New = w.Claimer,
-                        UpdateType = WaifuUpdateType.Claimed
+                        User = w.Waifu, Old = oldClaimer, New = w.Claimer, UpdateType = WaifuUpdateType.Claimed
                     });
                 }
             }
@@ -209,10 +200,7 @@ public class WaifuService : INService
 
                     uow.WaifuUpdates.Add(new WaifuUpdate
                     {
-                        User = w.Waifu,
-                        Old = oldClaimer,
-                        New = w.Claimer,
-                        UpdateType = WaifuUpdateType.Claimed
+                        User = w.Waifu, Old = oldClaimer, New = w.Claimer, UpdateType = WaifuUpdateType.Claimed
                     });
                 }
             }
@@ -247,19 +235,13 @@ public class WaifuService : INService
                 var thisUser = await uow.GetOrCreateUser(user);
                 uow.WaifuInfo.Add(new WaifuInfo
                 {
-                    Affinity = newAff,
-                    Waifu = thisUser,
-                    Price = 1,
-                    Claimer = null
+                    Affinity = newAff, Waifu = thisUser, Price = 1, Claimer = null
                 });
                 success = true;
 
                 uow.WaifuUpdates.Add(new WaifuUpdate
                 {
-                    User = thisUser,
-                    Old = null,
-                    New = newAff,
-                    UpdateType = WaifuUpdateType.AffinityChanged
+                    User = thisUser, Old = null, New = newAff, UpdateType = WaifuUpdateType.AffinityChanged
                 });
             }
             else
@@ -271,10 +253,7 @@ public class WaifuService : INService
 
                 uow.WaifuUpdates.Add(new WaifuUpdate
                 {
-                    User = w.Waifu,
-                    Old = oldAff,
-                    New = newAff,
-                    UpdateType = WaifuUpdateType.AffinityChanged
+                    User = w.Waifu, Old = oldAff, New = newAff, UpdateType = WaifuUpdateType.AffinityChanged
                 });
             }
 
@@ -329,10 +308,7 @@ public class WaifuService : INService
 
                 uow.WaifuUpdates.Add(new WaifuUpdate
                 {
-                    User = w.Waifu,
-                    Old = oldClaimer,
-                    New = null,
-                    UpdateType = WaifuUpdateType.Claimed
+                    User = w.Waifu, Old = oldClaimer, New = null, UpdateType = WaifuUpdateType.Claimed
                 });
             }
 
@@ -354,17 +330,13 @@ public class WaifuService : INService
         {
             uow.WaifuInfo.Add(w = new WaifuInfo
             {
-                Affinity = null,
-                Claimer = null,
-                Price = 1,
-                Waifu = await uow.GetOrCreateUser(giftedWaifu)
+                Affinity = null, Claimer = null, Price = 1, Waifu = await uow.GetOrCreateUser(giftedWaifu)
             });
         }
 
         w.Items.Add(new WaifuItem
         {
-            Name = itemObj.Name.ToLowerInvariant(),
-            ItemEmoji = itemObj.ItemEmoji
+            Name = itemObj.Name.ToLowerInvariant(), ItemEmoji = itemObj.ItemEmoji
         });
 
         if (w.Claimer?.UserId == from.Id)

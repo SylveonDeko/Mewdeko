@@ -16,9 +16,11 @@ public sealed class GamblingConfig
         Decay = new DecayConfig();
     }
 
-    [Comment(@"DO NOT CHANGE")] public int Version { get; set; } = 1;
+    [Comment(@"DO NOT CHANGE")]
+    public int Version { get; set; } = 1;
 
-    [Comment(@"Currency settings")] public CurrencyConfig Currency { get; set; }
+    [Comment(@"Currency settings")]
+    public CurrencyConfig Currency { get; set; }
 
     [Comment(@"Minimum amount users can bet (>=0)")]
     public int MinBet { get; set; } = 0;
@@ -84,9 +86,7 @@ setting to 0 or less will disable this feature")]
         public BetRollConfig() =>
             Pairs = new[]
             {
-                new(99, 10),
-                new Pair(90, 4),
-                new Pair(66, 2)
+                new(99, 10), new Pair(90, 4), new Pair(66, 2)
             };
 
         [Comment(@"When betroll is played, user will roll a number 0-100.
@@ -156,14 +156,7 @@ default is 0.02, which is 2%")]
         public WheelOfFortuneSettings() =>
             Multipliers = new[]
             {
-                1.7M,
-                1.5M,
-                0.2M,
-                0.1M,
-                0.3M,
-                0.5M,
-                1.2M,
-                2.4M
+                1.7M, 1.5M, 0.2M, 0.1M, 0.3M, 0.5M, 1.2M, 2.4M
             };
 
         [Comment(@"Self-Explanatory. Has to have 8 values, otherwise the command won't work.")]

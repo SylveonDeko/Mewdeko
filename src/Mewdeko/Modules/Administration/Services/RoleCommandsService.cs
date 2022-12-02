@@ -1,7 +1,7 @@
-﻿using Mewdeko.Database.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Database.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -25,122 +25,126 @@ public class RoleCommandsService : INService
     private async Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-            try
+        try
+        {
+            if (!reaction.User.IsSpecified ||
+                reaction.User.Value.IsBot ||
+                reaction.User.Value is not SocketGuildUser gusr)
             {
-                if (!reaction.User.IsSpecified ||
-                    reaction.User.Value.IsBot ||
-                    reaction.User.Value is not SocketGuildUser gusr)
+                return;
+            }
+
+            if (chan.Value is not SocketGuildChannel gch)
+                return;
+
+            if (!models.TryGetValue(gch.Guild.Id, out var confs))
+                return;
+            IUserMessage message;
+            if (msg.HasValue)
+                message = msg.Value;
+            else
+                message = await msg.GetOrDownloadAsync();
+
+            var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
+
+            // compare emote names for backwards compatibility :facepalm:
+            var reactionRole = conf?.ReactionRoles.Find(x =>
+                x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
+            if (reactionRole == null)
+                return;
+            if (conf.Exclusive)
+            {
+                var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
+                    .Where(x => x != reactionRole.RoleId)
+                    .Select(x => gusr.Guild.GetRole(x))
+                    .Where(x => x != null);
+
+                try
                 {
-                    return;
-                }
-
-                if (chan.Value is not SocketGuildChannel gch)
-                    return;
-
-                if (!models.TryGetValue(gch.Guild.Id, out var confs))
-                    return;
-                IUserMessage message;
-                if (msg.HasValue)
-                    message = msg.Value;
-                else
-                    message = await msg.GetOrDownloadAsync();
-
-                var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
-
-                // compare emote names for backwards compatibility :facepalm:
-                var reactionRole = conf?.ReactionRoles.Find(x =>
-                    x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
-                if (reactionRole == null)
-                    return;
-                if (conf.Exclusive)
-                {
-                    var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
-                                      .Where(x => x != reactionRole.RoleId)
-                                      .Select(x => gusr.Guild.GetRole(x))
-                                      .Where(x => x != null);
-
-                    try
+                    //if the role is exclusive,
+                    // remove all other reactions user added to the message
+                    var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
+                    foreach (var (key, _) in dl.Reactions)
                     {
-                        //if the role is exclusive,
-                        // remove all other reactions user added to the message
-                        var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
-                        foreach (var (key, _) in dl.Reactions)
+                        if (key.Name == reaction.Emote.Name)
+                            continue;
+                        try
                         {
-                            if (key.Name == reaction.Emote.Name)
-                                continue;
-                            try
-                            {
-                                await dl.RemoveReactionAsync(key, gusr).ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-
-                            await Task.Delay(100).ConfigureAwait(false);
+                            await dl.RemoveReactionAsync(key, gusr).ConfigureAwait(false);
                         }
+                        catch
+                        {
+                            // ignored
+                        }
+
+                        await Task.Delay(100).ConfigureAwait(false);
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                    await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
                 }
 
-                var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
-                if (toAdd != null && !gusr.Roles.Contains(toAdd))
-                    await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
+                await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
-                var gch = chan.Value as IGuildChannel;
-                Log.Error($"Reaction Role Add failed in {gch.Guild}\n{0}", ex);
-            }
+
+            var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
+            if (toAdd != null && !gusr.Roles.Contains(toAdd))
+                await gusr.AddRolesAsync(new[]
+                {
+                    toAdd
+                }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            var gch = chan.Value as IGuildChannel;
+            Log.Error($"Reaction Role Add failed in {gch.Guild}\n{0}", ex);
+        }
     }
 
     private async Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-            try
+        try
+        {
+            if (!reaction.User.IsSpecified ||
+                reaction.User.Value.IsBot ||
+                reaction.User.Value is not SocketGuildUser gusr)
             {
-                if (!reaction.User.IsSpecified ||
-                    reaction.User.Value.IsBot ||
-                    reaction.User.Value is not SocketGuildUser gusr)
-                {
-                    return;
-                }
-
-                if (chan.Value is not SocketGuildChannel gch)
-                    return;
-                IUserMessage message;
-                if (msg.HasValue)
-                    message = msg.Value;
-                else
-                    message = await msg.GetOrDownloadAsync();
-
-                if (!models.TryGetValue(gch.Guild.Id, out var confs))
-                    return;
-                var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
-
-                if (conf == null)
-                    return;
-
-                var reactionRole = conf.ReactionRoles.Find(x =>
-                    x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
-
-                if (reactionRole != null)
-                {
-                    var role = gusr.Guild.GetRole(reactionRole.RoleId);
-                    if (role == null)
-                        return;
-                    await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
-                }
+                return;
             }
-            catch (Exception ex)
+
+            if (chan.Value is not SocketGuildChannel gch)
+                return;
+            IUserMessage message;
+            if (msg.HasValue)
+                message = msg.Value;
+            else
+                message = await msg.GetOrDownloadAsync();
+
+            if (!models.TryGetValue(gch.Guild.Id, out var confs))
+                return;
+            var conf = confs.FirstOrDefault(x => x.MessageId == message.Id);
+
+            if (conf == null)
+                return;
+
+            var reactionRole = conf.ReactionRoles.Find(x =>
+                x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
+
+            if (reactionRole != null)
             {
-                var gch = chan.Value as IGuildChannel;
-                Log.Error($"Reaction Role Remove failed in {gch.Guild}\n{0}", ex);
+                var role = gusr.Guild.GetRole(reactionRole.RoleId);
+                if (role == null)
+                    return;
+                await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
             }
+        }
+        catch (Exception ex)
+        {
+            var gch = chan.Value as IGuildChannel;
+            Log.Error($"Reaction Role Remove failed in {gch.Guild}\n{0}", ex);
+        }
     }
 
     public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => models.TryGetValue(id, out rrs);

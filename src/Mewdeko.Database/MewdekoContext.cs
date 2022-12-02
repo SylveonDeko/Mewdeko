@@ -110,7 +110,10 @@ public class MewdekoContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<FeedSub>()
-            .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
+            .HasAlternateKey(x => new
+            {
+                x.GuildConfigId, x.Url
+            });
         modelBuilder.Entity<PlantedCurrency>()
             .HasIndex(x => x.MessageId)
             .IsUnique();
@@ -136,7 +139,10 @@ public class MewdekoContext : DbContext
         var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
 
         selfassignableRolesEntity
-            .HasIndex(s => new { s.GuildId, s.RoleId })
+            .HasIndex(s => new
+            {
+                s.GuildId, s.RoleId
+            })
             .IsUnique();
 
         selfassignableRolesEntity
@@ -220,7 +226,10 @@ public class MewdekoContext : DbContext
 
         var xps = modelBuilder.Entity<UserXpStats>();
         xps
-            .HasIndex(x => new { x.UserId, x.GuildId })
+            .HasIndex(x => new
+            {
+                x.UserId, x.GuildId
+            })
             .IsUnique();
 
         xps
@@ -257,7 +266,10 @@ public class MewdekoContext : DbContext
         #region XpRoleReward
 
         modelBuilder.Entity<XpRoleReward>()
-            .HasIndex(x => new { x.XpSettingsId, x.Level })
+            .HasIndex(x => new
+            {
+                x.XpSettingsId, x.Level
+            })
             .IsUnique();
 
         #endregion
@@ -269,14 +281,20 @@ public class MewdekoContext : DbContext
             .WithOne()
             .HasForeignKey<ClubInfo>(x => x.OwnerId);
 
-        ci.HasAlternateKey(x => new { x.Name, x.Discrim });
+        ci.HasAlternateKey(x => new
+        {
+            x.Name, x.Discrim
+        });
 
         #endregion
 
         #region ClubManytoMany
 
         modelBuilder.Entity<ClubApplicants>()
-            .HasKey(t => new { t.ClubId, t.UserId });
+            .HasKey(t => new
+            {
+                t.ClubId, t.UserId
+            });
 
         modelBuilder.Entity<ClubApplicants>()
             .HasOne(pt => pt.User)
@@ -287,7 +305,10 @@ public class MewdekoContext : DbContext
             .WithMany(x => x.Applicants);
 
         modelBuilder.Entity<ClubBans>()
-            .HasKey(t => new { t.ClubId, t.UserId });
+            .HasKey(t => new
+            {
+                t.ClubId, t.UserId
+            });
 
         modelBuilder.Entity<ClubBans>()
             .HasOne(pt => pt.User)
@@ -325,7 +346,10 @@ public class MewdekoContext : DbContext
         #region GroupName
 
         modelBuilder.Entity<GroupName>()
-            .HasIndex(x => new { x.GuildConfigId, x.Number })
+            .HasIndex(x => new
+            {
+                x.GuildConfigId, x.Number
+            })
             .IsUnique();
 
         modelBuilder.Entity<GroupName>()
@@ -346,7 +370,10 @@ public class MewdekoContext : DbContext
         #region Perm Override
 
         modelBuilder.Entity<DiscordPermOverride>()
-            .HasIndex(x => new { x.GuildId, x.Command })
+            .HasIndex(x => new
+            {
+                x.GuildId, x.Command
+            })
             .IsUnique();
 
         #endregion

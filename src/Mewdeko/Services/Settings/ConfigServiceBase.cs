@@ -1,10 +1,10 @@
-﻿using Mewdeko.Common.Configs;
-using Mewdeko.Common.PubSub;
-using Mewdeko.Common.Yml;
-using System.IO;
+﻿using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Mewdeko.Common.Configs;
+using Mewdeko.Common.PubSub;
+using Mewdeko.Common.Yml;
 
 namespace Mewdeko.Services.Settings;
 
@@ -15,7 +15,6 @@ namespace Mewdeko.Services.Settings;
 public abstract class ConfigServiceBase<TSettings> : IConfigService
     where TSettings : new()
 {
-
     private readonly TypedKey<TSettings> changeKey;
     private readonly Dictionary<string, string> propComments = new();
     private readonly Dictionary<string, Func<object, string>> propPrinters = new();

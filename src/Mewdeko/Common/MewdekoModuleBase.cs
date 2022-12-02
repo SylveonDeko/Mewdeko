@@ -1,7 +1,7 @@
-using Discord.Commands;
-using Mewdeko.Services.strings;
 using System.Globalization;
 using System.Threading.Tasks;
+using Discord.Commands;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common;
 
@@ -19,6 +19,7 @@ public abstract class MewdekoModule : ModuleBase
     protected string? GetText(string? key) => Strings.GetText(key, CultureInfo);
 
     protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
+
     public Task<IUserMessage> ErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
@@ -67,7 +68,6 @@ public abstract class MewdekoModule : ModuleBase
 
     public async Task<bool> CheckRoleHierarchy(IGuildUser target, bool displayError = true)
     {
-
         var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
         var ownerId = Context.Guild.OwnerId;
         var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
@@ -92,7 +92,7 @@ public abstract class MewdekoModule : ModuleBase
     {
         embed.WithOkColor();
         var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
-                                            .WithButton("No", "no", ButtonStyle.Danger);
+            .WithButton("No", "no", ButtonStyle.Danger);
         await message.ModifyAsync(x =>
         {
             x.Embed = embed.Build();
@@ -102,6 +102,7 @@ public abstract class MewdekoModule : ModuleBase
 
         return input == "Yes";
     }
+
     public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
@@ -148,6 +149,7 @@ public abstract class MewdekoModule : ModuleBase
             }
         }
     }
+
     public async Task<string>? NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();

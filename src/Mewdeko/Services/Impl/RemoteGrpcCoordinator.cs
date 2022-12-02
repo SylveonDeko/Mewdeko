@@ -1,9 +1,9 @@
-﻿using Grpc.Core;
+﻿using System.Threading.Tasks;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Services.Impl;
 
@@ -57,6 +57,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
                 UserCount = s.UserCount
             });
     }
+
     public int GetGuildCount()
     {
         var res = coordClient.GetAllStatuses(new GetAllStatusesRequest());

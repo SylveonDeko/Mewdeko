@@ -1,9 +1,9 @@
+using System.Net.Http;
+using System.Threading.Tasks;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -11,6 +11,7 @@ public class PronounsService : INService
 {
     private readonly DbService db;
     private readonly HttpClient http;
+
     public PronounsService(DbService db, HttpClient http)
     {
         this.db = db;

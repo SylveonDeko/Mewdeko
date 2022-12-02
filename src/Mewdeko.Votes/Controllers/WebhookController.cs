@@ -1,7 +1,7 @@
-﻿using Mewdeko.Votes.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Votes.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Votes.Controllers;
 
@@ -31,5 +31,4 @@ public class WebhookController : ControllerBase
         });
         return Task.FromResult<IActionResult>(Ok());
     }
-
 }

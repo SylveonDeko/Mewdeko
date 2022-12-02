@@ -1,14 +1,15 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Votes.Services;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Votes;
+
 [Group("votes", "Configure vote settings for the bot")]
 public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
 {
@@ -32,36 +33,37 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         switch (message)
         {
             case null when await PromptUserConfirmAsync("Do you want to preview your embed?", ctx.User.Id):
+            {
+                if (string.IsNullOrWhiteSpace(voteMessage))
                 {
-                    if (string.IsNullOrWhiteSpace(voteMessage))
-                    {
-                        var eb = new EmbedBuilder()
-                                 .WithTitle($"Thanks for voting for {ctx.Guild.Name}")
-                                 .WithDescription($"You have votedd a total of {votes.Count} times!")
-                                 .WithThumbnailUrl(ctx.User.RealAvatarUrl().AbsoluteUri)
-                                 .WithOkColor();
+                    var eb = new EmbedBuilder()
+                        .WithTitle($"Thanks for voting for {ctx.Guild.Name}")
+                        .WithDescription($"You have votedd a total of {votes.Count} times!")
+                        .WithThumbnailUrl(ctx.User.RealAvatarUrl().AbsoluteUri)
+                        .WithOkColor();
 
-                        await ctx.Interaction.FollowupAsync(ctx.User.Mention, embed: eb.Build());
+                    await ctx.Interaction.FollowupAsync(ctx.User.Mention, embed: eb.Build());
+                }
+                else
+                {
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
+                        .WithOverride("%votestotalcount%", () => votes.Count.ToString())
+                        .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
+                    ;
+
+                    if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
+                    {
+                        await ctx.Interaction.FollowupAsync(plainText, embeds: embeds, components: components.Build());
                     }
                     else
                     {
-                        var rep = new ReplacementBuilder()
-                                  .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
-                                  .WithOverride("%votestotalcount%", () => votes.Count.ToString())
-                                  .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
-
-                        if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
-                        {
-                            await ctx.Interaction.FollowupAsync(plainText, embeds: embeds, components: components.Build());
-                        }
-                        else
-                        {
-                            await ctx.Interaction.FollowupAsync(rep.Replace(voteMessage).SanitizeMentions());
-                        }
+                        await ctx.Interaction.FollowupAsync(rep.Replace(voteMessage).SanitizeMentions());
                     }
-
-                    break;
                 }
+
+                break;
+            }
             case null when string.IsNullOrWhiteSpace(voteMessage):
                 await ctx.Interaction.SendConfirmFollowupAsync("Using the default vote message.");
                 return;
@@ -108,6 +110,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                 return;
             }
         }
+
         if (parsedTime.Time != TimeSpan.Zero)
         {
             var added = await Service.AddVoteRole(ctx.Guild.Id, role.Id, (int)parsedTime.Time.TotalSeconds);
@@ -147,6 +150,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
             await ctx.Interaction.SendErrorAsync("Invalid time input. Format is 1d3h2s");
             return;
         }
+
         var update = await Service.UpdateTimer(role.Id, (int)parsedTime.Time.TotalSeconds);
         if (!update.Item1)
         {
@@ -179,7 +183,6 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
     [SlashCommand("leaderboard", "Shows the current or monthly leaderboard for votes"), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VotesLeaderboard(bool monthly = false)
     {
-
         List<Database.Models.Votes> votes;
         if (monthly)
             votes = (await Service.GetVotes(ctx.Guild.Id)).Where(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToList();
@@ -204,18 +207,21 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
             }
             else
             {
-                voteList.Add(new CustomVoteThingy{ User = user, VoteCount = 1});
+                voteList.Add(new CustomVoteThingy
+                {
+                    User = user, VoteCount = 1
+                });
             }
-
         }
+
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(voteList.Count / 12)
-                        .WithDefaultEmotes()
-                        .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(voteList.Count / 12)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -227,7 +233,6 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
 
             for (var i = 0; i < voteList.Count; i++)
             {
-
                 eb.AddField(
                     $"#{i + 1 + (page * 12)} {voteList[i].User.ToString()}",
                     $"{voteList[i].VoteCount}");

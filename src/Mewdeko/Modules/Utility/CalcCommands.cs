@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Reflection;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using NCalc;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -24,7 +24,7 @@ public partial class Utility
             if (!expr.HasErrors())
             {
                 await ctx.Channel.SendConfirmAsync($"⚙ {GetText("result")}", result.ToString())
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -49,10 +49,7 @@ public partial class Utility
                 .Select(x => x.Name)
                 .Except(new[]
                 {
-                    "ToString",
-                    "Equals",
-                    "GetHashCode",
-                    "GetType"
+                    "ToString", "Equals", "GetHashCode", "GetType"
                 });
             await ctx.Channel.SendConfirmAsync(GetText("calcops", await guildSettings.GetPrefix(ctx.Guild)), string.Join(", ", selection))
                 .ConfigureAwait(false);

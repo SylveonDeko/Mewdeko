@@ -4,27 +4,27 @@ namespace Mewdeko.Modules.UserProfile.Common;
 
 public class ZodiacResult
 {
-    [JsonPropertyName("date_range")] 
+    [JsonPropertyName("date_range")]
     public string DateRange { get; set; }
 
-    [JsonPropertyName("current_date")] 
+    [JsonPropertyName("current_date")]
     public string CurrentDate { get; set; }
 
-    [JsonPropertyName("description")] 
+    [JsonPropertyName("description")]
     public string Description { get; set; }
 
-    [JsonPropertyName("compatibility")] 
+    [JsonPropertyName("compatibility")]
     public string Compatibility { get; set; }
 
-    [JsonPropertyName("mood")] 
+    [JsonPropertyName("mood")]
     public string Mood { get; set; }
 
     [JsonPropertyName("color")]
     public string Color { get; set; }
 
-    [JsonPropertyName("lucky_number")] 
+    [JsonPropertyName("lucky_number")]
     public string LuckyNumber { get; set; }
 
-    [JsonPropertyName("lucky_time")] 
+    [JsonPropertyName("lucky_time")]
     public string LuckyTime { get; set; }
 }

@@ -1,7 +1,7 @@
-﻿using Mewdeko.Services.Settings;
-using Newtonsoft.Json;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
+using Mewdeko.Services.Settings;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Services.Impl;
 
@@ -45,6 +45,7 @@ public class Localization : ILocalization
                             {
                                 cultureInfo = new CultureInfo("en-US");
                             }
+
                             break;
                     }
                 }
@@ -115,7 +116,10 @@ public class Localization : ILocalization
             {
                 Cmd = key,
                 Desc = key,
-                Usage = new[] { key }
+                Usage = new[]
+                {
+                    key
+                }
             };
         }
 

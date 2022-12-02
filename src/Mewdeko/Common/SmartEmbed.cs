@@ -52,11 +52,14 @@ public class SmartEmbed
             }
 
             if (newEmbed is { IsValid: false })
-                    return false;
+                return false;
 
             if (newEmbed.Embed is not null)
             {
-                embeds = NewEmbed.ToEmbedArray(new[] { newEmbed.Embed });
+                embeds = NewEmbed.ToEmbedArray(new[]
+                {
+                    newEmbed.Embed
+                });
             }
             else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
             {
@@ -84,7 +87,10 @@ public class SmartEmbed
         if (crembed is { IsValid: false })
             return false;
 
-        embeds = new[] { crembed.ToEmbed().Build() };
+        embeds = new[]
+        {
+            crembed.ToEmbed().Build()
+        };
         plainText = crembed.PlainText;
         components = crembed.GetComponents(guildId);
         return true;

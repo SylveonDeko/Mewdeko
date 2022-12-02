@@ -1,4 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Diagnostics;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
 using Discord.Rest;
@@ -22,10 +26,6 @@ using NekosBestApiNet;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Reflection;
-using System.Threading.Tasks;
 using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -59,15 +59,13 @@ public class Mewdeko
             FormatUsersInBidirectionalUnicode = false,
             LogGatewayIntentWarnings = false,
             DefaultRetryMode = RetryMode.RetryRatelimit
-
         });
         CommandService = new CommandService(new CommandServiceConfig
         {
-            CaseSensitiveCommands = false,
-            DefaultRunMode = RunMode.Async
-
+            CaseSensitiveCommands = false, DefaultRunMode = RunMode.Async
         });
     }
+
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
@@ -83,7 +81,6 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
-
     private void AddServices()
     {
         var sw = Stopwatch.StartNew();
@@ -97,41 +94,38 @@ public class Mewdeko
         Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
 
         var s = new ServiceCollection()
-                .AddSingleton<IBotCredentials>(Credentials)
-                .AddSingleton(db)
-                .AddSingleton(Client)
-                .AddSingleton(new EventHandler(Client))
-                .AddSingleton(CommandService)
-                .AddSingleton(this)
-                .AddSingleton(Cache)
-                .AddSingleton(new MartineApi())
-                .AddSingleton(Cache.Redis)
-                .AddSingleton(guildSettingsService)
-                .AddTransient<ISeria, JsonSeria>()
-                .AddTransient<IPubSub, RedisPubSub>()
-                .AddTransient<IConfigSeria, YamlSeria>()
-                .AddSingleton<InteractiveService>()
-                .AddSingleton(new NekosBestApi())
-                .AddSingleton<InteractionService>()
-                .AddSingleton<Localization>()
-                .AddSingleton<MusicService>()
-                .AddSingleton<BotConfigService>()
-                .AddConfigServices()
-                .AddBotStringsServices(Credentials.TotalShards)
-                .AddMemoryCache()
-                .AddTransient<IDiscordClientWrapper, DiscordClientWrapper>()
-                .AddTransient<IAudioService, LavalinkNode>()
-                .AddSingleton<LavalinkNode>()
-                .AddSingleton(new LavalinkNodeOptions
-                {
-                    Password = "Hope4a11",
-                    WebSocketUri = "ws://127.0.0.1:2333",
-                    RestUri = "http://127.0.0.1:2333",
-                    DisconnectOnStop = false
-                })
-                .AddTransient<IShopService, ShopService>()
-                .AddScoped<ISearchImagesService, SearchImagesService>()
-                .AddSingleton<ToneTagService>();
+            .AddSingleton<IBotCredentials>(Credentials)
+            .AddSingleton(db)
+            .AddSingleton(Client)
+            .AddSingleton(new EventHandler(Client))
+            .AddSingleton(CommandService)
+            .AddSingleton(this)
+            .AddSingleton(Cache)
+            .AddSingleton(new MartineApi())
+            .AddSingleton(Cache.Redis)
+            .AddSingleton(guildSettingsService)
+            .AddTransient<ISeria, JsonSeria>()
+            .AddTransient<IPubSub, RedisPubSub>()
+            .AddTransient<IConfigSeria, YamlSeria>()
+            .AddSingleton<InteractiveService>()
+            .AddSingleton(new NekosBestApi())
+            .AddSingleton<InteractionService>()
+            .AddSingleton<Localization>()
+            .AddSingleton<MusicService>()
+            .AddSingleton<BotConfigService>()
+            .AddConfigServices()
+            .AddBotStringsServices(Credentials.TotalShards)
+            .AddMemoryCache()
+            .AddTransient<IDiscordClientWrapper, DiscordClientWrapper>()
+            .AddTransient<IAudioService, LavalinkNode>()
+            .AddSingleton<LavalinkNode>()
+            .AddSingleton(new LavalinkNodeOptions
+            {
+                Password = "Hope4a11", WebSocketUri = "ws://127.0.0.1:2333", RestUri = "http://127.0.0.1:2333", DisconnectOnStop = false
+            })
+            .AddTransient<IShopService, ShopService>()
+            .AddScoped<ISearchImagesService, SearchImagesService>()
+            .AddSingleton<ToneTagService>();
 
         s.AddHttpClient();
         s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -145,21 +139,21 @@ public class Mewdeko
         else
         {
             s.AddSingleton<RemoteGrpcCoordinator>()
-                        .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
-                        .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+                .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
+                .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
         }
 
         s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
-                                  .AddClasses(classes => classes.AssignableToAny(
-                                      // services
-                                      typeof(INService),
-                                      // behaviours
-                                      typeof(IEarlyBehavior),
-                                      typeof(ILateBlocker),
-                                      typeof(IInputTransformer),
-                                      typeof(ILateExecutor)))
-                                  .AsSelfWithInterfaces()
-                                  .WithSingletonLifetime()
+            .AddClasses(classes => classes.AssignableToAny(
+                // services
+                typeof(INService),
+                // behaviours
+                typeof(IEarlyBehavior),
+                typeof(ILateBlocker),
+                typeof(IInputTransformer),
+                typeof(ILateExecutor)))
+            .AsSelfWithInterfaces()
+            .WithSingletonLifetime()
         );
 
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
@@ -266,8 +260,8 @@ public class Mewdeko
                     new[]
                     {
                         new EmbedFieldBuilder().WithName("Total Guilds")
-                                               .WithValue(Services.GetRequiredService<ICoordinator>()
-                                                                  .GetGuildCount().ToString())
+                            .WithValue(Services.GetRequiredService<ICoordinator>()
+                                .GetGuildCount().ToString())
                     }).ConfigureAwait(false);
                 if (arg.Name is not null)
                 {
@@ -338,7 +332,7 @@ public class Mewdeko
         var commandService = Services.GetService<CommandService>();
         var interactionService = Services.GetRequiredService<InteractionService>();
         await commandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
-                             .ConfigureAwait(false);
+            .ConfigureAwait(false);
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
         _ = Task.Run(async () =>
@@ -353,7 +347,7 @@ public class Mewdeko
                 Log.Information("Unable to connect to lavalink. If you want music please launch tha lavalink binary separately.");
             }
         });
-#if  !DEBUG
+#if !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
 #endif
@@ -411,7 +405,10 @@ public class Mewdeko
         {
             try
             {
-                var obj = new { Name = default(string), Activity = ActivityType.Playing };
+                var obj = new
+                {
+                    Name = default(string), Activity = ActivityType.Playing
+                };
                 obj = JsonConvert.DeserializeAnonymousType(game, obj);
                 await Client.SetGameAsync(obj.Name, type: obj.Activity).ConfigureAwait(false);
             }
@@ -426,7 +423,10 @@ public class Mewdeko
         {
             try
             {
-                var obj = new { Name = "", Url = "" };
+                var obj = new
+                {
+                    Name = "", Url = ""
+                };
                 obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
                 await Client.SetGameAsync(obj?.Name, obj!.Url, ActivityType.Streaming).ConfigureAwait(false);
             }
@@ -439,7 +439,10 @@ public class Mewdeko
 
     public async Task SetGameAsync(string? game, ActivityType type)
     {
-        var obj = new { Name = game, Activity = type };
+        var obj = new
+        {
+            Name = game, Activity = type
+        };
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
     }

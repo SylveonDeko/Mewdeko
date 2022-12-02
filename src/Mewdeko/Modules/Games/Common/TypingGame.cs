@@ -1,8 +1,8 @@
-﻿using CommandLine;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using CommandLine;
 using Mewdeko.Modules.Games.Services;
 using Serilog;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Common;
 
@@ -156,7 +156,7 @@ public class TypingGame
                     if (finishedUserIds.Count % 4 == 0)
                     {
                         await Channel.SendConfirmAsync(
-                                         $":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
+                                $":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
                             .ConfigureAwait(false);
                     }
                 }

@@ -22,7 +22,7 @@ public class FollowedStream : DbEntity
     protected bool Equals(FollowedStream other)
         => ChannelId == other.ChannelId
            && string.Equals(Username.Trim(), other.Username.Trim()
-, StringComparison.InvariantCultureIgnoreCase)
+               , StringComparison.InvariantCultureIgnoreCase)
            && Type == other.Type;
 
     public override int GetHashCode()

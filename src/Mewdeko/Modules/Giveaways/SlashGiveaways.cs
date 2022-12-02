@@ -1,11 +1,12 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Modules.Giveaways.Services;
-using System.Threading.Tasks;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.Giveaways.Services;
 
 namespace Mewdeko.Modules.Giveaways;
+
 [Group("giveaways", "Create or manage giveaways!")]
 public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
 {
@@ -30,6 +31,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             await ctx.Interaction.SendErrorFollowupAsync("That emote is invalid!").ConfigureAwait(false);
             return;
         }
+
         try
         {
             var message = await ctx.Interaction.SendConfirmFollowupAsync("Checking emote...").ConfigureAwait(false);
@@ -46,12 +48,13 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         await ctx.Interaction.SendConfirmFollowupAsync(
             $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
     }
+
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
         await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
-                      .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
+            .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);
@@ -131,6 +134,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             await ctx.Interaction.SendErrorFollowupAsync("I'm unable to use external emotes!").ConfigureAwait(false);
             return;
         }
+
         await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild).ConfigureAwait(false);
     }
@@ -145,14 +149,15 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             await ctx.Channel.SendErrorAsync("No active giveaways").ConfigureAwait(false);
             return;
         }
+
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(gways.Count() / 5)
-                        .WithDefaultEmotes()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(gways.Count() / 5)
+            .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -160,9 +165,10 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         async Task<PageBuilder> PageFactory(int page)
         {
             return new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways")
-                                    .WithDescription(string.Join("\n\n",
-                                        await gways.Skip(page * 5).Take(5).Select(async x =>
-                                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId).ConfigureAwait(false)}").GetResults().ConfigureAwait(false)));
+                .WithDescription(string.Join("\n\n",
+                    await gways.Skip(page * 5).Take(5).Select(async x =>
+                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId).ConfigureAwait(false)}").GetResults()
+                        .ConfigureAwait(false)));
         }
     }
 
@@ -172,12 +178,13 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         var message = await channel.GetMessageAsync(messageId).ConfigureAwait(false);
         return message.GetJumpUrl();
     }
+
     [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
         await using var uow = db.GetDbContext();
         var gway = uow.Giveaways
-                      .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
+            .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
             await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);

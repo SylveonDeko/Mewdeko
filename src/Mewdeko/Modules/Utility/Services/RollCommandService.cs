@@ -13,8 +13,9 @@ public class RollCommandService : INService
         var parsed = Cleaner.Replace(roll, "1d$1$2");
 
         var dies = DieFinder.Matches(parsed)
-                             .Select(x => new Die(int.TryParse(x.Groups["count"].Value, out var c) ? c : 1, int.TryParse(x.Groups["value"].Value, out var s) ? s : throw new ArgumentException("roll_fail_invalid_string")))
-                             .ToList();
+            .Select(x => new Die(int.TryParse(x.Groups["count"].Value, out var c) ? c : 1,
+                int.TryParse(x.Groups["value"].Value, out var s) ? s : throw new ArgumentException("roll_fail_invalid_string")))
+            .ToList();
         if (dies.Any(x => x.Sides is >= int.MaxValue or < 0))
             throw new ArgumentException("roll_fail_dice_sides");
         if (dies.Count == 0)
@@ -40,6 +41,7 @@ public class RollCommandService : INService
                         result.Total += value;
                     }
                 }
+
                 if (opResult.Success)
                 {
                     var op = opResult.Groups["operator"].Value.First();
@@ -47,25 +49,25 @@ public class RollCommandService : INService
                     switch (op)
                     {
                         case '+':
-                            {
-                                result.Total += opVal;
-                            }
+                        {
+                            result.Total += opVal;
+                        }
                             break;
                         case '/':
                         case '\\':
-                            {
-                                result.Total /= opVal;
-                            }
+                        {
+                            result.Total /= opVal;
+                        }
                             break;
                         case '*':
-                            {
-                                result.Total *= opVal;
-                            }
+                        {
+                            result.Total *= opVal;
+                        }
                             break;
                         case '-':
-                            {
-                                result.Total -= opVal;
-                            }
+                        {
+                            result.Total -= opVal;
+                        }
                             break;
                         default:
                             throw new NotSupportedException("unknown operation.");
@@ -79,6 +81,7 @@ public class RollCommandService : INService
         {
             result.InacurateTotal = true;
         }
+
         return result;
     }
 }

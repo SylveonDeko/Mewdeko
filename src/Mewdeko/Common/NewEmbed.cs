@@ -4,70 +4,95 @@ namespace Mewdeko.Common;
 
 public class Author
 {
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("url")] public string Url { get; set; }
+    [JsonProperty("url")]
+    public string Url { get; set; }
 
-    [JsonProperty("icon_url")] public string IconUrl { get; set; }
+    [JsonProperty("icon_url")]
+    public string IconUrl { get; set; }
 }
 
 public class Thumbnail
 {
-    [JsonProperty("url")] public string Url { get; set; }
+    [JsonProperty("url")]
+    public string Url { get; set; }
 }
 
 public class Image
 {
-    [JsonProperty("url")] public string Url { get; set; }
+    [JsonProperty("url")]
+    public string Url { get; set; }
 }
 
 public class Footer
 {
-    [JsonProperty("text")] public string Text { get; set; }
+    [JsonProperty("text")]
+    public string Text { get; set; }
 
-    [JsonProperty("icon_url")] public string IconUrl { get; set; }
+    [JsonProperty("icon_url")]
+    public string IconUrl { get; set; }
 }
 
 public class Field
 {
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("value")] public string Value { get; set; }
+    [JsonProperty("value")]
+    public string Value { get; set; }
 
-    [JsonProperty("inline")] public bool Inline { get; set; }
+    [JsonProperty("inline")]
+    public bool Inline { get; set; }
 }
 
 public class Embed
 {
-    [JsonProperty("title")] public string? Title { get; set; }
+    [JsonProperty("title")]
+    public string? Title { get; set; }
 
-    [JsonProperty("description")] public string? Description { get; set; }
+    [JsonProperty("description")]
+    public string? Description { get; set; }
 
-    [JsonProperty("color")] public uint Color { get; set; }
+    [JsonProperty("color")]
+    public uint Color { get; set; }
 
-    [JsonProperty("timestamp")] public DateTime? Timestamp { get; set; }
+    [JsonProperty("timestamp")]
+    public DateTime? Timestamp { get; set; }
 
-    [JsonProperty("url")] public string? Url { get; set; }
+    [JsonProperty("url")]
+    public string? Url { get; set; }
 
-    [JsonProperty("author")] public Author? Author { get; set; }
+    [JsonProperty("author")]
+    public Author? Author { get; set; }
 
-    [JsonProperty("thumbnail")] public Thumbnail? Thumbnail { get; set; }
+    [JsonProperty("thumbnail")]
+    public Thumbnail? Thumbnail { get; set; }
 
-    [JsonProperty("image")] public Image? Image { get; set; }
+    [JsonProperty("image")]
+    public Image? Image { get; set; }
 
-    [JsonProperty("footer")] public Footer? Footer { get; set; }
+    [JsonProperty("footer")]
+    public Footer? Footer { get; set; }
 
-    [JsonProperty("fields")] public List<Field>? Fields { get; set; }
+    [JsonProperty("fields")]
+    public List<Field>? Fields { get; set; }
 }
 
 public class NewEmbed
 {
-    [JsonProperty("content")] public string? Content { get; set; }
+    [JsonProperty("content")]
+    public string? Content { get; set; }
 
-    [JsonProperty("embed")] public Embed? Embed { get; set; }
-    [JsonProperty("embeds")] public Embed[]? Embeds { get; set; }
+    [JsonProperty("embed")]
+    public Embed? Embed { get; set; }
 
-    [JsonProperty("components")] public NewEmbedComponents[]? Components { get; set; }
+    [JsonProperty("embeds")]
+    public Embed[]? Embeds { get; set; }
+
+    [JsonProperty("components")]
+    public NewEmbedComponents[]? Components { get; set; }
 
     public bool IsValid
     {
@@ -90,7 +115,7 @@ public class NewEmbed
         Embed?.Image != null ||
         (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) || !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
         Embed?.Fields is { Count: > 0 };
-    
+
     public class NewEmbedComponents
     {
         public string DisplayName { get; set; }
@@ -105,7 +130,7 @@ public class NewEmbed
         var cb = new ComponentBuilder();
 
         Components?.Select((x, y) => (Triggers: x, Pos: y))
-               .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
+            .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
 
         return cb;
     }
@@ -121,7 +146,7 @@ public class NewEmbed
             bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (btn.DisplayName.IsNullOrWhiteSpace())
             bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
-        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://")&& !btn.Url.StartsWith("http://")&& !btn.Url.StartsWith("discord://"))
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://") && !btn.Url.StartsWith("http://") && !btn.Url.StartsWith("discord://"))
             bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace())
         {
@@ -139,9 +164,10 @@ public class NewEmbed
                 bb.WithEmote(btn.Emoji.ToIEmote());
             }
         }
+
         return bb;
     }
-    
+
     public static Discord.Embed[] ToEmbedArray(IEnumerable<Embed> embeds)
     {
         var toReturn = new List<Discord.Embed>();
@@ -185,10 +211,10 @@ public class NewEmbed
                 foreach (var f in i.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
                     embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
             }
+
             toReturn.Add(embed.Build());
         }
 
         return toReturn.ToArray();
     }
-
 }

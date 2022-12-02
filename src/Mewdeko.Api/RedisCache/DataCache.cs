@@ -1,9 +1,9 @@
-﻿using Mewdeko.Database.Models;
+﻿using System.Net;
+using Mewdeko.Database.Models;
 using Mewdeko.WebApp.Extensions;
 using Mewdeko.WebApp.Reimplementations;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Net;
 
 namespace Mewdeko.WebApp.RedisCache;
 
@@ -36,7 +36,12 @@ public class RedisCache
 
     public async Task CacheAfk(ulong id, List<Afk>? objectList) =>
         await Task.Run(() =>
-            new RedisDictionary<ulong, List<Afk>?>($"{redisKey}_afk", Redis) { { id, objectList } }).ConfigureAwait(false);
+            new RedisDictionary<ulong, List<Afk>?>($"{redisKey}_afk", Redis)
+            {
+                {
+                    id, objectList
+                }
+            }).ConfigureAwait(false);
 
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
@@ -62,12 +67,19 @@ public class RedisCache
 
     public async Task CacheHighlights(ulong id, List<Highlights>? objectList) =>
         await Task.Run(() =>
-            _ = new RedisDictionary<ulong, List<Highlights>?>($"{redisKey}_Highlights", Redis) { { id, objectList } }).ConfigureAwait(false);
+            _ = new RedisDictionary<ulong, List<Highlights>?>($"{redisKey}_Highlights", Redis)
+            {
+                {
+                    id, objectList
+                }
+            }).ConfigureAwait(false);
 
     public async Task CacheHighlightSettings(ulong id, List<HighlightSettings>? objectList) =>
         await Task.Run(() => _ = new RedisDictionary<ulong, List<HighlightSettings>?>($"{redisKey}_highlightSettings", Redis)
         {
-            { id, objectList }
+            {
+                id, objectList
+            }
         }).ConfigureAwait(false);
 
     public List<Afk?>? GetAfkForGuild(ulong id)
@@ -88,7 +100,7 @@ public class RedisCache
     public Task AddIgnoredUsers(ulong guildId, ulong userId, string ignored)
     {
         var db = Redis.GetDatabase();
-        db.StringSet($"{redisKey}_ignoredchannels_{guildId}_{userId}", ignored,  flags: CommandFlags.FireAndForget);
+        db.StringSet($"{redisKey}_ignoredchannels_{guildId}_{userId}", ignored, flags: CommandFlags.FireAndForget);
         return Task.CompletedTask;
     }
 
@@ -98,6 +110,7 @@ public class RedisCache
         var value = db.StringGet($"{redisKey}_ignoredchannels_{guildId}_{userId}");
         return JsonConvert.DeserializeObject<string>(value);
     }
+
     public Task RemoveHighlightFromCache(ulong id, List<Highlights?>? newHighlight)
     {
         // ReSharper disable once CollectionNeverQueried.Local
@@ -133,6 +146,7 @@ public class RedisCache
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"image_{key}", data).ConfigureAwait(false);
     }
+
     public TimeSpan? AddTimelyClaim(ulong id, int period)
     {
         if (period == 0)
@@ -144,7 +158,6 @@ public class RedisCache
             if ((bool?)db.StringGet($"{redisKey}_timelyclaim_{id}") != null) return db.KeyTimeToLive($"{redisKey}_timelyclaim_{id}");
             db.StringSet($"{redisKey}_timelyclaim_{id}", true, time);
             return null;
-
         }
     }
 
@@ -213,6 +226,7 @@ public class RedisCache
         var db = Redis.GetDatabase();
         return Task.FromResult(db.StringGet($"{redisKey}_hstagger_{guildId}_{userId}").HasValue);
     }
+
     public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
     {
         var db = Redis.GetDatabase();
@@ -242,6 +256,7 @@ public class RedisCache
             data,
             TimeSpan.FromMinutes(3));
     }
+
     public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
     {
         var db = Redis.GetDatabase();
@@ -254,6 +269,7 @@ public class RedisCache
         var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<bool>(toget);
     }
+
     public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
     {
         var db = Redis.GetDatabase();
@@ -279,6 +295,7 @@ public class RedisCache
         var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<string>(toget);
     }
+
     public async Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory,
         TParam param, TimeSpan expiry) where TOut : class
     {
@@ -293,7 +310,7 @@ public class RedisCache
                 return default;
 
             await db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
-                expiry,  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+                expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
             return obj;
         }
@@ -322,7 +339,7 @@ public class RedisCache
     public Task SetStreamDataAsync(string url, string data)
     {
         var db = Redis.GetDatabase();
-        return db.StringSetAsync($"{redisKey}_stream_{url}", data, TimeSpan.FromHours(6),  flags: CommandFlags.FireAndForget);
+        return db.StringSetAsync($"{redisKey}_stream_{url}", data, TimeSpan.FromHours(6), flags: CommandFlags.FireAndForget);
     }
 
     public bool TryGetStreamData(string url, out string dataStr)
