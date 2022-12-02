@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -34,10 +34,10 @@ public partial class Utility
             if (enumerable.Length > 0)
             {
                 await ctx.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
-                                    string.Join("\n",
-                                        enumerable.Select(q =>
-                                            $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
-                                .ConfigureAwait(false);
+                        string.Join("\n",
+                            enumerable.Select(q =>
+                                $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -102,13 +102,13 @@ public partial class Utility
 
         private async Task ShowQuoteData(Quote data) =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                                         .WithOkColor()
-                                         .WithTitle(GetText("quote_id", $"#{data.Id}"))
-                                         .AddField(efb => efb.WithName(GetText("trigger")).WithValue(data.Keyword))
-                                         .AddField(efb => efb.WithName(GetText("response")).WithValue(data.Text.Length > 1000
-                                             ? GetText("redacted_too_long")
-                                             : Format.Sanitize(data.Text)))
-                                         .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
+                .WithOkColor()
+                .WithTitle(GetText("quote_id", $"#{data.Id}"))
+                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(data.Keyword))
+                .AddField(efb => efb.WithName(GetText("response")).WithValue(data.Text.Length > 1000
+                    ? GetText("redacted_too_long")
+                    : Format.Sanitize(data.Text)))
+                .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
             ).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -162,8 +162,8 @@ public partial class Utility
 
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText, out var components))
             {
-                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed, components:components?.Build())
-                         .ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed, components: components?.Build())
+                    .ConfigureAwait(false);
             }
             else
             {

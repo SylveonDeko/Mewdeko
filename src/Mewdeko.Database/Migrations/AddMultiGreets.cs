@@ -11,7 +11,7 @@ public partial class AddMultiGreets : Migration
             table => new
             {
                 Id = table.Column<int>(nullable: false)
-                          .Annotation("Sqlite:Autoincrement", true),
+                    .Annotation("Sqlite:Autoincrement", true),
                 GuildId = table.Column<ulong>(),
                 ChannelId = table.Column<ulong>(),
                 Message = table.Column<string>(defaultValue: "Welcome %user%!"),

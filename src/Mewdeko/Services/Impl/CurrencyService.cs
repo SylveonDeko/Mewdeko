@@ -1,5 +1,5 @@
-﻿using Mewdeko.Modules.Gambling.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Services.Impl;
 
@@ -73,9 +73,7 @@ public class CurrencyService : ICurrencyService
     private static CurrencyTransaction GetCurrencyTransaction(ulong userId, string? reason, long amount) =>
         new()
         {
-            Amount = amount,
-            UserId = userId,
-            Reason = reason ?? "-"
+            Amount = amount, UserId = userId, Reason = reason ?? "-"
         };
 
     private bool InternalChange(ulong userId, string userName, string discrim, string avatar,

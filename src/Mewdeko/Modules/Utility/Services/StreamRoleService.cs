@@ -1,10 +1,10 @@
-﻿using Discord.Net;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Discord.Net;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -73,8 +73,7 @@ public class StreamRoleService : INService, IUnloadableService
             {
                 var userObj = new StreamRoleWhitelistedUser
                 {
-                    UserId = userId,
-                    Username = userName
+                    UserId = userId, Username = userName
                 };
 
                 if (action == AddRemove.Rem)
@@ -95,8 +94,7 @@ public class StreamRoleService : INService, IUnloadableService
             {
                 var userObj = new StreamRoleBlacklistedUser
                 {
-                    UserId = userId,
-                    Username = userName
+                    UserId = userId, Username = userName
                 };
 
                 if (action == AddRemove.Rem)
@@ -199,6 +197,7 @@ public class StreamRoleService : INService, IUnloadableService
                 await RescanUser(x, setting, addRole).ConfigureAwait(false);
         }
     }
+
     public async Task StopStreamRole(IGuild guild, bool cleanup = false)
     {
         var uow = db.GetDbContext();

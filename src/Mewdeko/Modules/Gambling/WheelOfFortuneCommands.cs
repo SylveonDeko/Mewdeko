@@ -1,8 +1,8 @@
-﻿using Mewdeko.Common.Attributes.TextCommands;
+﻿using System.Collections.Immutable;
+using System.Threading.Tasks;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -12,14 +12,7 @@ public partial class Gambling
     {
         private static readonly ImmutableArray<string> Emojis = new[]
         {
-            "⬆",
-            "↖",
-            "⬅",
-            "↙",
-            "⬇",
-            "↘",
-            "➡",
-            "↗"
+            "⬆", "↖", "⬅", "↙", "⬇", "↘", "➡", "↗"
         }.ToImmutableArray();
 
         private readonly ICurrencyService cs;

@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Xp;
 
@@ -32,6 +32,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     {
         Server
     }
+
     private readonly DownloadTracker tracker;
     private readonly XpConfigService xpConfig;
     private readonly InteractiveService interactivity;
@@ -53,8 +54,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "xptextrate",
-                Value = $"{xpConfig.Data.XpPerMessage} (Global Default)"
+                Setting = "xptextrate", Value = $"{xpConfig.Data.XpPerMessage} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -62,8 +62,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "xptextrate",
-                Value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
+                Setting = "xptextrate", Value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -72,8 +71,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "voicexprate",
-                Value = $"{xpConfig.Data.VoiceXpPerMinute} (Global Default)"
+                Setting = "voicexprate", Value = $"{xpConfig.Data.VoiceXpPerMinute} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -81,8 +79,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "xpvoicerate",
-                Value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
+                Setting = "xpvoicerate", Value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -91,8 +88,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "txtxptimeout",
-                Value = $"{xpConfig.Data.MessageXpCooldown} (Global Default)"
+                Setting = "txtxptimeout", Value = $"{xpConfig.Data.MessageXpCooldown} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -100,8 +96,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "txtxptimeout",
-                Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                Setting = "txtxptimeout", Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -110,8 +105,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "voiceminutestimeout",
-                Value = $"{xpConfig.Data.VoiceMaxMinutes} (Global Default)"
+                Setting = "voiceminutestimeout", Value = $"{xpConfig.Data.VoiceMaxMinutes} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -119,8 +113,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                Setting = "voiceminutestimeout",
-                Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                Setting = "voiceminutestimeout", Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -306,7 +299,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         else
         {
             await ReplyConfirmLocalizedAsync("role_reward_added", level, Format.Bold(role.ToString()))
-                        .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
     }
 
@@ -509,6 +502,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))
             .ConfigureAwait(false);
     }
+
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task XpCurrencyReward(int level, int amount = 0)
     {
@@ -530,6 +524,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 .ConfigureAwait(false);
         }
     }
+
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);

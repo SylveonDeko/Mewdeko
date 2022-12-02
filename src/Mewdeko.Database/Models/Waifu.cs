@@ -1,5 +1,4 @@
-﻿
-using Mewdeko.Database.Extensions;
+﻿using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Database.Models;
 
@@ -37,7 +36,7 @@ public class WaifuInfo : DbEntity
         else
         {
             status =
-                        $"... but {waifuUsername}'s heart belongs to {Affinity.Username.TrimTo(20)}#{Affinity.Discriminator}";
+                $"... but {waifuUsername}'s heart belongs to {Affinity.Username.TrimTo(20)}#{Affinity.Discriminator}";
         }
 
         return $"**{waifuUsername}#{Waifu.Discriminator}** - claimed by **{claimer}**\n\t{status}";

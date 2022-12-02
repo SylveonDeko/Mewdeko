@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CommandLine;
 using Discord.Commands;
 using Fergun.Interactive;
@@ -8,7 +9,6 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using Swan;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -105,7 +105,7 @@ public partial class Moderation
             else
             {
                 await ReplyConfirmLocalizedAsync("user_warned_and_punished", Format.Bold(user.ToString()),
-                                Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
+                    Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
             }
 
             if (await Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
@@ -119,11 +119,12 @@ public partial class Moderation
                 var punishaction = condition ? punishment.Punishment.ToString() : "None";
                 var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetMWarnlogChannel(ctx.Guild.Id)).ConfigureAwait(false);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                                           .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                                                           .WithTitle($"Mini Warned by: {ctx.User}")
-                                                           .WithCurrentTimestamp()
-                                                           .WithDescription(
-                                                               $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})")).ConfigureAwait(false);
+                        .WithThumbnailUrl(user.RealAvatarUrl().ToString())
+                        .WithTitle($"Mini Warned by: {ctx.User}")
+                        .WithCurrentTimestamp()
+                        .WithDescription(
+                            $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})"))
+                    .ConfigureAwait(false);
             }
         }
 
@@ -148,12 +149,12 @@ public partial class Moderation
             if (opts.Delete)
             {
                 await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
@@ -230,7 +231,7 @@ public partial class Moderation
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(warnings.Length / 15)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -279,7 +280,7 @@ public partial class Moderation
                 if (success)
                 {
                     await ReplyConfirmLocalizedAsync("warning_cleared", Format.Bold(index.ToString()), userStr)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
                 else
                 {
@@ -301,15 +302,15 @@ public partial class Moderation
             if (time is null)
             {
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
-                                Format.Bold(punish.ToString()),
-                                Format.Bold(number.ToString())).ConfigureAwait(false);
+                    Format.Bold(punish.ToString()),
+                    Format.Bold(number.ToString())).ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
-                                Format.Bold(punish.ToString()),
-                                Format.Bold(number.ToString()),
-                                Format.Bold(time.Input)).ConfigureAwait(false);
+                    Format.Bold(punish.ToString()),
+                    Format.Bold(number.ToString()),
+                    Format.Bold(time.Input)).ConfigureAwait(false);
             }
         }
 
@@ -329,15 +330,15 @@ public partial class Moderation
             if (time is null)
             {
                 await ReplyConfirmLocalizedAsync("warn_punish_set",
-                                Format.Bold(punish.ToString()),
-                                Format.Bold(number.ToString())).ConfigureAwait(false);
+                    Format.Bold(punish.ToString()),
+                    Format.Bold(number.ToString())).ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
-                                Format.Bold(punish.ToString()),
-                                Format.Bold(number.ToString()),
-                                Format.Bold(time.Input)).ConfigureAwait(false);
+                    Format.Bold(punish.ToString()),
+                    Format.Bold(number.ToString()),
+                    Format.Bold(time.Input)).ConfigureAwait(false);
             }
         }
 
@@ -360,8 +361,8 @@ public partial class Moderation
             if (ps.Length > 0)
             {
                 list = string.Join("\n",
-                                ps.Select(x =>
-                                    $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
+                    ps.Select(x =>
+                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
             }
             else
             {

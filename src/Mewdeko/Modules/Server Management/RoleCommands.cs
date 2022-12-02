@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
 using Humanizer;
@@ -5,7 +6,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -36,7 +36,8 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....").ConfigureAwait(false);
+                    $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....")
+                .ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel or SocketVoiceChannel))
             {
                 if (perms != null)
@@ -71,7 +72,8 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....").ConfigureAwait(false);
+                    $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels.....")
+                .ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Where(x => x is not SocketThreadChannel))
             {
                 if (perms != null)
@@ -100,7 +102,8 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....").ConfigureAwait(false);
+                    $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false)).Count} Categories.....")
+                .ConfigureAwait(false);
             foreach (var i in await ctx.Guild.GetCategoriesAsync().ConfigureAwait(false))
             {
                 if (perms != null)
@@ -147,10 +150,10 @@ public partial class ServerManagement
                 secondlist.Add(
                     $"{i.Mention} - {(await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(i.Id))} Users");
             }
+
             var embed = new EmbedBuilder
             {
-                Title = "Are you sure you want to delete these roles?",
-                Description = $"{string.Join("\n", secondlist)}"
+                Title = "Are you sure you want to delete these roles?", Description = $"{string.Join("\n", secondlist)}"
             };
             if (await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
             {
@@ -158,8 +161,7 @@ public partial class ServerManagement
                 foreach (var i in roles) await i.DeleteAsync().ConfigureAwait(false);
                 var newemb = new EmbedBuilder
                 {
-                    Description = $"Succesfully deleted {roles.Length} roles!",
-                    Color = Mewdeko.OkColor
+                    Description = $"Succesfully deleted {roles.Length} roles!", Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = newemb.Build()).ConfigureAwait(false);
             }
@@ -180,8 +182,7 @@ public partial class ServerManagement
 
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.OkColor,
-                Description = "Are you sure you want to stop this job?"
+                Color = Mewdeko.OkColor, Description = "Are you sure you want to stop this job?"
             };
             eb.AddField(list.JobType,
                 $"Started by {list.StartedBy.Mention}\nProgress: {list.AddedTo}/{list.TotalUsers}");
@@ -212,6 +213,7 @@ public partial class ServerManagement
                 await ctx.Channel.SendErrorAsync($"I cannot manage the role {i.Mention}!").ConfigureAwait(false);
                 return;
             }
+
             await user.AddRolesAsync(roles).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has been given the roles:\n{string.Join<string>("|", roles.Select(x => x.Mention))}").ConfigureAwait(false);
@@ -237,6 +239,7 @@ public partial class ServerManagement
             {
                 await i.AddRoleAsync(role).ConfigureAwait(false);
             }
+
             await ctx.Channel.SendConfirmAsync(
                 $"{role.Mention} has had the following users added:\n{string.Join<string>("|", users.Select(x => x.Mention))}").ConfigureAwait(false);
         }
@@ -261,6 +264,7 @@ public partial class ServerManagement
             {
                 await i.AddRoleAsync(role).ConfigureAwait(false);
             }
+
             await ctx.Channel.SendConfirmAsync(
                 $"{role.Mention} has had the following users removed:\n{string.Join<string>("|", users.Select(x => x.Mention))}").ConfigureAwait(false);
         }
@@ -282,6 +286,7 @@ public partial class ServerManagement
                 await ctx.Channel.SendErrorAsync($"I cannot manage the role {i.Mention}!").ConfigureAwait(false);
                 return;
             }
+
             await user.RemoveRolesAsync(roles).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has had the following roles removed:\n{string.Join<string>("|", roles.Select(x => x.Mention))}").ConfigureAwait(false);
@@ -300,8 +305,7 @@ public partial class ServerManagement
 
             var eb = new EmbedBuilder
             {
-                Title = $"{list.Count} Mass Role Operations Running",
-                Color = Mewdeko.OkColor
+                Title = $"{list.Count} Mass Role Operations Running", Color = Mewdeko.OkColor
             };
             foreach (var i in list)
             {
@@ -314,12 +318,12 @@ public partial class ServerManagement
                 if (i.Role2 is not null && i.JobType == "Adding then Removing a Role")
                 {
                     eb.AddField($"Job {i.JobId}",
-                                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRemoving Role:{i.Role2.Mention}\nAdding Role:{i.Role1.Mention}");
+                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRemoving Role:{i.Role2.Mention}\nAdding Role:{i.Role1.Mention}");
                 }
                 else
                 {
                     eb.AddField($"Job {i.JobId}",
-                                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRole:{i.Role1.Mention}");
+                        $"Job Type: {i.JobType}\nStarted By: {i.StartedBy.Mention}\nProgress: {i.AddedTo}/{i.TotalUsers}\nRole:{i.Role1.Mention}");
                 }
             }
 
@@ -349,7 +353,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -425,7 +430,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -500,7 +506,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -575,7 +582,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -599,7 +607,8 @@ public partial class ServerManagement
                 $"Adding a role to server members that have been here for {time.Time.Humanize()}", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users who have acounts that are equal to or older than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
+                    $"Adding {role.Mention} to {count} users who have acounts that are equal to or older than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.")
+                .ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -653,7 +662,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -677,7 +687,8 @@ public partial class ServerManagement
                 $"Adding a role to server members that have been here for {time.Time.Humanize()} or less", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users who have acounts that are less than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.").ConfigureAwait(false);
+                    $"Adding {role.Mention} to {count} users who have acounts that are less than {time.Time.Humanize()} old..\nThis will take about {TimeSpan.FromSeconds(users.Count()).Humanize()}.")
+                .ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in users)
@@ -730,7 +741,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -806,7 +818,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -882,7 +895,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -960,7 +974,8 @@ public partial class ServerManagement
             if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.").ConfigureAwait(false);
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -1138,7 +1153,8 @@ public partial class ServerManagement
                         {
                             await Service.RemoveJob(ctx.Guild, jobId).ConfigureAwait(false);
                             await ctx.Channel.SendConfirmAsync(
-                                $"Massrole Stopped.\nAdded {role2.Mention} and removed {role.Mention} from {count2} users out of {inrole.Count()} users before stopped.").ConfigureAwait(false);
+                                    $"Massrole Stopped.\nAdded {role2.Mention} and removed {role.Mention} from {count2} users out of {inrole.Count()} users before stopped.")
+                                .ConfigureAwait(false);
                             return;
                         }
 

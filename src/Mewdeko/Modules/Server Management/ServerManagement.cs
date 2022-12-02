@@ -1,10 +1,10 @@
+using System.Net.Http;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -203,8 +203,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = $"{config.Data.LoadingEmote} Adding Emotes...",
-            Color = Mewdeko.OkColor
+            Description = $"{config.Data.LoadingEmote} Adding Emotes...", Color = Mewdeko.OkColor
         };
         var errored = new List<string>();
         var emotes = new List<string>();
@@ -247,10 +246,12 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var eb = new EmbedBuilder
         {
-            Description = $"{config.Data.LoadingEmote} Adding Emotes to {role.Mention}...",
-            Color = Mewdeko.OkColor
+            Description = $"{config.Data.LoadingEmote} Adding Emotes to {role.Mention}...", Color = Mewdeko.OkColor
         };
-        var list = new Optional<IEnumerable<IRole>>(new[] { role });
+        var list = new Optional<IEnumerable<IRole>>(new[]
+        {
+            role
+        });
         var errored = new List<string>();
         var emotes = new List<string>();
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();

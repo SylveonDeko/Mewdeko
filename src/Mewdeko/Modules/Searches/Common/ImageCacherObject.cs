@@ -11,8 +11,8 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
         else
         {
             FileUrl = obj.FileUrl.StartsWith("http", StringComparison.InvariantCulture)
-                        ? obj.FileUrl
-                        : $"https:{obj.FileUrl}";
+                ? obj.FileUrl
+                : $"https:{obj.FileUrl}";
         }
 
         SearchType = type;

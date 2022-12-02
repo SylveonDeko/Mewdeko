@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Chat_Triggers.Services;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
@@ -108,7 +108,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         var cr = await Service.EditAsync(ctx.Guild?.Id, id, message, null).ConfigureAwait(false);
         if (cr != null)
             await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
         else
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
@@ -119,12 +119,12 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                                                  .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                                  .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
-                                                  .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
         await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
-                            .ConfigureAwait(false);
+            .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -160,12 +160,12 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             var ordered = chatTriggers.GroupBy(cr => cr.Trigger).OrderBy(cr => cr.Key).ToList();
 
             var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                                                      .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                                      .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
-                                                      .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
-                                .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -324,7 +324,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     {
         if (await PromptUserConfirmAsync(
                     new EmbedBuilder().WithTitle("Chat triggers clear")
-                                      .WithDescription("This will delete all chat triggers on this server."),
+                        .WithDescription("This will delete all chat triggers on this server."),
                     ctx.User.Id)
                 .ConfigureAwait(false))
         {
@@ -405,8 +405,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         else
         {
             await ctx.Channel
-                     .SendMessageAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
-                     .ConfigureAwait(false);
+                .SendMessageAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                .ConfigureAwait(false);
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -429,7 +429,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
 
         await ctx.Channel.EmbedAsync(Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                 .ConfigureAwait(false);
+            .ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
@@ -445,7 +445,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
 
         await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                 .ConfigureAwait(false);
+            .ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
@@ -478,7 +478,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         else
         {
             await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -496,7 +496,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         else
         {
             await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -514,7 +514,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         else
         {
             await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -544,19 +544,20 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     {
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
         var eb = new EmbedBuilder();
-        var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
+        var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko",
+            emote: Emote.Parse("<:IconInvite:778931752835088426>"));
         if (errors?.Any() ?? false)
         {
             eb.WithFields(errors.Select(x =>
-                  new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
-                      GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(s => $" - {s}").Join('\n')))))
-              .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
-              .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
+                    new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
+                        GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(s => $" - {s}").Join('\n')))))
+                .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
+                .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
         }
         else
         {
             eb.WithOkColor().WithTitle(GetText("ct_interaction_errors_none"))
-              .WithDescription(GetText("ct_interaction_errors_none_desc"));
+                .WithDescription(GetText("ct_interaction_errors_none_desc"));
         }
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
@@ -599,9 +600,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
         if (!(errors?.Any() ?? false)) return;
         var embed = new EmbedBuilder()
-                    .WithTitle(GetText("ct_interaction_errors_title"))
-                    .WithDescription(GetText("ct_interaction_errors_desc"))
-                    .WithErrorColor();
+            .WithTitle(GetText("ct_interaction_errors_title"))
+            .WithDescription(GetText("ct_interaction_errors_desc"))
+            .WithErrorColor();
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 }

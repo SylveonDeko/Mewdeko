@@ -1,4 +1,7 @@
 #nullable enable
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Html.Dom;
 using Anilist4Net;
@@ -12,9 +15,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Services.Settings;
 using NekosBestApiNet;
 using Newtonsoft.Json;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -44,7 +44,8 @@ public partial class Searches
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri)
+                .ConfigureAwait(false);
             var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
             var ms = new MemoryStream(bytes);
             await using var _ = ms.ConfigureAwait(false);
@@ -74,14 +75,18 @@ public partial class Searches
                     color = Discord.Color.Red;
                     break;
             }
-            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build()).ConfigureAwait(false);
+
+            await ctx.Channel.SendFileAsync(ms, "ship.png",
+                    embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build())
+                .ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
         public async Task Ship(IUser user)
         {
             var random = new Random().Next(0, 100);
-            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri).ConfigureAwait(false);
+            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri)
+                .ConfigureAwait(false);
             var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
             var ms = new MemoryStream(bytes);
             await using var _ = ms.ConfigureAwait(false);
@@ -111,7 +116,10 @@ public partial class Searches
                     color = Discord.Color.Red;
                     break;
             }
-            await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build()).ConfigureAwait(false);
+
+            await ctx.Channel.SendFileAsync(ms, "ship.png",
+                    embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build())
+                .ConfigureAwait(false);
         }
 
         [Cmd, Aliases]
@@ -120,9 +128,7 @@ public partial class Searches
             var req = await NekosBestApi.CategoryApi.Neko().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
-                Description = $"nya~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
-                ImageUrl = req.Results.FirstOrDefault().Url,
-                Color = Mewdeko.OkColor
+                Description = $"nya~ [Source]({req.Results.FirstOrDefault().SourceUrl})", ImageUrl = req.Results.FirstOrDefault().Url, Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
@@ -133,9 +139,7 @@ public partial class Searches
             var req = await NekosBestApi.CategoryApi.Kitsune().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
-                Description = $"What does the fox say? [Source]({req.Results.FirstOrDefault().SourceUrl})",
-                ImageUrl = req.Results.FirstOrDefault().Url,
-                Color = Mewdeko.OkColor
+                Description = $"What does the fox say? [Source]({req.Results.FirstOrDefault().SourceUrl})", ImageUrl = req.Results.FirstOrDefault().Url, Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
@@ -146,12 +150,11 @@ public partial class Searches
             var req = await NekosBestApi.CategoryApi.Waifu().ConfigureAwait(false);
             var em = new EmbedBuilder
             {
-                Description = $"Ara Ara~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
-                ImageUrl = req.Results.FirstOrDefault().Url,
-                Color = Mewdeko.OkColor
+                Description = $"Ara Ara~ [Source]({req.Results.FirstOrDefault().SourceUrl})", ImageUrl = req.Results.FirstOrDefault().Url, Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build()).ConfigureAwait(false);
         }
+
         [Cmd, Aliases]
         [Priority(0)]
         public async Task Mal([Remainder] string? name)
@@ -164,10 +167,14 @@ public partial class Searches
             var config = Configuration.Default.WithDefaultLoader();
             using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
             {
-                var imageElem = document.QuerySelector("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
+                var imageElem = document.QuerySelector(
+                    "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
                 var imageUrl = ((IHtmlImageElement)imageElem).Source ?? "https://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
 
-                var stats = document.QuerySelectorAll("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-right > div#statistics > div.user-statistics-stats > div.stats > div.clearfix > ul.stats-status > li > span").Select(x => x.InnerHtml).ToList();
+                var stats = document
+                    .QuerySelectorAll(
+                        "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-right > div#statistics > div.user-statistics-stats > div.stats > div.clearfix > ul.stats-status > li > span")
+                    .Select(x => x.InnerHtml).ToList();
 
                 var favorites = document.QuerySelectorAll("div.user-favorites > div.di-tc");
 
@@ -175,28 +182,28 @@ public partial class Searches
                 if (favorites.Length > 0 && favorites[0].QuerySelector("p") == null)
                 {
                     favAnime = string.Join("\n", favorites[0].QuerySelectorAll("ul > li > div.di-tc.va-t > a")
-                                                            .Shuffle()
-                                                            .Take(3)
-                                                            .Select(x =>
-                                                            {
-                                                                var elem = (IHtmlAnchorElement)x;
-                                                                return $"[{elem.InnerHtml}]({elem.Href})";
-                                                            }));
+                        .Shuffle()
+                        .Take(3)
+                        .Select(x =>
+                        {
+                            var elem = (IHtmlAnchorElement)x;
+                            return $"[{elem.InnerHtml}]({elem.Href})";
+                        }));
                 }
 
                 var info = document.QuerySelectorAll("ul.user-status:nth-child(3) > li.clearfix")
-                                  .Select(x => Tuple.Create(x.Children[0].InnerHtml, x.Children[1].InnerHtml))
-                                  .ToList();
+                    .Select(x => Tuple.Create(x.Children[0].InnerHtml, x.Children[1].InnerHtml))
+                    .ToList();
 
                 var daysAndMean = document.QuerySelectorAll("div.anime:nth-child(1) > div:nth-child(2) > div")
-                                          .Select(x => x.TextContent.Split(':').Select(y => y.Trim()).ToArray())
-                                          .ToArray();
+                    .Select(x => x.TextContent.Split(':').Select(y => y.Trim()).ToArray())
+                    .ToArray();
 
                 var embed = new EmbedBuilder()
-                            .WithOkColor()
-                            .WithTitle(GetText("mal_profile", name))
-                            .AddField(efb => efb.WithName("💚 " + GetText("watching")).WithValue(stats[0]).WithIsInline(true))
-                            .AddField(efb => efb.WithName("💙 " + GetText("completed")).WithValue(stats[1]).WithIsInline(true));
+                    .WithOkColor()
+                    .WithTitle(GetText("mal_profile", name))
+                    .AddField(efb => efb.WithName("💚 " + GetText("watching")).WithValue(stats[0]).WithIsInline(true))
+                    .AddField(efb => efb.WithName("💙 " + GetText("completed")).WithValue(stats[1]).WithIsInline(true));
                 if (info.Count < 3)
                     embed.AddField(efb => efb.WithName("💛 " + GetText("on_hold")).WithValue(stats[2]).WithIsInline(true));
                 embed
@@ -215,7 +222,6 @@ public partial class Searches
 
 **{GetText("top_3_fav_anime")}**
 {favAnime}"
-
                     )
                     .WithUrl(fullQueryLink)
                     .WithImageUrl(imageUrl);
@@ -266,12 +272,16 @@ public partial class Searches
             using var reader = new StreamReader(await responseContent.ReadAsStreamAsync().ConfigureAwait(false));
             var er = await reader.ReadToEndAsync().ConfigureAwait(false);
             var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
-                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
             if (!string.IsNullOrWhiteSpace(stuff.Error))
             {
                 await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}").ConfigureAwait(false);
                 return;
             }
+
             var ert = stuff.Result.FirstOrDefault();
             if (ert?.Filename is null)
             {
@@ -282,8 +292,7 @@ public partial class Searches
             var image = await c2.GetMediaById(ert.Anilist).ConfigureAwait(false);
             var eb = new EmbedBuilder
             {
-                ImageUrl = image?.CoverImageLarge,
-                Color = Mewdeko.OkColor
+                ImageUrl = image?.CoverImageLarge, Color = Mewdeko.OkColor
             };
             var te = image?.SeasonInt.ToString()?[2..] is "" ? image.SeasonInt.ToString()?[1..] : image?.SeasonInt.ToString()?[2..];
             var entitle = image?.EnglishTitle;
@@ -374,14 +383,14 @@ public partial class Searches
             IJikan jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
-                            .AddUser(ctx.User)
-                            .WithPageFactory(PageFactory)
-                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                            .WithMaxPageIndex(result.Data.Count - 1)
-                            .WithDefaultCanceledPage()
-                            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                            .Build();
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(result.Data.Count - 1)
+                .WithDefaultCanceledPage()
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
             await msg.DeleteAsync().ConfigureAwait(false);
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -390,14 +399,14 @@ public partial class Searches
                 var data = result.Data.Skip(page).FirstOrDefault();
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
-                       .WithTitle(Format.Bold($"{data.Title}"))
-                       .AddField("First Publish Date", data.Published)
-                       .AddField("Volumes", data.Volumes)
-                       .AddField("Is Still Active", data.Publishing)
-                       .AddField("Score", data.Score)
-                       .AddField("Url", data.Url)
-                       .WithDescription(data.Background)
-                       .WithImageUrl(data.Images.WebP.MaximumImageUrl!).WithColor(Mewdeko.OkColor);
+                    .WithTitle(Format.Bold($"{data.Title}"))
+                    .AddField("First Publish Date", data.Published)
+                    .AddField("Volumes", data.Volumes)
+                    .AddField("Is Still Active", data.Publishing)
+                    .AddField("Score", data.Score)
+                    .AddField("Url", data.Url)
+                    .WithDescription(data.Background)
+                    .WithImageUrl(data.Images.WebP.MaximumImageUrl!).WithColor(Mewdeko.OkColor);
             }
         }
     }

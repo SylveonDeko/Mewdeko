@@ -1,10 +1,10 @@
-﻿using Discord.Net;
-using Mewdeko.Services.strings;
-using Serilog;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Net;
+using Mewdeko.Services.strings;
+using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 

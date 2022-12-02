@@ -1,9 +1,10 @@
-﻿using Discord.Interactions;
-using Mewdeko.Modules.Starboard.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.Starboard.Services;
 
 namespace Mewdeko.Modules.Starboard;
+
 [Group("starboard", "Manage the starboard!")]
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
@@ -34,6 +35,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
             await Service.SetRepostThreshold(ctx.Guild, 0).ConfigureAwait(false);
             return;
         }
+
         await Service.SetRepostThreshold(ctx.Guild, num).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync($"Successfully set the Repost Threshold to {num}").ConfigureAwait(false);
     }
@@ -77,6 +79,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
             await ctx.Interaction.SendErrorFollowupAsync("This emote cannot be used! Please use a different one.").ConfigureAwait(false);
             return;
         }
+
         await Service.SetStar(ctx.Guild, emote.ToString()).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmFollowupAsync($"Successfully set the star to {emote}").ConfigureAwait(false);
     }
@@ -86,11 +89,15 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()).ConfigureAwait(false))
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction
+                .SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)")
+                .ConfigureAwait(false);
         }
         else
         {
-            await ctx.Interaction.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+            await ctx.Interaction
+                .SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)")
+                .ConfigureAwait(false);
         }
     }
 

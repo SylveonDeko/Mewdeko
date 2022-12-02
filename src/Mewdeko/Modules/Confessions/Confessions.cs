@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Confessions.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Confessions;
 
@@ -24,6 +24,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                 await ctx.Channel.SendErrorAsync("This server does not have confessions enabled!").ConfigureAwait(false);
                 return;
             }
+
             if (gc.ConfessionBlacklist.Split(" ").Length > 0)
             {
                 if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
@@ -31,6 +32,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                     await ctx.Channel.SendErrorAsync("You are blacklisted from suggestions in that server!").ConfigureAwait(false);
                     return;
                 }
+
                 await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment).ConfigureAwait(false);
             }
             else
@@ -53,6 +55,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
             await ctx.Channel.SendConfirmAsync("Confessions disabled!").ConfigureAwait(false);
             return;
         }
+
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -74,6 +77,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
             await ctx.Channel.SendConfirmAsync("Confessions logging disabled!").ConfigureAwait(false);
             return;
         }
+
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -83,7 +87,9 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         }
 
         await Service.SetConfessionLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ctx.Channel.SendErrorAsync($"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***").ConfigureAwait(false);
+        await ctx.Channel.SendErrorAsync(
+                $"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***")
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]

@@ -10,5 +10,5 @@ public class UnroleTimer : DbEntity
 
     public override bool Equals(object obj) =>
         obj is UnroleTimer ut
-&& ut.UserId == UserId && ut.RoleId == RoleId;
+        && ut.UserId == UserId && ut.RoleId == RoleId;
 }

@@ -1,20 +1,21 @@
-﻿using Discord.Interactions;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Discord.Interactions;
+using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Modules.RoleGreets.Services;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Discord.Rest;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.RoleGreets.Services;
 
 namespace Mewdeko.Modules.RoleGreets;
+
 [Group("rolegreets", "Set or manage RoleGreets.")]
 public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
 {
     private readonly InteractiveService interactivity;
     private readonly HttpClient httpClient;
+
     public RoleRoleGreets(InteractiveService interactivity, HttpClient httpClient)
     {
         this.interactivity = interactivity;
@@ -36,6 +37,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                 break;
         }
     }
+
     [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
@@ -45,9 +47,11 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!").ConfigureAwait(false);
             return;
         }
+
         await Service.ChangeRgGb(greet, enabled).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} GreetBots set to {enabled}").ConfigureAwait(false);
     }
+
     [SlashCommand("remove", "Remove a channel from RoleGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetRemove(int id)
     {
@@ -73,7 +77,8 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             return;
         }
 
-        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id).ConfigureAwait(false))
+        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id)
+                .ConfigureAwait(false))
         {
             await Service.MultiRemoveRoleGreetInternal(greet.ToArray()).ConfigureAwait(false);
             await ctx.Interaction.SendConfirmFollowupAsync("RoleGreets removed!").ConfigureAwait(false);
@@ -90,6 +95,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             var data = i.Data as UnbanAuditLogData;
             await ctx.Guild.AddBanAsync(data.Target, reason: "Fixing mass unban script");
         }
+
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
@@ -118,6 +124,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!").ConfigureAwait(false);
             return;
         }
+
         await Service.RoleGreetDisable(greet, enabled).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {enabled}").ConfigureAwait(false);
     }
@@ -139,6 +146,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             await ctx.Interaction.SendConfirmAsync($"Webhook disabled for RoleGreet #{id}!").ConfigureAwait(false);
             return;
         }
+
         var channel = await ctx.Guild.GetTextChannelAsync(greet.ChannelId).ConfigureAwait(false);
         if (avatar is not null)
         {
@@ -148,8 +156,9 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                     "The avatar url used is not a direct url or is invalid! Please use a different url.").ConfigureAwait(false);
                 return;
             }
+
             using var sr = await httpClient.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
-                                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             var imgStream = imgData.ToStream();
             await using var _ = imgStream.ConfigureAwait(false);
@@ -165,7 +174,8 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         }
     }
 
-    [SlashCommand("message", "Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("message", "Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"), RequireContext(ContextType.Guild),
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task RoleGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -175,6 +185,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             await ctx.Interaction.SendErrorFollowupAsync("No RoleGreet found for that Id!").ConfigureAwait(false);
             return;
         }
+
         if (message is null)
         {
             var components = new ComponentBuilder().WithButton("Preview", "preview").WithButton("Regular", "regular");
@@ -185,11 +196,12 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
             {
                 case "preview":
                     await msg.DeleteAsync().ConfigureAwait(false);
-                    var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient).WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
+                    var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient)
+                        .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
-                        await ctx.Interaction.FollowupAsync(plainText, embeds: embedData, components:cb.Build()).ConfigureAwait(false);
+                        await ctx.Interaction.FollowupAsync(plainText, embeds: embedData, components: cb.Build()).ConfigureAwait(false);
                     }
                     else
                     {
@@ -203,6 +215,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
                     break;
             }
         }
+
         await Service.ChangeMgMessage(greet, message).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmFollowupAsync($"RoleGreet Message for RoleGreet #{id} set!").ConfigureAwait(false);
     }
@@ -215,14 +228,15 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         {
             await ctx.Interaction.SendErrorAsync("No RoleGreets setup!").ConfigureAwait(false);
         }
+
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(greets.Length - 1)
-                        .WithDefaultEmotes()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(greets.Length - 1)
+            .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -231,8 +245,8 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
             return new PageBuilder().WithDescription(
-                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Role:` {((await ctx.Guild.GetTextChannelAsync(curgreet.RoleId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.RoleId).ConfigureAwait(false))?.Mention)} `{curgreet.RoleId}`\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Disabled:` {curgreet.Disabled}\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
-                                    .WithOkColor();
+                    $"#{Array.IndexOf(greets, curgreet) + 1}\n`Role:` {((await ctx.Guild.GetTextChannelAsync(curgreet.RoleId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.RoleId).ConfigureAwait(false))?.Mention)} `{curgreet.RoleId}`\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Disabled:` {curgreet.Disabled}\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
+                .WithOkColor();
         }
     }
 }

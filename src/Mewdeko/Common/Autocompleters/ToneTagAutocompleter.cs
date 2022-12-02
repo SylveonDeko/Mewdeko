@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Modules.Searches.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Autocompleters;
 
@@ -12,11 +12,11 @@ public class ToneTagAutocompleter : AutocompleteHandler
         IParameterInfo parameter,
         IServiceProvider services) =>
         Task.FromResult(AutocompletionResult.FromSuccess((services.GetService(typeof(ToneTagService)) as ToneTagService)
-                                                         .Tags.SelectMany(x => x.GetAllValues()).Select(x => '/' + x)
-                                                         .Where(x => x.Contains(inter.Data.Current.Value as string,
-                                                             StringComparison.InvariantCultureIgnoreCase))
-                                                         .OrderByDescending(x =>
-                                                             x.StartsWith(inter.Data.Current.Value as string,
-                                                                 StringComparison.InvariantCultureIgnoreCase)).Take(25)
-                                                         .Select(x => new AutocompleteResult(x, x))));
+            .Tags.SelectMany(x => x.GetAllValues()).Select(x => '/' + x)
+            .Where(x => x.Contains(inter.Data.Current.Value as string,
+                StringComparison.InvariantCultureIgnoreCase))
+            .OrderByDescending(x =>
+                x.StartsWith(inter.Data.Current.Value as string,
+                    StringComparison.InvariantCultureIgnoreCase)).Take(25)
+            .Select(x => new AutocompleteResult(x, x))));
 }

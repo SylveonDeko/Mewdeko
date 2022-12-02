@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Highlights.Services;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Highlights;
 
@@ -71,14 +71,15 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await Task.CompletedTask.ConfigureAwait(false);
             var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
             return new PageBuilder().WithOkColor()
-                             .WithTitle($"{highlightsForUser.Count()} Highlights")
-                             .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                .WithTitle($"{highlightsForUser.Count()} Highlights")
+                .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
         }
     }
 
     [SlashCommand("delete", "Delete a highlight."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task DeleteHighlight(
-        [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to delete.")] string words)
+        [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to delete.")]
+        string words)
     {
         if (string.IsNullOrWhiteSpace(words))
         {
@@ -108,18 +109,21 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await ctx.Interaction.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.").ConfigureAwait(false);
             return;
         }
+
         if (!highlightsForUser.Select(x => x.Word).Contains(words))
         {
             await ctx.Interaction.SendErrorAsync("This is not in your highlights!").ConfigureAwait(false);
             return;
         }
+
         await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words)).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.").ConfigureAwait(false);
     }
 
     [SlashCommand("match", "Find a matching highlight."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task MatchHighlight(
-        [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to find.")] string words)
+        [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to find.")]
+        string words)
     {
         if (string.IsNullOrWhiteSpace(words))
         {
@@ -154,8 +158,8 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await Task.CompletedTask.ConfigureAwait(false);
             var highlightsEnumerable = matched.Skip(page * 10).Take(10);
             return new PageBuilder().WithOkColor()
-                            .WithTitle($"{highlightsForUser.Count()} Highlights")
-                            .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                .WithTitle($"{highlightsForUser.Count()} Highlights")
+                .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
         }
     }
 
@@ -167,6 +171,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await ctx.Interaction.SendConfirmAsync($"Added {user.Mention} to ignored users!").ConfigureAwait(false);
             return;
         }
+
         await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from ignored users!").ConfigureAwait(false);
     }
 
@@ -178,6 +183,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} to ignored channels!").ConfigureAwait(false);
             return;
         }
+
         await ctx.Interaction.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!").ConfigureAwait(false);
     }
 

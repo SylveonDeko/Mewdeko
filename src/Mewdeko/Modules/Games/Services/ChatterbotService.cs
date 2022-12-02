@@ -1,10 +1,9 @@
-﻿
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Services;
 
@@ -50,41 +49,41 @@ public class ChatterBotService : INService
 
     public async Task MessageRecieved(SocketMessage msg)
     {
-            if (msg.Author.IsBot)
+        if (msg.Author.IsBot)
+            return;
+        if (msg.Channel is not ITextChannel chan)
+            return;
+        try
+        {
+            if (msg is not IUserMessage usrMsg)
                 return;
-            if (msg.Channel is not ITextChannel chan)
-                return;
+            (string, IChatterBotSession) message;
             try
             {
-                if (msg is not IUserMessage usrMsg)
-                    return;
-                (string, IChatterBotSession) message;
-                try
-                {
-                    message = await PrepareMessage(usrMsg);
-                }
-                catch
-                {
-                    return;
-                }
+                message = await PrepareMessage(usrMsg);
+            }
+            catch
+            {
+                return;
+            }
 
-                if (string.IsNullOrEmpty(message.Item1) || message.Item2.Equals(default))
-                    return;
-                var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg).ConfigureAwait(false);
-                if (cleverbotExecuted)
-                {
-                    Log.Information(
-                        $@"CleverBot Executed
+            if (string.IsNullOrEmpty(message.Item1) || message.Item2.Equals(default))
+                return;
+            var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg).ConfigureAwait(false);
+            if (cleverbotExecuted)
+            {
+                Log.Information(
+                    $@"CleverBot Executed
                     Server: {chan.Guild.Name} {chan.Guild.Name}]
                     Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
                     UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
                     Message: {usrMsg.Content}");
-                }
             }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error in cleverbot");
-            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Error in cleverbot");
+        }
     }
 
     public IChatterBotSession CreateSession()
@@ -114,6 +113,7 @@ public class ChatterBotService : INService
             (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
             return (null, null);
         }
+
         if (!CleverbotUsers.TryGetValue(msg.Author.Id, out var lazyCleverbot))
         {
             CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));
@@ -148,7 +148,8 @@ public class ChatterBotService : INService
         catch
         {
             await channel.SendErrorAsync(
-                "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!").ConfigureAwait(false);
+                    "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!")
+                .ConfigureAwait(false);
             return false;
         }
 

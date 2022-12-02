@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -54,23 +54,23 @@ public partial class Utility
                 if (success)
                 {
                     await ReplyConfirmLocalizedAsync("stream_role_bl_add", Format.Bold(user.ToString()))
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
                 else
                 {
                     await ReplyConfirmLocalizedAsync("stream_role_bl_add_fail", Format.Bold(user.ToString()))
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
             }
             else if (success)
             {
                 await ReplyConfirmLocalizedAsync("stream_role_bl_rem", Format.Bold(user.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await ReplyErrorLocalizedAsync("stream_role_bl_rem_fail", Format.Bold(user.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
@@ -87,23 +87,23 @@ public partial class Utility
                 if (success)
                 {
                     await ReplyConfirmLocalizedAsync("stream_role_wl_add", Format.Bold(user.ToString()))
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
                 else
                 {
                     await ReplyConfirmLocalizedAsync("stream_role_wl_add_fail", Format.Bold(user.ToString()))
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
             }
             else if (success)
             {
                 await ReplyConfirmLocalizedAsync("stream_role_wl_rem", Format.Bold(user.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await ReplyErrorLocalizedAsync("stream_role_wl_rem_fail", Format.Bold(user.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
     }

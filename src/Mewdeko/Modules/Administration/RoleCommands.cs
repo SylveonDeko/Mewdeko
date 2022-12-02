@@ -1,3 +1,5 @@
+using System.Net;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
 using Fergun.Interactive;
@@ -6,8 +8,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
-using System.Net;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Administration;
@@ -63,7 +63,10 @@ public partial class Administration
                     }
 
                     var emote = x.Last().ToIEmote();
-                    return new { role, emote };
+                    return new
+                    {
+                        role, emote
+                    };
                 })
                 .Where(x => x != null);
 
@@ -94,16 +97,15 @@ public partial class Administration
             }
 
             if (target != null && await Service.Add(ctx.Guild.Id, new ReactionRoleMessage
-            {
-                Exclusive = exclusive,
-                MessageId = target.Id,
-                ChannelId = target.Channel.Id,
-                ReactionRoles = all.Select(x => new ReactionRole
                 {
-                    EmoteName = x.emote.ToString(),
-                    RoleId = x.role.Id
-                }).ToList()
-            }))
+                    Exclusive = exclusive,
+                    MessageId = target.Id,
+                    ChannelId = target.Channel.Id,
+                    ReactionRoles = all.Select(x => new ReactionRole
+                    {
+                        EmoteName = x.emote.ToString(), RoleId = x.role.Id
+                    }).ToList()
+                }))
             {
                 await ctx.OkAsync().ConfigureAwait(false);
             }
@@ -149,7 +151,7 @@ public partial class Administration
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                     .WithMaxPageIndex(rrs.Count - 1)
                     .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -328,14 +330,14 @@ public partial class Administration
             else
             {
                 await ReplyConfirmLocalizedAsync("rolehoist_disabled", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public async Task RoleColor([Remainder] IRole role) =>
             await ctx.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("x6"))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]

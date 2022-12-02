@@ -1,8 +1,8 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using System.Threading.Tasks;
+using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Swan;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
@@ -12,6 +12,7 @@ public class GiveawayService : INService, IReadyExecutor
     private readonly IBotCredentials creds;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
+
     public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds,
         GuildSettingsService guildSettings)
     {
@@ -66,6 +67,7 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task<string> GetGiveawayEmote(ulong id)
         => (await guildSettings.GetGuildConfig(id)).GiveawayEmote;
+
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = db.GetDbContext();
@@ -131,12 +133,14 @@ public class GiveawayService : INService, IReadyExecutor
                     //ignored
                 }
             }
+
             if (reqrolesparsed.Count > 0)
             {
                 eb.WithDescription(
                     $"React with {emote} to enter!\nHosted by {hostuser.Mention}\nRequired Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\nEnd Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
             }
         }
+
         var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         await msg.AddReactionAsync(emote).ConfigureAwait(false);
         var time = DateTime.UtcNow + ts;
@@ -196,13 +200,13 @@ public class GiveawayService : INService, IReadyExecutor
         {
             await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
         }
+
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
         if (reacts.Count() - 1 <= r.Winners)
         {
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.ErrorColor,
-                Description = "There were not enough participants!"
+                Color = Mewdeko.ErrorColor, Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
             r.Ended = 1;
@@ -230,7 +234,7 @@ public class GiveawayService : INService, IReadyExecutor
                         if (parsedreqs.Count > 0)
                         {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
-                                         .ToList();
+                                .ToList();
                         }
                     }
                     catch
@@ -242,24 +246,24 @@ public class GiveawayService : INService, IReadyExecutor
                 if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
-                                                .WithDescription(
-                                                    "Looks like nobody that actually met the role requirements joined..")
-                                                .Build();
+                        .WithDescription(
+                            "Looks like nobody that actually met the role requirements joined..")
+                        .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1).ConfigureAwait(false);
                     return;
                 }
+
                 var rand = new Random();
                 var index = rand.Next(users.Count);
                 var user = users.ToList()[index];
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
-                    Description = $"{user.Mention} won the giveaway for {r.Item}!"
+                    Color = Mewdeko.OkColor, Description = $"{user.Mention} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                                             .Build()).ConfigureAwait(false);
+                        .Build()).ConfigureAwait(false);
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -286,7 +290,7 @@ public class GiveawayService : INService, IReadyExecutor
                         if (parsedreqs.Count > 0)
                         {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
-                                         .ToList();
+                                .ToList();
                         }
                     }
                     catch
@@ -298,16 +302,16 @@ public class GiveawayService : INService, IReadyExecutor
                 if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
-                                                .WithDescription(
-                                                    "Looks like nobody that actually met the role requirements joined..")
-                                                .Build();
+                        .WithDescription(
+                            "Looks like nobody that actually met the role requirements joined..")
+                        .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1).ConfigureAwait(false);
                 }
+
                 var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
-                    Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
+                    Color = Mewdeko.OkColor, Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 foreach (var winners2 in winners.Chunk(50))
@@ -315,8 +319,9 @@ public class GiveawayService : INService, IReadyExecutor
                     await ch.Channel.SendMessageAsync(
                         $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
                         embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                                                 .Build()).ConfigureAwait(false);
+                            .Build()).ConfigureAwait(false);
                 }
+
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -351,21 +356,21 @@ public class GiveawayService : INService, IReadyExecutor
         if (emote.Name == null)
         {
             var eb = new EmbedBuilder().WithErrorColor()
-                                       .WithDescription(
-                                           "Giveaway failed because the emote used in this giveaway is invalid!");
+                .WithDescription(
+                    "Giveaway failed because the emote used in this giveaway is invalid!");
             await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
             r.Ended = 1;
             uow.Giveaways.Update(r);
             await uow.SaveChangesAsync().ConfigureAwait(false);
             return;
         }
+
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
         if (reacts.Count() - 1 <= r.Winners)
         {
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.ErrorColor,
-                Description = "There were not enough participants!"
+                Color = Mewdeko.ErrorColor, Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
             r.Ended = 1;
@@ -393,7 +398,7 @@ public class GiveawayService : INService, IReadyExecutor
                         if (parsedreqs.Count > 0)
                         {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
-                                         .ToList();
+                                .ToList();
                         }
                     }
                     catch
@@ -405,9 +410,9 @@ public class GiveawayService : INService, IReadyExecutor
                 if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
-                                                .WithDescription(
-                                                    "Looks like nobody that actually met the role requirements joined..")
-                                                .Build();
+                        .WithDescription(
+                            "Looks like nobody that actually met the role requirements joined..")
+                        .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1).ConfigureAwait(false);
                 }
 
@@ -416,13 +421,12 @@ public class GiveawayService : INService, IReadyExecutor
                 var user = users.ToList()[index];
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
-                    Description = $"{user.Mention} won the giveaway for {r.Item}!"
+                    Color = Mewdeko.OkColor, Description = $"{user.Mention} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                                             .Build()).ConfigureAwait(false);
+                        .Build()).ConfigureAwait(false);
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -447,7 +451,7 @@ public class GiveawayService : INService, IReadyExecutor
                         if (parsedreqs.Count > 0)
                         {
                             users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
-                                         .ToList();
+                                .ToList();
                         }
                     }
                     catch
@@ -459,9 +463,9 @@ public class GiveawayService : INService, IReadyExecutor
                 if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
-                                                .WithDescription(
-                                                    "Looks like nobody that actually met the role requirements joined..")
-                                                .Build();
+                        .WithDescription(
+                            "Looks like nobody that actually met the role requirements joined..")
+                        .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1).ConfigureAwait(false);
                 }
 
@@ -478,8 +482,9 @@ public class GiveawayService : INService, IReadyExecutor
                     await ch.Channel.SendMessageAsync(
                         $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
                         embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                                                 .Build()).ConfigureAwait(false);
+                            .Build()).ConfigureAwait(false);
                 }
+
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);

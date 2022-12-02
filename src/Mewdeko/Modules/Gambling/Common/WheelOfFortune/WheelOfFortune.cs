@@ -31,8 +31,7 @@ public class WheelOfFortuneGame
 
         return new Result
         {
-            Index = result,
-            Amount = amount
+            Index = result, Amount = amount
         };
     }
 

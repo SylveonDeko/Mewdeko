@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.UserProfile.Services;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.UserProfile;

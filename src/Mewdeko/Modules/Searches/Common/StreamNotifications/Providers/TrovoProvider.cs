@@ -1,9 +1,9 @@
-﻿using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Serilog;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Serilog;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
@@ -113,7 +113,7 @@ If you are experiencing ratelimits, you should create your own application at: h
 
         var results = new List<StreamData?>(usernames.Count);
         foreach (var chunk in usernames.Chunk(10)
-                                       .Select(x => x.Select(GetStreamDataAsync)))
+                     .Select(x => x.Select(GetStreamDataAsync)))
         {
             var chunkResults = await Task.WhenAll(chunk).ConfigureAwait(false);
             results.AddRange(chunkResults.Where(x => x is not null));

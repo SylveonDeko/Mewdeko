@@ -24,7 +24,7 @@ public sealed class SankakuImageDownloader : ImageDownloader<SankakuImageObject>
         var uri = $"{baseUrl}/posts?tags={tagString}&limit=50";
         var data = await Http.GetStringAsync(uri).ConfigureAwait(false);
         return JsonSerializer.Deserialize<SankakuImageObject[]>(data, SerializerOptions)
-                             .Where(x => !string.IsNullOrWhiteSpace(x.FileUrl) && x.FileType.StartsWith("image"))
-                             .ToList();
+            .Where(x => !string.IsNullOrWhiteSpace(x.FileUrl) && x.FileType.StartsWith("image"))
+            .ToList();
     }
 }

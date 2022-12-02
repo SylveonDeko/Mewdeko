@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Serilog;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -62,7 +62,7 @@ public class RemindService : INService
     {
         await using var uow = db.GetDbContext();
         uow.Set<Reminder>()
-           .RemoveRange(reminders);
+            .RemoveRange(reminders);
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -127,8 +127,7 @@ public class RemindService : INService
 
         obj = new RemindObject
         {
-            Time = ts,
-            What = what
+            Time = ts, What = what
         };
 
         return true;

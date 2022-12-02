@@ -13,8 +13,7 @@ public abstract class ImageDownloader<T> : IImageDownloader
 
     protected readonly JsonSerializerOptions SerializerOptions = new()
     {
-        PropertyNameCaseInsensitive = true,
-        NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
+        PropertyNameCaseInsensitive = true, NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
     };
 
     public Booru Booru { get; }

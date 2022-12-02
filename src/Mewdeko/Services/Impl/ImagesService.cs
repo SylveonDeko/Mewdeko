@@ -1,10 +1,10 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
 using Serilog;
 using StackExchange.Redis;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Services.Impl;
 
@@ -130,7 +130,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         if (data is null)
             return;
 
-        await Db.StringSetAsync(GetRedisKey(key), data,  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await Db.StringSetAsync(GetRedisKey(key), data, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 
     private async Task Load(ImageKeys key, Uri[] uris)
@@ -142,7 +142,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
             .Select(x => (RedisValue)x)
             .ToArray();
 
-        await Db.ListRightPushAsync(GetRedisKey(key), vals,  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await Db.ListRightPushAsync(GetRedisKey(key), vals, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         if (uris.Length != vals.Length)
         {

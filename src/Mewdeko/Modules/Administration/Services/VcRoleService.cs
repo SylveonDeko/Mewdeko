@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Serilog;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -149,8 +149,7 @@ public class VcRoleService : INService
         if (toDelete != null) uow.Remove(toDelete);
         conf.VcRoleInfos.Add(new VcRoleInfo
         {
-            VoiceChannelId = vcId,
-            RoleId = role.Id
+            VoiceChannelId = vcId, RoleId = role.Id
         }); // add new one
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

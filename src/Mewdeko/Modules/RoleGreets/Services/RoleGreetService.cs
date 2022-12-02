@@ -73,6 +73,7 @@ public class RoleGreetService : INService
                 await RemoveRoleGreetInternal(i).ConfigureAwait(false);
                 continue;
             }
+
             var content = replacer.Replace(i.Message);
             try
             {
@@ -116,6 +117,7 @@ public class RoleGreetService : INService
             }
         }
     }
+
     private async Task HandleWebhookGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
     {
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
@@ -139,6 +141,7 @@ public class RoleGreetService : INService
                 await RemoveRoleGreetInternal(i).ConfigureAwait(false);
                 continue;
             }
+
             var content = replacer.Replace(i.Message);
             try
             {
@@ -187,7 +190,10 @@ public class RoleGreetService : INService
     {
         if ((await GetGreets(guildId)).Length == 10)
             return false;
-        var toadd = new RoleGreet { ChannelId = channelId, GuildId = guildId, RoleId = roleId };
+        var toadd = new RoleGreet
+        {
+            ChannelId = channelId, GuildId = guildId, RoleId = roleId
+        };
         var uow = db.GetDbContext();
         uow.RoleGreets.Add(toadd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -217,6 +223,7 @@ public class RoleGreetService : INService
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
+
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
         var uow = db.GetDbContext();
@@ -239,6 +246,7 @@ public class RoleGreetService : INService
         uow.RoleGreets.Remove(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
+
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
         var uow = db.GetDbContext();

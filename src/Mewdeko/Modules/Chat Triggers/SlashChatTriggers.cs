@@ -1,12 +1,12 @@
+using System.Net.Http;
+using System.Threading.Tasks;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Chat_Triggers.Services;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
@@ -46,10 +46,11 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("import", "Imports Chat Triggers from a .yml file."),
-    RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-    CheckPermissions]
+     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
+     CheckPermissions]
     public async Task CtsImport(
-        [Summary("file", "The yml file to import.")] IAttachment file)
+        [Summary("file", "The yml file to import.")]
+        IAttachment file)
     {
         await DeferAsync().ConfigureAwait(false);
 
@@ -77,12 +78,12 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
     // respond with a modal to support multiline responces.
     [SlashCommand("add", "Add new chat trigger."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
         => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
     [ModalInteraction("chat_trigger_add:*", true),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
     {
         var rgx = bool.Parse(sRgx);
@@ -100,19 +101,21 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("edit", "Edit a chat trigger."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task EditChatTrigger
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-        [Summary("regex", "Should the trigger use regex.")] bool regex = false
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("regex", "Should the trigger use regex.")]
+        bool regex = false
     )
     {
         var trigger = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null,
             x => x
-                 .WithTitle("Chat Trigger Edit")
-                 .UpdateTextInput("key", textInputBuilder => textInputBuilder.Value = trigger.Trigger)
-                 .UpdateTextInput("message", textInputBuilder => textInputBuilder.Value = trigger.Response)).ConfigureAwait(false);
+                .WithTitle("Chat Trigger Edit")
+                .UpdateTextInput("key", textInputBuilder => textInputBuilder.Value = trigger.Trigger)
+                .UpdateTextInput("message", textInputBuilder => textInputBuilder.Value = trigger.Response)).ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
@@ -130,13 +133,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (cr != null)
         {
             await RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle(GetText("edited_chat_trig"))
-                        .WithDescription($"#{id}")
-                        .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
-                        .AddField(efb =>
-                            efb.WithName(GetText("response"))
-                                .WithValue(modal.Message.Length > 1024 ? GetText("redacted_too_long") : modal.Message))
-                        .Build()).ConfigureAwait(false);
+                .WithTitle(GetText("edited_chat_trig"))
+                .WithDescription($"#{id}")
+                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger))
+                .AddField(efb =>
+                    efb.WithName(GetText("response"))
+                        .WithValue(modal.Message.Length > 1024 ? GetText("redacted_too_long") : modal.Message))
+                .Build()).ConfigureAwait(false);
         }
         else
         {
@@ -150,8 +153,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtPrefixType
     (
-        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-        [Summary("type", "The type of prefix to use.")] RequirePrefixType type
+        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("type", "The type of prefix to use.")]
+        RequirePrefixType type
     )
     {
         var res = await Service.SetPrefixType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
@@ -162,7 +167,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
         else
         {
-            await RespondAsync(embed:Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+            await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                 .ConfigureAwait(false);
         }
     }
@@ -171,8 +176,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtPrefix
     (
-        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
-        [Summary("prefix", "The prefix to use when prefix type is custom")] string prefix)
+        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("prefix", "The prefix to use when prefix type is custom")]
+        string prefix)
     {
         var res = await Service.SetPrefix(ctx.Guild?.Id, id, prefix).ConfigureAwait(false);
 
@@ -182,25 +189,25 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
         else
         {
-            await RespondAsync(embed:Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+            await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                 .ConfigureAwait(false);
         }
     }
 
     [SlashCommand("list", "List chat triggers."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggers()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(chatTriggers.Length / 20)
-                        .WithDefaultEmotes()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(chatTriggers.Length / 20)
+            .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -208,29 +215,29 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("chat_triggers"))
-                                                    .WithDescription(string.Join("\n",
-                                                        chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20)
-                                                                       .Take(20).Select(cr =>
-                                                                       {
-                                                                           var str = $"`#{cr.Id}` {cr.Trigger}";
-                                                                           if (cr.AutoDeleteTrigger) str = $"🗑{str}";
-                                                                           if (cr.DmResponse) str = $"📪{str}";
-                                                                           var reactions = cr.GetReactions();
-                                                                           if (reactions.Length > 0)
-                                                                           {
-                                                                               str =
-                                                                                   $"{str} // {string.Join(" ", reactions)}";
-                                                                           }
+                .WithDescription(string.Join("\n",
+                    chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20)
+                        .Take(20).Select(cr =>
+                        {
+                            var str = $"`#{cr.Id}` {cr.Trigger}";
+                            if (cr.AutoDeleteTrigger) str = $"🗑{str}";
+                            if (cr.DmResponse) str = $"📪{str}";
+                            var reactions = cr.GetReactions();
+                            if (reactions.Length > 0)
+                            {
+                                str =
+                                    $"{str} // {string.Join(" ", reactions)}";
+                            }
 
-                                                                           return str;
-                                                                       })));
+                            return str;
+                        })));
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [SlashCommand("list-group", "List chat triggers.."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -252,7 +259,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(chatTriggers.Length / 20)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -261,9 +268,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("name"))
-                                                        .WithDescription(string.Join("\r\n",
-                                                            ordered.Skip(page * 20).Take(20).Select(ct =>
-                                                                $"**{ct.Key.Trim().ToLowerInvariant()}** `x{ct.Count()}`")));
+                    .WithDescription(string.Join("\r\n",
+                        ordered.Skip(page * 20).Take(20).Select(ct =>
+                            $"**{ct.Key.Trim().ToLowerInvariant()}** `x{ct.Count()}`")));
             }
         }
 
@@ -285,7 +292,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("delete", "delete a chat trigger."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task DeleteChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
@@ -293,11 +300,11 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (ct != null)
         {
             await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                            .WithTitle(GetText("deleted"))
-                            .WithDescription($"#{ct.Id}")
-                            .AddField(efb => efb.WithName(GetText("trigger")).WithValue(ct.Trigger.TrimTo(1024)))
-                            .AddField(efb => efb.WithName(GetText("response")).WithValue(ct.Response.TrimTo(1024)))
-                            .Build()).ConfigureAwait(false);
+                .WithTitle(GetText("deleted"))
+                .WithDescription($"#{ct.Id}")
+                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(ct.Trigger.TrimTo(1024)))
+                .AddField(efb => efb.WithName(GetText("response")).WithValue(ct.Response.TrimTo(1024)))
+                .Build()).ConfigureAwait(false);
         }
         else
         {
@@ -308,11 +315,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("react", "add a reaction chat trigger.."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtReact
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-        [Summary("emoji", "A space-seperated list of emojis to react with")] string emoji
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("emoji", "A space-seperated list of emojis to react with")]
+        string emoji
     )
     {
         var ct = await Service.GetChatTriggers(Context.Guild?.Id, id);
@@ -357,8 +366,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (succ.Count == 0)
         {
             await message.ModifyAsync(x => x.Embed = new EmbedBuilder().WithErrorColor()
-                                        .WithDescription(GetText("invalid_emojis", Format.Bold(id.ToString())))
-                                        .Build()).ConfigureAwait(false);
+                .WithDescription(GetText("invalid_emojis", Format.Bold(id.ToString())))
+                .Build()).ConfigureAwait(false);
             return;
         }
 
@@ -371,11 +380,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("toggle-option", "Edit chat trigger options."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task InternalCtEdit
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-        [Summary("option", "The option to toggle")] ChatTriggersService.CtField option
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("option", "The option to toggle")]
+        ChatTriggersService.CtField option
     )
     {
         var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -384,6 +395,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
             return;
         }
+
         var (success, newVal) = await Service.ToggleCrOptionAsync(ct, option).ConfigureAwait(false);
 
         if (!success)
@@ -395,22 +407,26 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (newVal)
         {
             await ctx.Interaction.SendConfirmAsync(GetText("option_enabled", Format.Code(option.ToString()),
-                        Format.Code(id.ToString()))).ConfigureAwait(false);
+                Format.Code(id.ToString()))).ConfigureAwait(false);
         }
         else
         {
             await ctx.Interaction.SendConfirmAsync(GetText("option_dissabled", Format.Code(option.ToString()),
-                        Format.Code(id.ToString()))).ConfigureAwait(false);
+                Format.Code(id.ToString()))).ConfigureAwait(false);
         }
+
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [SlashCommand("valid-types", "Change the valid types of the trigger"),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ChatTriggerValidType(
-        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]int id,
-        [Summary("type", "The type to enable/disable.")] ChatTriggerType type,
-        [Summary("enabled", "Should the type be enabled?")] bool enabled)
+        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        int id,
+        [Summary("type", "The type to enable/disable.")]
+        ChatTriggerType type,
+        [Summary("enabled", "Should the type be enabled?")]
+        bool enabled)
     {
         var res = await Service.SetValidTriggerType(ctx.Guild?.Id, id, type, enabled).ConfigureAwait(false);
 
@@ -428,17 +444,18 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     }
 
     [SlashCommand("clear", "Clear all chat triggers."),
-    SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CtsClear()
     {
         await DeferAsync().ConfigureAwait(false);
         if (await PromptUserConfirmAsync(new EmbedBuilder()
-                    .WithTitle("Chat triggers clear")
-                    .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id).ConfigureAwait(false))
+                .WithTitle("Chat triggers clear")
+                .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id).ConfigureAwait(false))
         {
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ConfirmLocalizedAsync(GetText("cleared", count)).ConfigureAwait(false);
         }
+
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
@@ -448,8 +465,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("webhook", "crosspost triggers using a webhook"), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtCpSetWebhook
         (
-            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-            [Summary("webhook-url", "What webhook do you want to crosspost messages with?")] string webhookUrl
+            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("webhook-url", "What webhook do you want to crosspost messages with?")]
+            string webhookUrl
         )
         {
             var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl).ConfigureAwait(false);
@@ -458,11 +477,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 await ReplyErrorLocalizedAsync("ct_webhook_invalid").ConfigureAwait(false);
                 return;
             }
+
             if (res.Trigger is null)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
                 return;
             }
+
             await RespondAsync(embed: Service.GetEmbed(res.Trigger, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
                 .ConfigureAwait(false);
 
@@ -474,8 +495,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
          RequireContext(ContextType.Guild)]
         public async Task CtCpSetChannel
         (
-            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))] int id,
-            [Summary("channel", "What channels do you want to crosspost messages to?")] ITextChannel channel
+            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+            int id,
+            [Summary("channel", "What channels do you want to crosspost messages to?")]
+            ITextChannel channel
         )
         {
             var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id).ConfigureAwait(false);
@@ -496,9 +519,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
-                        .WithTitle(GetText("ct_interaction_errors_title"))
-                        .WithDescription(GetText("ct_interaction_errors_desc"))
-                        .WithErrorColor();
+                .WithTitle(GetText("ct_interaction_errors_title"))
+                .WithDescription(GetText("ct_interaction_errors_desc"))
+                .WithErrorColor();
             await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
         }
     }
@@ -507,11 +530,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public class Roles : MewdekoSlashModuleBase<ChatTriggersService>
     {
         [SlashCommand("add", "Toggle whether running this command will add the role to the user."),
-        SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtrGrantToggle
         (
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to add roles to.")] int id,
-            [Summary("role", "The roll to toggle.")] IRole role
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to add roles to.")]
+            int id,
+            [Summary("role", "The roll to toggle.")]
+            IRole role
         )
         {
             var gUsr = ctx.User as IGuildUser;
@@ -550,11 +575,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
 
         [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user."),
-        SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtrRemoveToggle
         (
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
-            [Summary("role", "The roll to toggle.")] IRole role
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")]
+            int id,
+            [Summary("role", "The roll to toggle.")]
+            IRole role
         )
         {
             var gUsr = ctx.User as IGuildUser;
@@ -591,8 +618,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, SlashUserPerm(GuildPermission.Administrator)]
         public async Task ChatTriggerRoleGrantType(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")] int id,
-            [Summary("mode", "How should roles be added when the trigger is used.")] CtRoleGrantType type)
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")]
+            int id,
+            [Summary("mode", "How should roles be added when the trigger is used.")]
+            CtRoleGrantType type)
         {
             var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
 
@@ -613,9 +642,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
-                        .WithTitle(GetText("ct_interaction_errors_title"))
-                        .WithDescription(GetText("ct_interaction_errors_desc"))
-                        .WithErrorColor();
+                .WithTitle(GetText("ct_interaction_errors_title"))
+                .WithDescription(GetText("ct_interaction_errors_desc"))
+                .WithErrorColor();
             await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
         }
     }
@@ -626,7 +655,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
          SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterType(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            int id,
             [Summary("type", "The type of command, use 'none' to disable commands in their entirety.")]
             CtApplicationCommandType type)
         {
@@ -663,8 +693,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("name", "Sets the name of the interaction."),
          SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterName(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
-            [Summary("name", "The name of the interaction.")] string name)
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            int id,
+            [Summary("name", "The name of the interaction.")]
+            string name)
         {
             var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
 
@@ -684,8 +716,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("description", "Sets the description of the interaction."),
          SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task SetCtInterDesc(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
-            [Summary("description", "The description of the interaction.")] string description)
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            int id,
+            [Summary("description", "The description of the interaction.")]
+            string description)
         {
             var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
 
@@ -705,8 +739,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
          SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
         public async Task CtInterEphemeral(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")] int id,
-            [Summary("ephemeral", "Should the trigger be ephemeral?")] bool ephemeral)
+            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            int id,
+            [Summary("ephemeral", "Should the trigger be ephemeral?")]
+            bool ephemeral)
         {
             var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
 
@@ -728,9 +764,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false)) return;
             var embed = new EmbedBuilder()
-                        .WithTitle(GetText("ct_interaction_errors_title"))
-                        .WithDescription(GetText("ct_interaction_errors_desc"))
-                        .WithErrorColor();
+                .WithTitle(GetText("ct_interaction_errors_title"))
+                .WithDescription(GetText("ct_interaction_errors_desc"))
+                .WithErrorColor();
             await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
         }
 
@@ -740,19 +776,20 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         {
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
-            var cb = new ComponentBuilder().WithButton("Support Server", style:ButtonStyle.Link, url:"https://discord.gg/Mewdeko", emote:Emote.Parse("<:IconInvite:778931752835088426>"));
+            var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko",
+                emote: Emote.Parse("<:IconInvite:778931752835088426>"));
             if (errors?.Any() ?? false)
             {
                 eb.WithFields(errors.Select(x =>
-                      new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
-                          GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(s => $" - {s}").Join('\n')))))
-                  .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
-                  .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
+                        new EmbedFieldBuilder().WithName(GetText($"ct_interr_{x.ErrorKey}")).WithValue(
+                            GetText($"ct_interr_{x.ErrorKey}_body", x.CtRealNames.Select(s => $" - {s}").Join('\n')))))
+                    .WithTitle(GetText("ct_interaction_errors_info_title", errors.Count))
+                    .WithDescription(GetText("ct_interaction_errors_info_desc")).WithErrorColor();
             }
             else
             {
                 eb.WithOkColor().WithTitle(GetText("ct_interaction_errors_none"))
-                  .WithDescription(GetText("ct_interaction_errors_none_desc"));
+                    .WithDescription(GetText("ct_interaction_errors_none_desc"));
             }
 
             await RespondAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);

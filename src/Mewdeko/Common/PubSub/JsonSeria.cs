@@ -1,5 +1,5 @@
-﻿using Mewdeko.Common.JsonConverters;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Mewdeko.Common.JsonConverters;
 
 namespace Mewdeko.Common.PubSub;
 
@@ -9,8 +9,7 @@ public class JsonSeria : ISeria
     {
         Converters =
         {
-            new Rgba32Converter(),
-            new CultureInfoConverter()
+            new Rgba32Converter(), new CultureInfoConverter()
         }
     };
 

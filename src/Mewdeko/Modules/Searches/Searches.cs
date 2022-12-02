@@ -1,4 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Globalization;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using GScraper;
@@ -21,10 +25,6 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.Globalization;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Searches;
@@ -96,12 +96,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             var emt = new EmbedBuilder
             {
-                Description = "This subreddit is nsfw!",
-                Color = Mewdeko.ErrorColor
+                Description = "This subreddit is nsfw!", Color = Mewdeko.ErrorColor
             };
             await msg.ModifyAsync(x => x.Embed = emt.Build()).ConfigureAwait(false);
             return;
         }
+
         var button = new ComponentBuilder().WithButton("Another!", $"randomreddit:{subreddit}.{ctx.User.Id}");
         RedditPost image;
         try
@@ -115,6 +115,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             Log.Error($"Seems that Meme fetching has failed. Here's the error:\nCode: {ex.StatusCode}\nContent: {(ex.HasContent ? ex.Content : "No Content.")}");
             return;
         }
+
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -144,9 +145,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
         await using var _ = picStream.ConfigureAwait(false);
         await ctx.Channel.SendFileAsync(
-                     picStream,
-                     "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
-                 .ConfigureAwait(false);
+                picStream,
+                "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
+            .ConfigureAwait(false);
     }
 
     // done in 3.0
@@ -272,12 +273,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
 
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithMaxPageIndex(result.Length - 1)
-                        .WithDefaultEmotes()
-                        .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithMaxPageIndex(result.Length - 1)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -285,14 +286,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(result[page].Snippet.Description.TrimTo(2048))
-                                    .WithAuthor(new EmbedAuthorBuilder().WithName($"YouTube Search for {query.TrimTo(40)}")
-                                                                        .WithIconUrl("https://cdn.mewdeko.tech/YouTube.png"))
-                                    .WithTitle(result[page].Snippet.Title)
-                                    .WithUrl($"https://www.youtube.com/watch?v={result[page].Id.VideoId}")
-                                    .WithImageUrl(result[page].Snippet.Thumbnails.High.Url)
-                                    .WithColor(new Discord.Color(255, 0, 0));
+                .WithAuthor(new EmbedAuthorBuilder().WithName($"YouTube Search for {query.TrimTo(40)}")
+                    .WithIconUrl("https://cdn.mewdeko.tech/YouTube.png"))
+                .WithTitle(result[page].Snippet.Title)
+                .WithUrl($"https://www.youtube.com/watch?v={result[page].Id.VideoId}")
+                .WithImageUrl(result[page].Snippet.Thumbnails.High.Url)
+                .WithColor(new Discord.Color(255, 0, 0));
         }
-
     }
 
     // done in 3.0
@@ -365,11 +365,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             else
             {
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                                                          .WithFooter(
-                                                              PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                                          .WithMaxPageIndex(duckDuckGoImageResults.Length)
-                                                          .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+                    .WithFooter(
+                        PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(duckDuckGoImageResults.Length)
+                    .WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -377,20 +377,20 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     await Task.CompletedTask.ConfigureAwait(false);
                     var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
                     return new PageBuilder().WithOkColor().WithDescription(result!.Title)
-                                                            .WithImageUrl(result.Url)
-                                                            .WithAuthor(name: "DuckDuckGo Image Result",
-                                                                iconUrl:
-                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22");
+                        .WithImageUrl(result.Url)
+                        .WithAuthor(name: "DuckDuckGo Image Result",
+                            iconUrl:
+                            "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22");
                 }
             }
         }
         else
         {
             var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                                                      .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                                      .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                                                      .Build();
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
@@ -398,10 +398,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 await Task.CompletedTask.ConfigureAwait(false);
                 var result = googleImageResults.Skip(page).FirstOrDefault();
                 return new PageBuilder().WithOkColor().WithDescription(result.Title)
-                                                        .WithImageUrl(result.Url)
-                                                        .WithAuthor(name: "Google Image Result",
-                                                            iconUrl:
-                                                            "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
+                    .WithImageUrl(result.Url)
+                    .WithAuthor(name: "Google Image Result",
+                        iconUrl:
+                        "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
             }
         }
     }
@@ -413,7 +413,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         await ctx.Channel.SendConfirmAsync(
-                     $"<{await google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}").ConfigureAwait(false)}>")
+                $"<{await google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}").ConfigureAwait(false)}>")
             .ConfigureAwait(false);
     }
 
@@ -432,7 +432,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 using var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten");
                 req.Content = new MultipartFormDataContent
                 {
-                    {new StringContent(query), "url"}
+                    {
+                        new StringContent(query), "url"
+                    }
                 };
 
                 using var res = await http.SendAsync(req).ConfigureAwait(false);
@@ -658,7 +660,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(col.Count - 1)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -710,7 +712,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
         await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}")
-                 .ConfigureAwait(false);
+            .ConfigureAwait(false);
     }
 
     //done in 3.0
@@ -740,7 +742,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         using var http = httpFactory.CreateClient();
         var result = await http
             .GetStringAsync(
-                $"https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles={Uri.EscapeDataString(query)}").ConfigureAwait(false);
+                $"https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles={Uri.EscapeDataString(query)}")
+            .ConfigureAwait(false);
         var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
         if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
             await ReplyErrorLocalizedAsync("wiki_page_not_found").ConfigureAwait(false);
@@ -786,7 +789,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         try
         {
             var res = await http.GetStringAsync(
-                $"https://{Uri.EscapeDataString(target)}.fandom.com/api.php?action=query&format=json&list=search&srsearch={Uri.EscapeDataString(query)}&srlimit=1").ConfigureAwait(false);
+                    $"https://{Uri.EscapeDataString(target)}.fandom.com/api.php?action=query&format=json&list=search&srsearch={Uri.EscapeDataString(query)}&srlimit=1")
+                .ConfigureAwait(false);
             var items = JObject.Parse(res);
             var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
 
@@ -889,9 +893,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         else
         {
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")
-                        .WithImageUrl(imgObj.FileUrl)
-                        .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
+                .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")
+                .WithImageUrl(imgObj.FileUrl)
+                .WithFooter(efb => efb.WithText(type.ToString()))).ConfigureAwait(false);
         }
     }
 
@@ -905,6 +909,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     public class ShortenData
     {
-        [JsonProperty("result_url")] public string ResultUrl { get; set; }
+        [JsonProperty("result_url")]
+        public string ResultUrl { get; set; }
     }
 }

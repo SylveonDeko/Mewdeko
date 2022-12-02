@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Collections.Immutable;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Services;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 
@@ -93,15 +93,15 @@ public partial class Games
             {
                 case 0:
                     await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"))
-                             .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                     return;
                 case 1:
                     await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                                   .WithDescription(
-                                                                       GetText("acro_winner_only",
-                                                                           Format.Bold(submissions.First().Key.UserName)))
-                                                                   .WithFooter(efb => efb.WithText(submissions.First().Key.Input)))
-                             .ConfigureAwait(false);
+                            .WithDescription(
+                                GetText("acro_winner_only",
+                                    Format.Bold(submissions.First().Key.UserName)))
+                            .WithFooter(efb => efb.WithText(submissions.First().Key.Input)))
+                        .ConfigureAwait(false);
                     return;
             }
 

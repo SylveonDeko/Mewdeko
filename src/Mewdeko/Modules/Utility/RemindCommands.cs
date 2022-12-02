@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
 using Swan;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -84,7 +84,7 @@ public partial class Utility
             await using (uow.ConfigureAwait(false))
             {
                 rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
-                          .ToList();
+                    .ToList();
             }
 
             if (rems.Count > 0)
@@ -121,7 +121,7 @@ public partial class Utility
             await using (uow.ConfigureAwait(false))
             {
                 var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
-                              .ToList();
+                    .ToList();
                 var pageIndex = index % 10;
                 if (rems.Count > pageIndex)
                 {
@@ -174,7 +174,8 @@ public partial class Utility
             {
                 var unixTime = time.ToUnixEpochDate();
                 await ctx.Channel.SendConfirmAsync(
-                    $"⏰ {GetText("remind", Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username), Format.Bold(message), $"<t:{unixTime}:R>", gTime, gTime)}").ConfigureAwait(false);
+                        $"⏰ {GetText("remind", Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username), Format.Bold(message), $"<t:{unixTime}:R>", gTime, gTime)}")
+                    .ConfigureAwait(false);
             }
             catch
             {

@@ -1,9 +1,9 @@
-﻿using LinqToDB.EntityFrameworkCore;
+﻿using System.Reflection;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System.Reflection;
 
 namespace Mewdeko.Database;
 
@@ -20,7 +20,7 @@ public class DbService
         if (shardCount > 1)
         {
             builder.DataSource = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                        "Mewdeko.db");
+                "Mewdeko.db");
         }
         else
         {
@@ -54,9 +54,13 @@ public class DbService
                 var pmhToRuns = pmhs?.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
                 foreach (var pmh in pmhToRuns)
                 {
-                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] {id, mContext});
+                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[]
+                    {
+                        id, mContext
+                    });
                 }
             }
+
             await mContext.DisposeAsync().ConfigureAwait(false);
         }
 

@@ -1,7 +1,7 @@
-using Serilog;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Serilog;
 
 var pid = Environment.ProcessId;
 
@@ -23,6 +23,7 @@ if (args.Length > 0)
         }
     }
 }
+
 if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
 {
     var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/970711443672543252/Mewdeko.db");
@@ -34,6 +35,7 @@ if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
     await using var _ = fs.ConfigureAwait(false);
     await response.Content.CopyToAsync(fs).ConfigureAwait(false);
 }
+
 Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
 
 LogSetup.SetupLogger(shardId);

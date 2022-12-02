@@ -1,5 +1,5 @@
-using StackExchange.Redis;
 using System.Web;
+using StackExchange.Redis;
 
 namespace Mewdeko.Services.strings.impl;
 
@@ -41,8 +41,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
         var args = Array.ConvertAll(argsStr.Split('&'), HttpUtility.UrlDecode);
         return new CommandStrings
         {
-            Args = args,
-            Desc = descStr
+            Args = args, Desc = descStr
         };
     }
 
