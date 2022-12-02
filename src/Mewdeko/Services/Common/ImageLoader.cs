@@ -1,9 +1,9 @@
-using Newtonsoft.Json.Linq;
-using Serilog;
-using StackExchange.Redis;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Serilog;
+using StackExchange.Redis;
 
 namespace Mewdeko.Services.Common;
 
@@ -111,11 +111,11 @@ public class ImageLoader
                     tasks.Add(t);
                     break;
                 case JTokenType.String:
-                    {
-                        var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
-                        uriTasks.Add(uriTask);
-                        break;
-                    }
+                {
+                    var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
+                    uriTasks.Add(uriTask);
+                    break;
+                }
                 case JTokenType.Object:
                     t = HandleJObject((JObject)kvp.Value, GetParentString() + kvp.Key);
                     tasks.Add(t);
@@ -130,6 +130,6 @@ public class ImageLoader
     {
         await HandleJObject(obj).ConfigureAwait(false);
         var results = await Task.WhenAll(uriTasks).ConfigureAwait(false);
-        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(),  flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(), flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -7,7 +8,6 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -52,7 +52,7 @@ public partial class Gambling
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(entries.Count / 9)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -65,11 +65,11 @@ public partial class Gambling
                 if (theseEntries.Length == 0)
                 {
                     return new PageBuilder().WithErrorColor()
-                            .WithDescription(GetText("shop_none"));
+                        .WithDescription(GetText("shop_none"));
                 }
 
                 var embed = new PageBuilder().WithOkColor()
-                        .WithTitle(GetText("shop", CurrencySign));
+                    .WithTitle(GetText("shop", CurrencySign));
 
                 for (var i = 0; i < theseEntries.Length; i++)
                 {
@@ -114,118 +114,118 @@ public partial class Gambling
             switch (entry.Type)
             {
                 case ShopEntryType.Role:
+                {
+                    var guser = (IGuildUser)ctx.User;
+                    var role = ctx.Guild.GetRole(entry.RoleId);
+
+                    if (role == null)
                     {
-                        var guser = (IGuildUser)ctx.User;
-                        var role = ctx.Guild.GetRole(entry.RoleId);
-
-                        if (role == null)
-                        {
-                            await ReplyErrorLocalizedAsync("shop_role_not_found").ConfigureAwait(false);
-                            return;
-                        }
-
-                        if (guser.RoleIds.Any(id => id == role.Id))
-                        {
-                            await ReplyErrorLocalizedAsync("shop_role_already_bought").ConfigureAwait(false);
-                            return;
-                        }
-
-                        if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
-                                     .ConfigureAwait(false))
-                        {
-                            try
-                            {
-                                await guser.AddRoleAsync(role).ConfigureAwait(false);
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.Warning(ex, "Error adding shop role");
-                                await cs.AddAsync(ctx.User.Id, "Shop error refund", entry.Price).ConfigureAwait(false);
-                                await ReplyErrorLocalizedAsync("shop_role_purchase_error").ConfigureAwait(false);
-                                return;
-                            }
-
-                            var profit = GetProfitAmount(entry.Price);
-                            await cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", profit)
-                                     .ConfigureAwait(false);
-                            await cs.AddAsync(ctx.Client.CurrentUser.Id, "Shop sell item - cut", entry.Price - profit)
-                                     .ConfigureAwait(false);
-                            await ReplyConfirmLocalizedAsync("shop_role_purchase", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
-                        }
-
-                        break;
+                        await ReplyErrorLocalizedAsync("shop_role_not_found").ConfigureAwait(false);
+                        return;
                     }
+
+                    if (guser.RoleIds.Any(id => id == role.Id))
+                    {
+                        await ReplyErrorLocalizedAsync("shop_role_already_bought").ConfigureAwait(false);
+                        return;
+                    }
+
+                    if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
+                            .ConfigureAwait(false))
+                    {
+                        try
+                        {
+                            await guser.AddRoleAsync(role).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Warning(ex, "Error adding shop role");
+                            await cs.AddAsync(ctx.User.Id, "Shop error refund", entry.Price).ConfigureAwait(false);
+                            await ReplyErrorLocalizedAsync("shop_role_purchase_error").ConfigureAwait(false);
+                            return;
+                        }
+
+                        var profit = GetProfitAmount(entry.Price);
+                        await cs.AddAsync(entry.AuthorId, $"Shop sell item - {entry.Type}", profit)
+                            .ConfigureAwait(false);
+                        await cs.AddAsync(ctx.Client.CurrentUser.Id, "Shop sell item - cut", entry.Price - profit)
+                            .ConfigureAwait(false);
+                        await ReplyConfirmLocalizedAsync("shop_role_purchase", Format.Bold(role.Name))
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                    }
+
+                    break;
+                }
                 case ShopEntryType.List when entry.Items.Count == 0:
                     await ReplyErrorLocalizedAsync("out_of_stock").ConfigureAwait(false);
                     return;
                 case ShopEntryType.List:
-                    {
-                        var item = entry.Items.ToArray()[new MewdekoRandom().Next(0, entry.Items.Count)];
+                {
+                    var item = entry.Items.ToArray()[new MewdekoRandom().Next(0, entry.Items.Count)];
 
-                        if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
-                                     .ConfigureAwait(false))
+                    if (await cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
+                            .ConfigureAwait(false))
+                    {
+                        await using (var uow = db.GetDbContext())
                         {
+                            uow.Set<ShopEntryItem>().Remove(item);
+                            await uow.SaveChangesAsync().ConfigureAwait(false);
+                        }
+
+                        try
+                        {
+                            await (await ctx.User.CreateDMChannelAsync().ConfigureAwait(false))
+                                .EmbedAsync(new EmbedBuilder().WithOkColor()
+                                    .WithTitle(GetText("shop_purchase", ctx.Guild.Name))
+                                    .AddField(efb =>
+                                        efb.WithName(GetText("item")).WithValue(item.Text).WithIsInline(false))
+                                    .AddField(efb =>
+                                        efb.WithName(GetText("price")).WithValue(entry.Price.ToString())
+                                            .WithIsInline(true))
+                                    .AddField(efb =>
+                                        efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true)))
+                                .ConfigureAwait(false);
+
+                            await cs.AddAsync(entry.AuthorId,
+                                $"Shop sell item - {entry.Name}",
+                                GetProfitAmount(entry.Price)).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            await cs.AddAsync(ctx.User.Id,
+                                $"Shop error refund - {entry.Name}",
+                                entry.Price).ConfigureAwait(false);
                             await using (var uow = db.GetDbContext())
                             {
-                                uow.Set<ShopEntryItem>().Remove(item);
-                                await uow.SaveChangesAsync().ConfigureAwait(false);
-                            }
-
-                            try
-                            {
-                                await (await ctx.User.CreateDMChannelAsync().ConfigureAwait(false))
-                                      .EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                                    .WithTitle(GetText("shop_purchase", ctx.Guild.Name))
-                                                                    .AddField(efb =>
-                                                                        efb.WithName(GetText("item")).WithValue(item.Text).WithIsInline(false))
-                                                                    .AddField(efb =>
-                                                                        efb.WithName(GetText("price")).WithValue(entry.Price.ToString())
-                                                                           .WithIsInline(true))
-                                                                    .AddField(efb =>
-                                                                        efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true)))
-                                      .ConfigureAwait(false);
-
-                                await cs.AddAsync(entry.AuthorId,
-                                    $"Shop sell item - {entry.Name}",
-                                    GetProfitAmount(entry.Price)).ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                await cs.AddAsync(ctx.User.Id,
-                                    $"Shop error refund - {entry.Name}",
-                                    entry.Price).ConfigureAwait(false);
-                                await using (var uow = db.GetDbContext())
+                                var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                                        set => set.Include(x => x.ShopEntries)
+                                            .ThenInclude(x => x.Items)))
+                                    .ShopEntries);
+                                entry = entries.ElementAtOrDefault(index);
+                                if (entry != null)
                                 {
-                                    var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
-                                            set => set.Include(x => x.ShopEntries)
-                                                      .ThenInclude(x => x.Items)))
-                                        .ShopEntries);
-                                    entry = entries.ElementAtOrDefault(index);
-                                    if (entry != null)
-                                    {
-                                        if (entry.Items.Add(item))
-                                            await uow.SaveChangesAsync().ConfigureAwait(false);
-                                    }
+                                    if (entry.Items.Add(item))
+                                        await uow.SaveChangesAsync().ConfigureAwait(false);
                                 }
-
-                                await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
-                                return;
                             }
 
-                            await ReplyConfirmLocalizedAsync("shop_item_purchase").ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                            await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
+                            return;
                         }
 
-                        break;
+                        await ReplyConfirmLocalizedAsync("shop_item_purchase").ConfigureAwait(false);
                     }
+                    else
+                    {
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -355,7 +355,7 @@ public partial class Gambling
             else
             {
                 await ctx.Channel.EmbedAsync(EntryToEmbed(removed)
-                                .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
+                    .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
             }
         }
 
@@ -443,19 +443,19 @@ public partial class Gambling
             {
                 case ShopEntryType.Role:
                     return embed.AddField(efb =>
-                                    efb.WithName(GetText("name")).WithValue(GetText("shop_role",
-                                           Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
-                                       .WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true));
+                            efb.WithName(GetText("name")).WithValue(GetText("shop_role",
+                                    Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
+                                .WithIsInline(true))
+                        .AddField(efb =>
+                            efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
+                        .AddField(efb =>
+                            efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true));
                 case ShopEntryType.List:
                     return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("type")).WithValue(GetText("random_unique_item")).WithIsInline(true));
+                        .AddField(efb =>
+                            efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
+                        .AddField(efb =>
+                            efb.WithName(GetText("type")).WithValue(GetText("random_unique_item")).WithIsInline(true));
                 default:
                     //else if (entry.Type == ShopEntryType.Infinite_List)
                     //    return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(GetText("shop_role", Format.Bold(entry.RoleName))).WithIsInline(true))

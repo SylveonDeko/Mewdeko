@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 
@@ -29,12 +29,13 @@ public partial class Games
             var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
             var channel = (ITextChannel)ctx.Channel;
 
-            var game = Service.RunningContests.GetOrAdd(channel.Guild.Id, _ => new TypingGame(games, client, channel, guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
+            var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
+                _ => new TypingGame(games, client, channel, guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
 
             if (game.IsActive)
             {
                 await channel.SendErrorAsync($"Contest already running in {game.Channel.Mention} channel.")
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {

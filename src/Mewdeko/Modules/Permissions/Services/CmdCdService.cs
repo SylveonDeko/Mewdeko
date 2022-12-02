@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
@@ -13,7 +13,7 @@ public class CmdCdService : ILateBlocker, INService
         using var uow = db.GetDbContext();
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
             uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id)
-                                                    .Contains(x.GuildId)).ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+                .Contains(x.GuildId)).ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
     }
 
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
@@ -30,6 +30,7 @@ public class CmdCdService : ILateBlocker, INService
 
         return TryBlock(guild, user, commandName);
     }
+
     public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
         ICommandInfo command)
     {
@@ -55,8 +56,7 @@ public class CmdCdService : ILateBlocker, INService
 
             activeCdsForGuild.Add(new ActiveCooldown
             {
-                UserId = user.Id,
-                Command = commandName
+                UserId = user.Id, Command = commandName
             });
 
             _ = Task.Run(async () =>

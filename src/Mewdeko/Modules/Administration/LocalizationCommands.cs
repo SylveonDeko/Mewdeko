@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
-using Mewdeko.Common.Attributes.TextCommands;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading.Tasks;
+using Discord.Commands;
+using Mewdeko.Common.Attributes.TextCommands;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -13,34 +13,90 @@ public partial class Administration
         private static readonly IReadOnlyDictionary<string, string> SupportedLocales =
             new Dictionary<string, string>
             {
-                {"ar", "العربية"},
-                {"zh-TW", "繁體中文, 台灣"},
-                {"zh-CN", "简体中文, 中华人民共和国"},
-                {"nl-NL", "Nederlands, Nederland"},
-                {"en-US", "English, United States"},
-                {"fr-FR", "Français, France"},
-                {"cs-CZ", "Čeština, Česká republika"},
-                {"da-DK", "Dansk, Danmark"},
-                {"de-DE", "Deutsch, Deutschland"},
-                {"he-IL", "עברית, ישראל"},
-                {"hu-HU", "Magyar, Magyarország"},
-                {"id-ID", "Bahasa Indonesia, Indonesia"},
-                {"it-IT", "Italiano, Italia"},
-                {"ja-JP", "日本語, 日本"},
-                {"ko-KR", "한국어, 대한민국"},
-                {"hi-IN", "Hindi"},
-                {"nb-NO", "Norsk, Norge"},
-                {"pl-PL", "Polski, Polska"},
-                {"pt-BR", "Português Brasileiro, Brasil"},
-                {"owo", "*pounces"},
-                {"ro-RO", "Română, România"},
-                {"ru-RU", "Русский, Россия"},
-                {"sr-Cyrl-RS", "Српски, Србија"},
-                {"es-ES", "Español, España"},
-                {"sv-SE", "Svenska, Sverige"},
-                {"tr-TR", "Türkçe, Türkiye"},
-                {"ts-TS", "Tsundere, You Baka"},
-                {"uk-UA", "Українська, Україна"}
+                {
+                    "ar", "العربية"
+                },
+                {
+                    "zh-TW", "繁體中文, 台灣"
+                },
+                {
+                    "zh-CN", "简体中文, 中华人民共和国"
+                },
+                {
+                    "nl-NL", "Nederlands, Nederland"
+                },
+                {
+                    "en-US", "English, United States"
+                },
+                {
+                    "fr-FR", "Français, France"
+                },
+                {
+                    "cs-CZ", "Čeština, Česká republika"
+                },
+                {
+                    "da-DK", "Dansk, Danmark"
+                },
+                {
+                    "de-DE", "Deutsch, Deutschland"
+                },
+                {
+                    "he-IL", "עברית, ישראל"
+                },
+                {
+                    "hu-HU", "Magyar, Magyarország"
+                },
+                {
+                    "id-ID", "Bahasa Indonesia, Indonesia"
+                },
+                {
+                    "it-IT", "Italiano, Italia"
+                },
+                {
+                    "ja-JP", "日本語, 日本"
+                },
+                {
+                    "ko-KR", "한국어, 대한민국"
+                },
+                {
+                    "hi-IN", "Hindi"
+                },
+                {
+                    "nb-NO", "Norsk, Norge"
+                },
+                {
+                    "pl-PL", "Polski, Polska"
+                },
+                {
+                    "pt-BR", "Português Brasileiro, Brasil"
+                },
+                {
+                    "owo", "*pounces"
+                },
+                {
+                    "ro-RO", "Română, România"
+                },
+                {
+                    "ru-RU", "Русский, Россия"
+                },
+                {
+                    "sr-Cyrl-RS", "Српски, Србија"
+                },
+                {
+                    "es-ES", "Español, España"
+                },
+                {
+                    "sv-SE", "Svenska, Sverige"
+                },
+                {
+                    "tr-TR", "Türkçe, Türkiye"
+                },
+                {
+                    "ts-TS", "Tsundere, You Baka"
+                },
+                {
+                    "uk-UA", "Українська, Україна"
+                }
             };
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -106,9 +162,9 @@ public partial class Administration
         [Cmd, Aliases]
         public async Task LanguagesList() =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                           .WithTitle(GetText("lang_list"))
-                                                           .WithDescription(string.Join("\n",
-                                                               SupportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
+                .WithTitle(GetText("lang_list"))
+                .WithDescription(string.Join("\n",
+                    SupportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
     }
 }
 /* list of language codes for reference.

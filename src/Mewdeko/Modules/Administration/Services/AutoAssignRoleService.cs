@@ -1,7 +1,7 @@
-﻿using Discord.Net;
-using Serilog;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using Discord.Net;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -10,9 +10,7 @@ public sealed class AutoAssignRoleService : INService
     private readonly Channel<IGuildUser> assignQueue = Channel.CreateBounded<IGuildUser>(
         new BoundedChannelOptions(int.MaxValue)
         {
-            FullMode = BoundedChannelFullMode.DropOldest,
-            SingleReader = true,
-            SingleWriter = false
+            FullMode = BoundedChannelFullMode.DropOldest, SingleReader = true, SingleWriter = false
         });
 
     //guildid/roleid
@@ -36,9 +34,9 @@ public sealed class AutoAssignRoleService : INService
                     try
                     {
                         var roleIds = autobotroles
-                                      .Select(roleId => user.Guild.GetRole(roleId))
-                                      .Where(x => x is not null)
-                                      .ToList();
+                            .Select(roleId => user.Guild.GetRole(roleId))
+                            .Where(x => x is not null)
+                            .ToList();
 
                         if (roleIds.Count > 0)
                         {
@@ -84,9 +82,9 @@ public sealed class AutoAssignRoleService : INService
                     try
                     {
                         var roleIds = autoroles
-                                      .Select(roleId => user.Guild.GetRole(roleId))
-                                      .Where(x => x is not null)
-                                      .ToList();
+                            .Select(roleId => user.Guild.GetRole(roleId))
+                            .Where(x => x is not null)
+                            .ToList();
 
                         if (roleIds.Count > 0)
                         {

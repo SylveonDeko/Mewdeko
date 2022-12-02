@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -22,13 +22,13 @@ public partial class Moderation
             if (parameter is "-s" or "--safe")
             {
                 await Service
-                                .PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
-                                .ConfigureAwait(false);
+                    .PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
+                    .ConfigureAwait(false);
             }
             else
             {
                 await Service.PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id)
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
 
             ctx.Message.DeleteAfter(3);
@@ -140,13 +140,13 @@ public partial class Moderation
             if (parameter is "-s" or "--safe")
             {
                 await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned)
-                                .ConfigureAwait(false);
+                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned)
+                    .ConfigureAwait(false);
             }
             else
             {
                 await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                                m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks).ConfigureAwait(false);
+                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks).ConfigureAwait(false);
             }
         }
     }

@@ -7,6 +7,7 @@ public class ConfessionService : INService
     private readonly DbService db;
     private readonly DiscordSocketClient client;
     private readonly GuildSettingsService guildSettings;
+
     public ConfessionService(DbService db, DiscordSocketClient client,
         GuildSettingsService guildSettings)
     {
@@ -37,17 +38,18 @@ public class ConfessionService : INService
                         "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
                     return;
                 }
+
                 await currentChannel.SendErrorAsync(
                     "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
                 return;
             }
 
             var eb = new EmbedBuilder().WithOkColor()
-                                       .WithAuthor($"Anonymous confession #{current.ConfessNumber + 1}", guild.IconUrl)
-                                       .WithDescription(confession)
-                                       .WithFooter(
-                                           $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
-                                       .WithCurrentTimestamp();
+                .WithAuthor($"Anonymous confession #{current.ConfessNumber + 1}", guild.IconUrl)
+                .WithDescription(confession)
+                .WithFooter(
+                    $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
+                .WithCurrentTimestamp();
             if (imageUrl != null)
                 eb.WithImageUrl(imageUrl);
             var perms = currentUser.GetPermissions(confessionChannel);
@@ -59,6 +61,7 @@ public class ConfessionService : INService
                         "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
                     return;
                 }
+
                 await currentChannel.SendErrorAsync(
                     "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
                 return;
@@ -67,13 +70,18 @@ public class ConfessionService : INService
             var msg = await confessionChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             if (ctx?.Interaction is not null)
             {
-                await ctx.Interaction.SendEphemeralConfirmAsync("Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`").ConfigureAwait(false);
+                await ctx.Interaction
+                    .SendEphemeralConfirmAsync(
+                        "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`")
+                    .ConfigureAwait(false);
             }
             else
             {
                 await currentChannel.SendConfirmAsync(
-                    "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`").ConfigureAwait(false);
+                        "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`")
+                    .ConfigureAwait(false);
             }
+
             var toadd = new Database.Models.Confessions
             {
                 ChannelId = current.ChannelId,
@@ -91,10 +99,10 @@ public class ConfessionService : INService
                 if (logChannel is null)
                     return;
                 var eb2 = new EmbedBuilder().WithErrorColor()
-                                            .AddField("User", $"{user} | {user.Id}")
-                                            .AddField($"Confession {current.ConfessNumber + 1}", confession)
-                                            .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
-                                                "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
+                    .AddField("User", $"{user} | {user.Id}")
+                    .AddField($"Confession {current.ConfessNumber + 1}", confession)
+                    .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
+                        "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
                 await logChannel.SendMessageAsync(embed: eb2.Build()).ConfigureAwait(false);
             }
         }
@@ -111,17 +119,18 @@ public class ConfessionService : INService
                         "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
                     return;
                 }
+
                 await currentChannel.SendErrorAsync(
                     "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
                 return;
             }
 
             var eb = new EmbedBuilder().WithOkColor()
-                                       .WithAuthor("Anonymous confession #1", guild.IconUrl)
-                                       .WithDescription(confession)
-                                       .WithFooter(
-                                           $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
-                                       .WithCurrentTimestamp();
+                .WithAuthor("Anonymous confession #1", guild.IconUrl)
+                .WithDescription(confession)
+                .WithFooter(
+                    $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
+                .WithCurrentTimestamp();
             if (imageUrl != null)
                 eb.WithImageUrl(imageUrl);
             var perms = currentUser.GetPermissions(confessionChannel);
@@ -133,6 +142,7 @@ public class ConfessionService : INService
                         "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
                     return;
                 }
+
                 await currentChannel.SendErrorAsync(
                     "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
                 return;
@@ -141,13 +151,18 @@ public class ConfessionService : INService
             var msg = await confessionChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             if (ctx is not null)
             {
-                await ctx.Interaction.SendEphemeralConfirmAsync("Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`").ConfigureAwait(false);
+                await ctx.Interaction
+                    .SendEphemeralConfirmAsync(
+                        "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`")
+                    .ConfigureAwait(false);
             }
             else
             {
                 await currentChannel.SendConfirmAsync(
-                    "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`").ConfigureAwait(false);
+                        "Your confession has been sent! Please keep in mind if the server is abusing confessions you can send in a report using `/confessions report`")
+                    .ConfigureAwait(false);
             }
+
             var toadd = new Database.Models.Confessions
             {
                 ChannelId = confessionChannel.Id,
@@ -165,10 +180,10 @@ public class ConfessionService : INService
                 if (logChannel is null)
                     return;
                 var eb2 = new EmbedBuilder().WithErrorColor()
-                                            .AddField("User", $"{user} | {user.Id}")
-                                            .AddField("Confession 1", confession)
-                                            .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
-                                                "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
+                    .AddField("User", $"{user} | {user.Id}")
+                    .AddField("Confession 1", confession)
+                    .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
+                        "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
                 await logChannel.SendMessageAsync(embed: eb2.Build()).ConfigureAwait(false);
             }
         }

@@ -11,8 +11,10 @@ public class DerpiImageObject : IImageData
 {
     [JsonPropertyName("view_url")]
     public string ViewUrl { get; set; }
+
     public string[] Tags { get; set; }
     public int Score { get; set; }
+
     public ImageData ToCachedImageData(Booru type)
         => new(ViewUrl, type, Tags, Score.ToString("F1"));
 }

@@ -1,8 +1,8 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Mewdeko.Common.TypeReaders.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
@@ -59,11 +59,11 @@ public class UserPunishService2 : INService
         await using (uow.ConfigureAwait(false))
         {
             ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)))
-                    .WarnPunishments2;
+                .WarnPunishments2;
 
             warnings += uow.Warnings2
-                           .ForId(guildId, userId)
-                           .Count(w => !w.Forgiven && w.UserId == userId);
+                .ForId(guildId, userId)
+                .Count(w => !w.Forgiven && w.UserId == userId);
 
             uow.Warnings2.Add(warn2);
 
@@ -93,7 +93,7 @@ public class UserPunishService2 : INService
                     else
                     {
                         await mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Voice)
-                                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                     }
 
                     break;
@@ -105,7 +105,7 @@ public class UserPunishService2 : INService
                     else
                     {
                         await mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Chat)
-                                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                     }
 
                     break;
@@ -120,7 +120,7 @@ public class UserPunishService2 : INService
                     else
                     {
                         await mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
-                                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                     }
 
                     break;
@@ -151,7 +151,7 @@ public class UserPunishService2 : INService
                         else
                         {
                             await mute.TimedRole(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.",
-                                                        role).ConfigureAwait(false);
+                                role).ConfigureAwait(false);
                         }
                     }
                     else
@@ -283,10 +283,7 @@ WHERE GuildId={guildId}
 
         ps.Add(new WarningPunishment2
         {
-            Count = number,
-            Punishment = punish,
-            Time = (int?)time?.Time.TotalMinutes ?? 0,
-            RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
+            Count = number, Punishment = punish, Time = (int?)time?.Time.TotalMinutes ?? 0, RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -313,8 +310,8 @@ WHERE GuildId={guildId}
     {
         await using var uow = db.GetDbContext();
         return (await uow.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments2)))
-               .WarnPunishments2
-               .OrderBy(x => x.Count)
-               .ToArray();
+            .WarnPunishments2
+            .OrderBy(x => x.Count)
+            .ToArray();
     }
 }

@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -54,21 +54,22 @@ public partial class Utility
             }
 
             var eb = new EmbedBuilder().WithOkColor().WithTitle(invinfo.GuildName).WithThumbnailUrl(guild?.IconUrl)
-                                       .WithDescription(
-                                           $"Online: {invinfo.PresenceCount}\nTotal Count: {invinfo.MemberCount}")
-                                       .AddField("Full Link", invinfo.Url, true)
-                                       .AddField("Channel",
-                                           $"[{invinfo.ChannelName}](https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
-                                           true).AddField("Inviter",
-                                           $"{invinfo.Inviter.Mention} ({invinfo.Inviter.Id})", true);
+                .WithDescription(
+                    $"Online: {invinfo.PresenceCount}\nTotal Count: {invinfo.MemberCount}")
+                .AddField("Full Link", invinfo.Url, true)
+                .AddField("Channel",
+                    $"[{invinfo.ChannelName}](https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
+                    true).AddField("Inviter",
+                    $"{invinfo.Inviter.Mention} ({invinfo.Inviter.Id})", true);
             if (guild is not null)
             {
                 eb.AddField("Partnered", guild.Features.HasFeature(GuildFeature.Partnered), true)
-                  .AddField("Server Created",
-                      $"{TimestampTag.FromDateTime(guild.CreatedAt.DateTime)}", true)
-                  .AddField("Verified", guild.Features.HasFeature(GuildFeature.Verified), true).AddField("Discovery",
-                      guild.Features.HasFeature(GuildFeature.Discoverable), true);
+                    .AddField("Server Created",
+                        $"{TimestampTag.FromDateTime(guild.CreatedAt.DateTime)}", true)
+                    .AddField("Verified", guild.Features.HasFeature(GuildFeature.Verified), true).AddField("Discovery",
+                        guild.Features.HasFeature(GuildFeature.Discoverable), true);
             }
+
             eb.AddField("Expires",
                 invinfo.MaxAge.HasValue
                     ? TimestampTag.FromDateTime(
@@ -76,6 +77,7 @@ public partial class Utility
                     : "Permanent", true);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(GuildPermission.ManageGuild)]
         public async Task InviteList()

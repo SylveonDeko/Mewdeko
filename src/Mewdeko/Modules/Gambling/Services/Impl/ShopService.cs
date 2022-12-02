@@ -1,6 +1,6 @@
-﻿using Mewdeko.Database.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Database.Common;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services.Impl;
 
@@ -90,10 +90,10 @@ public class ShopService : IShopService
 
     private static async Task<IndexedCollection<ShopEntry>> GetEntriesInternal(MewdekoContext uow, ulong guildId) =>
         (await uow.ForGuildId(
-               guildId,
-               set => set.Include(x => x.ShopEntries)
-                         .ThenInclude(x => x.Items)
-           ))
-           .ShopEntries
-           .ToIndexed();
+            guildId,
+            set => set.Include(x => x.ShopEntries)
+                .ThenInclude(x => x.Items)
+        ))
+        .ShopEntries
+        .ToIndexed();
 }

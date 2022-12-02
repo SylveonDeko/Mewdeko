@@ -1,5 +1,4 @@
-﻿
-namespace Mewdeko.Votes.Services;
+﻿namespace Mewdeko.Votes.Services;
 
 public interface IBotCredentials
 {

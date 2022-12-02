@@ -1,9 +1,9 @@
-﻿using Mewdeko.Votes.Extensions;
+﻿using System;
+using System.Threading.Tasks;
+using Mewdeko.Votes.Extensions;
 using Mewdeko.Votes.Services;
 using Serilog;
 using StackExchange.Redis;
-using System.Threading.Tasks;
-using Exception = System.Exception;
 
 namespace Mewdeko.Votes.Common.PubSub;
 
@@ -25,7 +25,7 @@ public sealed class RedisPubSub : IPubSub
     {
         var serialized = _serializer.Serialize(data);
         return _multi.GetSubscriber()
-                     .PublishAsync($"{_creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
+            .PublishAsync($"{_creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
     }
 
     public Task Sub<TData>(in TypedKey<TData> key, System.Func<TData, ValueTask> action)

@@ -17,7 +17,7 @@ public class DiscordUser : DbEntity
     public XpNotificationLocation NotifyOnLevelUp { get; set; }
 
     public long CurrencyAmount { get; set; }
-    
+
     public override int GetHashCode() => UserId.GetHashCode();
 
     public override string ToString() => $"{Username}#{Discriminator}";
@@ -27,7 +27,7 @@ public class DiscordUser : DbEntity
     public string? PronounsClearedReason { get; set; }
     public bool PronounsDisabled { get; set; }
     public string? Bio { get; set; }
-    public string? ProfileImageUrl { get;  set; }
+    public string? ProfileImageUrl { get; set; }
     public string? ZodiacSign { get; set; }
     public ProfilePrivacyEnum ProfilePrivacy { get; set; } = ProfilePrivacyEnum.Public;
     public uint? ProfileColor { get; set; } = 0;

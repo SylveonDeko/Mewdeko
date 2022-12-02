@@ -1,10 +1,10 @@
-﻿using Mewdeko.Modules.Nsfw.Common;
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.Nsfw.Common.Downloaders;
 using Microsoft.Extensions.Caching.Memory;
 using Serilog;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Nsfw;
 
@@ -73,10 +73,10 @@ public class SearchImageCacher : INService
             if (typeUsedTags.Count == 0)
             {
                 images.SelectMany(x => x.Tags)
-                      .Distinct()
-                      .Shuffle()
-                      .Take(50)
-                      .ForEach(x => typeUsedTags.Add(x));
+                    .Distinct()
+                    .Shuffle()
+                    .Take(50)
+                    .ForEach(x => typeUsedTags.Add(x));
             }
 
             foreach (var img in images)
@@ -126,7 +126,10 @@ public class SearchImageCacher : INService
                 if (usedTags.TryGetValue(type, out var allTags)
                     && allTags.Count > 0)
                 {
-                    tags = new[] { allTags.ToList()[rng.Next(0, allTags.Count)] };
+                    tags = new[]
+                    {
+                        allTags.ToList()[rng.Next(0, allTags.Count)]
+                    };
                 }
                 else
                 {
@@ -187,6 +190,7 @@ public class SearchImageCacher : INService
                     items.Remove(toReturn);
                 }
             }
+
             return toReturn;
         }
     }
@@ -196,10 +200,10 @@ public class SearchImageCacher : INService
     {
         // make sure tags are proper
         tags = tags
-               .Where(x => x is not null)
-               .Select(tag => tag.ToLowerInvariant().Trim())
-               .Distinct()
-               .ToArray();
+            .Where(x => x is not null)
+            .Select(tag => tag.ToLowerInvariant().Trim())
+            .Distinct()
+            .ToArray();
 
         if (tags.Length > 2 && type == Booru.Danbooru)
             tags = tags[..2];
@@ -261,7 +265,6 @@ public class SearchImageCacher : INService
             Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
 #endif
             continue;
-
         }
 
         return new List<ImageData>();

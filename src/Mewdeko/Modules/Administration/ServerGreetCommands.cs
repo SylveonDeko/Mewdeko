@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
-using Mewdeko.Common.Attributes.TextCommands;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Discord.Commands;
+using Mewdeko.Common.Attributes.TextCommands;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -135,7 +135,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.").ConfigureAwait(false);
+                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -160,7 +161,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.").ConfigureAwait(false);
+                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -177,7 +179,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                                        $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.").ConfigureAwait(false);
+                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
         }
@@ -220,7 +223,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.").ConfigureAwait(false);
+                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -245,7 +249,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.").ConfigureAwait(false);
+                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -262,7 +267,8 @@ public partial class Administration
                 else
                 {
                     await ctx.Channel.SendConfirmAsync(
-                        $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.").ConfigureAwait(false);
+                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
+                        .ConfigureAwait(false);
                 }
             }
         }
@@ -310,6 +316,7 @@ public partial class Administration
                         "Bots that are not verified can get quarantined by Discord if they dm too many users at once, Do you still want to toggle this feature?", ctx.User.Id))
                     return;
             }
+
             var enabled = await Service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
 
             if (enabled)

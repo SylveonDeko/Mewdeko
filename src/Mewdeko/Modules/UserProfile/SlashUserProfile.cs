@@ -1,11 +1,11 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.UserProfile.Services;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.UserProfile;
@@ -153,23 +153,23 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
         var channel = await ctx.Client.GetChannelAsync(bot.Credentials.PronounAbuseReportChannelId).ConfigureAwait(false);
         var eb = new EmbedBuilder().WithAuthor(ctx.User).WithTitle("Pronoun abuse report").AddField("Reported User", $"{user.Username} ({user.UserId}, <@{user.UserId}>)")
-                                   .AddField("Reporter", $"{reporter.Username} ({reporter.UserId}, <@{reporter.UserId}>)")
-                                   .AddField("Pronouns Cleared Reason", string.IsNullOrWhiteSpace(user.PronounsClearedReason) ? "Never Cleared" : user.PronounsClearedReason)
-                                   .AddField("Pronouns", user.Pronouns)
-                                   .WithFooter($"reported in the guild {ctx.Guild?.Id ?? 0} on shard {(ctx.Client as DiscordSocketClient)?.ShardId ?? 0}").WithErrorColor();
+            .AddField("Reporter", $"{reporter.Username} ({reporter.UserId}, <@{reporter.UserId}>)")
+            .AddField("Pronouns Cleared Reason", string.IsNullOrWhiteSpace(user.PronounsClearedReason) ? "Never Cleared" : user.PronounsClearedReason)
+            .AddField("Pronouns", user.Pronouns)
+            .WithFooter($"reported in the guild {ctx.Guild?.Id ?? 0} on shard {(ctx.Client as DiscordSocketClient)?.ShardId ?? 0}").WithErrorColor();
         var cb = new ComponentBuilder().WithButton("Reported User", "reported_row", ButtonStyle.Secondary, disabled: true)
-                                       .WithButton("Clear Pronouns", $"pronouns_clear:{user.UserId},false", ButtonStyle.Danger)
-                                       .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{user.UserId},true", ButtonStyle.Danger)
-                                       .WithButton("Blacklist User", $"pronouns_blacklist:{user.UserId}", ButtonStyle.Danger)
-                                       .WithButton("DM User", $"pronouns_reportdm:{user.UserId}", ButtonStyle.Danger)
-                                       .WithButton("Reporter", "reporter_row", ButtonStyle.Secondary, disabled: true, row: 1)
-                                       .WithButton("Clear Pronouns", $"pronouns_clear:{reporter.UserId},false", ButtonStyle.Danger, row: 1)
-                                       .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger, row: 1)
-                                       .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
-                                       .WithButton("DM User", $"pronouns_reportdm:{reporter.UserId}", ButtonStyle.Danger, row: 1)
-                                       .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
-                                       .WithButton("Blacklist Guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2)
-                                       .WithButton("DM Guild Owner", $"pronouns_reportdm:{ctx.Guild.OwnerId}", ButtonStyle.Danger, row: 2);
+            .WithButton("Clear Pronouns", $"pronouns_clear:{user.UserId},false", ButtonStyle.Danger)
+            .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{user.UserId},true", ButtonStyle.Danger)
+            .WithButton("Blacklist User", $"pronouns_blacklist:{user.UserId}", ButtonStyle.Danger)
+            .WithButton("DM User", $"pronouns_reportdm:{user.UserId}", ButtonStyle.Danger)
+            .WithButton("Reporter", "reporter_row", ButtonStyle.Secondary, disabled: true, row: 1)
+            .WithButton("Clear Pronouns", $"pronouns_clear:{reporter.UserId},false", ButtonStyle.Danger, row: 1)
+            .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger, row: 1)
+            .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
+            .WithButton("DM User", $"pronouns_reportdm:{reporter.UserId}", ButtonStyle.Danger, row: 1)
+            .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
+            .WithButton("Blacklist Guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2)
+            .WithButton("DM Guild Owner", $"pronouns_reportdm:{ctx.Guild.OwnerId}", ButtonStyle.Danger, row: 2);
 
         await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported").ConfigureAwait(false);
@@ -178,12 +178,12 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [ComponentInteraction("pronouns_clear:*,*", true), SlashOwnerOnly]
     public async Task ClearPronouns(string sId, string sDisable) =>
         await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns"))
-                     .ConfigureAwait(false);
+            .ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist:*", true), SlashOwnerOnly]
     public async Task BlacklistPronouns(string sId) =>
         await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null, x => x.WithTitle("Blacklist User and Clear Pronouns"))
-                 .ConfigureAwait(false);
+            .ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist_guild:*", true), SlashOwnerOnly]
     public async Task BlacklistGuildPronouns(string sId) =>

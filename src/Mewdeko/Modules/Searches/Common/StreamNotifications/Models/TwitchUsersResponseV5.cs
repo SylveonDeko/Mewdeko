@@ -4,11 +4,13 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 
 public class TwitchUsersResponseV5
 {
-    [JsonProperty("users")] public List<User> Users { get; set; }
+    [JsonProperty("users")]
+    public List<User> Users { get; set; }
 
     public class User
     {
-        [JsonProperty("_id")] public string Id { get; set; }
+        [JsonProperty("_id")]
+        public string Id { get; set; }
 
         // [JsonProperty("bio")]
         // public string Bio { get; set; } 

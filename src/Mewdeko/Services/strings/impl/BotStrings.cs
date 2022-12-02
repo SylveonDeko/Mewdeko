@@ -1,6 +1,6 @@
-﻿using Mewdeko.Modules.Utility.Services;
+﻿using System.Globalization;
+using Mewdeko.Modules.Utility.Services;
 using Serilog;
-using System.Globalization;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Services.strings.impl;
@@ -55,13 +55,17 @@ public class BotStrings : IBotStrings
             cmdStrings.Desc = OwoServices.OwoIfy(cmdStrings.Desc);
             cmdStrings.Args = cmdStrings.Args.Select(x => OwoServices.OwoIfy(x)).ToArray();
         }
+
         if (cultureInfo.Name != usCultureInfo.Name) return GetCommandStrings(commandName, usCultureInfo);
         Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
             commandName);
 
         return new CommandStrings
         {
-            Args = new[] { "" },
+            Args = new[]
+            {
+                ""
+            },
             Desc = "?"
         };
     }
@@ -95,7 +99,9 @@ public class BotStrings : IBotStrings
 
 public class CommandStrings
 {
-    [YamlMember(Alias = "desc")] public string Desc { get; set; }
+    [YamlMember(Alias = "desc")]
+    public string Desc { get; set; }
 
-    [YamlMember(Alias = "args")] public string[] Args { get; set; }
+    [YamlMember(Alias = "args")]
+    public string[] Args { get; set; }
 }

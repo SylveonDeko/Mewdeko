@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -71,10 +71,10 @@ public partial class Searches
             await using (uow.ConfigureAwait(false))
             {
                 var all = (await uow
-                          .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams)))
-                          .FollowedStreams
-                          .OrderBy(x => x.Id)
-                          .ToList();
+                        .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams)))
+                    .FollowedStreams
+                    .OrderBy(x => x.Id)
+                    .ToList();
 
                 for (var index = all.Count - 1; index >= 0; index--)
                 {
@@ -101,18 +101,18 @@ public partial class Searches
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 var elements = streams.Skip(page * 12).Take(12)
-                                      .ToList();
+                    .ToList();
 
                 if (elements.Count == 0)
                 {
                     return new PageBuilder()
-                            .WithDescription(GetText("streams_none"))
-                            .WithErrorColor();
+                        .WithDescription(GetText("streams_none"))
+                        .WithErrorColor();
                 }
 
                 var eb = new PageBuilder()
-                        .WithTitle(GetText("streams_follow_title"))
-                        .WithOkColor();
+                    .WithTitle(GetText("streams_follow_title"))
+                    .WithOkColor();
                 for (var index = 0; index < elements.Count; index++)
                 {
                     var elem = elements[index];
@@ -151,12 +151,12 @@ public partial class Searches
             if (string.IsNullOrWhiteSpace(message))
             {
                 await ReplyConfirmLocalizedAsync("stream_message_reset", Format.Bold(fs.Username))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("stream_message_set", Format.Bold(fs.Username))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
@@ -175,14 +175,14 @@ public partial class Searches
                 if (data.IsLive)
                 {
                     await ReplyConfirmLocalizedAsync("streamer_online",
-                                            Format.Bold(data.Name),
-                                            Format.Bold(data.Viewers.ToString()))
-                                        .ConfigureAwait(false);
+                            Format.Bold(data.Name),
+                            Format.Bold(data.Viewers.ToString()))
+                        .ConfigureAwait(false);
                 }
                 else
                 {
                     await ReplyConfirmLocalizedAsync("streamer_offline", data.Name)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
             }
             catch

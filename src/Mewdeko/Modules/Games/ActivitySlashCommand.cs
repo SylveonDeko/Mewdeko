@@ -1,9 +1,10 @@
-using Discord.Interactions;
-using Mewdeko.Modules.Games.Services;
 using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games;
+
 [Group("games", "Some of mewdekos games!")]
 public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
 {
@@ -17,6 +18,7 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
             await ctx.Interaction.RespondAsync(embed: eb.WithDescription("You are not a Game Master!").WithErrorColor().Build(), ephemeral: true);
             return;
         }
+
         var invite = await chan.CreateInviteToApplicationAsync(app);
         await ctx.Interaction.RespondAsync(embed: eb.WithDescription($"[Click here to join the vc and start {app.ToString()}]({invite.Url})").Build());
     }
@@ -32,6 +34,7 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
             await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Game Master Role Disabled.").Build());
             return;
         }
+
         await Service.GameMasterRoleSet(ctx.Guild.Id, role.Id);
         await ctx.Interaction.RespondAsync(embed: eb.WithDescription("Successfully set the Game Master Role!").Build());
     }

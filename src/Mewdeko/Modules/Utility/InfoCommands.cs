@@ -1,9 +1,9 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -25,17 +25,17 @@ public partial class Utility
         public async Task RInfo(IRole role)
         {
             var eb = new EmbedBuilder().WithTitle(role.Name)
-                                       .AddField("Users in role",
-                                           (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
-                                       .AddField("Is Mentionable", role.IsMentionable)
-                                       .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
-                                       .AddField("Is Managed", role.IsManaged)
-                                       .AddField("Permissions", string.Join(",", role.Permissions))
-                                       .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
-                                       .AddField("Position", role.Position)
-                                       .AddField("ID", role.Id)
-                                       .WithThumbnailUrl(role.GetIconUrl())
-                                       .WithColor(role.Color);
+                .AddField("Users in role",
+                    (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
+                .AddField("Is Mentionable", role.IsMentionable)
+                .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
+                .AddField("Is Managed", role.IsManaged)
+                .AddField("Permissions", string.Join(",", role.Permissions))
+                .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
+                .AddField("Position", role.Position)
+                .AddField("ID", role.Id)
+                .WithThumbnailUrl(role.GetIconUrl())
+                .WithColor(role.Color);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
@@ -122,7 +122,7 @@ public partial class Utility
             else
             {
                 guild = client.Guilds.FirstOrDefault(
-                                g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
+                    g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
             }
 
             if (guild == null)
@@ -239,7 +239,7 @@ public partial class Utility
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "moreinfo")
             {
-                if (user.GetRoles().Any(x => x.Id !=  ctx.Guild.EveryoneRole.Id))
+                if (user.GetRoles().Any(x => x.Id != ctx.Guild.EveryoneRole.Id))
                 {
                     embed.AddField("Roles",
                         string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
@@ -270,10 +270,10 @@ public partial class Utility
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                                           .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
-                                                           .AddField(efb =>
-                                                               efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-                                                           .WithImageUrl(avatarUrl)).ConfigureAwait(false);
+                .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                .AddField(efb =>
+                    efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                .WithImageUrl(avatarUrl)).ConfigureAwait(false);
         }
     }
 }

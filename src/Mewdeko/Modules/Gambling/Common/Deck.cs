@@ -30,19 +30,45 @@ public class Deck
 
     private static readonly Dictionary<int, string> CardNames = new()
     {
-        {1, "Ace"},
-        {2, "Two"},
-        {3, "Three"},
-        {4, "Four"},
-        {5, "Five"},
-        {6, "Six"},
-        {7, "Seven"},
-        {8, "Eight"},
-        {9, "Nine"},
-        {10, "Ten"},
-        {11, "Jack"},
-        {12, "Queen"},
-        {13, "King"}
+        {
+            1, "Ace"
+        },
+        {
+            2, "Two"
+        },
+        {
+            3, "Three"
+        },
+        {
+            4, "Four"
+        },
+        {
+            5, "Five"
+        },
+        {
+            6, "Six"
+        },
+        {
+            7, "Seven"
+        },
+        {
+            8, "Eight"
+        },
+        {
+            9, "Nine"
+        },
+        {
+            10, "Ten"
+        },
+        {
+            11, "Jack"
+        },
+        {
+            12, "Queen"
+        },
+        {
+            13, "King"
+        }
     };
 
     private static Dictionary<string, Func<List<Card>, bool>>? handValues;
@@ -114,12 +140,12 @@ public class Deck
     private static void InitHandValues()
     {
         bool HasPair(List<Card> cards) => cards.GroupBy(card => card.Number)
-                .Count(group => group.Count() == 2) == 1;
+            .Count(group => group.Count() == 2) == 1;
 
         bool IsPair(List<Card> cards) => cards.GroupBy(card => card.Number).All(group => group.Count() != 3) && HasPair(cards);
 
         bool IsTwoPair(List<Card> cards) => cards.GroupBy(card => card.Number)
-                .Count(group => group.Count() == 2) == 2;
+            .Count(group => group.Count() == 2) == 2;
 
         bool IsStraight(List<Card> cards)
         {
@@ -135,36 +161,54 @@ public class Deck
         }
 
         bool HasThreeOfKind(List<Card> cards) => cards.GroupBy(card => card.Number)
-                .Any(group => group.Count() == 3);
+            .Any(group => group.Count() == 3);
 
         bool IsThreeOfKind(List<Card> cards) => HasThreeOfKind(cards) && !HasPair(cards);
 
         bool IsFlush(List<Card> cards) => cards.GroupBy(card => card.Suit).Count() == 1;
 
         bool IsFourOfKind(List<Card> cards) => cards.GroupBy(card => card.Number)
-                .Any(group => group.Count() == 4);
+            .Any(group => group.Count() == 4);
 
         bool IsFullHouse(List<Card> cards) => HasPair(cards) && HasThreeOfKind(cards);
 
         bool HasStraightFlush(List<Card> cards) => IsFlush(cards) && IsStraight(cards);
 
         bool IsRoyalFlush(List<Card> cards) => cards.Min(card => card.Number) == 1 &&
-                   cards.Max(card => card.Number) == 13
-                   && HasStraightFlush(cards);
+                                               cards.Max(card => card.Number) == 13
+                                               && HasStraightFlush(cards);
 
         bool IsStraightFlush(List<Card> cards) => HasStraightFlush(cards) && !IsRoyalFlush(cards);
 
         handValues = new Dictionary<string, Func<List<Card>, bool>>
         {
-            {"Royal Flush", IsRoyalFlush},
-            {"Straight Flush", IsStraightFlush},
-            {"Four Of A Kind", IsFourOfKind},
-            {"Full House", IsFullHouse},
-            {"Flush", IsFlush},
-            {"Straight", IsStraight},
-            {"Three Of A Kind", IsThreeOfKind},
-            {"Two Pairs", IsTwoPair},
-            {"A Pair", IsPair}
+            {
+                "Royal Flush", IsRoyalFlush
+            },
+            {
+                "Straight Flush", IsStraightFlush
+            },
+            {
+                "Four Of A Kind", IsFourOfKind
+            },
+            {
+                "Full House", IsFullHouse
+            },
+            {
+                "Flush", IsFlush
+            },
+            {
+                "Straight", IsStraight
+            },
+            {
+                "Three Of A Kind", IsThreeOfKind
+            },
+            {
+                "Two Pairs", IsTwoPair
+            },
+            {
+                "A Pair", IsPair
+            }
         };
     }
 
@@ -181,57 +225,95 @@ public class Deck
         private static readonly IReadOnlyDictionary<CardSuit, string> SuitToSuitChar =
             new Dictionary<CardSuit, string>
             {
-                {CardSuit.Diamonds, "♦"},
-                {CardSuit.Clubs, "♣"},
-                {CardSuit.Spades, "♠"},
-                {CardSuit.Hearts, "♥"}
+                {
+                    CardSuit.Diamonds, "♦"
+                },
+                {
+                    CardSuit.Clubs, "♣"
+                },
+                {
+                    CardSuit.Spades, "♠"
+                },
+                {
+                    CardSuit.Hearts, "♥"
+                }
             };
 
         private static readonly IReadOnlyDictionary<string, CardSuit> SuitCharToSuit =
             new Dictionary<string, CardSuit>
             {
-                {"♦", CardSuit.Diamonds},
-                {"d", CardSuit.Diamonds},
-                {"♣", CardSuit.Clubs},
-                {"c", CardSuit.Clubs},
-                {"♠", CardSuit.Spades},
-                {"s", CardSuit.Spades},
-                {"♥", CardSuit.Hearts},
-                {"h", CardSuit.Hearts}
+                {
+                    "♦", CardSuit.Diamonds
+                },
+                {
+                    "d", CardSuit.Diamonds
+                },
+                {
+                    "♣", CardSuit.Clubs
+                },
+                {
+                    "c", CardSuit.Clubs
+                },
+                {
+                    "♠", CardSuit.Spades
+                },
+                {
+                    "s", CardSuit.Spades
+                },
+                {
+                    "♥", CardSuit.Hearts
+                },
+                {
+                    "h", CardSuit.Hearts
+                }
             };
 
         private static readonly IReadOnlyDictionary<char, int> NumberCharToNumber = new Dictionary<char, int>
         {
-            {'a', 1},
-            {'2', 2},
-            {'3', 3},
-            {'4', 4},
-            {'5', 5},
-            {'6', 6},
-            {'7', 7},
-            {'8', 8},
-            {'9', 9},
-            {'t', 10},
-            {'j', 11},
-            {'q', 12},
-            {'k', 13}
+            {
+                'a', 1
+            },
+            {
+                '2', 2
+            },
+            {
+                '3', 3
+            },
+            {
+                '4', 4
+            },
+            {
+                '5', 5
+            },
+            {
+                '6', 6
+            },
+            {
+                '7', 7
+            },
+            {
+                '8', 8
+            },
+            {
+                '9', 9
+            },
+            {
+                't', 10
+            },
+            {
+                'j', 11
+            },
+            {
+                'q', 12
+            },
+            {
+                'k', 13
+            }
         };
 
         private readonly string[] regIndicators =
         {
-            "🇦",
-            ":two:",
-            ":three:",
-            ":four:",
-            ":five:",
-            ":six:",
-            ":seven:",
-            ":eight:",
-            ":nine:",
-            ":keycap_ten:",
-            "🇯",
-            "🇶",
-            "🇰"
+            "🇦", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:", "🇯", "🇶", "🇰"
         };
 
         public Card(CardSuit s, int cardNum)

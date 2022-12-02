@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
@@ -31,6 +31,7 @@ public class GlobalPermissionService : ILateBlocker, INService
 
         return Task.FromResult(false);
     }
+
     public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
         ICommandInfo command)
     {

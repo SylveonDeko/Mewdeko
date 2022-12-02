@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Suggestions.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions;
 
@@ -37,6 +37,7 @@ public partial class Suggestions
         Ten = 10,
         Fifteen = 15
     }
+
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
@@ -81,6 +82,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync($"Suggest Button Color will now be `{type}`").ConfigureAwait(false);
             await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild)).ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestMoteColor(int num, ButtonType type)
         {
@@ -88,6 +90,7 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync($"Suggest Button {num} will now be `{type}`").ConfigureAwait(false);
             await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild)).ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MaxSuggestionLength(int length)
         {
@@ -154,6 +157,7 @@ public partial class Suggestions
             else
                 await ctx.Channel.SendConfirmAsync($"Implement channel set to {channel.Mention}").ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ImplementMessage([Remainder] string embed)
         {
@@ -176,6 +180,7 @@ public partial class Suggestions
                 await ctx.Channel.SendErrorAsync("You do not have enough server boosts for private threads!").ConfigureAwait(false);
                 return;
             }
+
             await Service.SetSuggestThreadsType(ctx.Guild, (int)type).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`").ConfigureAwait(false);
         }
@@ -204,6 +209,7 @@ public partial class Suggestions
                 await Service.UpdateSuggestionButtonMessage(ctx.Guild, toSet).ConfigureAwait(false);
             }
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestButtonLabel([Remainder] string toSet)
         {
@@ -212,6 +218,7 @@ public partial class Suggestions
                 await ctx.Channel.SendErrorAsync("The max length for labels is 80 characters!").ConfigureAwait(false);
                 return;
             }
+
             if (toSet is "-" or "disabled")
             {
                 await ctx.Channel.SendConfirmAsync("Succesfully set suggest button label back to default.").ConfigureAwait(false);
@@ -225,6 +232,7 @@ public partial class Suggestions
                 await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild)).ConfigureAwait(false);
             }
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task SuggestButtonEmote(IEmote? emote = null)
         {
@@ -249,6 +257,7 @@ public partial class Suggestions
             await Service.SetArchiveOnDeny(ctx.Guild, !current).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync($"Archive on deny is now set to `{!current}`").ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ArchiveOnAccept()
         {
@@ -256,6 +265,7 @@ public partial class Suggestions
             await Service.SetArchiveOnAccept(ctx.Guild, !current).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync($"Archive on accept is now set to `{!current}`").ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ArchiveOnConsider()
         {
@@ -263,6 +273,7 @@ public partial class Suggestions
             await Service.SetArchiveOnConsider(ctx.Guild, !current).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync($"Archive on consider is now set to `{!current}`").ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task ArchiveOnImplement()
         {
@@ -336,7 +347,8 @@ public partial class Suggestions
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync($"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync($"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.")
+                        .ConfigureAwait(false);
                     return;
                 }
             }

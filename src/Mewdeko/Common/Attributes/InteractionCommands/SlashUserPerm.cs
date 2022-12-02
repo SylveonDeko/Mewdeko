@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,12 +26,14 @@ public class SlashUserPermAttribute : PreconditionAttribute
             {
                 return !creds.IsOwner(context.User) ? PreconditionResult.FromError("You must be a bot owner to add global Chat Triggers!") : PreconditionResult.FromSuccess();
             }
+
             // ReSharper disable once InvertIf (stupid)
             if (permResult)
                 if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
                     return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
             return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
         }
+
         if (permResult)
             if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
                 return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");

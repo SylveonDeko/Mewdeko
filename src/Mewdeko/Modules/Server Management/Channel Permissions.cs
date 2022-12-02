@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -79,9 +79,11 @@ public partial class ServerManagement
             foreach (var e in perms) list.Add(e.ToString());
             await channel.AddPermissionOverwriteAsync(role, result).ConfigureAwait(false);
             if (perm == PermValue.Allow)
-                await ctx.Channel.SendConfirmAsync($"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**")
+                    .ConfigureAwait(false);
             else
-                await ctx.Channel.SendConfirmAsync($"I have denied the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"I have denied the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**")
+                    .ConfigureAwait(false);
         }
     }
 }

@@ -1,5 +1,5 @@
-using Mewdeko.Services.Settings;
 using System.Threading.Tasks;
+using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Services;
 
@@ -52,7 +52,6 @@ public class GuildSettingsService : INService
         var config = await uow.ForGuildId(guildId);
         guildConfigs.AddOrUpdate(guildId, config, (_, _) => config);
         return config;
-
     }
 
     public void UpdateGuildConfig(ulong guildId, GuildConfig config)

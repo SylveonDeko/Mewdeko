@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Swan;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Common.Attributes.TextCommands;
 

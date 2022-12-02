@@ -1,6 +1,6 @@
-﻿using Serilog;
+﻿using System.Threading.Tasks;
+using Serilog;
 using StackExchange.Redis;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Common.PubSub;
 
@@ -22,7 +22,7 @@ public sealed class RedisPubSub : IPubSub
     {
         var serialized = serializer.Serialize(data);
         return multi.GetSubscriber()
-                     .PublishAsync($"{creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
+            .PublishAsync($"{creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
     }
 
     public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)

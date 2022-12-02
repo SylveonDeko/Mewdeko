@@ -1,7 +1,7 @@
-﻿using Mewdeko.Common.PubSub;
+﻿using System.Threading.Tasks;
+using Mewdeko.Common.PubSub;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Tests;
 

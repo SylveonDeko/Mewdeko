@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
-using System.Threading.Tasks;
 using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Moderation;
@@ -14,7 +14,6 @@ public partial class Moderation
     [Group]
     public class MuteCommands : MewdekoSubmodule<MuteService>
     {
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task Stfu(StoopidTime time, IGuildUser user) => await Stfu(user, time).ConfigureAwait(false);
@@ -74,12 +73,13 @@ public partial class Moderation
         public async Task UnmuteAll([Remainder] string? reason = null)
         {
             var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
-                           .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
+                .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
             if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.").ConfigureAwait(false);
                 return;
             }
+
             if (await PromptUserConfirmAsync(
                     new EmbedBuilder().WithOkColor().WithDescription(
                         "Are you absolutely sure you want to unmute ***all*** users? This action is irreversible."),
@@ -87,7 +87,8 @@ public partial class Moderation
             {
                 if (reason is null)
                 {
-                    if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Would you like to add a reason for the unmute?"), ctx.User.Id).ConfigureAwait(false))
+                    if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Would you like to add a reason for the unmute?"), ctx.User.Id)
+                            .ConfigureAwait(false))
                     {
                         var msg = await ctx.Channel.SendMessageAsync("Please type out the unmute reason.").ConfigureAwait(false);
                         reason = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);

@@ -1,9 +1,9 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
 using Mewdeko.Modules.Games.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 
@@ -24,8 +24,8 @@ public partial class Games
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangmanlist() =>
             await ctx.Channel
-                     .SendConfirmAsync(
-                         $"{Format.Code(GetText("hangman_types", await guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
+                .SendConfirmAsync(
+                    $"{Format.Code(GetText("hangman_types", await guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
@@ -56,7 +56,7 @@ public partial class Games
             try
             {
                 await ctx.Channel.SendConfirmAsync($"{GetText("hangman_game_started")} ({hm.TermType})",
-                             $"{hm.ScrambledWord}\n{hm.GetHangman()}")
+                        $"{hm.ScrambledWord}\n{hm.GetHangman()}")
                     .ConfigureAwait(false);
             }
             catch

@@ -1,5 +1,5 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
-using System.Globalization;
+﻿using System.Globalization;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Mewdeko.Services.Settings;
 
