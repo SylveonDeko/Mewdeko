@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.UserProfile.Services;
-using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.UserProfile;
@@ -90,6 +90,22 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     {
         await Service.SetPrivacy(ctx.User, privacyEnum);
         await ctx.Channel.SendConfirmAsync($"Privacy succesfully set to `{privacyEnum.ToString()}`");
+    }
+
+    [Cmd, Aliases]
+    public async Task SetSwitchFc(string switchFc = "")
+    {
+        if (!await Service.SetSwitchFc(ctx.User, switchFc))
+        {
+            await ctx.Channel.SendErrorAsync("The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+            return;
+        }
+
+
+        if (switchFc.Length == 0)
+            await ctx.Channel.SendConfirmAsync("Your Switch Friend Code has been removed.");
+        else
+            await ctx.Channel.SendConfirmAsync($"Your Switch Friend Code has been set to {switchFc}.");
     }
 
     [Cmd, Aliases]
