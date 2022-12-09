@@ -1153,6 +1153,7 @@
     "tonetags_tonetags": "ToneTags",
     "tonetags_sources": "Sources",
     "tonetags_not_found": "Not Found",
+    "tonetags_upsell": "If you want to add tonetags to mewdeko, or implement our tonetag searching in your own project check out CottageDwellingCat's tonetag json at https://github.com/CottageDwellingCat/tone-tags",
     "role_grant_type": "Role Grant Type",
     "pronouns_pndb_special" : "{0} uses {1} (retrieved from [PronounDB](https://pronoundb.org/docs)).",
     "pronouns_pndb_get" : "{0} uses {1} pronouns (retrieved from [PronounDB](https://pronoundb.org/docs))",

@@ -1,8 +1,8 @@
+using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
 using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Mewdeko.Services.Settings;
-using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Searches.Services;
 
@@ -36,20 +36,21 @@ public class ToneTagService
 
     public EmbedBuilder GetEmbed(ParseResult result, IGuild? guild = null)
     {
-        var eb = new EmbedBuilder();
+        var eb = new EmbedBuilder()
+            .WithFooter(strings.GetText("tonetags_upsell", guild?.Id));
 
         if (result.Tags.Count + result.MissingTags.Count == 0)
         {
             eb.WithTitle(strings.GetText("tonetags_none", guild?.Id))
-                .WithDescription(strings.GetText("tonetags_none_body", guild?.Id)).WithErrorColor();
+              .WithDescription(strings.GetText("tonetags_none_body", guild?.Id)).WithErrorColor();
         }
         else if (result.Tags.Count == 1 && result.MissingTags.Count == 0)
         {
             var tag = result.Tags.First();
             eb.WithTitle($"/{result.ActualTags.First()}").WithDescription(tag.Description)
-                .AddField(strings.GetText("tonetags_source", guild?.Id), GetMarkdownLink(tag.Source))
-                .AddField(strings.GetText("tonetags_aliases", guild?.Id), string.Join(", ", tag.GetAllValues()))
-                .WithOkColor();
+              .AddField(strings.GetText("tonetags_source", guild?.Id), GetMarkdownLink(tag.Source))
+              .AddField(strings.GetText("tonetags_aliases", guild?.Id), string.Join(", ", tag.GetAllValues()))
+              .WithOkColor();
         }
         else
         {

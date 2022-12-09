@@ -3107,6 +3107,11 @@ settopic:
   args:
     - My new topic
   desc: Sets a topic on the current channel.
+setswitchfc:
+  args:
+    - 'SW-1234-1234-1234'
+    - ''
+  desc: Sets the switch friend code that will appear on your profile.
 setwarnchannel:
   args:
     - '#channel'
