@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Mewdeko.Modules.Gambling.Services;
+﻿using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.UserProfile.Services;
@@ -15,6 +16,7 @@ public class UserProfileService : INService
     private readonly HttpClient http;
     private readonly List<string> zodiacList;
     private readonly GamblingConfigService gss;
+    public readonly Regex FcRegex = new(@"sw(-\d{4}){3}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     public UserProfileService(DbService db, HttpClient http,
         GamblingConfigService gss)
@@ -171,6 +173,18 @@ public class UserProfileService : INService
         await uow.SaveChangesAsync();
     }
 
+    public async Task<bool> SetSwitchFc(IUser user, string fc)
+    {
+        if (fc.Length != 0 && !FcRegex.IsMatch(fc))
+            return false;
+        await using var uow = db.GetDbContext();
+        var dbUser = await uow.GetOrCreateUser(user);
+        dbUser.SwitchFriendCode = fc;
+        uow.DiscordUser.Update(dbUser);
+        await uow.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
         var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
@@ -213,6 +227,9 @@ public class UserProfileService : INService
             eb.AddField("Birthday", "Unspecified");
 
         eb.AddField("Mutual Bot Servers", (user as SocketUser).MutualGuilds.Count);
+
+        if (!dbUser.SwitchFriendCode.IsNullOrWhiteSpace())
+            eb.AddField("Switch Friend Code", dbUser.SwitchFriendCode);
 
         if (!string.IsNullOrEmpty(dbUser.ProfileImageUrl))
             eb.WithImageUrl(dbUser.ProfileImageUrl);

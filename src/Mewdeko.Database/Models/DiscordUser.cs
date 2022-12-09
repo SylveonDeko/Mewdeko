@@ -27,11 +27,12 @@ public class DiscordUser : DbEntity
     public string? PronounsClearedReason { get; set; }
     public bool PronounsDisabled { get; set; }
     public string? Bio { get; set; }
-    public string? ProfileImageUrl { get; set; }
+    public string? ProfileImageUrl { get;  set; }
     public string? ZodiacSign { get; set; }
     public ProfilePrivacyEnum ProfilePrivacy { get; set; } = ProfilePrivacyEnum.Public;
     public uint? ProfileColor { get; set; } = 0;
     public DateTime? Birthday { get; set; }
+    public string? SwitchFriendCode { get; set; } = null;
     public BirthdayDisplayModeEnum BirthdayDisplayMode { get; set; } = BirthdayDisplayModeEnum.Default;
 
     public enum ProfilePrivacyEnum

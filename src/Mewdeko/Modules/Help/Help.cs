@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -7,8 +6,9 @@ using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
-using Serilog;
 using Swan;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Help;
 
@@ -55,11 +55,10 @@ public class Help : MewdekoModuleBase<HelpService>
                 cmdnames += $"\n{i.Name}";
                 cmdremarks += $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
-
             var eb = new EmbedBuilder()
-                .WithOkColor()
-                .AddField("Command", cmdnames, true)
-                .AddField("Description", cmdremarks, true);
+                     .WithOkColor()
+                     .AddField("Command", cmdnames, true)
+                     .AddField("Description", cmdremarks, true);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
@@ -81,8 +80,7 @@ public class Help : MewdekoModuleBase<HelpService>
     [Cmd, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
-                "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!")
-            .ConfigureAwait(false);
+            "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!").ConfigureAwait(false);
 
     [Cmd, Aliases]
     public async Task Commands([Remainder] string? module = null)
@@ -143,7 +141,7 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
+                    $"{(succ.Contains(commandInfo) ? commandInfo.Preconditions.Any(x => x is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -152,8 +150,8 @@ public class Help : MewdekoModuleBase<HelpService>
                 var grp = 0;
                 var count = transformed.Count();
                 transformed = transformed
-                    .GroupBy(_ => grp++ % count / 2)
-                    .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
+                              .GroupBy(_ => grp++ % count / 2)
+                              .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
             }
 
             return new PageBuilder()
@@ -197,7 +195,6 @@ public class Help : MewdekoModuleBase<HelpService>
 
     [Cmd, Aliases]
     public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech").ConfigureAwait(false);
-
     [Cmd, Aliases]
     public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko").ConfigureAwait(false);
 }
@@ -208,3 +205,4 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 
     public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 }
+
