@@ -1,7 +1,7 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
-using Serilog;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Common.ModuleBehaviors;
+using Serilog;
 
 namespace Mewdeko.Modules.Highlights.Services;
 
@@ -35,10 +35,12 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 continue;
             }
+
             compl.TrySetResult(res);
             await Task.Delay(2000).ConfigureAwait(false);
         }
     }
+
     private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
     {
         if (arg1.Value is not IGuildUser user)
@@ -65,8 +67,8 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 _ = Task.Run(async () => await cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
             }
-
         }
+
         Log.Information("Highlights Cached.");
         return Task.CompletedTask;
     }
@@ -137,10 +139,11 @@ public class HighlightsService : INService, IReadyExecutor
                 // dont get messages if it doesnt have message history access
                 continue;
             }
+
             var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n", messages.OrderBy(x => x.Timestamp)
-                                            .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
-                                                $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
-                                                $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")));
+                .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
+                             $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
+                             $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")));
 
             var cb = new ComponentBuilder()
                 .WithButton("Jump to message", style: ButtonStyle.Link, emote: Emote.Parse("<:MessageLink:778925231506587668>"), url: message.GetJumpLink());
@@ -163,7 +166,10 @@ public class HighlightsService : INService, IReadyExecutor
 
     public async Task AddHighlight(ulong guildId, ulong userId, string word)
     {
-        var toadd = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
+        var toadd = new Database.Models.Highlights
+        {
+            UserId = userId, GuildId = guildId, Word = word
+        };
         await using var uow = db.GetDbContext();
         uow.Highlights.Add(toadd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -200,6 +206,7 @@ public class HighlightsService : INService, IReadyExecutor
         current.Add(toupdate);
         await cache.AddHighlightSettingToCache(guildId, current).ConfigureAwait(false);
     }
+
     public async Task<bool> ToggleIgnoredChannel(ulong guildId, ulong userId, string channelId)
     {
         var ignored = true;
@@ -225,6 +232,7 @@ public class HighlightsService : INService, IReadyExecutor
             await cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
             return ignored;
         }
+
         var toedit = toupdate.IgnoredChannels.Split(" ").ToList();
         if (toedit.Contains(channelId))
         {
@@ -270,6 +278,7 @@ public class HighlightsService : INService, IReadyExecutor
             await cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
             return ignored;
         }
+
         var toedit = toupdate.IgnoredUsers.Split(" ").ToList();
         if (toedit.Contains(userToIgnore))
         {
@@ -301,6 +310,7 @@ public class HighlightsService : INService, IReadyExecutor
             toremove.Id = 0;
             current.Remove(toremove);
         }
+
         await cache.RemoveHighlightFromCache(toremove.GuildId, current).ConfigureAwait(false);
     }
 

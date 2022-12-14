@@ -1,4 +1,7 @@
-﻿using Mewdeko.Common.DiscordImplementations;
+﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
@@ -7,13 +10,10 @@ using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Mewdeko.Services.Settings;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using CTModel = Mewdeko.Database.Models.ChatTriggers;
@@ -216,7 +216,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 var effectedUsers = ct.RoleGrantType switch
                 {
                     CtRoleGrantType.Mentioned => msg.Content.GetUserMentions().Take(5),
-                    CtRoleGrantType.Sender => new List<ulong> { msg.Author.Id },
+                    CtRoleGrantType.Sender => new List<ulong>
+                    {
+                        msg.Author.Id
+                    },
                     CtRoleGrantType.Both => msg.Content.GetUserMentions().Take(4).Append(msg.Author.Id),
                     _ => new List<ulong>()
                 };
@@ -267,7 +270,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
                     if (gperm.BlockedModules.Contains("ActualChatTriggers")) return;
 
-                    if (inter.Channel is IGuildChannel {Guild: SocketGuild guild})
+                    if (inter.Channel is IGuildChannel { Guild: SocketGuild guild })
                     {
                         var pc = await this.perms.GetCacheFor(guild.Id);
                         if (!pc.Permissions.CheckPermissions(fakeMsg, ct.Trigger, "ActualChatTriggers",
@@ -328,16 +331,31 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         var effectedUsers = inter is SocketUserCommand uCmd
                             ? ct.RoleGrantType switch
                             {
-                                CtRoleGrantType.Mentioned => new List<ulong> {uCmd.Data.Member.Id},
-                                CtRoleGrantType.Sender => new List<ulong> {uCmd.User.Id},
-                                CtRoleGrantType.Both => new List<ulong> {uCmd.User.Id, uCmd.Data.Member.Id},
+                                CtRoleGrantType.Mentioned => new List<ulong>
+                                {
+                                    uCmd.Data.Member.Id
+                                },
+                                CtRoleGrantType.Sender => new List<ulong>
+                                {
+                                    uCmd.User.Id
+                                },
+                                CtRoleGrantType.Both => new List<ulong>
+                                {
+                                    uCmd.User.Id, uCmd.Data.Member.Id
+                                },
                                 _ => new List<ulong>()
                             }
                             : ct.RoleGrantType switch
                             {
                                 CtRoleGrantType.Mentioned => new(),
-                                CtRoleGrantType.Sender => new List<ulong> {inter.User.Id},
-                                CtRoleGrantType.Both => new List<ulong> {inter.User.Id},
+                                CtRoleGrantType.Sender => new List<ulong>
+                                {
+                                    inter.User.Id
+                                },
+                                CtRoleGrantType.Both => new List<ulong>
+                                {
+                                    inter.User.Id
+                                },
                                 _ => new List<ulong>()
                             };
 
@@ -404,29 +422,29 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         foreach (var (trigger, value) in data)
         {
             triggers.AddRange(value
-                                    .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
-                                    .Select(ct => new CTModel
-                                    {
-                                        GuildId = user.Guild.Id,
-                                        Response = ct.Res,
-                                        Reactions = ct.React?.JoinWith("@@@"),
-                                        Trigger = trigger,
-                                        AllowTarget = ct.At,
-                                        ContainsAnywhere = ct.Ca,
-                                        DmResponse = ct.Dm,
-                                        AutoDeleteTrigger = ct.Ad,
-                                        NoRespond = ct.Nr,
-                                        IsRegex = ct.Rgx,
-                                        GrantedRoles = string.Join("@@@", ct.ARole.Select(x => x.ToString())),
-                                        RemovedRoles = string.Join("@@@", ct.RRole.Select(x => x.ToString())),
-                                        ReactToTrigger = ct.Rtt,
-                                        RoleGrantType = ct.Rgt,
-                                        ValidTriggerTypes = ct.VTypes,
-                                        ApplicationCommandName = ct.AcName,
-                                        ApplicationCommandDescription = ct.AcDesc,
-                                        ApplicationCommandType = ct.Act,
-                                        EphemeralResponse = ct.Eph
-                                    }));
+                .Where(ct => !string.IsNullOrWhiteSpace(ct.Res))
+                .Select(ct => new CTModel
+                {
+                    GuildId = user.Guild.Id,
+                    Response = ct.Res,
+                    Reactions = ct.React?.JoinWith("@@@"),
+                    Trigger = trigger,
+                    AllowTarget = ct.At,
+                    ContainsAnywhere = ct.Ca,
+                    DmResponse = ct.Dm,
+                    AutoDeleteTrigger = ct.Ad,
+                    NoRespond = ct.Nr,
+                    IsRegex = ct.Rgx,
+                    GrantedRoles = string.Join("@@@", ct.ARole.Select(x => x.ToString())),
+                    RemovedRoles = string.Join("@@@", ct.RRole.Select(x => x.ToString())),
+                    ReactToTrigger = ct.Rtt,
+                    RoleGrantType = ct.Rgt,
+                    ValidTriggerTypes = ct.VTypes,
+                    ApplicationCommandName = ct.AcName,
+                    ApplicationCommandDescription = ct.AcDesc,
+                    ApplicationCommandType = ct.Act,
+                    EphemeralResponse = ct.Eph
+                }));
         }
 
         List<ulong> roles = new();
@@ -446,9 +464,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         await using var uow = db.GetDbContext();
         var guildItems = await uow.ChatTriggers
-                                  .AsNoTracking()
-                                  .Where(x => allGuildIds.Contains(x.GuildId.Value))
-                                  .ToListAsync().ConfigureAwait(false);
+            .AsNoTracking()
+            .Where(x => allGuildIds.Contains(x.GuildId.Value))
+            .ToListAsync().ConfigureAwait(false);
 
         newGuildReactions = guildItems
             .GroupBy(k => k.GuildId!.Value)
@@ -516,19 +534,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 case RequirePrefixType.Custom:
                     if (!content.StartsWith(ct.CustomPrefix)) continue;
                     content = content[ct.CustomPrefix.Length..];
-                break;
+                    break;
                 case RequirePrefixType.GuildOrNone:
-                    if(guildPrefix is null || !content.StartsWith(guildPrefix)) continue;
+                    if (guildPrefix is null || !content.StartsWith(guildPrefix)) continue;
                     content = content[guildPrefix.Length..];
-                break;
+                    break;
                 case RequirePrefixType.GuildOrGlobal:
-                    if(!content.StartsWith(guildPrefix ?? globalPrefix)) continue;
+                    if (!content.StartsWith(guildPrefix ?? globalPrefix)) continue;
                     content = content[(guildPrefix ?? globalPrefix).Length..];
-                break;
+                    break;
                 case RequirePrefixType.Global:
-                    if(!content.StartsWith(globalPrefix)) continue;
+                    if (!content.StartsWith(globalPrefix)) continue;
                     content = content[globalPrefix.Length..];
-                break;
+                    break;
                 case RequirePrefixType.None:
                 default:
                     break;
@@ -624,18 +642,21 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         if (maybeGuildId is { } guildId)
         {
-            newGuildReactions.AddOrUpdate(guildId, new[] { ct },
-                        (_, old) =>
-                        {
-                            var newArray = old.ToArray();
-                            for (var i = 0; i < newArray.Length; i++)
-                            {
-                                if (newArray[i].Id == ct.Id)
-                                    newArray[i] = ct;
-                            }
+            newGuildReactions.AddOrUpdate(guildId, new[]
+                {
+                    ct
+                },
+                (_, old) =>
+                {
+                    var newArray = old.ToArray();
+                    for (var i = 0; i < newArray.Length; i++)
+                    {
+                        if (newArray[i].Id == ct.Id)
+                            newArray[i] = ct;
+                    }
 
-                            return newArray;
-                        });
+                    return newArray;
+                });
         }
         else
         {
@@ -659,8 +680,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (maybeGuildId is { } guildId)
         {
             newGuildReactions.AddOrUpdate(guildId,
-                        new[] { ct },
-                        (_, old) => old.With(ct));
+                new[]
+                {
+                    ct
+                },
+                (_, old) => old.With(ct));
         }
         else
         {
@@ -864,10 +888,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         key = key.ToLowerInvariant();
         var cr = new CTModel
         {
-            GuildId = guildId,
-            Trigger = key,
-            Response = message,
-            IsRegex = regex
+            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex
         };
 
         if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
@@ -1200,7 +1221,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildId)
     {
-
         var props = new List<ApplicationCommandProperties>();
 
         var triggers = GetChatTriggersFor(guildId);
@@ -1215,17 +1235,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         var groups = triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Slash
                                          && x.ValidTriggerTypes.HasFlag(ChatTriggerType.Interaction)
                                          && x.RealName.Split(' ').Length == 1)
-                             .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
+            .Select(x => new TriggerChildGrouping(x.RealName, x, null)).ToList();
         triggers.Where(x =>
             x.ApplicationCommandType == CtApplicationCommandType.Slash && x.RealName.Split(' ').Length == 2).ForEach(
             x =>
             {
                 if (groups.Any(y => y.Name == x.RealName.Split(' ').First()))
                     groups.First(y => y.Name == x.RealName.Split(' ').First()).Children
-                          .Add(new(x.RealName.Split(' ').Last(), x, null));
+                        .Add(new(x.RealName.Split(' ').Last(), x, null));
                 else
                     groups.Add(new(x.RealName.Split(' ').First(), null,
-                        new List<TriggerChildGrouping> {new(x.RealName.Split(' ').Last(), x, null)}));
+                        new List<TriggerChildGrouping>
+                        {
+                            new(x.RealName.Split(' ').Last(), x, null)
+                        }));
             });
 
         triggers.Where(x =>
@@ -1266,22 +1289,22 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .AddOptions(x.Triggers is not null
                 ? Array.Empty<SlashCommandOptionBuilder>()
                 : x.Children.Select(y => new SlashCommandOptionBuilder
-                                                {
-                                                    Options = new()
-                                                }
-                                               .WithName(y.Name)
-                                               .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true
-                                                   ? "description"
-                                                   : y.Triggers!.ApplicationCommandDescription)
-                                               .WithType(y.Triggers is null
-                                                   ? ApplicationCommandOptionType.SubCommandGroup
-                                                   : ApplicationCommandOptionType.SubCommand)
-                                               .AddOptions(y.Children is null
-                                                   ? Array.Empty<SlashCommandOptionBuilder>()
-                                                   : y.Children.Select(z => new SlashCommandOptionBuilder()
-                                                       .WithName(z.Name.Split(' ')[2])
-                                                       .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : z.Triggers!.ApplicationCommandDescription)
-                                                       .WithType(ApplicationCommandOptionType.SubCommand)).ToArray())).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
+                    {
+                        Options = new()
+                    }
+                    .WithName(y.Name)
+                    .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true
+                        ? "description"
+                        : y.Triggers!.ApplicationCommandDescription)
+                    .WithType(y.Triggers is null
+                        ? ApplicationCommandOptionType.SubCommandGroup
+                        : ApplicationCommandOptionType.SubCommand)
+                    .AddOptions(y.Children is null
+                        ? Array.Empty<SlashCommandOptionBuilder>()
+                        : y.Children.Select(z => new SlashCommandOptionBuilder()
+                            .WithName(z.Name.Split(' ')[2])
+                            .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true ? "description" : z.Triggers!.ApplicationCommandDescription)
+                            .WithType(ApplicationCommandOptionType.SubCommand)).ToArray())).ToArray())).Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
         triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Message).ForEach(x =>
             props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
@@ -1308,14 +1331,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task RegisterTriggersToGuildAsync(IGuild guild)
     {
         if (!TryGetApplicationCommandProperties(guild.Id, out var props) || props is null) return;
-        #if DEBUG
+#if DEBUG
         var cmd = new List<IApplicationCommand>();
         foreach (var prop in props)
             cmd.Add(await guild.CreateApplicationCommandAsync(prop));
-        #else
+#else
         var cmd = await guild.BulkOverwriteApplicationCommandsAsync(props.ToArray()).ConfigureAwait(false);
         if (cmd is null) return;
-        #endif
+#endif
         await using var uow = db.GetDbContext();
         var cts = uow.ChatTriggers.Where(x => x.GuildId == guild.Id).ToList();
         cmd.SelectMany(applicationCommand => applicationCommand.GetCtNames().Select(name => (cmd: applicationCommand, name))).ToList().ForEach(x =>
@@ -1341,7 +1364,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         triggers = triggers.Where(x => x.ApplicationCommandType != CtApplicationCommandType.None);
         var errors = new List<ChatTriggersInteractionError>();
         Dictionary<string?, List<(string Name, int Id)>> totalChildren = new();
-        foreach (var trigger in triggers )
+        foreach (var trigger in triggers)
         {
             var triggerDepth = trigger.RealName.Split(' ').Length;
             var parent = triggerDepth > 1 ? trigger.RealName.Split(' ')[..^1].Join(' ') : "";
@@ -1352,23 +1375,47 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             if (!IsValidName(trigger.ApplicationCommandType, trigger.RealName))
-                errors.Add(new("invalid_name", new[] {trigger.Id}, new[] {trigger.RealName}));
+                errors.Add(new("invalid_name", new[]
+                {
+                    trigger.Id
+                }, new[]
+                {
+                    trigger.RealName
+                }));
 
             foreach (var newTrigger in triggers.Where(x => x.Id != trigger.Id))
             {
                 var newTriggerDepth = trigger.RealName.Split(' ').Length;
                 if (trigger.RealName == newTrigger.RealName)
-                    errors.Add(new("duplicate", new[] {trigger.Id, newTrigger.Id},
-                        new[] {trigger.RealName, newTrigger.RealName}));
+                    errors.Add(new("duplicate", new[]
+                        {
+                            trigger.Id, newTrigger.Id
+                        },
+                        new[]
+                        {
+                            trigger.RealName, newTrigger.RealName
+                        }));
                 switch (triggerDepth)
                 {
                     case 1 when newTriggerDepth == 2 && newTrigger.RealName.Split(' ')[0] == trigger.RealName:
-                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
-                            new[] {trigger.RealName, newTrigger.RealName}));
+                        errors.Add(new("subcommand_match_parent", new[]
+                            {
+                                trigger.Id, newTrigger.Id
+                            },
+                            new[]
+                            {
+                                trigger.RealName, newTrigger.RealName
+                            }));
                         break;
                     case 2 when newTriggerDepth == 3 && newTrigger.RealName.Split(' ')[..1].Join(' ') == trigger.RealName:
-                        errors.Add(new("subcommand_match_parent", new[] {trigger.Id, newTrigger.Id},
-                            new[] {trigger.RealName, newTrigger.RealName}));
+                        errors.Add(new("subcommand_match_parent", new[]
+                            {
+                                trigger.Id, newTrigger.Id
+                            },
+                            new[]
+                            {
+                                trigger.RealName, newTrigger.RealName
+                            }));
                         break;
                 }
             }

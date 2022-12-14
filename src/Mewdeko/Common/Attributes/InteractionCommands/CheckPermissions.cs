@@ -36,7 +36,7 @@ public sealed class CheckPermissions : PreconditionAttribute
             groupname = "utility";
         var pc = await perms.GetCacheFor(context.Guild.Id);
         var index = 0;
-        return 
+        return
             pc.Permissions != null && pc.Permissions.CheckSlashPermissions(groupname, commandname, context.User, context.Channel, out index)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError(perms.Strings.GetText("perm_prevent", context.Guild.Id, index + 1,

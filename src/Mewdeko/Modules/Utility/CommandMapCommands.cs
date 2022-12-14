@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -68,15 +68,16 @@ public partial class Utility
                     var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     config.CommandAliases.Add(new CommandAlias
                     {
-                        Mapping = mapping,
-                        Trigger = trigger
+                        Mapping = mapping, Trigger = trigger
                     });
                     uow.SaveChanges();
                 }
 
                 return new ConcurrentDictionary<string, string>(new Dictionary<string, string>
                 {
-                    {trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant()}
+                    {
+                        trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant()
+                    }
                 });
             }, (_, map) =>
             {
@@ -85,8 +86,7 @@ public partial class Utility
                     var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter().GetResult();
                     var toAdd = new CommandAlias
                     {
-                        Mapping = mapping,
-                        Trigger = trigger
+                        Mapping = mapping, Trigger = trigger
                     };
                     var toRemove = config.CommandAliases.Where(x => x.Trigger == trigger);
                     if (toRemove.Any())
@@ -120,7 +120,7 @@ public partial class Utility
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(arr.Length / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -129,9 +129,9 @@ public partial class Utility
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithOkColor()
-                                                        .WithTitle(GetText("alias_list"))
-                                                        .WithDescription(string.Join("\n",
-                                                            arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
+                    .WithTitle(GetText("alias_list"))
+                    .WithDescription(string.Join("\n",
+                        arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
             }
         }
     }

@@ -42,8 +42,7 @@ public class StoopidTime
 
         return new StoopidTime
         {
-            Input = input,
-            Time = ts
+            Input = input, Time = ts
         };
     }
 }

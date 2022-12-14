@@ -1,12 +1,12 @@
+using System.Globalization;
+using System.Numerics;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using System.Globalization;
-using System.Numerics;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -82,6 +82,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             onePercent =
                 ec.OnePercent / (ec.Cash - ec.Bot); // This stops the top 1% from owning more than 100% of the money
         }
+
         // [21:03] Bob Page: Kinda reminds me of US economy
         var embed = new EmbedBuilder()
             .WithTitle(GetText("economy_state"))
@@ -173,7 +174,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         else
         {
             await ReplyConfirmLocalizedAsync("timely_set", Format.Bold(N(amount) + CurrencySign),
-                        Format.Bold(period.ToString())).ConfigureAwait(false);
+                Format.Bold(period.ToString())).ConfigureAwait(false);
         }
     }
 
@@ -327,12 +328,12 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 gamble: ctx.Client.CurrentUser.Id != user.Id).ConfigureAwait(false))
         {
             await ReplyConfirmLocalizedAsync("take", N(amount) + CurrencySign, Format.Bold(user.ToString()))
-                        .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
         else
         {
             await ReplyErrorLocalizedAsync("take_fail", N(amount) + CurrencySign, Format.Bold(user.ToString()),
-                        CurrencySign).ConfigureAwait(false);
+                CurrencySign).ConfigureAwait(false);
         }
     }
 
@@ -350,7 +351,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         else
         {
             await ReplyErrorLocalizedAsync("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()),
-                        CurrencySign).ConfigureAwait(false);
+                CurrencySign).ConfigureAwait(false);
         }
     }
 
@@ -413,7 +414,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             if (rdMsg == null)
             {
                 rdMsg = await ctx.Channel.EmbedAsync(embed)
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -428,16 +429,16 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 switch (reason)
                 {
                     case RollDuelGame.Reason.Normal:
-                        {
-                            var winner = rdGame.Winner == rdGame.P1
-                                ? ctx.User
-                                : u;
-                            embed.Description +=
-                                $"\n**{winner}** Won {N((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
-                            await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
-                                       .ConfigureAwait(false);
-                            break;
-                        }
+                    {
+                        var winner = rdGame.Winner == rdGame.P1
+                            ? ctx.User
+                            : u;
+                        embed.Description +=
+                            $"\n**{winner}** Won {N((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
+                        await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
+                            .ConfigureAwait(false);
+                        break;
+                    }
                     case RollDuelGame.Reason.Timeout:
                         await ReplyErrorLocalizedAsync("roll_duel_timeout").ConfigureAwait(false);
                         break;

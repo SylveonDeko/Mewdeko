@@ -19,11 +19,11 @@ public sealed class YandereImageDownloader : ImageDownloader<DapiImageObject>
 
         var uri = $"{baseUrl}/post.json?limit=200&tags={tagString}&page={page}";
         var imageObjects = await Http.GetFromJsonAsync<DapiImageObject[]>(uri, SerializerOptions, cancel)
-                                      .ConfigureAwait(false);
+            .ConfigureAwait(false);
         if (imageObjects is null)
             return new List<DapiImageObject>();
         return imageObjects
-               .Where(x => x.FileUrl is not null)
-               .ToList();
+            .Where(x => x.FileUrl is not null)
+            .ToList();
     }
 }

@@ -1,12 +1,12 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -36,8 +36,8 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.ch.CommandErrored += LogVerboseError;
 
         guildsEnabled = new ConcurrentHashSet<ulong>(gc
-                                                        .Where(x => x.VerboseErrors)
-                                                        .Select(x => x.GuildId));
+            .Where(x => x.VerboseErrors)
+            .Select(x => x.GuildId));
     }
 
     public Task Unload()
@@ -56,7 +56,9 @@ public class VerboseErrorsService : INService, IUnloadableService
         {
             if (!(pc.Permissions != null
                   && pc.Permissions.CheckPermissions(new MewdekoUserMessage
-                          { Author = user, Channel = channel },
+                      {
+                          Author = user, Channel = channel
+                      },
                       i,
                       cmd.MethodName(), out var index)))
                 return;

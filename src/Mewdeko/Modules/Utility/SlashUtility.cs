@@ -1,11 +1,11 @@
-﻿using Discord.Interactions;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Humanizer;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -70,15 +70,15 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     {
         var user = await client.Rest.GetUserAsync(280835732728184843);
         var eb = new EmbedBuilder().WithOkColor()
-                                   .WithAuthor(eab => eab.WithName($"{client.CurrentUser.Username} v{StatsService.BotVersion}")
-                                                         .WithUrl("https://discord.gg/mewdeko").WithIconUrl(client.CurrentUser.GetAvatarUrl()))
-                                   .AddField(efb => efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}").WithIsInline(false))
-                                   .AddField(efb => efb.WithName("Library").WithValue(stats.Library).WithIsInline(false))
-                                   .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                                   .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{client.ShardId} / {creds.TotalShards}").WithIsInline(false))
-                                   .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(false))
-                                   .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(false)).AddField(efb =>
-                                       efb.WithName("Servers").WithValue($"{coordinator.GetGuildCount()} Servers").WithIsInline(false));
+            .WithAuthor(eab => eab.WithName($"{client.CurrentUser.Username} v{StatsService.BotVersion}")
+                .WithUrl("https://discord.gg/mewdeko").WithIconUrl(client.CurrentUser.GetAvatarUrl()))
+            .AddField(efb => efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}").WithIsInline(false))
+            .AddField(efb => efb.WithName("Library").WithValue(stats.Library).WithIsInline(false))
+            .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
+            .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{client.ShardId} / {creds.TotalShards}").WithIsInline(false))
+            .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(false))
+            .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(false)).AddField(efb =>
+                efb.WithName("Servers").WithValue($"{coordinator.GetGuildCount()} Servers").WithIsInline(false));
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
@@ -86,10 +86,10 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     public async Task RInfo(IRole role)
     {
         var eb = new EmbedBuilder().WithTitle(role.Name).AddField("Users in role", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
-                                   .AddField("Is Mentionable", role.IsMentionable).AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
-                                   .AddField("Is Managed", role.IsManaged).AddField("Permissions", string.Join(",", role.Permissions))
-                                   .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt)).AddField("Position", role.Position).AddField("ID", role.Id)
-                                   .WithThumbnailUrl(role.GetIconUrl()).WithColor(role.Color);
+            .AddField("Is Mentionable", role.IsMentionable).AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
+            .AddField("Is Managed", role.IsManaged).AddField("Permissions", string.Join(",", role.Permissions))
+            .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt)).AddField("Position", role.Position).AddField("ID", role.Id)
+            .WithThumbnailUrl(role.GetIconUrl()).WithColor(role.Color);
 
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
@@ -160,7 +160,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         else
         {
             var embed = new EmbedBuilder().WithTitle("info for fetched user").AddField("Username", usr).AddField("Created At", TimestampTag.FromDateTimeOffset(usr.CreatedAt))
-                                          .AddField("Public Flags", usr.PublicFlags).WithImageUrl(usr.RealAvatarUrl().ToString()).WithOkColor();
+                .AddField("Public Flags", usr.PublicFlags).WithImageUrl(usr.RealAvatarUrl().ToString()).WithOkColor();
             await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
         }
     }
@@ -177,8 +177,8 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
 
         var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
         var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(GetText("server_info"))).WithTitle(guild.Name).AddField("Id", guild.Id.ToString())
-                                      .AddField("Owner", ownername.Mention).AddField("Total Users", guild.Users.Count.ToString())
-                                      .AddField("Created On", TimestampTag.FromDateTimeOffset(guild.CreatedAt)).WithColor(Mewdeko.OkColor);
+            .AddField("Owner", ownername.Mention).AddField("Total Users", guild.Users.Count.ToString())
+            .AddField("Created On", TimestampTag.FromDateTimeOffset(guild.CreatedAt)).WithColor(Mewdeko.OkColor);
         if (guild.SplashUrl != null)
             embed.WithImageUrl($"{guild.SplashUrl}?size=2048");
         if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
@@ -196,9 +196,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
             var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
             embed.AddField("Bots", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.IsBot))
-                 .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot)).AddField("Text Channels", textchn.ToString())
-                 .AddField("Voice Channels", voicechn.ToString()).AddField("Roles", (guild.Roles.Count - 1).ToString())
-                 .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
+                .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot)).AddField("Text Channels", textchn.ToString())
+                .AddField("Voice Channels", voicechn.ToString()).AddField("Roles", (guild.Roles.Count - 1).ToString())
+                .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
             await msg.ModifyAsync(x =>
             {
                 x.Embed = embed.Build();
@@ -212,9 +212,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     {
         var ch = channel ?? (ITextChannel)ctx.Channel;
         var embed = new EmbedBuilder().WithTitle(ch.Name).AddField(GetText("id"), ch.Id.ToString()).AddField(GetText("created_at"), TimestampTag.FromDateTimeOffset(ch.CreatedAt))
-                                      .AddField(GetText("users"), (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count()).AddField("NSFW", ch.IsNsfw)
-                                      .AddField("Slowmode Interval", TimeSpan.FromSeconds(ch.SlowModeInterval).Humanize())
-                                      .AddField("Default Thread Archive Duration", ch.DefaultArchiveDuration).WithColor(Mewdeko.OkColor);
+            .AddField(GetText("users"), (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count()).AddField("NSFW", ch.IsNsfw)
+            .AddField("Slowmode Interval", TimeSpan.FromSeconds(ch.SlowModeInterval).Humanize())
+            .AddField("Default Thread Archive Duration", ch.DefaultArchiveDuration).WithColor(Mewdeko.OkColor);
         if (!string.IsNullOrWhiteSpace(ch.Topic))
             embed.WithDescription(ch.Topic);
         await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
@@ -239,7 +239,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             embed.AddField("Nickname", user.Nickname);
 
         embed.AddField("User Id", user.Id).AddField("User Type", serverUserType).AddField("Joined Server", TimestampTag.FromDateTimeOffset(user.JoinedAt.GetValueOrDefault()))
-             .AddField("Joined Discord", TimestampTag.FromDateTimeOffset(user.CreatedAt)).AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
+            .AddField("Joined Discord", TimestampTag.FromDateTimeOffset(user.CreatedAt)).AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
 
         if (user.Activities.Count > 0)
         {
@@ -310,9 +310,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
 
         await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor()
-                                                       .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
-                                                       .AddField(efb =>
-                                                           efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-                                                       .WithImageUrl(avatarUrl).Build()).ConfigureAwait(false);
+            .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+            .AddField(efb =>
+                efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+            .WithImageUrl(avatarUrl).Build()).ConfigureAwait(false);
     }
 }

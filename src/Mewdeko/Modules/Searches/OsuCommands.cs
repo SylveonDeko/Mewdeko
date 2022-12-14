@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -57,16 +57,16 @@ public partial class Searches
                 var userId = obj.UserId;
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                                             .WithOkColor()
-                                             .WithTitle($"osu! {smode} profile for {user}")
-                                             .WithThumbnailUrl($"https://a.ppy.sh/{userId}")
-                                             .WithDescription($"https://osu.ppy.sh/u/{userId}")
-                                             .AddField("Official Rank", $"#{obj.PpRank}", true)
-                                             .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
-                                             .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
-                                             .AddField("Accuracy", $"{Math.Round(obj.Accuracy, 2)}%", true)
-                                             .AddField("Playcount", obj.Playcount, true)
-                                             .AddField("Level", Math.Round(obj.Level), true)
+                    .WithOkColor()
+                    .WithTitle($"osu! {smode} profile for {user}")
+                    .WithThumbnailUrl($"https://a.ppy.sh/{userId}")
+                    .WithDescription($"https://osu.ppy.sh/u/{userId}")
+                    .AddField("Official Rank", $"#{obj.PpRank}", true)
+                    .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
+                    .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
+                    .AddField("Accuracy", $"{Math.Round(obj.Accuracy, 2)}%", true)
+                    .AddField("Playcount", obj.Playcount, true)
+                    .AddField("Level", Math.Round(obj.Level), true)
                 ).ConfigureAwait(false);
             }
             catch (ArgumentOutOfRangeException)

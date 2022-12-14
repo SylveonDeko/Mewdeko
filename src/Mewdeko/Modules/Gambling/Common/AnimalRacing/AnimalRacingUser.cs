@@ -19,7 +19,7 @@ public class AnimalRacingUser
 
     public override bool Equals(object? obj) =>
         obj is AnimalRacingUser x
-&& x.UserId == UserId;
+        && x.UserId == UserId;
 
     public override int GetHashCode() => UserId.GetHashCode();
 }

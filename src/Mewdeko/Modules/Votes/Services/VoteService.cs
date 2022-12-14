@@ -1,8 +1,8 @@
-﻿using LinqToDB.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Votes.Common;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Votes.Services;
 
@@ -32,7 +32,10 @@ public class VoteService : INService
         if (guild is null)
             return;
         var user = guild.GetUser(ulong.Parse(voteModal.VoteModel.User));
-        var newVote = new Database.Models.Votes { UserId = user.Id, GuildId = guild.Id };
+        var newVote = new Database.Models.Votes
+        {
+            UserId = user.Id, GuildId = guild.Id
+        };
         await uow.Votes.AddAsync(newVote);
         await uow.SaveChangesAsync();
         if (string.IsNullOrEmpty(potentialVoteConfig.VoteEmbed))
@@ -84,7 +87,8 @@ public class VoteService : INService
             var rep = new ReplacementBuilder()
                 .WithDefault(user, null, guild as SocketGuild, client)
                 .WithOverride("%votestotalcount%", () => votes.Count().ToString())
-                .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
+                .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
+            ;
 
             if (SmartEmbed.TryParse(rep.Replace(potentialVoteConfig.VoteEmbed), guild.Id, out var embeds, out var plainText, out var components))
             {
@@ -132,9 +136,7 @@ public class VoteService : INService
 
         var voteRole = new VoteRoles
         {
-            RoleId = roleId,
-            GuildId = guildId,
-            Timer = seconds
+            RoleId = roleId, GuildId = guildId, Timer = seconds
         };
 
         await uow.VoteRoles.AddAsync(voteRole);
@@ -240,12 +242,12 @@ public class VoteService : INService
         if (total is 0)
             return new EmbedBuilder().WithErrorColor().WithDescription("You do not have any votes.");
         return new EmbedBuilder()
-               .WithOkColor()
-               .WithTitle($"Vote Stats for {guild.Name}")
-               .AddField("Votes this month", thisMonth)
-               .AddField("Total Votes", total)
-               .WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
-               .WithFooter(new EmbedFooterBuilder().WithIconUrl(user.RealAvatarUrl().AbsoluteUri).WithText( $"{user} | {user.Id}"));
+            .WithOkColor()
+            .WithTitle($"Vote Stats for {guild.Name}")
+            .AddField("Votes this month", thisMonth)
+            .AddField("Total Votes", total)
+            .WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
+            .WithFooter(new EmbedFooterBuilder().WithIconUrl(user.RealAvatarUrl().AbsoluteUri).WithText($"{user} | {user.Id}"));
     }
 }
 

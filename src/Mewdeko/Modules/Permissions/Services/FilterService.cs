@@ -1,4 +1,6 @@
-﻿using Discord.Net;
+﻿using System.Globalization;
+using System.Threading.Tasks;
+using Discord.Net;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
@@ -7,8 +9,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
@@ -76,13 +76,13 @@ public class FilterService : IEarlyBehavior, INService
 
         eventHandler.MessageUpdated += (_, newMsg, channel) =>
         {
-                var guild = (channel as ITextChannel)?.Guild;
+            var guild = (channel as ITextChannel)?.Guild;
 
-                if (guild == null || newMsg is not IUserMessage usrMsg)
-                    return Task.CompletedTask;
+            if (guild == null || newMsg is not IUserMessage usrMsg)
+                return Task.CompletedTask;
 
-                return RunBehavior(null, guild, usrMsg);
-            };
+            return RunBehavior(null, guild, usrMsg);
+        };
     }
 
     public IBotStrings Strings { get; set; }
@@ -125,7 +125,10 @@ public class FilterService : IEarlyBehavior, INService
     public void WordBlacklist(string id, ulong id2)
     {
         using var uow = db.GetDbContext();
-        var item = new AutoBanEntry { Word = id, GuildId = id2 };
+        var item = new AutoBanEntry
+        {
+            Word = id, GuildId = id2
+        };
         uow.AutoBanWords.Add(item);
         uow.SaveChanges();
 
@@ -251,7 +254,8 @@ public class FilterService : IEarlyBehavior, INService
                 var embed = await Upun.GetBanUserDmEmbed(client, guild as SocketGuild,
                     await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false), msg.Author as IGuildUser, defaultMessage,
                     $"Banned for saying autoban word {i}", null).ConfigureAwait(false);
-                await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build()).ConfigureAwait(false);
+                await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build())
+                    .ConfigureAwait(false);
                 await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected").ConfigureAwait(false);
                 return true;
             }

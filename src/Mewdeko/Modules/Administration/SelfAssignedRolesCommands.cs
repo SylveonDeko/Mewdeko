@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Text;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -51,7 +51,7 @@ public partial class Administration
             if (succ)
             {
                 await ReplyConfirmLocalizedAsync("role_added", Format.Bold(role.Name),
-                                Format.Bold(group.ToString())).ConfigureAwait(false);
+                    Format.Bold(group.ToString())).ConfigureAwait(false);
             }
             else
             {
@@ -68,12 +68,12 @@ public partial class Administration
             if (set)
             {
                 await ReplyConfirmLocalizedAsync("group_name_added", Format.Bold(group.ToString()),
-                                Format.Bold(name)).ConfigureAwait(false);
+                    Format.Bold(name)).ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("group_name_removed", Format.Bold(group.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
@@ -102,7 +102,7 @@ public partial class Administration
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(roles.Count() / 20)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -200,12 +200,12 @@ public partial class Administration
             else if (result == SelfAssignedRolesService.AssignResult.ErrLvlReq)
             {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_level", Format.Bold(extra.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else if (result == SelfAssignedRolesService.AssignResult.ErrAlreadyHave)
             {
                 msg = await ReplyErrorLocalizedAsync("self_assign_already", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else if (result == SelfAssignedRolesService.AssignResult.ErrNotPerms)
             {
@@ -214,7 +214,7 @@ public partial class Administration
             else
             {
                 msg = await ReplyConfirmLocalizedAsync("self_assign_success", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
 
             if (autoDelete)
@@ -239,7 +239,7 @@ public partial class Administration
             else if (result == SelfAssignedRolesService.RemoveResult.ErrNotHave)
             {
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_have", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else if (result == SelfAssignedRolesService.RemoveResult.ErrNotPerms)
             {
@@ -248,7 +248,7 @@ public partial class Administration
             else
             {
                 msg = await ReplyConfirmLocalizedAsync("self_assign_remove", Format.Bold(role.Name))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
 
             if (autoDelete)

@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+using Discord.Rest;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Administration.Common;
@@ -5,9 +8,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord.Rest;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -110,7 +110,10 @@ public class LogCommandService : INService
         config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
         if (removed == 0)
         {
-            var toAdd = new IgnoredLogChannel { ChannelId = cid };
+            var toAdd = new IgnoredLogChannel
+            {
+                ChannelId = cid
+            };
             logSetting.IgnoredChannels.Add(toAdd);
             config.LogSetting.IgnoredChannels.Add(toAdd);
         }
@@ -165,13 +168,13 @@ public class LogCommandService : INService
             if (before.Username != guildUser.Username)
             {
                 embed.WithTitle($"👥 {GetText(g, "username_changed")}").WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                     .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
-                     .AddField(fb => fb.WithName("New Name").WithValue($"{guildUser.Username}").WithIsInline(true)).WithFooter(fb => fb.WithText(CurrentTime(g))).WithOkColor();
+                    .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
+                    .AddField(fb => fb.WithName("New Name").WithValue($"{guildUser.Username}").WithIsInline(true)).WithFooter(fb => fb.WithText(CurrentTime(g))).WithOkColor();
             }
             else if (before.AvatarId != guildUser.AvatarId)
             {
                 embed.WithTitle($"👥{GetText(g, "avatar_changed")}").WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
-                     .WithFooter(fb => fb.WithText(CurrentTime(g))).WithOkColor();
+                    .WithFooter(fb => fb.WithText(CurrentTime(g))).WithOkColor();
 
                 var bav = before.RealAvatarUrl();
                 if (bav != null && bav.IsAbsoluteUri)
@@ -297,7 +300,7 @@ public class LogCommandService : INService
             };
 
             var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes)).WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                                          .WithFooter(fb => fb.WithText(CurrentTime(usr.Guild))).WithOkColor();
+                .WithFooter(fb => fb.WithText(CurrentTime(usr.Guild))).WithOkColor();
 
             await logChannel.EmbedAsync(embed).ConfigureAwait(false);
         }
@@ -333,7 +336,7 @@ public class LogCommandService : INService
             };
 
             var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes)).WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                                          .WithFooter(fb => fb.WithText($"{CurrentTime(usr.Guild)}")).WithOkColor();
+                .WithFooter(fb => fb.WithText($"{CurrentTime(usr.Guild)}")).WithOkColor();
 
             if (!string.IsNullOrWhiteSpace(reason))
                 embed.WithDescription(reason);
@@ -390,8 +393,8 @@ public class LogCommandService : INService
                 }
 
                 var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}")).WithTitle($"{GetText(logChannel.Guild, "users")} {punishment}")
-                                              .WithDescription(string.Join("\n", users.Select(u => u.ToString()))).WithFooter(fb => fb.WithText(CurrentTime(logChannel.Guild)))
-                                              .WithOkColor();
+                    .WithDescription(string.Join("\n", users.Select(u => u.ToString()))).WithFooter(fb => fb.WithText(CurrentTime(logChannel.Guild)))
+                    .WithOkColor();
 
                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -438,15 +441,15 @@ public class LogCommandService : INService
             if (logSetting.UserUpdatedId != null && (logChannel = await TryGetLogChannel(cacheable.Value.Guild, logSetting, LogType.UserUpdated).ConfigureAwait(false)) != null)
             {
                 var embed = new EmbedBuilder().WithOkColor().WithFooter(efb => efb.WithText(CurrentTime(cacheable.Value.Guild)))
-                                              .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
+                    .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
                 if (cacheable.Value.Nickname != after.Nickname)
                 {
                     var channel = logChannel;
                     var channel1 = logChannel;
                     var logChannel1 = logChannel;
                     embed.WithAuthor(eab => eab.WithName($"👥 {GetText(logChannel1.Guild, "nick_change")}"))
-                         .AddField(efb => efb.WithName(GetText(channel.Guild, "old_nick")).WithValue($"{cacheable.Value.Nickname}#{cacheable.Value.Discriminator}")).AddField(efb =>
-                             efb.WithName(GetText(channel1.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
+                        .AddField(efb => efb.WithName(GetText(channel.Guild, "old_nick")).WithValue($"{cacheable.Value.Nickname}#{cacheable.Value.Discriminator}")).AddField(efb =>
+                            efb.WithName(GetText(channel1.Guild, "new_nick")).WithValue($"{after.Nickname}#{after.Discriminator}"));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
@@ -507,11 +510,11 @@ public class LogCommandService : INService
 
             if (before.Name != after.Name)
                 embed.WithTitle($"ℹ️ {GetText(logChannel.Guild, "ch_name_change")}").WithDescription($"{after} | {after.Id}")
-                     .AddField(efb => efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
+                    .AddField(efb => efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
             else if (beforeTextChannel?.Topic != afterTextChannel?.Topic)
                 embed.WithTitle($"ℹ️ {GetText(logChannel.Guild, "ch_topic_change")}").WithDescription($"{after} | {after.Id}")
-                     .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_topic")).WithValue(beforeTextChannel?.Topic ?? "-")).AddField(efb =>
-                         efb.WithName(GetText(logChannel.Guild, "new_topic")).WithValue(afterTextChannel?.Topic ?? "-"));
+                    .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_topic")).WithValue(beforeTextChannel?.Topic ?? "-")).AddField(efb =>
+                        efb.WithName(GetText(logChannel.Guild, "new_topic")).WithValue(afterTextChannel?.Topic ?? "-"));
             else
                 return;
 
@@ -543,7 +546,7 @@ public class LogCommandService : INService
             var audits = await ch.Guild.GetAuditLogsAsync().ConfigureAwait(false);
             var e = audits.FirstOrDefault(x => x.Action == ActionType.ChannelDeleted);
             await logChannel.EmbedAsync(new EmbedBuilder().WithOkColor().WithTitle($"🆕 {title}").WithDescription($"{ch.Name} | {ch.Id}").AddField("Yeeted By", e?.User)
-                                                          .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
+                .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
         }
         catch
         {
@@ -567,7 +570,7 @@ public class LogCommandService : INService
             var title = GetText(logChannel.Guild, ch is IVoiceChannel ? "voice_chan_created" : "text_chan_created");
 
             await logChannel.EmbedAsync(new EmbedBuilder().WithOkColor().WithTitle($"🆕 {title}").WithDescription($"{ch.Name} | {ch.Id}")
-                                                          .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
+                .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
         }
         catch (Exception)
         {
@@ -624,9 +627,9 @@ public class LogCommandService : INService
             if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserLeft).ConfigureAwait(false)) == null)
                 return;
             var embed = new EmbedBuilder().WithOkColor().WithTitle($"❌ {GetText(logChannel.Guild, "user_left")}").WithDescription(usr.ToString())
-                                          .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                                          .AddField("Roles", string.Join("|", usr.GetRoles().Select(x => x.Mention)))
-                                          .AddField("Time Stayed:", (usr.JoinedAt - DateTime.Now).Value.Humanize()).WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+                .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                .AddField("Roles", string.Join("|", usr.GetRoles().Select(x => x.Mention)))
+                .AddField("Time Stayed:", (usr.JoinedAt - DateTime.Now).Value.Humanize()).WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
 
             if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
                 embed.WithThumbnailUrl(usr.GetAvatarUrl());
@@ -651,12 +654,12 @@ public class LogCommandService : INService
                 return;
 
             var embed = new EmbedBuilder().WithOkColor().WithTitle($"✅ {GetText(logChannel.Guild, "user_joined")}").WithDescription($"{usr.Mention} `{usr}`")
-                                          .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
-                                          .AddField(fb => fb.WithName(GetText(logChannel.Guild, "joined_server")).WithValue($"{usr.JoinedAt?.ToString("dd.MM.yyyy HH:mm") ?? "?"}")
-                                                            .WithIsInline(true))
-                                          .AddField(fb =>
-                                              fb.WithName(GetText(logChannel.Guild, "joined_discord")).WithValue($"{usr.CreatedAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
-                                          .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
+                .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                .AddField(fb => fb.WithName(GetText(logChannel.Guild, "joined_server")).WithValue($"{usr.JoinedAt?.ToString("dd.MM.yyyy HH:mm") ?? "?"}")
+                    .WithIsInline(true))
+                .AddField(fb =>
+                    fb.WithName(GetText(logChannel.Guild, "joined_discord")).WithValue($"{usr.CreatedAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
+                .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
 
             if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
                 embed.WithThumbnailUrl(usr.GetAvatarUrl());
@@ -671,30 +674,30 @@ public class LogCommandService : INService
 
     private async Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
-            try
-            {
-                if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting) || logSetting.UserUnbannedId == null)
-                    return;
+        try
+        {
+            if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting) || logSetting.UserUnbannedId == null)
+                return;
 
-                ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned).ConfigureAwait(false)) == null)
-                    return;
-                var unbandata = await guild.GetAuditLogsAsync(actionType: ActionType.Unban);
-                var user = unbandata.FirstOrDefault(x => (x.Data as UnbanAuditLogData).Target == usr);
-                var embed = new EmbedBuilder().WithOkColor().WithTitle($"♻️ {GetText(logChannel.Guild, "user_unbanned")}").WithDescription(usr.ToString())
-                    .AddField("Unbanned By", user is null ? "Unknown" : $"{user.User} | {user.Id}")
-                    .AddField("Reason", user is null ? "Unknown" : $"{user.Reason}")
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
+            ITextChannel logChannel;
+            if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned).ConfigureAwait(false)) == null)
+                return;
+            var unbandata = await guild.GetAuditLogsAsync(actionType: ActionType.Unban);
+            var user = unbandata.FirstOrDefault(x => (x.Data as UnbanAuditLogData).Target == usr);
+            var embed = new EmbedBuilder().WithOkColor().WithTitle($"♻️ {GetText(logChannel.Guild, "user_unbanned")}").WithDescription(usr.ToString())
+                .AddField("Unbanned By", user is null ? "Unknown" : $"{user.User} | {user.Id}")
+                .AddField("Reason", user is null ? "Unknown" : $"{user.Reason}")
+                .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString())).WithFooter(efb => efb.WithText(CurrentTime(guild)));
 
-                if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
-                    embed.WithThumbnailUrl(usr.GetAvatarUrl());
+            if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
+                embed.WithThumbnailUrl(usr.GetAvatarUrl());
 
-                await logChannel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            await logChannel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 
     private Task Client_UserBanned(IUser usr, IGuild guild)
@@ -795,11 +798,11 @@ public class LogCommandService : INService
 
             var resolvedMessage = msg.Resolve(TagHandling.FullName);
             var embed = new EmbedBuilder().WithOkColor().WithTitle($"🗑 {GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name)}")
-                                          .WithDescription(msg.Author.ToString())
-                                          .AddField(efb => efb.WithName(GetText(logChannel.Guild, "content"))
-                                                              .WithValue(string.IsNullOrWhiteSpace(resolvedMessage) ? "-" : resolvedMessage).WithIsInline(false))
-                                          .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
-                                          .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
+                .WithDescription(msg.Author.ToString())
+                .AddField(efb => efb.WithName(GetText(logChannel.Guild, "content"))
+                    .WithValue(string.IsNullOrWhiteSpace(resolvedMessage) ? "-" : resolvedMessage).WithIsInline(false))
+                .AddField(efb => efb.WithName("Id").WithValue(msg.Id.ToString()).WithIsInline(false))
+                .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
             if (msg.Attachments.Any())
                 embed.AddField(efb => efb.WithName(GetText(logChannel.Guild, "attachments")).WithValue(string.Join(", ", msg.Attachments.Select(a => a.Url))).WithIsInline(false));
 
@@ -840,14 +843,14 @@ public class LogCommandService : INService
                 return;
 
             var embed = new EmbedBuilder().WithOkColor().WithTitle($"📝 {GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name)}")
-                                          .WithDescription(after.Author.ToString())
-                                          .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_msg"))
-                                                              .WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(TagHandling.FullName))
-                                                              .WithIsInline(false))
-                                          .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_msg"))
-                                                              .WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(TagHandling.FullName)).WithIsInline(false))
-                                          .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
-                                          .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
+                .WithDescription(after.Author.ToString())
+                .AddField(efb => efb.WithName(GetText(logChannel.Guild, "old_msg"))
+                    .WithValue(string.IsNullOrWhiteSpace(before.Content) ? "-" : before.Resolve(TagHandling.FullName))
+                    .WithIsInline(false))
+                .AddField(efb => efb.WithName(GetText(logChannel.Guild, "new_msg"))
+                    .WithValue(string.IsNullOrWhiteSpace(after.Content) ? "-" : after.Resolve(TagHandling.FullName)).WithIsInline(false))
+                .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
+                .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
 
             await logChannel.EmbedAsync(embed).ConfigureAwait(false);
         }

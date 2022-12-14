@@ -1,7 +1,7 @@
-using Discord.Interactions;
-using Mewdeko.Services.strings;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Discord.Interactions;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common.TypeReaders.Interactions;
 

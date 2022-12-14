@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -7,7 +8,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -73,6 +73,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
     }
+
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
@@ -101,24 +102,24 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (option is not null && option.ToLower() == "-p")
             {
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory).WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                                          .WithMaxPageIndex(users.Count() / 20).WithDefaultCanceledPage().WithDefaultEmotes()
-                                                          .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+                    .WithMaxPageIndex(users.Count() / 20).WithDefaultCanceledPage().WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
                     return new PageBuilder().WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                                            .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
+                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
                 }
             }
 
             var banned = 0;
             var errored = 0;
             var msg = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithErrorColor()
-                                                                                  .WithDescription(
-                                                                                      $"Are you sure you want to ban {users.Count()} users that are under that server join age? Say `yes` to continue.")
-                                                                                  .Build());
+                .WithDescription(
+                    $"Are you sure you want to ban {users.Count()} users that are under that server join age? Say `yes` to continue.")
+                .Build());
             var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
             await msg.DeleteAsync();
             if (!text.ToLower().Contains("yes")) return;
@@ -137,9 +138,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             }
 
             var eb = new EmbedBuilder()
-                     .WithDescription(
-                         $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
-                     .WithOkColor();
+                .WithDescription(
+                    $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
+                .WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -170,7 +171,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithMaxPageIndex(guildUsers.Length / 20)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -178,18 +179,18 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
-                                       .WithTitle(
-                                           $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                                       .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20)));
+                    .WithTitle(
+                        $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                    .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20)));
             }
         }
 
         var banned = 0;
         var errored = 0;
         var msg = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithErrorColor()
-                                                                              .WithDescription(
-                                                                                  $"Are you sure you want to kick {users.Count()} users that are under that server join age? Say `yes` to continue.")
-                                                                              .Build());
+            .WithDescription(
+                $"Are you sure you want to kick {users.Count()} users that are under that server join age? Say `yes` to continue.")
+            .Build());
         var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         await msg.DeleteAsync();
         if (!text.ToLower().Contains("yes")) return;
@@ -223,19 +224,20 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"No users to prune, if you meant to prune users inyour member role please set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                        $"No users to prune, if you meant to prune users inyour member role please set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.")
+                    .ConfigureAwait(false);
                 return;
             }
 
             var eb = new EmbedBuilder
             {
-                Description = $"Are you sure you want to prune {toprune} Members?",
-                Color = Mewdeko.OkColor
+                Description = $"Are you sure you want to prune {toprune} Members?", Color = Mewdeko.OkColor
             };
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
                 await ctx.Channel.SendConfirmAsync(
-                    $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.").ConfigureAwait(false);
+                        $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.")
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -243,8 +245,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 await ctx.Guild.PruneUsersAsync(time.Time.Days).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
-                    Description = $"Pruned {toprune} members.",
-                    Color = Mewdeko.OkColor
+                    Description = $"Pruned {toprune} members.", Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
             }
@@ -253,7 +254,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         {
             ctx.Guild.GetRole(await Service.GetMemberRole(ctx.Guild.Id));
             var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                includeRoleIds: new[] { await Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
+                includeRoleIds: new[]
+                {
+                    await Service.GetMemberRole(ctx.Guild.Id)
+                }).ConfigureAwait(false);
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync("No users to prune.").ConfigureAwait(false);
@@ -262,8 +266,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
             var eb = new EmbedBuilder
             {
-                Description = $"Are you sure you want to prune {toprune} Members?",
-                Color = Mewdeko.OkColor
+                Description = $"Are you sure you want to prune {toprune} Members?", Color = Mewdeko.OkColor
             };
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
             {
@@ -273,11 +276,13 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...").ConfigureAwait(false);
                 await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                    includeRoleIds: new[] { await Service.GetMemberRole(ctx.Guild.Id) }).ConfigureAwait(false);
+                    includeRoleIds: new[]
+                    {
+                        await Service.GetMemberRole(ctx.Guild.Id)
+                    }).ConfigureAwait(false);
                 var ebi = new EmbedBuilder
                 {
-                    Description = $"Pruned {toprune} members.",
-                    Color = Mewdeko.OkColor
+                    Description = $"Pruned {toprune} members.", Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
             }

@@ -9,5 +9,5 @@ public class UnbanTimer : DbEntity
 
     public override bool Equals(object obj) =>
         obj is UnbanTimer ut
-&& ut.UserId == UserId;
+        && ut.UserId == UserId;
 }

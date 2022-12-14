@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Permissions.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions;
 
@@ -48,12 +48,12 @@ public partial class Permissions
             if (action == AddRemove.Add)
             {
                 await ReplyConfirmLocalizedAsync("blacklisted", Format.Code(type.ToString()),
-                                Format.Code(id.ToString())).ConfigureAwait(false);
+                    Format.Code(id.ToString())).ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("unblacklisted", Format.Code(type.ToString()),
-                                Format.Code(id.ToString())).ConfigureAwait(false);
+                    Format.Code(id.ToString())).ConfigureAwait(false);
             }
         }
     }

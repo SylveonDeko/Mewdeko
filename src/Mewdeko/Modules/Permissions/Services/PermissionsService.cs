@@ -1,16 +1,15 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
 public class PermissionService : ILateBlocker, INService
 {
-
     private readonly DbService db;
     public readonly IBotStrings Strings;
     private readonly GuildSettingsService guildSettings;
@@ -31,9 +30,7 @@ public class PermissionService : ILateBlocker, INService
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
-                    Verbose = x.VerbosePermissions,
-                    PermRole = x.PermissionRole,
-                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    Verbose = x.VerbosePermissions, PermRole = x.PermissionRole, Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                 });
         }
     }
@@ -68,9 +65,9 @@ public class PermissionService : ILateBlocker, INService
                 try
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                                     Format.Bold(pc.Permissions[index]
-                                                   .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
-                                 .ConfigureAwait(false);
+                            Format.Bold(pc.Permissions[index]
+                                .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                        .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -151,8 +148,8 @@ public class PermissionService : ILateBlocker, INService
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                         Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
-                     .ConfigureAwait(false);
+                    Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                .ConfigureAwait(false);
         }
         catch
         {
@@ -195,9 +192,7 @@ public class PermissionService : ILateBlocker, INService
     public void UpdateCache(GuildConfig config) =>
         Cache.AddOrUpdate(config.GuildId, new PermissionCache
         {
-            Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
-            PermRole = config.PermissionRole,
-            Verbose = config.VerbosePermissions
+            Permissions = new PermissionsCollection<Permissionv2>(config.Permissions), PermRole = config.PermissionRole, Verbose = config.VerbosePermissions
         }, (_, old) =>
         {
             old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);

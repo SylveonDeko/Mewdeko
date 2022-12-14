@@ -1,6 +1,6 @@
-﻿using Mewdeko.Modules.Gambling.Common.Events;
+﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Gambling.Common.Events;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

@@ -6,7 +6,7 @@ public class VoteModel
     /// Discord ID of the bot that received a vote.
     /// </summary>
     public string Bot { get; set; }
-    
+
     /// <summary>
     /// Server ID if Bot is not populated.
     /// </summary>

@@ -1,3 +1,7 @@
+using System.Collections.Concurrent;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;
@@ -13,10 +17,6 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using StackExchange.Redis;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -48,6 +48,7 @@ public class XpService : INService, IUnloadableService
     private readonly XpConfigService xpConfig;
     private readonly Mewdeko bot;
     private readonly IMemoryCache memoryCache;
+
     private XpTemplate template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), new JsonSerializerSettings
     {
         ContractResolver = new RequireObjectPropertiesContractResolver()
@@ -99,13 +100,13 @@ public class XpService : INService, IUnloadableService
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
         excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(uow.XpSettingsFor(x.GuildId).GetAwaiter().GetResult().ExclusionList
-                                               .Where(ex => ex.ItemType == ExcludedItemType.Channel)
-                                               .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
+                .Where(ex => ex.ItemType == ExcludedItemType.Channel)
+                .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
         excludedRoles = allGuildConfigs.ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
-                                               .Where(ex => ex.ItemType == ExcludedItemType.Role)
-                                               .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
+                .Where(ex => ex.ItemType == ExcludedItemType.Role)
+                .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
         excludedServers = new ConcurrentHashSet<ulong>(
             allGuildConfigs.Where(x => x.XpSettings.ServerExcluded).Select(x => x.GuildId));
@@ -313,7 +314,10 @@ public class XpService : INService, IUnloadableService
             if (rew != null)
                 rew.Amount = amount;
             else
-                settings.CurrencyRewards.Add(new XpCurrencyReward { Level = level, Amount = amount });
+                settings.CurrencyRewards.Add(new XpCurrencyReward
+                {
+                    Level = level, Amount = amount
+                });
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -352,7 +356,10 @@ public class XpService : INService, IUnloadableService
             if (rew != null)
                 rew.RoleId = roleId.Value;
             else
-                settings.RoleRewards.Add(new XpRoleReward { Level = level, RoleId = roleId.Value });
+                settings.RoleRewards.Add(new XpRoleReward
+                {
+                    Level = level, RoleId = roleId.Value
+                });
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -417,7 +424,6 @@ public class XpService : INService, IUnloadableService
 
     private Task Client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before, SocketVoiceState after)
     {
-
         _ = Task.Run(() =>
         {
             if (socketUser is not SocketGuildUser user || user.IsBot)
@@ -534,7 +540,10 @@ public class XpService : INService, IUnloadableService
         var actualXp = (int)Math.Floor(xp);
 
         if (actualXp > 0)
-            addMessageXp.Enqueue(new UserCacheItem { Guild = channel.Guild, User = user, XpAmount = actualXp });
+            addMessageXp.Enqueue(new UserCacheItem
+            {
+                Guild = channel.Guild, User = user, XpAmount = actualXp
+            });
     }
 
     private bool ShouldTrackXp(SocketGuildUser user, ulong channelId)
@@ -564,10 +573,7 @@ public class XpService : INService, IUnloadableService
             var e = GetTxtXpRate(user.Guild.Id) == 0 ? xpConfig.Data.XpPerMessage : GetTxtXpRate(user.Guild.Id);
             addMessageXp.Enqueue(new UserCacheItem
             {
-                Guild = user.Guild,
-                Channel = arg.Channel,
-                User = user,
-                XpAmount = e
+                Guild = user.Guild, Channel = arg.Channel, User = user, XpAmount = e
             });
         });
         return Task.CompletedTask;
@@ -579,10 +585,7 @@ public class XpService : INService, IUnloadableService
 
         addMessageXp.Enqueue(new UserCacheItem
         {
-            Guild = user.Guild,
-            Channel = channel,
-            User = user,
-            XpAmount = amount
+            Guild = user.Guild, Channel = channel, User = user, XpAmount = amount
         });
     }
 
@@ -712,7 +715,10 @@ public class XpService : INService, IUnloadableService
         var roles = excludedRoles.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
         await using var uow = db.GetDbContext();
         var xpSetting = await uow.XpSettingsFor(guildId);
-        var excludeObj = new ExcludedItem { ItemId = rId, ItemType = ExcludedItemType.Role };
+        var excludeObj = new ExcludedItem
+        {
+            ItemId = rId, ItemType = ExcludedItemType.Role
+        };
 
         if (roles.Add(rId))
         {
@@ -736,7 +742,10 @@ public class XpService : INService, IUnloadableService
         var channels = excludedChannels.GetOrAdd(guildId, _ => new ConcurrentHashSet<ulong>());
         await using var uow = db.GetDbContext();
         var xpSetting = await uow.XpSettingsFor(guildId);
-        var excludeObj = new ExcludedItem { ItemId = chId, ItemType = ExcludedItemType.Channel };
+        var excludeObj = new ExcludedItem
+        {
+            ItemId = chId, ItemType = ExcludedItemType.Channel
+        };
 
         if (channels.Add(chId))
         {
@@ -780,6 +789,7 @@ public class XpService : INService, IUnloadableService
 
             img.Mutate(x => x.DrawText(options, username, template.User.Name.Color));
         }
+
         if (template.User.GuildLevel.Show)
         {
             img.Mutate(x => x.DrawText(stats.Guild.Level.ToString(),
@@ -859,10 +869,10 @@ public class XpService : INService, IUnloadableService
                         var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
                         using var tempDraw = Image.Load<Rgba32>(avatarData);
                         tempDraw.Mutate(x => x
-                                             .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
-                                             .ApplyRoundedCorners(Math.Max(template.User.Icon.Size.X,
-                                                                      template.User.Icon.Size.Y)
-                                                                  / 2));
+                            .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
+                            .ApplyRoundedCorners(Math.Max(template.User.Icon.Size.X,
+                                                     template.User.Icon.Size.Y)
+                                                 / 2));
                         var stream = tempDraw.ToStream();
                         await using var _ = stream.ConfigureAwait(false);
                         data = stream.ToArray();

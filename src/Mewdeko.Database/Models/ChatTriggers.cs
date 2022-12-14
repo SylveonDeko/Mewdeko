@@ -70,6 +70,7 @@ public enum ChatTriggerType
 {
     Message = 0b0001,
     Interaction = 0b0010,
+
     Button = 0b0100
     // not yet developed
     // Reactions = 0b10000,

@@ -28,6 +28,7 @@ public class ImageData : IComparable<ImageData>
         => FileUrl;
 
     public override int GetHashCode() => FileUrl.GetHashCode();
+
     public override bool Equals(object? obj)
         => obj is ImageData ico && ico.FileUrl == FileUrl;
 

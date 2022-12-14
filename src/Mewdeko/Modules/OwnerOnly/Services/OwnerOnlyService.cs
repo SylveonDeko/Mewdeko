@@ -1,15 +1,15 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
@@ -160,14 +160,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         autoCommands =
             uow.AutoCommands
-            .AsNoTracking()
-            .Where(x => x.Interval >= 5)
-            .AsEnumerable()
-            .GroupBy(x => x.GuildId)
-            .ToDictionary(x => x.Key,
-                y => y.ToDictionary(x => x.Id, TimerFromAutoCommand)
-                    .ToConcurrent())
-            .ToConcurrent();
+                .AsNoTracking()
+                .Where(x => x.Interval >= 5)
+                .AsEnumerable()
+                .GroupBy(x => x.GuildId)
+                .ToDictionary(x => x.Key,
+                    y => y.ToDictionary(x => x.Id, TimerFromAutoCommand)
+                        .ToConcurrent())
+                .ToConcurrent();
 
         foreach (var cmd in uow.AutoCommands.AsNoTracking().Where(x => x.Interval == 0))
         {
@@ -190,18 +190,18 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             })).ConfigureAwait(false);
 
             ownerChannels = channels.Where(x => x is not null)
-                                    .ToDictionary(x => x.Recipient.Id, x => x)
-                                    .ToImmutableDictionary();
+                .ToDictionary(x => x.Recipient.Id, x => x)
+                .ToImmutableDictionary();
 
             if (ownerChannels.Count == 0)
             {
                 Log.Warning(
-                                "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
             }
             else
             {
                 Log.Information(
-                                $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
+                    $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
             }
         }
     }
@@ -244,10 +244,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         await using var uow = db.GetDbContext();
         var toRemove = await uow.RotatingStatus
-                                .AsQueryable()
-                                .AsNoTracking()
-                                .Skip(index)
-                                .FirstOrDefaultAsync().ConfigureAwait(false);
+            .AsQueryable()
+            .AsNoTracking()
+            .Skip(index)
+            .FirstOrDefaultAsync().ConfigureAwait(false);
 
         if (toRemove is null)
             return null;
@@ -260,7 +260,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public async Task AddPlaying(ActivityType t, string status)
     {
         await using var uow = db.GetDbContext();
-        var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
+        var toAdd = new RotatingPlayingStatus
+        {
+            Status = status, Type = t
+        };
         uow.Add(toAdd);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -323,6 +326,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             });
         }
     }
+
     public string SetDefaultPrefix(string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
@@ -338,10 +342,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         using var uow = db.GetDbContext();
         return
             uow.AutoCommands
-            .AsNoTracking()
-            .Where(x => x.Interval == 0)
-            .OrderBy(x => x.Id)
-            .ToList();
+                .AsNoTracking()
+                .Where(x => x.Interval == 0)
+                .OrderBy(x => x.Id)
+                .ToList();
     }
 
     public IEnumerable<AutoCommand> GetAutoCommands()
@@ -349,10 +353,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         using var uow = db.GetDbContext();
         return
             uow.AutoCommands
-            .AsNoTracking()
-            .Where(x => x.Interval >= 5)
-            .OrderBy(x => x.Id)
-            .ToList();
+                .AsNoTracking()
+                .Where(x => x.Interval >= 5)
+                .OrderBy(x => x.Id)
+                .ToList();
     }
 
     public Task LeaveGuild(string guildStr)
@@ -439,8 +443,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         using var uow = db.GetDbContext();
         var toRemove =
             uow.AutoCommands
-            .AsNoTracking()
-            .Where(x => x.Interval == 0);
+                .AsNoTracking()
+                .Where(x => x.Interval == 0);
 
         uow.AutoCommands.RemoveRange(toRemove);
         uow.SaveChanges();
@@ -492,5 +496,4 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
         return isToAll;
     }
-
 }

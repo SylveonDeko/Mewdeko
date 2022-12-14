@@ -1,4 +1,11 @@
 ﻿#nullable enable
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
@@ -15,13 +22,6 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;
@@ -80,6 +80,7 @@ public static class Extensions
         var first = attachments.FirstOrDefault();
         return first != null && first.Url.CheckIfMusicUrl();
     }
+
     public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
 
     // ReSharper disable once InvalidXmlDocComment
@@ -106,10 +107,12 @@ public static class Extensions
         config = tocheck;
         return true;
     }
+
     public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
     {
         foreach (var i in items) list.Add(i);
     }
+
     public static void RemoveRange<T>(this IList<T> list, IEnumerable<T> items)
     {
         foreach (var i in items) list.Remove(i);
@@ -216,11 +219,13 @@ public static class Extensions
 
     public static bool IsAuthor(this IMessage msg, IDiscordClient client) => msg.Author?.Id == client.CurrentUser.Id;
 
-    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) => string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
+    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
+        string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
 
     public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
+
     public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
@@ -232,7 +237,7 @@ public static class Extensions
     //     => string.Join('\n', cmd.RealRemarksArr(strings, prefix));
 
     public static string GetFullUsage(string commandName, string args, string? prefix) =>
-        $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] {prefix}, out var output) ? output : args)}";
+        $"{prefix}{commandName} {(StringExtensions.TryFormat(args, new object[] { prefix }, out var output) ? output : args)}";
 
     public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
     {
@@ -281,6 +286,7 @@ public static class Extensions
             }
         });
     }
+
     public static void DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
     {
         if (msg is null) return;
@@ -322,8 +328,7 @@ public static class Extensions
         {
             img.SaveAsPng(imageStream, new PngEncoder
             {
-                ColorType = PngColorType.RgbWithAlpha,
-                CompressionLevel = PngCompressionLevel.BestCompression
+                ColorType = PngColorType.RgbWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression
             });
         }
 
@@ -438,7 +443,11 @@ public static class Extensions
         var sgs = command.Options.Where(x =>
             x.Type is ApplicationCommandOptionType.SubCommand or ApplicationCommandOptionType.SubCommandGroup);
 
-        if (!sgs.Any()) return new[] {baseName};
+        if (!sgs.Any())
+            return new[]
+            {
+                baseName
+            };
 
         var ctNames = new List<string>();
         foreach (var sg in sgs)
@@ -459,22 +468,22 @@ public static class Extensions
             case SocketMessageCommand mCmd:
                 return mCmd.Data.Name;
             default:
-                {
-                    if (interaction is not SocketSlashCommand sCmd) throw new ArgumentException("interaction is not a valid type");
-                    return (sCmd.Data.Name
-                            + " "
-                            + ((sCmd.Data.Options?.FirstOrDefault()?.Type is ApplicationCommandOptionType.SubCommand
-                                   or ApplicationCommandOptionType.SubCommandGroup
-                                   ? sCmd.Data.Options?.First().Name
-                                   : "")
-                               ?? "")
-                            + " "
-                            + (sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Type
-                               == ApplicationCommandOptionType.SubCommand
-                                ? sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Name
-                                : "")
-                            ?? "").Trim();
-                }
+            {
+                if (interaction is not SocketSlashCommand sCmd) throw new ArgumentException("interaction is not a valid type");
+                return (sCmd.Data.Name
+                        + " "
+                        + ((sCmd.Data.Options?.FirstOrDefault()?.Type is ApplicationCommandOptionType.SubCommand
+                               or ApplicationCommandOptionType.SubCommandGroup
+                               ? sCmd.Data.Options?.First().Name
+                               : "")
+                           ?? "")
+                        + " "
+                        + (sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Type
+                           == ApplicationCommandOptionType.SubCommand
+                            ? sCmd.Data.Options?.FirstOrDefault()?.Options?.FirstOrDefault()?.Name
+                            : "")
+                        ?? "").Trim();
+            }
         }
     }
 }

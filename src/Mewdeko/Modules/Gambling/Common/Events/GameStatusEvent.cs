@@ -1,8 +1,8 @@
-﻿using Mewdeko.Common.Collections;
-using Serilog;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using Mewdeko.Common.Collections;
+using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Common.Events;
 
@@ -128,7 +128,10 @@ public class GameStatusEvent : ICurrencyEvent
             if (isPotLimited)
             {
                 await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
-                    new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
+                    new RequestOptions
+                    {
+                        RetryMode = RetryMode.AlwaysRetry
+                    }).ConfigureAwait(false);
             }
 
             Log.Information("Awarded {0} users {1} currency.{2}",
@@ -165,6 +168,7 @@ public class GameStatusEvent : ICurrencyEvent
             {
                 return;
             }
+
             // there has to be money left in the pot
             // and the user wasn't rewarded
             if (awardedUsers.Add(message.Author.Id) && TryTakeFromPot())

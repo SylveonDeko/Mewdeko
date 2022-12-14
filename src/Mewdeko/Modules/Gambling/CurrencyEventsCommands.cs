@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Mewdeko.Modules.Gambling.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -41,18 +41,18 @@ public partial class Gambling
             type switch
             {
                 CurrencyEvent.Type.Reaction => new EmbedBuilder().WithOkColor()
-                                                                 .WithTitle(GetText("event_title", type.ToString()))
-                                                                 .WithDescription(GetReactionDescription(opts.Amount,
-                                                                     currentPot))
-                                                                 .WithFooter(GetText("event_duration_footer",
-                                                                     opts.Hours)),
+                    .WithTitle(GetText("event_title", type.ToString()))
+                    .WithDescription(GetReactionDescription(opts.Amount,
+                        currentPot))
+                    .WithFooter(GetText("event_duration_footer",
+                        opts.Hours)),
                 CurrencyEvent.Type.GameStatus => new EmbedBuilder().WithOkColor()
-                                                                   .WithTitle(GetText("event_title", type.ToString()))
-                                                                   .WithDescription(
-                                                                       GetGameStatusDescription(opts.Amount,
-                                                                           currentPot))
-                                                                   .WithFooter(GetText("event_duration_footer",
-                                                                       opts.Hours)),
+                    .WithTitle(GetText("event_title", type.ToString()))
+                    .WithDescription(
+                        GetGameStatusDescription(opts.Amount,
+                            currentPot))
+                    .WithFooter(GetText("event_duration_footer",
+                        opts.Hours)),
                 _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
 

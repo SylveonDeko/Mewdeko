@@ -1,5 +1,5 @@
-﻿using Discord.Commands;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Discord.Commands;
 
 namespace Mewdeko.Common.Attributes.TextCommands;
 

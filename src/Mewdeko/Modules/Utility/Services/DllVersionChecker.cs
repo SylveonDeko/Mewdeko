@@ -1,7 +1,7 @@
-using Serilog;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 

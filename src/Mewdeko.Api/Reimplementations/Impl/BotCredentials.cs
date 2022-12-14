@@ -1,9 +1,9 @@
-﻿using Discord;
+﻿#nullable enable
+
+using System.Collections.Immutable;
+using Discord;
 using Newtonsoft.Json;
 using Serilog;
-using System.Collections.Immutable;
-
-#nullable enable
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -29,7 +29,8 @@ public class BotCredentials : IBotCredentials
 
         if (!File.Exists(credsFileName))
         {
-            Log.Warning("credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}", Path.GetFullPath("./credentials_example.json"));
+            Log.Warning("credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}",
+                Path.GetFullPath("./credentials_example.json"));
             Environment.Exit(5);
         }
 
@@ -197,7 +198,6 @@ public class BotCredentials : IBotCredentials
     /// </summary>
     private class CredentialsModel : IBotCredentials
     {
-
         public string? SoundCloudClientId { get; set; } = "";
         public string? SpotifyClientId { get; set; } = "";
         public string? SpotifyClientSecret { get; set; } = "";
@@ -238,9 +238,11 @@ public class BotCredentials : IBotCredentials
         public ulong? PronounAbuseReportChannelId { get; set; } = 970086914826858547;
         public string? ChatSavePath { get; set; } = "/usr/share/nginx/cdn/chatlogs/";
 
-        [JsonIgnore] public ImmutableArray<ulong?> OwnerIds { get; }
+        [JsonIgnore]
+        public ImmutableArray<ulong?> OwnerIds { get; }
 
-        [JsonIgnore] public ImmutableArray<ulong?> OfficialMods { get; }
+        [JsonIgnore]
+        public ImmutableArray<ulong?> OfficialMods { get; }
 
 
         public bool IsOwner(IUser u) => throw new NotImplementedException();

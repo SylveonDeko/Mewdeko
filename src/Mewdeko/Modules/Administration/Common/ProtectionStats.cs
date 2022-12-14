@@ -1,5 +1,5 @@
-﻿using Mewdeko.Common.Collections;
-using System.Threading;
+﻿using System.Threading;
+using Mewdeko.Common.Collections;
 
 namespace Mewdeko.Modules.Administration.Common;
 
@@ -21,6 +21,7 @@ public class AntiRaidStats
 public class AntiMassMentionStats
 {
 }
+
 public class AntiSpamStats
 {
     public AntiSpamSetting AntiSpamSettings { get; set; }

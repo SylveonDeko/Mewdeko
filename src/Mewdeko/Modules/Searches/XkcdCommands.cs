@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -104,9 +104,11 @@ public partial class Searches
         public string Month { get; set; }
         public string Year { get; set; }
 
-        [JsonProperty("safe_title")] public string Title { get; set; }
+        [JsonProperty("safe_title")]
+        public string Title { get; set; }
 
-        [JsonProperty("img")] public string ImageLink { get; set; }
+        [JsonProperty("img")]
+        public string ImageLink { get; set; }
 
         public string Alt { get; set; }
     }
