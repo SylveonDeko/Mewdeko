@@ -10,7 +10,8 @@ public class BibleVerses
 
 public class BibleVerse
 {
-    [JsonProperty("book_name")] public string BookName { get; set; }
+    [JsonProperty("book_name")]
+    public string BookName { get; set; }
 
     public int Chapter { get; set; }
     public int Verse { get; set; }

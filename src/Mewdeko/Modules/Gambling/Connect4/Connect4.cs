@@ -1,7 +1,8 @@
-﻿using CommandLine;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
+using CommandLine;
+
 // ReSharper disable PossibleInvalidOperationException
 
 namespace Mewdeko.Modules.Gambling.Connect4;

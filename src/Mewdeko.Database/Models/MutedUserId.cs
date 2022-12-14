@@ -3,6 +3,7 @@
 public class MutedUserId : DbEntity
 {
     public ulong UserId { get; set; }
+
     // ReSharper disable once InconsistentNaming
     public string roles { get; set; }
 

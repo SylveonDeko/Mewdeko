@@ -1,11 +1,11 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
-using System.Threading;
-using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Moderation.Services;
@@ -67,11 +67,11 @@ public class UserPunishService : INService
         await using (uow.ConfigureAwait(false))
         {
             ps = (await uow.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments)))
-                    .WarnPunishments;
+                .WarnPunishments;
 
             warnings += uow.Warnings
-                           .ForId(guildId, userId)
-                           .Count(w => !w.Forgiven && w.UserId == userId);
+                .ForId(guildId, userId)
+                .Count(w => !w.Forgiven && w.UserId == userId);
 
             uow.Warnings.Add(warn);
 
@@ -107,7 +107,7 @@ public class UserPunishService : INService
                 else
                 {
                     await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), reason: reason)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -119,7 +119,7 @@ public class UserPunishService : INService
                 else
                 {
                     await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Voice, reason)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -131,7 +131,7 @@ public class UserPunishService : INService
                 else
                 {
                     await mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Chat, reason)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -146,7 +146,7 @@ public class UserPunishService : INService
                 else
                 {
                     await mute.TimedBan(user.Guild, user, TimeSpan.FromMinutes(minutes), reason)
-                                        .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -179,13 +179,14 @@ public class UserPunishService : INService
                     else
                     {
                         await mute.TimedRole(user, TimeSpan.FromMinutes(minutes), reason, role)
-                                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                     }
                 }
                 else
                 {
                     Log.Warning($"Can't find role {roleId.Value} on server {guild.Id} to apply punishment.");
                 }
+
                 break;
             case PunishmentAction.Warn:
                 await Warn(guild, user.Id, client.CurrentUser, reason).ConfigureAwait(false);
@@ -193,7 +194,10 @@ public class UserPunishService : INService
             case PunishmentAction.Timeout:
                 try
                 {
-                    await user.SetTimeOutAsync(TimeSpan.FromMinutes(minutes), new RequestOptions { AuditLogReason = reason }).ConfigureAwait(false);
+                    await user.SetTimeOutAsync(TimeSpan.FromMinutes(minutes), new RequestOptions
+                    {
+                        AuditLogReason = reason
+                    }).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -311,10 +315,7 @@ WHERE GuildId={guildId}
 
         ps.Add(new WarningPunishment
         {
-            Count = number,
-            Punishment = punish,
-            Time = (int?)time?.Time.TotalMinutes ?? 0,
-            RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
+            Count = number, Punishment = punish, Time = (int?)time?.Time.TotalMinutes ?? 0, RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -419,8 +420,7 @@ WHERE GuildId={guildId}
         {
             uow.BanTemplates.Add(new BanTemplate
             {
-                GuildId = guildId,
-                Text = text
+                GuildId = guildId, Text = text
             });
         }
         else
@@ -484,8 +484,7 @@ WHERE GuildId={guildId}
         {
             template = JsonConvert.SerializeObject(new
             {
-                color = Mewdeko.ErrorColor.RawValue,
-                description = defaultMessage
+                color = Mewdeko.ErrorColor.RawValue, description = defaultMessage
             });
 
             SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components);
@@ -502,7 +501,10 @@ WHERE GuildId={guildId}
                 && (embed is not null || components is not null || plainText is not null))
                 return Task.FromResult((embed, plainText, components));
             return Task.FromResult<(Embed[], string?, ComponentBuilder?)>((
-                new []{new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build()}, null, null));
+                new[]
+                {
+                    new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build()
+                }, null, null));
         }
 
         return Task.FromResult((embed, plainText, components));

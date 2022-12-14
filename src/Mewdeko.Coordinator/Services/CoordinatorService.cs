@@ -1,8 +1,8 @@
+using System;
+using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Mewdeko.Coordinator.Shared;
-using System;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Coordinator.Services;
 
@@ -128,8 +128,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
 
         return new SetConfigTextReply(new SetConfigTextReply
         {
-            Success = success,
-            Error = error
+            Success = success, Error = error
         });
     }
 

@@ -21,16 +21,13 @@ public class Betroll
         {
             return new Result
             {
-                Multiplier = 0,
-                Roll = roll
+                Multiplier = 0, Roll = roll
             };
         }
 
         return new Result
         {
-            Multiplier = pair.MultiplyBy,
-            Roll = roll,
-            Threshold = pair.WhenAbove
+            Multiplier = pair.MultiplyBy, Roll = roll, Threshold = pair.WhenAbove
         };
     }
 

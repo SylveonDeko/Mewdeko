@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -17,7 +17,7 @@ public partial class Administration
             if (await Service.RemoveVcRole(ctx.Guild.Id, vcId))
             {
                 await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vcId.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -93,7 +93,7 @@ public partial class Administration
                 else
                 {
                     text = string.Join("\n", roles.Select(x =>
-                                        $"{Format.Bold(guild.GetVoiceChannel(x.Key)?.Name ?? x.Key.ToString())} => {x.Value}"));
+                        $"{Format.Bold(guild.GetVoiceChannel(x.Key)?.Name ?? x.Key.ToString())} => {x.Value}"));
                 }
             }
             else

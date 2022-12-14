@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -5,7 +6,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
 
@@ -100,7 +100,7 @@ public partial class Games
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(enabledIn.Count() / 9)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -112,11 +112,11 @@ public partial class Games
                 if (!items.Any())
                 {
                     return new PageBuilder().WithErrorColor()
-                            .WithDescription("-");
+                        .WithDescription("-");
                 }
 
                 return items.Aggregate(new PageBuilder().WithOkColor(),
-                        (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
+                    (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
             }
         }
     }

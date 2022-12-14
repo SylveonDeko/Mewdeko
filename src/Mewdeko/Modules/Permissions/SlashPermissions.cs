@@ -1,24 +1,27 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using System.Threading.Tasks;
-using Mewdeko.Common.Attributes.InteractionCommands;
 using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Permissions;
+
 [Discord.Interactions.Group("permissions", "Change or view command permissions.")]
 public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 {
     private readonly GuildSettingsService guildSettings;
+
     public enum PermissionSlash
     {
         Allow = 1,
         Deny = 0
     }
+
     public enum Reset
     {
         Reset
@@ -111,7 +114,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithDescription(string.Join("\n",
-                perms.Skip(page * 10).Take(10).Select( p =>
+                perms.Skip(page * 10).Take(10).Select(p =>
                 {
                     var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
@@ -130,6 +133,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await ctx.Interaction.SendErrorAsync("You cannot remove this permission!").ConfigureAwait(false);
             return;
         }
+
         try
         {
             Permissionv2 p;
@@ -156,7 +160,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     [SlashCommand("servercommand", "Enable or disable a command in the server"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task ServerCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command, PermissionSlash action)
+    public async Task ServerCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command,
+        PermissionSlash action)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -171,19 +176,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("sx_enable",
-                        Format.Code(command),
-                        GetText("of_command")).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command")).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("sx_disable",
-                        Format.Code(command),
-                        GetText("of_command")).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command")).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("servermodule", "Enable or disable a Module in the server"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task SrvrMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module, PermissionSlash action)
+    public async Task SrvrMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module,
+        PermissionSlash action)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -197,19 +203,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("sx_enable",
-                        Format.Code(module),
-                        GetText("of_module")).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module")).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("sx_disable",
-                        Format.Code(module),
-                        GetText("of_module")).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module")).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("usercommand", "Enable or disable a command for a user"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task UsrCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command, PermissionSlash action, IGuildUser user)
+    public async Task UsrCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command,
+        PermissionSlash action, IGuildUser user)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -224,21 +231,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("ux_enable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("ux_disable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("usermodule", "Enable or disable a module for a user"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task UsrMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module, PermissionSlash action, IGuildUser user)
+    public async Task UsrMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module,
+        PermissionSlash action, IGuildUser user)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -252,21 +260,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("ux_enable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("ux_disable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("rolecommand", "Enable or disable a command for a role"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task RoleCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command, PermissionSlash action, IRole role)
+    public async Task RoleCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command,
+        PermissionSlash action, IRole role)
     {
         if (role == role.Guild.EveryoneRole)
             return;
@@ -284,21 +293,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("rx_enable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("rx_disable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("rolemodule", "Enable or disable a module for a role"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task RoleMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module, PermissionSlash action, IRole role)
+    public async Task RoleMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module,
+        PermissionSlash action, IRole role)
     {
         if (role == role.Guild.EveryoneRole)
             return;
@@ -315,21 +325,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("rx_enable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("rx_disable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("channelcommand", "Enable or disable a command for a channel"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task ChnlCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command, PermissionSlash action, ITextChannel chnl)
+    public async Task ChnlCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command,
+        PermissionSlash action, ITextChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -344,21 +355,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("channelmodule", "Enable or disable a module for a channel"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task ChnlMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module, PermissionSlash action, ITextChannel chnl)
+    public async Task ChnlMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module,
+        PermissionSlash action, ITextChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -372,16 +384,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
@@ -400,17 +412,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("acm_enable",
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("acm_disable",
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("categorycommand", "Enable or disable commands for a category"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task CatCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command, PermissionSlash action, ICategoryChannel chnl)
+    public async Task CatCmd([Discord.Interactions.Summary("command", "the command to set permissions on"), Autocomplete(typeof(GenericCommandAutocompleter))] string command,
+        PermissionSlash action, ICategoryChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -425,21 +438,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                        Format.Code(command),
-                        GetText("of_command"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(command),
+                GetText("of_command"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
     [SlashCommand("categorymodule", "Enable or disable a module for a category"), Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
-    public async Task CatMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module, PermissionSlash action, ICategoryChannel chnl)
+    public async Task CatMdl([Discord.Interactions.Summary("module", "the module to set permissions on"), Autocomplete(typeof(ModuleAutoCompleter))] string module,
+        PermissionSlash action, ICategoryChannel chnl)
     {
         await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
         {
@@ -453,16 +467,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("cx_enable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("cx_disable",
-                        Format.Code(module),
-                        GetText("of_module"),
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(module),
+                GetText("of_module"),
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
@@ -481,12 +495,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("acm_enable",
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("acm_disable",
-                        Format.Code(chnl.Name)).ConfigureAwait(false);
+                Format.Code(chnl.Name)).ConfigureAwait(false);
         }
     }
 
@@ -508,12 +522,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("arm_enable",
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("arm_disable",
-                        Format.Code(role.Name)).ConfigureAwait(false);
+                Format.Code(role.Name)).ConfigureAwait(false);
         }
     }
 
@@ -532,12 +546,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (Convert.ToBoolean((int)action))
         {
             await ReplyConfirmLocalizedAsync("aum_enable",
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
         else
         {
             await ReplyConfirmLocalizedAsync("aum_disable",
-                        Format.Code(user.ToString())).ConfigureAwait(false);
+                Format.Code(user.ToString())).ConfigureAwait(false);
         }
     }
 

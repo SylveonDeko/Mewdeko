@@ -1,12 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Votes.Services;
-using System.Threading.Tasks;
-using ContextType = Discord.Commands.ContextType;
 
 namespace Mewdeko.Modules.Votes;
 
@@ -17,50 +16,51 @@ public class Vote : MewdekoModuleBase<VoteService>
     public Vote(InteractiveService interactivity) => this.interactivity = interactivity;
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
-    public async Task VoteChannel([Remainder]ITextChannel channel)
+    public async Task VoteChannel([Remainder] ITextChannel channel)
     {
         await Service.SetVoteChannel(ctx.Guild.Id, channel.Id);
         await ctx.Channel.SendConfirmAsync("Sucessfully set the vote channel!");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
-    public async Task VoteMessage([Remainder]string message = null)
+    public async Task VoteMessage([Remainder] string message = null)
     {
         var voteMessage = await Service.GetVoteMessage(ctx.Guild.Id);
         var votes = await Service.GetVotes(ctx.Guild.Id, ctx.User.Id);
         switch (message)
         {
             case null when await PromptUserConfirmAsync("Do you want to preview your embed?", ctx.User.Id):
+            {
+                if (string.IsNullOrWhiteSpace(voteMessage))
                 {
-                    if (string.IsNullOrWhiteSpace(voteMessage))
-                    {
-                        var eb = new EmbedBuilder()
-                                 .WithTitle($"Thanks for voting for {ctx.Guild.Name}")
-                                 .WithDescription($"You have votedd a total of {votes.Count} times!")
-                                 .WithThumbnailUrl(ctx.User.RealAvatarUrl().AbsoluteUri)
-                                 .WithOkColor();
+                    var eb = new EmbedBuilder()
+                        .WithTitle($"Thanks for voting for {ctx.Guild.Name}")
+                        .WithDescription($"You have votedd a total of {votes.Count} times!")
+                        .WithThumbnailUrl(ctx.User.RealAvatarUrl().AbsoluteUri)
+                        .WithOkColor();
 
-                        await ctx.Channel.SendMessageAsync(ctx.User.Mention, embed: eb.Build());
+                    await ctx.Channel.SendMessageAsync(ctx.User.Mention, embed: eb.Build());
+                }
+                else
+                {
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
+                        .WithOverride("%votestotalcount%", () => votes.Count.ToString())
+                        .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
+                    ;
+
+                    if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
+                    {
+                        await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
                     }
                     else
                     {
-                        var rep = new ReplacementBuilder()
-                                  .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
-                                  .WithOverride("%votestotalcount%", () => votes.Count.ToString())
-                                  .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();;
-
-                        if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
-                        {
-                            await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
-                        }
-                        else
-                        {
-                            await ctx.Channel.SendMessageAsync(rep.Replace(voteMessage).SanitizeMentions());
-                        }
+                        await ctx.Channel.SendMessageAsync(rep.Replace(voteMessage).SanitizeMentions());
                     }
-
-                    break;
                 }
+
+                break;
+            }
             case null when string.IsNullOrWhiteSpace(voteMessage):
                 await ctx.Channel.SendConfirmAsync("Using the default vote message.");
                 return;
@@ -157,6 +157,7 @@ public class Vote : MewdekoModuleBase<VoteService>
         else
             await ctx.Channel.SendConfirmAsync($"Successfuly updated the vote role time to {time.Time.Humanize()}");
     }
+
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VotePassword()
     {
@@ -170,7 +171,7 @@ public class Vote : MewdekoModuleBase<VoteService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Votes([Remainder]IUser user = null)
+    public async Task Votes([Remainder] IUser user = null)
     {
         var curUser = user ?? ctx.User;
         await ctx.Channel.SendMessageAsync(embed: (await Service.GetTotalVotes(curUser, ctx.Guild)).Build());
@@ -203,18 +204,22 @@ public class Vote : MewdekoModuleBase<VoteService>
             }
             else
             {
-                voteList.Add(new CustomVoteThingy{ User = user, VoteCount = 1});
+                voteList.Add(new CustomVoteThingy
+                {
+                    User = user, VoteCount = 1
+                });
             }
         }
+
         voteList = voteList.OrderByDescending(x => x.VoteCount).ToList();
         var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(voteList.Count / 12)
-                        .WithDefaultEmotes()
-                        .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                        .Build();
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(voteList.Count / 12)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
 
         await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
@@ -226,7 +231,6 @@ public class Vote : MewdekoModuleBase<VoteService>
 
             for (var i = 0; i < voteList.Count; i++)
             {
-
                 eb.AddField(
                     $"#{i + 1 + (page * 12)} {voteList[i].User.ToString()}",
                     $"{voteList[i].VoteCount}");

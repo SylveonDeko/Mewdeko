@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-using Serilog;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.ChatterBot;
 
@@ -65,9 +65,7 @@ public class CleverbotIoSession : IChatterBotSession
         using var http = httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("user", user),
-            new KeyValuePair<string, string>("key", key),
-            new KeyValuePair<string, string>("nick", await nick),
+            new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key), new KeyValuePair<string, string>("nick", await nick),
             new KeyValuePair<string, string>("text", input)
         });
         using var data = await http.PostAsync(askEndpoint, msg).ConfigureAwait(false);
@@ -84,8 +82,7 @@ public class CleverbotIoSession : IChatterBotSession
         using var http = httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("user", user),
-            new KeyValuePair<string, string>("key", key)
+            new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key)
         });
         using var data = await http.PostAsync(createEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);

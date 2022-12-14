@@ -8,6 +8,7 @@ public abstract class MewdekoTypeReader<T> : TypeReader
 {
     // ReSharper disable once NotAccessedField.Local
     private readonly DiscordSocketClient client;
+
     // ReSharper disable once NotAccessedField.Local
     private readonly InteractionService cmds;
 

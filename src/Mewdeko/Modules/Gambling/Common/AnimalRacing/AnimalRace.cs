@@ -1,7 +1,7 @@
-﻿using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
-using Mewdeko.Modules.Games.Common;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
+using Mewdeko.Modules.Games.Common;
 
 namespace Mewdeko.Modules.Gambling.Common.AnimalRacing;
 
@@ -140,7 +140,7 @@ public sealed class AnimalRace : IDisposable
                 }
 
                 var finished = users.Where(x => x.Progress >= 60 && !FinishedUsers.Contains(x))
-                                     .Shuffle();
+                    .Shuffle();
 
                 FinishedUsers.AddRange(finished);
 
@@ -151,8 +151,8 @@ public sealed class AnimalRace : IDisposable
             if (FinishedUsers[0].Bet > 0)
             {
                 await currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
-                                   FinishedUsers[0].Bet * (users.Count - 1))
-                               .ConfigureAwait(false);
+                        FinishedUsers[0].Bet * (users.Count - 1))
+                    .ConfigureAwait(false);
             }
 
             await OnEnded.Invoke(this);

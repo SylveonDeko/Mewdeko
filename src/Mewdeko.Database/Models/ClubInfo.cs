@@ -4,7 +4,8 @@ namespace Mewdeko.Database.Models;
 
 public class ClubInfo : DbEntity
 {
-    [MaxLength(20)] public string Name { get; set; }
+    [MaxLength(20)]
+    public string Name { get; set; }
 
     public int Discrim { get; set; }
 

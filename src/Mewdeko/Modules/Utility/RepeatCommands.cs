@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -102,9 +102,9 @@ public partial class Utility
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                                         .WithOkColor()
-                                         .WithTitle(GetText("repeater_removed", index + 1))
-                                         .WithDescription(description)).ConfigureAwait(false);
+                .WithOkColor()
+                .WithTitle(GetText("repeater_removed", index + 1))
+                .WithDescription(description)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
@@ -210,7 +210,9 @@ public partial class Utility
 
             Service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                 new ConcurrentDictionary<int, RepeatRunner>(new[]
-                    {new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)}), (_, old) =>
+                {
+                    new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)
+                }), (_, old) =>
                 {
                     old.TryAdd(runner.Repeater.Id, runner);
                     return old;
@@ -218,9 +220,9 @@ public partial class Utility
 
             var description = GetRepeaterInfoString(runner);
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                                         .WithOkColor()
-                                         .WithTitle(GetText("repeater_created"))
-                                         .WithDescription(description)).ConfigureAwait(false);
+                .WithOkColor()
+                .WithTitle(GetText("repeater_created"))
+                .WithDescription(description)).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
@@ -288,8 +290,8 @@ public partial class Utility
             if (item != null)
             {
                 item.Message = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone
-                ? text
-                : text.SanitizeMentions(true);
+                    ? text
+                    : text.SanitizeMentions(true);
             }
 
             await uow.SaveChangesAsync().ConfigureAwait(false);

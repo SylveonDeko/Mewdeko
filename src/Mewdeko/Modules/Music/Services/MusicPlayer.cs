@@ -1,10 +1,10 @@
 ﻿#nullable enable
 
+using System.Threading.Tasks;
 using Lavalink4NET.Artwork;
 using Lavalink4NET.Events;
 using Lavalink4NET.Player;
 using Mewdeko.Services.Settings;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Music.Services;
 
@@ -37,6 +37,7 @@ public class MusicPlayer : LavalinkPlayer
         {
             //ignored
         }
+
         var resultMusicChannelId = (await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).MusicChannelId;
         var autoPlay = (await musicService.GetSettingsInternalAsync(args.Player.GuildId)).AutoPlay;
         if (resultMusicChannelId != null)
@@ -49,22 +50,26 @@ public class MusicPlayer : LavalinkPlayer
                     using var artworkService = new ArtworkService();
                     var artWork = await artworkService.ResolveAsync(track).ConfigureAwait(false);
                     var eb = new EmbedBuilder()
-                             .WithOkColor()
-                             .WithDescription($"Now playing {track.Title} by {track.Author}")
-                             .WithTitle($"Track #{queue.IndexOf(track) + 1}")
-                             .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)).ConfigureAwait(false))
-                             .WithThumbnailUrl(artWork.OriginalString);
+                        .WithOkColor()
+                        .WithDescription($"Now playing {track.Title} by {track.Author}")
+                        .WithTitle($"Track #{queue.IndexOf(track) + 1}")
+                        .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)).ConfigureAwait(false))
+                        .WithThumbnailUrl(artWork.OriginalString);
                     if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
                     if (nextTrack is null && autoPlay > 0)
                     {
                         await musicService.AutoPlay(args.Player.GuildId);
                     }
+
                     await channel.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                                    .WithButton(style: ButtonStyle.Link,
-                                                                        url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                                                        label: "Invite Me!",
-                                                                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
+                        components: config.Data.ShowInviteButton
+                            ? new ComponentBuilder()
+                                .WithButton(style: ButtonStyle.Link,
+                                    url:
+                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                    label: "Invite Me!",
+                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            : null).ConfigureAwait(false);
                 }
             }
         }
@@ -95,15 +100,19 @@ public class MusicPlayer : LavalinkPlayer
                     await args.Player.PlayAsync(musicService.GetQueue(gid).FirstOrDefault()).ConfigureAwait(false);
                     return;
                 }
+
                 var eb1 = new EmbedBuilder()
-                          .WithOkColor()
-                          .WithDescription("I have reached the end of the queue!");
+                    .WithOkColor()
+                    .WithDescription("I have reached the end of the queue!");
                 await channel.SendMessageAsync(embed: eb1.Build(),
-                    components: config.Data.ShowInviteButton ? new ComponentBuilder()
-                                                                .WithButton(style: ButtonStyle.Link,
-                                                                    url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                                                    label: "Invite Me!",
-                                                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build() : null).ConfigureAwait(false);
+                    components: config.Data.ShowInviteButton
+                        ? new ComponentBuilder()
+                            .WithButton(style: ButtonStyle.Link,
+                                url:
+                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                                label: "Invite Me!",
+                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        : null).ConfigureAwait(false);
                 if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).AutoDisconnect is
                     AutoDisconnect.Either or AutoDisconnect.Queue)
                 {

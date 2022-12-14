@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Administration.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -41,8 +41,8 @@ public partial class Administration
         public async Task DiscordPermOverrideReset()
         {
             var result = await PromptUserConfirmAsync(new EmbedBuilder()
-                                                      .WithOkColor()
-                                                      .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id).ConfigureAwait(false);
+                .WithOkColor()
+                .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id).ConfigureAwait(false);
 
             if (!result)
                 return;
@@ -63,7 +63,7 @@ public partial class Administration
                 .WithMaxPageIndex(overrides.Count / 9)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 

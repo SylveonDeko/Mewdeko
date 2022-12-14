@@ -25,7 +25,7 @@ public class E621ImageDownloader : ImageDownloader<E621Object>
             return new List<E621Object>();
 
         return data.Posts
-                   .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
-                   .ToList();
+            .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
+            .ToList();
     }
 }

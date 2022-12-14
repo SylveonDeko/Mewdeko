@@ -1,12 +1,12 @@
-﻿using Mewdeko.Modules.Games.Common;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using Serilog;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Services;
 
@@ -75,9 +75,7 @@ public class GamesService : INService, IUnloadableService
     {
         TypingArticles.Add(new TypingArticle
         {
-            Source = user.ToString(),
-            Extra = $"Text added on {DateTime.UtcNow} by {user}.",
-            Text = text.SanitizeMentions(true)
+            Source = user.ToString(), Extra = $"Text added on {DateTime.UtcNow} by {user}.", Text = text.SanitizeMentions(true)
         });
 
         File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));

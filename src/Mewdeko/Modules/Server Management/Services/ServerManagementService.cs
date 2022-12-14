@@ -38,7 +38,7 @@ public class ServerManagementService : INService
                 //if creations fails,  maybe the name != correct, find default one, if doesn't work, create default one
                 muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
                            await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false)
-                                      .ConfigureAwait(false);
+                               .ConfigureAwait(false);
             }
         }
 

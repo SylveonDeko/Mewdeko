@@ -17,5 +17,5 @@ public class AcrophobiaUser
 
     public override bool Equals(object? obj) =>
         obj is AcrophobiaUser x
-&& x.UserId == UserId;
+        && x.UserId == UserId;
 }

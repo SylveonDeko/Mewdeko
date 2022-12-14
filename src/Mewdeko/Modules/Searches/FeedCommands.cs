@@ -1,11 +1,11 @@
-﻿using CodeHollow.FeedReader;
+﻿using System.Threading.Tasks;
+using CodeHollow.FeedReader;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Services;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -67,6 +67,7 @@ public partial class Searches
             else
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RssTest(int index)
         {
@@ -76,8 +77,10 @@ public partial class Searches
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
                 return;
             }
+
             await Service.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel).ConfigureAwait(false);
         }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
         {
@@ -98,7 +101,7 @@ public partial class Searches
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(feeds.Count / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -107,7 +110,7 @@ public partial class Searches
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 var embed = new PageBuilder()
-                        .WithOkColor();
+                    .WithOkColor();
                 var i = 0;
                 var fs = string.Join("\n", feeds.Skip(page * 10)
                     .Take(10)

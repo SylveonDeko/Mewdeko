@@ -1,4 +1,7 @@
-﻿using Mewdeko.Common.Collections;
+﻿using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using Mewdeko.Common.Collections;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +10,6 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -68,7 +68,10 @@ public class PlantPickService : INService
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
-        var toAdd = new GcChannelId { ChannelId = cid };
+        var toAdd = new GcChannelId
+        {
+            ChannelId = cid
+        };
         if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
         {
             guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
@@ -225,7 +228,7 @@ public class PlantPickService : INService
                         else
                         {
                             sent = await channel.SendFileAsync(stream, $"currency_image.{ext}", toSend)
-                                                .ConfigureAwait(false);
+                                .ConfigureAwait(false);
                         }
 
                         await AddPlantToDatabase(channel.GuildId,
@@ -272,9 +275,9 @@ public class PlantPickService : INService
                 pass = pass?.Trim().TrimTo(10, hideDots: true).ToUpperInvariant();
                 // gets all plants in this channel with the same password
                 var entries = uow.PlantedCurrency
-                                 .AsQueryable()
-                                 .Where(x => x.ChannelId == ch.Id && pass == x.Password)
-                                 .ToList();
+                    .AsQueryable()
+                    .Where(x => x.ChannelId == ch.Id && pass == x.Password)
+                    .ToList();
                 // sum how much currency that is, and get all of the message ids (so that i can delete them)
                 amount = entries.Sum(x => x.Amount);
                 ids = entries.Select(x => x.MessageId).ToArray();
@@ -286,6 +289,7 @@ public class PlantPickService : INService
                     // give the picked currency to the user
                     await cs.AddAsync(uid, "Picked currency", amount, gamble: false);
                 }
+
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
@@ -338,6 +342,7 @@ public class PlantPickService : INService
             {
                 msg = await ch.SendFileAsync(stream, $"img.{ext}", msgToSend).ConfigureAwait(false);
             }
+
             // return sent message's id (in order to be able to delete it when it's picked)
             return msg.Id;
         }

@@ -1,8 +1,8 @@
-﻿using Discord.Interactions;
-using Mewdeko.Services.Settings;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Services.Settings;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -27,8 +27,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
         var eb = new EmbedBuilder
         {
-            Description = $"{config.Data.LoadingEmote} Adding Emotes...",
-            Color = Mewdeko.OkColor
+            Description = $"{config.Data.LoadingEmote} Adding Emotes...", Color = Mewdeko.OkColor
         };
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any())
@@ -36,6 +35,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
             await ctx.Interaction.SendEphemeralFollowupErrorAsync("No emotes in this message!").ConfigureAwait(false);
             return;
         }
+
         var errored = new List<string>();
         var emotes = new List<string>();
         await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);

@@ -9,8 +9,6 @@ public class CurrencyTransaction : DbEntity
     public CurrencyTransaction Clone() =>
         new()
         {
-            Amount = Amount,
-            Reason = Reason,
-            UserId = UserId
+            Amount = Amount, Reason = Reason, UserId = UserId
         };
 }

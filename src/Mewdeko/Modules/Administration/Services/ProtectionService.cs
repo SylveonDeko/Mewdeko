@@ -1,8 +1,8 @@
-﻿using Mewdeko.Modules.Administration.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -25,10 +25,7 @@ public class ProtectionService : INService
     private readonly Channel<PunishQueueItem> punishUserQueue =
         Channel.CreateBounded<PunishQueueItem>(new BoundedChannelOptions(200)
         {
-            SingleReader = true,
-            SingleWriter = false,
-            AllowSynchronousContinuations = false,
-            FullMode = BoundedChannelFullMode.DropOldest
+            SingleReader = true, SingleWriter = false, AllowSynchronousContinuations = false, FullMode = BoundedChannelFullMode.DropOldest
         });
 
     public ProtectionService(DiscordSocketClient client, Mewdeko bot,
@@ -120,11 +117,17 @@ public class ProtectionService : INService
 
         if (raid != null)
         {
-            antiRaidGuilds[gc.GuildId] = new AntiRaidStats { AntiRaidSettings = raid };
+            antiRaidGuilds[gc.GuildId] = new AntiRaidStats
+            {
+                AntiRaidSettings = raid
+            };
         }
 
         if (spam != null)
-            antiSpamGuilds[gc.GuildId] = new AntiSpamStats { AntiSpamSettings = spam };
+            antiSpamGuilds[gc.GuildId] = new AntiSpamStats
+            {
+                AntiSpamSettings = spam
+            };
 
         var alt = gc.AntiAltSetting;
         if (alt is not null)
@@ -199,7 +202,7 @@ public class ProtectionService : INService
     {
         if (arg is not SocketUserMessage msg
             || msg.Author.IsBot
-            || msg.Author is IGuildUser {GuildPermissions.Administrator: true})
+            || msg.Author is IGuildUser { GuildPermissions.Administrator: true })
             return Task.CompletedTask;
 
         if (msg.Channel is not ITextChannel channel)
@@ -285,10 +288,7 @@ public class ProtectionService : INService
         {
             AntiRaidSettings = new AntiRaidSetting
             {
-                Action = action,
-                Seconds = seconds,
-                UserThreshold = userThreshold,
-                PunishDuration = minutesDuration
+                Action = action, Seconds = seconds, UserThreshold = userThreshold, PunishDuration = minutesDuration
             }
         };
 
@@ -350,10 +350,7 @@ public class ProtectionService : INService
         {
             AntiSpamSettings = new AntiSpamSetting
             {
-                Action = action,
-                MessageThreshold = messageCount,
-                MuteTime = punishDurationMinutes,
-                RoleId = roleId
+                Action = action, MessageThreshold = messageCount, MuteTime = punishDurationMinutes, RoleId = roleId
             }
         };
 
@@ -413,6 +410,7 @@ public class ProtectionService : INService
             {
                 temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
             }
+
             added = false;
         }
 
@@ -448,10 +446,7 @@ public class ProtectionService : INService
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = new AntiAltSetting
         {
-            Action = action,
-            ActionDurationMinutes = actionDurationMinutes,
-            MinAge = TimeSpan.FromMinutes(minAgeMinutes),
-            RoleId = roleId
+            Action = action, ActionDurationMinutes = actionDurationMinutes, MinAge = TimeSpan.FromMinutes(minAgeMinutes), RoleId = roleId
         };
 
         await uow.SaveChangesAsync().ConfigureAwait(false);

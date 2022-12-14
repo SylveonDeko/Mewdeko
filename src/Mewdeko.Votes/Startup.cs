@@ -35,7 +35,10 @@ public class Startup
         services.AddSingleton(Redis);
         services.AddSingleton(Credentials);
         services.AddTransient<ISeria, JsonSeria>().AddTransient<IPubSub, RedisPubSub>();
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mewdeko.Votes", Version = "v1" }));
+        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "Mewdeko.Votes", Version = "v1"
+        }));
 
         services
             .AddAuthentication(opts =>
@@ -48,8 +51,8 @@ public class Startup
             .AddAuthorization(opts =>
             {
                 opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SCHEME_NAME)
-                                     .RequireAssertion(_ => false)
-                                     .Build();
+                    .RequireAssertion(_ => false)
+                    .Build();
                 opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TOPGG_CLAIM));
             });
     }

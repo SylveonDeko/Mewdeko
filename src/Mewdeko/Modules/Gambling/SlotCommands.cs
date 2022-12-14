@@ -1,13 +1,13 @@
-﻿using Discord.Commands;
+﻿using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;
@@ -164,7 +164,7 @@ public partial class Gambling
 
                 await using var imgStream = bgImage?.ToStream(format);
                 await ctx.Channel.SendFileAsync(imgStream, "result.png",
-                             $"{ctx.User.Mention} {msg}\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
+                        $"{ctx.User.Mention} {msg}\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
                     .ConfigureAwait(false);
             }
             finally

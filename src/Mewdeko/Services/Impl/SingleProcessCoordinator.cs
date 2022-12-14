@@ -1,6 +1,6 @@
-﻿using Serilog;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Services.Impl;
 

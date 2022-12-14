@@ -12,5 +12,4 @@ public interface ILocalization : INService
     void ResetDefaultCulture();
     void SetDefaultCulture(CultureInfo? ci);
     void SetGuildCulture(IGuild guild, CultureInfo? ci);
-
 }

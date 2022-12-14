@@ -1,9 +1,9 @@
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;
@@ -18,7 +18,11 @@ public partial class Gambling
 
         private static readonly Regex FudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-        private static readonly char[] FateRolls = { '-', ' ', '+' };
+        private static readonly char[] FateRolls =
+        {
+            '-', ' ', '+'
+        };
+
         private readonly IImageCache images;
 
         public DiceRollCommands(IDataCache data) => images = data.LocalImages;
@@ -34,7 +38,10 @@ public partial class Gambling
 
             using var img1 = GetDice(num1);
             using var img2 = GetDice(num2);
-            using var img = new[] { img1, img2 }.Merge(out var format);
+            using var img = new[]
+            {
+                img1, img2
+            }.Merge(out var format);
             await using var ms = img.ToStream(format);
             await ctx.Channel.SendFileAsync(ms,
                     $"dice.{format.FileExtensions.First()}",
@@ -102,7 +109,8 @@ public partial class Gambling
             foreach (var d in dice) d.Dispose();
 
             await ctx.Channel.SendFileAsync(ms, $"dice.{format.FileExtensions.First()}",
-                $"{Format.Bold(ctx.User.ToString())} {GetText("dice_rolled_num", Format.Bold(values.Count.ToString()))} {GetText("total_average", Format.Bold(values.Sum().ToString()), Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))}").ConfigureAwait(false);
+                    $"{Format.Bold(ctx.User.ToString())} {GetText("dice_rolled_num", Format.Bold(values.Count.ToString()))} {GetText("total_average", Format.Bold(values.Sum().ToString()), Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))}")
+                .ConfigureAwait(false);
         }
 
         private async Task InternallDndRoll(string arg, bool ordered)
@@ -118,7 +126,7 @@ public partial class Gambling
 
                 for (var i = 0; i < n1; i++) rolls.Add(FateRolls[rng.Next(0, FateRolls.Length)]);
                 var embed = new EmbedBuilder().WithOkColor().WithDescription(
-                                                  $"{ctx.User.Mention} {GetText("dice_rolled_num", Format.Bold(n1.ToString()))}")
+                        $"{ctx.User.Mention} {GetText("dice_rolled_num", Format.Bold(n1.ToString()))}")
                     .AddField(efb => efb.WithName(Format.Bold("Result"))
                         .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -185,12 +193,15 @@ public partial class Gambling
                 case < 0 or > 10:
                     throw new ArgumentOutOfRangeException(nameof(num));
                 case 10:
+                {
+                    var imagesDice = this.images.Dice;
+                    using var imgOne = Image.Load<Rgba32>(imagesDice[1]);
+                    using var imgZero = Image.Load<Rgba32>(imagesDice[0]);
+                    return new[]
                     {
-                        var imagesDice = this.images.Dice;
-                        using var imgOne = Image.Load<Rgba32>(imagesDice[1]);
-                        using var imgZero = Image.Load<Rgba32>(imagesDice[0]);
-                        return new[] { imgOne, imgZero }.Merge();
-                    }
+                        imgOne, imgZero
+                    }.Merge();
+                }
                 default:
                     return Image.Load<Rgba32>(images.Dice[num]);
             }
