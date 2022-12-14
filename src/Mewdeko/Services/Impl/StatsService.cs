@@ -1,12 +1,12 @@
-﻿using Discord.Commands;
-using Humanizer.Bytes;
-using Mewdeko.Modules.Utility.Services;
-using Serilog;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Commands;
+using Humanizer.Bytes;
+using Mewdeko.Modules.Utility.Services;
+using Serilog;
 
 namespace Mewdeko.Services.Impl;
 
@@ -63,6 +63,7 @@ public class StatsService : IStatsService
             await http.PostAsync("https://api.statcord.com/beta/stats", content).ConfigureAwait(false);
         }
     }
+
     public async Task PostToTopGg()
     {
         if (Client.ShardId != 0)
@@ -81,17 +82,23 @@ public class StatsService : IStatsService
                 using var content = new FormUrlEncodedContent(
                     new Dictionary<string, string>
                     {
-                        {"shard_count", Creds.TotalShards.ToString()},
-                        {"shard_id", Client.ShardId.ToString()},
-                        {"server_count", (Coord.GetGuildCount()/Creds.TotalShards).ToString()}
+                        {
+                            "shard_count", Creds.TotalShards.ToString()
+                        },
+                        {
+                            "shard_id", Client.ShardId.ToString()
+                        },
+                        {
+                            "server_count", (Coord.GetGuildCount() / Creds.TotalShards).ToString()
+                        }
                     });
                 content.Headers.Clear();
                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 httclient.DefaultRequestHeaders.Add("Authorization", Creds.VotesToken);
 
                 using (await httclient
-                             .PostAsync(new Uri($"https://top.gg/api/bots/{Client.CurrentUser.Id}/stats"),
-                                 content).ConfigureAwait(false))
+                           .PostAsync(new Uri($"https://top.gg/api/bots/{Client.CurrentUser.Id}/stats"),
+                               content).ConfigureAwait(false))
                 {
                 }
             }

@@ -1,13 +1,11 @@
-﻿
-
-#nullable enable
-using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Newtonsoft.Json;
-using Serilog;
+﻿#nullable enable
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
@@ -88,7 +86,7 @@ public class PicartoProvider : Provider
                     Platform,
                     login,
                     ex.Message);
-                    FailingStreams.TryAdd(login, DateTime.UtcNow);
+                FailingStreams.TryAdd(login, DateTime.UtcNow);
             }
         }
 

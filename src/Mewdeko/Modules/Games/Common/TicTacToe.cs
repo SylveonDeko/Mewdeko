@@ -1,8 +1,8 @@
-﻿using CommandLine;
-using Mewdeko.Services.strings;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CommandLine;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Games.Common;
 
@@ -13,7 +13,9 @@ public class TicTacToe
     private readonly SemaphoreSlim moveLock;
 
     private readonly string[] numbers =
-        {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"};
+    {
+        ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"
+    };
 
     private readonly Options options;
     private readonly int?[,] state;
@@ -35,12 +37,21 @@ public class TicTacToe
         this.client = client;
         this.options = options;
 
-        users = new[] { firstUser, null };
+        users = new[]
+        {
+            firstUser, null
+        };
         state = new int?[,]
         {
-            {null, null, null},
-            {null, null, null},
-            {null, null, null}
+            {
+                null, null, null
+            },
+            {
+                null, null, null
+            },
+            {
+                null, null, null
+            }
         };
 
         phase = Phase.Starting;

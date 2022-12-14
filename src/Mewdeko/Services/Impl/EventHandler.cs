@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using LinqToDB.SqlQuery;
-
 
 namespace Mewdeko.Services.Impl;
 
@@ -11,6 +9,7 @@ public class EventHandler
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs>(TEventArgs args, TArgs arsg2);
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3);
+
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
 
     public event AsyncEventHandler<SocketMessage>? MessageReceived;

@@ -1,9 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games;
+
 public partial class Games : MewdekoModuleBase<GamesService>
 {
     private readonly IImageCache images;

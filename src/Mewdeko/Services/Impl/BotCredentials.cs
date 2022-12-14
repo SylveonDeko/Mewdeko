@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Immutable;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
-using System.Collections.Immutable;
-using System.IO;
+
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 // ReSharper disable UnassignedGetOnlyAutoProperty
@@ -193,14 +194,12 @@ public class BotCredentials : IBotCredentials
     {
         public ulong[] OwnerIds { get; set; } =
         {
-            280835732728184843,
-            786375627892064257
+            280835732728184843, 786375627892064257
         };
 
         public ulong[] OfficialMods { get; set; } =
         {
-            280835732728184843,
-            786375627892064257
+            280835732728184843, 786375627892064257
         };
 
         public string SoundCloudClientId { get; set; } = "";
@@ -243,11 +242,14 @@ public class BotCredentials : IBotCredentials
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
         public string ChatSavePath { get; set; } = "/usr/share/nginx/cdn/chatlogs/";
 
-        [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
+        [JsonIgnore]
+        ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
 
-        [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OfficialMods { get; }
+        [JsonIgnore]
+        ImmutableArray<ulong> IBotCredentials.OfficialMods { get; }
 
-        [JsonIgnore] RestartConfig IBotCredentials.RestartCommand { get; }
+        [JsonIgnore]
+        RestartConfig IBotCredentials.RestartCommand { get; }
 
         public bool IsOwner(IUser u) => throw new NotImplementedException();
 

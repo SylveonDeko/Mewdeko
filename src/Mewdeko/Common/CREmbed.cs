@@ -80,7 +80,7 @@ public class CrEmbed
         var cb = new ComponentBuilder();
 
         Buttons?.Select((x, y) => (Triggers: x, Pos: y))
-                .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
+            .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
 
         return cb;
     }
@@ -96,7 +96,7 @@ public class CrEmbed
             bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (btn.DisplayName.IsNullOrWhiteSpace())
             bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
-        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://")&& !btn.Url.StartsWith("http://")&& !btn.Url.StartsWith("discord://"))
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://") && !btn.Url.StartsWith("http://") && !btn.Url.StartsWith("discord://"))
             bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace())
             bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);

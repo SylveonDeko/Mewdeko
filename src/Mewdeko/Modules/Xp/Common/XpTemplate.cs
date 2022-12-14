@@ -9,8 +9,7 @@ public class XpTemplate
     [JsonProperty("output_size")]
     public XpTemplatePos OutputSize { get; set; } = new()
     {
-        X = 450,
-        Y = 220
+        X = 450, Y = 220
     };
 
     public XpTemplateUser User { get; set; } = new()
@@ -21,8 +20,7 @@ public class XpTemplate
             Show = true,
             Pos = new XpTemplatePos
             {
-                X = 130,
-                Y = 17
+                X = 130, Y = 17
             }
         },
         Icon = new XpTemplateIcon
@@ -30,13 +28,11 @@ public class XpTemplate
             Show = true,
             Pos = new XpTemplatePos
             {
-                X = 32,
-                Y = 10
+                X = 32, Y = 10
             },
             Size = new XpTemplatePos
             {
-                X = 69,
-                Y = 70
+                X = 69, Y = 70
             }
         },
         GuildLevel = new XpTemplateText
@@ -45,8 +41,7 @@ public class XpTemplate
             FontSize = 45,
             Pos = new XpTemplatePos
             {
-                X = 47,
-                Y = 297
+                X = 47, Y = 297
             }
         },
         GlobalLevel = new XpTemplateText
@@ -55,8 +50,7 @@ public class XpTemplate
             FontSize = 45,
             Pos = new XpTemplatePos
             {
-                X = 47,
-                Y = 149
+                X = 47, Y = 149
             }
         },
         GuildRank = new XpTemplateText
@@ -65,8 +59,7 @@ public class XpTemplate
             FontSize = 30,
             Pos = new XpTemplatePos
             {
-                X = 148,
-                Y = 326
+                X = 148, Y = 326
             }
         },
         GlobalRank = new XpTemplateText
@@ -75,8 +68,7 @@ public class XpTemplate
             FontSize = 30,
             Pos = new XpTemplatePos
             {
-                X = 148,
-                Y = 179
+                X = 148, Y = 179
             }
         },
         TimeOnLevel = new XpTemplateTimeOnLevel
@@ -88,8 +80,7 @@ public class XpTemplate
                 Show = true,
                 Pos = new XpTemplatePos
                 {
-                    X = 50,
-                    Y = 204
+                    X = 50, Y = 204
                 }
             },
             Guild = new XpTemplateText
@@ -98,8 +89,7 @@ public class XpTemplate
                 Show = true,
                 Pos = new XpTemplatePos
                 {
-                    X = 50,
-                    Y = 351
+                    X = 50, Y = 351
                 }
             }
         },
@@ -115,13 +105,11 @@ public class XpTemplate
                     Color = new Rgba32(0, 0, 0, 0.4f),
                     PointA = new XpTemplatePos
                     {
-                        X = 321,
-                        Y = 104
+                        X = 321, Y = 104
                     },
                     PointB = new XpTemplatePos
                     {
-                        X = 286,
-                        Y = 235
+                        X = 286, Y = 235
                     }
                 },
                 Guild = new XpBar
@@ -131,13 +119,11 @@ public class XpTemplate
                     Color = new Rgba32(0, 0, 0, 0.4f),
                     PointA = new XpTemplatePos
                     {
-                        X = 282,
-                        Y = 248
+                        X = 282, Y = 248
                     },
                     PointB = new XpTemplatePos
                     {
-                        X = 247,
-                        Y = 379
+                        X = 247, Y = 379
                     }
                 }
             },
@@ -147,8 +133,7 @@ public class XpTemplate
                 FontSize = 50,
                 Pos = new XpTemplatePos
                 {
-                    X = 430,
-                    Y = 142
+                    X = 430, Y = 142
                 }
             },
             Guild = new XpTemplateText
@@ -157,8 +142,7 @@ public class XpTemplate
                 FontSize = 50,
                 Pos = new XpTemplatePos
                 {
-                    X = 400,
-                    Y = 282
+                    X = 400, Y = 282
                 }
             },
             Awarded = new XpTemplateText
@@ -167,8 +151,7 @@ public class XpTemplate
                 FontSize = 25,
                 Pos = new XpTemplatePos
                 {
-                    X = 445,
-                    Y = 347
+                    X = 445, Y = 347
                 }
             }
         }
@@ -181,13 +164,11 @@ public class XpTemplate
             Show = true,
             Pos = new XpTemplatePos
             {
-                X = 722,
-                Y = 25
+                X = 722, Y = 25
             },
             Size = new XpTemplatePos
             {
-                X = 45,
-                Y = 45
+                X = 45, Y = 45
             }
         },
         Name = new XpTemplateText
@@ -195,8 +176,7 @@ public class XpTemplate
             FontSize = 35,
             Pos = new XpTemplatePos
             {
-                X = 650,
-                Y = 49
+                X = 650, Y = 49
             },
             Show = true
         }

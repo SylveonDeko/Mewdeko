@@ -19,6 +19,6 @@ public static class SelfAssignedRolesExtensions
 
     public static async Task<IEnumerable<SelfAssignedRole>> GetFromGuild(this DbSet<SelfAssignedRole> set, ulong guildId) =>
         await set.AsQueryable()
-           .Where(s => s.GuildId == guildId)
-           .ToArrayAsyncEF();
+            .Where(s => s.GuildId == guildId)
+            .ToArrayAsyncEF();
 }

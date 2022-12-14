@@ -55,9 +55,9 @@ public class EventPubSub : IPubSub
         {
             // get subscriptions for this action
             if (this.actions.TryGetValue(key.Key, out var dictionary))
-            // get subscriptions which have the same action hash code
-            // note: having this as a list allows for multiple subscriptions of
-            //       the same insance's/static method
+                // get subscriptions which have the same action hash code
+                // note: having this as a list allows for multiple subscriptions of
+                //       the same insance's/static method
             {
                 if (dictionary.TryGetValue(action, out var sameActions))
                 {

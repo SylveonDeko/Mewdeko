@@ -22,9 +22,11 @@ public class Main
     public float Pressure { get; set; }
     public float Humidity { get; set; }
 
-    [JsonProperty("temp_min")] public double TempMin { get; set; }
+    [JsonProperty("temp_min")]
+    public double TempMin { get; set; }
 
-    [JsonProperty("temp_max")] public double TempMax { get; set; }
+    [JsonProperty("temp_max")]
+    public double TempMax { get; set; }
 }
 
 public class Wind

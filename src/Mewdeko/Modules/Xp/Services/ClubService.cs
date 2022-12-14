@@ -1,7 +1,7 @@
-﻿using Mewdeko.Modules.Xp.Common;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Xp.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Xp.Services;
 
@@ -30,9 +30,7 @@ public class ClubService : INService
             du.IsClubAdmin = true;
             du.Club = new ClubInfo
             {
-                Name = clubName,
-                Discrim = await uow.Clubs.GetNextDiscrim(clubName).ConfigureAwait(false),
-                Owner = du
+                Name = clubName, Discrim = await uow.Clubs.GetNextDiscrim(clubName).ConfigureAwait(false), Owner = du
             };
             uow.Clubs.Add(du.Club);
             await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -105,7 +103,7 @@ public class ClubService : INService
         {
             using var http = httpFactory.CreateClient();
             using var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
-                                       .ConfigureAwait(false);
+                .ConfigureAwait(false);
             if (!temp.IsImage() || temp.GetImageSize() > 11)
                 return false;
         }
@@ -130,7 +128,10 @@ public class ClubService : INService
             return false;
 
         //incase club has # in it
-        var name = string.Concat(arr.Except(new[] { arr[^1] }));
+        var name = string.Concat(arr.Except(new[]
+        {
+            arr[^1]
+        }));
 
         if (string.IsNullOrWhiteSpace(name))
             return false;
@@ -160,8 +161,7 @@ public class ClubService : INService
 
         var app = new ClubApplicants
         {
-            ClubId = club.Id,
-            UserId = du.Id
+            ClubId = club.Id, UserId = du.Id
         };
 
         uow.Set<ClubApplicants>().Add(app);
@@ -281,8 +281,7 @@ public class ClubService : INService
 
         club.Bans.Add(new ClubBans
         {
-            Club = club,
-            User = usr
+            Club = club, User = usr
         });
         club.Users.Remove(usr);
 

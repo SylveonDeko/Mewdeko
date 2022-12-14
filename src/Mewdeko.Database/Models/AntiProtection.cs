@@ -27,6 +27,7 @@ public class AntiSpamSetting : DbEntity
     public ulong? RoleId { get; set; }
     public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
+
 public class AntiMassMentionSetting : DbEntity
 {
     public int GuildConfigId { get; set; }
@@ -38,6 +39,7 @@ public class AntiMassMentionSetting : DbEntity
     public ulong? RoleId { get; set; }
     public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
+
 public class AntiAltSetting
 {
     public int Id { get; set; }

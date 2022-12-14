@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -20,8 +20,8 @@ public partial class Administration
         public async Task Timezones()
         {
             var timezones = TimeZoneInfo.GetSystemTimeZones()
-                                        .OrderBy(x => x.BaseUtcOffset)
-                                        .ToArray();
+                .OrderBy(x => x.BaseUtcOffset)
+                .ToArray();
             const int timezonesPerPage = 20;
 
             var curTime = DateTimeOffset.UtcNow;
@@ -45,7 +45,7 @@ public partial class Administration
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(timezones.Length / 20)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -54,10 +54,10 @@ public partial class Administration
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder().WithColor(Mewdeko.OkColor)
-                                                        .WithTitle(GetText("timezones_available"))
-                                                        .WithDescription(string.Join("\n",
-                                                            timezoneStrings.Skip(page * timezonesPerPage)
-                                                                           .Take(timezonesPerPage)));
+                    .WithTitle(GetText("timezones_available"))
+                    .WithDescription(string.Join("\n",
+                        timezoneStrings.Skip(page * timezonesPerPage)
+                            .Take(timezonesPerPage)));
             }
         }
 

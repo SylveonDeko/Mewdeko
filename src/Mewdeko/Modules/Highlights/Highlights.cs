@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Highlights.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Highlights;
 
@@ -58,6 +58,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words).ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!").ConfigureAwait(false);
                 }
+
                 break;
             case HighlightActions.List:
                 var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
@@ -66,14 +67,15 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendErrorAsync("You have no highlights set!").ConfigureAwait(false);
                     return;
                 }
+
                 var paginator = new LazyPaginatorBuilder()
-                                .AddUser(ctx.User)
-                                .WithPageFactory(PageFactory)
-                                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                .WithMaxPageIndex(highlightsForUser.Count() / 10)
-                                .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                                .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(highlightsForUser.Count() / 10)
+                    .WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .Build();
 
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -83,8 +85,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask.ConfigureAwait(false);
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                                     .WithTitle($"{highlightsForUser.Count} Highlights")
-                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                        .WithTitle($"{highlightsForUser.Count} Highlights")
+                        .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
@@ -112,11 +114,13 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.").ConfigureAwait(false);
                     return;
                 }
+
                 if (!highlightsForUser.Select(x => x.Word).Contains(words))
                 {
                     await ctx.Channel.SendErrorAsync("This is not in your highlights!").ConfigureAwait(false);
                     return;
                 }
+
                 await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words)).ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.").ConfigureAwait(false);
                 break;
@@ -136,14 +140,15 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendErrorAsync("No matches found.").ConfigureAwait(false);
                     return;
                 }
+
                 paginator = new LazyPaginatorBuilder()
-                                .AddUser(ctx.User)
-                                .WithPageFactory(PageFactory1)
-                                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                .WithMaxPageIndex(matched.Count() / 10)
-                                .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                                .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory1)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(matched.Count() / 10)
+                    .WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .Build();
 
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -153,8 +158,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask.ConfigureAwait(false);
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
-                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                        .WithTitle($"{highlightsForUser.Count()} Highlights")
+                        .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
@@ -174,6 +179,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                         await ctx.Channel.SendErrorAsync("That user or channel wasnt found!").ConfigureAwait(false);
                         return;
                     }
+
                     if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, host.Id.ToString()).ConfigureAwait(false))
                     {
                         await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!").ConfigureAwait(false);
@@ -184,6 +190,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 
                     return;
                 }
+
                 var channel = (ITextChannel)result.BestMatch;
 
                 if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()).ConfigureAwait(false))

@@ -1,4 +1,5 @@
 ﻿namespace Mewdeko.Database.Models;
+
 public class HighlightSettings : DbEntity
 {
     public ulong GuildId { get; set; }

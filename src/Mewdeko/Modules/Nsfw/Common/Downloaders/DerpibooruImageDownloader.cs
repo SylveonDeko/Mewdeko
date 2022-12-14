@@ -25,7 +25,7 @@ public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
             return new List<DerpiImageObject>();
 
         return container.Images
-                        .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
-                        .ToList();
+            .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
+            .ToList();
     }
 }

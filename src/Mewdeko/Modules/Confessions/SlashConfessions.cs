@@ -1,9 +1,10 @@
-﻿using Discord.Interactions;
-using Mewdeko.Modules.Confessions.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.Confessions.Services;
 
 namespace Mewdeko.Modules.Confessions;
+
 [Group("confessions", "Manage confessions.")]
 public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 {
@@ -27,6 +28,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             await ctx.Interaction.SendEphemeralErrorAsync("This server does not have confessions enabled!").ConfigureAwait(false);
             return;
         }
+
         if (blacklists.Length > 0)
         {
             if (blacklists.Contains(ctx.User.Id.ToString()))
@@ -34,6 +36,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
                 await ctx.Interaction.SendEphemeralErrorAsync("You are blacklisted from confessions here!!").ConfigureAwait(false);
                 return;
             }
+
             await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachUrl).ConfigureAwait(false);
         }
         else
@@ -51,6 +54,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             await ctx.Channel.SendConfirmAsync("Confessions disabled!").ConfigureAwait(false);
             return;
         }
+
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -72,6 +76,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             await ctx.Channel.SendConfirmAsync("Confessions logging disabled!").ConfigureAwait(false);
             return;
         }
+
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -81,7 +86,10 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
 
         await Service.SetConfessionLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ctx.Interaction.SendErrorAsync($"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***").ConfigureAwait(false);
+        await ctx.Interaction
+            .SendErrorAsync(
+                $"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***")
+            .ConfigureAwait(false);
     }
 
     [SlashCommand("blacklist", "Add a user to the confession blacklist"), SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions]
@@ -119,7 +127,8 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     [SlashCommand("report", "Reports a server for misuse of confessions")]
-    public async Task ConfessReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId, [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
+    public async Task ConfessReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId,
+        [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
     {
         if (!ulong.TryParse(stringServerId, out var serverId))
         {
@@ -130,9 +139,9 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         var reportedGuild = await ((DiscordSocketClient)ctx.Client).Rest.GetGuildAsync(serverId).ConfigureAwait(false);
         var channel = await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(credentials.ConfessionReportChannelId).ConfigureAwait(false) as ITextChannel;
         var eb = new EmbedBuilder().WithErrorColor().WithTitle("Confessions Abuse Report Recieved")
-                                   .AddField("Report", how)
-                                   .AddField("Report User", $"{ctx.User} | {ctx.User.Id}")
-                                   .AddField("Server ID", serverId);
+            .AddField("Report", how)
+            .AddField("Report User", $"{ctx.User} | {ctx.User.Id}")
+            .AddField("Server ID", serverId);
         try
         {
             var invites = await reportedGuild.GetInvitesAsync().ConfigureAwait(false);

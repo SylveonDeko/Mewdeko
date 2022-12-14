@@ -1,7 +1,4 @@
-﻿using Mewdeko.Coordinator.Shared;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,6 +6,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Mewdeko.Coordinator.Shared;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Coordinator.Services;
@@ -68,6 +68,7 @@ public sealed class CoordinatorRunner : BackgroundService
             {
                 KillAll();
             }
+
             config = newConfig;
             if (oldConfig.TotalShards != newConfig.TotalShards)
             {
@@ -89,16 +90,17 @@ public sealed class CoordinatorRunner : BackgroundService
                 Environment.Exit(1);
                 return;
             }
+
             try
             {
                 var hadAction = false;
                 lock (locker)
                 {
                     var shardIds = Enumerable.Range(0, 1)
-                                             .Concat(Enumerable.Range(1, config.TotalShards - 1)
-                                                               .OrderBy(_ => rng.Next())) // then all other shards in a random order
-                                             .Distinct()
-                                             .ToList();
+                        .Concat(Enumerable.Range(1, config.TotalShards - 1)
+                            .OrderBy(_ => rng.Next())) // then all other shards in a random order
+                        .Distinct()
+                        .ToList();
 
                     if (first)
                     {
@@ -206,7 +208,9 @@ public sealed class CoordinatorRunner : BackgroundService
                 config.TotalShards),
             EnvironmentVariables =
             {
-                {"MEWDEKO_IS_COORDINATED", "1"}
+                {
+                    "MEWDEKO_IS_COORDINATED", "1"
+                }
             }
             // CreateNoWindow = true,
             // UseShellExecute = false,
@@ -264,8 +268,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
             shardStatuses[shardId] = shardStatuses[shardId] with
             {
-                ShouldRestart = true,
-                StateCounter = 0
+                ShouldRestart = true, StateCounter = 0
             };
         }
     }
@@ -312,14 +315,11 @@ public sealed class CoordinatorRunner : BackgroundService
         var coordState = new CoordState
         {
             StatusObjects = shardStatuses
-                            .Select(x => new JsonStatusObject
-                            {
-                                Pid = x.Process?.Id,
-                                ConnectionState = x.State,
-                                GuildCount = x.GuildCount,
-                                UserCount = x.UserCount
-                            })
-                            .ToList()
+                .Select(x => new JsonStatusObject
+                {
+                    Pid = x.Process?.Id, ConnectionState = x.State, GuildCount = x.GuildCount, UserCount = x.UserCount
+                })
+                .ToList()
         };
         var jsonState = JsonSerializer.Serialize(coordState, new JsonSerializerOptions
         {
@@ -327,6 +327,7 @@ public sealed class CoordinatorRunner : BackgroundService
         });
         File.WriteAllText(GracefulStatePath, jsonState);
     }
+
     private bool TryRestoreOldState()
     {
         lock (locker)

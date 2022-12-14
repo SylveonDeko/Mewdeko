@@ -9,7 +9,7 @@ public static class MiniWarningExtensions
     public static Warning2[] ForId(this DbSet<Warning2> set, ulong guildId, ulong userId)
     {
         var query = set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
-                       .OrderByDescending(x => x.DateAdded);
+            .OrderByDescending(x => x.DateAdded);
 
         return query.ToArray();
     }
@@ -20,9 +20,9 @@ public static class MiniWarningExtensions
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var warn = await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
-                      .OrderByDescending(x => x.DateAdded)
-                      .Skip(index)
-                      .FirstOrDefaultAsyncEF();
+            .OrderByDescending(x => x.DateAdded)
+            .Skip(index)
+            .FirstOrDefaultAsyncEF();
 
         if (warn == null || warn.Forgiven)
             return false;
@@ -34,12 +34,12 @@ public static class MiniWarningExtensions
 
     public static async Task ForgiveAll(this DbSet<Warning2> set, ulong guildId, ulong userId, string mod) =>
         await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
-                 .ForEachAsync(x =>
-                 {
-                     if (x.Forgiven) return;
-                     x.Forgiven = true;
-                     x.ForgivenBy = mod;
-                 }).ConfigureAwait(false);
+            .ForEachAsync(x =>
+            {
+                if (x.Forgiven) return;
+                x.Forgiven = true;
+                x.ForgivenBy = mod;
+            }).ConfigureAwait(false);
 
     public static Warning2[] GetForGuild(this DbSet<Warning2> set, ulong id) => set.AsQueryable().Where(x => x.GuildId == id).ToArray();
 }

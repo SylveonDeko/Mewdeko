@@ -9,6 +9,7 @@ public class ChannelRestrictions
     public int PunishSeconds { get; set; } = 0;
     public ChannelActionEnum ChannelAction { get; set; } = ChannelActionEnum.Delete;
     public AllowedImageTypesEnum AllowedImageTypes { get; set; } = AllowedImageTypesEnum.All;
+
     public enum ChannelActionEnum
     {
         Delete,

@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Text.RegularExpressions;
+using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using NekosBestApiNet;
-using System.Text.RegularExpressions;
 
 namespace Mewdeko.Common.Replacements;
 
@@ -35,7 +35,6 @@ public class ReplacementBuilder
 
     public ReplacementBuilder WithClient(DiscordSocketClient socketClient)
     {
-
         /*OBSOLETE*/
         reps.TryAdd("%shardid%", () => socketClient.ShardId.ToString());
         reps.TryAdd("%time%",
@@ -201,6 +200,7 @@ public class ReplacementBuilder
         reps.TryAdd("%winkgif%", () => nekosBestApi.ActionsApi.Wink().GetAwaiter().GetResult().Results.First().Url);
         return this;
     }
+
     public ReplacementBuilder WithChannel(IMessageChannel? ch)
     {
         /*OBSOLETE*/
@@ -219,7 +219,10 @@ public class ReplacementBuilder
 
     public ReplacementBuilder WithUser(IUser user)
     {
-        WithManyUsers(new[] { user });
+        WithManyUsers(new[]
+        {
+            user
+        });
         return this;
     }
 

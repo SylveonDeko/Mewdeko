@@ -21,6 +21,7 @@ public static class PermissionExtensions
         permIndex = -1; //defaut behaviour
         return true;
     }
+
     public static bool CheckSlashPermissions(this IEnumerable<Permissionv2> permsEnumerable,
         string moduleName, string commandName, IUser user, IMessageChannel chan, out int permIndex)
     {
@@ -58,7 +59,6 @@ public static class PermissionExtensions
 
         switch (perm.PrimaryTarget)
         {
-
             case PrimaryPermissionType.User:
                 if (perm.PrimaryTargetId == message.Author.Id)
                     return perm.State;
@@ -87,6 +87,7 @@ public static class PermissionExtensions
 
         return null;
     }
+
     public static bool? CheckSlashPermission(this Permissionv2 perm, string moduleName, IUser user, string commandName, IMessageChannel chan)
     {
         if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&

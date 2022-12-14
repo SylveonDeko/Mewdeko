@@ -1,8 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using PreconditionResult = Discord.Commands.PreconditionResult;
 using RequireUserPermissionAttribute = Discord.Commands.RequireUserPermissionAttribute;
 
@@ -34,9 +34,10 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     {
         if (!TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName(), out var perm)) return false;
         var result = await new RequireUserPermissionAttribute(perm)
-                           .CheckPermissionsAsync(context, command, services).ConfigureAwait(false);
+            .CheckPermissionsAsync(context, command, services).ConfigureAwait(false);
         return !result.IsSuccess;
     }
+
     public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
         ICommandInfo command)
     {
@@ -67,6 +68,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         var rupa = new RequireUserPermissionAttribute(perms);
         return rupa.CheckPermissionsAsync(ctx, command, services);
     }
+
     public static Task<Discord.Interactions.PreconditionResult> ExecuteOverrides(IInteractionContext ctx, ICommandInfo command,
         GuildPermission perms, IServiceProvider services)
     {
@@ -79,18 +81,16 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         commandName = commandName.ToLowerInvariant();
         await using var uow = db.GetDbContext();
         var over = await uow.DiscordPermOverrides
-                            .AsQueryable()
-                            .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command).ConfigureAwait(false);
+            .AsQueryable()
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command).ConfigureAwait(false);
 
         if (over is null)
         {
             uow.DiscordPermOverrides
-                             .Add(over = new DiscordPermOverride
-                             {
-                                 Command = commandName,
-                                 Perm = perm,
-                                 GuildId = guildId
-                             });
+                .Add(over = new DiscordPermOverride
+                {
+                    Command = commandName, Perm = perm, GuildId = guildId
+                });
         }
         else
         {
@@ -106,10 +106,10 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     {
         await using var uow = db.GetDbContext();
         var discordPermOverrides = await uow.DiscordPermOverrides
-                                 .AsQueryable()
-                                 .AsNoTracking()
-                                 .Where(x => x.GuildId == guildId)
-                                 .ToListAsync().ConfigureAwait(false);
+            .AsQueryable()
+            .AsNoTracking()
+            .Where(x => x.GuildId == guildId)
+            .ToListAsync().ConfigureAwait(false);
 
         uow.DiscordPermOverrides.RemoveRange(discordPermOverrides);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -123,9 +123,9 @@ public class DiscordPermOverrideService : INService, ILateBlocker
 
         await using var uow = db.GetDbContext();
         var over = await uow.DiscordPermOverrides
-                            .AsQueryable()
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.Command == commandName).ConfigureAwait(false);
+            .AsQueryable()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.Command == commandName).ConfigureAwait(false);
 
         if (over is null)
             return;
@@ -141,9 +141,9 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         using var uow = db.GetDbContext();
         return
             uow.DiscordPermOverrides
-                     .AsQueryable()
-                     .AsNoTracking()
-                     .Where(x => x.GuildId == guildId)
-                     .ToListAsync();
+                .AsQueryable()
+                .AsNoTracking()
+                .Where(x => x.GuildId == guildId)
+                .ToListAsync();
     }
 }

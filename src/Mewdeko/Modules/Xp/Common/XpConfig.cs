@@ -4,7 +4,8 @@ namespace Mewdeko.Modules.Xp.Common;
 
 public sealed class XpConfig
 {
-    [Comment(@"DO NOT CHANGE")] public int Version { get; set; } = 1;
+    [Comment(@"DO NOT CHANGE")]
+    public int Version { get; set; } = 1;
 
     [Comment(@"How much XP will the users receive per message")]
     public int XpPerMessage { get; set; } = 3;

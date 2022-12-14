@@ -1,6 +1,6 @@
-﻿using Mewdeko.Votes.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Votes.Common;
 using Mewdeko.Votes.Common.PubSub;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Votes;
 
@@ -17,7 +17,10 @@ public class WebhookEvents
 
     public async Task InvokeTopGg(VoteModel data, string key)
     {
-        var compoundModel = new CompoundVoteModal { VoteModel = data, Password = key };
+        var compoundModel = new CompoundVoteModal
+        {
+            VoteModel = data, Password = key
+        };
         await pubSub.Pub(typedKey, compoundModel);
     }
 }

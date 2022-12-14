@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Searches.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -13,7 +13,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Yomama() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetYomamaJoke().ConfigureAwait(false))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
         [Cmd, Aliases]
         public async Task Randjoke()
@@ -25,7 +25,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task ChuckNorris() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetChuckNorrisJoke().ConfigureAwait(false))
-                     .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
         [Cmd, Aliases]
         public async Task WowJoke()

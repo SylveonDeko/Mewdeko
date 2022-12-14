@@ -8,7 +8,8 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 {
     private readonly ITypeInspector innerTypeDescriptor;
 
-    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
+    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) =>
+        this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
 
     public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container) =>
         innerTypeDescriptor

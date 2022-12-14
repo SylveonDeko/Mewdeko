@@ -1,7 +1,7 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using System.Threading.Tasks;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
@@ -23,21 +23,15 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         client.JoinedGuild += CheckBlacklist;
         BlacklistEntries.Add(new BlacklistEntry
         {
-            DateAdded = DateTime.Now,
-            ItemId = 967780813741625344,
-            Type = BlacklistType.User
+            DateAdded = DateTime.Now, ItemId = 967780813741625344, Type = BlacklistType.User
         });
         BlacklistEntries.Add(new BlacklistEntry
         {
-            DateAdded = DateTime.UtcNow,
-            ItemId = 930096051900280882,
-            Type = BlacklistType.User
+            DateAdded = DateTime.UtcNow, ItemId = 930096051900280882, Type = BlacklistType.User
         });
         BlacklistEntries.Add(new BlacklistEntry
         {
-            DateAdded = DateTime.UtcNow,
-            ItemId = 767459211373314118,
-            Type = BlacklistType.User
+            DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
         });
     }
 
@@ -101,7 +95,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     public void Blacklist(BlacklistType type, ulong id, string? reason)
     {
         using var uow = db.GetDbContext();
-        var item = new BlacklistEntry { ItemId = id, Type = type, Reason = reason ?? "No reason provided." };
+        var item = new BlacklistEntry
+        {
+            ItemId = id, Type = type, Reason = reason ?? "No reason provided."
+        };
         uow.Blacklist.Add(item);
         uow.SaveChanges();
 
@@ -132,8 +129,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
             bc.AddRange(toBlacklist.Select(x =>
                 new BlacklistEntry
                 {
-                    ItemId = x,
-                    Type = BlacklistType.User
+                    ItemId = x, Type = BlacklistType.User
                 }));
 
             //clear their currencies

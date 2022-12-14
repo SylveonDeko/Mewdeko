@@ -15,8 +15,10 @@ public class GuildConfig : DbEntity
     public bool DeleteMessageOnCommand { get; set; }
     public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
+
     public string AutoAssignRoleId { get; set; } = "0";
-   // public string StatusEmbedDefault { get; set; }
+
+    // public string StatusEmbedDefault { get; set; }
     // Starboard
     public bool StarboardAllowBots { get; set; } = true;
     public bool StarboardRemoveOnDelete { get; set; } = false;

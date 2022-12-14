@@ -22,6 +22,7 @@ public partial class Utility
                 typing.Dispose();
                 return;
             }
+
             for (var i = 0; i < count; i++)
             {
                 var pingReply = await ping.SendPingAsync(ip);
@@ -116,6 +117,7 @@ public partial class Utility
         }
         else
             await ctx.Channel.SendErrorAsync("Seems like traceroute was not successful. Please double check the hostname/ip and try again.");
+
         toDispose.Dispose();
     }
 

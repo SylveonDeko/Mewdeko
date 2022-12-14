@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Administration.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -45,6 +45,7 @@ public partial class Administration
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
+
             await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
                 (int?)punishTime?.Time.TotalMinutes ?? 0).ConfigureAwait(false);
 
@@ -191,6 +192,7 @@ public partial class Administration
                     await ReplyErrorLocalizedAsync("timeout_needs_time").ConfigureAwait(false);
                     return;
             }
+
             var stats = await Service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)
                 .ConfigureAwait(false);
 

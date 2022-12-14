@@ -1,10 +1,10 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Xp;
 
@@ -25,8 +25,8 @@ public partial class Xp
             if (club != null)
             {
                 await ReplyConfirmLocalizedAsync("club_transfered",
-                                Format.Bold(club.Name),
-                                Format.Bold(newOwner.ToString())).ConfigureAwait(false);
+                    Format.Bold(club.Name),
+                    Format.Bold(newOwner.ToString())).ConfigureAwait(false);
             }
             else
             {
@@ -51,12 +51,12 @@ public partial class Xp
             if (admin)
             {
                 await ReplyConfirmLocalizedAsync("club_admin_add", Format.Bold(toAdmin.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await ReplyConfirmLocalizedAsync("club_admin_remove", Format.Bold(toAdmin.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
 
@@ -139,7 +139,7 @@ public partial class Xp
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(club.Users.Count / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -193,7 +193,7 @@ public partial class Xp
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(bans.Length / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -234,7 +234,7 @@ public partial class Xp
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(apps.Length / 10)
                 .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -269,7 +269,7 @@ public partial class Xp
             if (await Service.ApplyToClub(ctx.User, club).ConfigureAwait(false))
             {
                 await ReplyConfirmLocalizedAsync("club_applied", Format.Bold(club.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -287,7 +287,7 @@ public partial class Xp
             if (app.Item1)
             {
                 await ReplyConfirmLocalizedAsync("club_accepted", Format.Bold(app.Item2.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -362,7 +362,7 @@ public partial class Xp
             if (req)
             {
                 await ReplyConfirmLocalizedAsync("club_level_req_changed", Format.Bold(level.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -376,7 +376,7 @@ public partial class Xp
             if (await Service.ChangeClubDescription(ctx.User.Id, desc).ConfigureAwait(false))
             {
                 await ReplyConfirmLocalizedAsync("club_desc_updated", Format.Bold(desc ?? "-"))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -391,7 +391,7 @@ public partial class Xp
             if (disband.Item1)
             {
                 await ReplyConfirmLocalizedAsync("club_disbanded", Format.Bold(disband.Item2.ToString()))
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {

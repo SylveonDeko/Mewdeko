@@ -29,9 +29,9 @@ public class YamlHelper
     }
 
     public static bool IsHex(char c) =>
-c is >= '0' and <= '9' or
-        >= 'A' and <= 'F' or
-        >= 'a' and <= 'f';
+        c is >= '0' and <= '9' or
+            >= 'A' and <= 'F' or
+            >= 'a' and <= 'f';
 
     public static int AsHex(char c)
     {

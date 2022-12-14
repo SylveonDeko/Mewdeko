@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
@@ -6,7 +7,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions;
 
@@ -56,8 +56,7 @@ public partial class Permissions
                 {
                     var cc = new CommandCooldown
                     {
-                        CommandName = name,
-                        Seconds = Convert.ToInt32(time.Time.TotalSeconds)
+                        CommandName = name, Seconds = Convert.ToInt32(time.Time.TotalSeconds)
                     };
                     config.CommandCooldowns.Add(cc);
                     localSet.Add(cc);
@@ -94,8 +93,8 @@ public partial class Permissions
             else
             {
                 await channel.SendTableAsync("",
-                                    localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
-                                .ConfigureAwait(false);
+                        localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
+                    .ConfigureAwait(false);
             }
         }
     }

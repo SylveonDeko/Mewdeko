@@ -1,7 +1,7 @@
-﻿using Mewdeko.Modules.Utility.Common;
+﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -42,11 +42,11 @@ public class MessageRepeaterService : INService
                 }
 
                 var idToRepeater = gc.GuildRepeaters
-                                                          .Where(gr => gr.DateAdded is not null)
-                                                          .Select(gr =>
-                                                              new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(this.client, guild, gr, this)))
-                                                          .ToDictionary(x => x.Key, y => y.Value)
-                                                          .ToConcurrent();
+                    .Where(gr => gr.DateAdded is not null)
+                    .Select(gr =>
+                        new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(this.client, guild, gr, this)))
+                    .ToDictionary(x => x.Key, y => y.Value)
+                    .ToConcurrent();
 
                 repeaters.TryAdd(gc.GuildId, idToRepeater);
             }

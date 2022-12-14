@@ -1,10 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Suggestions.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Suggestions;
+
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -51,13 +52,14 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
 
         var components = new ComponentBuilder()
-                         .WithButton("Accept", $"accept:{suggest.SuggestionId}")
-                         .WithButton("Deny", $"deny:{suggest.SuggestionId}")
-                         .WithButton("Consider", $"consider:{suggest.SuggestionId}")
-                         .WithButton("Implement", $"implement:{suggest.SuggestionId}");
+            .WithButton("Accept", $"accept:{suggest.SuggestionId}")
+            .WithButton("Deny", $"deny:{suggest.SuggestionId}")
+            .WithButton("Consider", $"consider:{suggest.SuggestionId}")
+            .WithButton("Implement", $"implement:{suggest.SuggestionId}");
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .AddField("Suggestion", $"{suggest.Suggestion.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
+            .AddField("Suggestion",
+                $"{suggest.Suggestion.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
             .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
             .AddField("Curerent State", (SuggestionsService.SuggestState)suggest.CurrentState)
             .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
@@ -75,12 +77,14 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             await ctx.Channel.SendErrorAsync("There are no suggestions to clear.").ConfigureAwait(false);
             return;
         }
+
         if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id).ConfigureAwait(false))
         {
             await Service.SuggestReset(ctx.Guild).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Suggestions cleared.").ConfigureAwait(false);
         }
     }
+
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Suggest([Remainder] string suggestion)
     {
@@ -101,6 +105,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             msg.DeleteAfter(5);
             return;
         }
+
         if (suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             var message = await ctx.Channel.SendErrorAsync(

@@ -7,6 +7,7 @@ public class AdvancedTrackContext
         QueueUser = queueUser;
         QueuedPlatform = queuedPlatform;
     }
+
     public IUser QueueUser { get; }
     public Platform QueuedPlatform { get; }
 }

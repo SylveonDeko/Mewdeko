@@ -1,4 +1,8 @@
-﻿using Discord.Commands;
+﻿using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
 using Discord.Rest;
@@ -11,10 +15,6 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System.Collections.Concurrent;
-using System.Collections.Immutable;
-using System.Threading;
-using System.Threading.Tasks;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -92,14 +92,14 @@ public class CommandHandler : INService
                 if (tofetch is RestTextChannel restChannel)
                 {
                     var eb = new EmbedBuilder()
-                          .WithErrorColor()
-                          .WithTitle("Slash Command Errored")
-                          .AddField("Reason", result.ErrorReason)
-                          .AddField("Module", info.Module.Name ?? "None")
-                          .AddField("Command", info.Name)
-                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
-                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+                        .WithErrorColor()
+                        .WithTitle("Slash Command Errored")
+                        .AddField("Reason", result.ErrorReason)
+                        .AddField("Module", info.Module.Name ?? "None")
+                        .AddField("Command", info.Name)
+                        .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                        .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                        .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
                     await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
@@ -115,13 +115,13 @@ public class CommandHandler : INService
                     if (channel is null)
                         return;
                     var eb = new EmbedBuilder()
-                             .WithErrorColor()
-                             .WithTitle("Slash Command Errored")
-                             .AddField("Reason", result.ErrorReason)
-                             .AddField("Module", info.Module.Name ?? "None")
-                             .AddField("Command", info.Name)
-                             .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
-                             .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+                        .WithErrorColor()
+                        .WithTitle("Slash Command Errored")
+                        .AddField("Reason", result.ErrorReason)
+                        .AddField("Module", info.Module.Name ?? "None")
+                        .AddField("Command", info.Name)
+                        .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
+                        .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
                     await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
@@ -139,13 +139,13 @@ public class CommandHandler : INService
             if (tofetch1 is RestTextChannel restChannel1)
             {
                 var eb = new EmbedBuilder()
-                      .WithOkColor()
-                      .WithTitle("Slash Command Executed")
-                      .AddField("Module", info.Module.Name ?? "None")
-                      .AddField("Command", info.Name)
-                      .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
-                      .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
-                      .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+                    .WithOkColor()
+                    .WithTitle("Slash Command Executed")
+                    .AddField("Module", info.Module.Name ?? "None")
+                    .AddField("Command", info.Name)
+                    .AddField("User", $"{ctx.User} `{ctx.User.Id}`")
+                    .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                    .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
                 await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
@@ -161,18 +161,19 @@ public class CommandHandler : INService
                 if (channel is null)
                     return;
                 var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithTitle("Slash Command Executed.")
-                         .AddField("Module", info.Module.Name ?? "None")
-                         .AddField("Command", info.Name)
-                         .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                         .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+                    .WithOkColor()
+                    .WithTitle("Slash Command Executed.")
+                    .AddField("Module", info.Module.Name ?? "None")
+                    .AddField("Command", info.Name)
+                    .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                    .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
                 await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         });
         return Task.CompletedTask;
     }
+
     private Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
@@ -190,14 +191,14 @@ public class CommandHandler : INService
                 if (tofetch is RestTextChannel restChannel)
                 {
                     var eb = new EmbedBuilder()
-                          .WithErrorColor()
-                          .WithTitle("Slash Command Errored.")
-                          .AddField("Reason", result.ErrorReason)
-                          .AddField("Module", slashInfo.Module.Name ?? "None")
-                          .AddField("Command", slashInfo.Name)
-                          .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                          .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
-                          .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+                        .WithErrorColor()
+                        .WithTitle("Slash Command Errored.")
+                        .AddField("Reason", result.ErrorReason)
+                        .AddField("Module", slashInfo.Module.Name ?? "None")
+                        .AddField("Command", slashInfo.Name)
+                        .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                        .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                        .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
                     await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
@@ -213,13 +214,13 @@ public class CommandHandler : INService
                     if (channel is null)
                         return;
                     var eb = new EmbedBuilder()
-                             .WithErrorColor()
-                             .WithTitle("Slash Command Errored.")
-                             .AddField("Reason", result.ErrorReason)
-                             .AddField("Module", slashInfo.Module.Name ?? "None")
-                             .AddField("Command", slashInfo.Name)
-                             .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                             .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+                        .WithErrorColor()
+                        .WithTitle("Slash Command Errored.")
+                        .AddField("Reason", result.ErrorReason)
+                        .AddField("Module", slashInfo.Module.Name ?? "None")
+                        .AddField("Command", slashInfo.Name)
+                        .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                        .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
                     await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
@@ -237,13 +238,13 @@ public class CommandHandler : INService
             if (tofetch1 is RestTextChannel restChannel1)
             {
                 var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithTitle("Slash Command Executed.")
-                         .AddField("Module", slashInfo.Module.Name ?? "None")
-                         .AddField("Command", slashInfo.Name)
-                         .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                         .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
-                         .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
+                    .WithOkColor()
+                    .WithTitle("Slash Command Executed.")
+                    .AddField("Module", slashInfo.Module.Name ?? "None")
+                    .AddField("Command", slashInfo.Name)
+                    .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                    .AddField("Channel", ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} `{ctx.Channel.Id}`")
+                    .AddField("Guild", ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} `{ctx.Guild.Id}`");
 
                 await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
@@ -259,57 +260,60 @@ public class CommandHandler : INService
                 if (channel is null)
                     return;
                 var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithTitle("Slash Command Executed.")
-                         .AddField("Module", slashInfo.Module.Name ?? "None")
-                         .AddField("Command", slashInfo.Name)
-                         .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
-                         .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
+                    .WithOkColor()
+                    .WithTitle("Slash Command Executed.")
+                    .AddField("Module", slashInfo.Module.Name ?? "None")
+                    .AddField("Command", slashInfo.Name)
+                    .AddField("User", $"{ctx.User.Mention} `{ctx.User.Id}`")
+                    .AddField("Channel", $"{ctx.Channel.Name} `{ctx.Channel.Id}`");
 
                 await channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
         });
         return Task.CompletedTask;
     }
+
     private async Task TryRunInteraction(SocketInteraction interaction)
     {
-            var blacklistService = services.GetService<BlacklistService>();
-            var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
-                url: "https://discord.gg/mewdeko").Build();
-            foreach (var bl in blacklistService.BlacklistEntries)
+        var blacklistService = services.GetService<BlacklistService>();
+        var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
+            url: "https://discord.gg/mewdeko").Build();
+        foreach (var bl in blacklistService.BlacklistEntries)
+        {
+            if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
             {
-                if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
-                {
-                    await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", components: cb).ConfigureAwait(false);
-                    return;
-                }
-
-                if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
-                {
-                    await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*", ephemeral: true, components: cb).ConfigureAwait(false);
-                    return;
-                }
+                await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                    components: cb).ConfigureAwait(false);
+                return;
             }
 
-            if (interaction.Type == InteractionType.ApplicationCommand)
+            if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
             {
-                var ctS = services.GetService<ChatTriggersService>();
-                var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
-                var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
-                if (trigger is not null)
-                {
-                    await ctS.RunInteractionTrigger(interaction, trigger).ConfigureAwait(false);
-                    return;
-                }
+                await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                    ephemeral: true, components: cb).ConfigureAwait(false);
+                return;
             }
+        }
 
-            // filter webhook interactions
-            // if (interaction is IComponentInteraction compInter
-            //     && compInter.Message.Author.IsWebhook
-            //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
+        if (interaction.Type == InteractionType.ApplicationCommand)
+        {
+            var ctS = services.GetService<ChatTriggersService>();
+            var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
+            var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
+            if (trigger is not null)
+            {
+                await ctS.RunInteractionTrigger(interaction, trigger).ConfigureAwait(false);
+                return;
+            }
+        }
 
-            var ctx = new SocketInteractionContext(client, interaction);
-            await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        // filter webhook interactions
+        // if (interaction is IComponentInteraction compInter
+        //     && compInter.Message.Author.IsWebhook
+        //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
+
+        var ctx = new SocketInteractionContext(client, interaction);
+        await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
     }
 
     public string SetDefaultPrefix(string prefix)
@@ -408,12 +412,12 @@ public class CommandHandler : INService
             if (toSend is RestTextChannel restTextChannel)
             {
                 var eb = new EmbedBuilder()
-                         .WithOkColor()
-                         .WithTitle("Text Command Executed")
-                         .AddField("Executed Time", string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
-                         .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
-                         .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                         .AddField("Message", usrMsg.Content.TrimTo(1000));
+                    .WithOkColor()
+                    .WithTitle("Text Command Executed")
+                    .AddField("Executed Time", string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
+                    .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
+                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                    .AddField("Message", usrMsg.Content.TrimTo(1000));
 
                 await restTextChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
@@ -436,10 +440,10 @@ public class CommandHandler : INService
             if (toFetch is RestTextChannel restChannel)
             {
                 var eb = new EmbedBuilder().WithOkColor().WithTitle("Text Command Errored").AddField("Error Reason", errorMessage)
-                                           .AddField("Errored Time", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
-                                           .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
-                                           .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
-                                           .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`").AddField("Message", usrMsg.Content.TrimTo(1000));
+                    .AddField("Errored Time", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
+                    .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                    .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`").AddField("Message", usrMsg.Content.TrimTo(1000));
 
                 await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
@@ -472,7 +476,10 @@ public class CommandHandler : INService
     }
 
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
-        _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage> { usrMsg }), (_, y) =>
+        _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage>
+        {
+            usrMsg
+        }), (_, y) =>
         {
             y.Enqueue(usrMsg);
             return y;
@@ -489,6 +496,7 @@ public class CommandHandler : INService
             {
                 await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
             }
+
             CommandParseQueue[channelId] = new ConcurrentQueue<IUserMessage>();
             return true;
         }
@@ -535,7 +543,7 @@ public class CommandHandler : INService
         {
             string newContent;
             if ((newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
-                                        .ConfigureAwait(false))
+                    .ConfigureAwait(false))
                 == messageContent.ToLowerInvariant())
             {
                 continue;
@@ -544,6 +552,7 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
+
         var prefix = await gss.GetPrefix(guild?.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
@@ -642,9 +651,9 @@ public class CommandHandler : INService
                 {
                     case MultiMatchHandling.Best:
                         IReadOnlyList<TypeReaderValue> argList = parseResult.ArgValues
-                                                                            .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
+                            .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
-                                                                              .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
+                            .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         parseResult = ParseResult.FromSuccess(argList, paramList);
                         break;
                 }

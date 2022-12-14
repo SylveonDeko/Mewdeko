@@ -1,6 +1,6 @@
+using System.Text.RegularExpressions;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.Yml;
-using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.PubSub;

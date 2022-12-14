@@ -1,7 +1,7 @@
-﻿using Discord.Interactions;
-using Mewdeko.Modules.Suggestions.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 

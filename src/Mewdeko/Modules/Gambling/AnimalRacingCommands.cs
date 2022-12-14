@@ -1,11 +1,11 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Games.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -93,7 +93,8 @@ public partial class Gambling
         }
 
         private Task Ar_OnStarted(AnimalRace race)
-            => ctx.Channel.SendConfirmAsync(GetText("animal_race"), race.Users.Count == race.MaxUsers ? GetText("animal_race_full") : GetText("animal_race_starting_with_x", race.Users.Count));
+            => ctx.Channel.SendConfirmAsync(GetText("animal_race"),
+                race.Users.Count == race.MaxUsers ? GetText("animal_race_full") : GetText("animal_race_starting_with_x", race.Users.Count));
 
         private async Task Ar_OnStateUpdate(AnimalRace race)
         {
@@ -111,16 +112,16 @@ public partial class Gambling
             if (msg == null)
             {
                 raceMessage = await ctx.Channel.SendConfirmAsync(text)
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             else
             {
                 await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
-                                    .WithTitle(GetText("animal_race"))
-                                    .WithDescription(text)
-                                    .WithOkColor()
-                                    .Build())
-                                .ConfigureAwait(false);
+                        .WithTitle(GetText("animal_race"))
+                        .WithDescription(text)
+                        .WithOkColor()
+                        .Build())
+                    .ConfigureAwait(false);
             }
         }
 
@@ -149,13 +150,13 @@ public partial class Gambling
                 if (amount > 0)
                 {
                     await ctx.Channel.SendConfirmAsync(GetText("animal_race_join_bet", ctx.User.Mention,
-                                        user.Animal.Icon, amount + CurrencySign)).ConfigureAwait(false);
+                        user.Animal.Icon, amount + CurrencySign)).ConfigureAwait(false);
                 }
                 else
                 {
                     await ctx.Channel
-                                        .SendConfirmAsync(GetText("animal_race_join", ctx.User.Mention, user.Animal.Icon))
-                                        .ConfigureAwait(false);
+                        .SendConfirmAsync(GetText("animal_race_join", ctx.User.Mention, user.Animal.Icon))
+                        .ConfigureAwait(false);
                 }
             }
             catch (ArgumentOutOfRangeException)

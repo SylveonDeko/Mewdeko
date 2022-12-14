@@ -1,7 +1,7 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Collections;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -22,8 +22,8 @@ public class AdministrationService : INService
         this.guildSettings = guildSettings;
 
         DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
-                                                               .Where(g => g.DeleteMessageOnCommand)
-                                                               .Select(g => g.GuildId));
+            .Where(g => g.DeleteMessageOnCommand)
+            .Select(g => g.GuildId));
 
         DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(gc
             .SelectMany(x => x.DelMsgOnCmdChannels)
@@ -31,7 +31,6 @@ public class AdministrationService : INService
             .ToConcurrent());
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
-
 
 
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
@@ -142,7 +141,10 @@ public class AdministrationService : INService
             {
                 if (old is null)
                 {
-                    old = new DelMsgOnCmdChannel { ChannelId = chId };
+                    old = new DelMsgOnCmdChannel
+                    {
+                        ChannelId = chId
+                    };
                     conf.DelMsgOnCmdChannels.Add(old);
                 }
 
