@@ -4,7 +4,7 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class RollCommandService : INService
 {
-    private static readonly Regex Cleaner = new(@"[^\d]d(\d*)|^d(\d*)");
+    private static readonly Regex Cleaner = new(@"[^\d]d(\d*)|^d(\d*)", RegexOptions.Compiled);
     private static readonly Regex DieFinder = new(@"(?'count'\d+)?d(?'value'\d*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex OperationFinder = new(@"(?'operator'[\/\\+\-*]) *?(?'number'\d*)$", RegexOptions.Compiled);
 
@@ -59,7 +59,7 @@ public class RollCommandService : INService
                             break;
                         case '*':
                             {
-                                result.Total *= opVal;
+                                result.Total *=  opVal;
                             }
                             break;
                         case '-':
