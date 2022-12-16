@@ -10,19 +10,31 @@ public class PurgeService : INService
 
     private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
-    public async Task PurgeWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
+    public async Task PurgeWhere(ITextChannel channel, ulong amount, Func<IMessage, bool> predicate, ulong messageId = 0)
     {
         channel.ThrowIfNull(nameof(channel));
-        if (amount <= 0)
+        if (amount <= 0 && messageId is 0)
             throw new ArgumentOutOfRangeException(nameof(amount));
 
         if (!pruningGuilds.Add(channel.GuildId))
             return;
-
+        if (amount > int.MaxValue)
+            return;
         try
         {
-            var msgs = (await channel.GetMessagesAsync(50).FlattenAsync().ConfigureAwait(false)).Where(predicate)
-                .Take(amount).ToArray();
+            IMessage[] msgs;
+            if (messageId is 0)
+                msgs = (await channel.GetMessagesAsync().FlattenAsync().ConfigureAwait(false)).Where(predicate)
+                    .Take((int)amount).ToArray();
+            else
+            {
+                var msg = await channel.GetMessageAsync(messageId);
+                if (msg.Timestamp.Subtract(DateTimeOffset.Now).Days == 14)
+                    return;
+                msgs = (await channel.GetMessagesAsync(messageId, Direction.After).FlattenAsync()).ToArray();
+                amount = Convert.ToUInt64(msgs.Length);
+            }
+
             while (amount > 0 && msgs.Length > 0)
             {
                 var lastMessage = msgs[^1];
@@ -55,8 +67,8 @@ public class PurgeService : INService
                 amount -= 50;
                 if (amount > 0)
                 {
-                    msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before, 50).FlattenAsync()
-                        .ConfigureAwait(false)).Where(predicate).Take(amount).ToArray();
+                    msgs = (await channel.GetMessagesAsync(lastMessage, Direction.Before).FlattenAsync()
+                        .ConfigureAwait(false)).Where(predicate).Take((int)amount).ToArray();
                 }
             }
         }
