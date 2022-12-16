@@ -108,6 +108,10 @@ public class UtilityService : INService
         {
             GuildId = chan.Guild.Id,
             ChannelId = chan.Id,
+            ReferenceMessage =
+                (x.Value as IUserMessage).ReferencedMessage == null
+                    ? null
+                    : $"{Format.Bold((x.Value as IUserMessage).ReferencedMessage.Author.ToString())}: {(x.Value as IUserMessage).ReferencedMessage.Content.TrimTo(400)}",
             Message = x.Value.Content,
             UserId = x.Value.Author.Id,
             Edited = false,
@@ -143,6 +147,7 @@ public class UtilityService : INService
                 GuildId = ((SocketTextChannel)ch.Value).Guild.Id,
                 ChannelId = ch.Id,
                 Message = msg.Content,
+                ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(400)}",
                 UserId = msg.Author.Id,
                 Edited = false,
                 DateAdded = DateTime.UtcNow
@@ -177,6 +182,7 @@ public class UtilityService : INService
                 GuildId = ((SocketTextChannel)ch).Guild.Id,
                 ChannelId = ch.Id,
                 Message = msg.Content,
+                ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(1048)}",
                 UserId = msg.Author.Id,
                 Edited = true,
                 DateAdded = DateTime.UtcNow

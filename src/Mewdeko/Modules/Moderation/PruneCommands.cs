@@ -37,7 +37,7 @@ public partial class Moderation
         // Purge x
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
-        public async Task Purge(int count, string? parameter = null, string? input = null)
+        public async Task Purge(ulong count, string? parameter = null, string? input = null)
         {
             StoopidTime? time = null;
             try
@@ -108,6 +108,14 @@ public partial class Moderation
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         x => x.Content.ToLowerInvariant().Contains(input)).ConfigureAwait(false);
+                    //     break;
+                    // case "-u":
+                    // case "--until":
+                    //     if (input is null)
+                    //         return;
+                    //     if (!ulong.TryParse(input, out var messageId))
+                    //         return;
+                    //     await Service.PurgeWhere((ITextChannel)ctx.Channel, 0, _ => true, messageId);
                     break;
                 default:
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count, _ => true).ConfigureAwait(false);
@@ -118,12 +126,16 @@ public partial class Moderation
         //Purge @user [x]
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public Task Purge(IGuildUser user, int count = 100, string? parameter = null) => Purge(user.Id, count, parameter);
+        public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null) => Purge(user.Id, count, parameter);
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
+        public Task Purge(string? parameter = null, string input = null) => Purge(0, parameter, input);
 
         //Purge userid [x]
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public async Task Purge(ulong userId, int count = 100, string? parameter = null)
+        public async Task Purge(ulong userId, ulong count = 100, string? parameter = null)
         {
             if (userId == ctx.User.Id)
                 count++;

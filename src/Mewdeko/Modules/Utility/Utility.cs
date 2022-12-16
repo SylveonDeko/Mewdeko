@@ -251,6 +251,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
+
+        if (msg.ReferenceMessage is not null)
+            em.AddField("Replied To", msg.ReferenceMessage);
         await ctx.Channel.SendMessageAsync(embed: em.Build(),
             components: config.Data.ShowInviteButton
                 ? new ComponentBuilder()
@@ -299,7 +302,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false) ??
                            await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
-                return new PageBuilder()
+                var builder = new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
                         new EmbedAuthorBuilder()
@@ -307,6 +310,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             .WithName($"{user} said:"))
                     .WithDescription($"{msg1.Message}")
                     .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
+
+                if (msg1.ReferenceMessage is not null)
+                    builder.AddField("Replied To", msg1.ReferenceMessage);
+
+                return builder;
             }
         }
     }
@@ -348,7 +356,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false) ??
                            await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
-                return new PageBuilder()
+                var builder = new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
                         new EmbedAuthorBuilder()
@@ -356,6 +364,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             .WithName($"{user} originally said:"))
                     .WithDescription($"{msg1.Message}")
                     .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
+
+                if (msg1.ReferenceMessage is not null)
+                    builder.AddField("Replied To", msg1.ReferenceMessage);
+
+                return builder;
             }
         }
     }
@@ -393,6 +406,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
+
+        if (msg.ReferenceMessage is not null)
+            em.AddField("Replied To", msg.ReferenceMessage);
+
         await ctx.Channel.SendMessageAsync(embed: em.Build(),
             components: config.Data.ShowInviteButton
                 ? new ComponentBuilder()
@@ -457,6 +474,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
+
+        if (msg.ReferenceMessage is not null)
+            em.AddField("Replied To", msg.ReferenceMessage);
+
         await ctx.Channel.SendMessageAsync(embed: em.Build(),
             components: config.Data.ShowInviteButton
                 ? new ComponentBuilder()
@@ -503,6 +524,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
             await ctx.Channel.SendMessageAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -567,6 +592,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
             await ctx.Channel.SendMessageAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -615,6 +644,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
             await ctx.Channel.SendMessageAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -663,6 +696,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
+
             await ctx.Channel.SendMessageAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -711,6 +749,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
+
             await ctx.Channel.SendMessageAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
