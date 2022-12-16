@@ -12,6 +12,8 @@ public class GuildConfig : DbEntity
     public ulong CommandLogChannel { get; set; } = 0;
     public bool DeleteMessageOnCommand { get; set; }
     public string WarnMessage { get; set; } = "-";
+
+    public ulong KarutaEventChannel { get; set; } = 0;
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string AutoAssignRoleId { get; set; } = "0";
     // Starboard
