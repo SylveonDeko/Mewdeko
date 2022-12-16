@@ -72,6 +72,10 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
             await ctx.Interaction.RespondAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -126,6 +130,10 @@ public partial class Utility
                 },
                 Color = Mewdeko.OkColor
             };
+
+            if (msg.ReferenceMessage is not null)
+                em.AddField("Replied To", msg.ReferenceMessage);
+
             await ctx.Interaction.RespondAsync(embed: em.Build(),
                 components: config.Data.ShowInviteButton
                     ? new ComponentBuilder()
@@ -174,12 +182,17 @@ public partial class Utility
                     var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
                                ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
-                    return new PageBuilder().WithOkColor()
+                    var builder = new PageBuilder().WithOkColor()
                         .WithAuthor(new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
                         .WithDescription(
                             $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
+
+                    if (msg1.ReferenceMessage is not null)
+                        builder.AddField("Replied To", msg1.ReferenceMessage);
+
+                    return builder;
                 }
             }
         }
@@ -221,12 +234,17 @@ public partial class Utility
                     var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
                                ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
 
-                    return new PageBuilder().WithOkColor()
+                    var builder = new PageBuilder().WithOkColor()
                         .WithAuthor(new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
                         .WithDescription(
                             $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
+
+                    if (msg1.ReferenceMessage is not null)
+                        builder.AddField("Replied To", msg1.ReferenceMessage);
+
+                    return builder;
                 }
             }
         }
