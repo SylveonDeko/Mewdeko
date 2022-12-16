@@ -53,6 +53,9 @@ public class MewdekoContext : DbContext
     public DbSet<Nicknames> Nicknames { get; set; }
     public DbSet<Poll> Poll { get; set; }
     public DbSet<ClubInfo> Clubs { get; set; }
+    public DbSet<KarutaEventEntry> KarutaEventEntry { get; set; }
+    public DbSet<KarutaButtonOptions> KarutaButtonOptions { get; set; }
+    public DbSet<KarutaEventVotes> KarutaEventVotes { get; set; }
     public DbSet<CommandCooldown> CommandCooldown { get; set; }
     public DbSet<SuggestVotes> SuggestVotes { get; set; }
     public DbSet<SuggestThreads> SuggestThreads { get; set; }
