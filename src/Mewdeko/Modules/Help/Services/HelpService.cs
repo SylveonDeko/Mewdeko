@@ -63,7 +63,7 @@ public class HelpService : ILateExecutor, INService
         var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
         foreach (var i in modules.Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
         {
-            selMenu.Options.Add(new SelectMenuOptionBuilder().WithEmote(GetSelectEmote(i.Name.ToLower()).ToIEmote() ?? "<a:HaneMeow:968564817784877066>".ToIEmote())
+            selMenu.Options.Add(new SelectMenuOptionBuilder()
                 .WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
 
@@ -129,35 +129,6 @@ public class HelpService : ILateExecutor, INService
             ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
-
-    public string GetSelectEmote(string module)
-        => module switch
-        {
-            "administration" => bss.Data.AdministrationEmote,
-            "afk" => bss.Data.HelpEmote,
-            "chattriggers" => bss.Data.ChatTriggersEmote,
-            "confessions" => bss.Data.ConfessionsEmote,
-            "games" => bss.Data.GamesEmote,
-            "gambling" => bss.Data.GamblingEmote,
-            "giveaways" => bss.Data.GiveawaysEmote,
-            "help" => bss.Data.HelpEmote,
-            "highlights" => bss.Data.HighlightsEmote,
-            "multigreets" => bss.Data.MultiGreetsEmote,
-            "music" => bss.Data.MusicEmote,
-            "nsfw" => bss.Data.NsfwEmote,
-            "owneronly" => bss.Data.OwnerOnlyEmote,
-            "permissions" => bss.Data.PermissionsEmote,
-            "rolegreets" => bss.Data.RoleGreetsEmote,
-            "searches" => bss.Data.SearchesEmote,
-            "starboard" => bss.Data.StarboardEmote,
-            "servermanagement" => bss.Data.ServerManagementEmote,
-            "suggestions" => bss.Data.SuggestionsEmote,
-            "userprofile" => bss.Data.UserProfileEmote,
-            "utility" => bss.Data.UtilityEmote,
-            "vote" => bss.Data.VoteEmote,
-            "xp" => bss.Data.XpEmote,
-            _ => "<a:HaneMeow:941348630927925318>"
-        };
 
     private Task HandlePing(SocketMessage msg)
     {
