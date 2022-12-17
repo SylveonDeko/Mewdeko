@@ -27,29 +27,6 @@ public sealed class BotConfig
         ErrorEmote = "<:HaneNo:914307917954576414>";
         SuccessEmote = "<:hane_wow:945005763829575680>";
         SupportServer = "https://discord.gg/mewdeko";
-        AdministrationEmote = "<a:HaneOhayou:1026529093069590638>";
-        AfkEmote = "<a:HaneTilt:1026529104046067772>";
-        ChatTriggersEmote = "<a:HaneWave:1026529124350701568>";
-        ConfessionsEmote = "<:HaneFlushed:1026952327803961445>";
-        GamesEmote = "<a:HaneLaugh:1026529085675024495>";
-        GamblingEmote = "<:BlackHaneOhayou:1026595194033934346>";
-        GiveawaysEmote = "<:HaneLove:977990148006510612>";
-        HelpEmote = "<:HaneGlimpse:1026548813076385833>";
-        HighlightsEmote = "<a:HaneBliss:1026522528153354301>";
-        MultiGreetsEmote = "<a:HaneSmirk:1026598979024207975>";
-        MusicEmote = "<a:HaneDance:1026568010128953355>";
-        NsfwEmote = "<:HaneBooba:1026601308981055519>";
-        OwnerOnlyEmote = "<:HanePOG:1026522537959637002>";
-        PermissionsEmote = "<:HaneNay:1026529090586554508>";
-        RoleGreetsEmote = "<:HanePlush:1026529096412438558>";
-        SearchesEmote = "<:HaneGun:1026533974287335466>";
-        StarboardEmote = "<:HaneWow:941359116008423484>";
-        ServerManagementEmote = "<a:BlackHanePat:1026594026515869797>";
-        SuggestionsEmote = "<:BlackHaneBlush:1026548279661580288>";
-        UserProfileEmote = "<a:Nyahahaha:1026529117933408317>";
-        UtilityEmote = "<a:HaneEmbarrassed:941348725484298250>";
-        VoteEmote = "<:HaneLoli:1030678744425312306>";
-        XpEmote = "<:BlackHaneCulture:1026529110941507684>";
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -137,32 +114,6 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment("Used to set the loading emote for the bot.")]
     public string LoadingEmote { get; set; }
-
-    [Comment("Below are the emotes used in the cmds command select, change them as you will.")]
-    public string AdministrationEmote { get; set; }
-
-    public string AfkEmote { get; set; }
-    public string ChatTriggersEmote { get; set; }
-    public string ConfessionsEmote { get; set; }
-    public string GamesEmote { get; set; }
-    public string GamblingEmote { get; set; }
-    public string GiveawaysEmote { get; set; }
-    public string HelpEmote { get; set; }
-    public string HighlightsEmote { get; set; }
-    public string MultiGreetsEmote { get; set; }
-    public string MusicEmote { get; set; }
-    public string NsfwEmote { get; set; }
-    public string OwnerOnlyEmote { get; set; }
-    public string PermissionsEmote { get; set; }
-    public string RoleGreetsEmote { get; set; }
-    public string SearchesEmote { get; set; }
-    public string StarboardEmote { get; set; }
-    public string ServerManagementEmote { get; set; }
-    public string SuggestionsEmote { get; set; }
-    public string UserProfileEmote { get; set; }
-    public string UtilityEmote { get; set; }
-    public string VoteEmote { get; set; }
-    public string XpEmote { get; set; }
 
     [Comment("Used to set the support server invite on public Mewdeko")]
     public string SupportServer { get; set; }
