@@ -83,17 +83,15 @@ public class SelfAssignedRolesService : INService
             foreach (var roleId in sameRoles)
             {
                 var sameRole = guildUser.Guild.GetRole(roleId);
-                if (sameRole != null)
+                if (sameRole == null) continue;
+                try
                 {
-                    try
-                    {
-                        await guildUser.RemoveRoleAsync(sameRole).ConfigureAwait(false);
-                        await Task.Delay(300).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    await guildUser.RemoveRoleAsync(sameRole).ConfigureAwait(false);
+                    await Task.Delay(300).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
                 }
             }
         }

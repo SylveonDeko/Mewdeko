@@ -23,14 +23,10 @@ public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
             return false;
         }
 
-        if (Config.MaxBet > 0 && amount > Config.MaxBet)
-        {
-            await ReplyErrorLocalizedAsync("max_bet_limit",
-                Format.Bold(Config.MaxBet.ToString()) + CurrencySign).ConfigureAwait(false);
-            return false;
-        }
-
-        return true;
+        if (Config.MaxBet <= 0 || amount <= Config.MaxBet) return true;
+        await ReplyErrorLocalizedAsync("max_bet_limit",
+            Format.Bold(Config.MaxBet.ToString()) + CurrencySign).ConfigureAwait(false);
+        return false;
     }
 
     protected Task<bool> CheckBetMandatory(long amount)

@@ -22,14 +22,9 @@ public class GlobalPermissionService : ILateBlocker, INService
         var settings = bss.Data;
         var commandName = command.Name.ToLowerInvariant();
 
-        if (commandName != "resetglobalperms" &&
-            (settings.Blocked.Commands.Contains(commandName) ||
-             settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())))
-        {
-            return Task.FromResult(true);
-        }
-
-        return Task.FromResult(false);
+        return Task.FromResult(commandName != "resetglobalperms" &&
+                               (settings.Blocked.Commands.Contains(commandName) ||
+                                settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())));
     }
 
     public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
@@ -38,13 +33,8 @@ public class GlobalPermissionService : ILateBlocker, INService
         var settings = bss.Data;
         var commandName = command.MethodName.ToLowerInvariant();
 
-        if (commandName != "resetglobalperms" &&
-            settings.Blocked.Commands.Contains(commandName))
-        {
-            return Task.FromResult(true);
-        }
-
-        return Task.FromResult(false);
+        return Task.FromResult(commandName != "resetglobalperms" &&
+                               settings.Blocked.Commands.Contains(commandName));
     }
 
     /// <summary>

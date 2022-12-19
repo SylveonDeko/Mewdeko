@@ -12,11 +12,9 @@ public static class PlatformHelper
         get
         {
             var now = Environment.TickCount;
-            if (processorCount == 0 || now - lastProcessorCountRefreshTicks >= ProcessorCountRefreshIntervalMs)
-            {
-                processorCount = Environment.ProcessorCount;
-                lastProcessorCountRefreshTicks = now;
-            }
+            if (processorCount != 0 && now - lastProcessorCountRefreshTicks < ProcessorCountRefreshIntervalMs) return processorCount;
+            processorCount = Environment.ProcessorCount;
+            lastProcessorCountRefreshTicks = now;
 
             return processorCount;
         }

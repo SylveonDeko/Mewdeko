@@ -103,14 +103,14 @@ public class NotifChecker
                     foreach (var newData in newStreamData.SelectMany(x => x))
                     {
                         // update cached data
-                        var key = newData.CreateKey();
+                        var cachekey = newData.CreateKey();
 
                         // compare old data with new data
-                        if (!oldStreamDataDict.TryGetValue(key.Type, out var typeDict)
-                            || !typeDict.TryGetValue(key.Name, out var oldData)
+                        if (!oldStreamDataDict.TryGetValue(cachekey.Type, out var typeDict)
+                            || !typeDict.TryGetValue(cachekey.Name, out var oldData)
                             || oldData is null)
                         {
-                            CacheAddData(key, newData, true);
+                            CacheAddData(cachekey, newData, true);
                             continue;
                         }
 
@@ -118,7 +118,7 @@ public class NotifChecker
                         if (string.IsNullOrWhiteSpace(newData.Game))
                             newData.Game = oldData.Game;
 
-                        CacheAddData(key, newData, true);
+                        CacheAddData(cachekey, newData, true);
 
                         // if the stream is offline, we need to check if it was
                         // marked as offline once previously
@@ -129,7 +129,7 @@ public class NotifChecker
                         //       (stream is online -> stream is offline -> stream is online again (and stays online))
                         //       This offlineBuffer will make it so that the stream has to be marked as offline TWICE
                         //       before it sends an offline notification to the subscribers.
-                        var streamId = (key.Type, key.Name);
+                        var streamId = (cachekey.Type, cachekey.Name);
                         if (!newData.IsLive && offlineBuffer.Remove(streamId))
                         {
                             newlyOffline.Add(newData);
@@ -169,19 +169,19 @@ public class NotifChecker
             }
         });
 
-    public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
+    public bool CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
     {
         var db = multi.GetDatabase();
         return db.HashSet(this.key,
-            JsonConvert.SerializeObject(key),
+            JsonConvert.SerializeObject(streamDataKey),
             JsonConvert.SerializeObject(data),
             replace ? When.Always : When.NotExists);
     }
 
-    public void CacheDeleteData(StreamDataKey key)
+    public void CacheDeleteData(StreamDataKey streamdataKey)
     {
         var db = multi.GetDatabase();
-        db.HashDelete(this.key, JsonConvert.SerializeObject(key));
+        db.HashDelete(this.key, JsonConvert.SerializeObject(streamdataKey));
     }
 
     public void CacheClearAllData()
@@ -247,6 +247,6 @@ public class NotifChecker
 
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
     // because stream will be checked and events will fire in a loop. We don't want to override old state
-    public void UntrackStreamByKey(in StreamDataKey key)
-        => CacheDeleteData(key);
+    public void UntrackStreamByKey(in StreamDataKey streamDataKey)
+        => CacheDeleteData(streamDataKey);
 }
