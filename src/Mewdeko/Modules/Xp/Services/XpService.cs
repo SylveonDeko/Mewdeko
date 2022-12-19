@@ -94,7 +94,11 @@ public class XpService : INService, IUnloadableService
 
         using var uow = db.GetDbContext();
         //load settings
-        var allGuildConfigs = uow.GuildConfigs.Include(x => x.XpSettings).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var allGuildConfigs = uow.GuildConfigs.Include(x => x.XpSettings).ThenInclude(x => x.RoleRewards)
+            .Include(x => x.XpSettings)
+            .ThenInclude(x => x.CurrencyRewards)
+            .Include(x => x.XpSettings)
+            .ThenInclude(x => x.ExclusionList).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         XpTxtRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
