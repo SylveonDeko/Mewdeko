@@ -103,12 +103,12 @@ public class XpService : INService, IUnloadableService
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
-        excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
+        excludedChannels = allGuildConfigs.Where(x => x.XpSettings.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
-        excludedRoles = allGuildConfigs.ToDictionary(x => x.GuildId,
+        excludedRoles = allGuildConfigs.Where(x => x.XpSettings.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Role)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
