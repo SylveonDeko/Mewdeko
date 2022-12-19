@@ -87,14 +87,10 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Memegen(string meme, [Remainder] string? memeText = null)
         {
-            var memeUrl = $"http://api.memegen.link/{meme}";
+            var memeUrl = $"https://api.memegen.link/{meme}";
             if (!string.IsNullOrWhiteSpace(memeText))
             {
-                foreach (var text in memeText.Split(';'))
-                {
-                    var newText = Replace(text);
-                    memeUrl += $"/{newText}";
-                }
+                memeUrl = memeText.Split(';').Select(Replace).Aggregate(memeUrl, (current, newText) => current + $"/{newText}");
             }
 
             memeUrl += ".png";

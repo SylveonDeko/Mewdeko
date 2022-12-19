@@ -7,7 +7,7 @@ public class ServerManagementService : INService
     public ServerManagementService(DiscordSocketClient client, DbService db)
     {
         using var uow = db.GetDbContext();
-        var configs = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        var configs = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
 
         GuildMuteRoles = configs
             .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))

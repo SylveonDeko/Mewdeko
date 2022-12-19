@@ -25,15 +25,10 @@ public class CurrencyRaffleGame
             return false;
         }
 
-        if (!users.Add(new User
-            {
-                DiscordUser = usr, Amount = amount
-            }))
+        return users.Add(new User
         {
-            return false;
-        }
-
-        return true;
+            DiscordUser = usr, Amount = amount
+        });
     }
 
     public User GetWinner()

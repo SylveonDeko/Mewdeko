@@ -16,7 +16,7 @@ public class AdministrationService : INService
         GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.DelMsgOnCmdChannels).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         this.db = db;
         this.logService = logService;
         this.guildSettings = guildSettings;

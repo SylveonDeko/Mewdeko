@@ -9,12 +9,13 @@ public class RequireDragonAttribute : PreconditionAttribute
     public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
     {
         // always return true in precondition checks to avoid incorrect error messages
-        bool isTest = true;
+        var isTest = true;
         foreach (var alias in command.Aliases)
         {
             if (context.Message.Content.Contains(alias))
                 isTest = false;
         }
+
         if (isTest)
             return PreconditionResult.FromSuccess();
 
@@ -29,5 +30,4 @@ public class RequireDragonAttribute : PreconditionAttribute
                                            "your soul to open a passage into the abyss of new features. (enable beta " +
                                            "mode by running `.dragon` to use this command)");
     }
-
 }

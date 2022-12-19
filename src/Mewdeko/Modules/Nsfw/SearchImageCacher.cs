@@ -264,7 +264,6 @@ public class SearchImageCacher : INService
 #if DEBUG
             Log.Information("Tag {0}, page {1} has no result on {2}.", string.Join(", ", tags), page, type.ToString());
 #endif
-            continue;
         }
 
         return new List<ImageData>();

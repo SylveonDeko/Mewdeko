@@ -8,7 +8,7 @@ public static class CommandNameLoadHelper
     private static readonly IDeserializer Deserializer
         = new Deserializer();
 
-    public static Lazy<Dictionary<string, string[]>> LazyCommandAliases
+    public static readonly Lazy<Dictionary<string, string[]>> LazyCommandAliases
         = new(() => LoadCommandNames());
 
     public static Dictionary<string, string[]> LoadCommandNames(string aliasesFilePath = "data/aliases.yml")

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable enable
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -342,7 +342,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         return removedCount;
     }
 
-    public async Task<FollowedStream>? UnfollowStreamAsync(ulong guildId, int index)
+    public async Task<FollowedStream?> UnfollowStreamAsync(ulong guildId, int index)
     {
         FollowedStream fs;
         var uow = db.GetDbContext();
@@ -391,7 +391,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 Key = fs.CreateKey(), GuildId = fs.GuildId
             });
 
-    public async Task<StreamData>? FollowStream(ulong guildId, ulong channelId, string url)
+    public async Task<StreamData?> FollowStream(ulong guildId, ulong channelId, string url)
     {
         // this will
         var data = await streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
@@ -479,7 +479,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         return newValue;
     }
 
-    public Task<StreamData> GetStreamDataAsync(string url)
+    public Task<StreamData?> GetStreamDataAsync(string url)
         => streamTracker.GetStreamDataByUrlAsync(url);
 
     private HashSet<FollowedStream> GetLocalGuildStreams(in StreamDataKey key, ulong guildId)

@@ -9,7 +9,7 @@ namespace Mewdeko.Services.Settings;
 /// </summary>
 public sealed class BotConfigService : ConfigServiceBase<BotConfig>
 {
-    private const string FilePath = "data/bot.yml";
+    private new const string FilePath = "data/bot.yml";
     private static readonly TypedKey<BotConfig> ChangeKey = new("config.bot.updated");
 
     public BotConfigService(IConfigSeria serializer, IPubSub pubSub)

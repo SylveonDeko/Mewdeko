@@ -15,7 +15,7 @@ public static class Rgba32Extensions
     {
         format = PngFormat.Instance;
 
-        void DrawFrame(Image<Rgba32>[] imgArray, Image<Rgba32> imgFrame, int frameNumber)
+        void DrawFrame(IEnumerable<Image<Rgba32>> imgArray, Image<Rgba32> imgFrame, int frameNumber)
         {
             var xOffset = 0;
             foreach (var t in imgArray)

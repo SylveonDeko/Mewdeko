@@ -352,22 +352,18 @@ public class WaifuService : INService
     public async Task<WaifuInfoStats> GetFullWaifuInfoAsync(ulong targetId)
     {
         await using var uow = db.GetDbContext();
-        var wi = await uow.GetWaifuInfo(targetId);
-        if (wi == null)
+        var wi = await uow.GetWaifuInfo(targetId) ?? new WaifuInfoStats
         {
-            wi = new WaifuInfoStats
-            {
-                AffinityCount = 0,
-                AffinityName = null,
-                ClaimCount = 0,
-                ClaimerName = null,
-                Claims30 = new List<string>(),
-                DivorceCount = 0,
-                FullName = null,
-                Items = new List<WaifuItem>(),
-                Price = 1
-            };
-        }
+            AffinityCount = 0,
+            AffinityName = null,
+            ClaimCount = 0,
+            ClaimerName = null,
+            Claims30 = new List<string>(),
+            DivorceCount = 0,
+            FullName = null,
+            Items = new List<WaifuItem>(),
+            Price = 1
+        };
 
         return wi;
     }

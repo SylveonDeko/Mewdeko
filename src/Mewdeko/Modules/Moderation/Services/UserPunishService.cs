@@ -453,7 +453,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient discordSocketClient, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -463,7 +463,7 @@ WHERE GuildId={guildId}
             : banReason;
 
         var replacer = new ReplacementBuilder()
-            .WithServer(client, guild)
+            .WithServer(discordSocketClient, guild)
             .WithOverride("%ban.mod%", moderator.ToString)
             .WithOverride("%ban.mod.fullname%", moderator.ToString)
             .WithOverride("%ban.mod.name%", () => moderator.Username)

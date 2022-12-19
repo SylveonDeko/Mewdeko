@@ -131,6 +131,8 @@ public class MultiGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild as SocketGuild).Build();
         foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
         {
+            if (i.Disabled)
+                continue;
             if (user.IsBot && !i.GreetBots)
                 continue;
             if (i.WebhookUrl is not null) continue;
@@ -162,6 +164,8 @@ public class MultiGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild as SocketGuild).Build();
         foreach (var i in multiGreets)
         {
+            if (i.Disabled)
+                continue;
             if (user.IsBot && !i.GreetBots)
                 continue;
             if (i.WebhookUrl is null) continue;
