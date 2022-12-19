@@ -25,23 +25,17 @@ public class PicartoProvider : Provider
     public override Task<bool> IsValidUrl(string url)
     {
         var match = Regex.Match(url);
-        if (!match.Success)
-            return Task.FromResult(false);
+        return Task.FromResult(match.Success);
 
         // var username = match.Groups["name"].Value;
-        return Task.FromResult(true);
     }
 
     public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         var match = Regex.Match(url);
-        if (match.Success)
-        {
-            var name = match.Groups["name"].Value;
-            return GetStreamDataAsync(name);
-        }
-
-        return Task.FromResult<StreamData?>(null);
+        if (!match.Success) return Task.FromResult<StreamData?>(null);
+        var name = match.Groups["name"].Value;
+        return GetStreamDataAsync(name);
     }
 
 #pragma warning disable CS8609

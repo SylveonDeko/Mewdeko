@@ -19,7 +19,7 @@ public class Localization : ILocalization
         this.bss = bss;
         this.db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         var cultureInfoNames = gc
             .ToDictionary(x => x.GuildId, x => x.Locale);
 

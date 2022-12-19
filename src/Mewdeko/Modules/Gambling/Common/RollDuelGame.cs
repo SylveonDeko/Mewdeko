@@ -98,18 +98,14 @@ public class RollDuelGame
             return;
         }
 
-        int n1, n2;
         do
         {
-            n1 = rng.Next(0, 5);
-            n2 = rng.Next(0, 5);
+            var n1 = rng.Next(0, 5);
+            var n2 = rng.Next(0, 5);
             Rolls.Add((n1, n2));
             if (n1 != n2)
             {
-                if (n1 > n2)
-                    Winner = P1;
-                else
-                    Winner = P2;
+                Winner = n1 > n2 ? P1 : P2;
                 var won = (long)(Amount * 2 * 0.98f);
                 await cs.AddAsync(Winner, "Roll Duel win", won)
                     .ConfigureAwait(false);

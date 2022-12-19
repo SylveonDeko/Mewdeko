@@ -18,9 +18,6 @@ public class JsonSeria : ISeria
 
     public T? Deserialize<T>(byte[]? data)
     {
-        if (data is null)
-            return default;
-
-        return JsonSerializer.Deserialize<T>(data, serializerOptions);
+        return data is null ? default : JsonSerializer.Deserialize<T>(data, serializerOptions);
     }
 }

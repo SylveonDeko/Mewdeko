@@ -32,7 +32,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.db = db;
         this.ch = ch;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         this.ch.CommandErrored += LogVerboseError;
 
         guildsEnabled = new ConcurrentHashSet<ulong>(gc
@@ -60,7 +60,7 @@ public class VerboseErrorsService : INService, IUnloadableService
                           Author = user, Channel = channel
                       },
                       i,
-                      cmd.MethodName(), out var index)))
+                      cmd.MethodName(), out _)))
                 return;
         }
 

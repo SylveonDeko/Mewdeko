@@ -205,10 +205,7 @@ public class Blackjack
         {
             foreach (var usr in Players)
             {
-                if (usr.State is User.UserState.Stand or User.UserState.Blackjack)
-                    usr.State = User.UserState.Won;
-                else
-                    usr.State = User.UserState.Lost;
+                usr.State = usr.State is User.UserState.Stand or User.UserState.Blackjack ? User.UserState.Won : User.UserState.Lost;
             }
         }
         else

@@ -181,7 +181,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             embed.AddField(fb =>
                     fb.WithName($"🌍 {Format.Bold(GetText("location"))}")
                         .WithValue(
-                            $"[{$"{data.Name}, {data.Sys.Country}"}](https://openweathermap.org/city/{data.Id})")
+                            $"[{data.Name}, {data.Sys.Country}](https://openweathermap.org/city/{data.Id})")
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"📏 {Format.Bold(GetText("latlong"))}")
@@ -577,7 +577,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         try
         {
             var items = JsonConvert.DeserializeObject<UrbanResponse>(res)?.List;
-            if (items != null && items.Length > 0)
+            if (items is { Length: > 0 })
             {
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -705,8 +705,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Revav([Remainder] IGuildUser? usr = null)
     {
-        if (usr == null)
-            usr = (IGuildUser)ctx.User;
+        usr ??= (IGuildUser)ctx.User;
 
         var av = usr.RealAvatarUrl();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

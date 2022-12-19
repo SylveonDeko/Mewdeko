@@ -7,6 +7,7 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Serilog;
@@ -93,13 +94,13 @@ public class XpService : INService, IUnloadableService
 
         using var uow = db.GetDbContext();
         //load settings
-        var allGuildConfigs = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var allGuildConfigs = uow.GuildConfigs.Include(x => x.XpSettings).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         XpTxtRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
         excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(uow.XpSettingsFor(x.GuildId).GetAwaiter().GetResult().ExclusionList
+            x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 

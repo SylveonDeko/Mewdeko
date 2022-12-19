@@ -37,25 +37,22 @@ public class CommandMapService : IInputTransformer, INService
         if (guild == null || string.IsNullOrWhiteSpace(input))
             return input;
 
-        if (guild != null)
-        {
-            if (AliasMaps.TryGetValue(guild.Id, out var maps))
-            {
-                var keys = maps.Keys
-                    .OrderByDescending(x => x.Length);
+        // ReSharper disable once HeuristicUnreachableCode
+        if (guild == null) return input;
+        if (!AliasMaps.TryGetValue(guild.Id, out var maps)) return input;
+        var keys = maps.Keys
+            .OrderByDescending(x => x.Length);
 
-                foreach (var k in keys)
-                {
-                    string newInput;
-                    if (input.StartsWith($"{k} ", StringComparison.InvariantCultureIgnoreCase))
-                        newInput = string.Concat(maps[k], input.AsSpan(k.Length, input.Length - k.Length));
-                    else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
-                        newInput = maps[k];
-                    else
-                        continue;
-                    return newInput;
-                }
-            }
+        foreach (var k in keys)
+        {
+            string newInput;
+            if (input.StartsWith($"{k} ", StringComparison.InvariantCultureIgnoreCase))
+                newInput = string.Concat(maps[k], input.AsSpan(k.Length, input.Length - k.Length));
+            else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
+                newInput = maps[k];
+            else
+                continue;
+            return newInput;
         }
 
         return input;

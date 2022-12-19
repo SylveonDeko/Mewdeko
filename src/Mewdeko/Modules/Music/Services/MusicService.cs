@@ -157,7 +157,7 @@ public class MusicService : INService
                             await player.PlayAsync(lavaTrack).ConfigureAwait(false);
                             await player.SetVolumeAsync(await GetVolume(guild.Id).ConfigureAwait(false) / 100.0F).ConfigureAwait(false);
                             await ModifySettingsInternalAsync(guild.Id,
-                                (settings, _) => settings.MusicChannelId = chan.Id, chan.Id).ConfigureAwait(false);
+                                (musicPlayerSettings, _) => musicPlayerSettings.MusicChannelId = chan.Id, chan.Id).ConfigureAwait(false);
                         }
 
                         addedcount++;
@@ -218,7 +218,7 @@ public class MusicService : INService
                             await player.PlayAsync(lavaTrack).ConfigureAwait(false);
                             await player.SetVolumeAsync(await GetVolume(guild.Id).ConfigureAwait(false) / 100.0F).ConfigureAwait(false);
                             await ModifySettingsInternalAsync(guild.Id,
-                                (settings, _) => settings.MusicChannelId = chan.Id, chan.Id).ConfigureAwait(false);
+                                (musicPlayerSettings, _) => musicPlayerSettings.MusicChannelId = chan.Id, chan.Id).ConfigureAwait(false);
                         }
 
                         addedcount++;
@@ -265,7 +265,7 @@ public class MusicService : INService
                 {
                     await player.PlayAsync(lavaTrack3).ConfigureAwait(false);
                     await player.SetVolumeAsync(await GetVolume(guild.Id).ConfigureAwait(false) / 100.0F).ConfigureAwait(false);
-                    await ModifySettingsInternalAsync(guild.Id, (settings, _) => settings.MusicChannelId = chan.Id,
+                    await ModifySettingsInternalAsync(guild.Id, (musicPlayerSettings, _) => musicPlayerSettings.MusicChannelId = chan.Id,
                         chan.Id).ConfigureAwait(false);
                 }
 
@@ -313,11 +313,11 @@ public class MusicService : INService
             return;
         }
 
-        var client = await GetSpotifyClient();
+        var spotifyClient = await GetSpotifyClient();
         var lastSong = GetQueue(guild.Id).LastOrDefault();
         if (lastSong is null)
             return;
-        var result = await client.Search.Item(new SearchRequest(SearchRequest.Types.Track, lastSong.Title));
+        var result = await spotifyClient.Search.Item(new SearchRequest(SearchRequest.Types.Track, lastSong.Title));
         if (creds.SpotifyClientId.IsNullOrWhiteSpace() || !result.Tracks.Items.Any())
         {
             if (!lastSong.SourceName.Contains("youtube"))
@@ -335,7 +335,7 @@ public class MusicService : INService
         }
 
         var song = result.Tracks.Items.FirstOrDefault();
-        var recommendations = await client.Browse.GetRecommendations(new RecommendationsRequest
+        var recommendations = await spotifyClient.Browse.GetRecommendations(new RecommendationsRequest
         {
             Limit = 5,
             SeedTracks =
@@ -388,11 +388,11 @@ public class MusicService : INService
 
     private async Task<SpotifyClient> GetSpotifyClient()
     {
-        var config = SpotifyClientConfig.CreateDefault();
+        var spotifyClientConfig = SpotifyClientConfig.CreateDefault();
         var request =
             new ClientCredentialsRequest(creds.SpotifyClientId, creds.SpotifyClientSecret);
-        var response = await new OAuthClient(config).RequestToken(request).ConfigureAwait(false);
-        return new SpotifyClient(config.WithToken(response.AccessToken));
+        var response = await new OAuthClient(spotifyClientConfig).RequestToken(request).ConfigureAwait(false);
+        return new SpotifyClient(spotifyClientConfig.WithToken(response.AccessToken));
     }
 
     public async Task Skip(IGuild guild, ITextChannel? chan, LavalinkPlayer player, IInteractionContext? ctx = null, int num = 1)
@@ -479,8 +479,8 @@ public class MusicService : INService
 
     public async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
     {
-        if (this.settings.TryGetValue(guildId, out var settings))
-            return settings;
+        if (this.settings.TryGetValue(guildId, out var musicPlayerSettings))
+            return musicPlayerSettings;
 
         await using var uow = db.GetDbContext();
         var toReturn = this.settings[guildId] = await uow.MusicPlayerSettings.ForGuildAsync(guildId).ConfigureAwait(false);

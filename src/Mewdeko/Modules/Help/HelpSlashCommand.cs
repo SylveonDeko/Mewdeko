@@ -69,14 +69,14 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
-        var cmds = this.cmds.Commands.Where(c =>
+        var commandInfos = this.cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
                     .StartsWith(module, StringComparison.InvariantCulture) && !permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
         // check preconditions for all commands, but only if it's not 'all'
         // because all will show all commands anyway, no need to check
-        var succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
+        var succ = new HashSet<CommandInfo>((await Task.WhenAll(commandInfos.Select(async x =>
             {
                 var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider).ConfigureAwait(false);
                 return (Cmd: x, Succ: pre.IsSuccess);
@@ -84,11 +84,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .Where(x => x.Succ)
             .Select(x => x.Cmd));
 
-        var cmdsWithGroup = cmds
+        var cmdsWithGroup = commandInfos
             .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
             .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
-        if (!cmds.Any())
+        if (!commandInfos.Any())
         {
             await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
             return;

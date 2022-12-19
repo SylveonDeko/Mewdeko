@@ -110,8 +110,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num)
     {
-        var client = new NHentaiClient();
-        var book = await client.GetBookAsync(num).ConfigureAwait(false);
+        var nHentaiClient = new NHentaiClient();
+        var book = await nHentaiClient.GetBookAsync(num).ConfigureAwait(false);
         var title = book.Title.English;
         var pages = book.Images.Pages;
         var tags = book.Tags.Select(i => i.Name).ToList();
@@ -146,9 +146,9 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",
         string? exclude = null)
     {
-        var client = new NHentaiClient();
+        var nHentaiClient = new NHentaiClient();
 
-        var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
+        var result = await nHentaiClient.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
         if (result.Result.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!").ConfigureAwait(false);
@@ -177,7 +177,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 .AddField("NHentai Magic URL",
                     $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
                 .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
-                .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
+                .WithImageUrl(nHentaiClient.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
         }
     }
 

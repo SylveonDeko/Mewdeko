@@ -118,7 +118,7 @@ public class HelpService : ILateExecutor, INService
 
     public string? GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
 
-    public Task LateExecute(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
+    public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild? guild, IUserMessage msg)
     {
         var settings = bss.Data;
         if (guild != null) return Task.CompletedTask;
