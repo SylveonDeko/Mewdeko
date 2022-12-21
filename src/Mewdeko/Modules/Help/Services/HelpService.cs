@@ -186,7 +186,7 @@ public class HelpService : ILateExecutor, INService
         var str = $"**{prefix + com.Aliases[0]}**";
         var alias = com.Aliases.Skip(1).FirstOrDefault();
         if (alias != null)
-            str += $" **/{prefix + alias}**";
+            str += $" **| {prefix + alias}**";
         var em = new EmbedBuilder().AddField(fb =>
             fb.WithName(str).WithValue($"{com.RealSummary(strings, guild.Id, prefix)}").WithIsInline(true));
 
