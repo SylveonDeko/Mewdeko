@@ -2797,7 +2797,7 @@ multigreetdisable:
 nameban:
   args:
     - 'shit'
-  desc: Bans users that contain the inputted name.
+  desc: Bans users that contain the inputted name. Supports regex.
 pingip:
   args:
     - '127.0.0.1'
