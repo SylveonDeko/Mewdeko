@@ -115,7 +115,10 @@ public class UserPunishService2 : INService
                 case PunishmentAction.Ban:
                     if (p.Time == 0)
                     {
-                        await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
+                        await guild.AddBanAsync(user, options: new RequestOptions
+                        {
+                            AuditLogReason = $"Warned too many times"
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
@@ -125,7 +128,10 @@ public class UserPunishService2 : INService
 
                     break;
                 case PunishmentAction.Softban:
-                    await guild.AddBanAsync(user, 7, "Warned too many times").ConfigureAwait(false);
+                    await guild.AddBanAsync(user, 7, options: new RequestOptions
+                    {
+                        AuditLogReason = "Warned too many times"
+                    }).ConfigureAwait(false);
                     try
                     {
                         await guild.RemoveBanAsync(user).ConfigureAwait(false);
