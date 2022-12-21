@@ -485,7 +485,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         {
             if (time != default)
             {
-                await ctx.Guild.AddBanAsync(userId, time.Days, $"{ctx.User} | {reason}").ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(userId, time.Days, options: new RequestOptions
+                {
+                    AuditLogReason = $"{ctx.User} | {reason}"
+                }).ConfigureAwait(false);
 
                 await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithTitle($"⛔️ {GetText("banned_user")}")
                         .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)).Build())
@@ -493,7 +496,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             }
             else
             {
-                await ctx.Guild.AddBanAsync(userId, 7, $"{ctx.User} | {reason}").ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(userId, 7, options: new RequestOptions
+                {
+                    AuditLogReason = $"{ctx.User} | {reason}"
+                }).ConfigureAwait(false);
 
                 await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -522,7 +528,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, time.Days, $"{ctx.User} | {reason}").ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(user, time.Days, options: new RequestOptions
+                {
+                    AuditLogReason = $"{ctx.User} | {reason}"
+                }).ConfigureAwait(false);
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -554,7 +563,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, 7, $"{ctx.User} | {reason}").ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+                {
+                    AuditLogReason = $"{ctx.User} | {reason}"
+                }).ConfigureAwait(false);
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -613,7 +625,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             dmFailed = true;
         }
 
-        await ctx.Guild.AddBanAsync(user, 7, $"Softban | {ctx.User} | {msg}").ConfigureAwait(false);
+        await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+        {
+            AuditLogReason = $"Softban: {ctx.User} | {msg}"
+        }).ConfigureAwait(false);
         try
         {
             await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);

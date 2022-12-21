@@ -2788,8 +2788,24 @@ rolegreetdelete:
     is 0.
 rolegreetdisable:
   args:
-    - '1'
+    - '1 true/false'
   desc: Disables a RoleGreet by Id
+multigreetdisable:
+  args:
+    - '1 true/false'
+  desc: Disables a MultiGreet by Id
+nameban:
+  args:
+    - 'shit'
+  desc: Bans users that contain the inputted name.
+pingip:
+  args:
+    - '127.0.0.1'
+  desc: Gets the average ping for an IP
+traceroute:
+  args:
+    - '127.0.0.1'
+  desc: Show's the hops madeto get to an IP Address
 rolegreetgreetbots:
   args:
     - 1 false

@@ -452,7 +452,10 @@ public class MuteService : INService
 
     public async Task TimedBan(IGuild guild, IUser user, TimeSpan after, string reason, TimeSpan todelete = default)
     {
-        await guild.AddBanAsync(user.Id, todelete.Days, reason).ConfigureAwait(false);
+        await guild.AddBanAsync(user.Id, todelete.Days, options: new RequestOptions
+        {
+            AuditLogReason = reason
+        }).ConfigureAwait(false);
         var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
         {

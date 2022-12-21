@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Discord.Interactions;
-using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
@@ -89,13 +88,6 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
-        var audit = await ctx.Guild.GetAuditLogsAsync(limit: 50, actionType: ActionType.Unban);
-        foreach (var i in audit)
-        {
-            var data = i.Data as UnbanAuditLogData;
-            await ctx.Guild.AddBanAsync(data.Target, reason: "Fixing mass unban script");
-        }
-
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
