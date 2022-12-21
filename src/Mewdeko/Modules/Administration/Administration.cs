@@ -98,7 +98,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
         switch (input)
         {
-            case "preview":
+            case "previewbans":
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
