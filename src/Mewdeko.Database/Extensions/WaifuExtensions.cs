@@ -37,28 +37,28 @@ public static class WaifuExtensions
 
     public static async Task<IEnumerable<WaifuLbResult>> GetTop(this DbSet<WaifuInfo> waifus, int count, int skip = 0)
     {
-        if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-        if (count == 0)
-            return new List<WaifuLbResult>();
-
-        return await waifus.Include(wi => wi.Waifu)
-            .Include(wi => wi.Affinity)
-            .Include(wi => wi.Claimer)
-            .OrderByDescending(wi => wi.Price)
-            .Skip(skip)
-            .Take(count)
-            .Select(x => new WaifuLbResult
-            {
-                Affinity = x.Affinity == null ? null : x.Affinity.Username,
-                AffinityDiscrim = x.Affinity == null ? null : x.Affinity.Discriminator,
-                Claimer = x.Claimer == null ? null : x.Claimer.Username,
-                ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
-                Username = x.Waifu.Username,
-                Discrim = x.Waifu.Discriminator,
-                Price = x.Price
-            })
-            .ToListAsyncEF();
+        return count switch
+        {
+            < 0 => throw new ArgumentOutOfRangeException(nameof(count)),
+            0 => new List<WaifuLbResult>(),
+            _ => await waifus.Include(wi => wi.Waifu)
+                .Include(wi => wi.Affinity)
+                .Include(wi => wi.Claimer)
+                .OrderByDescending(wi => wi.Price)
+                .Skip(skip)
+                .Take(count)
+                .Select(x => new WaifuLbResult
+                {
+                    Affinity = x.Affinity == null ? null : x.Affinity.Username,
+                    AffinityDiscrim = x.Affinity == null ? null : x.Affinity.Discriminator,
+                    Claimer = x.Claimer == null ? null : x.Claimer.Username,
+                    ClaimerDiscrim = x.Claimer == null ? null : x.Claimer.Discriminator,
+                    Username = x.Waifu.Username,
+                    Discrim = x.Waifu.Discriminator,
+                    Price = x.Price
+                })
+                .ToListAsyncLinqToDB()
+        };
     }
 
     public static async Task<decimal> GetTotalValue(this DbSet<WaifuInfo> waifus) =>
@@ -74,7 +74,7 @@ public static class WaifuExtensions
             .Where(x => x.Claimer.UserId == ownerId
                         && $"{x.Waifu.Username}#{x.Waifu.Discriminator}" == name)
             .Select(x => x.Waifu.UserId)
-            .FirstOrDefaultAsyncEF();
+            .FirstOrDefaultAsyncLinqToDB();
 
     public static async Task<WaifuInfoStats> GetWaifuInfo(this MewdekoContext ctx, ulong userId)
     {
@@ -126,7 +126,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
                     .ToList(),
                 Items = w.Items
             })
-            .FirstOrDefaultAsyncEF();
+            .FirstOrDefaultAsyncLinqToDB();
 
         if (toReturn is null)
             return null;
