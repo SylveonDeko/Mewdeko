@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
@@ -82,8 +83,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task NameBan([Remainder] string name)
     {
+        var regex = new Regex(name, RegexOptions.Compiled, matchTimeout: TimeSpan.FromMilliseconds(200));
         var users = await ctx.Guild.GetUsersAsync();
-        users = users.Where(x => x.Username.ToLower().Contains(name.ToLower())).ToList();
+        users = users.Where(x => regex.IsMatch(x.Username.ToLower())).ToList();
         if (!users.Any())
         {
             await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} No users with that name found! Please try again with a different query.");
