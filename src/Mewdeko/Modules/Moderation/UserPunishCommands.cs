@@ -484,7 +484,10 @@ public partial class Moderation : MewdekoModule
                 userId).ConfigureAwait(false);
             if (user is null)
             {
-                await ctx.Guild.AddBanAsync(userId, 7, $"{ctx.User} | {msg}").ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(userId, 7, options: new RequestOptions
+                {
+                    AuditLogReason = $"{ctx.User} | {msg}"
+                }).ConfigureAwait(false);
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -501,7 +504,10 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
         {
-            await ctx.Guild.AddBanAsync(userId, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(userId, time.Time.Days, options: new RequestOptions
+            {
+                AuditLogReason = $"{ctx.User} | {msg}"
+            }).ConfigureAwait(false);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -533,7 +539,10 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, $"{ctx.User} | {msg}").ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+            {
+                AuditLogReason = $"{ctx.User} | {msg}"
+            }).ConfigureAwait(false);
 
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -571,7 +580,10 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, time.Time.Days, $"{ctx.User} | {msg}").ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, time.Time.Days, options: new RequestOptions
+            {
+                AuditLogReason = $"{ctx.User} | {msg}"
+            }).ConfigureAwait(false);
 
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle($"⛔️ {GetText("banned_user")}")
@@ -723,7 +735,10 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, $"Softban | {ctx.User} | {msg}").ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+            {
+                AuditLogReason = $"Softban: {ctx.User} | {msg}"
+            }).ConfigureAwait(false);
             try
             {
                 await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
@@ -814,9 +829,9 @@ public partial class Moderation : MewdekoModule
             //do the banning
             await Task.WhenAll(bans
                     .Where(x => x.id.HasValue)
-                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, 7, x.Reason, new RequestOptions
+                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, 7, "", new RequestOptions
                     {
-                        RetryMode = RetryMode.AlwaysRetry
+                        RetryMode = RetryMode.AlwaysRetry, AuditLogReason = x.Reason
                     })))
                 .ConfigureAwait(false);
 

@@ -256,14 +256,20 @@ public class FilterService : IEarlyBehavior, INService
                     $"Banned for saying autoban word {i}", null).ConfigureAwait(false);
                 await (await msg.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed.Item2, embeds: embed.Item1, components: embed.Item3.Build())
                     .ConfigureAwait(false);
-                await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected").ConfigureAwait(false);
+                await guild.AddBanAsync(msg.Author, 0, options: new RequestOptions
+                {
+                    AuditLogReason = $"AutoBan word detected: {i}"
+                }).ConfigureAwait(false);
                 return true;
             }
             catch
             {
                 try
                 {
-                    await guild.AddBanAsync(msg.Author, 7, "Auto Ban Word Detected").ConfigureAwait(false);
+                    await guild.AddBanAsync(msg.Author, 1, options: new RequestOptions
+                    {
+                        AuditLogReason = $"AutoBan word detected: {i}"
+                    }).ConfigureAwait(false);
                     return true;
                 }
                 catch
