@@ -220,7 +220,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         if (e == "no")
         {
-            var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true).ConfigureAwait(false);
+            var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
             if (toprune == 0)
             {
                 await ctx.Channel.SendErrorAsync(
@@ -279,7 +279,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                     includeRoleIds: new[]
                     {
                         await Service.GetMemberRole(ctx.Guild.Id)
-                    }).ConfigureAwait(false);
+                    });
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.", Color = Mewdeko.OkColor
