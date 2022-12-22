@@ -2,7 +2,9 @@
 using Discord.Interactions;
 using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
@@ -314,5 +316,19 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             .AddField(efb =>
                 efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
             .WithImageUrl(avatarUrl).Build()).ConfigureAwait(false);
+    }
+
+    [SlashCommand("timestamp", "Converts your local time to a universal timestamp")]
+    public async Task GenerateTimestamp
+    (
+        [Autocomplete(typeof(TimeZoneAutocompleter)), Summary("timezone", "your timezone")] string tz,
+        [Summary("time", "the time you want to generate a timestamp for")] DateTime time,
+        [Summary("format", "How should the timestamp be formatted")] TimestampTagStyles format = TimestampTagStyles.ShortDateTime
+    )
+    {
+        var timezone = TimeZoneInfo.FindSystemTimeZoneById(tz);
+        var utc = TimeZoneInfo.ConvertTimeToUtc(time, timezone);
+        var tag = TimestampTag.FromDateTimeOffset(utc, format);
+        await ctx.Interaction.SendEphemeralConfirmAsync($"{tag} (`{tag}`)");
     }
 }
