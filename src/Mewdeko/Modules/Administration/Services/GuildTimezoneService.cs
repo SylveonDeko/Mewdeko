@@ -10,9 +10,8 @@ public class GuildTimezoneService : INService
     public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
         using var uow = db.GetDbContext();
-        timezones = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId))
+        timezones = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).AsEnumerable()
             .Select(GetTimzezoneTuple)
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             .Where(x => x.Timezone != null)
             .ToDictionary(x => x.GuildId, x => x.Timezone)
             .ToConcurrent();
@@ -40,10 +39,7 @@ public class GuildTimezoneService : INService
         TimeZoneInfo tz;
         try
         {
-            if (x.TimeZoneId == null)
-                tz = null;
-            else
-                tz = TimeZoneInfo.FindSystemTimeZoneById(x.TimeZoneId);
+            tz = x.TimeZoneId == null ? null : TimeZoneInfo.FindSystemTimeZoneById(x.TimeZoneId);
         }
         catch
         {

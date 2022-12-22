@@ -23,10 +23,7 @@ public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
             input = input[prefix.Length..];
         var cmd = cmds?.Commands.FirstOrDefault(c =>
             c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
-        if (cmd == null)
-            return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found.");
-
-        return TypeReaderResult.FromSuccess(cmd);
+        return cmd == null ? TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found.") : TypeReaderResult.FromSuccess(cmd);
     }
 }
 

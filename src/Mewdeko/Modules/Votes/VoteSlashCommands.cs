@@ -50,7 +50,6 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
                         .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
                         .WithOverride("%votestotalcount%", () => votes.Count.ToString())
                         .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
-                    ;
 
                     if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
                     {
@@ -234,7 +233,7 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
             for (var i = 0; i < voteList.Count; i++)
             {
                 eb.AddField(
-                    $"#{i + 1 + (page * 12)} {voteList[i].User.ToString()}",
+                    $"#{i + 1 + (page * 12)} {voteList[i].User}",
                     $"{voteList[i].VoteCount}");
             }
 

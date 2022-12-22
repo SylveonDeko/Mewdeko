@@ -355,14 +355,7 @@ public class GiveawayService : INService, IReadyExecutor
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {
-            var eb = new EmbedBuilder().WithErrorColor()
-                .WithDescription(
-                    "Giveaway failed because the emote used in this giveaway is invalid!");
-            await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
-            r.Ended = 1;
-            uow.Giveaways.Update(r);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            return;
+            await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
         }
 
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
@@ -414,6 +407,7 @@ public class GiveawayService : INService, IReadyExecutor
                             "Looks like nobody that actually met the role requirements joined..")
                         .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1).ConfigureAwait(false);
+                    return;
                 }
 
                 var rand = new Random();
@@ -438,7 +432,8 @@ public class GiveawayService : INService, IReadyExecutor
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
-                    foreach (var i in r.RestrictTo.Split(" "))
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
                     {
                         if (ulong.TryParse(i, out var parsed))
                         {
@@ -472,9 +467,7 @@ public class GiveawayService : INService, IReadyExecutor
                 var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
-                    Description =
-                        $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
+                    Color = Mewdeko.OkColor, Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 foreach (var winners2 in winners.Chunk(50))

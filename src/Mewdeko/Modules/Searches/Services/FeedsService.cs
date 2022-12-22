@@ -22,7 +22,7 @@ public class FeedsService : INService
 
         using (var uow = db.GetDbContext())
         {
-            var guildConfigIds = uow.GuildConfigs.All().Where(x => bot.Client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).Select(x => x.Id);
+            var guildConfigIds = uow.GuildConfigs.Where(x => bot.Client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).Select(x => x.Id);
             subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))
@@ -79,21 +79,15 @@ public class FeedsService : INService
                                 if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                                 {
                                     var previewElement = atomFeedItem.Element.Elements()
-                                        .FirstOrDefault(x => x.Name.LocalName == "preview");
+                                        .FirstOrDefault(x => x.Name.LocalName == "preview") ?? atomFeedItem.Element.Elements()
+                                        .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
 
-                                    if (previewElement == null)
-                                        previewElement = atomFeedItem.Element.Elements()
-                                            .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-
-                                    if (previewElement != null)
+                                    var urlAttribute = previewElement?.Attribute("url");
+                                    if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                                             && Uri.IsWellFormedUriString(urlAttribute.Value,
+                                                                 UriKind.Absolute))
                                     {
-                                        var urlAttribute = previewElement.Attribute("url");
-                                        if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
-                                                                 && Uri.IsWellFormedUriString(urlAttribute.Value,
-                                                                     UriKind.Absolute))
-                                        {
-                                            return urlAttribute.Value;
-                                        }
+                                        return urlAttribute.Value;
                                     }
                                 }
 
@@ -145,21 +139,15 @@ public class FeedsService : INService
                         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
                         {
                             var previewElement = afi.Element.Elements()
-                                .FirstOrDefault(x => x.Name.LocalName == "preview");
+                                .FirstOrDefault(x => x.Name.LocalName == "preview") ?? afi.Element.Elements()
+                                .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
 
-                            if (previewElement == null)
-                                previewElement = afi.Element.Elements()
-                                    .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-
-                            if (previewElement != null)
+                            var urlAttribute = previewElement?.Attribute("url");
+                            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                                     && Uri.IsWellFormedUriString(urlAttribute.Value,
+                                                         UriKind.Absolute))
                             {
-                                var urlAttribute = previewElement.Attribute("url");
-                                if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
-                                                         && Uri.IsWellFormedUriString(urlAttribute.Value,
-                                                             UriKind.Absolute))
-                                {
-                                    embed.WithImageUrl(urlAttribute.Value);
-                                }
+                                embed.WithImageUrl(urlAttribute.Value);
                             }
                         }
 
@@ -210,8 +198,8 @@ public class FeedsService : INService
             {
                 if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                 {
-                    var previewElement = atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
-                    if (previewElement == null) previewElement = atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+                    var previewElement = atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview") ??
+                                         atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
                     var urlAttribute = previewElement?.Attribute("url");
                     if (urlAttribute != null
                         && !string.IsNullOrWhiteSpace(urlAttribute.Value)
@@ -246,15 +234,12 @@ public class FeedsService : INService
 
         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
         {
-            var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
-            if (previewElement == null) previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-            if (previewElement != null)
+            var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview") ??
+                                 afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+            var urlAttribute = previewElement?.Attribute("url");
+            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
             {
-                var urlAttribute = previewElement.Attribute("url");
-                if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
-                {
-                    embed.WithImageUrl(urlAttribute.Value);
-                }
+                embed.WithImageUrl(urlAttribute.Value);
             }
         }
 
@@ -271,7 +256,7 @@ public class FeedsService : INService
             ? Task.FromResult((embed, content, components))
             : Task.FromResult<(Embed[], string, ComponentBuilder)>((Array.Empty<Embed>(), message, null));
 
-    public List<FeedSub> GetFeeds(ulong guildId)
+    public List<FeedSub?> GetFeeds(ulong guildId)
     {
         using var uow = db.GetDbContext();
         return uow.ForGuildId(guildId,

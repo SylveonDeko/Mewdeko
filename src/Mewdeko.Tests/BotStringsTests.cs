@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Discord.Commands;
@@ -26,12 +27,13 @@ public class CommandStringsTests
         var culture = new CultureInfo("en-US");
 
         var isSuccess = true;
-        foreach (var entry in CommandNameLoadHelper.LoadCommandNames(AliasesPath))
+        foreach (var commandName in from entry in CommandNameLoadHelper.LoadCommandNames(AliasesPath)
+                 select entry.Value[0]
+                 into commandName
+                 let cmdStrings = strings.GetCommandStrings(culture.Name, commandName)
+                 where cmdStrings is null
+                 select commandName)
         {
-            var commandName = entry.Value[0];
-
-            var cmdStrings = strings.GetCommandStrings(culture.Name, commandName);
-            if (cmdStrings is not null) continue;
             isSuccess = false;
             TestContext.Out.WriteLine($"{commandName} doesn't exist in commands.en-US.yml");
         }
@@ -39,7 +41,7 @@ public class CommandStringsTests
         Assert.IsTrue(isSuccess);
     }
 
-    private static string[] GetCommandMethodNames()
+    private static IEnumerable<string> GetCommandMethodNames()
         => typeof(Mewdeko).Assembly
             .GetExportedTypes()
             .Where(type => type.IsClass && !type.IsAbstract)

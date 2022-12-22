@@ -51,8 +51,6 @@ public class GamesService : INService, IUnloadableService
     public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new();
     public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new();
 
-    public AsyncLazy<RatingTexts> Ratings { get; }
-
     public async Task Unload()
     {
         AcrophobiaGames.ForEach(x => x.Value.Dispose());
@@ -85,24 +83,13 @@ public class GamesService : INService, IUnloadableService
 
     public TypingArticle? RemoveTypingArticle(int index)
     {
-        var articles = TypingArticles;
-        if (index < 0 || index >= articles.Count)
+        if (index < 0 || index >= TypingArticles.Count)
             return null;
 
-        var removed = articles[index];
+        var removed = TypingArticles[index];
         TypingArticles.RemoveAt(index);
 
-        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(articles));
+        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
         return removed;
-    }
-
-    public class RatingTexts
-    {
-        public string Nog { get; set; }
-        public string Fun { get; set; }
-        public string Uni { get; set; }
-        public string Wif { get; set; }
-        public string Dat { get; set; }
-        public string Dan { get; set; }
     }
 }

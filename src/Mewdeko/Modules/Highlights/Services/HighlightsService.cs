@@ -316,8 +316,8 @@ public class HighlightsService : INService, IReadyExecutor
 
     public List<Database.Models.Highlights?> GetForGuild(ulong guildId)
     {
-        var cache = this.cache.GetHighlightsForGuild(guildId);
-        if (cache is not null) return cache;
+        var highlightsForGuild = this.cache.GetHighlightsForGuild(guildId);
+        if (highlightsForGuild is not null) return highlightsForGuild;
         using var uow = db.GetDbContext();
         var highlights = uow.Highlights.Where(x => x.GuildId == guildId).ToList();
         if (highlights.Count == 0) return new List<Database.Models.Highlights?>();
@@ -327,8 +327,8 @@ public class HighlightsService : INService, IReadyExecutor
 
     public IEnumerable<HighlightSettings?> GetSettingsForGuild(ulong guildId)
     {
-        var cache = this.cache.GetHighlightSettingsForGuild(guildId);
-        if (cache is not null) return cache;
+        var highlightSettingsForGuild = this.cache.GetHighlightSettingsForGuild(guildId);
+        if (highlightSettingsForGuild is not null) return highlightSettingsForGuild;
         using var uow = db.GetDbContext();
         var highlightSettings = uow.HighlightSettings.Where(x => x.GuildId == guildId).ToList();
         if (highlightSettings.Count == 0) return new List<HighlightSettings?>();

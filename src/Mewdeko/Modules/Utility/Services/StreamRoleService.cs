@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Data.Entity;
+using System.Net;
 using System.Threading.Tasks;
 using Discord.Net;
 using Mewdeko.Common.TypeReaders;
@@ -19,10 +20,10 @@ public class StreamRoleService : INService, IUnloadableService
         this.db = db;
         this.eventHandler = eventHandler;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.StreamRole).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         guildSettings = gc
             .ToDictionary(x => x.GuildId, x => x.StreamRole)
-            .Where(x => x.Value != null && x.Value.Enabled)
+            .Where(x => x.Value is { Enabled: true })
             .ToConcurrent();
 
         eventHandler.GuildMemberUpdated += Client_GuildMemberUpdated;

@@ -451,7 +451,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         triggers.ForEach(x => roles.AddRange(x.GetGrantedRoles()));
         triggers.ForEach(x => roles.AddRange(x.GetRemovedRoles()));
 
-        if (roles.Count > 0 && !roles.Any(y => !user.Guild.GetRole(y).CanManageRole(user)))
+        if (roles.Count > 0 && roles.All(y => user.Guild.GetRole(y).CanManageRole(user)))
             return false;
 
         await uow.ChatTriggers.AddRangeAsync(triggers).ConfigureAwait(false);
@@ -812,7 +812,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public async Task<bool> ReactionExists(ulong? guildId, string input)
     {
-        using var uow = db.GetDbContext();
+        await using var uow = db.GetDbContext();
         var ct = await uow.ChatTriggers.GetByGuildIdAndInput(guildId, input);
         return ct != null;
     }

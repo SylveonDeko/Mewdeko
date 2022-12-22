@@ -44,6 +44,12 @@ public partial class Utility
         {
             RestGuild? guild = null;
             var invinfo = await client.Rest.GetInviteAsync(text).ConfigureAwait(false);
+            if (!invinfo.GuildId.HasValue)
+            {
+                await ctx.Channel.SendErrorAsync("That invite was not found. Please make sure it's valid and not a vanity.");
+                return;
+            }
+
             try
             {
                 guild = await client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);

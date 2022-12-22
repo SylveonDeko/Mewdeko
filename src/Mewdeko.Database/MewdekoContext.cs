@@ -40,6 +40,7 @@ public class MewdekoContext : DbContext
     public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
     public DbSet<RoleGreet> RoleGreets { get; set; }
     public DbSet<Highlights> Highlights { get; set; }
+    public DbSet<CommandStats> CommandStats { get; set; }
     public DbSet<HighlightSettings> HighlightSettings { get; set; }
     public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
     public DbSet<ChatTriggers> ChatTriggers { get; set; }

@@ -13,18 +13,12 @@ public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
 
     public abstract Task<bool> IsTagValid(string tag, CancellationToken cancel = default);
 
-    protected async Task<bool> AllTagsValid(string[] tags, CancellationToken cancel = default)
+    protected async Task<bool> AllTagsValid(IEnumerable<string> tags, CancellationToken cancel = default)
     {
         var results = await Task.WhenAll(tags.Select(tag => IsTagValid(tag, cancel))).ConfigureAwait(false);
 
         // if any of the tags is not valid, the query is not valid
-        foreach (var result in results)
-        {
-            if (!result)
-                return false;
-        }
-
-        return true;
+        return results.All(result => result);
     }
 
     public override async Task<List<DapiImageObject>> DownloadImagesAsync(string[] tags, int page,

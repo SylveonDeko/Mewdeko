@@ -18,7 +18,6 @@ public record UrlReply
 
 public class SearchImagesService : ISearchImagesService, INService
 {
-    private readonly Random rng;
     private readonly HttpClient http;
     private readonly SearchImageCacher cache;
     private readonly DbService db;
@@ -33,13 +32,12 @@ public class SearchImagesService : ISearchImagesService, INService
         SearchImageCacher cacher, DiscordSocketClient client,
         DbService db)
     {
-        rng = new MewdekoRandom();
         this.http = http.CreateClient();
         this.http.AddFakeHeaders();
         cache = cacher;
         this.db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.NsfwBlacklistedTags).Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
         blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,

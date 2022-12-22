@@ -28,11 +28,9 @@ public static class ServiceCollectionExtensions
 
         foreach (var type in Assembly.GetCallingAssembly().ExportedTypes.Where(x => x.IsSealed))
         {
-            if (type.BaseType?.IsGenericType == true && type.BaseType.GetGenericTypeDefinition() == baseType)
-            {
-                services.AddSingleton(type);
-                services.AddSingleton(x => (IConfigService)x.GetRequiredService(type));
-            }
+            if (type.BaseType?.IsGenericType != true || type.BaseType.GetGenericTypeDefinition() != baseType) continue;
+            services.AddSingleton(type);
+            services.AddSingleton(x => (IConfigService)x.GetRequiredService(type));
         }
 
         return services;

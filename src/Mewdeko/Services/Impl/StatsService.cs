@@ -12,21 +12,19 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public DiscordSocketClient Client { get; }
-    public IHttpClientFactory Factory { get; }
-    public IBotCredentials Creds { get; }
-    public ICoordinator Coord { get; }
+    public readonly DiscordSocketClient Client;
+    public readonly IBotCredentials Creds;
+    public readonly ICoordinator Coord;
     private readonly HttpClient http;
     public const string BotVersion = "7.1";
 
     private readonly DateTime started;
 
     public StatsService(
-        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
+        DiscordSocketClient client, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
         HttpClient http)
     {
         Client = client;
-        Factory = factory;
         Creds = creds;
         Coord = coord;
         this.http = http;
