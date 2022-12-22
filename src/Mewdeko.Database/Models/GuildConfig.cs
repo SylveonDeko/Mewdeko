@@ -17,6 +17,7 @@ public class GuildConfig : DbEntity
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
 
     public string AutoAssignRoleId { get; set; } = "0";
+    public bool StatsOptOut { get; set; } = false;
 
     // public string StatusEmbedDefault { get; set; }
     // Starboard

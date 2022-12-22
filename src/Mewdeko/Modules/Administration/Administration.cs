@@ -54,6 +54,16 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         this.downloadTracker = downloadTracker;
     }
 
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    public async Task StatsOptOut()
+    {
+        var optout = await Service.ToggleOptOut(ctx.Guild);
+        if (optout)
+            await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
+        else
+            await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
+    }
+
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {

@@ -80,6 +80,30 @@ public class CommandHandler : INService
     {
         _ = Task.Run(async () =>
         {
+            if (ctx.Guild is not null)
+            {
+                var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
+                if (!gconf.StatsOptOut)
+                {
+                    await using var uow = db.GetDbContext();
+                    var user = await uow.GetOrCreateUser(ctx.User);
+                    if (!user.StatsOptOut)
+                    {
+                        var comStats = new CommandStats
+                        {
+                            ChannelId = ctx.Channel.Id,
+                            GuildId = ctx.Guild.Id,
+                            IsSlash = true,
+                            NameOrId = info.Name,
+                            UserId = ctx.User.Id,
+                            Module = info.Module.Name
+                        };
+                        await uow.CommandStats.AddAsync(comStats);
+                        await uow.SaveChangesAsync();
+                    }
+                }
+            }
+
             if (!result.IsSuccess)
             {
                 await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}").ConfigureAwait(false);
@@ -178,6 +202,30 @@ public class CommandHandler : INService
     {
         _ = Task.Run(async () =>
         {
+            if (ctx.Guild is not null)
+            {
+                var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
+                if (!gconf.StatsOptOut)
+                {
+                    await using var uow = db.GetDbContext();
+                    var user = await uow.GetOrCreateUser(ctx.User);
+                    if (!user.StatsOptOut)
+                    {
+                        var comStats = new CommandStats
+                        {
+                            ChannelId = ctx.Channel.Id,
+                            GuildId = ctx.Guild.Id,
+                            IsSlash = true,
+                            NameOrId = slashInfo.Name,
+                            UserId = ctx.User.Id,
+                            Module = slashInfo.Module.Name
+                        };
+                        await uow.CommandStats.AddAsync(comStats);
+                        await uow.SaveChangesAsync();
+                    }
+                }
+            }
+
             if (!result.IsSuccess)
             {
                 await ctx.Interaction.SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}").ConfigureAwait(false);
@@ -573,6 +621,36 @@ public class CommandHandler : INService
                     messageContent, prefix.Length, services, MultiMatchHandling.Best)
                 .ConfigureAwait(false);
             execTime = Environment.TickCount - execTime;
+            try
+            {
+                if (guild is not null)
+                {
+                    var gconf = await gss.GetGuildConfig(guild.Id);
+                    if (!gconf.StatsOptOut)
+                    {
+                        await using var uow = db.GetDbContext();
+                        var user = await uow.GetOrCreateUser(usrMsg.Author);
+                        if (!user.StatsOptOut)
+                        {
+                            var comStats = new CommandStats
+                            {
+                                ChannelId = channel.Id,
+                                GuildId = guild.Id,
+                                NameOrId = info.Name,
+                                UserId = usrMsg.Author.Id,
+                                Module = info.Module.Name
+                            };
+                            await uow.CommandStats.AddAsync(comStats);
+                            await uow.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             if (success)
             {
