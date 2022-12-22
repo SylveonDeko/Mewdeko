@@ -110,12 +110,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ListPerms()
     {
-        IList<Permissionv2> perms;
-
-        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
-            perms = permCache.Permissions.Source.ToList();
-        else
-            perms = Permissionv2.GetDefaultPermlist;
+        IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache) ? permCache.Permissions.Source.ToList() : Permissionv2.GetDefaultPermlist;
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)

@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Xp.Services;
 
 public sealed class XpConfigService : ConfigServiceBase<XpConfig>
 {
-    private const string FilePath = "data/xp.yml";
+    private new const string FilePath = "data/xp.yml";
     private static readonly TypedKey<XpConfig> ChangeKey = new("config.xp.updated");
 
     public XpConfigService(IConfigSeria serializer, IPubSub pubSub) : base(FilePath, serializer, pubSub,

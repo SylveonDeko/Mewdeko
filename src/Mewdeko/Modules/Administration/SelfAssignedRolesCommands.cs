@@ -120,11 +120,7 @@ public partial class Administration
 
                 foreach (var kvp in roleGroups)
                 {
-                    string groupNameText;
-                    if (!groups.TryGetValue(kvp.Key, out var name))
-                        groupNameText = Format.Bold(GetText("self_assign_group", kvp.Key));
-                    else
-                        groupNameText = Format.Bold($"{kvp.Key} - {name.TrimTo(25, true)}");
+                    var groupNameText = Format.Bold(!groups.TryGetValue(kvp.Key, out var name) ? GetText("self_assign_group", kvp.Key) : $"{kvp.Key} - {name.TrimTo(25, true)}");
 
                     rolesStr.AppendLine($"\t\t\t\t ⟪{groupNameText}⟫");
                     foreach (var (model, role) in kvp.AsEnumerable())

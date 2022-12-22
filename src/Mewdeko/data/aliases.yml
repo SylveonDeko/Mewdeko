@@ -47,6 +47,19 @@ addtousersover:
 addtousersunder:
   - atuu
   - addtousersunder
+nameban:
+  - nameban
+  - nban
+traceroute:
+  - traceroute
+  - tracert
+  - trcrt
+multigreetdisable:
+  - multigreetdisable
+  - mgdisable
+  - mgdis
+pingip:
+  - pingip
 adduserstorole:
   - adduserstorole
   - autr

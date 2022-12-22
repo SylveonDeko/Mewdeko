@@ -7,5 +7,5 @@ namespace Mewdeko.Common.ModuleBehaviors;
 /// </summary>
 public interface ILateExecutor
 {
-    Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg);
+    Task LateExecute(DiscordSocketClient discordSocketClient, IGuild guild, IUserMessage msg);
 }

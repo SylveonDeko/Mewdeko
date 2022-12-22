@@ -72,7 +72,7 @@ public class SearchesService : INService, IUnloadableService
         this.creds = creds;
         rng = new MewdekoRandom();
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.NsfwBlacklistedTags).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
             gc.ToDictionary(
                 x => x.GuildId,
@@ -367,11 +367,11 @@ public class SearchesService : INService, IUnloadableService
 
         if (guild.HasValue)
         {
-            var blacklistedTags = GetBlacklistedTags(guild.Value);
+            var hashSet = GetBlacklistedTags(guild.Value);
 
             var cacher = imageCacher.GetOrAdd(guild.Value, _ => new SearchImageCacher(httpFactory));
 
-            return cacher.GetImage(tags, isExplicit, type, blacklistedTags);
+            return cacher.GetImage(tags, isExplicit, type, hashSet);
         }
         else
         {
@@ -383,9 +383,7 @@ public class SearchesService : INService, IUnloadableService
 
     public HashSet<string> GetBlacklistedTags(ulong guildId)
     {
-        if (blacklistedTags.TryGetValue(guildId, out var tags))
-            return tags;
-        return new HashSet<string>();
+        return blacklistedTags.TryGetValue(guildId, out var tags) ? tags : new HashSet<string>();
     }
 
     public async Task<bool> ToggleBlacklistedTag(ulong guildId, string tag)
@@ -523,12 +521,7 @@ public class SearchesService : INService, IUnloadableService
             return Array.Empty<MtgData>();
 
         var tasks = new List<Task<MtgData>>(cards.Length);
-        for (var i = 0; i < cards.Length; i++)
-        {
-            var card = cards[i];
-
-            tasks.Add(GetMtgDataAsync(card));
-        }
+        tasks.AddRange(cards.Select(GetMtgDataAsync));
 
         return await Task.WhenAll(tasks).ConfigureAwait(false);
     }
@@ -600,9 +593,9 @@ public class SearchesService : INService, IUnloadableService
     public async Task<int> GetSteamAppIdByName(string query)
     {
         var redis = cache.Redis;
-        var db = redis.GetDatabase();
+        var redisDb = redis.GetDatabase();
         const string steamGameIdsKey = "steam_names_to_appid";
-        await db.KeyExistsAsync(steamGameIdsKey).ConfigureAwait(false);
+        await redisDb.KeyExistsAsync(steamGameIdsKey).ConfigureAwait(false);
 
         // if we didn't get steam name to id map already, get it
         //if (!exists)

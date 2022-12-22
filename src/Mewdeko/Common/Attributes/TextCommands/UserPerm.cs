@@ -34,9 +34,9 @@ public class UserPermAttribute : PreconditionAttribute
             return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
         }
 
-        if (permResult)
-            if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
-                return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
+        if (!permResult) return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
+        if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
+            return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
         return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
     }
 }

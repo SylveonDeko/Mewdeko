@@ -5,7 +5,7 @@ namespace Mewdeko.Votes.Common.PubSub;
 
 public class JsonSeria : ISeria
 {
-    private readonly JsonSerializerOptions _serializerOptions = new()
+    private readonly JsonSerializerOptions serializerOptions = new()
     {
         Converters =
         {
@@ -14,8 +14,8 @@ public class JsonSeria : ISeria
     };
 
     public byte[] Serialize<T>(T data)
-        => JsonSerializer.SerializeToUtf8Bytes(data, _serializerOptions);
+        => JsonSerializer.SerializeToUtf8Bytes(data, serializerOptions);
 
     public T Deserialize<T>(byte[] data)
-        => data is null ? default : JsonSerializer.Deserialize<T>(data, _serializerOptions);
+        => data is null ? default : JsonSerializer.Deserialize<T>(data, serializerOptions);
 }

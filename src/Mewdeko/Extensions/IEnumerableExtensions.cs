@@ -6,13 +6,13 @@ namespace Mewdeko.Extensions;
 
 public static class EnumerableExtensions
 {
-    private static Random random = new();
+    private static readonly Random Random = new();
 
     public static string Join<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
         => string.Join(separator, data.Select(func ?? (x => x?.ToString() ?? string.Empty)));
 
     public static T GetRandomElement<T>(this IEnumerable<T> list)
-        => !list.Any() ? default(T) : list.ElementAt(random.Next(list.Count()));
+        => !list.Any() ? default(T) : list.ElementAt(Random.Next(list.Count()));
 
     public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
     {

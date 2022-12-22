@@ -252,7 +252,7 @@ public class AfkService : INService, IReadyExecutor
                         .WithOverride("%afk.time%", () =>
                             // ReSharper disable once PossibleInvalidOperationException
                             $"{(DateTime.UtcNow - GetAfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}").Build();
-                    var ebe = SmartEmbed.TryParse(replacer.Replace(customafkmessage), (msg.Channel as ITextChannel)?.GuildId, out var embed, out var plainText,
+                    var ebe = SmartEmbed.TryParse(replacer.Replace(customafkmessage), ((ITextChannel)msg.Channel)?.GuildId, out var embed, out var plainText,
                         out var components);
                     if (!ebe)
                     {

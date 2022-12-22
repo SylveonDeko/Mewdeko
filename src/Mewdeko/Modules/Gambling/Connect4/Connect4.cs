@@ -324,10 +324,7 @@ public sealed class Connect4Game : IDisposable
 
             if (CurrentPhase != Phase.Ended)
             {
-                if (CurrentPhase == Phase.P1Move)
-                    CurrentPhase = Phase.P2Move;
-                else
-                    CurrentPhase = Phase.P1Move;
+                CurrentPhase = CurrentPhase == Phase.P1Move ? Phase.P2Move : Phase.P1Move;
 
                 ResetTimer();
             }
