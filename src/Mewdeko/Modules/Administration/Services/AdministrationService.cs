@@ -55,6 +55,17 @@ public class AdministrationService : INService
         return gc.StatsOptOut;
     }
 
+    public async Task<bool> DeleteStatsData(IGuild guild)
+    {
+        await using var uow = db.GetDbContext();
+        var toRemove = uow.CommandStats.Where(x => x.GuildId == guild.Id).ToList();
+        if (!toRemove.Any())
+            return false;
+        uow.CommandStats.RemoveRange(toRemove);
+        await uow.SaveChangesAsync();
+        return true;
+    }
+
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
         await using var uow = db.GetDbContext();

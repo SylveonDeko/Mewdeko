@@ -180,7 +180,24 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 }
             }
 
-            var sentMsg = await ct.Send(msg, this.client, false).ConfigureAwait(false);
+            var guildConfig = await guildSettings.GetGuildConfig(guild.Id);
+            var uow = db.GetDbContext();
+            var dbUser = await uow.GetOrCreateUser(msg.Author);
+            if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
+            {
+                var toAdd = new CommandStats
+                {
+                    ChannelId = msg.Channel.Id,
+                    Trigger = true,
+                    NameOrId = $"{ct.Id}",
+                    GuildId = guild.Id,
+                    UserId = msg.Author.Id
+                };
+                await uow.CommandStats.AddAsync(toAdd);
+                await uow.SaveChangesAsync();
+            }
+
+            var sentMsg = await ct.Send(msg, this.client, false, uow).ConfigureAwait(false);
 
             foreach (var reaction in ct.GetReactions())
             {
@@ -211,7 +228,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 // ignored
             }
 
-            if (ct.GuildId is not null && msg?.Author is IGuildUser guildUser)
+            if (ct.GuildId is null || msg?.Author is not IGuildUser guildUser) return true;
             {
                 var effectedUsers = ct.RoleGrantType switch
                 {
@@ -305,7 +322,26 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         }
                     }
 
-                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, ct.EphemeralResponse).ConfigureAwait(false);
+                    var channel = inter.Channel as IGuildChannel;
+
+                    var guildConfig = await guildSettings.GetGuildConfig(channel.GuildId);
+                    await using var uow = db.GetDbContext();
+                    var dbUser = await uow.GetOrCreateUser(fakeMsg.Author);
+                    if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
+                    {
+                        var toAdd = new CommandStats
+                        {
+                            ChannelId = channel.Id,
+                            Trigger = true,
+                            NameOrId = $"{ct.Id}",
+                            GuildId = channel.GuildId,
+                            UserId = inter.User.Id
+                        };
+                        await uow.CommandStats.AddAsync(toAdd);
+                        await uow.SaveChangesAsync();
+                    }
+
+                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, ct.EphemeralResponse, uow).ConfigureAwait(false);
 
                     foreach (var reaction in ct.GetReactions())
                     {

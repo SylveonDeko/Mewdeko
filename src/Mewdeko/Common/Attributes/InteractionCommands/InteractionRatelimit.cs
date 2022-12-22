@@ -29,11 +29,12 @@ public sealed class InteractionRatelimitAttribute : PreconditionAttribute
 
         var cache = services.GetService<IDataCache>();
         Debug.Assert(cache != null, $"{nameof(cache)} != null");
-        TimeSpan? rem = null;
-        if (context.Interaction.Data is IComponentInteractionData compData)
-            rem = cache.TryAddRatelimit(context.User.Id, $"app_command.{compData.CustomId.Split('$')[0]}", Seconds);
-        else if (context.Interaction.Data is IApplicationCommandInteractionData intData)
-            rem = cache.TryAddRatelimit(context.User.Id, $"app_command.{intData.Id}", Seconds);
+        var rem = context.Interaction.Data switch
+        {
+            IComponentInteractionData compData => cache.TryAddRatelimit(context.User.Id, $"app_command.{compData.CustomId.Split('$')[0]}", Seconds),
+            IApplicationCommandInteractionData intData => cache.TryAddRatelimit(context.User.Id, $"app_command.{intData.Id}", Seconds),
+            _ => null
+        };
         if (rem == null)
             return Task.FromResult(PreconditionResult.FromSuccess());
 
