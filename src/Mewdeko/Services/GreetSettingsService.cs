@@ -23,7 +23,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         this.gss = gss;
         this.bss = bss;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => this.client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Where(x => this.client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
             gc
                 .ToDictionary(g => g.GuildId, GreetSettings.Create));

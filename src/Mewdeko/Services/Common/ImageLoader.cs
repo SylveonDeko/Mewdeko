@@ -92,16 +92,14 @@ public class ImageLoader
     {
         string GetParentString()
         {
-            if (string.IsNullOrWhiteSpace(parent))
-                return "";
-            return $"{parent}_";
+            return string.IsNullOrWhiteSpace(parent) ? "" : $"{parent}_";
         }
 
         var tasks = new List<Task>();
-        Task t;
         // go through all of the kvps in the object
         foreach (var kvp in obj)
         {
+            Task t;
             switch (kvp.Value.Type)
             {
                 // if it's a JArray, resole it using jarray method which will

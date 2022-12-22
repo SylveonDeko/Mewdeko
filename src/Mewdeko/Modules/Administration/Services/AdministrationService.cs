@@ -16,7 +16,7 @@ public class AdministrationService : INService
         GuildSettingsService guildSettings)
     {
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.All().Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.DelMsgOnCmdChannels).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         this.db = db;
         this.logService = logService;
         this.guildSettings = guildSettings;
@@ -43,6 +43,16 @@ public class AdministrationService : INService
         gc.StaffRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
+    }
+
+    public async Task<bool> ToggleOptOut(IGuild guild)
+    {
+        await using var uow = db.GetDbContext();
+        var gc = await uow.ForGuildId(guild.Id, set => set);
+        gc.StatsOptOut = !gc.StatsOptOut;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        return gc.StatsOptOut;
     }
 
     public async Task MemberRoleSet(IGuild guild, ulong role)

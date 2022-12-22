@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -6,9 +7,8 @@ using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
-using Swan;
-using System.Threading.Tasks;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.Help;
 
@@ -40,8 +40,8 @@ public class Help : MewdekoModuleBase<HelpService>
     [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
     {
-        var cmds = this.cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
-        if (!cmds.Any())
+        var commandInfos = this.cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
+        if (!commandInfos.Any())
         {
             await ctx.Channel.SendErrorAsync(
                 "That command wasn't found! Please retry your search with a different term.").ConfigureAwait(false);
@@ -50,15 +50,16 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             string? cmdnames = null;
             string? cmdremarks = null;
-            foreach (var i in cmds)
+            foreach (var i in commandInfos)
             {
                 cmdnames += $"\n{i.Name}";
                 cmdremarks += $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
+
             var eb = new EmbedBuilder()
-                     .WithOkColor()
-                     .AddField("Command", cmdnames, true)
-                     .AddField("Description", cmdremarks, true);
+                .WithOkColor()
+                .AddField("Command", cmdnames, true)
+                .AddField("Description", cmdremarks, true);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
@@ -80,7 +81,8 @@ public class Help : MewdekoModuleBase<HelpService>
     [Cmd, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
-            "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!").ConfigureAwait(false);
+                "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!")
+            .ConfigureAwait(false);
 
     [Cmd, Aliases]
     public async Task Commands([Remainder] string? module = null)
@@ -96,7 +98,7 @@ public class Help : MewdekoModuleBase<HelpService>
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
-        var cmds = this.cmds.Commands.Where(c =>
+        var commandInfos = this.cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
                     .StartsWith(module, StringComparison.InvariantCulture))
             .Where(c => !perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
@@ -105,7 +107,7 @@ public class Help : MewdekoModuleBase<HelpService>
 
         // check preconditions for all commands, but only if it's not 'all'
         // because all will show all commands anyway, no need to check
-        var succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
+        var succ = new HashSet<CommandInfo>((await Task.WhenAll(commandInfos.Select(async x =>
             {
                 var pre = await x.CheckPreconditionsAsync(Context, services).ConfigureAwait(false);
                 return (Cmd: x, Succ: pre.IsSuccess);
@@ -113,11 +115,11 @@ public class Help : MewdekoModuleBase<HelpService>
             .Where(x => x.Succ)
             .Select(x => x.Cmd));
 
-        var cmdsWithGroup = cmds
+        var cmdsWithGroup = commandInfos
             .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
             .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
-        if (!cmds.Any())
+        if (!commandInfos.Any())
         {
             await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
             return;
@@ -141,7 +143,7 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? commandInfo.Preconditions.Any(x => x is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
+                    $"{(succ.Contains(commandInfo) ? commandInfo.Preconditions.Any(preconditionAttribute => preconditionAttribute is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -150,8 +152,8 @@ public class Help : MewdekoModuleBase<HelpService>
                 var grp = 0;
                 var count = transformed.Count();
                 transformed = transformed
-                              .GroupBy(_ => grp++ % count / 2)
-                              .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
+                    .GroupBy(_ => grp++ % count / 2)
+                    .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
             }
 
             return new PageBuilder()
@@ -195,6 +197,7 @@ public class Help : MewdekoModuleBase<HelpService>
 
     [Cmd, Aliases]
     public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech").ConfigureAwait(false);
+
     [Cmd, Aliases]
     public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko").ConfigureAwait(false);
 }
@@ -205,4 +208,3 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 
     public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 }
-

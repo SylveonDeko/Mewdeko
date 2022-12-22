@@ -103,7 +103,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     }
 
     // forwards dms
-    public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+    public async Task LateExecute(DiscordSocketClient discordSocketClient, IGuild guild, IUserMessage msg)
     {
         var bs = bss.Data;
         if (msg.Channel is IDMChannel && bss.Data.ForwardMessages && ownerChannels.Count > 0)

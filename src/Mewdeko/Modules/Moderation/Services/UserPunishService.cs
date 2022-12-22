@@ -141,7 +141,10 @@ public class UserPunishService : INService
             case PunishmentAction.Ban:
                 if (minutes == 0)
                 {
-                    await guild.AddBanAsync(user, reason: reason).ConfigureAwait(false);
+                    await guild.AddBanAsync(user, options: new RequestOptions
+                    {
+                        AuditLogReason = reason
+                    }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -151,7 +154,10 @@ public class UserPunishService : INService
 
                 break;
             case PunishmentAction.Softban:
-                await guild.AddBanAsync(user, 7, $"Softban | {reason}").ConfigureAwait(false);
+                await guild.AddBanAsync(user, 7, options: new RequestOptions
+                {
+                    AuditLogReason = $"Softban | {reason}"
+                }).ConfigureAwait(false);
                 try
                 {
                     await guild.RemoveBanAsync(user).ConfigureAwait(false);
@@ -453,7 +459,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient discordSocketClient, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -463,7 +469,7 @@ WHERE GuildId={guildId}
             : banReason;
 
         var replacer = new ReplacementBuilder()
-            .WithServer(client, guild)
+            .WithServer(discordSocketClient, guild)
             .WithOverride("%ban.mod%", moderator.ToString)
             .WithOverride("%ban.mod.fullname%", moderator.ToString)
             .WithOverride("%ban.mod.name%", () => moderator.Username)

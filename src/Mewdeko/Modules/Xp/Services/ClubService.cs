@@ -174,7 +174,7 @@ public class ClubService : INService
     public async Task<(bool, DiscordUser)> AcceptApplication(ulong clubOwnerUserId, string userName)
     {
         await using var uow = db.GetDbContext();
-        DiscordUser discordUser = await uow.DiscordUser.FirstOrDefaultAsync(x => x.Username == userName);
+        var discordUser = await uow.DiscordUser.FirstOrDefaultAsync(x => x.Username == userName);
         var club = await uow.Clubs.GetByOwnerOrAdmin(clubOwnerUserId).ConfigureAwait(false);
 
         var applicant = club?.Applicants.Find(x =>
@@ -252,7 +252,7 @@ public class ClubService : INService
         await using var uow = db.GetDbContext();
         var club = await uow.Clubs.GetByOwner(userId).ConfigureAwait(false);
         if (club == null)
-            return (false, club);
+            return (false, null);
 
         uow.Clubs.Remove(club);
         await uow.SaveChangesAsync().ConfigureAwait(false);

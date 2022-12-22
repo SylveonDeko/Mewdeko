@@ -131,21 +131,19 @@ public partial class Utility
         var buffer = new byte[bufferSize];
         new Random().NextBytes(buffer);
 
-        using (var pinger = new Ping())
+        using var pinger = new Ping();
+        for (var ttl = 1; ttl <= maxTtl; ttl++)
         {
-            for (var ttl = 1; ttl <= maxTtl; ttl++)
-            {
-                var options = new PingOptions(ttl, true);
-                var reply = pinger.Send(hostname, timeout, buffer, options);
+            var options = new PingOptions(ttl, true);
+            var reply = pinger.Send(hostname, timeout, buffer, options);
 
-                // we've found a route at this ttl
-                if (reply.Status == IPStatus.Success || reply.Status == IPStatus.TtlExpired)
-                    yield return reply.Address;
+            // we've found a route at this ttl
+            if (reply.Status == IPStatus.Success || reply.Status == IPStatus.TtlExpired)
+                yield return reply.Address;
 
-                // if we reach a status other than expired or timed out, we're done searching or there has been an error
-                if (reply.Status != IPStatus.TtlExpired && reply.Status != IPStatus.TimedOut)
-                    break;
-            }
+            // if we reach a status other than expired or timed out, we're done searching or there has been an error
+            if (reply.Status != IPStatus.TtlExpired && reply.Status != IPStatus.TimedOut)
+                break;
         }
     }
 }

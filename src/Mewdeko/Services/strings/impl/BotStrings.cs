@@ -53,7 +53,7 @@ public class BotStrings : IBotStrings
         {
             cmdStrings = stringsProvider.GetCommandStrings("en-US", commandName);
             cmdStrings.Desc = OwoServices.OwoIfy(cmdStrings.Desc);
-            cmdStrings.Args = cmdStrings.Args.Select(x => OwoServices.OwoIfy(x)).ToArray();
+            cmdStrings.Args = cmdStrings.Args.Select(OwoServices.OwoIfy).ToArray();
         }
 
         if (cultureInfo.Name != usCultureInfo.Name) return GetCommandStrings(commandName, usCultureInfo);

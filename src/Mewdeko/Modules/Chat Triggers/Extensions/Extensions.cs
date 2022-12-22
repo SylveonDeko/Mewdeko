@@ -19,7 +19,7 @@ public static class Extensions
                 if (string.IsNullOrWhiteSpace(tag))
                     return "";
 
-                var fullQueryLink = $"http://imgur.com/search?q={tag}";
+                var fullQueryLink = $"https://imgur.com/search?q={tag}";
                 var config = Configuration.Default.WithDefaultLoader();
                 using var document =
                     await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
@@ -31,10 +31,7 @@ public static class Extensions
                 var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
                     ?.FirstOrDefault() as IHtmlImageElement;
 
-                if (img?.Source == null)
-                    return "";
-
-                return $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
+                return img?.Source == null ? "" : $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
             }
         }
     };
