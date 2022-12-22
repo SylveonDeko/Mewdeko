@@ -6,6 +6,7 @@ using Discord.Net;
 using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.OwnerOnly.Services;
@@ -130,6 +131,40 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
             return eb;
         }
+    }
+
+    [Cmd, Aliases]
+    public async Task CommandStats()
+    {
+        await using var uow = db.GetDbContext();
+        var commandStatsTable = uow.CommandStats;
+        // fetch actual tops
+        var topCommand = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.NameOrId)
+            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+        var topModule = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.Module)
+            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+        var topGuild = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.GuildId)
+            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+        var topUser = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.UserId)
+            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+
+        // then fetch their counts... This can probably be done better....
+        var topCommandCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
+        var topModuleCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
+        var topGuildCount = commandStatsTable.Count(x => x.GuildId == topGuild);
+        var topUserCount = commandStatsTable.Count(x => x.UserId == topUser);
+
+        var guild = await client.Rest.GetGuildAsync(topGuild);
+        var user = await client.Rest.GetUserAsync(topUser);
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .AddField("Top Command", $"{topCommand} was used {topCommandCount} times!")
+            .AddField("Top Module", $"{topModule} was used {topModuleCount} times!")
+            .AddField("Top User", $"{user} has used commands {topUserCount} times!")
+            .AddField("Top Guild", $"{guild} has used commands {topGuildCount} times!");
+
+        await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
     [Cmd, Aliases]

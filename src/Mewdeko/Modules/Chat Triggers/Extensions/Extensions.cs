@@ -39,7 +39,7 @@ public static class Extensions
     private static string ResolveTriggerString(this string str, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
-        DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
+        DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext uow = null, int triggerId = 0)
     {
         var substringIndex = resolvedTrigger.Length;
         if (containsAnywhere)
@@ -66,6 +66,7 @@ public static class Extensions
                 canMentionEveryone
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
+            .WithOverride("%usecount%", () => uow.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
             .Build();
 
         str = rep.Replace(str);
@@ -78,12 +79,12 @@ public static class Extensions
     }
 
     public static Task<string?> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
-        DiscordSocketClient client, bool containsAnywhere) =>
+        DiscordSocketClient client, bool containsAnywhere, MewdekoContext context = null) =>
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
-            containsAnywhere);
+            containsAnywhere, context, cr.Id);
 
     public static async Task<IUserMessage>? Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
-        DiscordSocketClient client, bool sanitize)
+        DiscordSocketClient client, bool sanitize, MewdekoContext dbContext = null)
     {
         var channel = ct.DmResponse
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
@@ -111,6 +112,7 @@ public static class Extensions
                 .WithOverride("%target%", () => canMentionEveryone
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
+                .WithOverride("%usecount%", () => dbContext.CommandStats.Count(x => x.NameOrId == $"{ct.Id}").ToString())
                 .Build();
 
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
@@ -139,7 +141,7 @@ public static class Extensions
             return await channel.SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
         }
 
-        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere).ConfigureAwait(false))
+        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere, dbContext).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
             await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
@@ -162,7 +164,7 @@ public static class Extensions
     }
 
     public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
-        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false)
+        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false, MewdekoContext dbContext = null)
     {
         var rep = new ReplacementBuilder()
             .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
@@ -172,6 +174,7 @@ public static class Extensions
                 IUserCommandInteraction uData => uData.Data.User.Mention,
                 _ => "%target%"
             })
+            .WithOverride("%usecount%", dbContext.CommandStats.Count(x => x.NameOrId == $"{ct.Id}").ToString)
             .Build();
         ct.Response = rep.Replace(ct.Response);
         if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
