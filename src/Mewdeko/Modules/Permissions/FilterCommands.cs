@@ -24,7 +24,7 @@ public partial class Permissions
         }
 
         [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-        public async Task AutoBanWord(string word)
+        public async Task AutoBanWord([Remainder] string word)
         {
             if (Service.Blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
             {

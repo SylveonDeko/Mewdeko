@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Threading.Tasks;
+using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.UserProfile.Services;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.UserProfile;
@@ -62,6 +62,16 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     {
         await Service.SetBirthday(ctx.User, dateTime);
         await ctx.Channel.SendConfirmAsync($"Your birthday has been set to {dateTime:d}");
+    }
+
+    [Cmd, Aliases]
+    public async Task StatsOptOut()
+    {
+        var optout = await Service.ToggleOptOut(ctx.User);
+        if (optout)
+            await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
+        else
+            await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
     }
 
     [Cmd, Aliases]
