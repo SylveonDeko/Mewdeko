@@ -65,13 +65,25 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     }
 
     [Cmd, Aliases]
-    public async Task StatsOptOut()
+    public async Task UserStatsOptOut()
     {
         var optout = await Service.ToggleOptOut(ctx.User);
-        if (optout)
-            await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
+        if (!optout)
+            await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!)");
         else
             await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
+    }
+
+    [Cmd, Aliases, Ratelimit(3600)]
+    public async Task DeleteUserStatsData()
+    {
+        if (await PromptUserConfirmAsync("Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
+        {
+            if (await Service.DeleteStatsData(ctx.User))
+                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+            else
+                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+        }
     }
 
     [Cmd, Aliases]
