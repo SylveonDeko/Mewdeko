@@ -45,6 +45,16 @@ public class AdministrationService : INService
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    public async Task<bool> ToggleOptOut(IGuild guild)
+    {
+        await using var uow = db.GetDbContext();
+        var gc = await uow.ForGuildId(guild.Id, set => set);
+        gc.StatsOptOut = !gc.StatsOptOut;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        return gc.StatsOptOut;
+    }
+
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
         await using var uow = db.GetDbContext();

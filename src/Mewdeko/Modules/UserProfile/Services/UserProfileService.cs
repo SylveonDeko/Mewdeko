@@ -1,11 +1,11 @@
-﻿using Mewdeko.Modules.Gambling.Services;
+﻿using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.UserProfile.Services;
@@ -183,6 +183,16 @@ public class UserProfileService : INService
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<bool> ToggleOptOut(IUser user)
+    {
+        await using var uow = db.GetDbContext();
+        var dbUser = await uow.GetOrCreateUser(user);
+        dbUser.StatsOptOut = !dbUser.StatsOptOut;
+        uow.DiscordUser.Update(dbUser);
+        await uow.SaveChangesAsync();
+        return dbUser.StatsOptOut;
     }
 
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
