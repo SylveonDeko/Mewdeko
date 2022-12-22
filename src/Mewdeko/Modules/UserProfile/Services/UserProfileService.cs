@@ -195,6 +195,17 @@ public class UserProfileService : INService
         return dbUser.StatsOptOut;
     }
 
+    public async Task<bool> DeleteStatsData(IUser user)
+    {
+        await using var uow = db.GetDbContext();
+        var toRemove = uow.CommandStats.Where(x => x.UserId == user.Id).ToList();
+        if (!toRemove.Any())
+            return false;
+        uow.CommandStats.RemoveRange(toRemove);
+        await uow.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
         var eb = new EmbedBuilder().WithTitle($"Profile for {user}");

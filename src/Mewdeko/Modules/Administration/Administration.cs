@@ -55,13 +55,25 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public async Task StatsOptOut()
+    public async Task GuildStatsOptOut()
     {
         var optout = await Service.ToggleOptOut(ctx.Guild);
-        if (optout)
+        if (!optout)
             await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
         else
             await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
+    }
+
+    [Cmd, Aliases, Ratelimit(3600), UserPerm(GuildPermission.Administrator)]
+    public async Task DeleteGuildStatsData()
+    {
+        if (await PromptUserConfirmAsync("Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
+        {
+            if (await Service.DeleteStatsData(ctx.Guild))
+                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+            else
+                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+        }
     }
 
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
