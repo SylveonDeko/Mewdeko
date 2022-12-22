@@ -49,13 +49,25 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     [SlashCommand("statsoptout", "Opts you out/in on command stats collection.")]
-    public async Task StatsOptOut()
+    public async Task UserStatsOptOut()
     {
         var optout = await Service.ToggleOptOut(ctx.User);
         if (optout)
-            await ctx.Interaction.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
+            await ctx.Interaction.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!)");
         else
             await ctx.Interaction.SendConfirmAsync("Succesfully disable command stats collection.");
+    }
+
+    [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible."), InteractionRatelimit(3600)]
+    public async Task DeleteStatsData()
+    {
+        if (await PromptUserConfirmAsync("Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
+        {
+            if (await Service.DeleteStatsData(ctx.User))
+                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+            else
+                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+        }
     }
 
     [SlashCommand("setzodiac", "Set's the zodiac in your user profile"), CheckPermissions]
