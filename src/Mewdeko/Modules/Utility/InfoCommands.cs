@@ -260,7 +260,7 @@ public partial class Utility
         public async Task Avatar([Remainder] IGuildUser? usr = null)
         {
             usr ??= (IGuildUser)ctx.User;
-
+            var components = new ComponentBuilder().WithButton("Non-Guild Avatar", $"avatartype:real,{usr.Id}");
             var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
             if (avatarUrl == null)
@@ -269,11 +269,18 @@ public partial class Utility
                 return;
             }
 
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+            var av = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
+            if (av.GuildAvatarId is not null)
+                avatarUrl = usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.GuildAvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.GuildAvatarId}.png?size=2048";
+
+            await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithOkColor()
                 .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
                 .AddField(efb =>
-                    efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-                .WithImageUrl(avatarUrl)).ConfigureAwait(false);
+                    efb.WithName($"{(av.GuildAvatarId is null ? "" : "Guild")} Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                .WithImageUrl(avatarUrl).Build(), components: av.GuildAvatarId is null ? null : components.Build()).ConfigureAwait(false);
         }
     }
 }

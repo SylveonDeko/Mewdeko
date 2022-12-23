@@ -32,6 +32,50 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         this.muteService = muteService;
     }
 
+    [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    public async Task Avatar(string avType, ulong userId)
+    {
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var user = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, userId);
+        switch (avType)
+        {
+            case "real":
+                var avatarUrl = user.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}avatars/{user.Id}/{user.AvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}avatars/{user.Id}/{user.AvatarId}.png?size=2048";
+                var componentbuilder = new ComponentBuilder().WithButton("Guild Avatar", $"avatartype:guild,{userId}");
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Real Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                    .WithImageUrl(avatarUrl);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = eb.Build();
+                    x.Components = componentbuilder.Build();
+                });
+                break;
+            case "guild":
+                var avatarUrlGuild = user.GuildAvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{user.Id}/avatars/{user.GuildAvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{user.Id}/avatars/{user.GuildAvatarId}.png?size=2048";
+                var componentbuilderGuild = new ComponentBuilder().WithButton("Real Avatar", $"avatartype:real,{userId}");
+                var ebGuild = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Guild Avatar Url").WithValue($"[Link]({avatarUrlGuild})").WithIsInline(true))
+                    .WithImageUrl(avatarUrlGuild);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = ebGuild.Build();
+                    x.Components = componentbuilderGuild.Build();
+                });
+                break;
+        }
+    }
+
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Say([Summary("SendTo", "The channel to send to. Defaults to the current channel.")] ITextChannel channel = null)
     {
@@ -300,6 +344,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             await DeferAsync();
 
         usr ??= (IGuildUser)ctx.User;
+        var components = new ComponentBuilder().WithButton("Non-Guild Avatar", $"avatartype:real,{usr.Id}");
 
         var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
@@ -309,10 +354,17 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             return;
         }
 
-        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor()
+        var av = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
+        if (av.GuildAvatarId is not null)
+            avatarUrl = av.GuildAvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                ? $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.gif?size=2048"
+                : $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.png?size=2048";
+
+        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder()
+            .WithOkColor()
             .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
             .AddField(efb =>
-                efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-            .WithImageUrl(avatarUrl).Build()).ConfigureAwait(false);
+                efb.WithName($"{(av.GuildAvatarId is null ? "" : "Guild")} Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+            .WithImageUrl(avatarUrl).Build(), components: av.GuildAvatarId is null ? null : components.Build()).ConfigureAwait(false);
     }
 }
