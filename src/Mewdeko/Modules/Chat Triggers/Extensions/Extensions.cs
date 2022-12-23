@@ -113,6 +113,30 @@ public static class Extensions
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
                 .WithOverride("%usecount%", () => dbContext.CommandStats.Count(x => x.NameOrId == $"{ct.Id}").ToString())
+                .WithOverride("%targetuser%", () =>
+                {
+                    var mention = ctx.MentionedUserIds.FirstOrDefault();
+                    if (mention is 0)
+                        return "";
+                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    return user is null ? "" : user.Mention;
+                })
+                .WithOverride("%targetuser.id%", () =>
+                {
+                    var mention = ctx.MentionedUserIds.FirstOrDefault();
+                    if (mention is 0)
+                        return "";
+                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    return user is null ? "" : user.Id.ToString();
+                })
+                .WithOverride("%targetuser.avatar%", () =>
+                {
+                    var mention = ctx.MentionedUserIds.FirstOrDefault();
+                    if (mention is 0)
+                        return "";
+                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    return user is null ? "" : user.RealAvatarUrl().ToString();
+                })
                 .Build();
 
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
@@ -175,8 +199,25 @@ public static class Extensions
                 _ => "%target%"
             })
             .WithOverride("%usecount%", dbContext.CommandStats.Count(x => x.NameOrId == $"{ct.Id}").ToString)
+            .WithOverride("%targetuser%", () => inter switch
+            {
+                IMessageCommandInteraction mData => $"{mData.Data.Message.Author.Mention}",
+                IUserCommandInteraction uData => $"{uData.Data.User.Mention}",
+                _ => "%targetuser%"
+            })
+            .WithOverride("%targetuser.id%", () => inter switch
+            {
+                IMessageCommandInteraction mData => $"{mData.Data.Message.Author.Id}",
+                IUserCommandInteraction uData => $"{uData.Data.User.Id}",
+                _ => "%targetuser.id%"
+            })
+            .WithOverride("%targetuser.avatar%", () => inter switch
+            {
+                IMessageCommandInteraction mData => $"{mData.Data.Message.Author.RealAvatarUrl()}",
+                IUserCommandInteraction uData => $"{uData.Data.User.RealAvatarUrl()}",
+                _ => "%targetuser.avatar%"
+            })
             .Build();
-        ct.Response = rep.Replace(ct.Response);
         if (SmartEmbed.TryParse(ct.Response, ct.GuildId, out var crembed, out var plainText, out var components))
         {
             SmartEmbed.TryParse(rep.Replace(ct.Response), ct.GuildId, out crembed, out plainText, out components);
@@ -205,7 +246,7 @@ public static class Extensions
             return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
         }
 
-        var context = rep.Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere).ConfigureAwait(false))
+        var context = rep.Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbContext).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
             await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
