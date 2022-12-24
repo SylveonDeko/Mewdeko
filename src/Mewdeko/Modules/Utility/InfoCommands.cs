@@ -1,9 +1,9 @@
+using System.Threading.Tasks;
 using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -12,30 +12,30 @@ public partial class Utility
     [Group]
     public class InfoCommands : MewdekoSubmodule<UtilityService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly MuteService _muteService;
+        private readonly DiscordSocketClient client;
+        private readonly MuteService muteService;
 
         public InfoCommands(DiscordSocketClient client, MuteService muteService)
         {
-            _client = client;
-            _muteService = muteService;
+            this.client = client;
+            this.muteService = muteService;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
         {
             var eb = new EmbedBuilder().WithTitle(role.Name)
-                                       .AddField("Users in role",
-                                           (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
-                                       .AddField("Is Mentionable", role.IsMentionable)
-                                       .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
-                                       .AddField("Is Managed", role.IsManaged)
-                                       .AddField("Permissions", string.Join(",", role.Permissions))
-                                       .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
-                                       .AddField("Position", role.Position)
-                                       .AddField("ID", role.Id)
-                                       .WithThumbnailUrl(role.GetIconUrl())
-                                       .WithColor(role.Color);
+                .AddField("Users in role",
+                    (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
+                .AddField("Is Mentionable", role.IsMentionable)
+                .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
+                .AddField("Is Managed", role.IsManaged)
+                .AddField("Permissions", string.Join(",", role.Permissions))
+                .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
+                .AddField("Position", role.Position)
+                .AddField("ID", role.Id)
+                .WithThumbnailUrl(role.GetIconUrl())
+                .WithColor(role.Color);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
@@ -91,28 +91,10 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Fetch(ulong id)
         {
-            var usr = await _client.Rest.GetUserAsync(id).ConfigureAwait(false);
+            var usr = await client.Rest.GetUserAsync(id).ConfigureAwait(false);
             if (usr is null)
             {
-                var chans = await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false);
-                IUserMessage? message = null;
-                foreach (var i in chans)
-                {
-                    var e = await i.GetMessageAsync(id).ConfigureAwait(false);
-                    if (e is not null)
-                        message = e as IUserMessage;
-                }
-
-                var eb = new EmbedBuilder()
-                    .WithTitle("Message Info");
-                if (message.Embeds.Count > 0) eb.AddField("Embeds", message.Embeds.Count);
-
-                if (!string.IsNullOrEmpty(message.Content))
-                    eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
-
-                eb.WithAuthor(message.Author);
-                eb.AddField("Time Sent", TimestampTag.FromDateTimeOffset(message.Timestamp));
-                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("That user could not be found. Please ensure that was the correct ID.");
             }
             else
             {
@@ -139,8 +121,8 @@ public partial class Utility
             }
             else
             {
-                guild = _client.Guilds.FirstOrDefault(
-                                g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
+                guild = client.Guilds.FirstOrDefault(
+                    g => string.Equals(g.Name, guildName, StringComparison.InvariantCultureIgnoreCase));
             }
 
             if (guild == null)
@@ -217,9 +199,9 @@ public partial class Utility
         {
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;
-            var userbanner = (await _client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
+            var userbanner = (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
             var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
-            var restUser = await _client.Rest.GetUserAsync(user.Id);
+            var restUser = await client.Rest.GetUserAsync(user.Id);
             var embed = new EmbedBuilder()
                 .AddField("Username", user.ToString())
                 .WithColor(restUser.AccentColor ?? Mewdeko.OkColor);
@@ -257,7 +239,7 @@ public partial class Utility
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "moreinfo")
             {
-                if (user.GetRoles().Any(x => x.Id !=  ctx.Guild.EveryoneRole.Id))
+                if (user.GetRoles().Any(x => x.Id != ctx.Guild.EveryoneRole.Id))
                 {
                     embed.AddField("Roles",
                         string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
@@ -265,13 +247,40 @@ public partial class Utility
 
                 embed.AddField("Deafened", user.IsDeafened);
                 embed.AddField("Is VC Muted", user.IsMuted);
-                embed.AddField("Is Server Muted", user.GetRoles().Contains(await _muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
+                embed.AddField("Is Server Muted", user.GetRoles().Contains(await muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();
                     x.Components = null;
                 }).ConfigureAwait(false);
             }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        public async Task Avatar([Remainder] IGuildUser? usr = null)
+        {
+            usr ??= (IGuildUser)ctx.User;
+            var components = new ComponentBuilder().WithButton("Non-Guild Avatar", $"avatartype:real,{usr.Id}");
+            var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
+
+            if (avatarUrl == null)
+            {
+                await ReplyErrorLocalizedAsync("avatar_none", usr.ToString()).ConfigureAwait(false);
+                return;
+            }
+
+            var av = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
+            if (av.GuildAvatarId is not null)
+                avatarUrl = usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.GuildAvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}avatars/{usr.Id}/{usr.GuildAvatarId}.png?size=2048";
+
+            await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithOkColor()
+                .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                .AddField(efb =>
+                    efb.WithName($"{(av.GuildAvatarId is null ? "" : "Guild")} Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                .WithImageUrl(avatarUrl).Build(), components: av.GuildAvatarId is null ? null : components.Build()).ConfigureAwait(false);
         }
     }
 }
