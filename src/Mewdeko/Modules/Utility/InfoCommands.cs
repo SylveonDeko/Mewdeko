@@ -271,7 +271,7 @@ public partial class Utility
 
             var av = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
             if (av.GuildAvatarId is not null)
-                avatarUrl = usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                avatarUrl = usr.GuildAvatarId.StartsWith("a_", StringComparison.InvariantCulture)
                     ? $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.gif?size=2048"
                     : $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.png?size=2048";
 
