@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -362,6 +363,23 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
         var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
         return JsonConvert.DeserializeObject<int>(toget);
+    }
+
+    public async Task SetShip(ulong user1, ulong user2, int score)
+    {
+        var db = Redis.GetDatabase();
+        var toCache = new ShipCache
+        {
+            User1 = user1, User2 = user2, Score = score
+        };
+        await db.StringSetAsync($"{redisKey}_shipcache:{user1}:{user2}", JsonConvert.SerializeObject(toCache), expiry: TimeSpan.FromHours(12));
+    }
+
+    public async Task<ShipCache?> GetShip(ulong user1, ulong user2)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_shipcache:{user1}:{user2}");
+        return !result.HasValue ? null : JsonConvert.DeserializeObject<ShipCache>(result);
     }
 
     public async Task SetGuildSettingString(ulong guildId, string setting, string value)

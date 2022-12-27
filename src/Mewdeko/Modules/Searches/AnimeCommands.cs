@@ -12,6 +12,7 @@ using Fergun.Interactive.Pagination;
 using JikanDotNet;
 using MartineApiNet;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Settings;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class AnimeCommands : MewdekoSubmodule
+    public class AnimeCommands : MewdekoSubmodule<SearchesService>
     {
         public readonly NekosBestApi NekosBestApi;
         private readonly MartineApi martineApi;
@@ -44,6 +45,11 @@ public partial class Searches
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 100);
+            var getShip = await Service.GetShip(user.Id, user2.Id);
+            if (getShip is not null)
+                random = getShip.Score;
+            else
+                await Service.SetShip(user.Id, user2.Id, random);
             var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, user2.RealAvatarUrl().AbsoluteUri)
                 .ConfigureAwait(false);
             var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
@@ -83,44 +89,7 @@ public partial class Searches
 
         [Cmd, Aliases]
         public async Task Ship(IUser user)
-        {
-            var random = new Random().Next(0, 100);
-            var shipRequest = await martineApi.ImageGenerationApi.GenerateShipImage(random, user.RealAvatarUrl().AbsoluteUri, ctx.User.RealAvatarUrl().AbsoluteUri)
-                .ConfigureAwait(false);
-            var bytes = await shipRequest.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var ms = new MemoryStream(bytes);
-            await using var _ = ms.ConfigureAwait(false);
-            var color = new Color();
-            var response = string.Empty;
-            switch (random)
-            {
-                case < 30:
-                    response = "No chance, just none. Don't even think about it.";
-                    color = Discord.Color.Red;
-                    break;
-                case <= 50 and >= 31:
-                    response = "You may have a chance but don't try too hard.";
-                    color = Discord.Color.Teal;
-                    break;
-                case 69:
-                    response = "Go 69 that mfer";
-                    color = Discord.Color.DarkRed;
-                    break;
-                case <= 70 and >= 60:
-                    response = "I mean, go for it, I guess, looks like you would do good";
-                    color = Discord.Color.Magenta;
-                    break;
-                case <= 100 and >= 71:
-                    response =
-                        "Horoscopes conclude that today will be a good day.. And that you two will get a room together soon";
-                    color = Discord.Color.Red;
-                    break;
-            }
-
-            await ctx.Channel.SendFileAsync(ms, "ship.png",
-                    embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build())
-                .ConfigureAwait(false);
-        }
+            => await Ship(ctx.User, user);
 
         [Cmd, Aliases]
         public async Task RandomNeko()

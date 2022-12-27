@@ -54,6 +54,21 @@ traceroute:
   - traceroute
   - tracert
   - trcrt
+userstatsoptout:
+  - userstatsoptout
+  - ustatsoptout
+guildstatsoptout:
+  - guildstatsoptout
+  - gstatsoptout
+deleteuserstatsdata:
+  - deleteuserstatsdata
+  - deluserstatsdata
+deleteguildstatsdata:
+  - deleteguildstatsdata
+  - delguildstatsdata
+commandstats:
+  - commandstats
+  - cstats
 multigreetdisable:
   - multigreetdisable
   - mgdisable

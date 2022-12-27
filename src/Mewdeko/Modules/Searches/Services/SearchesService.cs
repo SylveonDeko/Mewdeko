@@ -183,6 +183,12 @@ public class SearchesService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
+    public async Task SetShip(ulong user1, ulong user2, int score)
+        => await cache.SetShip(user1, user2, score);
+
+    public async Task<ShipCache?> GetShip(ulong user1, ulong user2)
+        => await cache.GetShip(user1, user2);
+
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
     {
         var data = await cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
@@ -847,4 +853,11 @@ public enum TimeErrors
     ApiKeyMissing,
     NotFound,
     Unknown
+}
+
+public class ShipCache
+{
+    public ulong User1 { get; set; }
+    public ulong User2 { get; set; }
+    public int Score { get; set; }
 }
