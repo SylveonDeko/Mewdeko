@@ -30,18 +30,20 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     private readonly GuildSettingsService guildSettings;
     private readonly HttpClient httpClient;
     private readonly BotConfigService config;
+    private readonly DbService db;
 
     public Utility(
         DiscordSocketClient client,
         IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv, ICoordinator coordinator,
         GuildSettingsService guildSettings,
         HttpClient httpClient,
-        BotConfigService config)
+        BotConfigService config, DbService db)
     {
         this.coordinator = coordinator;
         this.guildSettings = guildSettings;
         this.httpClient = httpClient;
         this.config = config;
+        this.db = db;
         interactivity = serv;
         this.client = client;
         this.stats = stats;
@@ -1058,24 +1060,21 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Stats()
     {
+        await using var uow = db.GetDbContext();
+        var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
+        var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
         var user = await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
         await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithName($"{client.CurrentUser.Username} v{StatsService.BotVersion}")
-                        .WithUrl("https://discord.gg/mewdeko")
-                        .WithIconUrl(client.CurrentUser.GetAvatarUrl()))
-                    .AddField(efb =>
-                        efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}")
-                            .WithIsInline(false))
-                    .AddField(efb => efb.WithName("Library").WithValue(stats.Library).WithIsInline(false))
+                    .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
+                    .AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
+                    .AddField(GetText("commands_ran"), $"{commandStats}/5s")
+                    .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                    .AddField(efb =>
-                        efb.WithName(GetText("shard")).WithValue($"#{client.ShardId} / {creds.TotalShards}")
-                            .WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(false))
-                    .AddField(efb => efb.WithName("Servers").WithValue($"{coordinator.GetGuildCount()} Servers").WithIsInline(false)))
+                    .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
+                    .AddField(GetText("memory"), $"{stats.Heap} MB")
+                    .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
+                    .AddField("Servers", $"{coordinator.GetGuildCount()} Servers"))
             .ConfigureAwait(false);
     }
 

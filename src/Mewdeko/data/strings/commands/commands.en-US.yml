@@ -2790,6 +2790,26 @@ rolegreetdisable:
   args:
     - '1 true/false'
   desc: Disables a RoleGreet by Id
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: "Deletes commandstats data that's related to your User ID"
+deleteguildstatsdata:
+  args:
+    - ''
+  desc: "Deletes commandstats data that's related to your Guild ID"
+userstatsoptout:
+  args:
+    - ""
+  desc: "Opts you in/out of commandstats gathering. Keep in mind this never collects message contents."
+guildstatsoptout:
+  args:
+    - ""
+  desc: "Opts this guild in/out of commandstats gathering. Keep in mind this never collects message contents."
+commandstats:
+  args:
+    - ""
+  desc: "Shows stats for top guild, user, command, and module used. Along with how many times."
 multigreetdisable:
   args:
     - '1 true/false'
