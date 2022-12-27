@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using StackExchange.Redis;
 
@@ -45,6 +46,8 @@ public interface IDataCache
     bool TryAddAffinityCooldown(ulong userId, out TimeSpan? time);
     bool TryAddDivorceCooldown(ulong userId, out TimeSpan? time);
     bool TryGetEconomy(out string data);
+    Task SetShip(ulong user1, ulong user2, int score);
+    Task<ShipCache?> GetShip(ulong user1, ulong user2);
     void SetEconomy(string data);
 
     Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory, TParam param,

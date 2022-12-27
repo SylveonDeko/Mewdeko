@@ -8,6 +8,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
+using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -19,19 +20,67 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     private readonly StatsService stats;
     private readonly IBotCredentials creds;
     private readonly MuteService muteService;
+    private readonly BotConfigService config;
+    private readonly DbService db;
 
     public SlashUtility(
         DiscordSocketClient client,
         ICoordinator coord,
         StatsService stats,
         IBotCredentials credentials,
-        MuteService muteService)
+        MuteService muteService, BotConfigService config, DbService db)
     {
         this.client = client;
         coordinator = coord;
         this.stats = stats;
         creds = credentials;
         this.muteService = muteService;
+        this.config = config;
+        this.db = db;
+    }
+
+    [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    public async Task Avatar(string avType, ulong userId)
+    {
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var user = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, userId);
+        switch (avType)
+        {
+            case "real":
+                var avatarUrl = user.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}avatars/{user.Id}/{user.AvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}avatars/{user.Id}/{user.AvatarId}.png?size=2048";
+                var componentbuilder = new ComponentBuilder().WithButton("Guild Avatar", $"avatartype:guild,{userId}");
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Real Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                    .WithImageUrl(avatarUrl);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = eb.Build();
+                    x.Components = componentbuilder.Build();
+                });
+                break;
+            case "guild":
+                var avatarUrlGuild = user.GuildAvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                    ? $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{user.Id}/avatars/{user.GuildAvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{user.Id}/avatars/{user.GuildAvatarId}.png?size=2048";
+                var componentbuilderGuild = new ComponentBuilder().WithButton("Real Avatar", $"avatartype:real,{userId}");
+                var ebGuild = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Guild Avatar Url").WithValue($"[Link]({avatarUrlGuild})").WithIsInline(true))
+                    .WithImageUrl(avatarUrlGuild);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = ebGuild.Build();
+                    x.Components = componentbuilderGuild.Build();
+                });
+                break;
+        }
     }
 
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
@@ -70,18 +119,22 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     [SlashCommand("stats", "Shows the bots current stats"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Stats()
     {
-        var user = await client.Rest.GetUserAsync(280835732728184843);
-        var eb = new EmbedBuilder().WithOkColor()
-            .WithAuthor(eab => eab.WithName($"{client.CurrentUser.Username} v{StatsService.BotVersion}")
-                .WithUrl("https://discord.gg/mewdeko").WithIconUrl(client.CurrentUser.GetAvatarUrl()))
-            .AddField(efb => efb.WithName(GetText("author")).WithValue($"{user.Mention} | {user.Username}#{user.Discriminator}").WithIsInline(false))
-            .AddField(efb => efb.WithName("Library").WithValue(stats.Library).WithIsInline(false))
-            .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-            .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{client.ShardId} / {creds.TotalShards}").WithIsInline(false))
-            .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{stats.Heap} MB").WithIsInline(false))
-            .AddField(efb => efb.WithName(GetText("uptime")).WithValue(stats.GetUptimeString("\n")).WithIsInline(false)).AddField(efb =>
-                efb.WithName("Servers").WithValue($"{coordinator.GetGuildCount()} Servers").WithIsInline(false));
-        await ctx.Interaction.RespondAsync(embed: eb.Build());
+        await using var uow = db.GetDbContext();
+        var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
+        var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
+        var user = await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
+        await ctx.Interaction.RespondAsync(embed:
+                new EmbedBuilder().WithOkColor()
+                    .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
+                    .AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
+                    .AddField(GetText("commands_ran"), $"{commandStats}/5s")
+                    .AddField("Library", stats.Library)
+                    .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
+                    .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
+                    .AddField(GetText("memory"), $"{stats.Heap} MB")
+                    .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
+                    .AddField("Servers", $"{coordinator.GetGuildCount()} Servers").Build())
+            .ConfigureAwait(false);
     }
 
     [SlashCommand("roleinfo", "Shows info for a role")]
@@ -302,6 +355,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             await DeferAsync();
 
         usr ??= (IGuildUser)ctx.User;
+        var components = new ComponentBuilder().WithButton("Non-Guild Avatar", $"avatartype:real,{usr.Id}");
 
         var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
@@ -311,11 +365,18 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             return;
         }
 
-        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor()
+        var av = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
+        if (av.GuildAvatarId is not null)
+            avatarUrl = av.GuildAvatarId.StartsWith("a_", StringComparison.InvariantCulture)
+                ? $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.gif?size=2048"
+                : $"{DiscordConfig.CDNUrl}guilds/{ctx.Guild.Id}/users/{usr.Id}/avatars/{av.GuildAvatarId}.png?size=2048";
+
+        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder()
+            .WithOkColor()
             .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
             .AddField(efb =>
-                efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-            .WithImageUrl(avatarUrl).Build()).ConfigureAwait(false);
+                efb.WithName($"{(av.GuildAvatarId is null ? "" : "Guild")} Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+            .WithImageUrl(avatarUrl).Build(), components: av.GuildAvatarId is null ? null : components.Build()).ConfigureAwait(false);
     }
 
     [SlashCommand("timestamp", "Converts your local time to a universal timestamp")]
