@@ -7,7 +7,7 @@
         <OutputType>exe</OutputType>
         <Nullable>annotations</Nullable>
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
-        <ApplicationIcon>Mewdeko.png</ApplicationIcon>
+        <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
     </PropertyGroup>
 
 
