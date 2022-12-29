@@ -138,6 +138,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             return;
         }
 
+        perks = perks.Where(x => x.Level <= userStats.Guild.Level);
         var msg = await ctx.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Attempting to sync {perks.Count()} xp perks...");
         var successCouunt = 0;
         var failedCount = 0;
