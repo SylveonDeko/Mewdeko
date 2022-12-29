@@ -132,7 +132,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         var user = ctx.User as IGuildUser;
         var userStats = await Service.GetUserStatsAsync(user);
         var perks = await Service.GetRoleRewards(ctx.Guild.Id);
-        if (!perks.Any(x => x.Level <= userStats.GuildRanking))
+        if (!perks.Any(x => x.Level <= userStats.Guild.Level))
         {
             await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!");
             return;
@@ -142,7 +142,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         var successCouunt = 0;
         var failedCount = 0;
         var existingCount = 0;
-        foreach (var i in perks.Where(x => x.Level <= userStats.GuildRanking))
+        foreach (var i in perks.Where(x => x.Level <= userStats.Guild.Level))
         {
             if (user.RoleIds.Contains(i.RoleId))
             {
