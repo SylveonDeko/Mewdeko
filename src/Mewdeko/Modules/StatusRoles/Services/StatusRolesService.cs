@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Discord.Net;
 using Serilog;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
@@ -51,20 +50,31 @@ public class StatusRolesService : INService
 
             if (toAdd.Any())
             {
-                foreach (var role in toAdd)
+                try
                 {
-                    if (!curUser.Roles.Contains(role))
-                    {
-                        try
-                        {
-                            await curUser.AddRoleAsync(role);
-                        }
-                        catch (HttpException ex)
-                        {
-                            Log.Error($"Invalid permissions or not high enough to add status roles in {guild}.");
-                        }
-                    }
+                    await curUser.AddRolesAsync(toAdd);
                 }
+                catch
+                {
+                    Log.Error($"Invalid permissions or not high enough to add status roles in {guild}.");
+                }
+            }
+
+            if (toRemove.Any())
+            {
+                try
+                {
+                    await curUser.RemoveRolesAsync(toRemove);
+                }
+                catch
+                {
+                    Log.Error($"Invalid permissions or not high enough to remove status roles in {guild}.");
+                }
+            }
+
+            if (SmartEmbed.TryParse(i.StatusEmbed, guild.Id, out var embeds, out var plainText, out var components))
+            {
+                var rep = new ReplacementBuilder().Build();
             }
         }
     }
