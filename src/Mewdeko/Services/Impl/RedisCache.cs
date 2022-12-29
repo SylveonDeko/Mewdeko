@@ -56,6 +56,18 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
+    public async Task SetStatusRoleCache(ulong guildId, List<StatusRoles> statusRoles)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{redisKey}_statusroles:{guildId}", JsonConvert.SerializeObject(statusRoles));
+    }
+
+    public async Task<List<StatusRoles>> GetStatusRoleCache(ulong guildId)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_statusroles:{guildId}");
+        return result.HasValue ? JsonConvert.DeserializeObject<List<StatusRoles>>(result) : new List<StatusRoles>();
+    }
 
     public void AddOrUpdateGuildConfig(ulong guildId, GuildConfig guildConfig)
     {

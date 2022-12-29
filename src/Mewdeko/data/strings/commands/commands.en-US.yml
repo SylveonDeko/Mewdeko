@@ -39,6 +39,10 @@ activity:
   args:
     - ''
   desc: Checks for spammers.
+createroles:
+  args:
+    - "rolename \"role name with spaces\""
+  desc: Create multiple roles at a time for stuff like level roles!
 addchattrigger:
   args:
     - '"hello" Hi there %user.mention%'

@@ -18,6 +18,11 @@ addchattrigger:
 addchattriggerregex:
   - addchattriggerregex
   - actr
+createroles:
+  - createroles
+  - croles
+  - crs
+
 addemote:
   - addemote
   - emoteadd
