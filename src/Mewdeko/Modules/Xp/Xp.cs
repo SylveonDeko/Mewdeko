@@ -138,7 +138,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             return;
         }
 
-        var msg = await ctx.Channel.SendConfirmAsync($"Attempting to sync {perks.Count()} xp perks...");
+        var msg = await ctx.Channel.SendConfirmAsync($"{_bss.Data.LoadingEmote} Attempting to sync {perks.Count()} xp perks...");
         var successCouunt = 0;
         var failedCount = 0;
         var existingCount = 0;
