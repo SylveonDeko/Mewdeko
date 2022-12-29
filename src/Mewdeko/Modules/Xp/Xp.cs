@@ -6,6 +6,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
+using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Xp;
 
@@ -37,14 +38,16 @@ public partial class Xp : MewdekoModuleBase<XpService>
     private readonly XpConfigService xpConfig;
     private readonly InteractiveService interactivity;
     private readonly GamblingConfigService gss;
+    private readonly BotConfigService _bss;
 
     public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
-        GamblingConfigService gss)
+        GamblingConfigService gss, BotConfigService bss)
     {
         xpConfig = xpconfig;
         this.tracker = tracker;
         interactivity = serv;
         this.gss = gss;
+        _bss = bss;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -118,10 +121,74 @@ public partial class Xp : MewdekoModuleBase<XpService>
             list.Add(toadd);
         }
 
-        var strings = new List<string>();
-        foreach (var i in list) strings.Add($"{i.Setting,-25} = {i.Value}\n");
+        var strings = list.Select(i => $"{i.Setting,-25} = {i.Value}\n").ToList();
 
         await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs")).ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), Ratelimit(60)]
+    public async Task SyncRewards()
+    {
+        var user = ctx.User as IGuildUser;
+        var userStats = await Service.GetUserStatsAsync(user);
+        var perks = await Service.GetRoleRewards(ctx.Guild.Id);
+        if (perks.Any(x => x.Level <= userStats.GuildRanking))
+        {
+            await ctx.Channel.SendErrorAsync($"{_bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!");
+            return;
+        }
+
+        var msg = await ctx.Channel.SendConfirmAsync($"Attempting to sync {perks.Count()} xp perks...");
+        var successCouunt = 0;
+        var failedCount = 0;
+        var existingCount = 0;
+        foreach (var i in perks)
+        {
+            if (user.RoleIds.Contains(i.RoleId))
+            {
+                existingCount++;
+                continue;
+            }
+
+            if (userStats.GuildRanking < i.Level)
+                continue;
+            try
+            {
+                await user.AddRoleAsync(i.RoleId);
+                successCouunt++;
+            }
+            catch
+            {
+                failedCount++;
+            }
+        }
+
+        if (existingCount == perks.Count())
+            await msg.ModifyAsync(x =>
+            {
+                x.Embed = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithDescription(
+                        $"{_bss.Data.ErrorEmote} Failed to sync {perks.Count()} because they are all already applied.")
+                    .Build();
+            });
+        if (failedCount > 0)
+            await msg.ModifyAsync(x =>
+            {
+                x.Embed = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithDescription(
+                        $"{_bss.Data.ErrorEmote} Synced {successCouunt} role perks and failed to sync {failedCount} role perks. Please make sure the bot is above the roles to sync.")
+                    .Build();
+            });
+        else
+            await msg.ModifyAsync(x =>
+            {
+                x.Embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithDescription($"{_bss.Data.SuccessEmote} Succesfully synced {successCouunt} role perks and skipped {existingCount} already applied role perks!!")
+                    .Build();
+            });
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
