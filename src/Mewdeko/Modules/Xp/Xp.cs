@@ -38,7 +38,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     private readonly XpConfigService xpConfig;
     private readonly InteractiveService interactivity;
     private readonly GamblingConfigService gss;
-    private readonly BotConfigService _bss;
+    private readonly BotConfigService bss;
 
     public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
         GamblingConfigService gss, BotConfigService bss)
@@ -47,7 +47,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         this.tracker = tracker;
         interactivity = serv;
         this.gss = gss;
-        _bss = bss;
+        this.bss = bss;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -134,11 +134,11 @@ public partial class Xp : MewdekoModuleBase<XpService>
         var perks = await Service.GetRoleRewards(ctx.Guild.Id);
         if (!perks.Any(x => x.Level <= userStats.GuildRanking))
         {
-            await ctx.Channel.SendErrorAsync($"{_bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!");
             return;
         }
 
-        var msg = await ctx.Channel.SendConfirmAsync($"{_bss.Data.LoadingEmote} Attempting to sync {perks.Count()} xp perks...");
+        var msg = await ctx.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Attempting to sync {perks.Count()} xp perks...");
         var successCouunt = 0;
         var failedCount = 0;
         var existingCount = 0;
@@ -167,7 +167,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 x.Embed = new EmbedBuilder()
                     .WithErrorColor()
                     .WithDescription(
-                        $"{_bss.Data.ErrorEmote} Failed to sync {perks.Count()} because they are all already applied.")
+                        $"{bss.Data.ErrorEmote} Failed to sync {perks.Count()} because they are all already applied.")
                     .Build();
             });
         if (failedCount > 0)
@@ -176,7 +176,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 x.Embed = new EmbedBuilder()
                     .WithErrorColor()
                     .WithDescription(
-                        $"{_bss.Data.ErrorEmote} Synced {successCouunt} role perks and failed to sync {failedCount} role perks. Please make sure the bot is above the roles to sync.")
+                        $"{bss.Data.ErrorEmote} Synced {successCouunt} role perks and failed to sync {failedCount} role perks. Please make sure the bot is above the roles to sync.")
                     .Build();
             });
         else
@@ -184,7 +184,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             {
                 x.Embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithDescription($"{_bss.Data.SuccessEmote} Succesfully synced {successCouunt} role perks and skipped {existingCount} already applied role perks!!")
+                    .WithDescription($"{bss.Data.SuccessEmote} Succesfully synced {successCouunt} role perks and skipped {existingCount} already applied role perks!!")
                     .Build();
             });
     }
