@@ -43,7 +43,7 @@ createroles:
   args:
     - "rolename \"role name with spaces\""
   desc: Create multiple roles at a time for stuff like level roles!
-syncperks:
+syncrewards:
   args:
     - ""
   desc: "Allows you to sync xp perks if you are missing xp roles"
