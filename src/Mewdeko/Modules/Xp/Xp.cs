@@ -142,7 +142,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         var successCouunt = 0;
         var failedCount = 0;
         var existingCount = 0;
-        foreach (var i in perks)
+        foreach (var i in perks.Where(x => x.Level <= userStats.GuildRanking))
         {
             if (user.RoleIds.Contains(i.RoleId))
             {
