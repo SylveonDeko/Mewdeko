@@ -150,8 +150,6 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 continue;
             }
 
-            if (userStats.GuildRanking < i.Level)
-                continue;
             try
             {
                 await user.AddRoleAsync(i.RoleId);
