@@ -22,7 +22,9 @@ createroles:
   - createroles
   - croles
   - crs
-
+syncperks:
+  - syncperks
+  - perksync
 addemote:
   - addemote
   - emoteadd
