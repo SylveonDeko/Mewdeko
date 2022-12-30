@@ -8,6 +8,7 @@ public class StatusRolesService : INService
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
+    private readonly List<ulong> proccesingUserCache = new List<ulong>();
 
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
@@ -19,10 +20,17 @@ public class StatusRolesService : INService
 
     private async Task EventHandlerOnPresenceUpdated(SocketUser args, SocketPresence args2, SocketPresence args3)
     {
+        if (proccesingUserCache.Contains(args.Id))
+            return;
+        proccesingUserCache.Add(args.Id);
         var status = args3.Activities.FirstOrDefault() as CustomStatusGame;
         var beforeStatus = args2.Activities.FirstOrDefault() as CustomStatusGame;
         if (!await cache.SetUserStatusCache(args.Id, status.State.GetHashCode()))
+        {
+            proccesingUserCache.Remove(args.Id);
             return;
+        }
+
         await using var uow = db.GetDbContext();
         var statusRolesConfigs = await cache.GetStatusRoleCache();
         foreach (var i in statusRolesConfigs)
@@ -43,6 +51,7 @@ public class StatusRolesService : INService
                 {
                     if (i.RemoveAdded)
                     {
+                        proccesingUserCache.Remove(args.Id);
                         if (toAdd.Any())
                         {
                             foreach (var role in toAdd.Where(socketRole => curUser.Roles.Select(x => x.Id).Contains(socketRole)))
@@ -61,6 +70,7 @@ public class StatusRolesService : INService
 
                     if (i.ReaddRemoved)
                     {
+                        proccesingUserCache.Remove(args.Id);
                         if (toRemove.Any())
                         {
                             foreach (var role in toRemove.Where(socketRole => !curUser.Roles.Select(x => x.Id).Contains(socketRole)))
@@ -78,11 +88,17 @@ public class StatusRolesService : INService
                     }
                 }
                 else
+                {
+                    proccesingUserCache.Remove(args.Id);
                     continue;
+                }
             }
 
             if (beforeStatus.State.Contains(i.Status))
+            {
+                proccesingUserCache.Remove(args.Id);
                 continue;
+            }
 
             if (toRemove.Any())
             {
@@ -111,19 +127,29 @@ public class StatusRolesService : INService
             var channel = guild.GetTextChannel(i.StatusChannelId);
 
             if (channel is null)
+            {
+                proccesingUserCache.Remove(args.Id);
                 continue;
+            }
 
             if (string.IsNullOrWhiteSpace(i.StatusEmbed))
+            {
+                proccesingUserCache.Remove(args.Id);
                 continue;
+            }
 
             var rep = new ReplacementBuilder().WithDefault(curUser, channel, guild, client).Build();
 
             if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
             {
+                proccesingUserCache.Remove(args.Id);
                 await channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
             }
             else
+            {
+                proccesingUserCache.Remove(args.Id);
                 await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
+            }
         }
     }
 
