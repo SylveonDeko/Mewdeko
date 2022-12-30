@@ -626,7 +626,7 @@ public class CommandHandler : INService
                 if (guild is not null)
                 {
                     var gconf = await gss.GetGuildConfig(guild.Id);
-                    if (!gconf.StatsOptOut)
+                    if (!gconf.StatsOptOut && info is not null)
                     {
                         await using var uow = db.GetDbContext();
                         var user = await uow.GetOrCreateUser(usrMsg.Author);
@@ -648,8 +648,7 @@ public class CommandHandler : INService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Log.Error($"Error saving command stats:\n{e}");
             }
 
             if (success)
