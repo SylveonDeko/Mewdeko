@@ -118,7 +118,7 @@ public class StatusRolesService : INService
 
             var rep = new ReplacementBuilder().WithDefault(curUser, channel, guild, client).Build();
 
-            if (SmartEmbed.TryParse(i.StatusEmbed, guild.Id, out var embeds, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
             {
                 await channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
             }
