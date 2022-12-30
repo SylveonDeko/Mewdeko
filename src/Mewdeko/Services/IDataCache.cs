@@ -55,4 +55,6 @@ public interface IDataCache
 
     DateTime GetLastCurrencyDecay();
     void SetLastCurrencyDecay();
+    Task SetStatusRoleCache(List<StatusRolesTable> statusRoles);
+    Task<List<StatusRolesTable>?> GetStatusRoleCache();
 }

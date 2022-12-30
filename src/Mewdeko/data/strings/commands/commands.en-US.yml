@@ -4,6 +4,47 @@ acadd:
   desc: >-
     Adds a command to the list of commands which will be executed automatically
     every X seconds.
+addstatusrole:
+  args:
+    - "status"
+  desc: Adds a status to be configured with the rest of the statusrole commands/
+setstatusroleembed:
+  args:
+    - 1 embedcode
+    - 1
+  desc: Preview or set embed code for a statusrole.
+setstatusrolechannel:
+  args:
+    - channel
+  desc: Sets the channel used to send the status embed
+setremoveroles:
+  args:
+    - 1 role1 role2 \"Role with spaces\"
+  desc: Set the roles to be removed when a user has the status at that index number
+setaddroles:
+  args:
+    - 1 role1 role2 \"Role with spaces\"
+  desc: Set the roles to be removed when a user has the status at that index number
+toggleremoveadded:
+  args:
+    - 1
+  desc: Toggles whether roles added when they had their status are removed when the status is removed
+togglereaddremoved:
+  args:
+    - 1
+  desc: Toggles whether roles removed when they had their status are readded when the status is removed
+liststatusroles:
+  args:
+    - ""
+  desc: Lists all status roles that are setup
+removeaddroles:
+  args:
+    - 1 role1 role2 \"Role with spaces\"
+  desc: Removes the mentioned roles from being added with a certain status
+removeremoveroles:
+  args:
+    - 1 role1 role2 \"Role with spaces\"
+  desc: removes the mentioned roles from being removed with a certain status
 accept:
   args:
     - number reason
