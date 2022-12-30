@@ -35,9 +35,8 @@ public class StatusRolesService : INService
         var statusRolesConfigs = await cache.GetStatusRoleCache();
         foreach (var i in statusRolesConfigs)
         {
-            var guild = client.GetGuild(i.GuildId);
-            var users = guild.Users;
-            var curUser = users.FirstOrDefault(x => x.Id == args.Id);
+            var guild = client.GetGuild(i.GuildId) as IGuild;
+            var curUser = await guild.GetUserAsync(args.Id);
             var toAdd = new List<ulong>();
             var toRemove = new List<ulong>();
             if (!string.IsNullOrWhiteSpace(i.ToAdd))
@@ -54,7 +53,7 @@ public class StatusRolesService : INService
                         proccesingUserCache.Remove(args.Id);
                         if (toAdd.Any())
                         {
-                            foreach (var role in toAdd.Where(socketRole => curUser.Roles.Select(x => x.Id).Contains(socketRole)))
+                            foreach (var role in toAdd.Where(socketRole => curUser.RoleIds.Contains(socketRole)))
                             {
                                 try
                                 {
@@ -73,7 +72,7 @@ public class StatusRolesService : INService
                         proccesingUserCache.Remove(args.Id);
                         if (toRemove.Any())
                         {
-                            foreach (var role in toRemove.Where(socketRole => !curUser.Roles.Select(x => x.Id).Contains(socketRole)))
+                            foreach (var role in toRemove.Where(socketRole => !curUser.RoleIds.Contains(socketRole)))
                             {
                                 try
                                 {
@@ -124,7 +123,7 @@ public class StatusRolesService : INService
                 }
             }
 
-            var channel = guild.GetTextChannel(i.StatusChannelId);
+            var channel = await guild.GetTextChannelAsync(i.StatusChannelId);
 
             if (channel is null)
             {
@@ -138,7 +137,7 @@ public class StatusRolesService : INService
                 continue;
             }
 
-            var rep = new ReplacementBuilder().WithDefault(curUser, channel, guild, client).Build();
+            var rep = new ReplacementBuilder().WithDefault(curUser, channel, guild as SocketGuild, client).Build();
 
             if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
             {
