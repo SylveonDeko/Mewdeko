@@ -47,7 +47,7 @@ public class StatusRolesService : INService
 
             if (!status.State.Contains(i.Status))
             {
-                if (beforeStatus.State.Contains(i.Status))
+                if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
                 {
                     if (i.RemoveAdded)
                     {
@@ -94,7 +94,7 @@ public class StatusRolesService : INService
                 }
             }
 
-            if (beforeStatus.State.Contains(i.Status))
+            if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
             {
                 proccesingUserCache.Remove(args.Id);
                 continue;
