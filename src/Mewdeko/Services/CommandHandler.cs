@@ -716,7 +716,7 @@ public class CommandHandler : INService
             return (false, bestCandidate.Value.ErrorReason, commands[0].Command);
         }
 
-        var parseResultsDict = new Dictionary<CommandMatch, ParseResult>();
+        var parseResultsDict = new Dictionary<CommandMatch, Discord.Commands.ParseResult>();
         foreach (var pair in successfulPreconditions)
         {
             var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services)
@@ -731,7 +731,7 @@ public class CommandHandler : INService
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
-                        parseResult = ParseResult.FromSuccess(argList, paramList);
+                        parseResult = Discord.Commands.ParseResult.FromSuccess(argList, paramList);
                         break;
                 }
             }
@@ -740,7 +740,7 @@ public class CommandHandler : INService
         }
 
         // Calculates the 'score' of a command given a parse result
-        static float CalculateScore(CommandMatch match, ParseResult parseResult)
+        static float CalculateScore(CommandMatch match, Discord.Commands.ParseResult parseResult)
         {
             float argValuesScore = 0, paramValuesScore = 0;
 
