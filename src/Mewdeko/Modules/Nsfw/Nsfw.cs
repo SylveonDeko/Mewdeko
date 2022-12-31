@@ -1,65 +1,110 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
-using MartineApiNet.Models.Images;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Settings;
+using Newtonsoft.Json.Linq;
 using NHentaiAPI;
 using Refit;
-using Serilog;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Nsfw;
 
 public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 {
-    private static readonly ConcurrentHashSet<ulong> HentaiBombBlacklist = new();
-    private static readonly ConcurrentHashSet<ulong> PornBombBlacklist = new();
-    private readonly MewdekoRandom rng;
-    private readonly InteractiveService interactivity;
-    private readonly MartineApi martineApi;
-    private readonly GuildSettingsService guildSettings;
-    private readonly HttpClient client;
-    private readonly BotConfigService config;
+    private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
+    private readonly IHttpClientFactory _httpFactory;
+    private readonly MewdekoRandom _rng;
+    private readonly InteractiveService _interactivity;
+    private readonly MartineApi _martineApi;
+    private readonly GuildSettingsService _guildSettings;
+    public static List<RedditCache> Cache { get; set; } = new();
 
-    public Nsfw(
-        InteractiveService interactivity, MartineApi martineApi,
-        GuildSettingsService guildSettings, HttpClient client,
-        BotConfigService config)
+    public Nsfw(IHttpClientFactory factory, InteractiveService interactivity, MartineApi martineApi,
+        GuildSettingsService guildSettings)
     {
-        this.martineApi = martineApi;
-        this.guildSettings = guildSettings;
-        this.client = client;
-        this.config = config;
-        this.interactivity = interactivity;
-        rng = new MewdekoRandom();
+        _martineApi = martineApi;
+        _guildSettings = guildSettings;
+        _interactivity = interactivity;
+        _httpFactory = factory;
+        _rng = new MewdekoRandom();
     }
 
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw, Ratelimit(10)]
-    public async Task RedditNsfw(string subreddit)
+    public record RedditCache
     {
-        var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Trying to get a post from `{subreddit}`...");
+        public IGuild Guild { get; set; }
+        public string Url { get; set; }
+    }
+
+    public static bool CheckIfAlreadyPosted(IGuild guild, string url)
+    {
+        var e = new RedditCache { Guild = guild, Url = url };
+        if (Cache.Count == 0)
+        {
+            Cache.Add(e);
+            return false;
+        }
+
+        if (Cache.Contains(e)) return Cache.Contains(e) || true;
+        Cache.Add(e);
+        return false;
+
+    }
+
+    private async Task InternalBoobs()
+    {
         try
         {
-            RedditPost image;
-            try
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
             {
-                image = await martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year).ConfigureAwait(false);
-            }
-            catch (ApiException ex)
-            {
-                await msg.DeleteAsync();
-                Log.Error($"Seems that NSFW Subreddit fetching has failed. Here's the error:\nCode: {ex.StatusCode}\nContent: {(ex.HasContent ? ex.Content : "No Content.")}");
-                await ctx.Channel.SendErrorAsync("Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.");
-                return;
+                obj = JArray.Parse(await http
+                                         .GetStringAsync(
+                                             $"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 10330)}")
+                                         .ConfigureAwait(false))[0];
             }
 
+            await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
+    }
+
+    private async Task InternalButts(IMessageChannel channel)
+    {
+        try
+        {
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
+            {
+                obj = JArray.Parse(await http
+                                         .GetStringAsync(
+                                             $"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 4335)}")
+                                         .ConfigureAwait(false))[0];
+            }
+
+            await channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
+    public async Task RedditNsfw(string subreddit)
+    {
+        try
+        {
+            var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+            while (CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
+                image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Data.Title}]({image.Data.PostUrl})",
@@ -68,57 +113,32 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             };
             if (image.Data.ImageUrl.CheckIfNotEmbeddable())
             {
-                image.Data.ImageUrl = image.Data.ImageUrl.Replace("gifv", "mp4");
-                using var sr = await client.GetAsync(image.Data.ImageUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                var imgStream = imgData.ToStream();
-                await using var _ = imgStream.ConfigureAwait(false);
-                await ctx.Channel.SendFileAsync(imgStream, "boobs.mp4", embed: eb.Build(),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null);
-                await msg.DeleteAsync();
+                await ctx.Channel.SendMessageAsync(image.Data.ImageUrl, embed: eb.Build());
             }
             else
             {
-                await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null).ConfigureAwait(false);
-                await msg.DeleteAsync();
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }
         }
         catch (ApiException)
         {
-            await msg.DeleteAsync();
             await ctx.Channel.SendErrorAsync(
-                    $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {await guildSettings.GetPrefix(ctx.Guild)}vote.")
-                .ConfigureAwait(false);
+                $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {_guildSettings.GetPrefix(ctx.Guild)}vote.");
         }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num)
     {
-        var nHentaiClient = new NHentaiClient();
-        var book = await nHentaiClient.GetBookAsync(num).ConfigureAwait(false);
+        var client = new NHentaiClient();
+        var book = await client.GetBookAsync(num);
         var title = book.Title.English;
         var pages = book.Images.Pages;
         var tags = book.Tags.Select(i => i.Name).ToList();
         if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
 
         {
-            await ctx.Channel.SendErrorAsync("This manga contains loli/shota content and is not allowed by discord TOS!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("This manga contains loli/shota content and is not allowed by discord TOS!");
             return;
         }
 
@@ -131,27 +151,27 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask.ConfigureAwait(false);
+            await Task.CompletedTask;
             return new PageBuilder()
-                .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
-                .WithImageUrl(NHentaiClient.GetPictureUrl(book, page + 1).AbsoluteUri)
-                .WithOkColor();
+                   .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
+                   .WithImageUrl(NHentaiClient.GetPictureUrl(book, page + 1).AbsoluteUri)
+                   .WithOkColor();
         }
     }
 
     public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",
         string? exclude = null)
     {
-        var nHentaiClient = new NHentaiClient();
+        var client = new NHentaiClient();
 
-        var result = await nHentaiClient.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
+        var result = await client.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page);
         if (result.Result.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
             return;
         }
 
@@ -164,54 +184,40 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page1)
         {
-            await Task.CompletedTask.ConfigureAwait(false);
+            await Task.CompletedTask;
             var list = result.Result.Skip(page1).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
             return new PageBuilder().WithOkColor()
-                .WithTitle(result.Result.Skip(page1).FirstOrDefault().Title.English)
-                .WithDescription(string.Join("|", list.Take(20)))
-                .AddField("NHentai Magic Number", result.Result.Skip(page1).FirstOrDefault().Id)
-                .AddField("NHentai Magic URL",
-                    $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
-                .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
-                .WithImageUrl(nHentaiClient.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
+                                    .WithTitle(result.Result.Skip(page1).FirstOrDefault().Title.English)
+                                    .WithDescription(string.Join("|", list.Take(20)))
+                                    .AddField("NHentai Magic Number", result.Result.Skip(page1).FirstOrDefault().Id)
+                                    .AddField("NHentai Magic URL",
+                                        $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
+                                    .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
+                                    .WithImageUrl(client.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
         }
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF").ConfigureAwait(false);
+    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Pussy() => await RedditNsfw("pussy").ConfigureAwait(false);
+    public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Anal() => await RedditNsfw("anal").ConfigureAwait(false);
+    public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Porn() => await RedditNsfw("porn").ConfigureAwait(false);
+    public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Bondage() => await RedditNsfw("bondage").ConfigureAwait(false);
+    public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search).ConfigureAwait(false);
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist).ConfigureAwait(false);
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page).ConfigureAwait(false);
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type).ConfigureAwait(false);
-
-    [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) =>
-        await InternalNHentaiSearch(search, page, type, blacklist).ConfigureAwait(false);
-
+    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
     [Cmd, Aliases]
     [RequireNsfw]
     [RequireContext(ContextType.Guild)]
@@ -244,7 +250,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 else
                 {
                     var groups = tags.Split('|');
-                    var group = groups[rng.Next(0, groups.Length)];
+                    var group = groups[_rng.Next(0, groups.Length)];
                     await InternalDapiCommand(group.Split(' '), true, Service.Hentai).ConfigureAwait(false);
                 }
             }
@@ -262,7 +268,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         await ReplyConfirmLocalizedAsync("autohentai_started",
             interval,
-            string.Join(", ", tags)).ConfigureAwait(false);
+            string.Join(", ", tags));
     }
 
     [Cmd, Aliases]
@@ -286,7 +292,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         {
             try
             {
-                await Boobs().ConfigureAwait(false);
+                await InternalBoobs().ConfigureAwait(false);
             }
             catch
             {
@@ -300,7 +306,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("started", interval);
     }
 
     [Cmd, Aliases]
@@ -327,7 +333,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         {
             try
             {
-                await Butts().ConfigureAwait(false);
+                await InternalButts(ctx.Channel).ConfigureAwait(false);
             }
             catch
             {
@@ -341,7 +347,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("started", interval);
     }
 
     [Cmd, Aliases]
@@ -353,14 +359,14 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public async Task HentaiBomb(params string[] tags)
     {
-        if (!HentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
+        if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
             return;
         try
         {
             var images = await Task.WhenAll(Service.Yandere(ctx.Guild?.Id, true, tags),
                 Service.Danbooru(ctx.Guild?.Id, true, tags),
                 Service.Konachan(ctx.Guild?.Id, true, tags),
-                Service.Gelbooru(ctx.Guild?.Id, true, tags)).ConfigureAwait(false);
+                Service.Gelbooru(ctx.Guild?.Id, true, tags));
 
             var linksEnum = images.Where(l => l != null).ToArray();
             if (!images.Any())
@@ -369,57 +375,12 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 return;
             }
 
-            await ctx.Channel.SendMessageAsync(string.Join("\n", linksEnum.Select(x => x.Url)),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null)
-                .ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(string.Join("\n\n", linksEnum.Select(x => x.Url)))
+                     .ConfigureAwait(false);
         }
         finally
         {
-            HentaiBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
-        }
-    }
-
-    [Cmd, Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task PornBomb(params string[] tags)
-    {
-        if (!PornBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
-            return;
-        try
-        {
-            var images = await Task.WhenAll(Service.RealBooru(ctx.Guild?.Id, true, tags),
-                Service.RealBooru(ctx.Guild?.Id, true, tags),
-                Service.RealBooru(ctx.Guild?.Id, true, tags),
-                Service.RealBooru(ctx.Guild?.Id, true, tags)).ConfigureAwait(false);
-
-            var linksEnum = images.Where(l => l != null).ToArray();
-            if (!images.Any())
-            {
-                await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
-                return;
-            }
-
-            await ctx.Channel.SendMessageAsync(string.Join("\n", linksEnum.Select(x => x.Url)),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null)
-                .ConfigureAwait(false);
-        }
-        finally
-        {
-            PornBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
+            _hentaiBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
         }
     }
 
@@ -470,16 +431,11 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Realbooru(params string[] tags)
-        => InternalDapiCommand(tags, false, Service.RealBooru);
+    public async Task Boobs() => await RedditNsfw("boobs");
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Boobs() => await RedditNsfw("boobs").ConfigureAwait(false);
-
-    [Cmd, Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Butts() => await RedditNsfw("ass").ConfigureAwait(false);
+    public async Task Butts() => await RedditNsfw("ass");
 
     [Cmd, Aliases]
     [RequireContext(ContextType.Guild)]
@@ -488,7 +444,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         if (string.IsNullOrWhiteSpace(tag))
         {
-            var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id).ConfigureAwait(false);
+            var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id);
             await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
                 blTags.Length > 0
                     ? string.Join(", ", blTags)
@@ -497,12 +453,12 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         else
         {
             tag = tag.Trim().ToLowerInvariant();
-            var added = await Service.ToggleBlacklistTag(ctx.Guild.Id, tag).ConfigureAwait(false);
+            var added = await Service.ToggleBlacklistTag(ctx.Guild.Id, tag);
 
             if (added)
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag);
             else
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag);
         }
     }
 
@@ -510,26 +466,18 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         bool forceExplicit,
         Func<ulong?, bool, string[], Task<UrlReply?>> func)
     {
-        var data = await func(ctx.Guild?.Id, forceExplicit, tags).ConfigureAwait(false);
+        var data = await func(ctx.Guild?.Id, forceExplicit, tags);
 
         if (data is null || !string.IsNullOrWhiteSpace(data.Error))
         {
-            await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("no_results");
             return;
         }
 
         await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithImageUrl(data.Url)
-                .WithDescription($"[link]({data.Url})")
-                .WithFooter(
-                    $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
-                .Build(),
-            components: config.Data.ShowInviteButton
-                ? new ComponentBuilder()
-                    .WithButton(style: ButtonStyle.Link,
-                        url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                : null).ConfigureAwait(false);
+                                                                    .WithDescription($"[link]({data.Url})")
+                                                                    .WithFooter(
+                                                                        $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
+                                                                    .Build());
     }
 }
