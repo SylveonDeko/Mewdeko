@@ -6,7 +6,7 @@ namespace Mewdeko.Modules.Suggestions.Services;
 
 public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 {
-    [ComponentInteraction("emotebutton:*", TreatAsRegex = true)]
+    [ComponentInteraction("emotebutton:*")]
     public async Task UpdateCount(string number)
     {
         await DeferAsync(true).ConfigureAwait(false);
@@ -85,7 +85,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
         await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build()).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("publicsuggestthread:*", TreatAsRegex = true)]
+    [ComponentInteraction("publicsuggestthread:*")]
     public async Task PublicThreadStartOrJoin(string suggestnum)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;
