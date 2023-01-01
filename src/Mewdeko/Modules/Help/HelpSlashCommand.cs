@@ -165,7 +165,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("runcmd.*", true)]
+    [ComponentInteraction("runcmd.*", true, TreatAsRegex = true)]
     public async Task RunCmd(string command)
     {
         var com = cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
@@ -182,7 +182,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}").ConfigureAwait(false);
     }
 
-    [ModalInteraction("runcmdmodal.*", ignoreGroupNames: true)]
+    [ModalInteraction("runcmdmodal.*", true, TreatAsRegex = true)]
     public async Task RunModal(string command, CommandModal modal)
     {
         await DeferAsync().ConfigureAwait(false);
@@ -194,7 +194,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _ = Task.Run(() => ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("toggle-descriptions:*,*", true)]
+    [ComponentInteraction("toggle-descriptions:*,*", true, TreatAsRegex = true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
         if (ctx.User.Id.ToString() != sId) return;
