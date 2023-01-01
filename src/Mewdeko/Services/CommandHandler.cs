@@ -361,7 +361,8 @@ public class CommandHandler : INService
         //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
         var ctx = new SocketInteractionContext(client, interaction);
-        await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
     }
 
     public string SetDefaultPrefix(string prefix)

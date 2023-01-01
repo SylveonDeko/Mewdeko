@@ -35,23 +35,23 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
                 .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000))))
         .ConfigureAwait(false);
 
-    [ComponentInteraction("accept:*", true, TreatAsRegex = true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Accept(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:accept.{suggestId}").ConfigureAwait(false);
 
-    [ComponentInteraction("deny:*", true, TreatAsRegex = true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("deny:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Deny(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:deny.{suggestId}").ConfigureAwait(false);
 
-    [ComponentInteraction("consider:*", true, TreatAsRegex = true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("consider:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Consider(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:consider.{suggestId}").ConfigureAwait(false);
 
-    [ComponentInteraction("implement:*", true, TreatAsRegex = true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
+    [ComponentInteraction("implement:*", true), RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Implemented(string suggestId)
         => await ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:implement.{suggestId}").ConfigureAwait(false);
 
-    [ModalInteraction("suggeststate:*.*", true, TreatAsRegex = true), CheckPermissions, RequireContext(ContextType.Guild)]
+    [ModalInteraction("suggeststate:*.*", true), CheckPermissions, RequireContext(ContextType.Guild)]
     public async Task HandleStateModal(string state, string suggestId, SuggestStateModal modal)
     {
         ulong.TryParse(suggestId, out var sugId);
