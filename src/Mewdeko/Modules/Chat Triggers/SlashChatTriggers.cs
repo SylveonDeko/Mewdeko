@@ -23,7 +23,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         this.clientFactory = clientFactory;
     }
 
-    [ComponentInteraction("trigger.*.runin.*$*", true, TreatAsRegex = true), CheckPermissions]
+    [ComponentInteraction("trigger.*.runin.*$*", true), CheckPermissions]
     public async Task TriggerRunInHandler(int triggerId, ulong? guildId, string _)
     {
         guildId ??= 0;
@@ -83,7 +83,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
         => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
-    [ModalInteraction("chat_trigger_add:*", true, TreatAsRegex = true),
+    [ModalInteraction("chat_trigger_add:*", true),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
     {
@@ -121,7 +121,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
-    [ModalInteraction("chat_trigger_edit:*,*", true, TreatAsRegex = true),
+    [ModalInteraction("chat_trigger_edit:*,*", true),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
     {
