@@ -37,7 +37,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         this.db = db;
     }
 
-    [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    [ComponentInteraction("avatartype:*,*", true, TreatAsRegex = true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Avatar(string avType, ulong userId)
     {
         var componentInteraction = ctx.Interaction as IComponentInteraction;
@@ -88,7 +88,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         await RespondWithModalAsync<SayModal>($"saymodal:{channel.Id}");
     }
 
-    [ModalInteraction("saymodal:*", ignoreGroupNames: true)]
+    [ModalInteraction("saymodal:*", ignoreGroupNames: true, TreatAsRegex = true)]
     public async Task SayModal(ulong channelId, SayModal modal)
     {
         var channel = await ctx.Guild.GetTextChannelAsync(channelId);
