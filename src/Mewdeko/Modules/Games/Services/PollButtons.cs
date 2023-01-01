@@ -10,7 +10,7 @@ public class PollButtons : MewdekoSlashCommandModule
     public PollButtons(PollService pollService)
         => this.pollService = pollService;
 
-    [ComponentInteraction("pollbutton:*", TreatAsRegex = true)]
+    [ComponentInteraction("pollbutton:*")]
     public async Task Pollbutton(string num)
     {
         var (allowed, type) = await pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User);
