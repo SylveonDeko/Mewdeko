@@ -97,7 +97,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             //ignored
         }
 
-        suggestion = suggestion.EscapeQuotes();
+        suggestion = suggestion.EscapeWeirdStuff();
         if (suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
@@ -122,23 +122,23 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Deny(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Accept(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Implemented(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public async Task Consider(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes()).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
 }
