@@ -85,7 +85,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeQuotes(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         try
         {
