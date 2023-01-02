@@ -246,7 +246,7 @@ public class AfkService : INService, IReadyExecutor
                         .WithOverride("%afk.message%", () => afkmessage.Last().Message.SanitizeMentions(true).Truncate(GetAfkLength(user.GuildId).GetAwaiter().GetResult()))
                         .WithOverride("%afk.user%", () => mentuser.ToString()).WithOverride("%afk.user.mention%", () => mentuser.Mention)
                         .WithOverride("%afk.user.avatar%", () => mentuser.GetAvatarUrl(size: 2048)).WithOverride("%afk.user.id%", () => mentuser.Id.ToString())
-                        .WithOverride("%afk.triggeruser%", () => msg.Author.ToString().EscapeQuotes())
+                        .WithOverride("%afk.triggeruser%", () => msg.Author.ToString().EscapeWeirdStuff())
                         .WithOverride("%afk.triggeruser.avatar%", () => msg.Author.RealAvatarUrl().ToString())
                         .WithOverride("%afk.triggeruser.id%", () => msg.Author.Id.ToString()).WithOverride("%afk.triggeruser.mention%", () => msg.Author.Mention)
                         .WithOverride("%afk.time%", () =>

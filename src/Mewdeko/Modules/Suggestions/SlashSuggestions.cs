@@ -58,16 +58,16 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         switch (state)
         {
             case "accept":
-                await Accept(sugId, modal.Reason.EscapeQuotes()).ConfigureAwait(false);
+                await Accept(sugId, modal.Reason.EscapeWeirdStuff()).ConfigureAwait(false);
                 break;
             case "deny":
-                await Deny(sugId, modal.Reason.EscapeQuotes()).ConfigureAwait(false);
+                await Deny(sugId, modal.Reason.EscapeWeirdStuff()).ConfigureAwait(false);
                 break;
             case "consider":
-                await Consider(sugId, modal.Reason.EscapeQuotes()).ConfigureAwait(false);
+                await Consider(sugId, modal.Reason.EscapeWeirdStuff()).ConfigureAwait(false);
                 break;
             case "implement":
-                await Implemented(sugId, modal.Reason.EscapeQuotes()).ConfigureAwait(false);
+                await Implemented(sugId, modal.Reason.EscapeWeirdStuff()).ConfigureAwait(false);
                 break;
         }
     }
@@ -75,7 +75,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
     [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task HandleSuggestion(SuggestionModal modal)
     {
-        modal.Suggestion = modal.Suggestion.EscapeQuotes();
+        modal.Suggestion = modal.Suggestion.EscapeWeirdStuff();
         if (await Service.GetSuggestionChannel(ctx.Guild.Id) is 0)
         {
             await EphemeralReplyErrorLocalizedAsync("suggest_channel_not_set").ConfigureAwait(false);
@@ -122,23 +122,23 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Deny([Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))] ulong suggestid, string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction).ConfigureAwait(false);
 
     [SlashCommand("accept", "Accepts a suggestion"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Accept([Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))] ulong suggestid, string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction).ConfigureAwait(false);
 
     [SlashCommand("implement", "Sets a suggestion as implemented"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Implemented([Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))] ulong suggestid, string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction).ConfigureAwait(false);
 
     [SlashCommand("consider", "Sets a suggestion as considered"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Consider([Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))] ulong suggestid, string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
-            ctx.Channel as ITextChannel, reason.EscapeQuotes(), ctx.Interaction).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction).ConfigureAwait(false);
 }
