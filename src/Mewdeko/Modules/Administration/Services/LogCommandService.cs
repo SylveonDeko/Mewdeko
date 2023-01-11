@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.Rest;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Administration.Common;
@@ -964,7 +963,7 @@ public class LogCommandService : INService
                 return;
             }
 
-            var unbannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Unban)).FirstOrDefault(x => ((UnbanAuditLogData)x.Data).Target == usr);
+            var unbannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Unban)).FirstOrDefault();
             ITextChannel logChannel;
             if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserUnbanned)
                     .ConfigureAwait(false)) == null)
@@ -1007,7 +1006,7 @@ public class LogCommandService : INService
                 return;
             }
 
-            var bannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Ban)).FirstOrDefault(x => ((BanAuditLogData)x.Data).Target == usr);
+            var bannedby = (await guild.GetAuditLogsAsync(actionType: ActionType.Ban)).FirstOrDefault();
             ITextChannel logChannel;
             if ((logChannel =
                     await TryGetLogChannel(guild, logSetting, LogType.UserBanned).ConfigureAwait(false)) ==
