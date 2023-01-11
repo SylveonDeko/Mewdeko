@@ -44,7 +44,7 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Ship(IUser user, IUser user2)
         {
-            var random = new Random().Next(0, 100);
+            var random = new Random().Next(0, 101);
             var getShip = await Service.GetShip(user.Id, user2.Id);
             if (getShip is not null)
                 random = getShip.Score;
