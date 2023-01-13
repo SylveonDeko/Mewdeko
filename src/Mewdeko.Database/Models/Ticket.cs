@@ -11,4 +11,5 @@ public class Ticket : DbEntity
     public ulong ClaimedBy { get; set; } = 0;
     public ulong ClosedBy { get; set; } = 0;
     public ulong TicketNumber { get; set; }
+    public int PanelId { get; set; }
 }
