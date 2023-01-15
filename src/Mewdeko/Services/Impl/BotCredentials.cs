@@ -81,6 +81,7 @@ public class BotCredentials : IBotCredentials
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
             StatcordKey = data[nameof(StatcordKey)];
             ChatSavePath = data[nameof(ChatSavePath)];
+            ClientSecret = data[nameof(ClientSecret)];
             if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
 
@@ -134,13 +135,15 @@ public class BotCredentials : IBotCredentials
         }
     }
 
+    public string Token { get; set; }
+    public string ClientSecret { get; set; }
+
     public string ShardRunPort { get; set; }
     public string GoogleApiKey { get; set; }
     public string SpotifyClientId { get; set; }
     public string SpotifyClientSecret { get; set; }
     public string MashapeKey { get; set; }
     public string StatcordKey { get; set; }
-    public string Token { get; set; }
 
     public ImmutableArray<ulong> OwnerIds { get; set; }
     public ImmutableArray<ulong> OfficialMods { get; set; }
@@ -194,13 +197,15 @@ public class BotCredentials : IBotCredentials
             280835732728184843, 786375627892064257
         };
 
+        public string Token { get; } = "";
+        public string ClientSecret { get; } = "";
+
         public string SoundCloudClientId { get; set; } = "";
         public string SpotifyClientId { get; set; } = "";
         public string SpotifyClientSecret { get; set; } = "";
         public string StatcordKey { get; set; } = "";
         public string RestartCommand { get; set; } = null;
         public string ShardRunPort { get; set; } = "3444";
-        public string Token { get; } = "";
 
         public string GoogleApiKey { get; } = "";
         public string MashapeKey { get; } = "";
