@@ -21,7 +21,7 @@ public partial class Moderation
         public async Task Authorize()
         {
             var url =
-                "https://discord.com/api/oauth2/authorize?client_id=%id%&redirect_uri=%redirect%&response_type=code&scope=identify%20role_connections.write"
+                "https://discord.com/api/oauth2/authorize?client_id=%id%&redirect_uri=%redirect%&response_type=code&scope=identify%20role_connections.write%20connections"
                     .Replace("%id%", Context.Client.CurrentUser.Id.ToString())
                     .Replace("%redirect%",  HttpUtility.UrlEncode(_config.RedirectUrl));
             var components = new ComponentBuilder()
