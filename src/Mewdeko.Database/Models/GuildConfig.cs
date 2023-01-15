@@ -69,6 +69,19 @@ public class GuildConfig : DbEntity
     public int SuggestButtonRepostThreshold { get; set; } = 5;
     public int SuggestButtonColor { get; set; } = 2;
 
+    // Guild Currency Config
+    // public string CurrencyEmote { get; set; }
+    // public string CurrencyName { get; set; }
+    // public ulong MinBet { get; set; }
+    // public ulong MaxBet { get; set; }
+    // public bool CurrencyGenerationEnabled { get; set; }
+    // public int CurrencyGenerationMaxAmount { get; set; }
+    // public int CurrencyGenerationMinAmount { get; set; }
+    // public int CurrencyGenerationCooldown { get; set; }
+    // public int CurrencyGenerationChance { get; set; }
+    // public int TimelyCurrencyAmount { get; set; }
+    // public int TimelyCurrencyCooldown { get; set; }
+
     public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;

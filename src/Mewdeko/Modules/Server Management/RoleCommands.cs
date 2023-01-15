@@ -23,6 +23,27 @@ public partial class ServerManagement
             this.config = config;
         }
 
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles), BotPerm(ChannelPermission.ManageRoles)]
+        public async Task CreateRoles([Remainder] string roles)
+        {
+            var roleList = roles.Split(" ");
+            if (await PromptUserConfirmAsync($"Are you sure you want to create {roleList.Length} roles with these names?\n{string.Join("\n", roleList)}", ctx.User.Id))
+            {
+                var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Creating {roleList.Length} roles...");
+                foreach (var i in roleList)
+                {
+                    await ctx.Guild.CreateRoleAsync(i, null, null, false, false);
+                }
+
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription($"{config.Data.SuccessEmote} Created {roleList.Length} roles!").Build();
+                });
+            }
+        }
+
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAll(IRole role)

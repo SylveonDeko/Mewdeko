@@ -11,7 +11,7 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
     private readonly MartineApi martineApi;
     public SlashSearches(MartineApi martineApi) => this.martineApi = martineApi;
 
-    [ComponentInteraction("meme:*")]
+    [ComponentInteraction("meme:*", true)]
     public async Task Meme(string userid)
     {
         await DeferAsync().ConfigureAwait(false);
@@ -40,7 +40,7 @@ public class SlashSearches : MewdekoSlashModuleBase<SearchesService>
         await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = em.Build()).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("randomreddit:*.*")]
+    [ComponentInteraction("randomreddit:*.*", true)]
     public async Task RandomReddit(string subreddit, string userId)
     {
         await DeferAsync().ConfigureAwait(false);

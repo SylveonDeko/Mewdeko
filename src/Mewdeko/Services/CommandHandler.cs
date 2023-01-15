@@ -361,7 +361,8 @@ public class CommandHandler : INService
         //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
         var ctx = new SocketInteractionContext(client, interaction);
-        await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
     }
 
     public string SetDefaultPrefix(string prefix)
@@ -626,7 +627,7 @@ public class CommandHandler : INService
                 if (guild is not null)
                 {
                     var gconf = await gss.GetGuildConfig(guild.Id);
-                    if (!gconf.StatsOptOut)
+                    if (!gconf.StatsOptOut && info is not null)
                     {
                         await using var uow = db.GetDbContext();
                         var user = await uow.GetOrCreateUser(usrMsg.Author);
@@ -648,8 +649,7 @@ public class CommandHandler : INService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Log.Error($"Error saving command stats:\n{e}");
             }
 
             if (success)
@@ -717,7 +717,7 @@ public class CommandHandler : INService
             return (false, bestCandidate.Value.ErrorReason, commands[0].Command);
         }
 
-        var parseResultsDict = new Dictionary<CommandMatch, ParseResult>();
+        var parseResultsDict = new Dictionary<CommandMatch, Discord.Commands.ParseResult>();
         foreach (var pair in successfulPreconditions)
         {
             var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services)
@@ -732,7 +732,7 @@ public class CommandHandler : INService
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
-                        parseResult = ParseResult.FromSuccess(argList, paramList);
+                        parseResult = Discord.Commands.ParseResult.FromSuccess(argList, paramList);
                         break;
                 }
             }
@@ -741,7 +741,7 @@ public class CommandHandler : INService
         }
 
         // Calculates the 'score' of a command given a parse result
-        static float CalculateScore(CommandMatch match, ParseResult parseResult)
+        static float CalculateScore(CommandMatch match, Discord.Commands.ParseResult parseResult)
         {
             float argValuesScore = 0, paramValuesScore = 0;
 
