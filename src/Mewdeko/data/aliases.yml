@@ -168,6 +168,10 @@ archiveonimplement:
   - archiveonimplement
 asar:
   - asar
+authorize:
+  - authorize
+  - auth
+  - authroles
 autoassignbotrole:
   - autoassignbotrole
   - aabr
