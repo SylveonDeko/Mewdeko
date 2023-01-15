@@ -6,6 +6,7 @@ using Discord.Rest;
 using LinqToDB.Tools;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 
@@ -68,6 +69,10 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         await uow.AuthCodes.AddAsync(mod);
         await uow.SaveChangesAsync();
 
+        await Task.Delay(1000);
+        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, uow, Context.Client.CurrentUser.Id,
+            Credentials.ClientSecret, _httpClient);
+
         var eb = new EmbedBuilder()
             .WithTitle("Code Saved")
             .WithDescription(
@@ -79,7 +84,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         await FollowupAsync(embed: eb.Build());
     }
 
-    private class AuthResponce
+    public class AuthResponce
     {
         public string access_token { get; set; }
         public string token_type { get; set; }
