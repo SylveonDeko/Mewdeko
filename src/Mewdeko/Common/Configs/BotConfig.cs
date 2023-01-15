@@ -27,6 +27,7 @@ public sealed class BotConfig
         ErrorEmote = "<:HaneNo:914307917954576414>";
         SuccessEmote = "<:hane_wow:945005763829575680>";
         SupportServer = "https://discord.gg/mewdeko";
+        RedirectUrl = "https://mewdeko.tech/auth-v2.html";
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -96,6 +97,9 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
+
+    [Comment(@"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
+    public string RedirectUrl { get; set; }
 
     //         [Comment(@"Whether the prefix will be a suffix, or prefix.
     // For example, if your prefix is ! you will run a command called 'cash' by typing either

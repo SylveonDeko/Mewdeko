@@ -79,7 +79,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     // respond with a modal to support multiline responces.
     [SlashCommand("add", "Add new chat trigger."),
     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
+    public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex, [ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
 
     [ModalInteraction("chat_trigger_add:*", true),

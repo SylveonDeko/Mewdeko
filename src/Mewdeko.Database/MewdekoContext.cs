@@ -79,6 +79,8 @@ public class MewdekoContext : DbContext
     public DbSet<DiscordUser> DiscordUser { get; set; }
     public DbSet<Usernames> Usernames { get; set; }
 
+    public DbSet<RoleConnectionAuthStorage> AuthCodes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region QUOTES
