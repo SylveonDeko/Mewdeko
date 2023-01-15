@@ -199,7 +199,7 @@ public static class StringExtensions
 
     public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
 
-    public static string EscapeQuotes(this string txt) => txt.Replace("\"", "\\\"");
+    public static string EscapeWeirdStuff(this string txt) => txt.Replace(@"\", @"\\").Replace("\"", "\\\"");
 
     public static bool TryFormat(string data, object[] args, out string output)
     {

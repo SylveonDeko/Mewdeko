@@ -18,6 +18,45 @@ addchattrigger:
 addchattriggerregex:
   - addchattriggerregex
   - actr
+addstatusrole:
+  - addstatusrole
+  - asr
+setstatusroleembed:
+  - setstatusroleembed
+  - statusroleembed
+  - asre
+setstatusrolechannel:
+  - setstatusrolechannel
+  - statusrolechannel
+  - ssrc
+setaddroles:
+  - setaddroles
+  - sar
+setremoveroles:
+  - setremoveroles
+  - srr
+toggleremoveadded:
+  - toggleremoveadded
+  - togglerma
+togglereaddremoved:
+  - togglereaddremoved
+  - togglermrm
+liststatusroles:
+  - liststatusroles
+  - lsr
+removeaddroles:
+  - removeaddroles
+  - remar
+removeremoveroles:
+  - removeremoveroles
+  - rmremoveroles
+createroles:
+  - createroles
+  - croles
+  - crs
+syncrewards:
+  - syncrewards
+  - rsync
 addemote:
   - addemote
   - emoteadd
