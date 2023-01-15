@@ -26,6 +26,7 @@ public class DiscordUser : DbEntity
     public string? Pronouns { get; set; }
     public string? PronounsClearedReason { get; set; }
     public bool PronounsDisabled { get; set; }
+    // public string PndbCache { get; set; }
     public string? Bio { get; set; }
     public string? ProfileImageUrl { get; set; }
     public string? ZodiacSign { get; set; }
