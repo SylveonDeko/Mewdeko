@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Discord.Net.Commands" Version="3.9.0-dev" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-dev" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
-    <PackageReference Include="Serilog" Version="2.12.1-dev-01635"/>
+    <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.86" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
