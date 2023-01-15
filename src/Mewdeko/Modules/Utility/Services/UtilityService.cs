@@ -104,7 +104,7 @@ public class UtilityService : INService
             return;
 
 
-        var msgs = messages.Where(x => x.HasValue).Where(x => !x.Value.Author.IsBot)?.Select(x => new SnipeStore
+        var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore
         {
             GuildId = chan.Guild.Id,
             ChannelId = chan.Id,
@@ -135,69 +135,63 @@ public class UtilityService : INService
 
     private async Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        if (!await GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id)) return;
+        if (!ch.HasValue || ch.Value is not IGuildChannel channel)
+            return;
 
-        if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
-        var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id).ConfigureAwait(false);
-        if (user is null) return;
-        if (!user.IsBot)
+        if (!await GetSnipeSet(channel.Guild.Id)) return;
+
+        if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg) return;
+        if (msg.Author is null /*for some reason*/) return;
+        var snipemsg = new SnipeStore
         {
-            var snipemsg = new SnipeStore
-            {
-                GuildId = ((SocketTextChannel)ch.Value).Guild.Id,
-                ChannelId = ch.Id,
-                Message = msg.Content,
-                ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(400)}",
-                UserId = msg.Author.Id,
-                Edited = false,
-                DateAdded = DateTime.UtcNow
-            };
-            var snipes = await cache.GetSnipesForGuild(((SocketTextChannel)ch.Value).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
-            if (snipes.Count == 0)
-            {
-                var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
-                if (todelete.Any())
-                    snipes.RemoveRange(todelete);
-            }
-
-            snipes.Add(snipemsg);
-            await cache.AddSnipeToCache(((SocketTextChannel)ch.Value).Guild.Id, snipes).ConfigureAwait(false);
+            GuildId = channel.Guild.Id,
+            ChannelId = channel.Id,
+            Message = msg.Content,
+            ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(400)}",
+            UserId = msg.Author.Id,
+            Edited = false,
+            DateAdded = DateTime.UtcNow
+        };
+        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+        if (snipes.Count == 0)
+        {
+            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
+            if (todelete.Any())
+                snipes.RemoveRange(todelete);
         }
+
+        snipes.Add(snipemsg);
+        await cache.AddSnipeToCache(channel.Guild.Id, snipes).ConfigureAwait(false);
     }
 
     private async Task MsgStore2(Cacheable<IMessage, ulong> optMsg, SocketMessage imsg2, ISocketMessageChannel ch)
     {
-        if (ch is not ITextChannel)
-            return;
+        if (ch is not IGuildChannel channel) return;
 
-        if (!await GetSnipeSet(((SocketTextChannel)ch).Guild.Id)) return;
 
-        if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
-        var user = await msg.Channel.GetUserAsync(msg.Author.Id).ConfigureAwait(false);
-        if (user is null) return;
-        if (!user.IsBot)
+        if (!await GetSnipeSet(channel.Id)) return;
+
+        if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg) return;
+        var snipemsg = new SnipeStore
         {
-            var snipemsg = new SnipeStore
-            {
-                GuildId = ((SocketTextChannel)ch).Guild.Id,
-                ChannelId = ch.Id,
-                Message = msg.Content,
-                ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(1048)}",
-                UserId = msg.Author.Id,
-                Edited = true,
-                DateAdded = DateTime.UtcNow
-            };
-            var snipes = await cache.GetSnipesForGuild(((SocketTextChannel)ch).Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
-            if (snipes.Count == 0)
-            {
-                var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
-                if (todelete.Any())
-                    snipes.RemoveRange(todelete);
-            }
-
-            snipes.Add(snipemsg);
-            await cache.AddSnipeToCache(((SocketTextChannel)ch).Guild.Id, snipes).ConfigureAwait(false);
+            GuildId = channel.GuildId,
+            ChannelId = channel.Id,
+            Message = msg.Content,
+            ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(1048)}",
+            UserId = msg.Author.Id,
+            Edited = true,
+            DateAdded = DateTime.UtcNow
+        };
+        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+        if (snipes.Count == 0)
+        {
+            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
+            if (todelete.Any())
+                snipes.RemoveRange(todelete);
         }
+
+        snipes.Add(snipemsg);
+        await cache.AddSnipeToCache(channel.Guild.Id, snipes).ConfigureAwait(false);
     }
 
     public async Task MsgReciev2(IMessage msg)

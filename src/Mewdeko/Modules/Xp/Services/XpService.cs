@@ -125,7 +125,7 @@ public class XpService : INService, IUnloadableService
         this.client.GuildAvailable += Client_OnGuildAvailable;
         foreach (var guild in this.client.Guilds) Client_OnGuildAvailable(guild);
 #endif
-        Task.Run(UpdateLoop);
+        _ = Task.Run(UpdateLoop);
     }
 
     private NonBlocking.ConcurrentDictionary<ulong, int> XpTxtRates { get; }

@@ -182,7 +182,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}").ConfigureAwait(false);
     }
 
-    [ModalInteraction("runcmdmodal.*", ignoreGroupNames: true)]
+    [ModalInteraction("runcmdmodal.*", true)]
     public async Task RunModal(string command, CommandModal modal)
     {
         await DeferAsync().ConfigureAwait(false);
