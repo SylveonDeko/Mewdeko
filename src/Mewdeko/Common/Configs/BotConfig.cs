@@ -27,7 +27,7 @@ public sealed class BotConfig
         ErrorEmote = "<:HaneNo:914307917954576414>";
         SuccessEmote = "<:hane_wow:945005763829575680>";
         SupportServer = "https://discord.gg/mewdeko";
-        RedirectUrl = "https://mewdeko.tech/auth-v2.html";
+        RedirectUrl = "https://mewdeko.tech/auth.html";
     }
 
     [Comment(@"DO NOT CHANGE")]
