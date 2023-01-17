@@ -169,7 +169,7 @@ public class FeedsService : INService
                             if (feed1.Message is "-" or null)
                                 allSendTasks.Add(channel.EmbedAsync(embed));
                             else
-                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder, components: componentBuilder.Build()));
+                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
                         }
                     }
                 }
@@ -194,7 +194,8 @@ public class FeedsService : INService
         var repbuilder = new ReplacementBuilder()
             .WithOverride("%title%", () => feedItem.Title ?? "Unkown")
             .WithOverride("%author%", () => feedItem.Author ?? "Unknown")
-            .WithOverride("%content%", () => feedItem.Description?.StripHtml()).WithOverride("%image_url%", () =>
+            .WithOverride("%content%", () => feedItem.Description?.StripHtml())
+            .WithOverride("%image_url%", () =>
             {
                 if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                 {
@@ -213,10 +214,12 @@ public class FeedsService : INService
                 if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute)) return imgUrl;
 
                 return feed.ImageUrl;
-            }).WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
+            })
+            .WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
             .WithOverride("%timestamp%",
                 () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
-            .WithOverride("%url%", () => feedItem.Link ?? feedItem.SpecificItem.Link).WithOverride("%feedurl%", () => sub.Url).Build();
+            .WithOverride("%url%", () => feedItem.Link ?? feedItem.SpecificItem.Link)
+            .WithOverride("%feedurl%", () => sub.Url).Build();
         var embed = new EmbedBuilder().WithFooter(sub.Url);
         var link = feedItem.SpecificItem.Link;
         if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute)) embed.WithUrl(link);
@@ -248,7 +251,7 @@ public class FeedsService : INService
         if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
         var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId);
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
-        else await channel.SendMessageAsync(content ?? "", embeds: builder, components: componentBuilder.Build());
+        else await channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build());
     }
 
     private Task<(Embed[] builder, string content, ComponentBuilder componentBuilder)> GetFeedEmbed(string message, ulong guildId)
