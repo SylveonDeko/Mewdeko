@@ -360,6 +360,10 @@ atuu:
   args:
     - 7d role
   desc: Adds a role to users under a specified server join age
+authorize:
+  args:
+    - ''
+  desc: Helps you authorize the bot to update your role connections.
 autoassignbotrole:
   args:
     - ''
