@@ -48,6 +48,12 @@ public class UserProfileService : INService
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
         var result = await http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
         var pronouns = JsonConvert.DeserializeObject<PronounDbResult>(result);
+        // if (pronouns.Pronouns != "unspecified")
+        // {
+        //     user.PndbCache = pronouns.Pronouns;
+        //     await uow.SaveChangesAsync();
+        // }
+
         return new PronounSearchResult((pronouns?.Pronouns ?? "unspecified") switch
         {
             "unspecified" => "Unspecified",

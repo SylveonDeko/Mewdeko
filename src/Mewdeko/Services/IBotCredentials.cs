@@ -5,6 +5,7 @@ namespace Mewdeko.Services;
 public interface IBotCredentials
 {
     string Token { get; }
+    string ClientSecret { get; }
     string GoogleApiKey { get; }
     ImmutableArray<ulong> OwnerIds { get; }
     string StatcordKey { get; }

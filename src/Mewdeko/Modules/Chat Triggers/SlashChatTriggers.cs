@@ -221,8 +221,10 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                         .Take(20).Select(cr =>
                         {
                             var str = $"`#{cr.Id}` {cr.Trigger}";
-                            if (cr.AutoDeleteTrigger) str = $"🗑{str}";
-                            if (cr.DmResponse) str = $"📪{str}";
+                            if (cr.AutoDeleteTrigger)
+                                str = $"🗑{str}";
+                            if (cr.DmResponse)
+                                str = $"📪{str}";
                             var reactions = cr.GetReactions();
                             if (reactions.Length > 0)
                             {
@@ -518,7 +520,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         private async Task FollowupWithTriggerStatus()
         {
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
-            if (!(errors?.Any() ?? false)) return;
+            if (!(errors?.Any() ?? false))
+                return;
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("ct_interaction_errors_title"))
                 .WithDescription(GetText("ct_interaction_errors_desc"))
@@ -641,7 +644,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         private async Task FollowupWithTriggerStatus()
         {
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
-            if (!(errors?.Any() ?? false)) return;
+            if (!(errors?.Any() ?? false))
+                return;
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("ct_interaction_errors_title"))
                 .WithDescription(GetText("ct_interaction_errors_desc"))
@@ -763,7 +767,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         private async Task FollowupWithTriggerStatus()
         {
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
-            if (!(errors?.Any() ?? false)) return;
+            if (!(errors?.Any() ?? false))
+                return;
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("ct_interaction_errors_title"))
                 .WithDescription(GetText("ct_interaction_errors_desc"))
@@ -800,7 +805,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     private async Task FollowupWithTriggerStatus()
     {
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
-        if (!(errors?.Any() ?? false)) return;
+        if (!(errors?.Any() ?? false))
+            return;
         var embed = new EmbedBuilder()
             .WithTitle(GetText("ct_interaction_errors_title"))
             .WithDescription(GetText("ct_interaction_errors_desc"))
