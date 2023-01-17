@@ -105,7 +105,7 @@ public class FeedsService : INService
                             })
                             .WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
                             .WithOverride("%timestamp%", () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
-                            .WithOverride("%url%", () => feedItem.Link)
+                            .WithOverride("%url%", () => feedItem.Link ?? feedItem.SpecificItem.Link)
                             .WithOverride("%feedurl%", () => rssUrl)
                             .Build();
 
@@ -216,7 +216,7 @@ public class FeedsService : INService
             }).WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
             .WithOverride("%timestamp%",
                 () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
-            .WithOverride("%url%", () => feedItem.Link).WithOverride("%feedurl%", () => sub.Url).Build();
+            .WithOverride("%url%", () => feedItem.Link ?? feedItem.SpecificItem.Link).WithOverride("%feedurl%", () => sub.Url).Build();
         var embed = new EmbedBuilder().WithFooter(sub.Url);
         var link = feedItem.SpecificItem.Link;
         if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute)) embed.WithUrl(link);
