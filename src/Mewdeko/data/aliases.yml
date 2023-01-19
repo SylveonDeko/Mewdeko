@@ -894,9 +894,12 @@ lockdown:
   - lockall
 log:
   - log
-logserver:
-  - logserver
-  - logs
+logcategory:
+  - logcategory
+  - logcat
+#logserver:
+#  - logserver
+#  - logs
 logevents:
   - logevents
 logignore:
