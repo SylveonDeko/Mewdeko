@@ -31,6 +31,7 @@ public static class Extensions
                 var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
                     ?.FirstOrDefault() as IHtmlImageElement;
 
+
                 return img?.Source == null ? "" : $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
             }
         }
