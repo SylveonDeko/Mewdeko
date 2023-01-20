@@ -16,7 +16,7 @@
       <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
       <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0-alpha.0.69" />
-      <PackageReference Include="StackExchange.Redis" Version="2.6.86" />
+      <PackageReference Include="StackExchange.Redis" Version="2.6.90"/>
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
