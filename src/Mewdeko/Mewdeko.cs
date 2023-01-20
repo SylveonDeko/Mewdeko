@@ -88,7 +88,7 @@ public class Mewdeko
         var bot = Client.CurrentUser;
 
         using var uow = db.GetDbContext();
-        var guildSettingsService = new GuildSettingsService(db, null, Client);
+        var guildSettingsService = new GuildSettingsService(db, null, Client, Cache);
         uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
         Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
@@ -263,10 +263,6 @@ public class Mewdeko
                             .WithValue(Services.GetRequiredService<ICoordinator>()
                                 .GetGuildCount().ToString())
                     }).ConfigureAwait(false);
-                if (arg.Name is not null)
-                {
-                    Cache.DeleteGuildConfig(arg.Id);
-                }
             }
             catch
             {
@@ -292,7 +288,6 @@ public class Mewdeko
                 gc = await uow.ForGuildId(arg.Id);
             }
 
-            Cache.AddOrUpdateGuildConfig(arg.Id, gc);
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false) as RestTextChannel;
             var eb = new EmbedBuilder();
