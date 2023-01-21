@@ -9,15 +9,12 @@ public class GuildSettingsService : INService
     private readonly BotConfigService bss;
     private readonly IDataCache cache;
 
-    public GuildSettingsService(DbService db, BotConfigService bss, DiscordSocketClient client, IDataCache cache)
+    public GuildSettingsService(DbService db, BotConfigService bss, IDataCache cache)
     {
         this.db = db;
         this.bss = bss;
         this.cache = cache;
         using var uow = db.GetDbContext();
-        var guildIds = client.Guilds.Select(x => x.Id);
-        var configs = uow.GuildConfigs.Where(x => guildIds.Contains(x.GuildId));
-        cache.SetGuildConfigs(configs.ToList());
     }
 
     public async Task<string> SetPrefix(IGuild guild, string prefix)
