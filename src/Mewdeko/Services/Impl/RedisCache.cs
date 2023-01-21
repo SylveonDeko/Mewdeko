@@ -99,7 +99,7 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
         var toDeserialize = db.StringGet($"{redisKey}_guildconfigs");
-        return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<List<GuildConfig>>(toDeserialize);
+        return toDeserialize.IsNull ? new List<GuildConfig>() : JsonConvert.DeserializeObject<List<GuildConfig>>(toDeserialize);
     }
 
     public void DeleteGuildConfig(ulong guildId)
