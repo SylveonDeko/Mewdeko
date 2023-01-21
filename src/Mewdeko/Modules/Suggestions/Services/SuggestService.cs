@@ -253,103 +253,104 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    private Task MessageRecieved(SocketMessage msg)
+    private async Task MessageRecieved(SocketMessage msg)
     {
-        _ = Task.Run(async () =>
+        if (msg.Channel is not ITextChannel chan)
+            return;
+        if (spamCheck.Contains(chan.Id))
+            return;
+        spamCheck.Add(chan.Id);
+        var guild = chan?.Guild;
+        var prefix = await guildSettings.GetPrefix(guild);
+        if (guild != null && !msg.Author.IsBot && !msg.Content.StartsWith(prefix))
         {
-            if (msg.Channel is not ITextChannel chan)
-                return;
-            if (spamCheck.Contains(chan.Id))
-                return;
-            spamCheck.Add(chan.Id);
-            var guild = chan?.Guild;
-            var prefix = await guildSettings.GetPrefix(guild);
-            if (guild != null && !msg.Author.IsBot && !msg.Content.StartsWith(prefix))
+            if (chan.Id != await GetSuggestionChannel(guild.Id))
             {
-                if (chan.Id != await GetSuggestionChannel(guild.Id))
-                {
-                    spamCheck.Remove(chan.Id);
-                    return;
-                }
-
-                var guser = msg.Author as IGuildUser;
-                var pc = await perms.GetCacheFor(guild.Id);
-                var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
-                if (!test)
-                {
-                    spamCheck.Remove(chan.Id);
-                    return;
-                }
-
-                if (guser.RoleIds.Contains(await Adminserv.GetStaffRole(guser.Guild.Id)))
-                {
-                    spamCheck.Remove(chan.Id);
-                    return;
-                }
-
-                if (msg.Content.Length > await GetMaxLength(guild.Id))
-                {
-                    try
-                    {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-
-                    try
-                    {
-                        await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({await GetMaxLength(guild.Id)})` of this server!")
-                            .ConfigureAwait(false);
-                        spamCheck.Remove(chan.Id);
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-
-                    return;
-                }
-
-                if (msg.Content.Length < await GetMinLength(guild.Id))
-                {
-                    try
-                    {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-
-                    try
-                    {
-                        await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({await GetMaxLength(guild.Id)})` of this server!")
-                            .ConfigureAwait(false);
-                        spamCheck.Remove(chan.Id);
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-
-                    return;
-                }
-
-                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel).ConfigureAwait(false);
                 spamCheck.Remove(chan.Id);
+                return;
+            }
+
+            var guser = msg.Author as IGuildUser;
+            var pc = await perms.GetCacheFor(guild.Id);
+            var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
+            if (!test)
+            {
+                spamCheck.Remove(chan.Id);
+                return;
+            }
+
+            if (guser.RoleIds.Contains(await Adminserv.GetStaffRole(guser.Guild.Id)))
+            {
+                spamCheck.Remove(chan.Id);
+                return;
+            }
+
+            if (msg.Content.Length > await GetMaxLength(guild.Id))
+            {
                 try
                 {
                     await msg.DeleteAsync().ConfigureAwait(false);
+                    spamCheck.Remove(chan.Id);
                 }
                 catch
                 {
-                    //ignored
+                    spamCheck.Remove(chan.Id);
                 }
+
+                try
+                {
+                    await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({await GetMaxLength(guild.Id)})` of this server!")
+                        .ConfigureAwait(false);
+                    spamCheck.Remove(chan.Id);
+                }
+                catch
+                {
+                    spamCheck.Remove(chan.Id);
+                }
+
+                return;
             }
-        });
-        return Task.CompletedTask;
+
+            if (msg.Content.Length < await GetMinLength(guild.Id))
+            {
+                try
+                {
+                    await msg.DeleteAsync().ConfigureAwait(false);
+                    spamCheck.Remove(chan.Id);
+                }
+                catch
+                {
+                    spamCheck.Remove(chan.Id);
+                }
+
+                try
+                {
+                    await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({await GetMaxLength(guild.Id)})` of this server!")
+                        .ConfigureAwait(false);
+                    spamCheck.Remove(chan.Id);
+                }
+                catch
+                {
+                    spamCheck.Remove(chan.Id); // ignore
+                }
+
+                return;
+            }
+
+            await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel).ConfigureAwait(false);
+            spamCheck.Remove(chan.Id);
+            try
+            {
+                await msg.DeleteAsync().ConfigureAwait(false);
+                spamCheck.Remove(chan.Id);
+            }
+            catch
+            {
+                spamCheck.Remove(chan.Id);
+            }
+        }
+        else
+            spamCheck.Remove(chan.Id);
     }
 
     public async Task<ulong> GetSNum(ulong id) => (await guildSettings.GetGuildConfig(id)).sugnum;
