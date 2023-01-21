@@ -81,14 +81,13 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
-    private void AddServices()
+    private async void AddServices()
     {
         var sw = Stopwatch.StartNew();
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
-
-        using var uow = db.GetDbContext();
-        var guildSettingsService = new GuildSettingsService(db, null, Client, Cache);
+        await using var uow = db.GetDbContext();
+        var guildSettingsService = new GuildSettingsService(db, null, Cache);
         uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
         Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}s.");
