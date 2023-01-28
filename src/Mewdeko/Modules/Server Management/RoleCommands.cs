@@ -652,7 +652,7 @@ public partial class ServerManagement
                 jobId = 1;
             else
                 jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            actualUsers = actualUsers.Where(x => x.GetRoles().Contains(role)).ToList();
+            actualUsers = actualUsers.Where(x => !x.GetRoles().Contains(role)).ToList();
             var count = actualUsers.Count;
             if (!actualUsers.Any())
             {
