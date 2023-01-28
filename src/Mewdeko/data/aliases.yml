@@ -21,6 +21,9 @@ addchattriggerregex:
 addstatusrole:
   - addstatusrole
   - asr
+addroletolist:
+  - addroletolist
+  - artl
 setstatusroleembed:
   - setstatusroleembed
   - statusroleembed
