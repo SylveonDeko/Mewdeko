@@ -7,6 +7,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
+using Swan;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -596,7 +597,7 @@ public partial class ServerManagement
             var guildUsers = (await ctx.Guild.GetUsersAsync()).ToList();
             var actualUsers = new List<IGuildUser>();
             var file = await client.GetStringAsync(ctx.Message.Attachments.First().Url);
-            var fileUsers = file.Split('\n');
+            var fileUsers = file.ToLines();
             var ulongIds = new List<ulong>();
             var stringUsers = new List<string>();
             foreach (var i in fileUsers)
@@ -651,6 +652,7 @@ public partial class ServerManagement
                 jobId = 1;
             else
                 jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            actualUsers = actualUsers.Where(x => x.GetRoles().Contains(role)).ToList();
             var count = actualUsers.Count;
             if (!actualUsers.Any())
             {
