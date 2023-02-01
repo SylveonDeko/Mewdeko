@@ -54,6 +54,12 @@ public class OwoServices
         },
         {
             "cuddles", "cudwles"
+        },
+        {
+            "not", "nyat"
+        },
+        {
+            "the", "da"
         }
     };
 
@@ -73,19 +79,19 @@ public class OwoServices
         input ??= "";
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));
         input = string.Join(' ', input.Split(' ')
-            .Select(x => x.Length > 4 && x.Last() is 'y' or 'Y' ? $"{x} {x}" : x) // duplicate words ending in 'y'
-            .Select(x => x.Sum(c => c) % 100 == 1 ? $"{x.First()}-{x}" : x)); // s-stutter randomly
+            .Select(x =>  x.Last() is 'y' or 'Y' ? $"{x.First()}-{x}" : x) // duplicate the first character of words ending in 'y'
+            .Select(x => x.Sum(c => c) % 10 is 1 or -1 ? $"{x.First()}-{x}" : x)); // s-stutter randomly
 
         // separate methods so caseing matches.
         input = Regex.Replace(input, @"r|l", "w");
         input = Regex.Replace(input, @"R|L", "W");
 
         // use the same random logic for strings based on value to produce consistent results when re-run
-        var seed = (int)input.Sum(char.GetNumericValue);
+        var seed = (uint)input.Sum(char.GetNumericValue);
         // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
-        if (seed % 10 == 1)
+        if (seed % 3 is 1)
             input = $"{Prefixes[(seed % Prefixes.Length) - 1]} {input}";
-        else if (seed % 20 == 1)
+        else if (seed % 2 is 1)
             input = $"{input} {Suffixes[(seed % Suffixes.Length) - 1]}";
         return input;
     }

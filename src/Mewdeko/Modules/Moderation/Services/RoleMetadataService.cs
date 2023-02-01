@@ -46,9 +46,9 @@ public class RoleMetadataService : INService, IReadyExecutor
                 .AsEnumerable()
                 .Distinct(x => x.UserId);
 
-            async void LUpdate(RoleConnectionAuthStorage x) => await UpdateRoleConnectionData(x.UserId, x.Id, uow, _client.CurrentUser.Id, _botCredentials.ClientSecret, client);
+            // async void LUpdate(RoleConnectionAuthStorage x) => await UpdateRoleConnectionData(x.UserId, x.Id, uow, _client.CurrentUser.Id, _botCredentials.ClientSecret, client);
 
-            authedUsers.ForEach(LUpdate);
+            // authedUsers.ForEach(LUpdate);
             await Task.Delay(TimeSpan.FromHours(1));
         }
     }
