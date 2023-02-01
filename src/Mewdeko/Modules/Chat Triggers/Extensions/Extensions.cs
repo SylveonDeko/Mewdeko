@@ -31,6 +31,7 @@ public static class Extensions
                 var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
                     ?.FirstOrDefault() as IHtmlImageElement;
 
+
                 return img?.Source == null ? "" : $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
             }
         }
@@ -67,6 +68,30 @@ public static class Extensions
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
             .WithOverride("%usecount%", () => uow.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
+            .WithOverride("%targetuser%", () =>
+            {
+                var mention = ctx.MentionedUserIds.FirstOrDefault();
+                if (mention is 0)
+                    return "";
+                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                return user is null ? "" : user.Mention;
+            })
+            .WithOverride("%targetuser.id%", () =>
+            {
+                var mention = ctx.MentionedUserIds.FirstOrDefault();
+                if (mention is 0)
+                    return "";
+                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                return user is null ? "" : user.Id.ToString();
+            })
+            .WithOverride("%targetuser.avatar%", () =>
+            {
+                var mention = ctx.MentionedUserIds.FirstOrDefault();
+                if (mention is 0)
+                    return "";
+                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                return user is null ? "" : user.RealAvatarUrl().ToString();
+            })
             .Build();
 
         str = rep.Replace(str);
