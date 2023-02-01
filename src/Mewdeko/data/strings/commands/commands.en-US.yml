@@ -121,7 +121,7 @@ addroletolist:
   args:
     - role
   desc: >-
-    Allows you to add a role to userIDs in a list. Provide one ID per line in
+    Allows you to add a role to userIDs or usernames in a list. Provide one ID or Username per line in
     the txt file.
 addroletorole:
   args:

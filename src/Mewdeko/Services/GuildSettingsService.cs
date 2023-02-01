@@ -7,16 +7,14 @@ public class GuildSettingsService : INService
 {
     private readonly DbService db;
     private readonly BotConfigService bss;
-    private readonly ConcurrentDictionary<ulong, GuildConfig> guildConfigs;
+    private readonly IDataCache cache;
 
-    public GuildSettingsService(DbService db, BotConfigService bss, DiscordSocketClient client)
+    public GuildSettingsService(DbService db, BotConfigService bss, IDataCache cache)
     {
         this.db = db;
         this.bss = bss;
+        this.cache = cache;
         using var uow = db.GetDbContext();
-        var guildIds = client.Guilds.Select(x => x.Id);
-        var configs = uow.GuildConfigs.Where(x => guildIds.Contains(x.GuildId));
-        guildConfigs = configs.ToDictionary(x => x.GuildId, x => x).ToConcurrent();
     }
 
     public async Task<string> SetPrefix(IGuild guild, string prefix)
@@ -26,11 +24,9 @@ public class GuildSettingsService : INService
         if (guild == null)
             throw new ArgumentNullException(nameof(guild));
 
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.Prefix = prefix;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildConfigs.AddOrUpdate(guild.Id, gc, (_, _) => gc);
+        var config = await GetGuildConfig(guild.Id);
+        config.Prefix = prefix;
+        UpdateGuildConfig(guild.Id, config);
         return prefix;
     }
 
@@ -48,12 +44,24 @@ public class GuildSettingsService : INService
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
         await using var uow = db.GetDbContext();
-        if (guildConfigs.TryGetValue(guildId, out var cachedConfig)) return cachedConfig;
+        var configs = cache.GetGuildConfigs();
+        if (configs.FirstOrDefault(x => x.GuildId == guildId) is { } guildConfig)
+            return guildConfig;
         var config = await uow.ForGuildId(guildId);
-        guildConfigs.AddOrUpdate(guildId, config, (_, _) => config);
+        configs.Add(config);
+        await cache.SetGuildConfigs(configs);
         return config;
     }
 
     public void UpdateGuildConfig(ulong guildId, GuildConfig config)
-        => guildConfigs.AddOrUpdate(guildId, config, (_, _) => config);
+    {
+        using var uow = db.GetDbContext();
+        var configs = cache.GetGuildConfigs();
+        if (configs.FirstOrDefault(x => x.GuildId == guildId) is { } guildConfig)
+            configs.Remove(guildConfig);
+        configs.Add(config);
+        cache.SetGuildConfigs(configs);
+        uow.GuildConfigs.Update(config);
+        uow.SaveChanges();
+    }
 }
