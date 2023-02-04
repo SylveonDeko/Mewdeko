@@ -97,7 +97,7 @@ public class MultiGreetService : INService
                 {
                     if (embedData is not null && plainText is not "")
                     {
-                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build(), options: new RequestOptions
+                        var msg = await channel.SendMessageAsync(plainText ?? null, embeds: embedData ?? null, components: components2?.Build(), options: new RequestOptions
                         {
                             RetryMode = RetryMode.RetryRatelimit
                         }).ConfigureAwait(false);
@@ -146,7 +146,7 @@ public class MultiGreetService : INService
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
             {
-                var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build()).ConfigureAwait(false);
+                var msg = await channel.SendMessageAsync(plainText, embeds: embedData ?? null, components: components2?.Build()).ConfigureAwait(false);
                 if (i.DeleteTime > 0)
                     msg.DeleteAfter(i.DeleteTime);
             }
@@ -180,7 +180,7 @@ public class MultiGreetService : INService
 
             if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
             {
-                var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components2?.Build()).ConfigureAwait(false);
+                var msg = await webhook.SendMessageAsync(plainText, embeds: embedData ?? null, components: components2?.Build()).ConfigureAwait(false);
                 if (i.DeleteTime > 0)
                     (await (await user.Guild.GetTextChannelAsync(i.ChannelId)).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
             }
