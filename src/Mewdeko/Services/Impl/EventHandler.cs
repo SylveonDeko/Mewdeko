@@ -12,28 +12,6 @@ public class EventHandler
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
 
-    public event AsyncEventHandler<SocketMessage>? MessageReceived;
-    public event AsyncEventHandler<IGuildUser>? UserJoined;
-    public event AsyncEventHandler<IGuild, IUser>? UserLeft;
-    public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
-    public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
-    public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
-    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>? MessagesBulkDeleted;
-    public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
-    public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
-    public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
-    public event AsyncEventHandler<SocketUser, SocketVoiceState, SocketVoiceState>? UserVoiceStateUpdated;
-    public event AsyncEventHandler<SocketChannel>? ChannelCreated;
-    public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
-    public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
-    public event AsyncEventHandler<SocketRole>? RoleDeleted;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
-    public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
-    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
-    public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
-
 
     public EventHandler(DiscordSocketClient client)
     {
@@ -58,6 +36,37 @@ public class EventHandler
         client.InteractionCreated += ClientOnInteractionCreated;
         client.UserIsTyping += ClientOnUserIsTyping;
         client.PresenceUpdated += ClientOnPresenceUpdated;
+        client.JoinedGuild += ClientOnJoinedGuild;
+    }
+
+    public event AsyncEventHandler<SocketMessage>? MessageReceived;
+    public event AsyncEventHandler<IGuildUser>? UserJoined;
+    public event AsyncEventHandler<IGuild, IUser>? UserLeft;
+    public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
+    public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
+    public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
+    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>? MessagesBulkDeleted;
+    public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
+    public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
+    public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
+    public event AsyncEventHandler<SocketUser, SocketVoiceState, SocketVoiceState>? UserVoiceStateUpdated;
+    public event AsyncEventHandler<SocketChannel>? ChannelCreated;
+    public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
+    public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
+    public event AsyncEventHandler<SocketRole>? RoleDeleted;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
+    public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
+    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
+    public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
+    public event AsyncEventHandler<IGuild>? JoinedGuild;
+
+    private Task ClientOnJoinedGuild(SocketGuild arg)
+    {
+        if (PresenceUpdated is not null)
+            _ = JoinedGuild(arg);
+        return Task.CompletedTask;
     }
 
     private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
