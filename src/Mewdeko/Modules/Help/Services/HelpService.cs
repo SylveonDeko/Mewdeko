@@ -15,17 +15,17 @@ namespace Mewdeko.Modules.Help.Services;
 
 public class HelpService : ILateExecutor, INService
 {
+    private readonly BlacklistService blacklistService;
+    private readonly Mewdeko bot;
     private readonly BotConfigService bss;
     private readonly DiscordSocketClient client;
-    private readonly DiscordPermOverrideService dpos;
-    private readonly Mewdeko bot;
-    private readonly BlacklistService blacklistService;
-    private readonly IBotStrings strings;
     private readonly CommandService cmds;
-    private readonly GlobalPermissionService perms;
-    private readonly PermissionService nPerms;
-    private readonly InteractionService interactionService;
+    private readonly DiscordPermOverrideService dpos;
     private readonly GuildSettingsService guildSettings;
+    private readonly InteractionService interactionService;
+    private readonly PermissionService nPerms;
+    private readonly GlobalPermissionService perms;
+    private readonly IBotStrings strings;
 
 
     public HelpService(
@@ -39,7 +39,7 @@ public class HelpService : ILateExecutor, INService
         GlobalPermissionService perms,
         PermissionService nPerms,
         InteractionService interactionService,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler eventHandler)
     {
         this.dpos = dpos;
         this.strings = strings;
@@ -48,12 +48,24 @@ public class HelpService : ILateExecutor, INService
         this.blacklistService = blacklistService;
         this.cmds = cmds;
         this.bss = bss;
-        this.client.MessageReceived += HandlePing;
-        this.client.JoinedGuild += HandleJoin;
+        eventHandler.MessageReceived += HandlePing;
+        eventHandler.JoinedGuild += HandleJoin;
         this.perms = perms;
         this.nPerms = nPerms;
         this.interactionService = interactionService;
         this.guildSettings = guildSettings;
+    }
+
+    public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild? guild, IUserMessage msg)
+    {
+        var settings = bss.Data;
+        if (guild != null) return Task.CompletedTask;
+        if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
+            return Task.CompletedTask;
+
+        return SmartEmbed.TryParse(settings.DmHelpText, null, out var embed, out var plainText, out var components)
+            ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build())
+            : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
 
     public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
@@ -118,18 +130,6 @@ public class HelpService : ILateExecutor, INService
 
     public string? GetModuleDescription(string module, IGuild? guild) => GetText($"module_description_{module.ToLower()}", guild);
 
-    public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild? guild, IUserMessage msg)
-    {
-        var settings = bss.Data;
-        if (guild != null) return Task.CompletedTask;
-        if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
-            return Task.CompletedTask;
-
-        return SmartEmbed.TryParse(settings.DmHelpText, null, out var embed, out var plainText, out var components)
-            ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build())
-            : msg.Channel.SendMessageAsync(settings.DmHelpText);
-    }
-
     private Task HandlePing(SocketMessage msg)
     {
         _ = Task.Run(async () =>
@@ -151,30 +151,26 @@ public class HelpService : ILateExecutor, INService
         return Task.CompletedTask;
     }
 
-    public Task HandleJoin(SocketGuild guild)
+    public async Task HandleJoin(IGuild guild)
     {
-        _ = Task.Run(async () =>
-        {
-            if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
-                return;
+        if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
+            return;
 
-            var e = guild.DefaultChannel;
-            var px = await guildSettings.GetPrefix(guild);
-            var eb = new EmbedBuilder
-            {
-                Description =
-                    $"Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
-            };
-            eb.AddField("How to look for commands",
-                $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
-            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
-            eb.AddField("Youtube Channel", "https://youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg");
-            eb.WithThumbnailUrl(
-                "https://cdn.discordapp.com/emojis/968564817784877066.gif");
-            eb.WithOkColor();
-            await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-        });
-        return Task.CompletedTask;
+        var e = await guild.GetDefaultChannelAsync();
+        var px = await guildSettings.GetPrefix(guild);
+        var eb = new EmbedBuilder
+        {
+            Description =
+                $"Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
+        };
+        eb.AddField("How to look for commands",
+            $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
+        eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
+        eb.AddField("Youtube Channel", "https://youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg");
+        eb.WithThumbnailUrl(
+            "https://cdn.discordapp.com/emojis/968564817784877066.gif");
+        eb.WithOkColor();
+        await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     public async Task<EmbedBuilder> GetCommandHelp(CommandInfo com, IGuild guild)
