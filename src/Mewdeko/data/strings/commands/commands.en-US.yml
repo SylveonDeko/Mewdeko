@@ -17,6 +17,10 @@ setstatusrolechannel:
   args:
     - channel
   desc: Sets the channel used to send the status embed
+exportcommandsjson:
+  args:
+    - ""
+  desc: "Exports a date marked json showing all modules, their commands, and their channel/guild permissions. Mainly used for the sites commands category."
 setremoveroles:
   args:
     - 1 role1 role2 \"Role with spaces\"
