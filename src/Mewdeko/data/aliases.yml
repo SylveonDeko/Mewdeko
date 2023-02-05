@@ -11,6 +11,10 @@ acceptmessage:
 acrophobia:
   - acrophobia
   - acro
+exportcommandsjson:
+  - exportcommandsjson
+  - exportcommands
+  - excj
 addchattrigger:
   - addchattrigger
   - act
