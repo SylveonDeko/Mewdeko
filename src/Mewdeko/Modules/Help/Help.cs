@@ -1,12 +1,16 @@
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.JsonSettings;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using Newtonsoft.Json;
 using Serilog;
 using Swan;
 
@@ -15,12 +19,12 @@ namespace Mewdeko.Modules.Help;
 public class Help : MewdekoModuleBase<HelpService>
 {
     private readonly CommandService cmds;
+    private readonly BotConfigService config;
+    private readonly GuildSettingsService guildSettings;
     private readonly InteractiveService interactive;
     private readonly GlobalPermissionService perms;
     private readonly IServiceProvider services;
     private readonly IBotStrings strings;
-    private readonly GuildSettingsService guildSettings;
-    private readonly BotConfigService config;
 
     public Help(GlobalPermissionService perms, CommandService cmds,
         IServiceProvider services, IBotStrings strings,
@@ -35,6 +39,47 @@ public class Help : MewdekoModuleBase<HelpService>
         this.perms = perms;
         this.services = services;
         this.strings = strings;
+    }
+
+    [Cmd, Aliases, Ratelimit(60)]
+    public async Task ExportCommandsJson()
+    {
+        var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Exporting commands to json, please wait a moment...");
+        var prefix = await guildSettings.GetPrefix(ctx.Guild);
+        var modules = cmds.Modules;
+        var newList = new ConcurrentDictionary<string, List<Command>>();
+        foreach (var i in modules)
+        {
+            var modulename = i.IsSubmodule ? i.Parent.Name : i.Name;
+            var commands = (from j in i.Commands.OrderByDescending(x => x.Name)
+                let userPerm = j.Preconditions.FirstOrDefault(ca => ca is UserPermAttribute) as UserPermAttribute
+                let botPerm = j.Preconditions.FirstOrDefault(ca => ca is BotPermAttribute) as BotPermAttribute
+                let isDragon = j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
+                select new Command
+                {
+                    CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
+                    Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
+                    Example = string.Join(" ", j.RealRemarksArr(strings, ctx.Guild.Id, prefix)),
+                    GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission != null ? userPerm.UserPermissionAttribute.GuildPermission.ToString() : "",
+                    ChannelUserPermissions = userPerm?.UserPermissionAttribute.ChannelPermission != null ? userPerm.UserPermissionAttribute.ChannelPermission.ToString() : "",
+                    GuildBotPermissions = botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
+                    ChannelBotPermissions = botPerm?.ChannelPermission != null ? botPerm.ChannelPermission.ToString() : "",
+                    IsDragon = isDragon is not null
+                });
+            var list = newList.GetOrAdd(modulename, new List<Command>());
+            list.AddRange(commands);
+        }
+
+        newList = new ConcurrentDictionary<string, List<Command>>(newList.OrderBy(x => x.Key));
+        var settings = new JsonSerializerSettings()
+        {
+            ContractResolver = new OrderedResolver()
+        };
+        var jsonVersion = JsonConvert.SerializeObject(newList, Formatting.Indented, settings);
+        await using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonVersion));
+        await ctx.Channel.SendFileAsync(stream, $"Commands-{DateTime.UtcNow:u}.json");
+        await msg.DeleteAsync();
+        await stream.DisposeAsync();
     }
 
     [Cmd, Aliases]
@@ -207,4 +252,22 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
     public bool Equals(CommandInfo? x, CommandInfo? y) => x.Aliases[0] == y.Aliases[0];
 
     public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
+}
+
+public class Module
+{
+    public List<Command> Commands;
+    public string Name { get; set; }
+}
+
+public class Command
+{
+    public bool IsDragon { get; set; }
+    public string CommandName { get; set; }
+    public string Description { get; set; }
+    public string Example { get; set; }
+    public string GuildUserPermissions { get; set; }
+    public string ChannelUserPermissions { get; set; }
+    public string ChannelBotPermissions { get; set; }
+    public string GuildBotPermissions { get; set; }
 }
