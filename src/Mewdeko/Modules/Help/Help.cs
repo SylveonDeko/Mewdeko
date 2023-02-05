@@ -59,7 +59,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 {
                     CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
                     Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
-                    Example = string.Join(" ", j.RealRemarksArr(strings, ctx.Guild.Id, prefix)),
+                    Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? new List<string>(),
                     GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission != null ? userPerm.UserPermissionAttribute.GuildPermission.ToString() : "",
                     ChannelUserPermissions = userPerm?.UserPermissionAttribute.ChannelPermission != null ? userPerm.UserPermissionAttribute.ChannelPermission.ToString() : "",
                     GuildBotPermissions = botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
@@ -265,7 +265,7 @@ public class Command
     public bool IsDragon { get; set; }
     public string CommandName { get; set; }
     public string Description { get; set; }
-    public string Example { get; set; }
+    public List<string> Example { get; set; }
     public string GuildUserPermissions { get; set; }
     public string ChannelUserPermissions { get; set; }
     public string ChannelBotPermissions { get; set; }
