@@ -1204,5 +1204,11 @@
     "ct_crossposting": "Crossposting",
     "ct_crossposting_channel": "To <#{0}>",
     "ct_prefix_type": "Prefix Type",
-    "ct_custom_prefix": "Custom Prefix"
+    "ct_custom_prefix": "Custom Prefix",
+    "mass_kick_silly": "We be silly with it :3",
+    "mass_kick": "Mass Kick",
+    "mass_kicked_members": "Kicked `{0}` members!",
+    "mass_kick_failed": "Failed to kick `{0}` of `{1}` members",
+    "mass_kick_success": "Successfully kicked `{0}` of `{1}` members",
+    "mass_kick_too_many": "too many to list."
 }

@@ -1139,7 +1139,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                         .WithValue(string.Join(',', x.Value))).ToArray())
                 .WithDescription(result.InacurateTotal
                     // hide possible int rollover errors
-                    ? GetText("roll_fail_too_large")
+                    ? GetText("roll_fail_too_large")!
                     : result.ToString());
         }
 
