@@ -4,7 +4,7 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class OwoServices
 {
-    // data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js
+    // data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js, most modification logic is my own
     public static readonly Dictionary<string, string> Defaults = new()
     {
         {
@@ -65,13 +65,13 @@ public class OwoServices
 
     public static readonly string[] Prefixes =
     {
-        "OwO", "OwO whats this?", "*unbuttons shirt*", "*nuzzles*", "*waises paw*", "*notices bulge*", "*blushes*", "*giggles*", "hehe"
+        "OwO", "OwO whats this?", "*nuzzles*", "*waises paw*", "*blushes*", "*giggles*", "hehe"
     };
 
     public static readonly string[] Suffixes =
     {
-        "(ﾉ´ з `)ノ", "( ´ ▽ ` ).｡ｏ♡", "(´,,•ω•,,)♡", "(*≧▽≦)", "ɾ⚈▿⚈ɹ", "( ﾟ∀ ﾟ)", "( ・ ̫・)", "( •́ .̫ •̀ )", "(▰˘v˘▰)", "(・ω・)", "✾(〜 ☌ω☌)〜✾", "(ᗒᗨᗕ)", "(・`ω´・)", ":3", ">:3",
-        "hehe", "xox", ">3<", "murr~", "UwU", "*gwomps*"
+        "(ﾉ´ з `)ノ", "( ´ ▽ ` ).｡ｏ♡", "(´,,•ω•,,)♡", "(*≧▽≦)", "ɾ⚈▿⚈ɹ", "( ﾟ∀ ﾟ)", "( ・ ̫・)", "( •́ .̫ •̀ )", "(▰˘v˘▰)",
+        "(・ω・)", "✾(〜 ☌ω☌)〜✾", "(ᗒᗨᗕ)", "(・`ω´・)", ":3", ">:3", "hehe", "xox", ">3<", "murr~", "UwU", "*gwomps*"
     };
 
     public static string OwoIfy(string? input)
@@ -90,9 +90,9 @@ public class OwoServices
         var seed = (uint)input.Sum(char.GetNumericValue);
         // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
         if (seed % 3 is 1)
-            input = $"{Prefixes[(seed % Prefixes.Length) - 1]} {input}";
+            input = $"{Prefixes[(seed % Prefixes.Length)]} {input}";
         else if (seed % 2 is 1)
-            input = $"{input} {Suffixes[(seed % Suffixes.Length) - 1]}";
+            input = $"{input} {Suffixes[(seed % Suffixes.Length)]}";
         return input;
     }
 }
