@@ -515,4 +515,11 @@ WHERE GuildId={guildId}
 
         return Task.FromResult((embed, plainText, components));
     }
+
+    public static string MassMention(IEnumerable<ulong> inpt, string sep = "\n") =>
+        !inpt.Any()
+            ? inpt.Count() > 1
+                ? inpt.Select(x => x.ToString()).Aggregate((x, y) => $"{x}{sep}{y}")
+                : inpt.FirstOrDefault().ToString()
+            : "none";
 }
