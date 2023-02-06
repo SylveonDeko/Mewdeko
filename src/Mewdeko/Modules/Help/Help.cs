@@ -70,12 +70,11 @@ public class Help : MewdekoModuleBase<HelpService>
             list.AddRange(commands);
         }
 
-        newList = new ConcurrentDictionary<string, List<Command>>(newList.OrderBy(x => x.Key));
-        var settings = new JsonSerializerSettings()
+        var settings = new JsonSerializerSettings
         {
             ContractResolver = new OrderedResolver()
         };
-        var jsonVersion = JsonConvert.SerializeObject(newList, Formatting.Indented, settings);
+        var jsonVersion = JsonConvert.SerializeObject(newList.Select(x => new Module(x.Value, x.Key)), Formatting.Indented, settings);
         await using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonVersion));
         await ctx.Channel.SendFileAsync(stream, $"Commands-{DateTime.UtcNow:u}.json");
         await msg.DeleteAsync();
@@ -256,8 +255,14 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 
 public class Module
 {
-    public List<Command> Commands;
-    public string Name { get; set; }
+    public Module(List<Command> commands, string name)
+    {
+        Commands = commands;
+        Name = name;
+    }
+
+    public List<Command> Commands { get; }
+    public string Name { get; }
 }
 
 public class Command
