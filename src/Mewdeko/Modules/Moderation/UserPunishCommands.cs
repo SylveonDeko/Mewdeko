@@ -776,6 +776,36 @@ public partial class Moderation : MewdekoModule
             await KickInternal(user, msg).ConfigureAwait(false);
         }
 
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.KickMembers),
+         BotPerm(GuildPermission.KickMembers), Priority(100000)]
+        public async Task Kick(params IUser[] usersUnp)
+        {
+            var users = usersUnp.Cast<IGuildUser>();
+            List<ulong> succ = new(), fail = new();
+
+            var options = new RequestOptions()
+            {
+                AuditLogReason = $"Masskick initiated by {Context.User}"
+            };
+
+            foreach (var u in users)
+                try
+                {
+                    await u.KickAsync(null, options);
+                    succ.Add(u.Id);
+                }
+                catch
+                {
+                    fail.Add(u.Id);
+                }
+
+            var eb = new EmbedBuilder()
+                .WithColor(fail.Count > 0 ? fail.Count > succ.Count ? Color.Red : Color.Orange : Color.Green)
+                .WithDescription(GetText("mass_kicked_members", succ.Count))
+                .WithTitle(GetText("mass_kick"));
+            await Context.Channel.SendMessageAsync(embed: eb.Build());
+        }
+
         public async Task KickInternal(IGuildUser user, string? msg = null)
         {
             if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
