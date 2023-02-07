@@ -77,7 +77,22 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
+            Author = user,
+            Channel = ctx.Channel
+        };
+        commandHandler.AddCommandToParseQueue(msg);
+        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases]
+    public async Task Sudo([Remainder] string args)
+    {
+        var msg = new MewdekoUserMessage
+        {
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
+            Author = await Context.Guild.GetOwnerAsync(),
+            Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
         _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
