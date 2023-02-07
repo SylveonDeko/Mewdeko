@@ -44,42 +44,52 @@ public class Help : MewdekoModuleBase<HelpService>
     [Cmd, Aliases, Ratelimit(60)]
     public async Task ExportCommandsJson()
     {
-        var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Exporting commands to json, please wait a moment...");
-        var prefix = await guildSettings.GetPrefix(ctx.Guild);
-        var modules = cmds.Modules;
-        var newList = new ConcurrentDictionary<string, List<Command>>();
-        foreach (var i in modules)
+        try
         {
-            var modulename = i.IsSubmodule ? i.Parent.Name : i.Name;
-            var commands = (from j in i.Commands.OrderByDescending(x => x.Name)
-                let userPerm = j.Preconditions.FirstOrDefault(ca => ca is UserPermAttribute) as UserPermAttribute
-                let botPerm = j.Preconditions.FirstOrDefault(ca => ca is BotPermAttribute) as BotPermAttribute
-                let isDragon = j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
-                select new Command
+            var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Exporting commands to json, please wait a moment...");
+            var prefix = await guildSettings.GetPrefix(ctx.Guild);
+            var modules = cmds.Modules;
+            var newList = new ConcurrentDictionary<string, List<Command>>();
+            foreach (var i in modules)
+            {
+                var modulename = i.IsSubmodule ? i.Parent.Name : i.Name;
+                var commands = (from j in i.Commands.OrderByDescending(x => x.Name)
+                    let userPerm = j.Preconditions.FirstOrDefault(ca => ca is UserPermAttribute) as UserPermAttribute
+                    let botPerm = j.Preconditions.FirstOrDefault(ca => ca is BotPermAttribute) as BotPermAttribute
+                    let isDragon = j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
+                    select new Command
+                    {
+                        CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
+                        Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
+                        Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? new List<string>(),
+                        GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission != null ? userPerm.UserPermissionAttribute.GuildPermission.ToString() : "",
+                        ChannelUserPermissions = userPerm?.UserPermissionAttribute.ChannelPermission != null ? userPerm.UserPermissionAttribute.ChannelPermission.ToString() : "",
+                        GuildBotPermissions = botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
+                        ChannelBotPermissions = botPerm?.ChannelPermission != null ? botPerm.ChannelPermission.ToString() : "",
+                        IsDragon = isDragon is not null
+                    }).ToList();
+                newList.AddOrUpdate(modulename, commands, (_, old) =>
                 {
-                    CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
-                    Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
-                    Example = string.Join(" ", j.RealRemarksArr(strings, ctx.Guild.Id, prefix)),
-                    GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission != null ? userPerm.UserPermissionAttribute.GuildPermission.ToString() : "",
-                    ChannelUserPermissions = userPerm?.UserPermissionAttribute.ChannelPermission != null ? userPerm.UserPermissionAttribute.ChannelPermission.ToString() : "",
-                    GuildBotPermissions = botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
-                    ChannelBotPermissions = botPerm?.ChannelPermission != null ? botPerm.ChannelPermission.ToString() : "",
-                    IsDragon = isDragon is not null
+                    old.AddRange(commands);
+                    return old;
                 });
-            var list = newList.GetOrAdd(modulename, new List<Command>());
-            list.AddRange(commands);
-        }
+            }
 
-        newList = new ConcurrentDictionary<string, List<Command>>(newList.OrderBy(x => x.Key));
-        var settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new OrderedResolver()
+            };
+            var jsonVersion = JsonConvert.SerializeObject(newList.Select(x => new Module(x.Value, x.Key)), Formatting.Indented, settings);
+            await using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonVersion));
+            await ctx.Channel.SendFileAsync(stream, $"Commands-{DateTime.UtcNow:u}.json");
+            await msg.DeleteAsync();
+            await stream.DisposeAsync();
+        }
+        catch (Exception e)
         {
-            ContractResolver = new OrderedResolver()
-        };
-        var jsonVersion = JsonConvert.SerializeObject(newList, Formatting.Indented, settings);
-        await using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonVersion));
-        await ctx.Channel.SendFileAsync(stream, $"Commands-{DateTime.UtcNow:u}.json");
-        await msg.DeleteAsync();
-        await stream.DisposeAsync();
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     [Cmd, Aliases]
@@ -256,8 +266,14 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 
 public class Module
 {
-    public List<Command> Commands;
-    public string Name { get; set; }
+    public Module(List<Command> commands, string name)
+    {
+        Commands = commands;
+        Name = name;
+    }
+
+    public List<Command> Commands { get; }
+    public string Name { get; }
 }
 
 public class Command
@@ -265,7 +281,7 @@ public class Command
     public bool IsDragon { get; set; }
     public string CommandName { get; set; }
     public string Description { get; set; }
-    public string Example { get; set; }
+    public List<string> Example { get; set; }
     public string GuildUserPermissions { get; set; }
     public string ChannelUserPermissions { get; set; }
     public string ChannelBotPermissions { get; set; }
