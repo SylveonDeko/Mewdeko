@@ -128,34 +128,42 @@ public class MultiGreetService : INService
 
     private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, IGuildUser user)
     {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild as SocketGuild).Build();
-        foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
-        {
-            if (i.Disabled)
-                continue;
-            if (user.IsBot && !i.GreetBots)
-                continue;
-            if (i.WebhookUrl is not null) continue;
-            var channel = await user.Guild.GetTextChannelAsync(i.ChannelId);
-            if (channel is null)
-            {
-                await RemoveMultiGreetInternal(i).ConfigureAwait(false);
-                continue;
-            }
 
-            var content = replacer.Replace(i.Message);
-            if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
+        try
+        {
+            var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild as SocketGuild).Build();
+            foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
             {
-                var msg = await channel.SendMessageAsync(plainText, embeds: embedData ?? null, components: components2?.Build()).ConfigureAwait(false);
-                if (i.DeleteTime > 0)
-                    msg.DeleteAfter(i.DeleteTime);
+                if (i.Disabled)
+                    continue;
+                if (user.IsBot && !i.GreetBots)
+                    continue;
+                if (i.WebhookUrl is not null) continue;
+                var channel = await user.Guild.GetTextChannelAsync(i.ChannelId);
+                if (channel is null)
+                {
+                    await RemoveMultiGreetInternal(i).ConfigureAwait(false);
+                    continue;
+                }
+
+                var content = replacer.Replace(i.Message);
+                if (SmartEmbed.TryParse(content, user.Guild.Id, out var embedData, out var plainText, out var components2))
+                {
+                    var msg = await channel.SendMessageAsync(plainText, embeds: embedData ?? null, components: components2?.Build()).ConfigureAwait(false);
+                    if (i.DeleteTime > 0)
+                        msg.DeleteAfter(i.DeleteTime);
+                }
+                else
+                {
+                    var msg = await channel.SendMessageAsync(content).ConfigureAwait(false);
+                    if (i.DeleteTime > 0)
+                        msg.DeleteAfter(i.DeleteTime);
+                }
             }
-            else
-            {
-                var msg = await channel.SendMessageAsync(content).ConfigureAwait(false);
-                if (i.DeleteTime > 0)
-                    msg.DeleteAfter(i.DeleteTime);
-            }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.ToString());
         }
     }
 
