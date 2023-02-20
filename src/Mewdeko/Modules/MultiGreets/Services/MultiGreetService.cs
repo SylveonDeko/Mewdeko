@@ -128,9 +128,6 @@ public class MultiGreetService : INService
 
     private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, IGuildUser user)
     {
-
-        try
-        {
             var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild as SocketGuild).Build();
             foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
             {
@@ -160,11 +157,6 @@ public class MultiGreetService : INService
                         msg.DeleteAfter(i.DeleteTime);
                 }
             }
-        }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-        }
     }
 
     private async Task HandleWebhookGreets(IEnumerable<MultiGreet> multiGreets, IGuildUser user)
