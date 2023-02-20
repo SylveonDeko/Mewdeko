@@ -56,7 +56,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
             return;
         }
 
-        var mod = new RoleConnectionAuthStorage()
+        var mod = new RoleConnectionAuthStorage
         {
             Scopes = response.scope,
             Token = response.access_token,
