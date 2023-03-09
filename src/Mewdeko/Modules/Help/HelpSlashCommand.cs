@@ -159,9 +159,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             return;
         }
 
-        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{command}", ButtonStyle.Success, disabled: com.Parameters.Count != 0);
-
-        var embed = await Service.GetCommandHelp(com, ctx.Guild);
+        var (embed, comp) = await Service.GetCommandHelp(com, ctx.Guild, (ctx.User as IGuildUser)!);
         await RespondAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 

@@ -173,10 +173,10 @@ public class HelpService : ILateExecutor, INService
         await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
-    public async Task<EmbedBuilder> GetCommandHelp(CommandInfo com, IGuild guild)
+    public async Task<(EmbedBuilder, ComponentBuilder)> GetCommandHelp(CommandInfo com, IGuild guild, IGuildUser user)
     {
         if (com.Attributes.Any(x => x is HelpDisabled))
-            return new EmbedBuilder().WithDescription("Help is disabled for this command.");
+            return (new EmbedBuilder().WithDescription("Help is disabled for this command."), new());
         var prefix = await guildSettings.GetPrefix(guild);
         var potentialCommand = interactionService.SlashCommands.FirstOrDefault(x => string.Equals(x.MethodName, com.MethodName(), StringComparison.CurrentCultureIgnoreCase));
         var str = $"**{prefix + com.Aliases[0]}**";
@@ -199,6 +199,13 @@ public class HelpService : ILateExecutor, INService
             em.AddField("Ratelimit", $"{attribute.Seconds} seconds");
         }
 
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("help_run_cmd", guild), $"runcmd.{com.Aliases[0]}", ButtonStyle.Success);
+
+        if (user.GuildPermissions.Administrator)
+            cb.WithButton(GetText("help_permenu_link", guild), $"permenu_update.{com.Aliases[0]}", ButtonStyle
+                .Primary, Emote.Parse("<:IconPrivacySettings:845090111976636446>"));
+
         if (potentialCommand is not null)
         {
             var globalCommands = await client.Rest.GetGlobalApplicationCommands();
@@ -220,12 +227,12 @@ public class HelpService : ILateExecutor, INService
 
         var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
             ?.OptionType;
-        if (opt == null) return em;
+        if (opt == null) return (em, cb);
         var hs = GetCommandOptionHelp(opt);
         if (!string.IsNullOrWhiteSpace(hs))
             em.AddField(GetText("options", guild), hs);
 
-        return em;
+        return (em, cb);
     }
 
     public static string GetCommandOptionHelp(Type opt)
