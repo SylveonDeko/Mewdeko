@@ -245,8 +245,7 @@ public class Help : MewdekoModuleBase<HelpService>
             return;
         }
 
-        var comp = new ComponentBuilder().WithButton(GetText("help_run_cmd"), $"runcmd.{com.Aliases[0]}", ButtonStyle.Success);
-        var embed = await Service.GetCommandHelp(com, ctx.Guild);
+        var (embed, comp) = await Service.GetCommandHelp(com, ctx.Guild, (ctx.User as IGuildUser)!);
         await channel.SendMessageAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
