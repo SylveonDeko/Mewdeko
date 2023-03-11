@@ -585,4 +585,241 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         else
             await ReplyConfirmLocalizedAsync("asm_disable").ConfigureAwait(false);
     }
+
+    [ComponentInteraction("permenu_update.*", true)]
+    [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    public async Task UpdateMessageWithPermenu(string commandName)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true);
+
+        var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
+            .Where(x => x.Footer.GetValueOrDefault().Text != "$$mdk_redperm$$").ToArray();
+
+        var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
+        // check effecting for redundant permissions
+        var redundant = effecting.Where(x => effecting.Any(y =>
+            y.Id                    != x.Id                 &&
+            y.PrimaryTarget         == x.PrimaryTarget      &&
+            y.PrimaryTargetId       == x.PrimaryTargetId    &&
+            y.SecondaryTarget       == x.SecondaryTarget    &&
+            y.SecondaryTargetName   == x.SecondaryTargetName)).ToList();
+        if (redundant.Count >= 1)
+        {
+            redundant = redundant
+                .DistinctBy(x => (x.PrimaryTarget, x.PrimaryTargetId, x.SecondaryTarget, x.SecondaryTargetName))
+                .ToList();
+
+            var eb = new EmbedBuilder()
+                .WithTitle(GetText("perm_quick_options_redundant"))
+                .WithColor(0xe52d00)
+                .WithDescription(GetText("perm_quick_options_redundant_explainer"))
+                .AddField(GetText("perm_quick_options_redundant_count"), redundant.Count)
+                .WithFooter("$$mdk_redperm$$");
+
+            cb.WithButton(GetText("perm_quick_options_redundant_resolve"), $"credperms.{commandName}", ButtonStyle.Success);
+
+            await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
+            {
+                x.Components = cb.Build();
+                x.Embeds = quickEmbeds.Append(eb.Build()).ToArray();
+            });
+            return;
+        }
+
+        if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == false))
+            cb.WithButton(GetText("perm_quick_options_dissable_dissabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Success);
+        else
+            cb.WithButton(GetText("perm_quick_options_dissable_enabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Danger);
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
+        {
+            x.Components = cb.Build();
+            x.Embeds = quickEmbeds;
+        });
+    }
+
+    [ComponentInteraction("credperms.*", true)]
+    [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    public async Task ClearRedundantPerms(string commandName)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
+            .Where(x => x.Footer.GetValueOrDefault().Text != "$$mdk_redperm$$").ToArray();
+
+        var redundant = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => perms.Where(x => x.SecondaryTargetName == commandName).Any(y =>
+                y.Id                    != x.Id                 &&
+                y.PrimaryTarget         == x.PrimaryTarget      &&
+                y.PrimaryTargetId       == x.PrimaryTargetId    &&
+                y.SecondaryTarget       == x.SecondaryTarget    &&
+                y.SecondaryTargetName   == x.SecondaryTargetName))
+            .DistinctBy(x => (x.PrimaryTarget, x.PrimaryTargetId, x.SecondaryTarget, x.SecondaryTargetName))
+            .ToList();
+
+        if (redundant.Count == 0)
+        {
+            await UpdateMessageWithPermenu(commandName);
+            return;
+        }
+
+        var perm = redundant.First();
+
+        var cb = new ComponentBuilder()
+            .WithSelectMenu($"credperms_m.{((int)perm.PrimaryTarget)}.{perm.PrimaryTargetId}.{((int)perm.SecondaryTarget)}.{perm.SecondaryTargetName}", new List<SelectMenuOptionBuilder>() {
+                new(GetText("perm_quick_options_redundant_tool_enable"), "enabled", GetText("perm_quick_options_redundant_tool_enabled_description")),
+                new(GetText("perm_quick_options_redundant_tool_dissable"), "dissabled", GetText("perm_quick_options_redundant_tool_dissable_description")),
+                new(GetText("perm_quick_options_redundant_tool_clear"), "clear", GetText("perm_quick_options_redundant_tool_clear_description")),
+                new(GetText("perm_quick_options_redundant_tool_current"), "current", GetText("perm_quick_options_redundant_tool_current_description")),
+            }, "Action");
+
+        var eb = new EmbedBuilder()
+            .WithTitle(GetText("perm_quick_options_redundant"))
+            .WithDescription(GetText("perm_quick_options_redundant_tool_priority_disclaimer"))
+            .AddField(GetText("perm_quick_options_redundant_tool_ptar"), perm.PrimaryTarget.ToString(), true)
+            .AddField(GetText("perm_quick_options_redundant_tool_ptarid"), $"{perm.PrimaryTargetId} ({PermissionService.MentionPerm(perm.PrimaryTarget, perm.PrimaryTargetId)})", true)
+            .AddField(GetText("perm_quick_options_redundant_tool_custom"), perm.IsCustomCommand, false)
+            .AddField(GetText("perm_quick_options_redundant_tool_star"), perm.SecondaryTarget.ToString(), true)
+            .AddField(GetText("perm_quick_options_redundant_tool_starid"), $"{perm.SecondaryTargetName}", true)
+            .WithFooter("$$mdk_redperm$$")
+            .WithColor(0xe52d00);
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
+        {
+            x.Embeds = quickEmbeds.Append(eb.Build()).ToArray();
+            x.Components = cb.Build();
+        });
+    }
+
+    [ComponentInteraction("credperms_m.*.*.*.*", true)]
+    [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    public async Task ResolvePermMenu(string primaryTargetType, string primaryTargetIdRaw, string secondaryTargetType, string secondaryTargetId)
+    {
+        var primaryTarget = (PrimaryPermissionType)Convert.ToInt32(primaryTargetType);
+        var primaryTargetId = Convert.ToUInt64(primaryTargetIdRaw);
+        var secondaryTarget = (SecondaryPermissionType)Convert.ToInt32(secondaryTargetType);
+
+        // get all effected perms
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        // already ordered by index
+        var effected = perms.Where(x =>
+            x.PrimaryTarget == primaryTarget &&
+            x.PrimaryTargetId == primaryTargetId &&
+            x.SecondaryTarget == secondaryTarget &&
+            x.SecondaryTargetName == secondaryTargetId);
+
+        var selected = (Context.Interaction as SocketMessageComponent).Data.Values.First();
+        var first = effected.First();
+        var indexmod = -1;
+        switch (selected)
+        {
+            case "clear":
+                effected.ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+                break;
+            case "current":
+                effected
+                    .Where(x => x != first)
+                    .ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+                break;
+            case "enabled":
+                effected
+                    .Where(x => x != first)
+                    .ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+                await Service.UpdatePerm(ctx.Guild.Id, first.Index, true);
+                break;
+            case "dissabled":
+                effected
+                    .Where(x => x != first)
+                    .ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+                await Service.UpdatePerm(ctx.Guild.Id, first.Index, false);
+                break;
+        }
+
+        await ClearRedundantPerms(secondaryTargetId);
+    }
+
+    [ComponentInteraction("command_toggle_dissable.*", true)]
+    [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    public async Task ToggleCommandDissabled(string commandName)
+    {
+        await using var uow = db.GetDbContext();
+
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .ToList();
+
+        var sc = perms
+            .FirstOrDefault(x => x.PrimaryTarget == PrimaryPermissionType.Server, null);
+
+        if (sc is not null && sc.State)
+        {
+            await Service.RemovePerm(ctx.Guild.Id, sc.Index);
+            sc = null;
+        }
+
+        if (sc is null)
+        {
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2()
+            {
+                GuildConfigId = uow.ForGuildId(ctx.Guild.Id).Id,
+                IsCustomCommand = false,
+                PrimaryTarget = PrimaryPermissionType.Server,
+                PrimaryTargetId = 0,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = commandName,
+                State = false
+            });
+
+            // reset local cache
+            if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
+                perms = permCache.Permissions.Source.ToList();
+            else
+                perms = Permissionv2.GetDefaultPermlist;
+
+            perms = perms
+                .Where(x => x.SecondaryTargetName == commandName)
+                .ToList();
+
+            var index = perms.First(x => x.PrimaryTarget == PrimaryPermissionType.Server).Index;
+
+            await Service.UnsafeMovePerm(ctx.Guild.Id, index, 1);
+
+            await UpdateMessageWithPermenu(commandName);
+            return;
+        }
+        await Service.RemovePerm(ctx.Guild.Id, sc.Index);
+        await UpdateMessageWithPermenu(commandName);
+
+    }
 }

@@ -30,7 +30,9 @@ public class PermissionService : ILateBlocker, INService
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
-                    Verbose = x.VerbosePermissions, PermRole = x.PermissionRole, Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    Verbose = x.VerbosePermissions,
+                    PermRole = x.PermissionRole,
+                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                 });
         }
     }
@@ -53,7 +55,8 @@ public class PermissionService : ILateBlocker, INService
         var commandName = command.Name.ToLowerInvariant();
 
         await Task.Yield();
-        if (guild == null) return false;
+        if (guild == null)
+            return false;
 
         var resetCommand = commandName == "resetperms";
 
@@ -139,12 +142,14 @@ public class PermissionService : ILateBlocker, INService
         var commandName = command.MethodName.ToLowerInvariant();
 
         await Task.Yield();
-        if (guild == null) return false;
+        if (guild == null)
+            return false;
 
         var resetCommand = commandName == "resetperms";
 
         var pc = await GetCacheFor(guild.Id);
-        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User, ctx.Channel, out var index)) return false;
+        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User, ctx.Channel, out var index))
+            return false;
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
@@ -161,7 +166,8 @@ public class PermissionService : ILateBlocker, INService
 
     public async Task<PermissionCache?> GetCacheFor(ulong guildId)
     {
-        if (Cache.TryGetValue(guildId, out var pc)) return pc;
+        if (Cache.TryGetValue(guildId, out var pc))
+            return pc;
         await using (var uow = db.GetDbContext())
         {
             var config = await uow.ForGuildId(guildId,
@@ -192,7 +198,9 @@ public class PermissionService : ILateBlocker, INService
     public void UpdateCache(GuildConfig config) =>
         Cache.AddOrUpdate(config.GuildId, new PermissionCache
         {
-            Permissions = new PermissionsCollection<Permissionv2>(config.Permissions), PermRole = config.PermissionRole, Verbose = config.VerbosePermissions
+            Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
+            PermRole = config.PermissionRole,
+            Verbose = config.VerbosePermissions
         }, (_, old) =>
         {
             old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -206,6 +214,68 @@ public class PermissionService : ILateBlocker, INService
         await using var uow = db.GetDbContext();
         var config = await uow.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        UpdateCache(config);
+    }
+
+    public static string MentionPerm(PrimaryPermissionType t, ulong id)
+        => t switch
+        {
+            PrimaryPermissionType.User => $"<@{id}>",
+            PrimaryPermissionType.Channel => $"<#{id}>",
+            PrimaryPermissionType.Role => $"<@&{id}>",
+            PrimaryPermissionType.Server => $"This Server",
+            PrimaryPermissionType.Category => $"<#{id}>",
+            _ => "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/mewdeko with a screenshot of this message for more information."
+        };
+
+    public async Task RemovePerm(ulong guildId, int index)
+    {
+        await using var uow = db.GetDbContext();
+
+        var config = await uow.GcWithPermissionsv2For(guildId);
+        var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
+
+        var p = permsCol[index];
+        permsCol.RemoveAt(index);
+        uow.Remove(p);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        UpdateCache(config);
+    }
+
+    public async Task UpdatePerm(ulong guildId, int index, bool state)
+    {
+        await using var uow = db.GetDbContext();
+
+        var config = await uow.GcWithPermissionsv2For(guildId);
+        var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
+
+        var p = permsCol[index];
+        p.State = state;
+        uow.Update(p);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        UpdateCache(config);
+    }
+
+    public async Task UnsafeMovePerm(ulong guildId, int from, int to)
+    {
+        await using var uow = db.GetDbContext();
+
+        var config = await uow.GcWithPermissionsv2For(guildId);
+        var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
+
+        var fromFound = from < permsCol.Count;
+        var toFound = to < permsCol.Count;
+
+        if (!fromFound || !toFound)
+        {
+            return;
+        }
+
+        var fromPerm = permsCol[from];
+
+        permsCol.RemoveAt(from);
+        permsCol.Insert(to, fromPerm);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
