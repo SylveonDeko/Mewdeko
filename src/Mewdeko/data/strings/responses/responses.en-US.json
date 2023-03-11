@@ -1233,5 +1233,6 @@
     "perm_quick_options_redundant_tool_star": "Command Target Type",
     "perm_quick_options_redundant_tool_starid": "Command Name",
     "perm_quick_options_redundant_tool_priority_disclaimer": "If you select \"Enable\" or \"Dissable\" or \"Current\" you choice will be applied to the **highest** prority overwright and all others will be cleared, if you select \"Clear\" all overwrights will be cleared. Selecting \"Current\" ensures command behavoir will **not** change.",
-    "horribly_wrong": ""
+    "horribly_wrong": "",
+    "local_perms_reset": "Reset Permissions"
 }
