@@ -598,13 +598,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         else
             perms = Permissionv2.GetDefaultPermlist;
 
+        var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
+
         var cb = new ComponentBuilder()
             .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true);
 
         var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
             .Where(x => x.Footer.GetValueOrDefault().Text != "$$mdk_redperm$$").ToArray();
 
-        var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
         // check effecting for redundant permissions
         var redundant = effecting.Where(x => effecting.Any(y =>
             y.Id                    != x.Id                 &&
@@ -639,6 +640,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             cb.WithButton(GetText("perm_quick_options_dissable_dissabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Success);
         else
             cb.WithButton(GetText("perm_quick_options_dissable_enabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Danger);
+
+        if (effecting.Any())
+            cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger);
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
         {
@@ -821,5 +825,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await Service.RemovePerm(ctx.Guild.Id, sc.Index);
         await UpdateMessageWithPermenu(commandName);
 
+    }
+    [ComponentInteraction("local_perms_reset.*", true)]
+    public async Task LocalPermsReset(string commandName)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
+
+        var indexmod = -1;
+        effecting.ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+
+        await UpdateMessageWithPermenu(commandName);
     }
 }
