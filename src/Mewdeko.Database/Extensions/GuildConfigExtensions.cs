@@ -13,8 +13,6 @@ public static class GuildConfigExtensions
         public ulong ChannelId { get; set; }
     }
 
-    public static IEnumerable<GuildConfig> All(this DbSet<GuildConfig> set) => set.IncludeEverything().AsQueryable().ToArray();
-
     public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
         => ctx.GuildConfigs
             .Include(x => x.ReactionRoleMessages)
@@ -122,13 +120,6 @@ public static class GuildConfigExtensions
 
         return gc.XpSettings ?? (gc.XpSettings = new XpSettings());
     }
-
-    public static IEnumerable<GuildConfig> GetAllGuildConfigs(this DbSet<GuildConfig> configs, List<ulong> availableGuilds)
-        => configs
-            .IncludeEverything()
-            .AsNoTracking()
-            .Where(x => availableGuilds.Contains(x.GuildId))
-            .ToList();
 
     public static async Task<GuildConfig> LogSettingsFor(this MewdekoContext ctx, ulong guildId)
     {
