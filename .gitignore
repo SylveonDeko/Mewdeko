@@ -371,5 +371,6 @@ src/Mewdeko/data/bot.yml
 src\Mewdeko\data\bot.yml
 src\Mewdeko\data\*.yml
 
-
+# Cottage Test Utilities
+__cottage_test/
 

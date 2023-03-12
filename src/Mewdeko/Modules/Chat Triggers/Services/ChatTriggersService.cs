@@ -141,7 +141,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         try
         {
-            if (gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
+            if (gperm.BlockedModules.Contains("ActualChatTriggers"))
+                return true;
 
             if (guild is SocketGuild sg)
             {
@@ -228,7 +229,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 // ignored
             }
 
-            if (ct.GuildId is null || msg?.Author is not IGuildUser guildUser) return true;
+            if (ct.GuildId is null || msg?.Author is not IGuildUser guildUser)
+                return true;
             {
                 var effectedUsers = ct.RoleGrantType switch
                 {
@@ -270,7 +272,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return false;
     }
 
-    public async Task RunInteractionTrigger(SocketInteraction inter, CTModel ct)
+    public async Task RunInteractionTrigger(SocketInteraction inter, CTModel ct, bool followup = false)
     {
         switch (inter)
         {
@@ -282,10 +284,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 {
                     var fakeMsg = new MewdekoUserMessage
                     {
-                        Author = inter.User, Content = ct.Trigger, Channel = inter.Channel
+                        Author = inter.User,
+                        Content = ct.Trigger,
+                        Channel = inter.Channel
                     };
 
-                    if (gperm.BlockedModules.Contains("ActualChatTriggers")) return;
+                    if (gperm.BlockedModules.Contains("ActualChatTriggers"))
+                        return;
 
                     if (inter.Channel is IGuildChannel { Guild: SocketGuild guild })
                     {
@@ -293,7 +298,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         if (!pc.Permissions.CheckPermissions(fakeMsg, ct.Trigger, "ActualChatTriggers",
                                 out var index))
                         {
-                            if (!pc.Verbose) return;
+                            if (!pc.Verbose)
+                                return;
                             var returnMsg = strings.GetText("perm_prevent", guild.Id,
                                 index + 1,
                                 Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), guild)));
@@ -341,7 +347,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         await uow.SaveChangesAsync();
                     }
 
-                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, ct.EphemeralResponse, uow).ConfigureAwait(false);
+                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, ct.EphemeralResponse, uow, followup).ConfigureAwait(false);
 
                     foreach (var reaction in ct.GetReactions())
                     {
@@ -362,7 +368,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         await Task.Delay(1000).ConfigureAwait(false);
                     }
 
-                    if (ct.GuildId is null || inter.User is not IGuildUser guildUser) return;
+                    if (ct.GuildId is null || inter.User is not IGuildUser guildUser)
+                        return;
                     {
                         var effectedUsers = inter is SocketUserCommand uCmd
                             ? ct.RoleGrantType switch
@@ -568,19 +575,23 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             switch (ct.PrefixType)
             {
                 case RequirePrefixType.Custom:
-                    if (!content.StartsWith(ct.CustomPrefix)) continue;
+                    if (!content.StartsWith(ct.CustomPrefix))
+                        continue;
                     content = content[ct.CustomPrefix.Length..];
                     break;
                 case RequirePrefixType.GuildOrNone:
-                    if (guildPrefix is null || !content.StartsWith(guildPrefix)) continue;
+                    if (guildPrefix is null || !content.StartsWith(guildPrefix))
+                        continue;
                     content = content[guildPrefix.Length..];
                     break;
                 case RequirePrefixType.GuildOrGlobal:
-                    if (!content.StartsWith(guildPrefix ?? globalPrefix)) continue;
+                    if (!content.StartsWith(guildPrefix ?? globalPrefix))
+                        continue;
                     content = content[(guildPrefix ?? globalPrefix).Length..];
                     break;
                 case RequirePrefixType.Global:
-                    if (!content.StartsWith(globalPrefix)) continue;
+                    if (!content.StartsWith(globalPrefix))
+                        continue;
                     content = content[globalPrefix.Length..];
                     break;
                 case RequirePrefixType.None:
@@ -613,7 +624,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var wp = Extensions.Extensions.GetWordPosition(content, trigger);
 
                     // if it is, then that's valid
-                    if (wp != WordPosition.None) result.Add(ct);
+                    if (wp != WordPosition.None)
+                        result.Add(ct);
 
                     // if it's not, then it cant' work under any circumstance,
                     // because content is greater than the trigger length
@@ -638,7 +650,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 // if input length is the same as trigger length
                 // reaction can only trigger if the strings are equal
-                if (content.SequenceEqual(ct.Trigger)) result.Add(ct);
+                if (content.SequenceEqual(ct.Trigger))
+                    result.Add(ct);
             }
         }
 
@@ -668,7 +681,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         // handle interaction updates
-        if (ct.ApplicationCommandType == CtApplicationCommandType.None) return;
+        if (ct.ApplicationCommandType == CtApplicationCommandType.None)
+            return;
 
         var guild = client.GetGuild(guildId);
         await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
@@ -744,7 +758,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         lock (gcrWriteLock)
         {
             var cr = Array.Find(globalReactions, item => item.Id == id);
-            if (cr is not null) return pubSub.Pub(gcrDeletedkey, cr.Id);
+            if (cr is not null)
+                return pubSub.Pub(gcrDeletedkey, cr.Id);
         }
 
         return Task.CompletedTask;
@@ -876,7 +891,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             for (var i = 0; i < globalReactions.Length; i++)
             {
-                if (globalReactions[i].Id != c.Id) continue;
+                if (globalReactions[i].Id != c.Id)
+                    continue;
                 globalReactions[i] = c;
                 return default;
             }
@@ -924,7 +940,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         key = key.ToLowerInvariant();
         var cr = new CTModel
         {
-            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex
+            GuildId = guildId,
+            Trigger = key,
+            Response = message,
+            IsRegex = regex
         };
 
         if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
@@ -1325,9 +1344,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .AddOptions(x.Triggers is not null
                 ? Array.Empty<SlashCommandOptionBuilder>()
                 : x.Children.Select(y => new SlashCommandOptionBuilder
-                    {
-                        Options = new()
-                    }
+                {
+                    Options = new()
+                }
                     .WithName(y.Name)
                     .WithDescription(y.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true
                         ? "description"
@@ -1366,7 +1385,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public async Task RegisterTriggersToGuildAsync(IGuild guild)
     {
-        if (!TryGetApplicationCommandProperties(guild.Id, out var props) || props is null) return;
+        if (!TryGetApplicationCommandProperties(guild.Id, out var props) || props is null)
+            return;
 #if DEBUG
         var cmd = new List<IApplicationCommand>();
         foreach (var prop in props)
