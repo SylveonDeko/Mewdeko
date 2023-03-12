@@ -3,8 +3,6 @@ using System.Web;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Configs;
-using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Moderation;
@@ -23,13 +21,13 @@ public partial class Moderation
             var url =
                 "https://discord.com/api/oauth2/authorize?client_id=%id%&redirect_uri=%redirect%&response_type=code&scope=identify%20role_connections.write%20connections"
                     .Replace("%id%", Context.Client.CurrentUser.Id.ToString())
-                    .Replace("%redirect%",  HttpUtility.UrlEncode(_config.RedirectUrl));
+                    .Replace("%redirect%", HttpUtility.UrlEncode(_config.RedirectUrl));
             var components = new ComponentBuilder()
                 .WithButton("Enter Code", "auth_code.enter", ButtonStyle.Success)
-                .WithButton("Get Code", null, ButtonStyle.Link, url:url)
+                .WithButton("Get Code", null, ButtonStyle.Link, url: url)
                 .WithButton("Help", null, ButtonStyle.Link, url: "https://discord.gg/mewdeko");
-            await Context.Channel.SendMessageAsync("Please authorize Mewdeko to manage your role connections. "+
-                "If you already have a code, click `Enter Code`, if you don't click `Get Code`.",
+            await Context.Channel.SendMessageAsync("Please authorize Mewdeko to manage your role connections. " +
+                                                   "If you already have a code, click `Enter Code`, if you don't click `Get Code`.",
                 components: components.Build());
         }
     }

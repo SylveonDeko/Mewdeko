@@ -1,4 +1,6 @@
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
@@ -585,6 +587,150 @@ public partial class ServerManagement
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task ExportRoleList()
+        {
+            var roles = ctx.Guild.Roles.ToList();
+            roles = roles.Where(x => !x.IsManaged && x.Id != ctx.Guild.Id).ToList();
+            if (!roles.Any())
+            {
+                await ctx.Channel.SendErrorAsync($"{config.Data.ErrorEmote} No manageable roles found!").ConfigureAwait(false);
+                return;
+            }
+
+            await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Exporting role/user list...").ConfigureAwait(false);
+            var pair = new List<ExportedRoles>();
+            foreach (var i in roles.OrderByDescending(x => x.Position))
+            {
+                var role = i as SocketRole;
+                if (role.Members.Any())
+                    role.Members.ForEach(x => pair.Add(new ExportedRoles
+                    {
+                        RoleId = i.Id, UserId = x.Id, RoleName = i.Name
+                    }));
+                else
+                    pair.Add(new ExportedRoles
+                    {
+                        RoleId = i.Id, UserId = 0, RoleName = i.Name
+                    });
+            }
+
+            var toExport = string.Join("\n", pair.Select(x => $"{x.RoleId},{x.UserId},{x.RoleName}"));
+            var toSend = new MemoryStream(Encoding.UTF8.GetBytes(toExport));
+            await ctx.Channel.SendFileAsync(toSend, "rolelist.txt").ConfigureAwait(false);
+            await toSend.DisposeAsync();
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task ImportRoleList(bool newRoles = false)
+        {
+            if (!ctx.Message.Attachments.Any())
+            {
+                await ctx.Channel.SendErrorAsync("Please attach a file with a list of roles to add to users.").ConfigureAwait(false);
+                return;
+            }
+
+            var client = new HttpClient();
+            var guildUsers = (await ctx.Guild.GetUsersAsync()).ToList();
+            var roles = ctx.Guild.Roles.ToList();
+            var file = await client.GetStringAsync(ctx.Message.Attachments.First().Url);
+            var lines = file.ToLines();
+            var toProcess = new List<KeyValuePair<IRole, IGuildUser>>();
+            var addedRoles = new List<ulong>();
+            if (!newRoles)
+                toProcess = (from i in lines
+                    select i.Split(",")
+                    into split
+                    let role = roles.FirstOrDefault(x => x.Id == Convert.ToUInt64(split[0]))
+                    where role is not null
+                    let user = guildUsers.FirstOrDefault(x => x.Id == Convert.ToUInt64(split[1]))
+                    select new KeyValuePair<IRole, IGuildUser>(role, user)).ToList();
+            else
+            {
+                foreach (var i in lines)
+                {
+                    var split = i.Split(",");
+                    var roleId = Convert.ToUInt64(split[0]);
+                    IRole role;
+                    if (!addedRoles.Contains(roleId))
+                        role = await ctx.Guild.CreateRoleAsync(split[2], null, null, false, null).ConfigureAwait(false);
+                    else
+                        role = roles.FirstOrDefault(x => x.Name == split[2]);
+                    addedRoles.Add(Convert.ToUInt64(split[0]));
+                    var user = guildUsers.FirstOrDefault(x => x.Id == Convert.ToUInt64(split[1]));
+                    if (user is not null)
+                        toProcess.Add(new KeyValuePair<IRole, IGuildUser>(role, user));
+                }
+            }
+
+            if (!toProcess.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No roles or users to process in the file.").ConfigureAwait(false);
+                return;
+            }
+
+            if (Service.Jobslist.Count == 5)
+            {
+                await ctx.Channel.SendErrorAsync(
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{await guildSettings.GetPrefix(ctx.Guild)}rolejobs`.")
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            foreach (var i in toProcess.ToList())
+            {
+                if (i.Value.RoleIds.Any() && i.Value.RoleIds.Contains(i.Key.Id))
+                {
+                    toProcess.Remove(i);
+                }
+            }
+
+            if (!toProcess.Any())
+            {
+                await ctx.Channel.SendErrorAsync("All roles are already applied to all users.").ConfigureAwait(false);
+                return;
+            }
+
+            int jobId;
+            if (Service.Jobslist.FirstOrDefault() is null)
+                jobId = 1;
+            else
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            var count = toProcess.Count;
+            var addedCount = 0;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Importing User Roles", null).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($" {config.Data.LoadingEmote} Importing {count} roles/users\nThis will take about {TimeSpan.FromSeconds(count).Humanize()}")
+                .ConfigureAwait(false);
+            foreach (var i in toProcess)
+            {
+                try
+                {
+                    var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
+                    var t = e == "Stopped";
+                    if (t)
+                    {
+                        await Service.RemoveJob(ctx.Guild, jobId).ConfigureAwait(false);
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Massrole Stopped.\nApplied {addedCount} role/user imports out of {toProcess.Count} before stopping.").ConfigureAwait(false);
+                        return;
+                    }
+
+                    await i.Value.AddRoleAsync(i.Key).ConfigureAwait(false);
+                    await Service.UpdateCount(ctx.Guild, jobId, count).ConfigureAwait(false);
+                    addedCount++;
+                }
+                catch (HttpException)
+                {
+                    //ignored
+                }
+            }
+
+            await Service.RemoveJob(ctx.Guild, jobId).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Applied {addedCount} role/user imports out of {toProcess.Count}!").ConfigureAwait(false);
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddRoleToList(IRole role)
         {
             if (!ctx.Message.Attachments.Any())
@@ -663,7 +809,7 @@ public partial class ServerManagement
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Users in List", role).ConfigureAwait(false);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
-                $"Adding {role.Mention} to {count} users.\n + This will take about {TimeSpan.FromSeconds(actualUsers.Count).Humanize()}.").ConfigureAwait(false);
+                $"Adding {role.Mention} to {count} users.\nThis will take about {TimeSpan.FromSeconds(actualUsers.Count).Humanize()}.").ConfigureAwait(false);
             using (ctx.Channel.EnterTypingState())
             {
                 foreach (var i in actualUsers)
@@ -1308,6 +1454,13 @@ public partial class ServerManagement
             await Service.RemoveJob(ctx.Guild, jobId).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
                 $"Added {role2.Mention} to {count2} users and removed {role.Mention}.").ConfigureAwait(false);
+        }
+
+        public record ExportedRoles
+        {
+            public ulong RoleId { get; set; }
+            public ulong UserId { get; set; }
+            public string RoleName { get; set; }
         }
     }
 }

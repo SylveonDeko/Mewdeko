@@ -70,6 +70,12 @@ public partial class Permissions
         public async Task GlobalCommand(CommandOrCrInfo cmd)
         {
             var commandName = cmd.Name.ToLowerInvariant();
+            if (commandName is "source")
+            {
+                await ctx.Channel.SendErrorAsync("That command is not allowed to be globally disabled. What are you trying to do?").ConfigureAwait(false);
+                return;
+            }
+
             var added = Service.ToggleCommand(commandName);
 
             if (added)
