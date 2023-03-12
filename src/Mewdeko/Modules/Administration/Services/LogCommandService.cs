@@ -19,6 +19,7 @@ public class LogCommandService : INService
         EventCreated,
         RoleUpdated,
         RoleCreated,
+        RoleDeleted,
         ServerUpdated,
         ThreadCreated,
         UserRoleAdded,

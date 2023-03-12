@@ -145,6 +145,7 @@ public class NewEmbed
 
         var activeRowId = 0;
         var rowLength = 0;
+        if (Components is null) return null;
         foreach (var comp in Components)
         {
             if (activeRowId == 5)
@@ -215,7 +216,10 @@ public class NewEmbed
 
         var error = new SelectMenuBuilder()
             .WithDisabled(true)
-            .WithOptions(new() { new("a", "a") })
+            .WithOptions(new()
+            {
+                new("a", "a")
+            })
             .WithCustomId(pos.ToString());
 
         if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))
