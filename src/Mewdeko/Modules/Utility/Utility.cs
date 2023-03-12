@@ -953,7 +953,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     await Task.CompletedTask;
                     return new PageBuilder().WithOkColor().WithTitle($"Roles List for {target}")
                         .WithDescription(string.Join("\n",
-                            roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id} {x.GetMembersAsync().GetAwaiter().GetResult().Count()} Members")));
+                            roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id} | {x.GetMembersAsync().GetAwaiter().GetResult().Count()} Members")));
                 }
             }
         }
