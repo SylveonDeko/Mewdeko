@@ -41,7 +41,7 @@ public class RedisCache : IDataCache
     public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key)
     {
         var db = Redis.GetDatabase();
-        byte[] x = await db.StringGetAsync($"image_{key}").ConfigureAwait(false);
+        byte[] x = await db.StringGetAsync($"{redisKey}_image_{key}").ConfigureAwait(false);
         return (x != null, x);
     }
 
@@ -412,14 +412,14 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
 
-        var data = await db.StringGetAsync(key).ConfigureAwait(false);
+        var data = await db.StringGetAsync($"{redisKey}_{key}").ConfigureAwait(false);
         if (data.HasValue) return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
         var obj = await factory(param).ConfigureAwait(false);
 
         if (obj == null)
             return default;
 
-        await db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
+        await db.StringSetAsync($"{redisKey}_{key}", JsonConvert.SerializeObject(obj),
             expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         return obj;
