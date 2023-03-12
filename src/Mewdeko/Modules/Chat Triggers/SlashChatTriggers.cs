@@ -414,7 +414,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
         else
         {
-            await ctx.Interaction.SendConfirmAsync(GetText("option_dissabled", Format.Code(option.ToString()),
+            await ctx.Interaction.SendConfirmAsync(GetText("option_disabled", Format.Code(option.ToString()),
                 Format.Code(id.ToString()))).ConfigureAwait(false);
         }
 
