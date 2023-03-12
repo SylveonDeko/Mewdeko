@@ -3,11 +3,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Discord.Interactions;
 using Discord.Rest;
-using LinqToDB.Tools;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Moderation;
@@ -32,18 +30,29 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         const string url = "https://discord.com/api/v10/oauth2/token";
         HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            {"client_id", Context.Client.CurrentUser.Id.ToString()},
-            {"client_secret", Credentials.ClientSecret},
-            {"grant_type", "authorization_code"},
-            {"code", code},
-            {"redirect_uri", ConfigService.Data.RedirectUrl}
+            {
+                "client_id", Context.Client.CurrentUser.Id.ToString()
+            },
+            {
+                "client_secret", Credentials.ClientSecret
+            },
+            {
+                "grant_type", "authorization_code"
+            },
+            {
+                "code", code
+            },
+            {
+                "redirect_uri", ConfigService.Data.RedirectUrl
+            }
         });
         var req = await _httpClient.PostAsync(url, content);
         var response = JsonSerializer.Deserialize<AuthResponce>(await req.Content.ReadAsStringAsync());
 
         if (response.access_token.IsNullOrWhiteSpace())
         {
-            await ctx.Interaction.SendErrorFollowupAsync("This auth code is probably invalid or expired. Please retry with a different code. If this problem persists, please contact the bot owner.");
+            await ctx.Interaction.SendErrorFollowupAsync(
+                "This auth code is probably invalid or expired. Please retry with a different code. If this problem persists, please contact the bot owner.");
             return;
         }
 

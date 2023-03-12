@@ -952,7 +952,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     await Task.CompletedTask;
                     return new PageBuilder().WithOkColor().WithTitle($"Roles List for {target}")
-                        .WithDescription(string.Join("\n", roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id}")));
+                        .WithDescription(string.Join("\n",
+                            roles.Skip(page * 10).Take(10).Select(async x => $"{x.Mention} | {x.Id} {(await x.GetMembersAsync()).Count()} Members")));
                 }
             }
         }
@@ -983,7 +984,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     await Task.CompletedTask;
                     return new PageBuilder().WithOkColor().WithTitle("Guild Roles List")
-                        .WithDescription(string.Join("\n", roles.Skip(page * 10).Take(10).Select(x => $"{x.Mention} | {x.Id}")));
+                        .WithDescription(string.Join("\n", roles.Skip(page * 10).Take(10).Select(x => x as SocketRole).Select(x => $"{x.Mention} | {x.Id} | ")));
                 }
             }
         }

@@ -218,7 +218,53 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task SetRole(IGuildUser targetUser, [Remainder] IRole roleToAdd)
+        {
+            var runnerUser = (IGuildUser)ctx.User;
+            var runnerMaxRolePosition = runnerUser.GetRoles().Max(x => x.Position);
+            if (ctx.User.Id != ctx.Guild.OwnerId && runnerMaxRolePosition <= roleToAdd.Position)
+                return;
+            try
+            {
+                await targetUser.AddRoleAsync(roleToAdd).ConfigureAwait(false);
+
+                await ReplyConfirmLocalizedAsync("setrole", Format.Bold(roleToAdd.Name),
+                        Format.Bold(targetUser.ToString()))
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Error in setrole command");
+                await ReplyErrorLocalizedAsync("setrole_err").ConfigureAwait(false);
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
+        {
+            var runnerUser = (IGuildUser)ctx.User;
+            if (ctx.User.Id != runnerUser.Guild.OwnerId &&
+                runnerUser.GetRoles().Max(x => x.Position) <= roleToRemove.Position)
+            {
+                return;
+            }
+
+            try
+            {
+                await targetUser.RemoveRoleAsync(roleToRemove).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("remrole", Format.Bold(roleToRemove.Name),
+                    Format.Bold(targetUser.ToString())).ConfigureAwait(false);
+            }
+            catch
+            {
+                await ReplyErrorLocalizedAsync("remrole_err").ConfigureAwait(false);
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task RemoveRole(IGuildUser targetUser, [Remainder] IRole roleToRemove)
         {
             var runnerUser = (IGuildUser)ctx.User;
             if (ctx.User.Id != runnerUser.Guild.OwnerId &&
