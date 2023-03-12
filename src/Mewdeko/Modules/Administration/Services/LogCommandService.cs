@@ -122,7 +122,7 @@ public class LogCommandService : INService
             TimeSpan.FromHours(1));
     }
 
-    public NonBlocking.ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
+    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     public void AddDeleteIgnore(ulong messageId) => ignoreMessageIds.Add(messageId);
 
