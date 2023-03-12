@@ -15,7 +15,9 @@ public class GuildConfig : DbEntity
 
     public ulong KarutaEventChannel { get; set; } = 0;
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
+
     public string AutoAssignRoleId { get; set; } = "0";
+
     // Starboard
     public bool StarboardAllowBots { get; set; } = true;
     public bool StarboardRemoveOnDelete { get; set; } = false;
@@ -23,7 +25,7 @@ public class GuildConfig : DbEntity
     public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
     public bool UseStarboardBlacklist { get; set; } = true;
     public string StarboardCheckChannels { get; set; } = "0";
-    
+
     // Votes
     public string VotesPassword { get; set; }
     public ulong VotesChannel { get; set; }
@@ -64,7 +66,6 @@ public class GuildConfig : DbEntity
     public ulong SuggestButtonMessageId { get; set; } = 0;
     public int SuggestButtonRepostThreshold { get; set; } = 5;
     public int SuggestButtonColor { get; set; } = 2;
-    public ulong KarutaEventChannel { get; set; }
     public string AfkMessage { get; set; } = "-";
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
@@ -98,6 +99,7 @@ public class GuildConfig : DbEntity
     public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
     public int Stars { get; set; } = 3;
     public int AfkType { get; set; } = 2;
+    public bool StatsOptOut { get; set; } = false;
     public AntiAltSetting AntiAltSetting { get; set; }
     public string AfkDisabledChannels { get; set; }
     public int AfkDel { get; set; }

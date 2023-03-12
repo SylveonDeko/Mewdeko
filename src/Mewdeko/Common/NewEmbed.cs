@@ -119,7 +119,7 @@ public class NewEmbed
     public class NewEmbedComponent
     {
         public string? DisplayName { get; set; }
-        public int? Id { get; set; }
+        public int Id { get; set; } = 0;
         public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
         public string? Url { get; set; }
         public string? Emoji { get; set; }
@@ -156,7 +156,7 @@ public class NewEmbed
                 rowLength = 0;
             }
 
-            if (comp.IsSelect is true)
+            if (comp.IsSelect)
             {
                 if (rowLength != 0)
                     ++activeRowId;
@@ -215,7 +215,10 @@ public class NewEmbed
 
         var error = new SelectMenuBuilder()
             .WithDisabled(true)
-            .WithOptions(new() { new("a", "a") })
+            .WithOptions(new()
+            {
+                new("a", "a")
+            })
             .WithCustomId(pos.ToString());
 
         if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))
