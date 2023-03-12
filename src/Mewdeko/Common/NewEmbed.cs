@@ -119,7 +119,7 @@ public class NewEmbed
     public class NewEmbedComponent
     {
         public string? DisplayName { get; set; }
-        public int? Id { get; set; }
+        public int Id { get; set; } = 0;
         public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
         public string? Url { get; set; }
         public string? Emoji { get; set; }
