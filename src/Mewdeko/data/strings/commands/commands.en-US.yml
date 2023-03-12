@@ -7,7 +7,16 @@ acadd:
 addstatusrole:
   args:
     - "status"
-  desc: Adds a status to be configured with the rest of the statusrole commands/
+  desc: Adds a status to be configured with the rest of the statusrole commands
+importrolelist:
+  args:
+    - ""
+    - "true"
+  desc: "Imports a list of roles from a file exported from the exportrolelist command. Add true to the command to add new roles instead of adding users to existing roles"
+exportrolelist:
+  args:
+    - ""
+  desc: "Exports a list of roles to a file that can be imported with the importrolelist command"
 setstatusroleembed:
   args:
     - 1 embedcode
