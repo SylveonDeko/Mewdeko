@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Services.Settings;
+using Serilog;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -25,6 +26,8 @@ public class EmoteStealer : MewdekoSlashCommandModule
     public async Task Steal(IMessage message)
     {
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
+        await ctx.Interaction.FollowupAsync(
+            "If the message below loads infinitely, discord has limited the servers emoji upload limit. And no, this cant be circumvented with other bots (to my knowledge).");
         var eb = new EmbedBuilder
         {
             Description = $"{config.Data.LoadingEmote} Adding Emotes...", Color = Mewdeko.OkColor
@@ -38,7 +41,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
 
         var errored = new List<string>();
         var emotes = new List<string>();
-        await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
+        var msg = await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
         foreach (var i in tags)
         {
             using var http = httpFactory.CreateClient();
@@ -66,6 +69,63 @@ public class EmoteStealer : MewdekoSlashCommandModule
         };
         if (emotes.Count > 0) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
         if (errored.Count > 0) b.AddField("Errored Emotes", string.Join("\n\n", errored));
+        await msg.ModifyAsync(x => x.Embed = b.Build()).ConfigureAwait(false);
+    }
+
+    [MessageCommand("Steal Sticker"),
+     RequireBotPermission(GuildPermission.ManageEmojisAndStickers),
+     SlashUserPerm(GuildPermission.ManageEmojisAndStickers),
+     CheckPermissions]
+    public async Task StealSticker(IMessage message)
+    {
+        await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
+        await ctx.Interaction.FollowupAsync(
+            "If the message below loads infinitely, discord has limited the servers stickers upload limit. And no, this cant be circumvented with other bots (to my knowledge).");
+        var eb = new EmbedBuilder
+        {
+            Description = $"{config.Data.LoadingEmote} Adding stickers...", Color = Mewdeko.OkColor
+        };
+        var tags = message.Stickers.Select(x => x as SocketUnknownSticker).Distinct();
+        if (!tags.Any())
+        {
+            await ctx.Interaction.SendEphemeralFollowupErrorAsync("No stickers in this message!").ConfigureAwait(false);
+            return;
+        }
+
+        var errored = new List<string>();
+        var emotes = new List<string>();
+        var msg = await ctx.Interaction.FollowupAsync(embed: eb.Build(), ephemeral: true).ConfigureAwait(false);
+        foreach (var i in tags)
+        {
+            using var http = httpFactory.CreateClient();
+            using var sr = await http.GetAsync(i.GetStickerUrl(), HttpCompletionOption.ResponseHeadersRead)
+                .ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var imgStream = imgData.ToStream();
+            await using var _ = imgStream.ConfigureAwait(false);
+            {
+                try
+                {
+                    var emote = await ctx.Guild.CreateStickerAsync(i.Name, i.Description ?? $"Added by mewdeko: {i.Name}", i.Tags ?? new[]
+                    {
+                        "Mewdeko"
+                    }, new Image(imgStream)).ConfigureAwait(false);
+                    emotes.Add($"{emote.Name} [Url]({(emote.GetStickerUrl())})");
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex.ToString());
+                    errored.Add($"{i.Name} | [Url]({i.GetStickerUrl()})");
+                }
+            }
+        }
+
+        var b = new EmbedBuilder
+        {
+            Color = Mewdeko.OkColor
+        };
+        if (emotes.Count > 0) b.WithDescription($"**Added Stickers**\n{string.Join("\n", emotes)}");
+        if (errored.Count > 0) b.AddField("Errored Stickers", string.Join("\n\n", errored));
         await ctx.Interaction.ModifyOriginalResponseAsync(x => x.Embed = b.Build()).ConfigureAwait(false);
     }
 }
