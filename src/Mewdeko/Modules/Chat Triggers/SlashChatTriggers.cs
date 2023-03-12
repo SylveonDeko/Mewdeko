@@ -813,4 +813,13 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             .WithErrorColor();
         await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
     }
+
+    [ComponentInteraction("multitrigger.runin.*$*", true)]
+    public async Task HandleMultitriggers(ulong? guildId, string _)
+    {
+        var values = (Context.Interaction as SocketMessageComponent).Data.Values;
+        var i = -1;
+        foreach (var n in values)
+            await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction, await Service.GetChatTriggers(guildId, Convert.ToInt32(n)), ++i >= 1);
+    }
 }

@@ -213,7 +213,7 @@ public static class Extensions
     }
 
     public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct, SocketInteraction inter,
-        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false, MewdekoContext dbContext = null)
+        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false, MewdekoContext dbContext = null, bool followup = false)
     {
         var rep = new ReplacementBuilder()
             .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
@@ -267,8 +267,12 @@ public static class Extensions
 
             if (ct.NoRespond)
                 return null;
-            await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
-            return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
+            if (!followup)
+            {
+                await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
+                return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
+            }
+            return await inter.FollowupAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
         }
 
         var context = rep.Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbContext).ConfigureAwait(false))
@@ -303,25 +307,25 @@ public static class Extensions
             case -1:
                 return WordPosition.None;
             case 0:
-            {
-                if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
-                    return WordPosition.Start;
-                break;
-            }
+                {
+                    if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
+                        return WordPosition.Start;
+                    break;
+                }
             default:
-            {
-                if (wordIndex + word.Length == str.Length)
                 {
-                    if (str.IsValidWordDivider(wordIndex - 1))
-                        return WordPosition.End;
-                }
-                else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
-                {
-                    return WordPosition.Middle;
-                }
+                    if (wordIndex + word.Length == str.Length)
+                    {
+                        if (str.IsValidWordDivider(wordIndex - 1))
+                            return WordPosition.End;
+                    }
+                    else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
+                    {
+                        return WordPosition.Middle;
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
 
         return WordPosition.None;
