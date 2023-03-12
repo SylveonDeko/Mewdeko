@@ -637,9 +637,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
 
         if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == false))
-            cb.WithButton(GetText("perm_quick_options_dissable_dissabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Success);
+            cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Success);
         else
-            cb.WithButton(GetText("perm_quick_options_dissable_enabled"), $"command_toggle_dissable.{commandName}", ButtonStyle.Danger);
+            cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Danger);
 
         if (effecting.Any())
             cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger);
@@ -688,7 +688,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithSelectMenu($"credperms_m.{((int)perm.PrimaryTarget)}.{perm.PrimaryTargetId}.{((int)perm.SecondaryTarget)}.{perm.SecondaryTargetName}", new List<SelectMenuOptionBuilder>() {
                 new(GetText("perm_quick_options_redundant_tool_enable"), "enabled", GetText("perm_quick_options_redundant_tool_enabled_description")),
-                new(GetText("perm_quick_options_redundant_tool_dissable"), "dissabled", GetText("perm_quick_options_redundant_tool_dissable_description")),
+                new(GetText("perm_quick_options_redundant_tool_disable"), "disabled", GetText("perm_quick_options_redundant_tool_disable_description")),
                 new(GetText("perm_quick_options_redundant_tool_clear"), "clear", GetText("perm_quick_options_redundant_tool_clear_description")),
                 new(GetText("perm_quick_options_redundant_tool_current"), "current", GetText("perm_quick_options_redundant_tool_current_description")),
             }, "Action");
@@ -754,7 +754,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                     .ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
                 await Service.UpdatePerm(ctx.Guild.Id, first.Index, true);
                 break;
-            case "dissabled":
+            case "disabled":
                 effected
                     .Where(x => x != first)
                     .ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
@@ -765,10 +765,10 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await ClearRedundantPerms(secondaryTargetId);
     }
 
-    [ComponentInteraction("command_toggle_dissable.*", true)]
+    [ComponentInteraction("command_toggle_disable.*", true)]
     [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
-    public async Task ToggleCommandDissabled(string commandName)
+    public async Task ToggleCommanddisabled(string commandName)
     {
         await using var uow = db.GetDbContext();
 
@@ -824,8 +824,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         await Service.RemovePerm(ctx.Guild.Id, sc.Index);
         await UpdateMessageWithPermenu(commandName);
-
     }
+
     [ComponentInteraction("local_perms_reset.*", true)]
     public async Task LocalPermsReset(string commandName)
     {
