@@ -15,6 +15,14 @@ exportcommandsjson:
   - exportcommandsjson
   - exportcommands
   - excj
+exportrolelist:
+  - exportrolelist
+  - exportroles
+  - erl
+importrolelist:
+  - importrolelist
+  - importroles
+  - irl
 addchattrigger:
   - addchattrigger
   - act
