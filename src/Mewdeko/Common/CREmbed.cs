@@ -14,7 +14,7 @@ public class CrEmbed
     public string? Image { get; set; }
     public CrEmbedField[]? Fields { get; set; }
     public uint Color { get; set; } = 7458112;
-    public CrEmbedButton[]? Buttons { get; set; }
+    public CrEmbedComponent[]? Components { get; set; }
 
     public bool IsValid =>
         IsEmbedValid || !string.IsNullOrWhiteSpace(PlainText);
@@ -63,7 +63,8 @@ public class CrEmbed
             embed.WithAuthor(Author.Name, Author.IconUrl, Author.Url);
         }
 
-        if (Fields == null) return embed;
+        if (Fields == null)
+            return embed;
         {
             foreach (var f in Fields)
             {
@@ -79,13 +80,39 @@ public class CrEmbed
     {
         var cb = new ComponentBuilder();
 
-        Buttons?.Select((x, y) => (Triggers: x, Pos: y))
-            .ForEach(x => cb.WithButton(GetButton(x.Triggers, x.Pos, guildId ?? 0)));
+        var activeRowId = 0;
+        var rowLength = 0;
+        foreach (var comp in Components)
+        {
+            if (activeRowId == 5)
+                break;
+
+            if (rowLength == 5)
+            {
+                ++activeRowId;
+                rowLength = 0;
+            }
+
+            if (comp.IsSelect is true)
+            {
+                if (rowLength != 0)
+                    ++activeRowId;
+                rowLength = 0;
+                if (activeRowId == 5)
+                    break;
+                cb.WithSelectMenu(GetSelectMenu(comp, (activeRowId * 10 + rowLength), guildId ?? 0));
+            }
+            else
+            {
+                ++rowLength;
+                cb.WithButton(GetButton(comp, (activeRowId * 10 + rowLength), guildId ?? 0));
+            }
+        }
 
         return cb;
     }
 
-    public static ButtonBuilder GetButton(CrEmbedButton btn, int pos, ulong guildId)
+    public static ButtonBuilder GetButton(CrEmbedComponent btn, int pos, ulong guildId)
     {
         var bb = new ButtonBuilder();
         if (btn.Url.IsNullOrWhiteSpace() && btn.Id == 0)
@@ -99,10 +126,60 @@ public class CrEmbed
         else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://") && !btn.Url.StartsWith("http://") && !btn.Url.StartsWith("discord://"))
             bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace())
+        {
             bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
+            if (btn.Emoji is not null)
+            {
+                bb.WithEmote(btn.Emoji.ToIEmote());
+            }
+        }
         else
+        {
             bb.WithLabel(btn.DisplayName).WithStyle(btn.Style).WithCustomId($"trigger.{btn.Id}.runin.{guildId}${pos}");
+            if (btn.Emoji is not null)
+            {
+                bb.WithEmote(btn.Emoji.ToIEmote());
+            }
+        }
+
         return bb;
+    }
+
+    public static SelectMenuBuilder GetSelectMenu(CrEmbedComponent sel, int pos, ulong guildId)
+    {
+        var sb = new SelectMenuBuilder();
+
+        var error = new SelectMenuBuilder()
+            .WithDisabled(true)
+            .WithOptions(new() { new("a", "a") });
+
+        if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))
+            sb = error.WithPlaceholder("MinOptions and MaxOptions must be less than 25 and more than 0");
+        else if (sel.MaxOptions < sel.MinOptions)
+            sb = error.WithPlaceholder("MinOptions must be larger than or equal to MaxOptions");
+        else if (sel.MaxOptions < (sel.Options?.Count ?? 0))
+            sb = error.WithPlaceholder("MaxOptions cannot be greater than total options");
+        else if ((sel.Options?.Count ?? 0) == 0)
+            sb = error.WithPlaceholder("Options must not be empty");
+        else if (sel.Options.Count > 25)
+            sb = error.WithPlaceholder("More than 25 options cannot be specified");
+        else if (sel.DisplayName.Length > 80)
+            sb = error.WithPlaceholder("displayName.length cannot be greater than 80");
+        else if (sel.Options.Any(x => x.Name.Length > 100))
+            sb = error.WithPlaceholder("select option names length cannot be greater than 100");
+        else if (sel.Options.Any(x => x.Description.Length > 100))
+            sb = error.WithPlaceholder("select option description length cannot be greater than 100");
+        else
+            sb
+                .WithPlaceholder(sel.DisplayName)
+                .WithCustomId($"multitrigger.runin.{guildId}${pos}")
+                .WithMaxValues(sel.MaxOptions)
+                .WithMinValues(sel.MinOptions)
+                .WithOptions(sel.Options
+                    .Select(x => new SelectMenuOptionBuilder(x.Name, x.Id.ToString(), x.Description, x.Emoji?.ToIEmote()))
+                    .ToList());
+
+        return sb;
     }
 }
 
@@ -139,10 +216,24 @@ public class CrEmbedAuthor
     public string? Url { get; set; }
 }
 
-public class CrEmbedButton
+public class CrEmbedComponent
 {
     public string? DisplayName { get; set; }
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
     public string? Url { get; set; }
+    public string? Emoji { get; set; }
+
+    public bool IsSelect { get; set; } = false;
+    public int MaxOptions { get; set; } = 1;
+    public int MinOptions { get; set; } = 1;
+    public List<CrEmbedSelectOption>? Options { get; set; }
+}
+
+public class CrEmbedSelectOption
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Emoji { get; set; }
+    public string Description { get; set; }
 }
