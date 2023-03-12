@@ -11,9 +11,9 @@ namespace Mewdeko.Services.Impl;
 public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 {
     private readonly ConnectionMultiplexer con;
-    private readonly IBotCredentials creds;
     private readonly HttpClient http;
     private readonly string imagesPath;
+    private readonly string redisKey;
 
     private IDatabase Db => con.GetDatabase();
 
@@ -77,10 +77,9 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
     {
         this.con = con;
-        this.creds = creds;
         http = new HttpClient();
         imagesPath = Path.Combine(BasePath, "images.yml");
-
+        redisKey = creds.RedisKey();
         ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(imagesPath));
     }
 
@@ -196,5 +195,5 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         => Db.StringGet(GetRedisKey(key));
 
     private RedisKey GetRedisKey(ImageKeys key)
-        => $"{creds.RedisKey()}_image_{key}";
+        => $"{redisKey}_image_{key}";
 }
