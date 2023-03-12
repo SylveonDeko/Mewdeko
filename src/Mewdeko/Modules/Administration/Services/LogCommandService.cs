@@ -243,6 +243,8 @@ public class LogCommandService : INService
                 logSetting.UserMutedId = channelId;
                 break;
         }
+
+        await uow.SaveChangesAsync();
     }
 
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
