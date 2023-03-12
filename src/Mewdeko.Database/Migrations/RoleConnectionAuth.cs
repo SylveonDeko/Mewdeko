@@ -1,4 +1,3 @@
-using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations;
@@ -17,6 +16,5 @@ public partial class RoleConnectionAuth : Migration
             RefreshToken = columns.Column<string>(),
             ExpiresAt = columns.Column<DateTime>()
         }, constraints: table => table.PrimaryKey("PK_AuthCodes", x => x.Id));
-
     }
 }
