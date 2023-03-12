@@ -294,6 +294,8 @@ public static class Extensions
 
         if (ct.NoRespond)
             return null;
+        if (followup)
+            return await inter.FollowupAsync(context, ephemeral: ephemeral).ConfigureAwait(false);
         await inter.RespondAsync(context, ephemeral: ephemeral).ConfigureAwait(false);
         return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
     }
