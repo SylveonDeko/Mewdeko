@@ -93,6 +93,15 @@ public partial class Administration
                 LogType.ThreadCreated => l.ThreadCreatedId,
                 LogType.ThreadDeleted => l.ThreadDeletedId,
                 LogType.ThreadUpdated => l.ThreadUpdatedId,
+                LogType.NicknameUpdated => l.NicknameUpdatedId,
+                LogType.RoleCreated => l.RoleCreatedId,
+                LogType.RoleDeleted => l.RoleDeletedId,
+                LogType.RoleUpdated => l.RoleUpdatedId,
+                LogType.ServerUpdated => l.ServerUpdatedId,
+                LogType.UserRoleAdded => l.UserRoleAddedId,
+                LogType.UserRoleRemoved => l.UserRoleRemovedId,
+                LogType.UsernameUpdated => l.UsernameUpdatedId,
+
 
                 _ => null
             };

@@ -59,20 +59,20 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         var optout = await Service.ToggleOptOut(ctx.Guild);
         if (!optout)
-            await ctx.Channel.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!***)");
+            await ctx.Channel.SendConfirmAsync(GetText("command_stats_enabled"));
         else
-            await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
+            await ctx.Channel.SendConfirmAsync(GetText("command_stats_disabled"));
     }
 
     [Cmd, Aliases, Ratelimit(3600), UserPerm(GuildPermission.Administrator)]
     public async Task DeleteGuildStatsData()
     {
-        if (await PromptUserConfirmAsync("Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
+        if (await PromptUserConfirmAsync(GetText("command_stats_delete_confirm"), ctx.User.Id))
         {
             if (await Service.DeleteStatsData(ctx.Guild))
-                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_success"));
             else
-                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_fail"));
         }
     }
 
@@ -110,18 +110,40 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         users = users.Where(x => regex.IsMatch(x.Username.ToLower())).ToList();
         if (!users.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} No users with that name found! Please try again with a different query.");
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("no_users_found_nameban")}");
             return;
         }
 
-        var components = new ComponentBuilder().WithButton("Preview", "previewbans").WithButton("Execute", "executeorder66");
+        await ctx.Channel.SendConfirmAsync(GetText("nameban_message_delete"));
+        var deleteString = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        var deleteCount = 0;
+        if (deleteString == null)
+        {
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}");
+            return;
+        }
+
+        if (!int.TryParse(deleteString, out var _))
+        {
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("invalid_input_number")}");
+            return;
+        }
+
+        deleteCount = int.Parse(deleteString);
+        var components = new ComponentBuilder()
+            .WithButton(GetText("preview"), "previewbans")
+            .WithButton(GetText("execute"), "executeorder66", ButtonStyle.Success)
+            .WithButton(GetText("cancel"), "cancel", ButtonStyle.Danger);
         var eb = new EmbedBuilder()
-            .WithDescription("Preview bans or Execute bans?")
+            .WithDescription(GetText("preview_or_execute"))
             .WithOkColor();
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
         var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
         switch (input)
         {
+            case "cancel":
+                await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}");
+                break;
             case "previewbans":
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -136,23 +158,23 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
-                    return new PageBuilder().WithTitle($"Previewing {users.Count} users who's names contain {name.ToLower()}")
+                    return new PageBuilder().WithTitle(GetText("nameban_preview_count", users.Count, name.ToLower()))
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
                 }
 
                 break;
             case "executeorder66":
-                if (await PromptUserConfirmAsync($"Are you sure you want to ban {users.Count} users?", ctx.User.Id))
+                if (await PromptUserConfirmAsync(GetText("nameban_confirm", users.Count), ctx.User.Id))
                 {
-                    int failedUsers = 0;
+                    var failedUsers = 0;
                     await ctx.Channel.SendConfirmAsync($"{configService.Data.LoadingEmote} executing order 66 on {users.Count} users, this may take a bit...");
                     foreach (var i in users)
                     {
                         try
                         {
-                            await ctx.Guild.AddBanAsync(i, 0, "", options: new RequestOptions
+                            await ctx.Guild.AddBanAsync(i, deleteCount, options: new RequestOptions
                             {
-                                AuditLogReason = $"Mass ban requested by {ctx.User}."
+                                AuditLogReason = GetText("mass_ban_requested_by", ctx.User)
                             });
                         }
                         catch
@@ -162,7 +184,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                     }
 
                     await ctx.Channel.SendConfirmAsync(
-                        $"{configService.Data.SuccessEmote} executed order 66 on {users.Count - failedUsers}. Failed to ban {failedUsers} users (Probably due to bad role heirarchy).");
+                        $"{configService.Data.SuccessEmote} executed order 66 on {users.Count - failedUsers} users. Failed to ban {failedUsers} users (Probably due to bad role heirarchy).");
                 }
 
                 break;
