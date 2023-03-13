@@ -239,7 +239,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .Build());
             var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
             await msg.DeleteAsync();
-            if (!text.ToLower().Contains("yes")) return;
+            if (!text.ToLower().Contains("yes"))
+                return;
             var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..").ConfigureAwait(false);
             foreach (var i in users)
             {
@@ -313,7 +314,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             .Build());
         var text = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         await msg.DeleteAsync();
-        if (!text.ToLower().Contains("yes")) return;
+        if (!text.ToLower().Contains("yes"))
+            return;
         var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..").ConfigureAwait(false);
         foreach (var i in guildUsers)
         {
@@ -340,35 +342,33 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         try
         {
-            await ctx.Channel.SendConfirmAsync("This command may take a bit to complete depending on server size, please wait...");
+            await ConfirmLocalizedAsync("command_expected_latency_server_size");
             if (e == "no")
             {
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
                 if (toprune == 0)
                 {
-                    await ctx.Channel.SendErrorAsync(
-                            $"No users to prune, if you meant to prune users inyour member role please set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.")
-                        .ConfigureAwait(false);
+                    await ErrorLocalizedAsync("prune_no_members_upsell").ConfigureAwait(false);
                     return;
                 }
 
                 var eb = new EmbedBuilder
                 {
-                    Description = $"Are you sure you want to prune {toprune} Members?", Color = Mewdeko.OkColor
+                    Description = $"Are you sure you want to prune {toprune} Members?",
+                    Color = Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.")
-                        .ConfigureAwait(false);
+                    await ConfirmLocalizedAsync("prune_canceled_member_upsell").ConfigureAwait(false);
                 }
                 else
                 {
-                    var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...").ConfigureAwait(false);
+                    var msg = await ConfirmLocalizedAsync("pruning_members", toprune).ConfigureAwait(false);
                     await ctx.Guild.PruneUsersAsync(time.Time.Days).ConfigureAwait(false);
                     var ebi = new EmbedBuilder
                     {
-                        Description = $"Pruned {toprune} members.", Color = Mewdeko.OkColor
+                        Description = GetText("pruned_members", toprune),
+                        Color = Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
                 }
@@ -383,21 +383,22 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                     }).ConfigureAwait(false);
                 if (toprune == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("No users to prune.").ConfigureAwait(false);
+                    await ErrorLocalizedAsync("prune_no_members").ConfigureAwait(false);
                     return;
                 }
 
                 var eb = new EmbedBuilder
                 {
-                    Description = $"Are you sure you want to prune {toprune} Members?", Color = Mewdeko.OkColor
+                    Description = GetText("prune_confirm", toprune),
+                    Color = Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
-                    await ctx.Channel.SendConfirmAsync("Canceled prune.").ConfigureAwait(false);
+                    await ConfirmLocalizedAsync("prune_canceled").ConfigureAwait(false);
                 }
                 else
                 {
-                    var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...").ConfigureAwait(false);
+                    var msg = await ConfirmLocalizedAsync("pruning_members", toprune).ConfigureAwait(false);
                     await ctx.Guild.PruneUsersAsync(time.Time.Days,
                         includeRoleIds: new[]
                         {
@@ -405,7 +406,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                         });
                     var ebi = new EmbedBuilder
                     {
-                        Description = $"Pruned {toprune} members.", Color = Mewdeko.OkColor
+                        Description = GetText("pruned_members", toprune),
+                        Color = Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
                 }
@@ -424,25 +426,25 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         if (rol is 0 && role != null)
         {
             await Service.MemberRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Member role has been set to {role.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("member_role_set", role.Id).ConfigureAwait(false);
         }
 
         if (rol != 0 && role != null && rol == role.Id)
         {
-            await ctx.Channel.SendErrorAsync("This is already your Member role!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("member_role_already_set").ConfigureAwait(false);
             return;
         }
 
         if (rol is 0 && role == null)
         {
-            await ctx.Channel.SendErrorAsync("No Member role set!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("member_role_missing").ConfigureAwait(false);
             return;
         }
 
         if (rol != 0 && role is null)
         {
             var r = ctx.Guild.GetRole(rol);
-            await ctx.Channel.SendConfirmAsync($"Your current Member role is {r.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("member_role_current", r.Id).ConfigureAwait(false);
             return;
         }
 
@@ -450,8 +452,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         {
             var oldrole = ctx.Guild.GetRole(rol);
             await Service.MemberRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync(
-                $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("member_role_updated", oldrole.Id, role.Id).ConfigureAwait(false);
         }
     }
 
@@ -462,25 +463,25 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         if (rol is 0 && role != null)
         {
             await Service.StaffRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("staff_role_set", role.Id).ConfigureAwait(false);
         }
 
         if (rol != 0 && role != null && rol == role.Id)
         {
-            await ctx.Channel.SendErrorAsync("This is already your staff role!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("staff_role_already_set").ConfigureAwait(false);
             return;
         }
 
         if (rol is 0 && role == null)
         {
-            await ctx.Channel.SendErrorAsync("No staff role set!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("staff_role_missing").ConfigureAwait(false);
             return;
         }
 
         if (rol != 0 && role is null)
         {
             var r = ctx.Guild.GetRole(rol);
-            await ctx.Channel.SendConfirmAsync($"Your current staff role is {r.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("staff_role_current", r.Id).ConfigureAwait(false);
             return;
         }
 
@@ -488,8 +489,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         {
             var oldrole = ctx.Guild.GetRole(rol);
             await Service.StaffRoleSet(ctx.Guild, role.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync(
-                $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("staff_role_updated", oldrole.Id, role.Id).ConfigureAwait(false);
         }
     }
 
@@ -499,12 +499,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var r = await Service.GetStaffRole(ctx.Guild.Id);
         if (r == 0)
         {
-            await ctx.Channel.SendErrorAsync("No staff role set!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("staff_role_missing")).ConfigureAwait(false);
         }
         else
         {
             await Service.StaffRoleSet(ctx.Guild, 0).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("Staff role disabled!").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync(GetText("staff_role_disabled")).ConfigureAwait(false);
         }
     }
 
