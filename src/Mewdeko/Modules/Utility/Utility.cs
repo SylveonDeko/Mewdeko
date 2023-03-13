@@ -182,7 +182,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var e = await Service.GetReactChans(ctx.Guild.Id);
         if (chan == null)
         {
-            if (e == 0) return;
+            if (e == 0)
+                return;
             await Service.SetReactChan(ctx.Guild, 0).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("React Channel Disabled!").ConfigureAwait(false);
         }
@@ -242,7 +243,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"
+                IconUrl = user.GetAvatarUrl(),
+                Name = $"{user} said:"
             },
             Description = msg.Message,
             Footer = new EmbedFooterBuilder
@@ -397,7 +399,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"
+                IconUrl = user.GetAvatarUrl(),
+                Name = $"{user} said:"
             },
             Description = msg.Message,
             Footer = new EmbedFooterBuilder
@@ -465,7 +468,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"
+                IconUrl = user.GetAvatarUrl(),
+                Name = $"{user} said:"
             },
             Description = msg.Message,
             Footer = new EmbedFooterBuilder
@@ -515,7 +519,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"
+                    IconUrl = user.GetAvatarUrl(),
+                    Name = $"{user} said:"
                 },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
@@ -583,7 +588,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = user.GetAvatarUrl(), Name = $"{user} originally said:"
+                    IconUrl = user.GetAvatarUrl(),
+                    Name = $"{user} originally said:"
                 },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
@@ -635,7 +641,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = user.GetAvatarUrl(), Name = $"{user} originally said:"
+                    IconUrl = user.GetAvatarUrl(),
+                    Name = $"{user} originally said:"
                 },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
@@ -687,7 +694,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = user.GetAvatarUrl(), Name = $"{user} originally said:"
+                    IconUrl = user.GetAvatarUrl(),
+                    Name = $"{user} originally said:"
                 },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
@@ -740,7 +748,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = user.GetAvatarUrl(), Name = $"{user} originally said:"
+                    IconUrl = user.GetAvatarUrl(),
+                    Name = $"{user} originally said:"
                 },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
@@ -1066,11 +1075,14 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await using var uow = db.GetDbContext();
         var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
         var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
-        var user = await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
+        var users = new[] {
+            await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false),
+            await client.Rest.GetUserAsync(786375627892064257).ConfigureAwait(false),
+        };
         await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    .AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
+                    .AddField(GetText("authors"), $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
