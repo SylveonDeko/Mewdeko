@@ -1285,5 +1285,6 @@
     "logging_event_enabled": "Logging has been enabled for the event **{0}** in <#{1}>",
     "logging_event_disabled": "Logging has been disabled for the event `{0}`",
     "logging_command_enabled": "Command Logging has been enabled.",
-    "logging_command_disabled": "Command Logging has been disabled."
+    "logging_command_disabled": "Command Logging has been disabled.",
+    "__loctest_invalid": "At least one input string must be provided"
 }
