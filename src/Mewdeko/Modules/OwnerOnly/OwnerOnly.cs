@@ -21,7 +21,7 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 [OwnerOnly]
-public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
+public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 {
     public enum SettableUserStatus
     {
@@ -252,7 +252,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (string.IsNullOrWhiteSpace(value))
         {
             value = setting.GetSetting(prop);
-            if (prop != "currency.sign") Format.Code(Format.Sanitize(value.TrimTo(1000)), "json");
+            if (prop != "currency.sign")
+                Format.Code(Format.Sanitize(value.TrimTo(1000)), "json");
 
             if (string.IsNullOrWhiteSpace(value))
                 value = "-";
@@ -740,7 +741,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var success = await Service.SetAvatar(img).ConfigureAwait(false);
 
-        if (success) await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
+        if (success)
+            await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -889,7 +891,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 var stringLength = output.Length;
                 for (var i = 0; i < stringLength; i += chunkSize)
                 {
-                    if (i + chunkSize > stringLength) chunkSize = stringLength - i;
+                    if (i + chunkSize > stringLength)
+                        chunkSize = stringLength - i;
                     await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```").ConfigureAwait(false);
                     await process.WaitForExitAsync().ConfigureAwait(false);
                 }
@@ -921,7 +924,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         var embed = new EmbedBuilder
         {
-            Title = "Evaluating...", Color = new Color(0xD091B2)
+            Title = "Evaluating...",
+            Color = new Color(0xD091B2)
         };
         var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
 
@@ -994,7 +998,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         // execution succeeded
         embed = new EmbedBuilder
         {
-            Title = "Evaluation successful", Color = new Color(0xD091B2)
+            Title = "Evaluation successful",
+            Color = new Color(0xD091B2)
         };
 
         embed.AddField("Result", css.ReturnValue != null ? css.ReturnValue.ToString() : "No value returned")
