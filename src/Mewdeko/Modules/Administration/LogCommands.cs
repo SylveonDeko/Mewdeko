@@ -119,11 +119,11 @@ public partial class Administration
             await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
             if (channel is not null)
             {
-                await ctx.Channel.SendConfirmAsync($"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}").ConfigureAwait(false);
+                await ConfirmLocalizedAsync("logging_event_enabled", type, channel.Id).ConfigureAwait(false);
                 return;
             }
 
-            await ctx.Channel.SendConfirmAsync($"Logging has been disabled for the event `{type}`");
+            await ConfirmLocalizedAsync("logging_event_disabled", type);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -131,12 +131,12 @@ public partial class Administration
         {
             if (channel is null)
             {
-                await ctx.Channel.SendConfirmAsync("Command Logging has been disabled.");
+                await ConfirmLocalizedAsync("command_logging_disabled");
                 await Service.UpdateCommandLogChannel(ctx.Guild, 0);
             }
             else
             {
-                await ctx.Channel.SendConfirmAsync("Command logging has been enabled.");
+                await ConfirmLocalizedAsync("command_logging_enabled");
                 await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
             }
         }
