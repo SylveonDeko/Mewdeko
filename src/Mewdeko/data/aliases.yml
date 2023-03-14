@@ -1743,6 +1743,9 @@ syncroletoallchannels:
   - srtach
 take:
   - take
+testlocalize:
+  - testlocalize
+  - testloc
 testsite:
   - testsite
 think:
