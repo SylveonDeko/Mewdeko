@@ -1269,5 +1269,17 @@
     "prune_no_members": "No users to prune",
     "prune_canceled_member_upsell": "Canceled prune. As a reminder if you meant to prune members in your members role, set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.",
     "prune_no_members_upsell": "No users to prune, if you meant to prune users inyour member role please set it with {await guildSettingsService.GetPrefix(ctx.Guild)}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.",
-    "command_expected_latency_server_size": "This command may take a bit to complete depending on server size, please wait..."
+    "command_expected_latency_server_size": "This command may take a bit to complete depending on server size, please wait...",
+    "kickunder_kicked": "Kicked {0} users under that server join age, and was unable to kick {1} users.\nIf there were any failed kicks please check the bots top role and try again.",
+    "kickunder_starting": "{0}|| Kicking users under specified join time.",
+    "kickunder_kicking": "Kicking {0} users..",
+    "kickunder_confirm": "Are you sure you want to kick {0} users that are under that server join age? Say `yes` to continue.",
+    "kickunder_preview": "Previewing {0} users who's accounts joined under {1} ago",
+    "kickunder_no_users": "No users at or under that account age!",
+    "banunder_banned": "Banned {0} users under that server join age, and was unable to ban {1} users.\nIf there were any failed bans please check the bots top role and try again.",
+    "banunder_starting": "{0}|| Banned users under specified join time.",
+    "banunder_banning": "Banned {0} users..",
+    "banunder_confirm": "Are you sure you want to ban {0} users that are under that server join age? Say `yes` to continue.",
+    "banunder_preview": "Previewing {0} users who's accounts joined under {1} ago",
+    "banunder_no_users": "No users at or under that account age!"
 }
