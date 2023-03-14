@@ -3675,6 +3675,12 @@ take:
   args:
     - 1 @Someone
   desc: Takes a certain amount of currency from someone.
+testlocalize:
+  args:
+    - dragon_goes_suk
+    - perm_quick_options_redundant_tool_disable_description
+    - member_role_updated|1234|5678
+  desc: Resolves a localization string, split inputs with virticle lines (|)
 testsite:
   args:
     - ''
