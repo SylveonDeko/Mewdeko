@@ -1281,5 +1281,9 @@
     "banunder_banning": "Banned {0} users..",
     "banunder_confirm": "Are you sure you want to ban {0} users that are under that server join age? Say `yes` to continue.",
     "banunder_preview": "Previewing {0} users who's accounts joined under {1} ago",
-    "banunder_no_users": "No users at or under that account age!"
+    "banunder_no_users": "No users at or under that account age!",
+    "logging_event_enabled": "Logging has been enabled for the event **{0}** in <#{1}>",
+    "logging_event_disabled": "Logging has been disabled for the event `{0}`",
+    "logging_command_enabled": "Command Logging has been enabled.",
+    "logging_command_disabled": "Command Logging has been disabled."
 }
