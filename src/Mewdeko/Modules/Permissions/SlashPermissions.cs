@@ -841,6 +841,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     [ComponentInteraction("local_perms_reset.*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task LocalPermsReset(string commandName)
     {
         IList<Permissionv2> perms;
@@ -862,6 +863,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     [ComponentInteraction("cmd_perm_spawner.*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task CommandPermSpawner(string commandName, string[] values) => await (values.First() switch
     {
         "dpo" => CommandPermsDpo(commandName),
@@ -870,6 +872,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
 
     [ComponentInteraction("cmd_perm_spawner_dpo", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task CommandPermsDpo(string commandName)
     {
         var perms = Enum.GetValues<GuildPermission>();
@@ -910,6 +913,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     [ComponentInteraction("update_cmd_dpo.*$*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task UpdateCommandDpo(string commandName, int index, string[] values)
     {
         // get list of command perms
