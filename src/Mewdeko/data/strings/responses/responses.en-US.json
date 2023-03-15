@@ -1229,7 +1229,7 @@
     "mass_kick_too_many": "too many to list.",
     "help_permenu_link": "Manage Permissions",
     "perm_quick_options_disable_disabled": "Enable Command",
-    "perm_quick_options_disable_enabled": "disable Command",
+    "perm_quick_options_disable_enabled": "Disable Command",
     "perm_quick_options": "Quick Options:",
     "perm_quick_options_redundant": "Redundant Permissions",
     "perm_quick_options_redundant_explainer": "Sometimes a command is both enabled and disabled in the same situation. When this happens Mewdeko can't always figure out what she should do, and makes a best guess. In order to avoid errors displaying the permission config menu or unintended behavior you need to clear **all** of the redundant permissions affecting this command before it can be displayed. Press the button below to have an interactive guide help you fix this command's permissions.",
@@ -1286,5 +1286,10 @@
     "logging_event_disabled": "Logging has been disabled for the event `{0}`",
     "logging_command_enabled": "Command Logging has been enabled.",
     "logging_command_disabled": "Command Logging has been disabled.",
-    "__loctest_invalid": "At least one input string must be provided"
+    "__loctest_invalid": "At least one input string must be provided",
+    "advanced_options": "Advanced Options",
+    "cmd_perm_spawner_required_perms": "Required Permissions",
+    "cmd_perm_spawner_required_perms_desc": "Users ALWAYS need these permissions to run this command.",
+    "cmd_perm_spawner_dpo_page": "Permissions Page {0}",
+    "back": "Back"
 }

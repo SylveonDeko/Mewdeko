@@ -7,6 +7,11 @@ namespace Mewdeko.Common.Attributes.TextCommands;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class OwnerOnlyAttribute : PreconditionAttribute
 {
+    public bool IsOwnerOnly { get; set; } = true;
+
+    public OwnerOnlyAttribute() { }
+    public OwnerOnlyAttribute(bool isOwnerOnly) => IsOwnerOnly = isOwnerOnly;
+
     public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context,
         CommandInfo executingCommand, IServiceProvider services)
     {
