@@ -605,6 +605,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             perms = Permissionv2.GetDefaultPermlist;
 
         var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
+        var dpoUsed = dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out var effectingOverwrights);
+
 
         var cb = new ComponentBuilder()
             .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true)
@@ -644,12 +646,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
 
         if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == false))
-            cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Success);
+            cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Success, "<:perms_check:1085356998247317514>".ToIEmote());
         else
-            cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Danger);
+            cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Danger, "<:perms_disabled:1085358511900327956>".ToIEmote());
 
-        if (effecting.Any())
-            cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger);
+        if (effecting.Any() || dpoUsed)
+            cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger, "<:perms_warning:1085356999824396308>".ToIEmote());
 
         cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", new List<SelectMenuOptionBuilder>
         {
@@ -852,6 +854,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var indexmod = -1;
         effecting.ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
+
+        if (dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out _))
+            _ = dpoS.RemoveOverride(ctx.Guild.Id, commandName);
 
         await UpdateMessageWithPermenu(commandName);
     }
