@@ -96,7 +96,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             var emt = new EmbedBuilder
             {
-                Description = "This subreddit is nsfw!", Color = Mewdeko.ErrorColor
+                Description = "This subreddit is nsfw!",
+                Color = Mewdeko.ErrorColor
             };
             await msg.ModifyAsync(x => x.Embed = emt.Build()).ConfigureAwait(false);
             return;
@@ -900,7 +901,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     public async Task<bool> ValidateQuery(IMessageChannel ch, string query)
     {
-        if (!string.IsNullOrWhiteSpace(query)) return true;
+        if (!string.IsNullOrWhiteSpace(query))
+            return true;
 
         await ErrorLocalizedAsync("specify_search_params").ConfigureAwait(false);
         return false;
@@ -910,5 +912,19 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         [JsonProperty("result_url")]
         public string ResultUrl { get; set; }
+    }
+
+
+    [Cmd, Aliases]
+    [RequireDragon, HelpDisabled]
+    public async Task TestLocalize([Remainder] string input)
+    {
+        var sp = input.Split("|");
+        if (sp[0].IsNullOrWhiteSpace())
+        {
+            await ErrorLocalizedAsync("__loctest_invalid");
+            return;
+        }
+        await ConfirmLocalizedAsync(sp[0], sp.Skip(1).ToArray());
     }
 }

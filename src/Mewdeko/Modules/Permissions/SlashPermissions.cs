@@ -5,9 +5,11 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using ContextType = Discord.Interactions.ContextType;
+using TextUserPermAttribute = Mewdeko.Common.Attributes.TextCommands.UserPermAttribute;
 
 namespace Mewdeko.Modules.Permissions;
 
@@ -29,12 +31,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     private readonly DbService db;
     private readonly InteractiveService interactivity;
+    public readonly DiscordPermOverrideService dpoS;
+    public readonly CommandService cmdServe;
 
-    public SlashPermissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
+    public SlashPermissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings, DiscordPermOverrideService dpoS, CommandService cmdServe)
     {
         interactivity = inter;
         this.guildSettings = guildSettings;
         this.db = db;
+        this.dpoS = dpoS;
+        this.cmdServe = cmdServe;
     }
 
     [SlashCommand("resetperms", "Reset Command Permissions"), Discord.Interactions.RequireContext(ContextType.Guild),
@@ -601,7 +607,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var effecting = perms.Where(x => x.SecondaryTargetName == commandName);
 
         var cb = new ComponentBuilder()
-            .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true);
+            .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true)
+            .WithButton(GetText("back"), $"help_component_restore.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
 
         var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
             .Where(x => x.Footer.GetValueOrDefault().Text != "$$mdk_redperm$$").ToArray();
@@ -643,6 +650,11 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         if (effecting.Any())
             cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger);
+
+        cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", new List<SelectMenuOptionBuilder>
+        {
+            new(GetText("cmd_perm_spawner_required_perms"), "dpo", GetText("cmd_perm_spawner_required_perms_desc"), "<:perms_dpo:1085338505464512595>".ToIEmote())
+        }, GetText("advanced_options"));
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
         {
@@ -842,5 +854,92 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         effecting.ForEach(async x => await Service.RemovePerm(ctx.Guild.Id, x.Index - ++indexmod));
 
         await UpdateMessageWithPermenu(commandName);
+    }
+
+    [ComponentInteraction("cmd_perm_spawner.*", true)]
+    public async Task CommandPermSpawner(string commandName, string[] values) => await (values.First() switch
+    {
+        "dpo" => CommandPermsDpo(commandName),
+        _ => UpdateMessageWithPermenu(commandName)
+    });
+
+
+    [ComponentInteraction("cmd_perm_spawner_dpo", true)]
+    public async Task CommandPermsDpo(string commandName)
+    {
+        var perms = Enum.GetValues<GuildPermission>();
+        List<SelectMenuBuilder> selects = new();
+
+        dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out var effecting);
+
+        var info = cmdServe.Commands.First(x => x.Name == commandName);
+        var userPerm = ((TextUserPermAttribute)info.Preconditions.FirstOrDefault(ca => ca is TextUserPermAttribute))?.UserPermissionAttribute.GuildPermission;
+
+        var basePerms = userPerm is not null
+            ? perms.Where(x => (userPerm & x) == x).ToList()
+            : new();
+        var truePerms = perms.Where(x => (effecting & x) == x);
+
+        if (!truePerms.Any())
+            truePerms = basePerms;
+        for (var i = 0; i < 25 && ((selects.Count-1)*25) < perms.Length && selects.Count <= 5; i++)
+        {
+            selects.Add(new SelectMenuBuilder()
+                .WithCustomId($"update_cmd_dpo.{commandName}${i}")
+                .WithMinValues(0)
+                .WithPlaceholder(GetText("cmd_perm_spawner_dpo_page", selects.Count + 1)));
+            var current = selects.Last();
+            for (var j = 0; j < 25 &&((selects.Count-1)*25)+j < perms.Length; j++)
+            {
+                var cdat = perms[((selects.Count-1)*25)+j];
+                current.AddOption(cdat.ToString(), ((ulong)cdat).ToString(), cdat.ToString(), isDefault: truePerms.Any(x => x == cdat));
+                current.MaxValues = j+1;
+            }
+        }
+
+        var cb = new ComponentBuilder()
+            .WithRows(selects.Where(x => x.Options.Count > 0).Select(x => new ActionRowBuilder().WithSelectMenu(x)))
+            .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
+
+        await (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+    [ComponentInteraction("update_cmd_dpo.*$*", true)]
+    public async Task UpdateCommandDpo(string commandName, int index, string[] values)
+    {
+        // get list of command perms
+        var perms = Enum.GetValues<GuildPermission>();
+        List<SelectMenuBuilder> selects = new();
+
+        dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out var effecting);
+
+        var info = cmdServe.Commands.First(x => x.Name == commandName);
+        var userPerm = ((TextUserPermAttribute)info.Preconditions.FirstOrDefault(ca => ca is TextUserPermAttribute))?.UserPermissionAttribute.GuildPermission;
+
+        var basePerms = userPerm is not null
+            ? perms.Where(x => (userPerm & x) == x).ToList()
+            : new();
+        var truePerms = perms.Where(x => (effecting & x) == x).ToList();
+        // get list of selectable perms
+        var selectable = perms.Skip(25 * index).Take(25).ToList();
+        // get list of selected perms
+        var selected = values.Select(x => (GuildPermission)Convert.ToUInt64(x)).ToList();
+        // remove selectable from command perms
+        var updatedPerms = truePerms.Where(x => !selectable.Contains(x)).ToList();
+        // add selected to command perms
+        updatedPerms.AddRange(selected);
+        // update perms
+        await dpoS.RemoveOverride(ctx.Guild.Id, commandName);
+        await dpoS.AddOverride(ctx.Guild.Id, commandName, updatedPerms.Aggregate((x, y) => x |= y));
+        await CommandPermsDpo(commandName);
+    }
+
+    [ComponentInteraction("help_component_restore.*", true)]
+    public async Task HelpComponentRestore(string commandName)
+    {
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("help_run_cmd"), $"runcmd.{commandName}", ButtonStyle.Success)
+            .WithButton(GetText("help_permenu_link"), $"permenu_update.{commandName}", ButtonStyle.Primary, Emote.Parse("<:IconPrivacySettings:845090111976636446>"));
+        await (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 }
