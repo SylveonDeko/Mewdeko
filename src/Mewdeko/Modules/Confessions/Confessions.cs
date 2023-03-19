@@ -21,7 +21,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         {
             if (gc.ConfessionChannel is 0)
             {
-                await ctx.Channel.SendErrorAsync("This server does not have confessions enabled!").ConfigureAwait(false);
+                await ErrorLocalizedAsync("confessions_none").ConfigureAwait(false);
                 return;
             }
 
@@ -29,7 +29,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
             {
                 if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
                 {
-                    await ctx.Channel.SendErrorAsync("You are blacklisted from suggestions in that server!").ConfigureAwait(false);
+                    await ErrorLocalizedAsync("confessions_blacklisted").ConfigureAwait(false);
                     return;
                 }
 
@@ -42,7 +42,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         }
         else
         {
-            await ctx.Channel.SendErrorAsync("You aren't in any servers that have my confessions enabled!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("confessions_none_any").ConfigureAwait(false);
         }
     }
 
@@ -52,7 +52,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         if (channel is null)
         {
             await Service.SetConfessionChannel(ctx.Guild, 0).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("Confessions disabled!").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("confessions_disabled").ConfigureAwait(false);
             return;
         }
 
@@ -60,12 +60,11 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
-            await ctx.Channel.SendErrorAsync(
-                "I don't have proper perms there! Please make sure to enable EmbedLinks and SendMessages in that channel for me!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("confessions_invalid_perms").ConfigureAwait(false);
         }
 
         await Service.SetConfessionChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"Set {channel.Mention} as the Confession Channel!").ConfigureAwait(false);
+        await ConfirmLocalizedAsync("confessions_channel_set").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
@@ -74,7 +73,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         if (channel is null)
         {
             await Service.SetConfessionChannel(ctx.Guild, 0).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("Confessions logging disabled!").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("confessions_logging_disabled").ConfigureAwait(false);
             return;
         }
 
@@ -82,14 +81,11 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
         {
-            await ctx.Channel.SendErrorAsync(
-                "I don't have proper perms there! Please make sure to enable EmbedLinks and SendMessages in that channel for me!").ConfigureAwait(false);
+            await ErrorLocalizedAsync("confessions_invalid_perms").ConfigureAwait(false);
         }
 
         await Service.SetConfessionLogChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ctx.Channel.SendErrorAsync(
-                $"Set {channel.Mention} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***")
-            .ConfigureAwait(false);
+        await ErrorLocalizedAsync("confessions_spleen", channel.Mention);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
@@ -100,12 +96,12 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         {
             if (blacklists.Contains(user.Id.ToString()))
             {
-                await ctx.Channel.SendErrorAsync("This user is already blacklisted!").ConfigureAwait(false);
+                await ErrorLocalizedAsync("confessions_blacklisted_already").ConfigureAwait(false);
                 return;
             }
 
             await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, user.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Added {user.Mention} to the confession blacklist!!").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("confessions_blacklisted_added", user.Mention);
         }
     }
 
@@ -117,12 +113,12 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         {
             if (!blacklists.Contains(user.Id.ToString()))
             {
-                await ctx.Channel.SendErrorAsync("This user is not blacklisted!").ConfigureAwait(false);
+                await ErrorLocalizedAsync("confessions_blacklisted_not").ConfigureAwait(false);
                 return;
             }
 
             await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, user.Id).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Removed {user.Mention} from the confession blacklist!!").ConfigureAwait(false);
+            await ConfirmLocalizedAsync("confessions_blacklisted_removed", user.Mention);
         }
     }
 }
