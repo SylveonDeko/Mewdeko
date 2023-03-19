@@ -9,13 +9,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Commands" Version="3.9.0-dev" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-dev" />
+    <PackageReference Include="Discord.Net.Commands" Version="3.9.0-build-20230302.10" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-build-20230302.10" />
     <PackageReference Include="Google.Protobuf" Version="3.21.12" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.51.0-pre1" />
     <PackageReference Include="Grpc.Tools" Version="2.51.0">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <IncludeAssets>runtime;
+        build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />

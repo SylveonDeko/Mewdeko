@@ -1,38 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
-        <EnablePreviewFeatures>True</EnablePreviewFeatures>
-        <LangVersion>11</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Discord.Net.WebSocket" Version="3.9.0-dev" />
-      <PackageReference Include="linq2db.EntityFrameworkCore" Version="7.1.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-      <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.9.0-build-20230302.10" />
+    <PackageReference Include="linq2db.EntityFrameworkCore" Version="7.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime;
+        build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+      <PrivateAssets>
+        all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Migrations\RenameToChatTriggers.Designer.cs">
-        <DependentUpon>RenameToChatTriggers.cs</DependentUpon>
-      </Compile>
-      <Compile Remove="Migrations\TestMigration2.cs" />
-      <Compile Remove="Migrations\TestMigration2.Designer.cs" />
-      <Compile Remove="Migrations\TestMigration1.cs" />
-      <Compile Remove="Migrations\TestMigration1.Designer.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Migrations\RenameToChatTriggers.Designer.cs">
+      <DependentUpon>RenameToChatTriggers.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Migrations\TestMigration2.cs" />
+    <Compile Remove="Migrations\TestMigration2.Designer.cs" />
+    <Compile Remove="Migrations\TestMigration1.cs" />
+    <Compile Remove="Migrations\TestMigration1.Designer.cs" />
+  </ItemGroup>
 
 </Project>
