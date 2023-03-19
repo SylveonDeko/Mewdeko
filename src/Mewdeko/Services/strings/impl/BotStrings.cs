@@ -26,7 +26,8 @@ public class BotStrings : IBotStrings
     public string? GetText(string? key, CultureInfo? cultureInfo, params object?[] data)
     {
         // ReSharper disable once CoVariantArrayConversion
-        if (cultureInfo.Name == "owo") data = data.Select(x => OwoServices.OwoIfy(x.ToString())).ToArray();
+        if (cultureInfo.Name == "owo")
+            data = data.Select(x => OwoServices.OwoIfy(x.ToString())).ToArray();
         try
         {
             return string.Format(GetText(key, cultureInfo), data);
@@ -48,7 +49,8 @@ public class BotStrings : IBotStrings
     public CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
     {
         var cmdStrings = stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
-        if (cmdStrings is not null) return cmdStrings;
+        if (cmdStrings is not null)
+            return cmdStrings;
         if (cultureInfo.Name == "owo")
         {
             cmdStrings = stringsProvider.GetCommandStrings("en-US", commandName);
@@ -56,7 +58,8 @@ public class BotStrings : IBotStrings
             cmdStrings.Args = cmdStrings.Args.Select(OwoServices.OwoIfy).ToArray();
         }
 
-        if (cultureInfo.Name != usCultureInfo.Name) return GetCommandStrings(commandName, usCultureInfo);
+        if (cultureInfo.Name != usCultureInfo.Name)
+            return GetCommandStrings(commandName, usCultureInfo);
         Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
             commandName);
 
@@ -81,7 +84,7 @@ public class BotStrings : IBotStrings
         if (string.IsNullOrWhiteSpace(text))
         {
             if (cultureInfo.Name == "owo")
-                return OwoServices.OwoIfy(GetString(key, usCultureInfo));
+                return OwoServices.OwoIfy(GetString(key, usCultureInfo) ?? "to nya or to not nya?");
             Log.Warning(
                 "'{Key}' key is missing from '{LanguageName}' response strings. You may ignore this message", key,
                 cultureInfo.Name);

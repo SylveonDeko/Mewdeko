@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <IsPackable>false</IsPackable>
-        <EnablePreviewFeatures>True</EnablePreviewFeatures>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Discord.Net.Commands" Version="3.9.0-dev" />
-      <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-dev" />
-      <PackageReference Include="NUnit" Version="3.13.3" />
-      <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0-preview-20221221-03" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.1.23111.4"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Discord.Net.Commands" Version="3.9.0-build-20230302.10" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-build-20230302.10" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0-preview-20221221-03" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.1.23111.4" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Mewdeko\Mewdeko.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mewdeko\Mewdeko.csproj" />
+  </ItemGroup>
 
 </Project>
