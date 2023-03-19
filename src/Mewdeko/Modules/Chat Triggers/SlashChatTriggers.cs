@@ -452,8 +452,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         await DeferAsync().ConfigureAwait(false);
         if (await PromptUserConfirmAsync(new EmbedBuilder()
-                .WithTitle("Chat triggers clear")
-                .WithDescription("This will delete all chat triggers on this server."), ctx.User.Id).ConfigureAwait(false))
+                .WithTitle(GetText("ct_clear"))
+                .WithDescription(GetText("ct_clear_done")), ctx.User.Id).ConfigureAwait(false))
         {
             var count = Service.DeleteAllChatTriggers(ctx.Guild.Id);
             await ConfirmLocalizedAsync(GetText("cleared", count)).ConfigureAwait(false);
