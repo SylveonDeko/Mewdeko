@@ -316,6 +316,8 @@
     "createtextchan": "Text channel {0} created.",
     "createvoich": "Voice channel {0} created.",
     "crypto_not_found": "CryptoCurrency with that name was not found.",
+    "ct_clear_done": "This will delete all chat triggers on this server.",
+    "ct_clear": "Chat triggers clear",
     "ct_crossposting_channel": "To <#{0}>",
     "ct_crossposting_webhook": "To a webhook",
     "ct_crossposting": "Crossposting",
