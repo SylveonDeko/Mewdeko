@@ -664,11 +664,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             new(GetText("cmd_perm_spawner_category_perms"), "cat", GetText("cmd_perm_spawner_category_perms_desc"), GetText("not_an_easter_egg").ToIEmote())
         }, GetText("advanced_options"));
 
-        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
-        {
-            x.Components = cb.Build();
-            x.Embeds = quickEmbeds;
-        });
+        await RespondAsync(components: cb.Build(), embeds: quickEmbeds, ephemeral: true);
     }
 
     [ComponentInteraction("credperms.*", true)]
