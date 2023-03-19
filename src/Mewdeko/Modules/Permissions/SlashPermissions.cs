@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#undef FORCE_ADD_DUMMY_PERMS
+
+using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
@@ -31,8 +33,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     private readonly DbService db;
     private readonly InteractiveService interactivity;
-    public readonly DiscordPermOverrideService dpoS;
-    public readonly CommandService cmdServe;
+    private readonly DiscordPermOverrideService dpoS;
+    private readonly CommandService cmdServe;
 
     public SlashPermissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings, DiscordPermOverrideService dpoS, CommandService cmdServe)
     {
@@ -655,7 +657,11 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", new List<SelectMenuOptionBuilder>
         {
-            new(GetText("cmd_perm_spawner_required_perms"), "dpo", GetText("cmd_perm_spawner_required_perms_desc"), "<:perms_dpo:1085338505464512595>".ToIEmote())
+            new(GetText("cmd_perm_spawner_required_perms"), "dpo", GetText("cmd_perm_spawner_required_perms_desc"), "<:perms_dpo:1085338505464512595>".ToIEmote()),
+            new(GetText("cmd_perm_spawner_user_perms"), "usr", GetText("cmd_perm_spawner_user_perms_desc"), "<:perms_user_perms:1085426466818359367>".ToIEmote()),
+            new(GetText("cmd_perm_spawner_role_perms"), "rol", GetText("cmd_perm_spawner_role_perms_desc"), "<:role:808826577785716756>".ToIEmote()),
+            new(GetText("cmd_perm_spawner_channel_perms"), "chn", GetText("cmd_perm_spawner_channel_perms_desc"), "<:ChannelText:779036156175188001>".ToIEmote()),
+            new(GetText("cmd_perm_spawner_category_perms"), "cat", GetText("cmd_perm_spawner_category_perms_desc"), GetText("not_an_easter_egg").ToIEmote())
         }, GetText("advanced_options"));
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x =>
@@ -867,11 +873,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     public async Task CommandPermSpawner(string commandName, string[] values) => await (values.First() switch
     {
         "dpo" => CommandPermsDpo(commandName),
+        "usr" => CommandPermsUsr(commandName, true, true, ""),
+        "rol" => CommandPermsRol(commandName, true, true, ""),
+        "chn" => CommandPermsChn(commandName, true, true, ""),
+        "cat" => CommandPermsCat(commandName, true, true, ""),
         _ => UpdateMessageWithPermenu(commandName)
     });
 
 
-    [ComponentInteraction("cmd_perm_spawner_dpo", true)]
+    [ComponentInteraction("cmd_perm_spawner_dpo.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
     public async Task CommandPermsDpo(string commandName)
     {
@@ -943,6 +953,160 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await CommandPermsDpo(commandName);
     }
 
+    [ComponentInteraction("command_perm_spawner_usr.*.*.*$*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task CommandPermsUsr(string commandName, bool overwright, bool allow, string _)
+    {
+        // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
+        // please do not remove or enable without dissabling before commiting
+
+#if FORCE_ADD_DUMMY_PERMS
+        var nperms = new List<Permissionv2>();
+        for (var ni = 0; ni < 50; ni++)
+        {
+            nperms.Add(new()
+            {
+                IsCustomCommand = /*true*/false,
+                PrimaryTarget = PrimaryPermissionType.User,
+                PrimaryTargetId = (ulong)ni,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = commandName
+            });
+        }
+        await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
+#endif
+        // get perm overwrights targeting users
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x))
+            .Take(3)
+            .ToList();
+        // make component builders, slack fill with blank user selects
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_usr.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_usr.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_usr.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_usr.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+
+        var i = 0;
+        for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
+        {
+            var options = splitGroups[i]
+                .Select(async x => (x, user: (await TryGetUser(x.PrimaryTargetId))))
+                .Select(x => x.Result)
+                .Select(x => new SelectMenuOptionBuilder(x.user?.ToString() ?? "Unknown#0000", x.x.Id.ToString(), GetText($"perms_quick_options_user_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:perms_user_perms:1085426466818359367>".ToIEmote(), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_user_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_user_remove"), options.Count(), 0);
+            cb.WithSelectMenu(sb);
+        }
+
+        cb.WithSelectMenu($"perm_quick_options_user_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_users"), minValues: 1, maxValues: 10, type: ComponentType.UserSelect, options: null);
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+    [ComponentInteraction("perm_quick_options_user_remove.*.*.*$*", true)]
+    public async Task RemoveUserOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x)
+                .ToList())
+            .ToList();
+
+        perms = splitGroups[index];
+
+        var i = -1;
+        foreach (var p in (perms.Where(x => !values.Contains(x.Id.ToString()))))
+        {
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+        }
+
+        await CommandPermsUsr(commandName, overwright, allow, "");
+    }
+
+    [ComponentInteraction("perm_quick_options_user_add.*.*.*$*", true)]
+    public async Task AddUserOveride(string commandName, bool overwright, bool allow, string _, IUser[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var matchingPerms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
+            .Where(x => x.State == allow)
+            .ToList();
+
+        var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
+        var needRems = perms.Where(x => needMod.Any(y => x.PrimaryTargetId == y.Id));
+        var needAdd = needMod.Where(x => !needRems.Any(y => x.Id == y.PrimaryTargetId));
+
+        var i = -1;
+        foreach (var p in needRems)
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+
+        var trueAdd = needAdd.Select(x => new Permissionv2()
+        {
+            IsCustomCommand = false,
+            PrimaryTarget = PrimaryPermissionType.User,
+            PrimaryTargetId = x.Id,
+            SecondaryTarget = SecondaryPermissionType.Command,
+            SecondaryTargetName = commandName,
+            State = allow
+        });
+        await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
+
+        if (!overwright)
+        {
+            await CommandPermsUsr(commandName, overwright, allow, "");
+            return;
+        }
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        for (i = 0; i < needAdd.Count(); i++)
+            await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
+        await CommandPermsUsr(commandName, overwright, allow, "");
+    }
+
+
     [ComponentInteraction("help_component_restore.*", true)]
     public async Task HelpComponentRestore(string commandName)
     {
@@ -950,5 +1114,510 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             .WithButton(GetText("help_run_cmd"), $"runcmd.{commandName}", ButtonStyle.Success)
             .WithButton(GetText("help_permenu_link"), $"permenu_update.{commandName}", ButtonStyle.Primary, Emote.Parse("<:IconPrivacySettings:845090111976636446>"));
         await (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+    [ComponentInteraction("command_perm_spawner_rol.*.*.*$*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task CommandPermsRol(string commandName, bool overwright, bool allow, string _)
+    {
+        // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
+        // please do not remove or enable without dissabling before commiting
+
+#if FORCE_ADD_DUMMY_PERMS
+        var nperms = new List<Permissionv2>();
+        for (var ni = 0; ni < 50; ni++)
+        {
+            nperms.Add(new()
+            {
+                IsCustomCommand = /*true*/false,
+                PrimaryTarget = PrimaryPermissionType.Role,
+                PrimaryTargetId = (ulong)ni,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = commandName
+            });
+        }
+        await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
+#endif
+        // get perm overwrights targeting roles
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x))
+            .Take(3)
+            .ToList();
+        // make component builders, slack fill with blank role selects
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_rol.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_rol.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_rol.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_rol.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+
+        var i = 0;
+        for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
+        {
+            var options = splitGroups[i]
+                .Select(x => (x, role: (TryGetRole(x.PrimaryTargetId))))
+                .Select(x => new SelectMenuOptionBuilder(x.role?.ToString() ?? "Deleted Role", x.x.Id.ToString(), GetText($"perms_quick_options_role_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:role:808826577785716756>".ToIEmote(), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_role_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_role_remove"), options.Count(), 0);
+            cb.WithSelectMenu(sb);
+        }
+
+        cb.WithSelectMenu($"perm_quick_options_role_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_roles"), minValues: 1, maxValues: 10, type: ComponentType.RoleSelect, options: null);
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+    [ComponentInteraction("perm_quick_options_role_remove.*.*.*$*", true)]
+    public async Task RemoveRoleOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x)
+                .ToList())
+            .ToList();
+
+        perms = splitGroups[index];
+
+        var i = -1;
+        foreach (var p in (perms.Where(x => !values.Contains(x.Id.ToString()))))
+        {
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+        }
+
+        await CommandPermsRol(commandName, overwright, allow, "");
+    }
+
+    [ComponentInteraction("perm_quick_options_role_add.*.*.*$*", true)]
+    public async Task AddRoleOveride(string commandName, bool overwright, bool allow, string _, IRole[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var matchingPerms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
+            .Where(x => x.State == allow)
+            .ToList();
+
+        var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
+        var needRems = perms.Where(x => needMod.Any(y => x.PrimaryTargetId == y.Id));
+        var needAdd = needMod.Where(x => !needRems.Any(y => x.Id == y.PrimaryTargetId));
+
+        var i = -1;
+        foreach (var p in needRems)
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+
+        var trueAdd = needAdd.Select(x => new Permissionv2()
+        {
+            IsCustomCommand = false,
+            PrimaryTarget = PrimaryPermissionType.Role,
+            PrimaryTargetId = x.Id,
+            SecondaryTarget = SecondaryPermissionType.Command,
+            SecondaryTargetName = commandName,
+            State = allow
+        });
+        await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
+
+        if (!overwright)
+        {
+            await CommandPermsRol(commandName, overwright, allow, "");
+            return;
+        }
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        for (i = 0; i < needAdd.Count(); i++)
+            await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
+        await CommandPermsRol(commandName, overwright, allow, "");
+    }
+
+
+    [ComponentInteraction("command_perm_spawner_chn.*.*.*$*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task CommandPermsChn(string commandName, bool overwright, bool allow, string _)
+    {
+        // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
+        // please do not remove or enable without dissabling before commiting
+
+#if FORCE_ADD_DUMMY_PERMS
+        var nperms = new List<Permissionv2>();
+        for (var ni = 0; ni < 50; ni++)
+        {
+            nperms.Add(new()
+            {
+                IsCustomCommand = /*true*/false,
+                PrimaryTarget = PrimaryPermissionType.Channel,
+                PrimaryTargetId = (ulong)ni,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = commandName
+            });
+        }
+        await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
+#endif
+        // get perm overwrights targeting users
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x))
+            .Take(3)
+            .ToList();
+        // make component builders, slack fill with blank user selects
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_chn.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_chn.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_chn.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_chn.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+
+        var i = 0;
+        for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
+        {
+            var options = splitGroups[i]
+                .Select(async x => (x, channel: await (TryGetChannel(x.PrimaryTargetId))))
+                .Select(x => x.Result)
+                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(), GetText($"perms_quick_options_channel_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_channel_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_channel_remove"), options.Count(), 0);
+            cb.WithSelectMenu(sb);
+        }
+
+        cb.WithSelectMenu($"perm_quick_options_channel_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_channels"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null, channelTypes: Enum.GetValues<ChannelType>().Where(x => x != ChannelType.Category).ToArray());
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+
+    [ComponentInteraction("perm_quick_options_channel_remove.*.*.*$*", true)]
+    public async Task RemoveChannelOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x)
+                .ToList())
+            .ToList();
+
+        perms = splitGroups[index];
+
+        var i = -1;
+        foreach (var p in (perms.Where(x => !values.Contains(x.Id.ToString()))))
+        {
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+        }
+
+        await CommandPermsChn(commandName, overwright, allow, "");
+    }
+
+    [ComponentInteraction("perm_quick_options_channel_add.*.*.*$*", true)]
+    public async Task AddChannelOveride(string commandName, bool overwright, bool allow, string _, IChannel[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var matchingPerms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
+            .Where(x => x.State == allow)
+            .ToList();
+
+        var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
+        var needRems = perms.Where(x => needMod.Any(y => x.PrimaryTargetId == y.Id));
+        var needAdd = needMod.Where(x => !needRems.Any(y => x.Id == y.PrimaryTargetId));
+
+        var i = -1;
+        foreach (var p in needRems)
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+
+        var trueAdd = needAdd.Select(x => new Permissionv2()
+        {
+            IsCustomCommand = false,
+            PrimaryTarget = PrimaryPermissionType.Channel,
+            PrimaryTargetId = x.Id,
+            SecondaryTarget = SecondaryPermissionType.Command,
+            SecondaryTargetName = commandName,
+            State = allow
+        });
+        await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
+
+        if (!overwright)
+        {
+            await CommandPermsChn(commandName, overwright, allow, "");
+            return;
+        }
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        for (i = 0; i < needAdd.Count(); i++)
+            await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
+        await CommandPermsChn(commandName, overwright, allow, "");
+    }
+
+
+    [ComponentInteraction("command_perm_spawner_cat.*.*.*$*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task CommandPermsCat(string commandName, bool overwright, bool allow, string _)
+    {
+        // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
+        // please do not remove or enable without dissabling before commiting
+
+#if FORCE_ADD_DUMMY_PERMS
+        var nperms = new List<Permissionv2>();
+        for (var ni = 0; ni < 50; ni++)
+        {
+            nperms.Add(new()
+            {
+                IsCustomCommand = /*true*/false,
+                PrimaryTarget = PrimaryPermissionType.Category,
+                PrimaryTargetId = (ulong)ni,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = commandName
+            });
+        }
+        await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
+#endif
+        // get perm overwrights targeting users
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x))
+            .Take(3)
+            .ToList();
+        // make component builders, slack fill with blank user selects
+        var cb = new ComponentBuilder()
+            .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_cat.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_cat.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_cat.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_cat.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+
+        var i = 0;
+        for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
+        {
+            var options = splitGroups[i]
+                .Select(async x => (x, channel: await (TryGetChannel(x.PrimaryTargetId))))
+                .Select(x => x.Result)
+                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(), GetText($"perms_quick_options_category_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_category_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_category_remove"), options.Count(), 0);
+            cb.WithSelectMenu(sb);
+        }
+
+        cb.WithSelectMenu($"perm_quick_options_category_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_categories"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null, channelTypes: new[] { ChannelType.Category });
+
+        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+    }
+
+
+
+    [ComponentInteraction("perm_quick_options_category_remove.*.*.*$*", true)]
+    public async Task RemoveCategoryOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        perms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
+            .Where(x => x.State == allow)
+            .ToList();
+        // chunk into groups of 25, take first three
+        var splitGroups = perms
+            .Select((x, i) => (x, i))
+            .GroupBy(x => x.i/25)
+            .Select(x =>
+                x.Select(y => y.x)
+                .ToList())
+            .ToList();
+
+        perms = splitGroups[index];
+
+        var i = -1;
+        foreach (var p in (perms.Where(x => !values.Contains(x.Id.ToString()))))
+        {
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+        }
+
+        await CommandPermsChn(commandName, overwright, allow, "");
+    }
+
+    [ComponentInteraction("perm_quick_options_category_add.*.*.*$*", true)]
+    public async Task AddCategoryOveride(string commandName, bool overwright, bool allow, string _, IChannel[] values)
+    {
+        IList<Permissionv2> perms;
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        var matchingPerms = perms
+            .Where(x => x.SecondaryTargetName == commandName)
+            .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
+            .Where(x => x.State == allow)
+            .ToList();
+
+        var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
+        var needRems = perms.Where(x => needMod.Any(y => x.PrimaryTargetId == y.Id));
+        var needAdd = needMod.Where(x => !needRems.Any(y => x.Id == y.PrimaryTargetId));
+
+        var i = -1;
+        foreach (var p in needRems)
+            await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
+
+        var trueAdd = needAdd.Select(x => new Permissionv2()
+        {
+            IsCustomCommand = false,
+            PrimaryTarget = PrimaryPermissionType.Category,
+            PrimaryTargetId = x.Id,
+            SecondaryTarget = SecondaryPermissionType.Command,
+            SecondaryTargetName = commandName,
+            State = allow
+        });
+        await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
+
+        if (!overwright)
+        {
+            await CommandPermsCat(commandName, overwright, allow, "");
+            return;
+        }
+
+        if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
+            perms = permCache.Permissions.Source.ToList();
+        else
+            perms = Permissionv2.GetDefaultPermlist;
+
+        for (i = 0; i<needAdd.Count(); i++)
+            await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
+        await CommandPermsCat(commandName, overwright, allow, "");
+    }
+
+    public async Task<IUser?> TryGetUser(ulong id)
+    {
+        try
+        {
+            return await Context.Client.GetUserAsync(id);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public IRole? TryGetRole(ulong id) => Context.Guild.Roles.FirstOrDefault(x => x.Id == id);
+    public async Task<IChannel?> TryGetChannel(ulong id)
+    {
+        try
+        {
+            return (IChannel)await Context.Client.GetChannelAsync(id);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+    public IEmote GetChannelEmote(IChannel channel)
+    {
+        if (channel is ICategoryChannel)
+            return GetText("not_an_easter_egg").ToIEmote();
+        if (channel is IForumChannel)
+            return "<:ForumChannelIcon:1086869270312517632>".ToIEmote();
+        if (channel is INewsChannel)
+            return "<:ChannelAnnouncements:779042577114202122>".ToIEmote();
+        if (channel is IThreadChannel)
+            return "<:threadchannel:824240882697633812>".ToIEmote();
+        if (channel is IStageChannel)
+            return "<:stagechannel:824240882793447444>".ToIEmote();
+        if (channel is IVoiceChannel)
+            return "<:ChannelVC:779036156607332394>".ToIEmote();
+
+        return "<:ChannelText:779036156175188001>".ToIEmote();
     }
 }
