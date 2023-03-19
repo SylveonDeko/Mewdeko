@@ -65,4 +65,8 @@ public class MewdekoUserMessage : IUserMessage
         throw new NotImplementedException();
 
     public IUserMessage ReferencedMessage { get; set; }
+
+    public IThreadChannel Thread => throw new NotImplementedException();
+
+    public MessageRoleSubscriptionData RoleSubscriptionData => throw new NotImplementedException();
 }

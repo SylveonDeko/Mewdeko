@@ -4,7 +4,8 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class OwoServices
 {
-    // data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js, most modification logic is my own
+    // some data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js, all modification logic is my own
+    // nsfw strings were removed to comply with discords policies, a few were added
     public static readonly Dictionary<string, string> Defaults = new()
     {
         {
@@ -60,6 +61,9 @@ public class OwoServices
         },
         {
             "the", "da"
+        },
+        {
+            "quick", "speedyfast"
         }
     };
 
@@ -79,7 +83,7 @@ public class OwoServices
         input ??= "";
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));
         input = string.Join(' ', input.Split(' ')
-            .Select(x =>  x.Last() is 'y' or 'Y' ? $"{x.First()}-{x}" : x) // duplicate the first character of words ending in 'y'
+            .Select(x => x.Last() is 'y' or 'Y' ? $"{x.First()}-{x}" : x) // duplicate the first character of words ending in 'y'
             .Select(x => x.Sum(c => c) % 10 is 1 or -1 ? $"{x.First()}-{x}" : x)); // s-stutter randomly
 
         // separate methods so caseing matches.
@@ -91,7 +95,7 @@ public class OwoServices
         // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
         if (seed % 3 is 1)
             input = $"{Prefixes[(seed % Prefixes.Length)]} {input}";
-        else if (seed % 2 is 1)
+        if (seed % 2 is 1)
             input = $"{input} {Suffixes[(seed % Suffixes.Length)]}";
         return input;
     }
