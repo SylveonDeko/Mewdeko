@@ -1,7 +1,9 @@
 using Mewdeko.Database;
+using Mewdeko.WebApp.Reimplementations.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
-var db = new DbService(2);
+var creds = new BotCredentials();
+var db = new DbService(2, creds.Token);
 // Add services to the container.
 
 builder.Services.AddControllers();

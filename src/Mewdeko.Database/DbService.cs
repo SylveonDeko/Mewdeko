@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Common;
 using Microsoft.Data.Sqlite;
@@ -12,10 +13,13 @@ public class DbService
     private readonly DbContextOptions<MewdekoContext> _migrateOptions;
     private readonly DbContextOptions<MewdekoContext> _options;
 
-    public DbService(int shardCount)
+    public DbService(int shardCount, string token)
     {
         LinqToDBForEFTools.Initialize();
-
+        var folderpath = Environment.GetFolderPath(Environment.OSVersion.Platform == PlatformID.Unix
+            ? Environment.SpecialFolder.UserProfile
+            : Environment.SpecialFolder.ApplicationData);
+        var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(token.Split(".")[0]));
         var builder = new SqliteConnectionStringBuilder("Data Source=data/Mewdeko.db");
         if (shardCount > 1)
         {
@@ -24,7 +28,7 @@ public class DbService
         }
         else
         {
-            builder.DataSource = builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
+            builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
