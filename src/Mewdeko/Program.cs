@@ -47,7 +47,14 @@ else
 {
     Log.Information("Attempting to migrate database to a less annoying place...");
     var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
-    var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(credentials.Token.Split(".")[0]));
+    var tokenPart = credentials.Token.Split(".")[0];
+    var paddingNeeded = 28 - tokenPart.Length;
+    if (paddingNeeded > 0)
+    {
+        tokenPart = tokenPart.PadRight(28, '=');
+    }
+
+    var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
     if (Environment.OSVersion.Platform == PlatformID.Unix)
     {
         var folderpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
