@@ -1,5 +1,4 @@
 using System.Threading;
-using System.Threading.Tasks;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Administration.Common;
@@ -367,7 +366,7 @@ public class LogCommandService : INService
             var g = guildUser.Guild;
 
             if (!GuildLogSettings.TryGetValue(g.Id, out var logSetting)
-                || logSetting.UserUpdatedId == null)
+                || logSetting.UserUpdatedId == null && logSetting.NicknameUpdatedId == null && logSetting.UsernameUpdatedId == null && logSetting.AvatarUpdatedId == null)
             {
                 return;
             }
@@ -383,7 +382,6 @@ public class LogCommandService : INService
 
             if (before.ToString() != guildUser.ToString())
             {
-                var user = uow.GetOrCreateUser(guildUser);
                 embeds.Add(new EmbedBuilder().WithTitle($"👥 {GetText(g, "username_changed")}")
                     .WithTitle($"{before.Username}#{before.Discriminator} | {before.Id}")
                     .WithDescription(
