@@ -49,7 +49,7 @@ else
     var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
     var tokenPart = credentials.Token.Split(".")[0];
     var paddingNeeded = 28 - tokenPart.Length;
-    if (paddingNeeded > 0)
+    if (paddingNeeded > 0 && tokenPart.Length % 4 != 0)
     {
         tokenPart = tokenPart.PadRight(28, '=');
     }
