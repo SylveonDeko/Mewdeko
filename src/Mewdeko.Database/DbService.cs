@@ -19,7 +19,14 @@ public class DbService
         var folderpath = Environment.GetFolderPath(Environment.OSVersion.Platform == PlatformID.Unix
             ? Environment.SpecialFolder.UserProfile
             : Environment.SpecialFolder.ApplicationData);
-        var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(token.Split(".")[0]));
+        var tokenPart = token.Split(".")[0];
+        var paddingNeeded = 28 - tokenPart.Length;
+        if (paddingNeeded > 0)
+        {
+            tokenPart = tokenPart.PadRight(28, '=');
+        }
+
+        var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
         var builder = new SqliteConnectionStringBuilder("Data Source=data/Mewdeko.db");
         if (shardCount > 1)
         {
