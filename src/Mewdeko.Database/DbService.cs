@@ -21,7 +21,7 @@ public class DbService
             : Environment.SpecialFolder.ApplicationData);
         var tokenPart = token.Split(".")[0];
         var paddingNeeded = 28 - tokenPart.Length;
-        if (paddingNeeded > 0)
+        if (paddingNeeded > 0 && tokenPart.Length % 4 != 0)
         {
             tokenPart = tokenPart.PadRight(28, '=');
         }
