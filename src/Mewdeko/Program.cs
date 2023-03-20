@@ -61,7 +61,7 @@ else
                 }
                 else
                 {
-                    Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}");
+                    Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}/data");
                     File.Copy(dbPath, folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db");
                     try
                     {
@@ -74,14 +74,24 @@ else
                     }
 
                     Log.Information("Mewdeko folder created!");
-                    Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+                    Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}/data");
                 }
             }
             else
             {
-                Directory.CreateDirectory(folderpath + "/.local/share/Mewdeko");
-                Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}");
-                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+                Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}/data");
+                File.Copy(dbPath, folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db");
+                try
+                {
+                    File.Copy(dbPath + "-wal", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                    File.Copy(dbPath + "-shm", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                }
+                catch
+                {
+                    // ignored, used if the bot didnt shutdown properly and left behind db files
+                }
+
+                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}/data");
             }
         }
         catch (Exception e)
@@ -121,6 +131,17 @@ else
             else
             {
                 Directory.CreateDirectory(folderpath + $"/Mewdeko/{clientId}/data");
+                File.Copy(dbPath, folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db");
+                try
+                {
+                    File.Copy(dbPath + "-wal", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                    File.Copy(dbPath + "-shm", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                }
+                catch
+                {
+                    // ignored, used if the bot didnt shutdown properly and left behind db files
+                }
+
                 Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
             }
         }
