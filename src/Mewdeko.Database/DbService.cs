@@ -28,7 +28,10 @@ public class DbService
         }
         else
         {
-            builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+                builder.DataSource = builder.DataSource = folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db";
+            else
+                builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
