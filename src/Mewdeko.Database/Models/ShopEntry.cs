@@ -4,7 +4,8 @@ public enum ShopEntryType
 {
     Role,
 
-    List
+    List,
+    ExclRole
     //Infinite_List,
 }
 

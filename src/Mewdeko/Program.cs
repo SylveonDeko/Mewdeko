@@ -6,12 +6,6 @@ using Serilog;
 
 var pid = Environment.ProcessId;
 var shardId = 0;
-var credentials = new BotCredentials();
-if (string.IsNullOrEmpty(credentials.Token))
-{
-    Log.Error("No token provided. Exiting...");
-    return;
-}
 
 if (args.Length > 0)
 {
@@ -30,8 +24,14 @@ if (args.Length > 0)
         }
     }
 }
-
 LogSetup.SetupLogger(shardId);
+var credentials = new BotCredentials();
+if (string.IsNullOrEmpty(credentials.Token))
+{
+    Console.Error.WriteLine("No token provided. Exiting...");
+    return;
+}
+
 if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
 {
     var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/970711443672543252/Mewdeko.db");

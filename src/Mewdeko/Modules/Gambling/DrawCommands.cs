@@ -95,7 +95,6 @@ public partial class Gambling
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task DeckShuffle()
         {
-            //var channel = (ITextChannel)ctx.Channel;
 
             AllDecks.AddOrUpdate(ctx.Guild,
                 _ => new Deck(),

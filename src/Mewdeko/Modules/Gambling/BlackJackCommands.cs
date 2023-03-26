@@ -110,10 +110,7 @@ public partial class Gambling
                     var full = $"{p.DiscordUser.ToString().TrimTo(20)} | Bet: {p.Bet} | Value: {p.GetHandValue()}";
                     if (bj.State == Blackjack.GameState.Ended)
                     {
-                        if (p.State == User.UserState.Lost)
-                            full = $"❌ {full}";
-                        else
-                            full = $"✅ {full}";
+                        full = p.State == User.UserState.Lost ? $"❌ {full}" : $"✅ {full}";
                     }
                     else if (p == bj.CurrentUser)
                     {
@@ -121,18 +118,13 @@ public partial class Gambling
                     }
                     else
                     {
-                        switch (p.State)
+                        full = p.State switch
                         {
-                            case User.UserState.Stand:
-                                full = $"⏹ {full}";
-                                break;
-                            case User.UserState.Bust:
-                                full = $"💥 {full}";
-                                break;
-                            case User.UserState.Blackjack:
-                                full = $"💰 {full}";
-                                break;
-                        }
+                            User.UserState.Stand => $"⏹ {full}",
+                            User.UserState.Bust => $"💥 {full}",
+                            User.UserState.Blackjack => $"💰 {full}",
+                            _ => full
+                        };
                     }
 
                     embed.AddField(full, cStr);
