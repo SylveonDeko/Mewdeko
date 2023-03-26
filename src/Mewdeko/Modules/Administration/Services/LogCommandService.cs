@@ -112,7 +112,6 @@ public class LogCommandService : INService
         eventHandler.ChannelDestroyed += Client_ChannelDestroyed;
         eventHandler.ChannelUpdated += Client_ChannelUpdated;
         eventHandler.RoleDeleted += Client_RoleDeleted;
-
         mute.UserMuted += MuteCommands_UserMuted;
         mute.UserUnmuted += MuteCommands_UserUnmuted;
         //_client.ThreadCreated += ThreadCreated;

@@ -531,50 +531,36 @@ public partial class Gambling
         {
             var embed = new EmbedBuilder().WithOkColor();
 
-            switch (entry.Type)
+            return entry.Type switch
             {
-                case ShopEntryType.Role:
-                    return embed.AddField(efb =>
-                                    efb.WithName(GetText("name")).WithValue(GetText("shop_role",
-                                           Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
-                                       .WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true));
-                case ShopEntryType.List:
-                    return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("type")).WithValue(GetText("random_unique_item")).WithIsInline(true));
-                case ShopEntryType.ExclRole:
-                    return embed.AddField(efb =>
-                                    efb.WithName(GetText("name")).WithValue(GetText("shop_exclrole",
-                                           Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
-                                       .WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true));
-                default:
-                    return null;
-            }
+                ShopEntryType.Role => embed
+                    .AddField(efb => efb.WithName(GetText("name"))
+                        .WithValue(GetText("shop_role", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
+                        .WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true)),
+                ShopEntryType.List => embed.AddField(efb => efb.WithName(GetText("name")).WithValue(entry.Name).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("type")).WithValue(GetText("random_unique_item")).WithIsInline(true)),
+                ShopEntryType.ExclRole => embed
+                    .AddField(efb => efb.WithName(GetText("name"))
+                        .WithValue(GetText("shop_exclrole", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")))
+                        .WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("price")).WithValue(entry.Price.ToString()).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("type")).WithValue(entry.Type.ToString()).WithIsInline(true)),
+                _ => null
+            };
         }
 
         public string EntryToString(ShopEntry entry)
         {
-            switch (entry.Type)
+            return entry.Type switch
             {
-                case ShopEntryType.Role:
-                    return GetText("shop_role", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"));
-                case ShopEntryType.ExclRole:
-                    return GetText("shop_exclrole", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"));
-                case ShopEntryType.List:
-                    return $"{GetText("unique_items_left", entry.Items.Count)}\n{entry.Name}";
-                default:
-                    return "";
-            }
+                ShopEntryType.Role => GetText("shop_role", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")),
+                ShopEntryType.ExclRole => GetText("shop_exclrole", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE")),
+                ShopEntryType.List => $"{GetText("unique_items_left", entry.Items.Count)}\n{entry.Name}",
+                _ => ""
+            };
         }
     }
 }
