@@ -263,7 +263,7 @@ public class GiveawayService : INService, IReadyExecutor
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                        .Build()).ConfigureAwait(false);
+                        .Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.Users)).ConfigureAwait(false);
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -319,7 +319,7 @@ public class GiveawayService : INService, IReadyExecutor
                     await ch.Channel.SendMessageAsync(
                         $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
                         embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                            .Build()).ConfigureAwait(false);
+                            .Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.Users)).ConfigureAwait(false);
                 }
 
                 r.Ended = 1;
@@ -359,7 +359,7 @@ public class GiveawayService : INService, IReadyExecutor
         }
 
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
-        if (reacts.Count() - 1 <= r.Winners)
+        if (reacts.Count(x => !x.IsBot) - 1 < r.Winners)
         {
             var eb = new EmbedBuilder
             {
@@ -420,7 +420,7 @@ public class GiveawayService : INService, IReadyExecutor
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                        .Build()).ConfigureAwait(false);
+                        .Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.Users)).ConfigureAwait(false);
                 r.Ended = 1;
                 uow.Giveaways.Update(r);
                 await uow.SaveChangesAsync().ConfigureAwait(false);

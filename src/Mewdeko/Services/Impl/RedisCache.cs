@@ -69,13 +69,20 @@ public class RedisCache : IDataCache
         return result.HasValue ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result) : new List<StatusRolesTable>();
     }
 
-    public async Task SetGuildConfigs(List<GuildConfig> configs)
+    public async Task<GuildConfig?> GetGuildConfig(ulong guildId)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_guildconfigs", JsonConvert.SerializeObject(configs, new JsonSerializerSettings
+        var toDeserialize = await db.StringGetAsync($"{redisKey}_{guildId}_config");
+        return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<GuildConfig>(toDeserialize);
+    }
+
+    public async void SetGuildConfig(ulong guildId, GuildConfig guildConfig)
+    {
+        var db = Redis.GetDatabase();
+        _ = await db.StringSetAsync($"{redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        }));
+        }), flags: CommandFlags.FireAndForget);
     }
 
     public async Task<bool> SetUserStatusCache(ulong id, int hashCode)
@@ -93,19 +100,6 @@ public class RedisCache : IDataCache
 
         await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
         return true;
-    }
-
-    public List<GuildConfig> GetGuildConfigs()
-    {
-        var db = Redis.GetDatabase();
-        var toDeserialize = db.StringGet($"{redisKey}_guildconfigs");
-        return toDeserialize.IsNull ? new List<GuildConfig>() : JsonConvert.DeserializeObject<List<GuildConfig>>(toDeserialize);
-    }
-
-    public void DeleteGuildConfig(ulong guildId)
-    {
-        var db = Redis.GetDatabase();
-        db.KeyDelete($"{redisKey}_{guildId}_config", flags: CommandFlags.FireAndForget);
     }
 
     public Task CacheHighlights(ulong id, List<Highlights> objectList)
