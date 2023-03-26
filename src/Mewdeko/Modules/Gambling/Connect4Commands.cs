@@ -38,9 +38,7 @@ public partial class Gambling
             get => repostCounter;
             set
             {
-                if (value is < 0 or > 7)
-                    repostCounter = 0;
-                else repostCounter = value;
+                repostCounter = value is < 0 or > 7 ? 0 : value;
             }
         }
 

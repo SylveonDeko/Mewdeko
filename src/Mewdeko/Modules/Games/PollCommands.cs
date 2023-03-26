@@ -28,15 +28,16 @@ public partial class Games
 
             var poll = PollService.CreatePoll(ctx.Guild.Id,
                 ctx.Channel.Id, arg, type);
-            if (poll.Answers.Count > 25)
-            {
-                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");
-                return;
-            }
-
+            
             if (poll == null)
             {
                 await ReplyErrorLocalizedAsync("poll_invalid_input").ConfigureAwait(false);
+                return;
+            }
+            
+            if (poll.Answers.Count > 25)
+            {
+                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");
                 return;
             }
 
@@ -125,9 +126,9 @@ public partial class Games
                 .OrderByDescending(x => x.votes)
                 .ToArray();
 
-            for (var i = 0; i < stats.Length; i++)
+            foreach (var t in stats)
             {
-                var (index, votes, text) = stats[i];
+                var (index, votes, text) = t;
                 sb.AppendLine(GetText("poll_result",
                     index + 1,
                     Format.Bold(text),

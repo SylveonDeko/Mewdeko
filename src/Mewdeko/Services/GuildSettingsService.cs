@@ -43,25 +43,20 @@ public class GuildSettingsService : INService
 
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
+        var config = await cache.GetGuildConfig(guildId);
+        if (config is { })
+            return config;
         await using var uow = db.GetDbContext();
-        var configs = cache.GetGuildConfigs();
-        if (configs.FirstOrDefault(x => x.GuildId == guildId) is { } guildConfig)
-            return guildConfig;
-        var config = await uow.ForGuildId(guildId);
-        configs.Add(config);
-        await cache.SetGuildConfigs(configs);
-        return config;
+        var newConfig = await uow.ForGuildId(guildId);
+        cache.SetGuildConfig(guildId, newConfig);
+        return newConfig;
     }
 
-    public void UpdateGuildConfig(ulong guildId, GuildConfig config)
+    public void UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
     {
         using var uow = db.GetDbContext();
-        var configs = cache.GetGuildConfigs();
-        if (configs.FirstOrDefault(x => x.GuildId == guildId) is { } guildConfig)
-            configs.Remove(guildConfig);
-        configs.Add(config);
-        cache.SetGuildConfigs(configs);
-        uow.GuildConfigs.Update(config);
+        cache.SetGuildConfig(guildId, toUpdate);
+        uow.GuildConfigs.Update(toUpdate);
         uow.SaveChanges();
     }
 }
