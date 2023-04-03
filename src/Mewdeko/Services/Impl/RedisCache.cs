@@ -22,14 +22,20 @@ public class RedisCache : IDataCache
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
         conf.SocketManager = SocketManager.ThreadPool;
-        Redis = ConnectionMultiplexer.ConnectAsync(conf).GetAwaiter().GetResult();
+        _ = LoadRedis(conf).ConfigureAwait(false);
         redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
         redisKey = creds.RedisKey();
     }
 
-    public ConnectionMultiplexer Redis { get; }
+
+    private async Task LoadRedis(ConfigurationOptions options)
+    {
+        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
+    }
+
+    public ConnectionMultiplexer Redis { get; set; }
 
     public IImageCache LocalImages { get; }
     public ILocalDataCache LocalData { get; }
