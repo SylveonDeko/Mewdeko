@@ -11,9 +11,9 @@ namespace Mewdeko.Services.Impl;
 
 public class RedisCache : IDataCache
 {
-    private readonly EndPoint redisEndpoint;
+    private EndPoint redisEndpoint;
 
-    private readonly string redisKey;
+    private string redisKey;
 
     private readonly object timelyLock = new();
     private readonly object voteLock = new();
@@ -21,24 +21,24 @@ public class RedisCache : IDataCache
     public RedisCache(IBotCredentials creds, int shardId)
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
-        conf.SocketManager = SocketManager.ThreadPool;
-        LoadRedis(conf).ConfigureAwait(false);
+        conf.SocketManager = new SocketManager("Main", true);
+        LoadRedis(conf, creds, shardId).ConfigureAwait(false);
+    }
+
+
+    private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
+    {
+        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
         redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
         redisKey = creds.RedisKey();
     }
 
-
-    private async Task LoadRedis(ConfigurationOptions options)
-    {
-        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
-    }
-
     public ConnectionMultiplexer Redis { get; set; }
 
-    public IImageCache LocalImages { get; }
-    public ILocalDataCache LocalData { get; }
+    public IImageCache LocalImages { get; set; }
+    public ILocalDataCache LocalData { get; set; }
 
     // things here so far don't need the bot id
     // because it's a good thing if different bots
