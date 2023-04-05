@@ -28,6 +28,7 @@ public sealed class BotConfig
         SuccessEmote = "<:hane_wow:945005763829575680>";
         SupportServer = "https://discord.gg/mewdeko";
         RedirectUrl = "https://mewdeko.tech/auth.html";
+        YoutubeSupport = true;
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -94,6 +95,9 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment(@"Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
+
+    [Comment("Enable or disable youtube support")]
+    public bool YoutubeSupport { get; set; }
 
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }

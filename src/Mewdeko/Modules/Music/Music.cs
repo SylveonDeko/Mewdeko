@@ -741,15 +741,15 @@ public class Music : MewdekoModuleBase<MusicService>
         var player = lavaNode.GetPlayer<MusicPlayer>(ctx.Guild);
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
         {
-            if ((client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtube.com")) ||
-                (client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtu.be")))
+            if ((!config.Data.YoutubeSupport && searchQuery.Contains("youtube.com")) ||
+                (!config.Data.YoutubeSupport && searchQuery.Contains("youtu.be")))
             {
                 var eb = new EmbedBuilder().WithErrorColor()
-                    .WithTitle("YouTube support on Public Mewdeko has been disabled.")
+                    .WithTitle("YouTube support on this instance of Mewdeko has been disabled.")
                     .WithDescription(Format.Bold(
-                        "YouTube support has been disabled due to unfair unverification from Discord that is targetting smaller bots that use YouTube for music.\n\n This does not mean Mewdeko is going premium. You have options below."))
+                        "YouTube support has most likely been disabled due to unfair unverification from Discord that is targetting smaller bots that use YouTube for music.\n\n This does not mean Mewdeko is going premium. You have options below."))
                     .AddField("Donate for a Selfhost", Format.Bold("https://ko-fi.com/mewdeko"))
-                    .AddField("Host on yourself", Format.Bold("https://github.com/Pusheon/Mewdeko"))
+                    .AddField("Host one yourself", Format.Bold("https://github.com/Pusheon/Mewdeko"))
                     .AddField("More Info", Format.Bold("https://youtu.be/fOpEdS3JVYQ"))
                     .AddField("Support Server", Format.Bold(config.Data.SupportServer))
                     .Build();
