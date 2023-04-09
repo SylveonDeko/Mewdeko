@@ -64,6 +64,12 @@ public static class MessageChannelExtensions
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
 
+    public static Task<IUserMessage> SendConfirmReplyAsync(this IUserMessage msg, string? text) =>
+        msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+
+    public static Task<IUserMessage> SendErrorReplyAsync(this IUserMessage msg, string? text) =>
+        msg.ReplyAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(text).Build());
+
     public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string? text,
         ComponentBuilder? builder = null) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
