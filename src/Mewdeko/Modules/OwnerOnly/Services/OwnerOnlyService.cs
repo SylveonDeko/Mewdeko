@@ -118,11 +118,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (args.Channel.Id != bss.Data.ChatGptChannel)
             return;
         var api = new OpenAIAPI(bss.Data.ChatGptKey);
-
+        if (args is not IUserMessage usrMsg)
+            return;
         if (conversations.TryGetValue(args.Author.Id, out var conversation))
         {
             conversation.AppendUserInput(args.Content);
-            var msg = await args.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+            var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
             var response = await conversation.GetResponseFromChatbotAsync();
             await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
                 .WithOkColor()
@@ -143,7 +144,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             try
             {
                 conversations.TryAdd(args.Author.Id, chat);
-                var msg = await args.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
                 var response = await chat.GetResponseFromChatbotAsync();
                 await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
                     .WithOkColor()
@@ -155,7 +156,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
             }
         }
     }
