@@ -99,6 +99,12 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("Enable or disable youtube support")]
     public bool YoutubeSupport { get; set; }
 
+    [Comment("ChatGPT API Key")]
+    public string ChatGptKey { get; set; }
+
+    [Comment("ChatGPT Channel ID")]
+    public ulong ChatGptChannel { get; set; }
+
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
 

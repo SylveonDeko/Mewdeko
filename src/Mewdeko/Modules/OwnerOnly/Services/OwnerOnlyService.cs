@@ -3,13 +3,18 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OpenAI_API;
+using OpenAI_API.Chat;
 using Serilog;
 using StackExchange.Redis;
+using TwitchLib.Api.Helix;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
@@ -29,6 +34,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly Replacer rep;
     private readonly IBotStrings strings;
     private readonly GuildSettingsService guildSettings;
+    private readonly ConcurrentDictionary<ulong, Conversation> conversations = new();
 
 #pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
@@ -41,7 +47,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
         BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler handler)
     {
         var redis = cache.Redis;
         this.cmdHandler = cmdHandler;
@@ -55,6 +61,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var imgs = cache.LocalImages;
         httpFactory = factory;
         this.bss = bss;
+        handler.MessageReceived += OnMessageReceived;
         if (client.ShardId == 0)
         {
             rep = new ReplacementBuilder()
@@ -100,6 +107,57 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 // ignored
             }
         }, CommandFlags.FireAndForget);
+    }
+
+    private async Task OnMessageReceived(SocketMessage args)
+    {
+        if (bss.Data.ChatGptKey is null or "" || bss.Data.ChatGptChannel is 0)
+            return;
+        if (args.Author.IsBot)
+            return;
+        if (args.Channel.Id != bss.Data.ChatGptChannel)
+            return;
+        var api = new OpenAIAPI(bss.Data.ChatGptKey);
+
+        if (conversations.TryGetValue(args.Author.Id, out var conversation))
+        {
+            conversation.AppendUserInput(args.Content);
+            var msg = await args.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+            var response = await conversation.GetResponseFromChatbotAsync();
+            await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithDescription(response)
+                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                .WithFooter($"Requested by {args.Author}")
+                .Build());
+        }
+        else
+        {
+            var chat = api.Chat.CreateConversation(new ChatRequest
+            {
+                MaxTokens = 1000, Temperature = 0.9,
+            });
+            chat.AppendSystemMessage(
+                "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by SylveonDeko#0001");
+            chat.AppendUserInput(args.Content);
+            try
+            {
+                conversations.TryAdd(args.Author.Id, chat);
+                var msg = await args.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                var response = await chat.GetResponseFromChatbotAsync();
+                await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithDescription(response)
+                    .WithFooter($"Requested by {args.Author}")
+                    .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                    .Build());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 
     // forwards dms
