@@ -125,6 +125,17 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var api = new OpenAIAPI(bss.Data.ChatGptKey);
         if (args is not IUserMessage usrMsg)
             return;
+        if (args.Content is "deletesession")
+            if (conversations.TryRemove(args.Author.Id, out _))
+            {
+                await usrMsg.SendConfirmReplyAsync("Session deleted");
+                return;
+            }
+            else
+            {
+                await usrMsg.SendConfirmReplyAsync("No session to delete");
+                return;
+            }
         if (conversations.TryGetValue(args.Author.Id, out var conversation))
         {
             conversation.AppendUserInput(args.Content);
