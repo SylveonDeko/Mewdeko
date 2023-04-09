@@ -138,9 +138,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             {
                 MaxTokens = 1000, Temperature = 0.9,
             });
-            chat.AppendSystemMessage(
-                "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by SylveonDeko#0001");
-            chat.AppendUserInput(args.Content);
+            chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
             try
             {
                 conversations.TryAdd(args.Author.Id, chat);
