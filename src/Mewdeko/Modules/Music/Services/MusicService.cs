@@ -8,7 +8,7 @@ using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music.Services;
 
-public class MusicService : INService
+public class    MusicService : INService
 {
     public readonly ConcurrentDictionary<ulong, List<LavalinkTrack?>> Queues;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> settings;

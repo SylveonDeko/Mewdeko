@@ -717,8 +717,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             }
         }
 
-        if ((client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtube.com")) ||
-            (client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtu.be")))
+        if ((!config.Data.YoutubeSupport && searchQuery.Contains("youtube.com")) ||
+            (!config.Data.YoutubeSupport && searchQuery.Contains("youtu.be")))
         {
             var eb = new EmbedBuilder().WithErrorColor()
                 .WithTitle("YouTube support on Public Mewdeko has been disabled.")
