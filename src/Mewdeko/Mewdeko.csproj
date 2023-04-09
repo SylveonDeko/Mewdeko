@@ -88,6 +88,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="NHentaiAPI" Version="1.5.0" />
         <PackageReference Include="NonBlocking" Version="2.1.1" />
+        <PackageReference Include="OpenAI" Version="1.7.2" />
         <PackageReference Include="PokeApiNet" Version="3.0.10" />
         <PackageReference Include="Scrutor" Version="4.2.1" />
         <PackageReference Include="Serilog" Version="3.0.0-dev-01921" />
