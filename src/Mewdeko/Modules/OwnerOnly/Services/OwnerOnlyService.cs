@@ -111,6 +111,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private async Task OnMessageReceived(SocketMessage args)
     {
+        if (args.Channel is not IGuildChannel guildChannel)
+            return;
+        var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
+        if (args.Content.StartsWith(prefix))
+            return;
         if (bss.Data.ChatGptKey is null or "" || bss.Data.ChatGptChannel is 0)
             return;
         if (args.Author.IsBot)
