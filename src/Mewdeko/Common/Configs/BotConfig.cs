@@ -29,6 +29,8 @@ public sealed class BotConfig
         SupportServer = "https://discord.gg/mewdeko";
         RedirectUrl = "https://mewdeko.tech/auth.html";
         YoutubeSupport = true;
+        ChatGptInitPrompt =
+            "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by SylveonDeko#0001";
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -104,6 +106,9 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment("ChatGPT Channel ID")]
     public ulong ChatGptChannel { get; set; }
+
+    [Comment("ChatGPT Init Prompt. Used to set how chatgpt will act.")]
+    public string ChatGptInitPrompt { get; set; }
 
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
