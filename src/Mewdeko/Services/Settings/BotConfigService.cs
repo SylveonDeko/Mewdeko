@@ -32,9 +32,10 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("youtubesupport", bs => bs.YoutubeSupport, bool.TryParse, ConfigPrinters.ToString);
         AddParsedProp("chatgptkey", bs => bs.ChatGptKey, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("chatgptchannel", bs => bs.ChatGptChannel, ulong.TryParse, ConfigPrinters.ToString);
+        AddParsedProp("chatgptinitprompt", bs => bs.ChatGptInitPrompt, ConfigParsers.String, ConfigPrinters.ToString);
 
         UpdateColors();
-    }   
+    }
 
     public override string Name { get; } = "bot";
 
