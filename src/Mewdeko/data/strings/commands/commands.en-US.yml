@@ -22,6 +22,10 @@ setstatusroleembed:
     - 1 embedcode
     - 1
   desc: Preview or set embed code for a statusrole.
+masskick:
+    args:
+        - "@user1 @user2 \"User with spaces\"
+    desc: "Kicks the mentioned users."
 setstatusrolechannel:
   args:
     - channel

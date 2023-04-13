@@ -82,6 +82,47 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    public async Task Banner(string avType, ulong userId)
+    {
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var guildUser = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, userId);
+        var user = await client.Rest.GetUserAsync(userId);
+        switch (avType)
+        {
+            case "real":
+                var avatarUrl = user.GetAvatarUrl(size: 2048);
+                var componentbuilder = new ComponentBuilder().WithButton("Guild Banner", $"bannertype:guild,{userId}");
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Real Banneer Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                    .WithImageUrl(avatarUrl);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = eb.Build();
+                    x.Components = componentbuilder.Build();
+                });
+                break;
+            case "guild":
+                var avatarUrlGuild = guildUser.GetBannerUrl(size: 2048);
+                var componentbuilderGuild = new ComponentBuilder().WithButton("Real Banner", $"bannertype:real,{userId}");
+                var ebGuild = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Guild Banner Url").WithValue($"[Link]({avatarUrlGuild})").WithIsInline(true))
+                    .WithImageUrl(avatarUrlGuild);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = ebGuild.Build();
+                    x.Components = componentbuilderGuild.Build();
+                });
+                break;
+        }
+    }
+
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]
     public async Task Say([Summary("SendTo", "The channel to send to. Defaults to the current channel.")] ITextChannel channel = null)
     {
