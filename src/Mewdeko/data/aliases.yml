@@ -15,6 +15,9 @@ exportcommandsjson:
   - exportcommandsjson
   - exportcommands
   - excj
+masskick:
+  - masskick
+  - mkick
 exportrolelist:
   - exportrolelist
   - exportroles

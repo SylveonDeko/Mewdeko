@@ -777,13 +777,13 @@ public partial class Moderation : MewdekoModule
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.KickMembers),
-         BotPerm(GuildPermission.KickMembers), Priority(100000)]
-        public async Task Kick(params IUser[] usersUnp)
+         BotPerm(GuildPermission.KickMembers)]
+        public async Task MassKick(params IUser[] usersUnp)
         {
             var users = usersUnp.Cast<IGuildUser>();
             List<ulong> succ = new(), fail = new();
 
-            var options = new RequestOptions()
+            var options = new RequestOptions
             {
                 AuditLogReason = $"Masskick initiated by {Context.User}"
             };
