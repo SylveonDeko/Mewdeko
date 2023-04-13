@@ -98,7 +98,7 @@ public class RoleCommandsService : INService
         catch (Exception ex)
         {
             var gch = chan.Value as IGuildChannel;
-            Log.Error($"Reaction Role Add failed in {gch.Guild}\n{0}", ex);
+            Log.Error($"Reaction Role Add failed in {gch.Guild}\n{ex}");
         }
     }
 
