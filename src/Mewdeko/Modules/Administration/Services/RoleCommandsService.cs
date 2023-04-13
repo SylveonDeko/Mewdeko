@@ -14,7 +14,7 @@ public class RoleCommandsService : INService
     {
         this.db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Include(x => x.ReactionRoleMessages).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var gc = uow.GuildConfigs.Include(x => x.ReactionRoleMessages).ThenInclude(x => x.ReactionRoles).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         models = gc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
