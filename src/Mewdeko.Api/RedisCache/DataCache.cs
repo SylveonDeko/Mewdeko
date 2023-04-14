@@ -1,11 +1,11 @@
 ﻿using System.Net;
+using Mewdeko.Api.Extensions;
+using Mewdeko.Api.Reimplementations;
 using Mewdeko.Database.Models;
-using Mewdeko.WebApp.Extensions;
-using Mewdeko.WebApp.Reimplementations;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Mewdeko.WebApp.RedisCache;
+namespace Mewdeko.Api.RedisCache;
 
 public class RedisCache
 {

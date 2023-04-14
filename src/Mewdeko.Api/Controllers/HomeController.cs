@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Mewdeko.WebApp.Controllers;
+namespace Mewdeko.Api.Controllers;
 
 public class HomeController : Controller
 {
