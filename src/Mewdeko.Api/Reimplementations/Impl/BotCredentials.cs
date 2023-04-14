@@ -9,7 +9,7 @@ using Serilog;
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
-namespace Mewdeko.WebApp.Reimplementations.Impl;
+namespace Mewdeko.Api.Reimplementations.Impl;
 
 public class BotCredentials : IBotCredentials
 {

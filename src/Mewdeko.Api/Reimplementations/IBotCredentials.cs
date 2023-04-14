@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace Mewdeko.WebApp.Reimplementations;
+namespace Mewdeko.Api.Reimplementations;
 
 public interface IBotCredentials
 {

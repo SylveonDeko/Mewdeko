@@ -1,6 +1,8 @@
+using Mewdeko.Api.RedisCache;
+using Mewdeko.Api.Reimplementations;
+using Mewdeko.Api.Reimplementations.Impl;
+using Mewdeko.Api.Reimplementations.PubSub;
 using Mewdeko.Database;
-using Mewdeko.WebApp.RedisCache;
-using Mewdeko.WebApp.Reimplementations.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 var creds = new BotCredentials();
@@ -10,9 +12,13 @@ var cache = new RedisCache(creds);
 
 builder.Services.AddControllers();
 builder.Services.AddMvc();
+builder.Services.AddSingleton<IBotCredentials>(creds);
 builder.Services.AddSingleton(db);
 builder.Services.AddSingleton(cache);
+builder.Services.AddSingleton(cache.Redis);
 builder.Services.AddDbContext<MewdekoContext>();
+builder.Services.AddTransient<ISeria, JsonSeria>();
+builder.Services.AddTransient<IPubSub, RedisPubSub>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
