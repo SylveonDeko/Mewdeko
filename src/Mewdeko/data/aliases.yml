@@ -22,6 +22,12 @@ exportrolelist:
   - exportrolelist
   - exportroles
   - erl
+banner:
+  - banner
+  - userbanner
+createwebhook:
+  - createwebhook
+  - cwh
 importrolelist:
   - importrolelist
   - importroles

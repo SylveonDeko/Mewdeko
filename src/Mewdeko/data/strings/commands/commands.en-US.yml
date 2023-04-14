@@ -26,6 +26,14 @@ masskick:
     args:
         - "@user1 @user2 \"User with spaces"
     desc: "Kicks the mentioned users."
+banner:
+    args:
+        - "@user1"
+    desc: "Gets the banner of the mentioned user. If no user is mentioned, it gets the banner of the author. Does not get guild banners because discord sucks."
+createwebhook:
+    args:
+        - "channel name avatar"
+    desc: "Creates a webhook in the mentioned channel. Avatar can be a url or an attachment."
 setstatusrolechannel:
   args:
     - channel
