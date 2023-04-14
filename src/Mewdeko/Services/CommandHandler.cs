@@ -355,10 +355,9 @@ public class CommandHandler : INService
             }
         }
 
-        // filter webhook interactions
-        // if (interaction is IComponentInteraction compInter
-        //     && compInter.Message.Author.IsWebhook
-        //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
+        if (interaction is IComponentInteraction compInter
+            && compInter.Message.Author.IsWebhook
+            && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
         var ctx = new SocketInteractionContext(client, interaction);
         var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);

@@ -113,18 +113,12 @@ See RotatingStatuses submodule in Administration.")]
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
 
+    [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
+    public string ChatGptWebhook { get; set; }
+
     [Comment(@"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
-    //         [Comment(@"Whether the prefix will be a suffix, or prefix.
-    // For example, if your prefix is ! you will run a command called 'cash' by typing either
-    // '!cash @Someone' if your prefixIsSuffix: false or
-    // 'cash @Someone!' if your prefixIsSuffix: true")]
-    //         public bool PrefixIsSuffix { get; set; }
-
-    // public string Prefixed(string text) => PrefixIsSuffix
-    //     ? text + Prefix
-    //     : Prefix + text;
     [Comment("Used to set the error emote used across the bot.")]
     public string ErrorEmote { get; set; }
 
