@@ -144,7 +144,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 try
                 {
                     var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
-                    var msg = await webhook.SendMessageAsync(args.Content);
+                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
                     var response = await conversation.GetResponseFromChatbotAsync();
                     await webhook.ModifyMessageAsync(msg, properties =>
                     {
@@ -190,7 +190,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
                 {
                     var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
-                    var msg = await webhook.SendMessageAsync(args.Content);
+                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
                     var response = await conversation.GetResponseFromChatbotAsync();
                     await webhook.ModifyMessageAsync(msg, properties =>
                     {
