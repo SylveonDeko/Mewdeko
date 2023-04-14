@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Commands" Version="3.9.0-build-20230302.10" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.9.0-build-20230302.10" />
+    <PackageReference Include="Discord.Net.Commands" Version="3.10.0" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.10.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0-preview-20221221-03" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.1.23111.4" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0-alpha.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0-preview-20230223-05" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2" />
   </ItemGroup>
 
   <ItemGroup>

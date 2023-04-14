@@ -3,7 +3,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Mewdeko.WebApp.Controllers;
+namespace Mewdeko.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
