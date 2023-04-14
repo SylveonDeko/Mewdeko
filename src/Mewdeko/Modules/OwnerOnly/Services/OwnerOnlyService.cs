@@ -191,7 +191,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 {
                     var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
                     var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
-                    var response = await conversation.GetResponseFromChatbotAsync();
+                    var response = await chat.GetResponseFromChatbotAsync();
                     await webhook.ModifyMessageAsync(msg, properties =>
                     {
                         properties.Embeds = new[]
@@ -208,7 +208,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 else
                 {
                     var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
-                    var response = await conversation.GetResponseFromChatbotAsync();
+                    var response = await chat.GetResponseFromChatbotAsync();
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(response)
