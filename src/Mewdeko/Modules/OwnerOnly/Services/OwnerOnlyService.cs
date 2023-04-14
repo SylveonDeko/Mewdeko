@@ -184,6 +184,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 MaxTokens = 1000, Temperature = 0.9,
             });
             chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
+            chat.AppendSystemMessage($"The users name is {args.Author.Username}.");
             try
             {
                 conversations.TryAdd(args.Author.Id, chat);
