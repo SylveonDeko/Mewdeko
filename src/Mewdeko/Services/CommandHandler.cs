@@ -354,10 +354,10 @@ public class CommandHandler : INService
                 return;
             }
         }
-
-        if (interaction is IComponentInteraction compInter
-            && compInter.Message.Author.IsWebhook
-            && !compInter.Data.CustomId.StartsWith("trigger.")) return;
+        // i hate discord
+        // if (interaction is IComponentInteraction compInter
+        //     && compInter.Message.Author.IsWebhook
+        //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
         var ctx = new SocketInteractionContext(client, interaction);
         var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
