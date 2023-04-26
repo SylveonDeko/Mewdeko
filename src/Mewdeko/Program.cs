@@ -24,6 +24,7 @@ if (args.Length > 0)
         }
     }
 }
+
 LogSetup.SetupLogger(shardId);
 var credentials = new BotCredentials();
 if (string.IsNullOrEmpty(credentials.Token))
@@ -32,29 +33,26 @@ if (string.IsNullOrEmpty(credentials.Token))
     return;
 }
 
+var tokenPart = credentials.Token.Split(".")[0];
+var paddingNeeded = 28 - tokenPart.Length;
+if (paddingNeeded > 0 && tokenPart.Length % 4 != 0)
+{
+    tokenPart = tokenPart.PadRight(28, '=');
+}
+
+var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
+
 if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
 {
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
     var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/970711443672543252/Mewdeko.db");
     var client = new HttpClient();
     var response = await client.GetAsync(uri).ConfigureAwait(false);
     var fs = new FileStream(
-        Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db"),
+        dbPath,
         FileMode.CreateNew);
     await using var _ = fs.ConfigureAwait(false);
     await response.Content.CopyToAsync(fs).ConfigureAwait(false);
-}
-else
-{
-    Log.Information("Attempting to migrate database to a less annoying place...");
-    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
-    var tokenPart = credentials.Token.Split(".")[0];
-    var paddingNeeded = 28 - tokenPart.Length;
-    if (paddingNeeded > 0 && tokenPart.Length % 4 != 0)
-    {
-        tokenPart = tokenPart.PadRight(28, '=');
-    }
-
-    var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
     if (Environment.OSVersion.Platform == PlatformID.Unix)
     {
         var folderpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -64,7 +62,115 @@ else
             {
                 if (File.Exists(folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db"))
                 {
+                    Log.Information("Mewdeko db already exists!");
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}/data");
+                    File.Copy(dbPath, folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db");
+                    try
+                    {
+                        File.Copy(dbPath + "-wal", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                        File.Copy(dbPath + "-shm", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                    }
+                    catch
+                    {
+                        // ignored, used if the bot didnt shutdown properly and left behind db files
+                    }
+
+                    Log.Information("Mewdeko folder created!");
+                    Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}/data");
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(folderpath + $"/.local/share/Mewdeko/{clientId}/data");
+                File.Copy(dbPath, folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db");
+                try
+                {
+                    File.Copy(dbPath + "-wal", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                    File.Copy(dbPath + "-shm", folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                }
+                catch
+                {
+                    // ignored, used if the bot didnt shutdown properly and left behind db files
+                }
+
+                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}/data");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Failed to create Mewdeko folder! The application may be missing permissions!");
+            Console.Read();
+        }
+    }
+    else
+    {
+        var folderpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        try
+        {
+            if (Directory.Exists(folderpath + "/Mewdeko"))
+            {
+                if (File.Exists(folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db"))
+                {
                     Log.Information("Mewdeko folder already exists!");
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderpath + $"/Mewdeko/{clientId}/data");
+                    File.Copy(dbPath, folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db");
+                    try
+                    {
+                        File.Copy(dbPath + "-wal", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                        File.Copy(dbPath + "-shm", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                    }
+                    catch
+                    {
+                        // ignored, used if the bot didnt shutdown properly and left behind db files
+                    }
+
+                    Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(folderpath + $"/Mewdeko/{clientId}/data");
+                File.Copy(dbPath, folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db");
+                try
+                {
+                    File.Copy(dbPath + "-wal", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-wal");
+                    File.Copy(dbPath + "-shm", folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db-shm");
+                }
+                catch
+                {
+                    // ignored, used if the bot didnt shutdown properly and left behind db files
+                }
+
+                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Failed to create Mewdeko folder! The application may be missing permissions!");
+            Console.Read();
+        }
+    }
+}
+else
+{
+    Log.Information("Attempting to migrate database to a less annoying place...");
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
+    if (Environment.OSVersion.Platform == PlatformID.Unix)
+    {
+        var folderpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        try
+        {
+            if (Directory.Exists(folderpath + "/.local/share/Mewdeko"))
+            {
+                if (File.Exists(folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db"))
+                {
+                    Log.Information("Mewdeko db already exists!");
                 }
                 else
                 {
