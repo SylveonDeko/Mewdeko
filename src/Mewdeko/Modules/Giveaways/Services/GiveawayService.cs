@@ -85,7 +85,8 @@ public class GiveawayService : INService, IReadyExecutor
                 Item = i.Item,
                 ServerId = i.ServerId,
                 UserId = i.UserId,
-                Winners = i.Winners
+                Winners = i.Winners,
+                Emote = i.Emote
             };
             uow.Giveaways.Remove(i);
             uow.Giveaways.Add(toupdate);
@@ -199,10 +200,23 @@ public class GiveawayService : INService, IReadyExecutor
         if (emote.Name == null)
         {
             await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
+            return;
         }
 
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
-        if (reacts.Count() - 1 <= r.Winners)
+        if (!reacts.Any())
+        {
+            var emoteTest = await GetGiveawayEmote(guild.Id);
+            var emoteTest2 = emoteTest.ToIEmote();
+            if (emoteTest2.Name == null)
+            {
+                await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
+                return;
+            }
+
+            reacts = await ch.GetReactionUsersAsync(emoteTest.ToIEmote(), 999999).FlattenAsync().ConfigureAwait(false);
+        }
+        if (reacts.Count(x => !x.IsBot) - 1 < r.Winners)
         {
             var eb = new EmbedBuilder
             {
@@ -217,7 +231,7 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (r.Winners == 1)
             {
-                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).Where(x => x is not null).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -233,12 +247,13 @@ public class GiveawayService : INService, IReadyExecutor
                     {
                         if (parsedreqs.Count > 0)
                         {
-                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Any() && x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                 .ToList();
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Log.Error(e.ToString());
                         return;
                     }
                 }
@@ -271,12 +286,11 @@ public class GiveawayService : INService, IReadyExecutor
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).Where(x => x is not null).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
-                    Console.Write(split.Length);
                     foreach (var i in split)
                     {
                         if (ulong.TryParse(i, out var parsed))
@@ -319,7 +333,7 @@ public class GiveawayService : INService, IReadyExecutor
                     await ch.Channel.SendMessageAsync(
                         $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
                         embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                            .Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.Users)).ConfigureAwait(false);
+                            .Build()).ConfigureAwait(false);
                 }
 
                 r.Ended = 1;
@@ -356,9 +370,22 @@ public class GiveawayService : INService, IReadyExecutor
         if (emote.Name == null)
         {
             await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
+            return;
         }
 
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync().ConfigureAwait(false);
+        if (!reacts.Any())
+        {
+            var emoteTest = await GetGiveawayEmote(guild.Id);
+            var emoteTest2 = emoteTest.ToIEmote();
+            if (emoteTest2.Name == null)
+            {
+                await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!").ConfigureAwait(false);
+                return;
+            }
+
+            reacts = await ch.GetReactionUsersAsync(emoteTest.ToIEmote(), 999999).FlattenAsync().ConfigureAwait(false);
+        }
         if (reacts.Count(x => !x.IsBot) - 1 < r.Winners)
         {
             var eb = new EmbedBuilder
@@ -374,7 +401,7 @@ public class GiveawayService : INService, IReadyExecutor
         {
             if (r.Winners == 1)
             {
-                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).Where(x => x is not null).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -390,12 +417,13 @@ public class GiveawayService : INService, IReadyExecutor
                     {
                         if (parsedreqs.Count > 0)
                         {
-                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Any() && x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                 .ToList();
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Log.Error(e.ToString());
                         return;
                     }
                 }
@@ -428,7 +456,7 @@ public class GiveawayService : INService, IReadyExecutor
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).Where(x => x is not null).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
