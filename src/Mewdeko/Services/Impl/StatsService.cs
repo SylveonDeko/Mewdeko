@@ -87,7 +87,7 @@ public class StatsService : IStatsService
                             "shard_id", Client.ShardId.ToString()
                         },
                         {
-                            "server_count", (Coord.GetGuildCount() / Creds.TotalShards).ToString()
+                            "server_count", (Coord.GetGuildCount()).ToString()
                         }
                     });
                 content.Headers.Clear();
