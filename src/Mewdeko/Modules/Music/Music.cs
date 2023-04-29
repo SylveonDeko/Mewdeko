@@ -841,7 +841,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
         IEnumerable<LavalinkTrack> searchResponse2;
        if (config.Data.YoutubeSupport)
-           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery)
+           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, SearchMode.YouTube)
                .ConfigureAwait(false);
        else
            searchResponse2 = await lavaNode.GetTracksAsync(searchQuery,SearchMode.SoundCloud)
