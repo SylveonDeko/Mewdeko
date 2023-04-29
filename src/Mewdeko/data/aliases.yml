@@ -18,6 +18,24 @@ exportcommandsjson:
 masskick:
   - masskick
   - mkick
+dehoist:
+  - dehoist
+sanitize:
+  - sanitize
+dehoistall:
+  - dehoistall
+  - dehoista
+sanitizeall:
+    - sanitizeall
+    - sanitizea
+massnickprogress:
+    - massnickprogress
+    - mnickprogress
+    - mnp
+massnickstop:
+    - massnickstop
+    - mnstop
+    - mns
 exportrolelist:
   - exportrolelist
   - exportroles

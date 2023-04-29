@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+
+using System.Threading;
 using CommandLine;
 using Discord.Commands;
 using Fergun.Interactive;
@@ -7,10 +8,13 @@ using Humanizer;
 using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.Settings;
 using NekosBestApiNet;
 using Serilog;
 using Swan;
+using UserExtensions = Mewdeko.Extensions.UserExtensions;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -29,15 +33,205 @@ public partial class Moderation : MewdekoModule
 
         private readonly DbService db;
         private readonly NekosBestApi nekos;
+        private readonly BotConfigService config;
 
         public UserPunishCommands(MuteService mute, DbService db,
             InteractiveService serv,
-            NekosBestApi nekos)
+            NekosBestApi nekos, BotConfigService config)
         {
             interactivity = serv;
             this.nekos = nekos;
+            this.config = config;
             this.mute = mute;
             this.db = db;
+        }
+
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task MassNickProgress()
+        {
+            var massNick = Service.GetMassNick(ctx.Guild.Id);
+            if (massNick is null)
+            {
+                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.");
+            }
+            else
+            {
+                var eb = new EmbedBuilder()
+                    .WithTitle($"{massNick.OperationType} Progress")
+                    .WithDescription($"`Started By:` {massNick.StartedBy.Mention} | {massNick.StartedBy.Id}" +
+                                     $"\n`Total:` {massNick.Total}" +
+                                     $"\n`Changed:` {massNick.Changed}" +
+                                     $"\n`Failed:` {massNick.Failed}" +
+                                     $"\n`Started At:` {TimestampTag.FromDateTime(massNick.StartedAt)}");
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task MassNickStop()
+        {
+            var massNick = Service.GetMassNick(ctx.Guild.Id);
+            if (massNick is null)
+            {
+                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.");
+            }
+            else
+            {
+                Service.UpdateMassNick(ctx.Guild.Id, false, false, true);
+                await ctx.Channel.SendConfirmAsync($"{config.Data.SuccessEmote} Stopping mass nick.");
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.Administrator)]
+        public async Task DehoistAll(bool onlyDehoistNicks = false)
+        {
+            var dehoistedUsers = new Dictionary<IGuildUser, string>();
+            var users = (await ctx.Guild.GetUsersAsync()).ToList();
+            Parallel.ForEach(users, user =>
+            {
+                var newNickname = onlyDehoistNicks ? UserExtensions.ReplaceSpecialChars(user.Nickname) : UserExtensions.ReplaceSpecialChars(user.Username);
+                if (onlyDehoistNicks)
+                {
+                    if (newNickname != user.Nickname)
+                        dehoistedUsers.Add(user, newNickname);
+                }
+                else
+                {
+                    if (newNickname != user.Username && user.Nickname != newNickname)
+                        dehoistedUsers.Add(user, newNickname);
+
+                }
+            });
+
+            if (!await PromptUserConfirmAsync($"Are you sure you want to sanitize {dehoistedUsers.Count} users?", ctx.User.Id))
+                return;
+
+            if (!dehoistedUsers.Any())
+            {
+                await ctx.Channel.SendErrorAsync("There are no users to dehoist.");
+                return;
+            }
+
+            if (Service.AddMassNick(ctx.Guild.Id, ctx.User, dehoistedUsers.Count, "Dehoist", out var massNick))
+            {
+                await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Dehoisting {dehoistedUsers.Count} users. This may take a while.");
+                foreach (var user in dehoistedUsers)
+                {
+                    massNick = Service.GetMassNick(ctx.Guild.Id);
+                    if (massNick.Stopped)
+                        continue;
+                    try
+                    {
+                        await user.Key.ModifyAsync(u => u.Nickname = user.Value);
+                        Service.UpdateMassNick(ctx.Guild.Id, false, true);
+                    }
+                    catch
+                    {
+                        Service.UpdateMassNick(ctx.Guild.Id, true, false);
+                    }
+                }
+
+                if (massNick.Stopped)
+                {
+                    await ctx.Channel.SendConfirmAsync($"{config.Data.ErrorEmote} Dehoisting operation stopped.\nDehoisted {massNick.Changed} users.\nFailed to dehoist {massNick.Failed} users.");
+                    Service.RemoveMassNick(ctx.Guild.Id);
+                }
+                else
+                {
+                    await ctx.Channel.SendConfirmAsync($"{config.Data.SuccessEmote} Dehoisting operation completed.\n Dehoisted {massNick.Changed} users.\nFailed to dehoist {massNick.Failed} users.");
+                    Service.RemoveMassNick(ctx.Guild.Id);
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendConfirmAsync($"{config.Data.ErrorEmote} There is already a mass nickname operation running.");
+            }
+
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.Administrator)]
+        public async Task SanitizeAll()
+        {
+            var sanitizedUsers = new ConcurrentDictionary<IGuildUser, string>();
+            var users = (await ctx.Guild.GetUsersAsync()).ToList();
+            Parallel.ForEach(users, user=>
+            {
+                var newNickname = user.SanitizeUserName();
+                if (newNickname != user.Username && user.Nickname != newNickname)
+                    sanitizedUsers.TryAdd(user, newNickname);
+            });
+            if (!await PromptUserConfirmAsync($"Are you sure you want to sanitize {sanitizedUsers.Count} users?", ctx.User.Id))
+                return;
+            if (!sanitizedUsers.Any())
+            {
+                await ctx.Channel.SendErrorAsync("There are no users to sanitize.");
+                return;
+            }
+
+            if (Service.AddMassNick(ctx.Guild.Id, ctx.User, sanitizedUsers.Count, "Sanitize", out var massNick))
+            {
+                await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Sanitizing {sanitizedUsers.Count} users. This may take a while.");
+                foreach (var user in sanitizedUsers)
+                {
+                    massNick = Service.GetMassNick(ctx.Guild.Id);
+                    if (massNick.Stopped)
+                        continue;
+                    try
+                    {
+                        await user.Key.ModifyAsync(u => u.Nickname = user.Value);
+                        Service.UpdateMassNick(ctx.Guild.Id, false, true);
+                    }
+                    catch
+                    {
+                        Service.UpdateMassNick(ctx.Guild.Id, true, false);
+                    }
+                }
+
+                if (massNick.Stopped)
+                {
+                    await ctx.Channel.SendConfirmAsync($"{config.Data.ErrorEmote} Sanitizing operation stopped.\nSanitized {massNick.Changed} users.\nFailed to santize {massNick.Failed} users.");
+                    Service.RemoveMassNick(ctx.Guild.Id);
+                }
+                else
+                {
+                    await ctx.Channel.SendConfirmAsync($"{config.Data.SuccessEmote} Sanitizing operation completed.\nSanitized {massNick.Changed} users.\nFailed to sanitize {massNick.Failed} users.");
+                    Service.RemoveMassNick(ctx.Guild.Id);
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendConfirmAsync($"{config.Data.ErrorEmote} There is already a mass nickname operation running.");
+            }
+
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ManageNicknames)]
+        public async Task Dehoist(IGuildUser user)
+        {
+
+            if (user.Nickname != null && user.Nickname[0] < 'A')
+            {
+                var newNickname = Extensions.UserExtensions.ReplaceSpecialChars(user.Nickname);
+                await user.ModifyAsync(u => u.Nickname = newNickname);
+                await ctx.Channel.SendConfirmAsync($"User {user.Mention} has been dehoisted. Their new nickname is: `{newNickname}`");
+            }
+            else
+            {
+                var newNickname = Extensions.UserExtensions.ReplaceSpecialChars(user.Username);
+                await user.ModifyAsync(u => u.Nickname = newNickname);
+                await ctx.Channel.SendConfirmAsync($"{config.Data.SuccessEmote} User {user.Mention} has been dehoisted. Their new nickname is: `{newNickname}`");
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ManageNicknames)]
+        public async Task Sanitize(IGuildUser user)
+        {
+            var newName = user.SanitizeUserName();
+            await user.ModifyAsync(u => u.Nickname = newName);
+            await ctx.Channel.SendConfirmAsync($"{config.Data.SuccessEmote} User {user.Mention} has been sanitized. Their new nickname is: `{newName}`");
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
