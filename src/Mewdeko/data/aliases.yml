@@ -930,7 +930,6 @@ logignore:
   - logignore
 loop:
   - loop
-  - repeat
   - queuerepeat
   - qrp
   - rpl
