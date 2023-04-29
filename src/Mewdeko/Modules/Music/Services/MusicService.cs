@@ -148,7 +148,7 @@ public class    MusicService : INService
                         if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                             return;
                         var lavaTrack = await lavaNode.GetTrackAsync(
-                                $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube)
+                                $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                             .ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
@@ -209,7 +209,7 @@ public class    MusicService : INService
                         if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                             return;
                         var lavaTrack = await lavaNode.GetTrackAsync(
-                                $"{track.Name} {track.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube)
+                                $"{track.Name} {track.Artists.FirstOrDefault()?.Name}", !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                             .ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
@@ -256,7 +256,7 @@ public class    MusicService : INService
                 }
 
                 var lavaTrack3 = await lavaNode.GetTrackAsync(
-                        $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}", client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube)
+                        $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}", !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                     .ConfigureAwait(false);
                 if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                     return;
