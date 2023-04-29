@@ -768,8 +768,13 @@ public class Music : MewdekoModuleBase<MusicService>
 
                 if (ctx.Message.Attachments.IsValidAttachment())
                     searchQuery = ctx.Message.Attachments.FirstOrDefault()?.Url;
-                var searchResponse = await lavaNode.LoadTracksAsync(searchQuery, client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.None)
-                    .ConfigureAwait(false);
+                TrackLoadResponsePayload searchResponse;
+                if (config.Data.YoutubeSupport)
+                    searchResponse = await lavaNode.LoadTracksAsync(searchQuery)
+                        .ConfigureAwait(false);
+                else
+                    searchResponse = await lavaNode.LoadTracksAsync(searchQuery,SearchMode.SoundCloud)
+                        .ConfigureAwait(false);
                 var platform = Platform.Youtube;
                 if (client.CurrentUser.Id == 752236274261426212)
                     platform = Platform.Soundcloud;
@@ -834,8 +839,13 @@ public class Music : MewdekoModuleBase<MusicService>
             return;
         }
 
-        var searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube)
-            .ConfigureAwait(false);
+        IEnumerable<LavalinkTrack> searchResponse2;
+       if (config.Data.YoutubeSupport)
+           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery)
+               .ConfigureAwait(false);
+       else
+           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery,SearchMode.SoundCloud)
+                .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {
             await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.").ConfigureAwait(false);
