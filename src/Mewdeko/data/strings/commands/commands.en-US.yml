@@ -17,6 +17,31 @@ exportrolelist:
   args:
     - ""
   desc: "Exports a list of roles to a file that can be imported with the importrolelist command"
+sanitize:
+  args:
+    - "@user"
+  desc: "Removes unmentionable characters from a user's name"
+dehoist:
+    args:
+        - "@user"
+    desc: "Removes hoisting characters from a user's name"
+sanitizeall:
+  args:
+    - ""
+  desc: "Removes unmentionable characters from all users in the server"
+dehoistall:
+    args:
+        - ""
+        - "true"
+    desc: "Removes hoisting characters from all users in the server. Add true to only dehoist nicknames."
+massnickprogress:
+    args:
+        - ""
+    desc: "Shows the progress of either the sanitizeall or dehoistall command"
+massnickstop:
+    args:
+        - ""
+    desc: "Stops the sanitizeall or dehoistall command"
 setstatusroleembed:
   args:
     - 1 embedcode
