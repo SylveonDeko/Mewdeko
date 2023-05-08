@@ -12,8 +12,6 @@ src/Mewdeko/credentials.json
 Mewdeko.Core/credentials.json
 Mewdeko.Core/credentials_example.json
 
-src/Mewdeko/data/Mewdeko.db
-
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,windows,linux,macos
 
 ### VisualStudioCode ###
