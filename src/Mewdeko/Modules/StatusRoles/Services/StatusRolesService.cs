@@ -58,6 +58,8 @@ public class StatusRolesService : INService, IReadyExecutor
             foreach (var i in statusRolesConfigs)
             {
                 var guild = client.GetGuild(i.GuildId) as IGuild;
+                if (guild is null)
+                    continue;
                 var curUser = await guild.GetUserAsync(args.Id);
                 if (curUser is null)
                     continue;
