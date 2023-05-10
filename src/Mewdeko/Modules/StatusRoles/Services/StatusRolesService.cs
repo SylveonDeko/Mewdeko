@@ -8,7 +8,7 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly List<ulong> proccesingUserCache = new List<ulong>();
+    private readonly HashSet<ulong> proccesingUserCache = new();
 
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
@@ -33,9 +33,15 @@ public class StatusRolesService : INService, IReadyExecutor
             if (proccesingUserCache.Contains(args.Id))
                 return;
             proccesingUserCache.Add(args.Id);
-            var beforeStatus = args2.Activities?.FirstOrDefault() as CustomStatusGame;
+            var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
             if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status) return;
-            if (!await cache.SetUserStatusCache(args.Id, status.State.GetHashCode()))
+            if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
+            {
+                proccesingUserCache.Remove(args.Id);
+                return;
+            }
+
+            if (!await cache.SetUserStatusCache(args.Id, status.State?.GetHashCode() is null ? 0 : status.State.GetHashCode()))
             {
                 proccesingUserCache.Remove(args.Id);
                 return;
@@ -43,6 +49,12 @@ public class StatusRolesService : INService, IReadyExecutor
 
             await using var uow = db.GetDbContext();
             var statusRolesConfigs = await cache.GetStatusRoleCache();
+            if (statusRolesConfigs is null || !statusRolesConfigs.Any())
+            {
+                proccesingUserCache.Remove(args.Id);
+                return;
+            }
+
             foreach (var i in statusRolesConfigs)
             {
                 var guild = client.GetGuild(i.GuildId) as IGuild;
@@ -53,8 +65,7 @@ public class StatusRolesService : INService, IReadyExecutor
                     toAdd = i.ToAdd.Split(" ").Select(ulong.Parse).ToList();
                 if (!string.IsNullOrWhiteSpace(i.ToRemove))
                     toRemove = i.ToRemove.Split(" ").Select(ulong.Parse).ToList();
-
-                if (!status.State.Contains(i.Status))
+                if (status.State is null || !status.State.Contains(i.Status))
                 {
                     if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
                     {
@@ -163,9 +174,14 @@ public class StatusRolesService : INService, IReadyExecutor
         }
         catch (Exception e)
         {
-            #if DEBUG
-            Log.Error("Error in StatusRolesService\n{Exception}", e);
-            #endif
+#if DEBUG
+            var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
+            Log.Error("Error in StatusRolesService. After Status: {status} args: {args2} args2: {args3}\n{Exception}", status.State, args2, args3, e);
+#endif
+        }
+        finally
+        {
+            proccesingUserCache.Remove(args.Id);
         }
     }
 
@@ -190,7 +206,6 @@ public class StatusRolesService : INService, IReadyExecutor
         var status = uow.StatusRoles.FirstOrDefault(x => x.Id == index);
         if (status is null)
             return;
-        var getCache = await cache.GetStatusRoleCache();
         uow.StatusRoles.Remove(status);
         await uow.SaveChangesAsync();
         await cache.SetStatusRoleCache(uow.StatusRoles.ToList());

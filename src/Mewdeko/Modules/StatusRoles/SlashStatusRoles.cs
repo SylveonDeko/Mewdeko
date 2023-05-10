@@ -105,7 +105,7 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
-    [SlashCommand("set-aadd-roles","Sets the roles to add when a user has the selected status"), SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("set-add-roles","Sets the roles to add when a user has the selected status"), SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task SetAddRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
     {
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToAdd))
