@@ -18,6 +18,49 @@ exportcommandsjson:
 masskick:
   - masskick
   - mkick
+removestatusrole:
+  - removestatusrole
+  - rsr
+togglerolestates:
+  - togglerolestates
+  - trs
+togglerolestatesignorebots:
+  - togglerolestatesignorebots
+  - trsib
+togglerolestatesclearonban:
+  - togglerolestatesclearonban
+  - trscob
+viewrolestatessettings:
+  - viewrolestatessettings
+  - vrss
+rolestatesadddenyrole:
+  - rolestatesadddenyrole
+  - rsadr
+rolestatesremovedenyrole:
+  - rolestatesremovedenyrole
+  - rsrra
+rolestatesadddenyuser:
+  - rolestatesadddenyuser
+  - rsadu
+rolestatesremovedenyuser:
+  - rolestatesremoveadduser
+  - rsrau
+setuserrolestate:
+  - setuserrolestate
+  - surs
+removerolesfromrolestate:
+  - removerolesfromrolestate
+  - rrfrs
+addrolestorolestate:
+  - addrolestorolestate
+  - arsrs
+deleteuserrolestate:
+  - deleteuserrolestate
+  - dur
+viewuserrolestates:
+  - viewrolestates
+  - viewuserrolestates
+  - vurs
 dehoist:
   - dehoist
 sanitize:

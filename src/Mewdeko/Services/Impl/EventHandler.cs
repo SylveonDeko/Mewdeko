@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Services.Impl;
+﻿namespace Mewdeko.Services.Impl;
 
 public class EventHandler
 {

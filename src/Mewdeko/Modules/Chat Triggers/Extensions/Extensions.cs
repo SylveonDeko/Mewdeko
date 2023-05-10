@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Html.Dom;
 

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common.TypeReaders.Models;
 
 namespace Mewdeko.Common.TypeReaders;

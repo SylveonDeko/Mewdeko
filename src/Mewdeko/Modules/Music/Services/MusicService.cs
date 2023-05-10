@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Lavalink4NET;
 using Lavalink4NET.Player;
 using Lavalink4NET.Rest;

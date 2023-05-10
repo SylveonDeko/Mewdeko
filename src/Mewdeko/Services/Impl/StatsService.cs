@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;

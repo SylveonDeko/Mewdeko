@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Common.ModuleBehaviors;
+﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;

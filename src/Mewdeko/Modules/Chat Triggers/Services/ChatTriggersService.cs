@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;

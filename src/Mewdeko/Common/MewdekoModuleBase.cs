@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Services.strings;
 

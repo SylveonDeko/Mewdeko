@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 using Mewdeko.Modules.Gambling.Connect4;

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord.Interactions;
 
 namespace Mewdeko.Common.Autocompleters;

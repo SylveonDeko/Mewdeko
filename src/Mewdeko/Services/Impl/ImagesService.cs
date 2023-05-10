@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
 using Serilog;
@@ -170,9 +169,9 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         {
             return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch
         {
-            Log.Warning(ex, "Image url you provided is not a valid image: {Uri}", uri.ToString());
+            Log.Warning("Image url you provided is not a valid image: {Uri}", uri.ToString());
             return null;
         }
     }

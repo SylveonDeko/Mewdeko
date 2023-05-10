@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Net;
+﻿using Discord.Net;
 using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Modules.Administration.Services;

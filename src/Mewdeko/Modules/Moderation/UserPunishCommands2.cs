@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CommandLine;
 using Discord.Commands;
 using Fergun.Interactive;

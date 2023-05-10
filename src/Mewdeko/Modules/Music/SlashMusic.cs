@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;

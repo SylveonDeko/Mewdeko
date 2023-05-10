@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Serilog;
+﻿using Serilog;
 using StackExchange.Redis;
 
 namespace Mewdeko.Common.PubSub;

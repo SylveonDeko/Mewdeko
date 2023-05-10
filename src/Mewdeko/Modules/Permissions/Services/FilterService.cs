@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord.Net;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
