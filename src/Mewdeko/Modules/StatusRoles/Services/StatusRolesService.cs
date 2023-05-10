@@ -163,7 +163,9 @@ public class StatusRolesService : INService, IReadyExecutor
         }
         catch (Exception e)
         {
+            #if DEBUG
             Log.Error("Error in StatusRolesService\n{Exception}", e);
+            #endif
         }
     }
 
