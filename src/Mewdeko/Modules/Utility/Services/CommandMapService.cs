@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Common.ModuleBehaviors;
+﻿using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility.Services;

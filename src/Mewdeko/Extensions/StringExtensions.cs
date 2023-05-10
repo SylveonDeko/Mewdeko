@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
 

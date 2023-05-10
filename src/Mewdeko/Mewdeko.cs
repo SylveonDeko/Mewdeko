@@ -13,6 +13,7 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Common.TypeReaders.Interactions;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Music.Services;
@@ -203,6 +204,10 @@ public class Mewdeko
             new TryParseTypeReader<Emoji>(Emoji.TryParse));
 
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
+        interactionService.AddTypeConverter(typeof(IRole[]), new RoleArrayConverter());
+        interactionService.AddTypeConverter(typeof(IUser[]), new UserArrayConverter());
+        interactionService.AddTypeConverter<StatusRolesTable>(new StatusRolesTypeConverter());
+
         sw.Stop();
         Log.Information($"TypeReaders loaded in {sw.Elapsed.TotalSeconds:F2}s");
         return toReturn;

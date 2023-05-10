@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;

@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
 using Discord.Net;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;

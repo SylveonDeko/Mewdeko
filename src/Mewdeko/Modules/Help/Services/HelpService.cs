@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using CommandLine;
+﻿using CommandLine;
 using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.TextCommands;

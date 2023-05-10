@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Humanizer;
+﻿using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;

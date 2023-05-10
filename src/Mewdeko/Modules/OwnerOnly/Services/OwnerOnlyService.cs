@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +11,6 @@ using OpenAI_API;
 using OpenAI_API.Chat;
 using Serilog;
 using StackExchange.Redis;
-using TwitchLib.Api.Helix;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;

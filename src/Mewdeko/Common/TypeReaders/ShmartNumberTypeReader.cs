@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.Extensions.DependencyInjection;

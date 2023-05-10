@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 
 namespace Mewdeko.Modules.Games.Services;
 

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Services;
@@ -28,13 +27,13 @@ public partial class Games
 
             var poll = PollService.CreatePoll(ctx.Guild.Id,
                 ctx.Channel.Id, arg, type);
-            
+
             if (poll == null)
             {
                 await ReplyErrorLocalizedAsync("poll_invalid_input").ConfigureAwait(false);
                 return;
             }
-            
+
             if (poll.Answers.Count > 25)
             {
                 await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");

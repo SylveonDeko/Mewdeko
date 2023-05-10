@@ -43,6 +43,7 @@
         <PackageReference Include="Discord.Net.Commands" Version="3.10.0" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
         <PackageReference Include="Fergun.Interactive" Version="1.7.1" />
+        <PackageReference Include="Figgle" Version="0.5.1" />
         <PackageReference Include="GScraper" Version="1.1.0" />
         <PackageReference Include="GTranslate" Version="2.1.6" />
         <PackageReference Include="Html2Markdown" Version="5.1.0.703" />
