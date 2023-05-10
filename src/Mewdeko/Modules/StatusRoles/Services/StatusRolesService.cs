@@ -59,6 +59,8 @@ public class StatusRolesService : INService, IReadyExecutor
             {
                 var guild = client.GetGuild(i.GuildId) as IGuild;
                 var curUser = await guild.GetUserAsync(args.Id);
+                if (curUser is null)
+                    continue;
                 var toAdd = new List<ulong>();
                 var toRemove = new List<ulong>();
                 if (!string.IsNullOrWhiteSpace(i.ToAdd))
