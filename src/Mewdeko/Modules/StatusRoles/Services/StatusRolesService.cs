@@ -174,10 +174,8 @@ public class StatusRolesService : INService, IReadyExecutor
         }
         catch (Exception e)
         {
-#if DEBUG
             var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
             Log.Error("Error in StatusRolesService. After Status: {status} args: {args2} args2: {args3}\n{Exception}", status.State, args2, args3, e);
-#endif
         }
         finally
         {
