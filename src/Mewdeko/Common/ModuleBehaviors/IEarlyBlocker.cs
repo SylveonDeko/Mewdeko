@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Common.ModuleBehaviors;
+﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 /// <summary>
 ///     Implemented by modules which block execution before anything is executed

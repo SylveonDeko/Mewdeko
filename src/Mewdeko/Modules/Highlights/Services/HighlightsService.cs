@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
 

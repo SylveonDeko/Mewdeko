@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Modules.Confessions.Services;
 

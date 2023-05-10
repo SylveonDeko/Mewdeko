@@ -1,5 +1,3 @@
-
-using System.Threading;
 using CommandLine;
 using Discord.Commands;
 using Fergun.Interactive;
@@ -8,7 +6,6 @@ using Humanizer;
 using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Settings;
 using NekosBestApiNet;

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;

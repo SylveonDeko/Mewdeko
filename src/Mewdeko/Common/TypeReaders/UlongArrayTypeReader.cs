@@ -1,7 +1,4 @@
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord.Commands;
-using MoreLinq.Extensions;
 
 namespace Mewdeko.Common.TypeReaders;
 

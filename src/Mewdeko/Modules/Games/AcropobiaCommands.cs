@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Common.Acrophobia;

@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.Nsfw.Common.Downloaders;
 using Microsoft.Extensions.Caching.Memory;

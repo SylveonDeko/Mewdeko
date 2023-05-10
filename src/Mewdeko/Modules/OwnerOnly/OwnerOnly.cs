@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Globalization;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;

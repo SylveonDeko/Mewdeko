@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Services;

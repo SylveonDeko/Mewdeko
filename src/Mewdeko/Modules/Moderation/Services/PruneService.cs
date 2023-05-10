@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Common.Collections;
+﻿using Mewdeko.Common.Collections;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

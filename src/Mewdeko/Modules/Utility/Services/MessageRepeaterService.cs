@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Modules.Utility.Common;
+﻿using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

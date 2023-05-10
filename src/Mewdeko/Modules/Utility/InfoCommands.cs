@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.Rest;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Moderation.Services;

@@ -1,4 +1,3 @@
-using CommandLine.Text;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -8,8 +7,6 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling;
 

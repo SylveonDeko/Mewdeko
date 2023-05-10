@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Humanizer;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;

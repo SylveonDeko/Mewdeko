@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;

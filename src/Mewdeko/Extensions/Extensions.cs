@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;

@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Mewdeko.Database.Common;
 
 namespace Mewdeko.Extensions;
