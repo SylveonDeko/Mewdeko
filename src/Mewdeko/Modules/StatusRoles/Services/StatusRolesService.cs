@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
 
@@ -167,7 +168,7 @@ public class StatusRolesService : INService, IReadyExecutor
                 if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
                 {
                     proccesingUserCache.TryRemove(args.Id, out _);
-                    await channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
+                    await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? Array.Empty<Embed>(), components: components?.Build());
                 }
                 else
                 {
