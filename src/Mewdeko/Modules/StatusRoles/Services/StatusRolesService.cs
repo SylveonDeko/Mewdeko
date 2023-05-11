@@ -36,10 +36,11 @@ public class StatusRolesService : INService, IReadyExecutor
             if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status) return;
             if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
             {
+                await cache.RemoveProcessingUser(args.Id);
                 return;
             }
 
-            if (!await cache.SetUserStatusCache(args.Id, status.State?.GetHashCode() is null ? 0 : status.State.GetHashCode()))
+            if (!await cache.SetUserStatusCache(args.Id, status.State?.ToBase64() is null ? "none" : status.State.ToBase64()))
             {
                 await cache.RemoveProcessingUser(args.Id);
                 return;
