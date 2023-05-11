@@ -88,6 +88,7 @@ public class StatusRolesService : INService, IReadyExecutor
                                     catch
                                     {
                                         Log.Error($"Unable to remove added role {role} for {curUser} in {guild} due to permission issues.");
+                                        await Task.Delay(TimeSpan.FromSeconds(3));
                                         await cache.RemoveProcessingUser(args.Id);
                                     }
                                 }
@@ -107,6 +108,7 @@ public class StatusRolesService : INService, IReadyExecutor
                                     catch
                                     {
                                         Log.Error($"Unable to add removed role {role} for {curUser} in {guild} due to permission issues.");
+                                        await Task.Delay(TimeSpan.FromSeconds(3));
                                         await cache.RemoveProcessingUser(args.Id);
                                     }
                                 }
@@ -115,6 +117,7 @@ public class StatusRolesService : INService, IReadyExecutor
                     }
                     else
                     {
+                        await Task.Delay(TimeSpan.FromSeconds(3));
                         await cache.RemoveProcessingUser(args.Id);
                         continue;
                     }
@@ -135,6 +138,7 @@ public class StatusRolesService : INService, IReadyExecutor
                     catch
                     {
                         Log.Error($"Unable to remove statusroles in {guild} due to permission issues.");
+                        await Task.Delay(TimeSpan.FromSeconds(3));
                         await cache.RemoveProcessingUser(args.Id);
                     }
                 }
@@ -148,6 +152,7 @@ public class StatusRolesService : INService, IReadyExecutor
                     catch
                     {
                         Log.Error($"Unable to add statusroles in {guild} due to permission issues.");
+                        await Task.Delay(TimeSpan.FromSeconds(3));
                         await cache.RemoveProcessingUser(args.Id);
                     }
                 }
@@ -156,12 +161,14 @@ public class StatusRolesService : INService, IReadyExecutor
 
                 if (channel is null)
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(3));
                     await cache.RemoveProcessingUser(args.Id);
                     continue;
                 }
 
                 if (string.IsNullOrWhiteSpace(i.StatusEmbed))
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(3));
                     await cache.RemoveProcessingUser(args.Id);
                     continue;
                 }
@@ -176,6 +183,7 @@ public class StatusRolesService : INService, IReadyExecutor
                 {
                     await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
                 }
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 await cache.RemoveProcessingUser(args.Id);
             }
         }
@@ -183,6 +191,7 @@ public class StatusRolesService : INService, IReadyExecutor
         {
             var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
             Log.Error("Error in StatusRolesService. After Status: {status} args: {args2} args2: {args3}\n{Exception}", status.State, args2, args3, e);
+            await Task.Delay(TimeSpan.FromSeconds(6));
             await cache.RemoveProcessingUser(args.Id);
         }
     }
