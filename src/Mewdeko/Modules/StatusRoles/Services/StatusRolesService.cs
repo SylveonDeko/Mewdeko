@@ -30,6 +30,7 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
+            await Task.Delay(TimeSpan.FromSeconds(5));
             if (!await cache.AddProcessingUser(args.Id))
                 return;
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
