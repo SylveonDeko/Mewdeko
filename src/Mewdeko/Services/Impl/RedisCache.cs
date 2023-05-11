@@ -108,20 +108,20 @@ public class RedisCache : IDataCache
         await db.KeyDeleteAsync($"{redisKey}_processingstatus_{id}_{shardId}", flags: CommandFlags.FireAndForget);
     }
 
-    public async Task<bool> SetUserStatusCache(ulong id, int hashCode)
+    public async Task<bool> SetUserStatusCache(ulong id, string base64)
     {
         var db = Redis.GetDatabase();
         var value = await db.StringGetAsync($"{redisKey}:statushash:{id}");
         if (value.HasValue)
         {
-            var returned = JsonConvert.DeserializeObject<int>(value);
-            if (returned == hashCode)
+            var returned = (string)value;
+            if (returned == base64)
                 return false;
-            await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+            await db.StringSetAsync($"{redisKey}:statushash:{id}", base64);
             return true;
         }
 
-        await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+        await db.StringSetAsync($"{redisKey}:statushash:{id}", base64);
         return true;
     }
 
