@@ -8,7 +8,7 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly HashSet<ulong> proccesingUserCache = new();
+    private readonly ConcurrentDictionary<ulong, ulong> proccesingUserCache = new();
 
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
@@ -30,20 +30,20 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
-            if (proccesingUserCache.Contains(args.Id))
+            if (proccesingUserCache.TryGetValue(args.Id, out _))
                 return;
-            proccesingUserCache.Add(args.Id);
+            proccesingUserCache.TryAdd(args.Id, 0);
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
             if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status) return;
             if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
             {
-                proccesingUserCache.Remove(args.Id);
+                proccesingUserCache.TryRemove(args.Id, out _);
                 return;
             }
 
             if (!await cache.SetUserStatusCache(args.Id, status.State?.GetHashCode() is null ? 0 : status.State.GetHashCode()))
             {
-                proccesingUserCache.Remove(args.Id);
+                proccesingUserCache.TryRemove(args.Id, out _);
                 return;
             }
 
@@ -51,7 +51,7 @@ public class StatusRolesService : INService, IReadyExecutor
             var statusRolesConfigs = await cache.GetStatusRoleCache();
             if (statusRolesConfigs is null || !statusRolesConfigs.Any())
             {
-                proccesingUserCache.Remove(args.Id);
+                proccesingUserCache.TryRemove(args.Id, out _);
                 return;
             }
 
@@ -75,7 +75,7 @@ public class StatusRolesService : INService, IReadyExecutor
                     {
                         if (i.RemoveAdded)
                         {
-                            proccesingUserCache.Remove(args.Id);
+                            proccesingUserCache.TryRemove(args.Id, out _);
                             if (toAdd.Any())
                             {
                                 foreach (var role in toAdd.Where(socketRole => curUser.RoleIds.Contains(socketRole)))
@@ -94,7 +94,7 @@ public class StatusRolesService : INService, IReadyExecutor
 
                         if (i.ReaddRemoved)
                         {
-                            proccesingUserCache.Remove(args.Id);
+                            proccesingUserCache.TryRemove(args.Id, out _);
                             if (toRemove.Any())
                             {
                                 foreach (var role in toRemove.Where(socketRole => !curUser.RoleIds.Contains(socketRole)))
@@ -113,14 +113,14 @@ public class StatusRolesService : INService, IReadyExecutor
                     }
                     else
                     {
-                        proccesingUserCache.Remove(args.Id);
+                        proccesingUserCache.TryRemove(args.Id, out _);
                         continue;
                     }
                 }
 
                 if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
                 {
-                    proccesingUserCache.Remove(args.Id);
+                    proccesingUserCache.TryRemove(args.Id, out _);
                     continue;
                 }
 
@@ -152,13 +152,13 @@ public class StatusRolesService : INService, IReadyExecutor
 
                 if (channel is null)
                 {
-                    proccesingUserCache.Remove(args.Id);
+                    proccesingUserCache.TryRemove(args.Id, out _);
                     continue;
                 }
 
                 if (string.IsNullOrWhiteSpace(i.StatusEmbed))
                 {
-                    proccesingUserCache.Remove(args.Id);
+                    proccesingUserCache.TryRemove(args.Id, out _);
                     continue;
                 }
 
@@ -166,12 +166,12 @@ public class StatusRolesService : INService, IReadyExecutor
 
                 if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
                 {
-                    proccesingUserCache.Remove(args.Id);
+                    proccesingUserCache.TryRemove(args.Id, out _);
                     await channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
                 }
                 else
                 {
-                    proccesingUserCache.Remove(args.Id);
+                    proccesingUserCache.TryRemove(args.Id, out _);
                     await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
                 }
             }
@@ -183,7 +183,7 @@ public class StatusRolesService : INService, IReadyExecutor
         }
         finally
         {
-            proccesingUserCache.Remove(args.Id);
+            proccesingUserCache.TryRemove(args.Id, out _);
         }
     }
 
