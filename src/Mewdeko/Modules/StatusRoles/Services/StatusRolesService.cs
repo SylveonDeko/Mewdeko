@@ -33,7 +33,11 @@ public class StatusRolesService : INService, IReadyExecutor
             if (!await cache.AddProcessingUser(args.Id))
                 return;
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
-            if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status) return;
+            if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
+            {
+                await cache.RemoveProcessingUser(args.Id);
+                return;
+            }
             if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
             {
                 await cache.RemoveProcessingUser(args.Id);
