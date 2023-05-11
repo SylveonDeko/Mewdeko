@@ -16,12 +16,14 @@ public class RedisCache : IDataCache
 
     private readonly object timelyLock = new();
     private readonly object voteLock = new();
+    private int shardId;
 
     public RedisCache(IBotCredentials creds, int shardId)
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
         conf.SocketManager = new SocketManager("Main", true);
         LoadRedis(conf, creds, shardId).ConfigureAwait(false);
+        this.shardId = shardId;
     }
 
 
@@ -88,6 +90,22 @@ public class RedisCache : IDataCache
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         }), flags: CommandFlags.FireAndForget);
+    }
+
+    public async Task<bool> AddProcessingUser(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        if ((await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue)
+            return false;
+        await db.StringSetAsync($"{redisKey}_processingstatus_{id}_{shardId}", true, flags: CommandFlags.FireAndForget);
+        return true;
+    }
+
+    public async Task RemoveProcessingUser(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        if (!(await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue) return;
+        await db.KeyDeleteAsync($"{redisKey}_processingstatus_{id}_{shardId}", flags: CommandFlags.FireAndForget);
     }
 
     public async Task<bool> SetUserStatusCache(ulong id, int hashCode)
