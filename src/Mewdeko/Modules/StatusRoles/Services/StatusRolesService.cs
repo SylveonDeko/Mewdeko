@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
+using Microsoft.Extensions.Caching.Memory;
 using Serilog;
 using Embed = Discord.Embed;
 
@@ -9,12 +10,14 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
+    private readonly MemoryCache memoryCache;
 
-    public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
+    public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache, MemoryCache memoryCache)
     {
         this.client = client;
         this.db = db;
         this.cache = cache;
+        this.memoryCache = memoryCache;
         eventHandler.PresenceUpdated += EventHandlerOnPresenceUpdated;
     }
 
@@ -33,23 +36,18 @@ public class StatusRolesService : INService, IReadyExecutor
             if (args is not SocketGuildUser user)
                 return;
 
-            if (!await cache.AddProcessingUser(args.Id))
-                return;
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
             if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
             {
-                await cache.RemoveProcessingUser(args.Id);
                 return;
             }
             if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
             {
-                await cache.RemoveProcessingUser(args.Id);
                 return;
             }
 
             if (!await cache.SetUserStatusCache(args.Id, status.State?.ToBase64() is null ? "none" : status.State.ToBase64()))
             {
-                await cache.RemoveProcessingUser(args.Id);
                 return;
             }
 
@@ -57,7 +55,6 @@ public class StatusRolesService : INService, IReadyExecutor
             var statusRolesConfigs = await cache.GetStatusRoleCache();
             if (statusRolesConfigs is null || !statusRolesConfigs.Any())
             {
-                await cache.RemoveProcessingUser(args.Id);
                 return;
             }
 
@@ -88,8 +85,6 @@ public class StatusRolesService : INService, IReadyExecutor
                                     catch
                                     {
                                         Log.Error($"Unable to remove added role {role} for {user} in {user.Guild} due to permission issues.");
-                                        await Task.Delay(TimeSpan.FromSeconds(3));
-                                        await cache.RemoveProcessingUser(args.Id);
                                     }
                                 }
                             }
@@ -108,8 +103,6 @@ public class StatusRolesService : INService, IReadyExecutor
                                     catch
                                     {
                                         Log.Error($"Unable to add removed role {role} for {user} in {user.Guild} due to permission issues.");
-                                        await Task.Delay(TimeSpan.FromSeconds(3));
-                                        await cache.RemoveProcessingUser(args.Id);
                                     }
                                 }
                             }
@@ -117,15 +110,12 @@ public class StatusRolesService : INService, IReadyExecutor
                     }
                     else
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(3));
-                        await cache.RemoveProcessingUser(args.Id);
                         continue;
                     }
                 }
 
                 if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
                 {
-                    await cache.RemoveProcessingUser(args.Id);
                     continue;
                 }
 
@@ -138,8 +128,6 @@ public class StatusRolesService : INService, IReadyExecutor
                     catch
                     {
                         Log.Error($"Unable to remove statusroles in {user.Guild} due to permission issues.");
-                        await Task.Delay(TimeSpan.FromSeconds(3));
-                        await cache.RemoveProcessingUser(args.Id);
                     }
                 }
 
@@ -152,8 +140,6 @@ public class StatusRolesService : INService, IReadyExecutor
                     catch
                     {
                         Log.Error($"Unable to add statusroles in {user.Guild} due to permission issues.");
-                        await Task.Delay(TimeSpan.FromSeconds(3));
-                        await cache.RemoveProcessingUser(args.Id);
                     }
                 }
 
@@ -161,15 +147,11 @@ public class StatusRolesService : INService, IReadyExecutor
 
                 if (channel is null)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(3));
-                    await cache.RemoveProcessingUser(args.Id);
                     continue;
                 }
 
                 if (string.IsNullOrWhiteSpace(i.StatusEmbed))
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(3));
-                    await cache.RemoveProcessingUser(args.Id);
                     continue;
                 }
 
@@ -183,17 +165,22 @@ public class StatusRolesService : INService, IReadyExecutor
                 {
                     await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
                 }
-                await Task.Delay(TimeSpan.FromSeconds(3));
-                await cache.RemoveProcessingUser(args.Id);
             }
         }
         catch (Exception e)
         {
             var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
             Log.Error("Error in StatusRolesService. After Status: {status} args: {args2} args2: {args3}\n{Exception}", status.State, args2, args3, e);
-            await Task.Delay(TimeSpan.FromSeconds(6));
-            await cache.RemoveProcessingUser(args.Id);
         }
+    }
+
+    private Task<bool> AddUserToCache(ulong userId)
+    {
+        var potential = memoryCache.Get("statusroles_" + userId);
+        if (potential is not null)
+            return Task.FromResult(false);
+        memoryCache.CreateEntry("statusroles_" + userId);
+        return Task.FromResult(true);
     }
 
     public async Task<bool> AddStatusRoleConfig(string status, ulong guildId)
