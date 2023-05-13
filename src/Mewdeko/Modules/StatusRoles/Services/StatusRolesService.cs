@@ -229,9 +229,16 @@ public class StatusRolesService : INService, IReadyExecutor
         var status = uow.StatusRoles.FirstOrDefault(x => x.Id == index);
         if (status is null)
             return false;
-        status.ToAdd = toAdd;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        try
+        {
+            status.ToAdd = toAdd;
+            uow.StatusRoles.Update(status);
+            await uow.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Error in SetAddRoles: {Exception}", e);
+        }
         var statusCache = await cache.GetStatusRoleCache();
         var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
         statusCache[listIndex] = status;
