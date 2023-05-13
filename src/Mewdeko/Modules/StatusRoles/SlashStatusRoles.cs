@@ -87,7 +87,7 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         }
         else
         {
-            await Service.SetStatusEmbed(potentialStatusRole.Id, embedText);
+            await Service.SetStatusEmbed(potentialStatusRole, embedText);
             await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set embed text!");
         }
     }
@@ -101,7 +101,7 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetStatusChannel(potentialStatusRole.Id, channel.Id);
+        await Service.SetStatusChannel(potentialStatusRole, channel.Id);
         await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
