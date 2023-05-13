@@ -10,14 +10,12 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly MemoryCache memoryCache;
 
-    public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache, MemoryCache memoryCache)
+    public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
         this.client = client;
         this.db = db;
         this.cache = cache;
-        this.memoryCache = memoryCache;
         eventHandler.PresenceUpdated += EventHandlerOnPresenceUpdated;
     }
 
@@ -172,15 +170,6 @@ public class StatusRolesService : INService, IReadyExecutor
             var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
             Log.Error("Error in StatusRolesService. After Status: {status} args: {args2} args2: {args3}\n{Exception}", status.State, args2, args3, e);
         }
-    }
-
-    private Task<bool> AddUserToCache(ulong userId)
-    {
-        var potential = memoryCache.Get("statusroles_" + userId);
-        if (potential is not null)
-            return Task.FromResult(false);
-        memoryCache.CreateEntry("statusroles_" + userId);
-        return Task.FromResult(true);
     }
 
     public async Task<bool> AddStatusRoleConfig(string status, ulong guildId)
