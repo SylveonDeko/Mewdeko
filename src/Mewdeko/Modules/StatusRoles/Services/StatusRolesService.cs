@@ -30,7 +30,9 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            if (args is not SocketGuildUser user)
+                return;
+
             if (!await cache.AddProcessingUser(args.Id))
                 return;
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
@@ -59,13 +61,10 @@ public class StatusRolesService : INService, IReadyExecutor
                 return;
             }
 
-            foreach (var i in statusRolesConfigs)
+            var statusRoles = statusRolesConfigs.Where(x => x.GuildId == user.Guild.Id).ToList();
+
+            foreach (var i in statusRoles)
             {
-                if (client.GetGuild(i.GuildId) is not IGuild guild)
-                    continue;
-                var curUser = await guild.GetUserAsync(args.Id);
-                if (curUser is null)
-                    continue;
                 var toAdd = new List<ulong>();
                 var toRemove = new List<ulong>();
                 if (!string.IsNullOrWhiteSpace(i.ToAdd))
@@ -80,15 +79,15 @@ public class StatusRolesService : INService, IReadyExecutor
                         {
                             if (toAdd.Any())
                             {
-                                foreach (var role in toAdd.Where(socketRole => curUser.RoleIds.Contains(socketRole)))
+                                foreach (var role in toAdd.Where(socketRole => user.Roles.Select(x => x.Id).Contains(socketRole)))
                                 {
                                     try
                                     {
-                                        await curUser.RemoveRoleAsync(role);
+                                        await user.RemoveRoleAsync(role);
                                     }
                                     catch
                                     {
-                                        Log.Error($"Unable to remove added role {role} for {curUser} in {guild} due to permission issues.");
+                                        Log.Error($"Unable to remove added role {role} for {user} in {user.Guild} due to permission issues.");
                                         await Task.Delay(TimeSpan.FromSeconds(3));
                                         await cache.RemoveProcessingUser(args.Id);
                                     }
@@ -100,15 +99,15 @@ public class StatusRolesService : INService, IReadyExecutor
                         {
                             if (toRemove.Any())
                             {
-                                foreach (var role in toRemove.Where(socketRole => !curUser.RoleIds.Contains(socketRole)))
+                                foreach (var role in toRemove.Where(socketRole => !user.Roles.Select(x => x.Id).Contains(socketRole)))
                                 {
                                     try
                                     {
-                                        await curUser.AddRoleAsync(role);
+                                        await user.AddRoleAsync(role);
                                     }
                                     catch
                                     {
-                                        Log.Error($"Unable to add removed role {role} for {curUser} in {guild} due to permission issues.");
+                                        Log.Error($"Unable to add removed role {role} for {user} in {user.Guild} due to permission issues.");
                                         await Task.Delay(TimeSpan.FromSeconds(3));
                                         await cache.RemoveProcessingUser(args.Id);
                                     }
@@ -134,11 +133,11 @@ public class StatusRolesService : INService, IReadyExecutor
                 {
                     try
                     {
-                        await curUser.RemoveRolesAsync(toRemove);
+                        await user.RemoveRolesAsync(toRemove);
                     }
                     catch
                     {
-                        Log.Error($"Unable to remove statusroles in {guild} due to permission issues.");
+                        Log.Error($"Unable to remove statusroles in {user.Guild} due to permission issues.");
                         await Task.Delay(TimeSpan.FromSeconds(3));
                         await cache.RemoveProcessingUser(args.Id);
                     }
@@ -148,17 +147,17 @@ public class StatusRolesService : INService, IReadyExecutor
                 {
                     try
                     {
-                        await curUser.AddRolesAsync(toAdd);
+                        await user.AddRolesAsync(toAdd);
                     }
                     catch
                     {
-                        Log.Error($"Unable to add statusroles in {guild} due to permission issues.");
+                        Log.Error($"Unable to add statusroles in {user.Guild} due to permission issues.");
                         await Task.Delay(TimeSpan.FromSeconds(3));
                         await cache.RemoveProcessingUser(args.Id);
                     }
                 }
 
-                var channel = await guild.GetTextChannelAsync(i.StatusChannelId);
+                var channel = user.Guild.GetTextChannel(i.StatusChannelId);
 
                 if (channel is null)
                 {
@@ -174,9 +173,9 @@ public class StatusRolesService : INService, IReadyExecutor
                     continue;
                 }
 
-                var rep = new ReplacementBuilder().WithDefault(curUser, channel, guild as SocketGuild, client).Build();
+                var rep = new ReplacementBuilder().WithDefault(user, channel, user.Guild, client).Build();
 
-                if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), guild.Id, out var embeds, out var plainText, out var components))
+                if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), user.Guild.Id, out var embeds, out var plainText, out var components))
                 {
                     await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? Array.Empty<Embed>(), components: components?.Build());
                 }
