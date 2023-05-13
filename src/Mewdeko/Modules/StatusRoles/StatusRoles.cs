@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using System.Runtime.CompilerServices;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -110,7 +111,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         }
         else
         {
-            await Service.SetStatusEmbed(potentialStatusRole.Id, embedText);
+            await Service.SetStatusEmbed(potentialStatusRole, embedText);
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set embed text!");
         }
     }
@@ -138,7 +139,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetStatusChannel(potentialStatusRole.Id, channel.Id);
+        await Service.SetStatusChannel(potentialStatusRole, channel.Id);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
@@ -162,14 +163,14 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToAdd))
         {
             var splitRoleIds = string.Join(" ", roles.Select(x => x.Id));
-            await Service.SetAddRoles(index, splitRoleIds);
+            await Service.SetAddRoles(potentialStatusRole, splitRoleIds);
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
         }
         else
         {
             var toModify = potentialStatusRole.ToAdd.Split(" ").ToList();
             toModify.AddRange(roles.Select(x => x.Id.ToString()));
-            await Service.SetAddRoles(index, string.Join(" ", toModify));
+            await Service.SetAddRoles(potentialStatusRole, string.Join(" ", toModify));
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", toModify.Select(x => $"<@&{x}>"))}");
         }
@@ -195,7 +196,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToRemove))
         {
             var splitRoleIds = string.Join(" ", roles.Select(x => x.Id));
-            await Service.SetRemoveRoles(index, splitRoleIds);
+            await Service.SetRemoveRoles(potentialStatusRole, splitRoleIds);
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now remove the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
         }
@@ -203,7 +204,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         {
             var toModify = potentialStatusRole.ToRemove.Split(" ").ToList();
             toModify.AddRange(roles.Select(x => x.Id.ToString()));
-            await Service.SetRemoveRoles(index, string.Join(" ", toModify));
+            await Service.SetRemoveRoles(potentialStatusRole, string.Join(" ", toModify));
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now remove the following roles:\n{string.Join("|", toModify.Select(x => $"<@&{x}>"))}");
         }
@@ -234,7 +235,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetAddRoles(index, string.Join(" ", newList));
+        await Service.SetAddRoles(potentialStatusRole, string.Join(" ", newList));
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
@@ -263,7 +264,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetRemoveRoles(index, string.Join(" ", newList));
+        await Service.SetRemoveRoles(potentialStatusRole, string.Join(" ", newList));
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
@@ -284,7 +285,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        var returned = await Service.ToggleRemoveAdded(index);
+        var returned = await Service.ToggleRemoveAdded(potentialStatusRole);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} RemoveAdded is now `{returned}`");
     }
 
@@ -305,7 +306,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        var returned = await Service.ToggleAddRemoved(index);
+        var returned = await Service.ToggleAddRemoved(potentialStatusRole);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} ReaddRemoved is now `{returned}`");
     }
 
