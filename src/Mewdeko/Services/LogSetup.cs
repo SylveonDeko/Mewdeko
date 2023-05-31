@@ -15,7 +15,7 @@ public static class LogSetup
             .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Console(LogEventLevel.Information,
-                theme: GetTheme(),
+                theme: AnsiConsoleTheme.Code,
                 outputTemplate:
                 "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
             .Enrich.WithProperty("LogSource", source)
@@ -23,7 +23,4 @@ public static class LogSetup
 
         Console.OutputEncoding = Encoding.UTF8;
     }
-
-    private static ConsoleTheme GetTheme()
-        => Environment.OSVersion.Platform == PlatformID.Unix ? AnsiConsoleTheme.Code : ConsoleTheme.None;
 }
