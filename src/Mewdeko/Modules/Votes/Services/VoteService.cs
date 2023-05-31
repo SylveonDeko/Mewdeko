@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using LinqToDB.EntityFrameworkCore;
+﻿using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Votes.Common;

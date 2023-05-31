@@ -1,6 +1,6 @@
-﻿using Mewdeko.WebApp.Reimplementations;
+﻿using Mewdeko.Api.Reimplementations;
 
-namespace Mewdeko.WebApp.Extensions;
+namespace Mewdeko.Api.Extensions;
 
 public static class StringExtensions
 {

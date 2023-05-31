@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -155,10 +154,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
-            .AddField("Invite Link (IOS shows an error so use the browser)",
-                $"[Click Here](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
+            .AddField("Invite Link",
+                "[Anime](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Non Anime](https://discord.com/oauth2/authorize?client_id=733370438175948891&scope=bot&permissions=66186303)")
             .AddField("Website/Docs", "https://mewdeko.tech")
-            .AddField("Support Server", "https://discord.gg/mewdeko")
+            .AddField("Support Server", config.Data.SupportServer)
             .WithOkColor();
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }

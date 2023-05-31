@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Net;
+﻿using Discord.Net;
 using Serilog;
 
 namespace Mewdeko.Modules.MultiGreets.Services;

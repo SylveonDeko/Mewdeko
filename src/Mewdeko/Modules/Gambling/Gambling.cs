@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Numerics;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;

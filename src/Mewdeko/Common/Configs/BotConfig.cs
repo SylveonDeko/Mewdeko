@@ -28,6 +28,9 @@ public sealed class BotConfig
         SuccessEmote = "<:hane_wow:945005763829575680>";
         SupportServer = "https://discord.gg/mewdeko";
         RedirectUrl = "https://mewdeko.tech/auth.html";
+        YoutubeSupport = true;
+        ChatGptInitPrompt =
+            "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by SylveonDeko#0001";
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -95,21 +98,27 @@ See RotatingStatuses submodule in Administration.")]
     [Comment(@"Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
 
+    [Comment("Enable or disable youtube support")]
+    public bool YoutubeSupport { get; set; }
+
+    [Comment("ChatGPT API Key")]
+    public string ChatGptKey { get; set; }
+
+    [Comment("ChatGPT Channel ID")]
+    public ulong ChatGptChannel { get; set; }
+
+    [Comment("ChatGPT Init Prompt. Used to set how chatgpt will act.")]
+    public string ChatGptInitPrompt { get; set; }
+
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
+
+    [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
+    public string ChatGptWebhook { get; set; }
 
     [Comment(@"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
-    //         [Comment(@"Whether the prefix will be a suffix, or prefix.
-    // For example, if your prefix is ! you will run a command called 'cash' by typing either
-    // '!cash @Someone' if your prefixIsSuffix: false or
-    // 'cash @Someone!' if your prefixIsSuffix: true")]
-    //         public bool PrefixIsSuffix { get; set; }
-
-    // public string Prefixed(string text) => PrefixIsSuffix
-    //     ? text + Prefix
-    //     : Prefix + text;
     [Comment("Used to set the error emote used across the bot.")]
     public string ErrorEmote { get; set; }
 

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 

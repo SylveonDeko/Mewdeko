@@ -34,7 +34,7 @@ public static class ConfigParsers
 
 public static class ConfigPrinters
 {
-    public static string ToString<TAny>(TAny input) => input.ToString();
+    public static string ToString<TAny>(TAny? input) => input?.ToString() ?? "null";
 
     public static string Culture(CultureInfo culture) => culture.Name;
 

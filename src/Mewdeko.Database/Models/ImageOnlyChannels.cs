@@ -15,7 +15,7 @@ public class ChannelRestrictions
         Delete,
         Warn,
         Timeout,
-        Ba
+        Ban
     }
 
     public enum AllowedImageTypesEnum

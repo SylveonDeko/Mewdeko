@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,8 +34,6 @@ public class UserPermAttribute : PreconditionAttribute
         }
 
         if (!permResult) return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
-        if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
-            return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
-        return await UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
+        return !((IGuildUser)context.User).GuildPermissions.Has(perm) ? PreconditionResult.FromError($"You need the `{perm}` permission to use this command.") : PreconditionResult.FromSuccess();
     }
 }

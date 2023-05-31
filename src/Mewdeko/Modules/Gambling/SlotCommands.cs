@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
@@ -152,14 +151,14 @@ public partial class Gambling
                     await cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
                         amount * result.Multiplier, false, true).ConfigureAwait(false);
                     Interlocked.Add(ref totalPaidOut, amount * result.Multiplier);
-                    if (result.Multiplier == 1)
-                        msg = GetText("slot_single", CurrencySign, 1);
-                    else if (result.Multiplier == 4)
-                        msg = GetText("slot_two", CurrencySign, 4);
-                    else if (result.Multiplier == 10)
-                        msg = GetText("slot_three", 10);
-                    else if (result.Multiplier == 30)
-                        msg = GetText("slot_jackpot", 30);
+                    msg = result.Multiplier switch
+                    {
+                        1 => GetText("slot_single", CurrencySign, 1),
+                        4 => GetText("slot_two", CurrencySign, 4),
+                        10 => GetText("slot_three", 10),
+                        30 => GetText("slot_jackpot", 30),
+                        _ => msg
+                    };
                 }
 
                 await using var imgStream = bgImage?.ToStream(format);
@@ -186,7 +185,7 @@ public partial class Gambling
                 //three flowers
                 arr => arr.All(a => a == MaxValue) ? 30 : 0,
                 //three of the same
-                arr => !arr.Any(a => a != arr[0]) ? 10 : 0,
+                arr => arr.All(a => a == arr[0]) ? 10 : 0,
                 //two flowers
                 arr => arr.Count(a => a == MaxValue) == 2 ? 4 : 0,
                 //one flower

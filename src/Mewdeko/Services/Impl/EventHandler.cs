@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-
+﻿
 namespace Mewdeko.Services.Impl;
 
 public class EventHandler
@@ -71,8 +70,7 @@ public class EventHandler
 
     private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
     {
-        if (PresenceUpdated is not null)
-            _ = PresenceUpdated(arg1, arg2, arg3);
+        _ = PresenceUpdated?.Invoke(arg1, arg2, arg3);
         return Task.CompletedTask;
     }
 

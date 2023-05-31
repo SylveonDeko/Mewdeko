@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Modules.Server_Management.Services;
+﻿namespace Mewdeko.Modules.Server_Management.Services;
 
 public class RoleCommandsService : INService
 {

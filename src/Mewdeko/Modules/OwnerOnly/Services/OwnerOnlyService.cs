@@ -2,12 +2,13 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OpenAI_API;
+using OpenAI_API.Chat;
 using Serilog;
 using StackExchange.Redis;
 using Image = Discord.Image;
@@ -29,6 +30,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly Replacer rep;
     private readonly IBotStrings strings;
     private readonly GuildSettingsService guildSettings;
+    private readonly ConcurrentDictionary<ulong, Conversation> conversations = new();
 
 #pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
@@ -41,7 +43,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
         BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, EventHandler handler)
     {
         var redis = cache.Redis;
         this.cmdHandler = cmdHandler;
@@ -55,6 +57,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var imgs = cache.LocalImages;
         httpFactory = factory;
         this.bss = bss;
+        handler.MessageReceived += OnMessageReceived;
         if (client.ShardId == 0)
         {
             rep = new ReplacementBuilder()
@@ -100,6 +103,123 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 // ignored
             }
         }, CommandFlags.FireAndForget);
+    }
+
+    private async Task OnMessageReceived(SocketMessage args)
+    {
+        if (args.Channel is not IGuildChannel guildChannel)
+            return;
+        var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
+        if (args.Content.StartsWith(prefix))
+            return;
+        if (bss.Data.ChatGptKey is null or "" || bss.Data.ChatGptChannel is 0)
+            return;
+        if (args.Author.IsBot)
+            return;
+        if (args.Channel.Id != bss.Data.ChatGptChannel)
+            return;
+        var api = new OpenAIAPI(bss.Data.ChatGptKey);
+        if (args is not IUserMessage usrMsg)
+            return;
+        if (args.Content is "deletesession")
+            if (conversations.TryRemove(args.Author.Id, out _))
+            {
+                await usrMsg.SendConfirmReplyAsync("Session deleted");
+                return;
+            }
+            else
+            {
+                await usrMsg.SendConfirmReplyAsync("No session to delete");
+                return;
+            }
+        if (conversations.TryGetValue(args.Author.Id, out var conversation))
+        {
+            conversation.AppendUserInput(args.Content);
+            if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
+            {
+                try
+                {
+                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
+                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                    var response = await conversation.GetResponseFromChatbotAsync();
+                    await webhook.ModifyMessageAsync(msg, properties =>
+                    {
+                        properties.Embeds = new[]
+                        {
+                            new EmbedBuilder()
+                                .WithOkColor()
+                                .WithDescription(response)
+                                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                                .WithFooter($"Requested by {args.Author}")
+                                .Build()
+                        };
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later. Probably a bad webhook.");
+                }
+            }
+            else
+            {
+                var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                var response = await conversation.GetResponseFromChatbotAsync();
+                await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithDescription(response)
+                    .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                    .WithFooter($"Requested by {args.Author}")
+                    .Build());
+            }
+        }
+        else
+        {
+            var chat = api.Chat.CreateConversation(new ChatRequest
+            {
+                MaxTokens = 1000, Temperature = 0.9,
+            });
+            chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
+            chat.AppendSystemMessage($"The users name is {args.Author.Username}.");
+            try
+            {
+                conversations.TryAdd(args.Author.Id, chat);
+                if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
+                {
+                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
+                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                    var response = await chat.GetResponseFromChatbotAsync();
+                    await webhook.ModifyMessageAsync(msg, properties =>
+                    {
+                        properties.Embeds = new[]
+                        {
+                            new EmbedBuilder()
+                                .WithOkColor()
+                                .WithDescription(response)
+                                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                                .WithFooter($"Requested by {args.Author}")
+                                .Build()
+                        };
+                    });
+                }
+                else
+                {
+                    var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                    var response = await chat.GetResponseFromChatbotAsync();
+                    await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription(response)
+                        .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png")
+                        .WithFooter($"Requested by {args.Author}")
+                        .Build());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
+            }
+        }
     }
 
     // forwards dms

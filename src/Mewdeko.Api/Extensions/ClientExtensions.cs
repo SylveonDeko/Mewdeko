@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace Mewdeko.WebApp.Extensions;
+namespace Mewdeko.Api.Extensions;
 
 public static class HttpContextExtensions
 {

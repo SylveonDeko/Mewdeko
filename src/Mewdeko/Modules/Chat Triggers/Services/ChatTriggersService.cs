@@ -69,6 +69,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly TypedKey<CTModel> gcrAddedKey = new("gcr.added");
     private readonly TypedKey<int> gcrDeletedkey = new("gcr.deleted");
     private readonly TypedKey<CTModel> gcrEditedKey = new("gcr.edited");
+    private readonly TypedKey<CTModel> crAdded = new("cr.added");
 
     private readonly object gcrWriteLock = new();
     private readonly GlobalPermissionService gperm;
@@ -114,13 +115,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         this.configService = configService;
         rng = new MewdekoRandom();
 
-        this.pubSub.Sub(crsReloadedKey, OnCrsShouldReload);
+        pubSub.Sub(crsReloadedKey, OnCrsShouldReload);
         pubSub.Sub(gcrAddedKey, OnGcrAdded);
         pubSub.Sub(gcrDeletedkey, OnGcrDeleted);
         pubSub.Sub(gcrEditedKey, OnGcrEdited);
+        pubSub.Sub(crAdded, OnCrAdded);
 
         bot.JoinedGuild += OnJoinedGuild;
         this.client.LeftGuild += OnLeftGuild;
+    }
+
+    private async ValueTask OnCrAdded(CTModel arg)
+    {
+        await AddAsync(arg.GuildId, arg.Trigger, arg.Response, arg.IsRegex);
     }
 
     public int Priority => -1;

@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 using Mewdeko.Common.Attributes.TextCommands;
 using Embed = Discord.Embed;
 
