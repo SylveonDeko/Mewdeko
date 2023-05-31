@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -28,8 +28,32 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.AddStatusRoleConfig(status, ctx.Guild.Id);
-        await ctx.Channel.SendConfirmAsync("Added StatusRole config! Please configure it with the other commands.");
+        var added = await Service.AddStatusRoleConfig(status, ctx.Guild.Id);
+        if (added)
+            await ctx.Channel.SendConfirmAsync("Added StatusRole config! Please configure it with the other commands.");
+        else
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!");
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
+    public async Task RemoveStatusRole(int index)
+    {
+        var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
+        if (!statusRoles.Any())
+        {
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            return;
+        }
+
+        var potentialStatusRole = statusRoles.ElementAt(index - 1);
+        if (potentialStatusRole is null)
+        {
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            return;
+        }
+
+        await Service.RemoveStatusRoleConfig(potentialStatusRole);
+        await ctx.Channel.SendConfirmAsync("StatusRole config removed!");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
@@ -38,7 +62,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -87,7 +111,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         }
         else
         {
-            await Service.SetStatusEmbed(potentialStatusRole.Id, embedText);
+            await Service.SetStatusEmbed(potentialStatusRole, embedText);
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set embed text!");
         }
     }
@@ -98,7 +122,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -115,7 +139,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetStatusChannel(potentialStatusRole.Id, channel.Id);
+        await Service.SetStatusChannel(potentialStatusRole, channel.Id);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
@@ -125,7 +149,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -139,14 +163,14 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToAdd))
         {
             var splitRoleIds = string.Join(" ", roles.Select(x => x.Id));
-            await Service.SetAddRoles(index, splitRoleIds);
+            await Service.SetAddRoles(potentialStatusRole, splitRoleIds);
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
         }
         else
         {
             var toModify = potentialStatusRole.ToAdd.Split(" ").ToList();
             toModify.AddRange(roles.Select(x => x.Id.ToString()));
-            await Service.SetAddRoles(index, string.Join(" ", toModify));
+            await Service.SetAddRoles(potentialStatusRole, string.Join(" ", toModify));
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", toModify.Select(x => $"<@&{x}>"))}");
         }
@@ -158,7 +182,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -172,7 +196,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToRemove))
         {
             var splitRoleIds = string.Join(" ", roles.Select(x => x.Id));
-            await Service.SetRemoveRoles(index, splitRoleIds);
+            await Service.SetRemoveRoles(potentialStatusRole, splitRoleIds);
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now remove the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
         }
@@ -180,7 +204,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         {
             var toModify = potentialStatusRole.ToRemove.Split(" ").ToList();
             toModify.AddRange(roles.Select(x => x.Id.ToString()));
-            await Service.SetRemoveRoles(index, string.Join(" ", toModify));
+            await Service.SetRemoveRoles(potentialStatusRole, string.Join(" ", toModify));
             await ctx.Channel.SendConfirmAsync(
                 $"{bss.Data.SuccessEmote} Having this status will now remove the following roles:\n{string.Join("|", toModify.Select(x => $"<@&{x}>"))}");
         }
@@ -192,7 +216,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -211,7 +235,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetAddRoles(index, string.Join(" ", newList));
+        await Service.SetAddRoles(potentialStatusRole, string.Join(" ", newList));
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
@@ -221,7 +245,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -240,7 +264,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        await Service.SetRemoveRoles(index, string.Join(" ", newList));
+        await Service.SetRemoveRoles(potentialStatusRole, string.Join(" ", newList));
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
@@ -250,7 +274,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -261,7 +285,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        var returned = await Service.ToggleRemoveAdded(index);
+        var returned = await Service.ToggleRemoveAdded(potentialStatusRole);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} RemoveAdded is now `{returned}`");
     }
 
@@ -271,7 +295,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -282,7 +306,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             return;
         }
 
-        var returned = await Service.ToggleAddRemoved(index);
+        var returned = await Service.ToggleAddRemoved(potentialStatusRole);
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} ReaddRemoved is now `{returned}`");
     }
 
@@ -292,7 +316,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configure StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
             return;
         }
 
@@ -320,7 +344,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
                     $"\n`RemoveRoles`: {(!string.IsNullOrEmpty(curStatusRole.ToRemove) ? string.Join("|", curStatusRole.ToRemove.Split(" ").Select(x => $"<@&{x}>")) : "None")}" +
                     $"\n`RemoveAdded`: {curStatusRole.RemoveAdded}" +
                     $"\n`ReaddRemoved`: {curStatusRole.ReaddRemoved}" +
-                    $"\n`Message:` {curStatusRole.StatusEmbed.TrimTo(1000)}")
+                    $"\n`Message:` {(curStatusRole.StatusEmbed.IsNullOrWhiteSpace() ? "None" : curStatusRole.StatusEmbed.TrimTo(100))}")
                 .WithOkColor();
         }
     }

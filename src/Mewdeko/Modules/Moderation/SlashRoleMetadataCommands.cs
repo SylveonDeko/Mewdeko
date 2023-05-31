@@ -1,6 +1,5 @@
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Discord.Rest;
 using Mewdeko.Common.Attributes.TextCommands;

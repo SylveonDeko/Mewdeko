@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 using CommandLine;
 using Mewdeko.Modules.Games.Services;
 using Serilog;

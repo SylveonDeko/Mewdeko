@@ -1,5 +1,4 @@
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Services;
@@ -17,6 +16,7 @@ public class UserPunishService : INService
     private readonly MuteService mute;
     private readonly DiscordSocketClient client;
     private readonly GuildSettingsService guildSettings;
+    private Dictionary<ulong, MassNick> massNicks = new ();
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         DiscordSocketClient client,
@@ -29,6 +29,51 @@ public class UserPunishService : INService
         this.guildSettings = guildSettings;
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync().ConfigureAwait(false), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
+    }
+
+    public bool AddMassNick(ulong guildId, IUser user, int total, string operationType, out MassNick returnMassNick)
+    {
+        if (massNicks.TryGetValue(guildId, out _))
+        {
+            returnMassNick = null;
+            return false;
+        }
+
+        var massNick = new MassNick
+        {
+            StartedBy = user,
+            Total = total,
+            OperationType = operationType,
+            StartedAt = DateTime.UtcNow
+        };
+        massNicks.Add(guildId, massNick);
+        returnMassNick = massNick;
+        return true;
+    }
+
+    public MassNick? GetMassNick(ulong guildId)
+    {
+        return !massNicks.TryGetValue(guildId, out var massNick) ? null : massNick;
+    }
+
+    public bool RemoveMassNick(ulong guildId)
+    {
+        return massNicks.Remove(guildId);
+    }
+
+    public void UpdateMassNick(ulong guildId, bool failed, bool changed, bool stopped = false)
+    {
+        if (!massNicks.TryGetValue(guildId, out var massNick))
+            return;
+
+        if (failed)
+            massNick.Failed++;
+        if (changed)
+            massNick.Changed++;
+        if (stopped)
+            massNick.Stopped = true;
+
+        massNicks[guildId] = massNick;
     }
 
     public async Task<ulong> GetWarnlogChannel(ulong id)
@@ -522,4 +567,15 @@ WHERE GuildId={guildId}
                 ? inpt.Select(x => x.ToString()).Aggregate((x, y) => $"{x}{sep}{y}")
                 : inpt.FirstOrDefault().ToString()
             : "none";
+
+    public class MassNick
+    {
+        public IUser StartedBy { get; set; }
+        public int Changed { get; set; }
+        public int Failed { get; set; }
+        public int Total { get; set; }
+        public bool Stopped { get; set; }
+        public DateTime StartedAt { get; set; }
+        public string OperationType { get; set; }
+    }
 }

@@ -29,7 +29,11 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("erroremote", bs => bs.ErrorEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("supportserver", bs => bs.SupportServer, ConfigParsers.String, ConfigPrinters.ToString);
-
+        AddParsedProp("youtubesupport", bs => bs.YoutubeSupport, bool.TryParse, ConfigPrinters.ToString);
+        AddParsedProp("chatgptkey", bs => bs.ChatGptKey, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("chatgptchannel", bs => bs.ChatGptChannel, ulong.TryParse, ConfigPrinters.ToString);
+        AddParsedProp("chatgptinitprompt", bs => bs.ChatGptInitPrompt, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("chatgptwebhook", bs => bs.ChatGptWebhook, ConfigParsers.String, ConfigPrinters.ToString);
 
         UpdateColors();
     }

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
@@ -95,7 +94,6 @@ public partial class Gambling
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task DeckShuffle()
         {
-            //var channel = (ITextChannel)ctx.Channel;
 
             AllDecks.AddOrUpdate(ctx.Guild,
                 _ => new Deck(),

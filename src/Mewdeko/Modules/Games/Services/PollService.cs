@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Mewdeko.Database.Common;
 using Mewdeko.Modules.Games.Common;
 using Serilog;

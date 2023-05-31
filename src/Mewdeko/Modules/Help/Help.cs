@@ -1,6 +1,5 @@
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;

@@ -5,10 +5,10 @@ using NekosBestApiNet;
 
 namespace Mewdeko.Common.Replacements;
 
-public class ReplacementBuilder
+public partial class ReplacementBuilder
 {
     private static readonly Regex RngRegex =
-        new("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
+        MyRegex();
 
     private readonly DiscordSocketClient client;
     private readonly NekosBestApi nekosBestApi;
@@ -32,6 +32,8 @@ public class ReplacementBuilder
             .WithGifs();
 
     public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
+
+    public ReplacementBuilder WithDefault(IInteractionContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
     public ReplacementBuilder WithClient(DiscordSocketClient socketClient)
     {
@@ -65,10 +67,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -100,10 +100,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -113,10 +111,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -126,10 +122,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -139,10 +133,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -152,10 +144,8 @@ public class ReplacementBuilder
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
-            {
                 if (GuildTimezoneService.AllServices.TryGetValue(socketClient.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
-            }
 
             return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
@@ -307,11 +297,12 @@ public class ReplacementBuilder
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
     {
         foreach (var provider in phProviders)
-        {
             foreach (var ovr in provider.GetPlaceholders())
                 reps.TryAdd(ovr.Name, ovr.Func);
-        }
 
         return this;
     }
+
+    [GeneratedRegex("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
 }

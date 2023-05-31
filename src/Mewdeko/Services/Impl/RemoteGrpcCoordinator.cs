@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;

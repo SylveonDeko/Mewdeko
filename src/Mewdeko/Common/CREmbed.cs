@@ -82,6 +82,8 @@ public class CrEmbed
 
         var activeRowId = 0;
         var rowLength = 0;
+        if (Components is null)
+            return cb;
         foreach (var comp in Components)
         {
             if (activeRowId == 5)

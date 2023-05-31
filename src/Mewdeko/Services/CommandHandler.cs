@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
@@ -354,8 +353,7 @@ public class CommandHandler : INService
                 return;
             }
         }
-
-        // filter webhook interactions
+        // i hate discord
         // if (interaction is IComponentInteraction compInter
         //     && compInter.Message.Author.IsWebhook
         //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;

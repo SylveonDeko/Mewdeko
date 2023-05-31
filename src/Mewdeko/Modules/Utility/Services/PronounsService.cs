@@ -1,5 +1,4 @@
 using System.Net.Http;
-using System.Threading.Tasks;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;

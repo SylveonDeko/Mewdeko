@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Common.ModuleBehaviors;
+﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 /// <summary>
 ///     All services which need to execute something after

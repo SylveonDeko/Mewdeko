@@ -15,10 +15,80 @@ exportcommandsjson:
   - exportcommandsjson
   - exportcommands
   - excj
+masskick:
+  - masskick
+  - mkick
+removestatusrole:
+  - removestatusrole
+  - rsr
+togglerolestates:
+  - togglerolestates
+  - trs
+togglerolestatesignorebots:
+  - togglerolestatesignorebots
+  - trsib
+togglerolestatesclearonban:
+  - togglerolestatesclearonban
+  - trscob
+viewrolestatessettings:
+  - viewrolestatessettings
+  - vrss
+rolestatesadddenyrole:
+  - rolestatesadddenyrole
+  - rsadr
+rolestatesremovedenyrole:
+  - rolestatesremovedenyrole
+  - rsrra
+rolestatesadddenyuser:
+  - rolestatesadddenyuser
+  - rsadu
+rolestatesremovedenyuser:
+  - rolestatesremoveadduser
+  - rsrau
+setuserrolestate:
+  - setuserrolestate
+  - surs
+removerolesfromrolestate:
+  - removerolesfromrolestate
+  - rrfrs
+addrolestorolestate:
+  - addrolestorolestate
+  - arsrs
+deleteuserrolestate:
+  - deleteuserrolestate
+  - dur
+viewuserrolestates:
+  - viewrolestates
+  - viewuserrolestates
+  - vurs
+dehoist:
+  - dehoist
+sanitize:
+  - sanitize
+dehoistall:
+  - dehoistall
+  - dehoista
+sanitizeall:
+    - sanitizeall
+    - sanitizea
+massnickprogress:
+    - massnickprogress
+    - mnickprogress
+    - mnp
+massnickstop:
+    - massnickstop
+    - mnstop
+    - mns
 exportrolelist:
   - exportrolelist
   - exportroles
   - erl
+banner:
+  - banner
+  - userbanner
+createwebhook:
+  - createwebhook
+  - cwh
 importrolelist:
   - importrolelist
   - importroles
@@ -921,7 +991,6 @@ logignore:
   - logignore
 loop:
   - loop
-  - repeat
   - queuerepeat
   - qrp
   - rpl

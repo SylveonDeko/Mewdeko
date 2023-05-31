@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
@@ -11,28 +10,36 @@ namespace Mewdeko.Services.Impl;
 
 public class RedisCache : IDataCache
 {
-    private readonly EndPoint redisEndpoint;
+    private EndPoint redisEndpoint;
 
-    private readonly string redisKey;
+    private string redisKey;
 
     private readonly object timelyLock = new();
     private readonly object voteLock = new();
+    private int shardId;
 
     public RedisCache(IBotCredentials creds, int shardId)
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
-        conf.SocketManager = SocketManager.ThreadPool;
-        Redis = ConnectionMultiplexer.Connect(conf);
+        conf.SocketManager = new SocketManager("Main", true);
+        LoadRedis(conf, creds, shardId).ConfigureAwait(false);
+        this.shardId = shardId;
+    }
+
+
+    private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
+    {
+        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
         redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
         redisKey = creds.RedisKey();
     }
 
-    public ConnectionMultiplexer Redis { get; }
+    public ConnectionMultiplexer Redis { get; set; }
 
-    public IImageCache LocalImages { get; }
-    public ILocalDataCache LocalData { get; }
+    public IImageCache LocalImages { get; set; }
+    public ILocalDataCache LocalData { get; set; }
 
     // things here so far don't need the bot id
     // because it's a good thing if different bots
@@ -69,43 +76,53 @@ public class RedisCache : IDataCache
         return result.HasValue ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result) : new List<StatusRolesTable>();
     }
 
-    public async Task SetGuildConfigs(List<GuildConfig> configs)
+    public async Task<GuildConfig?> GetGuildConfig(ulong guildId)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_guildconfigs", JsonConvert.SerializeObject(configs, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        }));
+        var toDeserialize = await db.StringGetAsync($"{redisKey}_{guildId}_config");
+        return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<GuildConfig>(toDeserialize);
     }
 
-    public async Task<bool> SetUserStatusCache(ulong id, int hashCode)
+    public async void SetGuildConfig(ulong guildId, GuildConfig guildConfig)
+    {
+        var db = Redis.GetDatabase();
+        _ = await db.StringSetAsync($"{redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }), flags: CommandFlags.FireAndForget);
+    }
+
+    public async Task<bool> AddProcessingUser(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        if ((await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue)
+            return false;
+        await db.StringSetAsync($"{redisKey}_processingstatus_{id}_{shardId}", true, flags: CommandFlags.FireAndForget);
+        return true;
+    }
+
+    public async Task RemoveProcessingUser(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        if (!(await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue) return;
+        await db.KeyDeleteAsync($"{redisKey}_processingstatus_{id}_{shardId}", flags: CommandFlags.FireAndForget);
+    }
+
+    public async Task<bool> SetUserStatusCache(ulong id, string base64)
     {
         var db = Redis.GetDatabase();
         var value = await db.StringGetAsync($"{redisKey}:statushash:{id}");
         if (value.HasValue)
         {
-            var returned = JsonConvert.DeserializeObject<int>(value);
-            if (returned == hashCode)
+            var returned = (string)value;
+            if (returned == base64)
                 return false;
-            await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+            await db.StringSetAsync($"{redisKey}:statushash:{id}", base64);
             return true;
         }
 
-        await db.StringSetAsync($"{redisKey}:statushash:{id}", JsonConvert.SerializeObject(hashCode));
+        await db.StringSetAsync($"{redisKey}:statushash:{id}", base64);
         return true;
-    }
-
-    public List<GuildConfig> GetGuildConfigs()
-    {
-        var db = Redis.GetDatabase();
-        var toDeserialize = db.StringGet($"{redisKey}_guildconfigs");
-        return toDeserialize.IsNull ? new List<GuildConfig>() : JsonConvert.DeserializeObject<List<GuildConfig>>(toDeserialize);
-    }
-
-    public void DeleteGuildConfig(ulong guildId)
-    {
-        var db = Redis.GetDatabase();
-        db.KeyDelete($"{redisKey}_{guildId}_config", flags: CommandFlags.FireAndForget);
     }
 
     public Task CacheHighlights(ulong id, List<Highlights> objectList)

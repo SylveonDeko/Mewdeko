@@ -1,12 +1,6 @@
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Discord.Rest;
-using LinqToDB;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services.Impl;
-using Mewdeko.Services.Settings;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Mewdeko.Modules.Moderation.Services;

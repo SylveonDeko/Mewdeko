@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
@@ -138,9 +137,9 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link",
-                "[Click Here](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
+                "[Anime](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Non Anime](https://discord.com/oauth2/authorize?client_id=733370438175948891&scope=bot&permissions=66186303)")
             .AddField("Website/Docs", "https://mewdeko.tech")
-            .AddField("Support Server", "https://discord.gg/mewdeko")
+            .AddField("Support Server", config.Data.SupportServer)
             .WithOkColor();
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }

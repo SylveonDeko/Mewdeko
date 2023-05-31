@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Mewdeko.Services.strings;
 

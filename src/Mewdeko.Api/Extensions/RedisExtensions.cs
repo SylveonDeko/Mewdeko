@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Mewdeko.WebApp.Extensions;
+namespace Mewdeko.Api.Extensions;
 
 public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using System.Web;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;

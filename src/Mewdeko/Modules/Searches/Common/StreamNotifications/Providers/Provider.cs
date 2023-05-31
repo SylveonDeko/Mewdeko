@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+﻿using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
