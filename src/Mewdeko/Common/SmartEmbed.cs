@@ -16,7 +16,6 @@ public class SmartEmbed
         plainText = string.Empty;
         components = null;
         if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{')) return false;
-
         try
         {
             crembed = JsonConvert.DeserializeObject<CrEmbed>(input);
@@ -28,7 +27,26 @@ public class SmartEmbed
 
         if (!crembed.IsValid)
         {
-            var newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
+            NewEmbed newEmbed;
+            try
+            {
+                newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
+            }
+            catch
+            {
+                try
+                {
+                    var dumbEmbed = JsonConvert.DeserializeObject<DumbEmbed.DumbEmbed>(input);
+                    embeds = DumbEmbed.DumbEmbed.ToEmbedArray(dumbEmbed.Embeds);
+                    plainText = dumbEmbed.Content ?? string.Empty;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
 
             if (newEmbed.Embed?.Fields is { Count: > 0 })
             {

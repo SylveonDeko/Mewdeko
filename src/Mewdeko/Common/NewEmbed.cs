@@ -56,7 +56,7 @@ public class Embed
     public string? Description { get; set; }
 
     [JsonProperty("color")]
-    public uint Color { get; set; }
+    public string Color { get; set; }
 
     [JsonProperty("timestamp")]
     public DateTime? Timestamp { get; set; }
@@ -264,7 +264,12 @@ public class NewEmbed
                 embed.WithDescription(i.Description);
             if (i.Url != null && Uri.IsWellFormedUriString(i.Url, UriKind.Absolute))
                 embed.WithUrl(i.Url);
-            embed.WithColor(new Color(i.Color));
+            if (i.Color.StartsWith("#"))
+                embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("#", ""), 16)));
+            if (i.Color.StartsWith("0x") && i.Color.Length == 8)
+                embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("0x", ""), 16)));
+            if (uint.TryParse(i.Color, out var colorNumber))
+                embed.WithColor(new Color(colorNumber));
             if (i.Footer != null)
             {
                 embed.WithFooter(efb =>
