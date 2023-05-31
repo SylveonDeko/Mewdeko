@@ -23,6 +23,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     private readonly GuildSettingsService guildSettings;
     private readonly CommandHandler ch;
     private readonly BotConfigService config;
+    private static readonly ConcurrentDictionary<ulong, ulong> helpMessages = new();
 
     public HelpSlashCommand(
         GlobalPermissionService permissionService,
@@ -56,6 +57,21 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         {
             Content = "help", Author = ctx.User, Channel = ctx.Channel
         };
+
+        if (helpMessages.TryGetValue(ctx.Channel.Id, out var msgId))
+        {
+            try
+            {
+                await ctx.Channel.DeleteMessageAsync(msgId);
+                helpMessages.TryRemove(ctx.Channel.Id, out _);
+            }
+
+            catch
+            {
+                // ignored
+            }
+        }
+
         var module = selected.FirstOrDefault();
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
@@ -103,8 +119,11 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .WithDefaultEmotes()
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
+        var msg = await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        helpMessages.TryAdd(ctx.Channel.Id, msg.Message.Id);
+
 
         async Task<PageBuilder> PageFactory(int page)
         {
