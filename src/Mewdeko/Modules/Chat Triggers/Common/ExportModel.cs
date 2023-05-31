@@ -3,8 +3,12 @@ namespace Mewdeko.Modules.Chat_Triggers.Common;
 public class ExportedTriggers
 {
     public string[]? React;
-    public List<ulong> ARole;
-    public List<ulong> RRole;
+    public List<ulong> ARole = new();
+
+    public List<ulong> RRole = new();
+
+    // here for backwards compatibility with nadeko lol
+    public string Id { get; set; }
     public string Res { get; set; }
     public bool Ad { get; set; }
     public bool Dm { get; set; }
@@ -14,15 +18,16 @@ public class ExportedTriggers
     public bool Nr { get; set; }
     public bool Rgx { get; set; }
     public CtRoleGrantType Rgt { get; set; }
-    public ChatTriggerType VTypes { get; set; }
-    public string AcName { get; set; }
-    public string AcDesc { get; set; }
+    public ChatTriggerType VTypes { get; set; } = ChatTriggerType.Message;
+    public string AcName { get; set; } = "";
+    public string AcDesc { get; set; } = "";
     public CtApplicationCommandType Act { get; set; }
     public bool Eph { get; set; }
 
     public static ExportedTriggers FromModel(Database.Models.ChatTriggers ct) =>
         new()
         {
+            Id = "",
             Res = ct.Response,
             Ad = ct.AutoDeleteTrigger,
             At = ct.AllowTarget,
