@@ -107,7 +107,10 @@ public class Mewdeko
             .AddTransient<ISeria, JsonSeria>()
             .AddTransient<IPubSub, RedisPubSub>()
             .AddTransient<IConfigSeria, YamlSeria>()
-            .AddSingleton<InteractiveService>()
+            .AddSingleton(new InteractiveService(Client, new InteractiveConfig
+            {
+                ReturnAfterSendingPaginator = true
+            }))
             .AddSingleton(new NekosBestApi())
             .AddSingleton<InteractionService>()
             .AddSingleton<Localization>()
