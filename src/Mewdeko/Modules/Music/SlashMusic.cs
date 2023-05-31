@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -717,8 +716,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             }
         }
 
-        if ((client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtube.com")) ||
-            (client.CurrentUser.Id == 752236274261426212 && searchQuery.Contains("youtu.be")))
+        if ((!config.Data.YoutubeSupport && searchQuery.Contains("youtube.com")) ||
+            (!config.Data.YoutubeSupport && searchQuery.Contains("youtu.be")))
         {
             var eb = new EmbedBuilder().WithErrorColor()
                 .WithTitle("YouTube support on Public Mewdeko has been disabled.")
@@ -744,7 +743,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id).ConfigureAwait(false);
             }
 
-            var searchResponse = await lavaNode.LoadTracksAsync(searchQuery, client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.None)
+            var searchResponse = await lavaNode.LoadTracksAsync(searchQuery, !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.None)
                 .ConfigureAwait(false);
             var platform = Platform.Youtube;
             if (client.CurrentUser.Id == 752236274261426212)
@@ -818,7 +817,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        var searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, client.CurrentUser.Id == 752236274261426212 ? SearchMode.SoundCloud : SearchMode.YouTube)
+        var searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
             .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {

@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using Swan;

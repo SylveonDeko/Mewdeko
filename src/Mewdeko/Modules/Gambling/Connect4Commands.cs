@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Gambling.Common;
@@ -38,9 +37,7 @@ public partial class Gambling
             get => repostCounter;
             set
             {
-                if (value is < 0 or > 7)
-                    repostCounter = 0;
-                else repostCounter = value;
+                repostCounter = value is < 0 or > 7 ? 0 : value;
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.Permissions.Common;

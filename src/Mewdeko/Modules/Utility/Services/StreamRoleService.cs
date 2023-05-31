@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Net;
-using System.Threading.Tasks;
 using Discord.Net;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;

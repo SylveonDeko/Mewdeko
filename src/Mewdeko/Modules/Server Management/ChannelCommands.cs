@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Net.Http;
 using Discord.Commands;
 using Humanizer;
 using Humanizer.Localisation;
@@ -16,8 +16,13 @@ public partial class ServerManagement
     public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
     {
         private readonly BotConfigService config;
+        private readonly HttpClient http;
 
-        public ChannelCommands(BotConfigService config) => this.config = config;
+        public ChannelCommands(BotConfigService config, HttpClient http)
+        {
+            this.config = config;
+            this.http = http;
+        }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
@@ -300,19 +305,19 @@ public partial class ServerManagement
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(0)]
+         UserPerm(GuildPermission.ManageChannels)]
         public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(1)]
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(2)]
+         UserPerm(GuildPermission.ManageChannels)]
         public static async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel).ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(4)]
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task Slowmode() => await InternalSlowmode((ITextChannel)ctx.Channel).ConfigureAwait(false);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
@@ -342,6 +347,40 @@ public partial class ServerManagement
                     await channel.SendConfirmAsync(
                         $"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(maxUnit: TimeUnit.Hour)}").ConfigureAwait(false);
                     break;
+            }
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
+        public async Task CreateWebhook(ITextChannel channel, string name, string avatar = null)
+        {
+            if (ctx.Message.Attachments.Any())
+            {
+                if (avatar == null)
+                {
+                    if (ctx.Message.Attachments.First().Url.IsImage())
+                    {
+                        avatar = ctx.Message.Attachments.First().Url;
+                    }
+                }
+            }
+            if (avatar != null)
+            {
+                using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var imgStream = imgData.ToStream();
+                var wh = await channel.CreateWebhookAsync(name, imgStream).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"{config.Data.SuccessEmote} Created webhook {wh.Name} in {channel.Mention}. The url will be dmed to you.").ConfigureAwait(false);
+                await ctx.User.SendErrorAsync($"***DO NOT SHARE THIS WITH ANYONE***\nUrl: https://discordapp.com/api/webhooks/{wh.Id}/{wh.Token}").ConfigureAwait(false);
+                sr.Dispose();
+                await imgStream.DisposeAsync();
+            }
+            else
+            {
+                var wh = await channel.CreateWebhookAsync(name).ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync($"{config.Data.SuccessEmote} Created webhook {wh.Name} in {channel.Mention}").ConfigureAwait(false);
+                await ctx.User.SendErrorAsync($"***DO NOT SHARE THIS WITH ANYONE***\nUrl: https://discordapp.com/api/webhooks/{wh.Id}/{wh.Token}").ConfigureAwait(false);
             }
         }
     }

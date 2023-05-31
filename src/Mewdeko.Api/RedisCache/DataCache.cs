@@ -1,11 +1,11 @@
 ﻿using System.Net;
+using Mewdeko.Api.Extensions;
+using Mewdeko.Api.Reimplementations;
 using Mewdeko.Database.Models;
-using Mewdeko.WebApp.Extensions;
-using Mewdeko.WebApp.Reimplementations;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Mewdeko.WebApp.RedisCache;
+namespace Mewdeko.Api.RedisCache;
 
 public class RedisCache
 {
@@ -52,17 +52,20 @@ public class RedisCache
         }));
     }
 
-    public GuildConfig? GetGuildConfig(ulong guildId)
+    public async Task<GuildConfig?> GetGuildConfig(ulong guildId)
     {
         var db = Redis.GetDatabase();
-        var toDeserialize = db.StringGet($"{redisKey}_{guildId}_config");
+        var toDeserialize = await db.StringGetAsync($"{redisKey}_{guildId}_config");
         return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<GuildConfig>(toDeserialize);
     }
 
-    public void DeleteGuildConfig(ulong guildId)
+    public async void SetGuildConfig(ulong guildId, GuildConfig guildConfig)
     {
         var db = Redis.GetDatabase();
-        db.KeyDelete($"{redisKey}_{guildId}_config");
+        _ = await db.StringSetAsync($"{redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        }), flags: CommandFlags.FireAndForget);
     }
 
     public async Task CacheHighlights(ulong id, List<Highlights>? objectList) =>

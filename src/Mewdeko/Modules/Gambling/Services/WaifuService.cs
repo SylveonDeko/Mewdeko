@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Modules.Gambling.Common;
+﻿using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Microsoft.EntityFrameworkCore;
 

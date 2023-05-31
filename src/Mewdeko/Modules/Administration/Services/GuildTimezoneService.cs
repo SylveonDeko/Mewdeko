@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Modules.Administration.Services;
+﻿namespace Mewdeko.Modules.Administration.Services;
 
 public class GuildTimezoneService : INService
 {

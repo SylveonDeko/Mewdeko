@@ -1,6 +1,5 @@
 #nullable enable
 using System.Net.Http;
-using System.Threading.Tasks;
 using Mewdeko.Database.Common;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;

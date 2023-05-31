@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mewdeko.Common.ModuleBehaviors;
+﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 public interface IInputTransformer
 {

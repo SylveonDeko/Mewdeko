@@ -31,6 +31,8 @@ public class MewdekoContext : DbContext
     public DbSet<Warning2> Warnings2 { get; set; }
     public DbSet<Afk> Afk { get; set; }
     public DbSet<MultiGreet> MultiGreets { get; set; }
+    public DbSet<UserRoleStates> UserRoleStates { get; set; }
+    public DbSet<RoleStateSettings> RoleStateSettings { get; set; }
     public DbSet<Giveaways> Giveaways { get; set; }
     public DbSet<Ticket> Ticket { get; set; }
     public DbSet<StarboardPosts> Starboard { get; set; }

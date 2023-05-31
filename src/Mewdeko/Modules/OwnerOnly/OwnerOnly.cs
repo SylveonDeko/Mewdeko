@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Globalization;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
@@ -185,102 +184,110 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Cmd, Aliases]
     public async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
     {
-        var configNames = settingServices.Select(x => x.Name);
-
-        // if name is not provided, print available configs
-        name = name?.ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(name))
+        try
         {
-            var embed = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle(GetText("config_list"))
-                .WithDescription(string.Join("\n", configNames));
+            var configNames = settingServices.Select(x => x.Name);
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            return;
-        }
+            // if name is not provided, print available configs
+            name = name?.ToLowerInvariant();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle(GetText("config_list"))
+                    .WithDescription(string.Join("\n", configNames));
 
-        var setting = settingServices.FirstOrDefault(x =>
-            x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                return;
+            }
 
-        // if config name is not found, print error and the list of configs
-        if (setting is null)
-        {
-            var embed = new EmbedBuilder()
-                .WithErrorColor()
-                .WithDescription(GetText("config_not_found", Format.Code(name)))
-                .AddField(GetText("config_list"), string.Join("\n", configNames));
+            var setting = settingServices.FirstOrDefault(x =>
+                x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            return;
-        }
+            // if config name is not found, print error and the list of configs
+            if (setting is null)
+            {
+                var embed = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithDescription(GetText("config_not_found", Format.Code(name)))
+                    .AddField(GetText("config_list"), string.Join("\n", configNames));
 
-        name = setting.Name;
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                return;
+            }
 
-        // if prop is not sent, then print the list of all props and values in that config
-        prop = prop?.ToLowerInvariant();
-        var propNames = setting.GetSettableProps();
-        if (string.IsNullOrWhiteSpace(prop))
-        {
-            var propStrings = GetPropsAndValuesString(setting, propNames);
-            var embed = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle($"⚙️ {setting.Name}")
-                .WithDescription(propStrings);
+            name = setting.Name;
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            return;
-        }
-        // if the prop is invalid -> print error and list of
+            // if prop is not sent, then print the list of all props and values in that config
+            prop = prop?.ToLowerInvariant();
+            var propNames = setting.GetSettableProps();
+            if (string.IsNullOrWhiteSpace(prop))
+            {
+                var propStrings = GetPropsAndValuesString(setting, propNames);
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle($"⚙️ {setting.Name}")
+                    .WithDescription(propStrings);
 
-        var exists = propNames.Any(x => x == prop);
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                return;
+            }
+            // if the prop is invalid -> print error and list of
 
-        if (!exists)
-        {
-            var propStrings = GetPropsAndValuesString(setting, propNames);
-            var propErrorEmbed = new EmbedBuilder()
-                .WithErrorColor()
-                .WithDescription(GetText("config_prop_not_found", Format.Code(prop), Format.Code(name)))
-                .AddField($"⚙️ {setting.Name}", propStrings);
+            var exists = propNames.Any(x => x == prop);
 
-            await ctx.Channel.EmbedAsync(propErrorEmbed).ConfigureAwait(false);
-            return;
-        }
+            if (!exists)
+            {
+                var propStrings = GetPropsAndValuesString(setting, propNames);
+                var propErrorEmbed = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithDescription(GetText("config_prop_not_found", Format.Code(prop), Format.Code(name)))
+                    .AddField($"⚙️ {setting.Name}", propStrings);
 
-        // if prop is sent, but value is not, then we have to check
-        // if prop is valid ->
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            value = setting.GetSetting(prop);
-            if (prop != "currency.sign")
-                Format.Code(Format.Sanitize(value.TrimTo(1000)), "json");
+                await ctx.Channel.EmbedAsync(propErrorEmbed).ConfigureAwait(false);
+                return;
+            }
 
+            // if prop is sent, but value is not, then we have to check
+            // if prop is valid ->
             if (string.IsNullOrWhiteSpace(value))
-                value = "-";
+            {
+                value = setting.GetSetting(prop);
+                if (prop != "currency.sign")
+                    Format.Code(Format.Sanitize(value.TrimTo(1000)), "json");
 
-            var embed = new EmbedBuilder()
-                .WithOkColor()
-                .AddField("Config", Format.Code(setting.Name), true)
-                .AddField("Prop", Format.Code(prop), true)
-                .AddField("Value", value);
+                if (string.IsNullOrWhiteSpace(value))
+                    value = "-";
 
-            var comment = setting.GetComment(prop);
-            if (!string.IsNullOrWhiteSpace(comment))
-                embed.AddField("Comment", comment);
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField("Config", Format.Code(setting.Name), true)
+                    .AddField("Prop", Format.Code(prop), true)
+                    .AddField("Value", value);
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            return;
+                var comment = setting.GetComment(prop);
+                if (!string.IsNullOrWhiteSpace(comment))
+                    embed.AddField("Comment", comment);
+
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                return;
+            }
+
+            var success = setting.SetSetting(prop, value);
+
+            if (!success)
+            {
+                await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value)).ConfigureAwait(false);
+                return;
+            }
+
+            await ctx.OkAsync().ConfigureAwait(false);
         }
-
-        var success = setting.SetSetting(prop, value);
-
-        if (!success)
+        catch (Exception e)
         {
-            await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value)).ConfigureAwait(false);
-            return;
+            Console.WriteLine(e);
+            await ctx.Channel.SendErrorAsync("There was an error setting or printing the config, please check the logs.");
         }
-
-        await ctx.OkAsync().ConfigureAwait(false);
     }
 
     private static string GetPropsAndValuesString(IConfigService config, IEnumerable<string> names)

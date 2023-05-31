@@ -17,11 +17,122 @@ exportrolelist:
   args:
     - ""
   desc: "Exports a list of roles to a file that can be imported with the importrolelist command"
+removestatusrole:
+  args:
+    - "index"
+  desc: "Removes a status from the list of statusroles"
+
+togglerolestates:
+  args:
+    - ""
+  desc: "Enables or disables rolestates for the server"
+
+togglerolestatesignorebots:
+  args:
+    - ""
+  desc: "Toggles whether bots are ignored by rolestates"
+
+togglerolestatesclearonban:
+  args:
+    - ""
+  desc: "Toggles whether rolestates are cleared when a user is banned"
+
+viewrolestatessettings:
+  args:
+    - ""
+  desc: "Views the current settings for rolestates"
+
+viewrolestates:
+  args:
+    - ""
+  desc: "Views all users with rolestates"
+
+deleteuserrolestates:
+  args:
+    - "@user"
+  desc: "Deletes a users rolestate"
+
+rolestatesadddenyrole:
+  args:
+    - "role roleid"
+  desc: "Adds one or more roles that are excluded from rolestates"
+
+rolestatesremovedenyrole:
+  args:
+    - "role roleid"
+  desc: "Removes one or more roles from being excluded from rolestates"
+
+rolestatesadddenyuser:
+  args:
+    - "user userid"
+  desc: "Add one or more users that are excluded from rolestates"
+
+rolestatesremoveadduser:
+  args:
+    - "user userid"
+  desc: "Removes one or more users from being excluded from rolestates"
+
+setuserrolestate:
+  args:
+    - "user role1 role2 \"Role with spaces\""
+  desc: "Sets a users rolestate. Can be used to assign roles to a user before they join."
+
+removerolesfromrolestate:
+  args:
+    - "user role1 role2 \"Role with spaces\""
+  desc: "Removes roles from a users rolestate"
+
+addrolestorolestate:
+  args:
+    - "user role1 role2 \"Role with spaces\""
+  desc: "Adds roles to a users rolestate"
+deleteuserrolestate:
+  args:
+    - "user"
+    - "userid"
+  desc: "Deletes a users rolestate"
+sanitize:
+  args:
+    - "@user"
+  desc: "Removes unmentionable characters from a user's name"
+dehoist:
+    args:
+        - "@user"
+    desc: "Removes hoisting characters from a user's name"
+sanitizeall:
+  args:
+    - ""
+  desc: "Removes unmentionable characters from all users in the server"
+dehoistall:
+    args:
+        - ""
+        - "true"
+    desc: "Removes hoisting characters from all users in the server. Add true to only dehoist nicknames."
+massnickprogress:
+    args:
+        - ""
+    desc: "Shows the progress of either the sanitizeall or dehoistall command"
+massnickstop:
+    args:
+        - ""
+    desc: "Stops the sanitizeall or dehoistall command"
 setstatusroleembed:
   args:
     - 1 embedcode
     - 1
   desc: Preview or set embed code for a statusrole.
+masskick:
+    args:
+        - "@user1 @user2 \"User with spaces"
+    desc: "Kicks the mentioned users."
+banner:
+    args:
+        - "@user1"
+    desc: "Gets the banner of the mentioned user. If no user is mentioned, it gets the banner of the author. Does not get guild banners because discord sucks."
+createwebhook:
+    args:
+        - "channel name avatar"
+    desc: "Creates a webhook in the mentioned channel. Avatar can be a url or an attachment."
 setstatusrolechannel:
   args:
     - channel

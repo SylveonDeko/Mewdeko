@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Modules.Gambling.Services;
+﻿using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Services.Impl;
 

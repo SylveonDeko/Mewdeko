@@ -3,7 +3,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Mewdeko.WebApp.Reimplementations;
+namespace Mewdeko.Api.Reimplementations;
 
 public static class LogSetup
 {

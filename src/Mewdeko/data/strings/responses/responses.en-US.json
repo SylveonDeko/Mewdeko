@@ -665,6 +665,8 @@
     "module_description_searches": "Search for jokes, images of animals, anime and manga",
     "module_description_servermanagement": "Different tools to manage channels, emotes and roles",
     "module_description_starboard": "Setup a customizable starboard channel",
+    "module_description_statusroles": "Setup role changes based on user status!",
+    "module_description_rolestates": "Setup if and how a user gets their previous roles back when they rejoin the server",
     "module_description_suggestions": "Setup ultra customizeable suggestions",
     "module_description_userprofile": "Setup a custom user profile to stand out from the others!",
     "module_description_utility": "Manage quotes, get info for users, and more.",

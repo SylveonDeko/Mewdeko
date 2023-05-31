@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
@@ -72,6 +71,47 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                     .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
                     .AddField(efb =>
                         efb.WithName("Guild Avatar Url").WithValue($"[Link]({avatarUrlGuild})").WithIsInline(true))
+                    .WithImageUrl(avatarUrlGuild);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = ebGuild.Build();
+                    x.Components = componentbuilderGuild.Build();
+                });
+                break;
+        }
+    }
+
+    [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    public async Task Banner(string avType, ulong userId)
+    {
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var guildUser = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, userId);
+        var user = await client.Rest.GetUserAsync(userId);
+        switch (avType)
+        {
+            case "real":
+                var avatarUrl = user.GetAvatarUrl(size: 2048);
+                var componentbuilder = new ComponentBuilder().WithButton("Guild Banner", $"bannertype:guild,{userId}");
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Real Banneer Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
+                    .WithImageUrl(avatarUrl);
+                await componentInteraction.UpdateAsync(x =>
+                {
+                    x.Embed = eb.Build();
+                    x.Components = componentbuilder.Build();
+                });
+                break;
+            case "guild":
+                var avatarUrlGuild = guildUser.GetBannerUrl(size: 2048);
+                var componentbuilderGuild = new ComponentBuilder().WithButton("Real Banner", $"bannertype:real,{userId}");
+                var ebGuild = new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
+                    .AddField(efb =>
+                        efb.WithName("Guild Banner Url").WithValue($"[Link]({avatarUrlGuild})").WithIsInline(true))
                     .WithImageUrl(avatarUrlGuild);
                 await componentInteraction.UpdateAsync(x =>
                 {
