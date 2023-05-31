@@ -54,7 +54,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     {
         var currentmsg = new MewdekoUserMessage
         {
-            Content = "help", Author = ctx.User
+            Content = "help", Author = ctx.User, Channel = ctx.Channel
         };
         var module = selected.FirstOrDefault();
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
