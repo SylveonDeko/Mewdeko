@@ -821,7 +821,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {
-            await ctx.Interaction.SendErrorAsync("Seems like I can't find that video, please try again.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("Seems like I can't find that video, please try again.").ConfigureAwait(false);
             return;
         }
 
@@ -834,7 +834,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                              "Let you select from the top 5\n" +
                              "Just play the first thing I found");
         var msg = await ctx.Interaction.FollowupAsync(embed: eb12.Build(), components: components.Build()).ConfigureAwait(false);
-        var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
+        var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id, true).ConfigureAwait(false);
         switch (button)
         {
             case "all":

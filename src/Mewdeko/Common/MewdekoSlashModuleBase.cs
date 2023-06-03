@@ -103,7 +103,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     }
 
 
-    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
+    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId, bool alreadyDeferred = false)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;
@@ -131,18 +131,18 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
                 {
                     if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId)
                     {
-                        c.DeferAsync();
+                        if (!alreadyDeferred) c.DeferAsync();
                         return Task.CompletedTask;
                     }
 
                     if (c.Data.CustomId == "yes")
                     {
-                        c.DeferAsync();
+                        if (!alreadyDeferred) c.DeferAsync();
                         userInputTask.TrySetResult("Yes");
                         return Task.CompletedTask;
                     }
 
-                    c.DeferAsync();
+                    if (!alreadyDeferred) c.DeferAsync();
                     userInputTask.TrySetResult(c.Data.CustomId);
                     return Task.CompletedTask;
                 });
