@@ -90,6 +90,7 @@ public class HelpService : ILateExecutor, INService
     {
         EmbedBuilder embed = new();
         embed.WithTitle($"{client.CurrentUser.Username} Help");
+        embed.WithAuthor(new EmbedAuthorBuilder().WithName($"{client.CurrentUser.Username} Help").WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
         embed.WithOkColor();
         embed.WithDescription(
             $"\nDo `{await guildSettings.GetPrefix(guild?.Id)}help command` to see a description of a command you need more info on!" +
