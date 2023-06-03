@@ -89,7 +89,6 @@ public class HelpService : ILateExecutor, INService
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         EmbedBuilder embed = new();
-        embed.WithTitle($"{client.CurrentUser.Username} Help");
         embed.WithAuthor(new EmbedAuthorBuilder().WithName($"{client.CurrentUser.Username} Help").WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
         embed.WithOkColor();
         embed.WithDescription(
