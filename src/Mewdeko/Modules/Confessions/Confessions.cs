@@ -63,7 +63,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
         }
 
         await Service.SetConfessionChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ConfirmLocalizedAsync("confessions_channel_set").ConfigureAwait(false);
+        await ConfirmLocalizedAsync("confessions_channel_set", channel.Mention).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]

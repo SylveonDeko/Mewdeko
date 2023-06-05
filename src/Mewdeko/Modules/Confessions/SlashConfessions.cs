@@ -62,7 +62,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         }
 
         await Service.SetConfessionChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
-        await ConfirmLocalizedAsync("confessions_channel_set", channel.Id).ConfigureAwait(false);
+        await ConfirmLocalizedAsync("confessions_channel_set", channel.Mention).ConfigureAwait(false);
     }
 
     [SlashCommand("logchannel", "Set the confession channel"), SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions]
@@ -122,7 +122,8 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 
     [SlashCommand("report", "Reports a server for misuse of confessions")]
     public async Task ConfessReport([Summary("ServerId", "The ID of the server abusing confessions")] string stringServerId,
-        [Summary("description", "How are they abusing confessions? Include image links if possible.")] string how)
+        [Summary("description", "How are they abusing confessions? Include image links if possible.")]
+        string how)
     {
         if (!ulong.TryParse(stringServerId, out var serverId))
         {
