@@ -84,22 +84,16 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     {
         var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
         var ownerId = Context.Guild.OwnerId;
-        var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
-        var targetMaxRole = target.GetRoles().Max(r => r.Position);
         var botMaxRole = curUser.GetRoles().Max(r => r.Position);
-        // bot can't punish a user who is higher in the hierarchy. Discord will return 403
-        // moderator can be owner, in which case role hierarchy doesn't matter
-        // otherwise, moderator has to have a higher role
-        if (botMaxRole > targetMaxRole
-            && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
-            && target.Id != ownerId)
-        {
-            return true;
-        }
+        var targetMaxRole = target.GetRoles().Max(r => r.Position);
+        var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
 
-        if (displayError)
+        var hierarchyCheck = ctx.User.Id == ownerId ? botMaxRole > targetMaxRole : botMaxRole >= targetMaxRole && modMaxRole > targetMaxRole;
+
+        if (!hierarchyCheck && displayError)
             await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
-        return false;
+
+        return hierarchyCheck;
     }
 
 
