@@ -61,8 +61,8 @@ public class HelpService : ILateExecutor, INService
         if (guild != null) return Task.CompletedTask;
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
-
-        return SmartEmbed.TryParse(settings.DmHelpText, null, out var embed, out var plainText, out var components)
+        var replacer = new ReplacementBuilder().WithDefault(msg.Author, msg.Channel, guild as SocketGuild, discordSocketClient).Build();
+        return SmartEmbed.TryParse(replacer.Replace(settings.DmHelpText), null, out var embed, out var plainText, out var components)
             ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components.Build())
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
@@ -78,10 +78,10 @@ public class HelpService : ILateExecutor, INService
                 .WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
         }
 
-        compBuilder.WithButton("Toggle Descriptions", $"toggle-descriptions:{descriptions},{user.Id}");
-        compBuilder.WithButton("Invite Me!", style: ButtonStyle.Link,
+        compBuilder.WithButton(GetText("toggle_descriptions", guild), $"toggle-descriptions:{descriptions},{user.Id}");
+        compBuilder.WithButton(GetText("invite_me", guild), style: ButtonStyle.Link,
             url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands");
-        compBuilder.WithButton("Donate to keep the bot running!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko");
+        compBuilder.WithButton(GetText("donatetext", guild), style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko");
         compBuilder.WithSelectMenu(selMenu);
         return compBuilder;
     }
@@ -89,11 +89,11 @@ public class HelpService : ILateExecutor, INService
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         EmbedBuilder embed = new();
-        embed.WithAuthor(new EmbedAuthorBuilder().WithName($"{client.CurrentUser.Username} Help").WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
+        embed.WithAuthor(new EmbedAuthorBuilder().WithName(GetText("helpmenu_helptext", guild, client.CurrentUser)).WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
         embed.WithOkColor();
         embed.WithDescription(
-            $"\nDo `{await guildSettings.GetPrefix(guild?.Id)}help command` to see a description of a command you need more info on!" +
-            $"\nDo `{await guildSettings.GetPrefix(guild?.Id)}cmds category` to see the commands in that module." +
+            GetText("command_help_description", guild, await guildSettings.GetPrefix(guild)) +
+            $"\n{GetText("module_help_description", guild, await guildSettings.GetPrefix(guild))}" +
             "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/mewdeko) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
