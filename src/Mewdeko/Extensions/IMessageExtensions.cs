@@ -1,5 +1,6 @@
 using Serilog;
 using Embed = Mewdeko.Common.Embed;
+using Image = Mewdeko.Common.Image;
 
 namespace Mewdeko.Extensions;
 
@@ -28,6 +29,8 @@ public static class MessageExtensions
             eb.Content = message.Content;
             foreach (var i in message.Embeds)
             {
+                if (i.Type is not EmbedType.Rich)
+                    continue;
                 var e = new Embed
                 {
                     Fields = new List<Field>()
@@ -67,8 +70,10 @@ public static class MessageExtensions
 
                 if (i.Image.HasValue)
                 {
-                    var image = new NewEmbed().Embed.Image;
-                    image.Url = i.Image.Value.Url;
+                    var image = new Image
+                    {
+                        Url = i.Image.Value.Url
+                    };
                     e.Image = image;
                 }
 
