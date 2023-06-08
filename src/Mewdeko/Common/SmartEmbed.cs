@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Mewdeko.Common;
 
@@ -20,8 +21,9 @@ public class SmartEmbed
         {
             crembed = JsonConvert.DeserializeObject<CrEmbed>(input);
         }
-        catch
+        catch (Exception e)
         {
+            Log.Error(e, "Failed to parse embed");
             return false;
         }
 
@@ -32,8 +34,9 @@ public class SmartEmbed
             {
                 newEmbed = JsonConvert.DeserializeObject<NewEmbed>(input);
             }
-            catch
+            catch (Exception e)
             {
+                Log.Error(e, "Failed to parse new format. trying dumb format.");
                 try
                 {
                     var dumbEmbed = JsonConvert.DeserializeObject<DumbEmbed.DumbEmbed>(input);
@@ -41,8 +44,9 @@ public class SmartEmbed
                     plainText = dumbEmbed.Content ?? string.Empty;
                     return true;
                 }
-                catch
+                catch (Exception e2)
                 {
+                    Log.Error(e2, "Failed to parse dumb format.");
                     return false;
                 }
             }

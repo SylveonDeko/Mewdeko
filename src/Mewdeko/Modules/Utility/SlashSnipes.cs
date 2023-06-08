@@ -144,9 +144,7 @@ public partial class Utility
                     : null).ConfigureAwait(false);
         }
 
-        [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
-         RequireContext(ContextType.Guild), CheckPermissions]
-        public async Task SnipeList(int amount = 5)
+        private async Task SnipeListBase(bool edited, int amount = 5, ITextChannel channel = null, IUser user = null)
         {
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
@@ -156,97 +154,68 @@ public partial class Utility
             }
 
             var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                .Where(x => x.ChannelId == ctx.Channel.Id && !x.Edited);
+                .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == edited);
+            if (user is not null)
             {
-                var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-                if (snipeStores.Length == 0)
-                {
-                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
-                    return;
-                }
-
-                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => !x.Edited).Take(amount);
-                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                    .WithFooter(
-                        PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
-                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                    .Build();
-
-                await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-
-                async Task<PageBuilder> PageFactory(int page)
-                {
-                    var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
-                               ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
-
-                    var builder = new PageBuilder().WithOkColor()
-                        .WithAuthor(new EmbedAuthorBuilder()
-                            .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
-                            .WithName($"{user} said:"))
-                        .WithDescription(
-                            $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
-
-                    if (msg1.ReferenceMessage is not null)
-                        builder.AddField("Replied To", msg1.ReferenceMessage);
-
-                    return builder;
-                }
+                msgs = msgs.Where(x => x.UserId == user.Id);
             }
+
+            if (channel is not null)
+            {
+                msgs = msgs.Where(x => x.ChannelId == channel.Id);
+            }
+
+            var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
+            if (snipeStores.Length == 0)
+            {
+                await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
+                return;
+            }
+
+            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == edited).Take(amount);
+            var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                .WithFooter(
+                    PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+
+            await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                var msg1 = msg.Skip(page).FirstOrDefault();
+                var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
+                           ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
+
+                var builder = new PageBuilder().WithOkColor()
+                    .WithAuthor(new EmbedAuthorBuilder()
+                        .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                        .WithName($"{user} said:"))
+                    .WithDescription(
+                        $"{msg1.Message}\n\nMessage {(edited ? "edited" : "deleted")} {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
+
+                if (msg1.ReferenceMessage is not null)
+                    builder.AddField("Replied To", msg1.ReferenceMessage);
+
+                return builder;
+            }
+        }
+
+        [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
+         RequireContext(ContextType.Guild), CheckPermissions]
+        public async Task SnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
+        {
+            await SnipeListBase(false, amount, channel, user);
         }
 
         [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
-        public async Task EditSnipeList(int amount = 5)
+        public async Task EditSnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
         {
-            if (!await Service.GetSnipeSet(ctx.Guild.Id))
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
-                return;
-            }
-
-            var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited);
-            {
-                var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
-                if (snipeStores.Length == 0)
-                {
-                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
-                    return;
-                }
-
-                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited).Take(amount);
-                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                    .WithFooter(
-                        PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
-                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                    .Build();
-
-                await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-
-                async Task<PageBuilder> PageFactory(int page)
-                {
-                    var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = await ctx.Channel.GetUserAsync(msg1.UserId).ConfigureAwait(false)
-                               ?? await client.Rest.GetUserAsync(msg1.UserId).ConfigureAwait(false);
-
-                    var builder = new PageBuilder().WithOkColor()
-                        .WithAuthor(new EmbedAuthorBuilder()
-                            .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
-                            .WithName($"{user} said:"))
-                        .WithDescription(
-                            $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
-
-                    if (msg1.ReferenceMessage is not null)
-                        builder.AddField("Replied To", msg1.ReferenceMessage);
-
-                    return builder;
-                }
-            }
+            await SnipeListBase(true, amount, channel, user);
         }
+
 
         [SlashCommand("set", "Enable or Disable sniping"),
          SlashUserPerm(GuildPermission.Administrator),

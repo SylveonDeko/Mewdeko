@@ -1488,6 +1488,9 @@ editsnipelist:
   args:
     - ''
     - '20'
+    - "5 @user"
+    - "5 #channel"
+    - "5 @user #channel"
   desc: Shows the last 5 edited messages, unless a different number is specified
 eightball:
   args:
@@ -3471,7 +3474,19 @@ snipelist:
   args:
     - ''
     - '20'
+    - '#channel'
+    - '@user'
+    - '#channel @user'
+    - '20 #channel'
+    - '20 @user'
+    - '20 #channel @user'
   desc: Shows the last 5 deleted messages, unless a different number is specified
+getjson:
+  args:
+    - "messageid"
+    - "channelid messageid"
+  desc: Gets the json of a message. If no channel is specified, the current
+    channel is used.
 snipeset:
   args:
     - enable
