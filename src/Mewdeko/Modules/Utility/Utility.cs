@@ -68,7 +68,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await writer.WriteAsync(serialized);
         await writer.FlushAsync();
         ms.Position = 0;
-        await channel.SendFileAsync(ms, "EmbedJson.txt");
+        await ctx.Channel.SendFileAsync(ms, "EmbedJson.txt");
         await ms.DisposeAsync();
         await writer.DisposeAsync();
     }
