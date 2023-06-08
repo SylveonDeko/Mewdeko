@@ -1,12 +1,15 @@
-﻿using Discord.Interactions;
+﻿using System.IO;
+using Discord.Interactions;
 using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Common.JsonSettings;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -36,6 +39,24 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         this.config = config;
         this.db = db;
     }
+    // scrapped until discord lets me add more application commands than fucking 5
+    // [MessageCommand("Get Json"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages)]
+    // public async Task GetJson(IUserMessage message)
+    // {
+    //     var settings = new JsonSerializerSettings
+    //     {
+    //         ContractResolver = new LowercaseContractResolver(), NullValueHandling = NullValueHandling.Ignore
+    //     };
+    //     var serialized = JsonConvert.SerializeObject(message.GetNewEmbedSource(), Formatting.Indented, settings);
+    //     using var ms = new MemoryStream();
+    //     await using var writer = new StreamWriter(ms);
+    //     await writer.WriteAsync(serialized);
+    //     await writer.FlushAsync();
+    //     ms.Position = 0;
+    //     await ctx.Interaction.RespondWithFileAsync(ms, "EmbedJson.txt", ephemeral: true);
+    //     await ms.DisposeAsync();
+    //     await writer.DisposeAsync();
+    // }
 
     [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Avatar(string avType, ulong userId)
@@ -120,6 +141,28 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                 });
                 break;
         }
+    }
+
+
+    [SlashCommand("getjson", "Gets the json from a message to use with our embed builder!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GetJson(ulong messageId, ITextChannel channel = null)
+    {
+        channel ??= ctx.Channel as ITextChannel;
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new LowercaseContractResolver(), NullValueHandling = NullValueHandling.Ignore
+        };
+
+        var message = await channel.GetMessageAsync(messageId);
+        var serialized = JsonConvert.SerializeObject(message.GetNewEmbedSource(), Formatting.Indented, settings);
+        using var ms = new MemoryStream();
+        await using var writer = new StreamWriter(ms);
+        await writer.WriteAsync(serialized);
+        await writer.FlushAsync();
+        ms.Position = 0;
+        await ctx.Interaction.RespondWithFileAsync(ms, "EmbedJson.txt");
+        await ms.DisposeAsync();
+        await writer.DisposeAsync();
     }
 
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions, SlashUserPerm(ChannelPermission.ManageMessages)]

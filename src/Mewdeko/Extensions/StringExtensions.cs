@@ -74,7 +74,8 @@ public static class StringExtensions
         };
 
     public static bool CheckIfNotEmbeddable(this string input)
-        => input.EndsWith("gifv") || input.EndsWith("mp4");
+        => input.EndsWith("gifv") || input.EndsWith("mp4") || !input.EndsWith(".png") && !input.EndsWith(".jpg") &&
+            !input.EndsWith(".jpeg") || !input.EndsWith(".gif");
 
     public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 

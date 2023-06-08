@@ -9,6 +9,7 @@ using MartineApiNet.Models.Images;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Settings;
+using Newtonsoft.Json.Linq;
 using NHentaiAPI;
 using Refit;
 using Serilog;
@@ -67,6 +68,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             };
             if (image.Data.ImageUrl.CheckIfNotEmbeddable())
             {
+                if (image.Data.ImageUrl.Contains("redgifs"))
+                    image.Data.ImageUrl = await GetRedGifMp4(image.Data.ImageUrl);
                 image.Data.ImageUrl = image.Data.ImageUrl.Replace("gifv", "mp4");
                 using var sr = await client.GetAsync(image.Data.ImageUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
@@ -502,6 +505,34 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag).ConfigureAwait(false);
+        }
+    }
+
+    private async Task<string> GetRedGifMp4(string url)
+    {
+        const string apiUrl = "https://api.redgifs.com/v1/gifs/";
+
+        // Extract the gif id from the URL
+        var gifId = url[(url.LastIndexOf('/') + 1)..];
+
+        using var httpClient = new HttpClient();
+        try
+        {
+            var response = await httpClient.GetAsync(apiUrl + gifId);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            var responseJson = JObject.Parse(responseBody);
+
+            // Parse the MP4 URL from the JSON response
+            var mp4Url = responseJson["gfyItem"]["content_urls"]["mp4"]["url"].Value<string>();
+
+            return mp4Url;
+        }
+        catch (HttpRequestException e)
+        {
+            Log.Error("Error while fetching RedGif MP4 URL: {0}", e.Message);
+            return null;
         }
     }
 
