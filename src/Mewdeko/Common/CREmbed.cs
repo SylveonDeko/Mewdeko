@@ -117,9 +117,9 @@ public class CrEmbed
     public static ButtonBuilder GetButton(CrEmbedComponent btn, int pos, ulong guildId)
     {
         var bb = new ButtonBuilder();
-        if (btn.Url.IsNullOrWhiteSpace() && btn.Id == 0)
+        if (btn.Url.IsNullOrWhiteSpace() && btn.Id is not null)
             bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
-        else if (!btn.Url.IsNullOrWhiteSpace() && btn.Id != 0)
+        else if (!btn.Url.IsNullOrWhiteSpace() && btn.Id is not null)
             bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (btn.Url.IsNullOrWhiteSpace() && btn.Style == ButtonStyle.Link)
             bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
@@ -153,7 +153,10 @@ public class CrEmbed
 
         var error = new SelectMenuBuilder()
             .WithDisabled(true)
-            .WithOptions(new() { new("a", "a") });
+            .WithOptions(new()
+            {
+                new("a", "a")
+            });
 
         if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))
             sb = error.WithPlaceholder("MinOptions and MaxOptions must be less than 25 and more than 0");
@@ -221,7 +224,8 @@ public class CrEmbedAuthor
 public class CrEmbedComponent
 {
     public string? DisplayName { get; set; }
-    public int Id { get; set; } = 0;
+
+    public string Id { get; set; } = null;
     public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
     public string? Url { get; set; }
     public string? Emoji { get; set; }
@@ -234,7 +238,7 @@ public class CrEmbedComponent
 
 public class CrEmbedSelectOption
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Emoji { get; set; }
     public string Description { get; set; }

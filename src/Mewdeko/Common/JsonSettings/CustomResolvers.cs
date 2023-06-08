@@ -10,3 +10,11 @@ public class OrderedResolver : DefaultContractResolver
         return base.CreateProperties(type, memberSerialization).OrderBy(p => p.PropertyName).ToList();
     }
 }
+
+public class LowercaseContractResolver : DefaultContractResolver
+{
+    protected override string ResolvePropertyName(string propertyName)
+    {
+        return propertyName.ToLower();
+    }
+}

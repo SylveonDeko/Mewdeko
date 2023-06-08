@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Mewdeko.Common.JsonConverters;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
 
@@ -56,6 +57,7 @@ public class Embed
     public string? Description { get; set; }
 
     [JsonProperty("color")]
+    [JsonConverter(typeof(StringToIntConverter))]
     public string Color { get; set; }
 
     [JsonProperty("timestamp")]
@@ -89,10 +91,10 @@ public class NewEmbed
     public Embed? Embed { get; set; }
 
     [JsonProperty("embeds")]
-    public Embed[]? Embeds { get; set; }
+    public List<Embed>? Embeds { get; set; }
 
     [JsonProperty("components")]
-    public NewEmbedComponent[]? Components { get; set; }
+    public List<NewEmbedComponent>? Components { get; set; }
 
     public bool IsValid
     {
@@ -119,7 +121,8 @@ public class NewEmbed
     public class NewEmbedComponent
     {
         public string? DisplayName { get; set; }
-        public int Id { get; set; } = 0;
+
+        public string Id { get; set; } = null;
         public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
         public string? Url { get; set; }
         public string? Emoji { get; set; }
@@ -132,7 +135,7 @@ public class NewEmbed
 
     public class NewEmbedSelectOption
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Emoji { get; set; }
         public string Description { get; set; }
@@ -180,9 +183,9 @@ public class NewEmbed
     public static ButtonBuilder GetButton(NewEmbedComponent btn, int pos, ulong guildId)
     {
         var bb = new ButtonBuilder();
-        if (btn.Url.IsNullOrWhiteSpace() && btn.Id == 0)
+        if (btn.Url.IsNullOrWhiteSpace() && btn.Id.IsNullOrWhiteSpace())
             bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
-        else if (!btn.Url.IsNullOrWhiteSpace() && btn.Id != 0)
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Id.IsNullOrWhiteSpace())
             bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (btn.Url.IsNullOrWhiteSpace() && btn.Style == ButtonStyle.Link)
             bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
@@ -232,7 +235,7 @@ public class NewEmbed
             sb = error.WithPlaceholder("Options must not be empty");
         else if (sel.Options.Count > 25)
             sb = error.WithPlaceholder("More than 25 options cannot be specified");
-        else if (sel.DisplayName.Length > 80)
+        else if (sel.DisplayName?.Length > 80)
             sb = error.WithPlaceholder("displayName.length cannot be greater than 80");
         else if (sel.Options.Any(x => x.Name.Length > 100))
             sb = error.WithPlaceholder("select option names length cannot be greater than 100");

@@ -168,7 +168,7 @@ public class UtilityService : INService
         if (ch is not IGuildChannel channel) return;
 
 
-        if (!await GetSnipeSet(channel.Id)) return;
+        if (!await GetSnipeSet(channel.Guild.Id)) return;
 
         if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg) return;
         var snipemsg = new SnipeStore
