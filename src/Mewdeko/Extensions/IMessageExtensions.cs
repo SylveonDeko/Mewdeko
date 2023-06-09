@@ -79,8 +79,10 @@ public static class MessageExtensions
 
                 if (i.Thumbnail.HasValue)
                 {
-                    var thumbnail = new NewEmbed().Embed.Thumbnail;
-                    thumbnail.Url = i.Thumbnail.Value.Url;
+                    var thumbnail = new Thumbnail
+                    {
+                        Url = i.Thumbnail.Value.Url
+                    };
                     e.Thumbnail = thumbnail;
                 }
 
