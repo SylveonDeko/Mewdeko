@@ -105,10 +105,11 @@ public class EmoteStealer : MewdekoSlashCommandModule
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateStickerAsync(i.Name, i.Description ?? $"Added by mewdeko: {i.Name}", i.Tags ?? new[]
-                    {
-                        "Mewdeko"
-                    }, new Image(imgStream)).ConfigureAwait(false);
+                    var emote = await ctx.Guild.CreateStickerAsync(i.Name, new Image(imgStream), new[]
+                        {
+                            "Mewdeko"
+                        }, i.Description)
+                        .ConfigureAwait(false);
                     emotes.Add($"{emote.Name} [Url]({(emote.GetStickerUrl())})");
                 }
                 catch (Exception ex)
