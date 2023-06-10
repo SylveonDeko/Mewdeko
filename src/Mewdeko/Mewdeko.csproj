@@ -30,11 +30,11 @@
     <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.WebSocket" Version="3.10.0" />
-    <PackageReference Include="Discord.Net.Rest" Version="3.10.0" />
-    <PackageReference Include="Discord.Net.Webhook" Version="3.10.0" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.10.0" />
-    <PackageReference Include="Discord.Net.Commands" Version="3.10.0" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.10.0-build-20230522.6"/>
+    <PackageReference Include="Discord.Net.Rest" Version="3.10.0-build-20230522.6"/>
+    <PackageReference Include="Discord.Net.Webhook" Version="3.10.0-build-20230522.6"/>
+    <PackageReference Include="Discord.Net.Interactions" Version="3.10.0-build-20230522.6"/>
+    <PackageReference Include="Discord.Net.Commands" Version="3.10.0-build-20230522.6"/>
   </ItemGroup>
 
     <ItemGroup>
