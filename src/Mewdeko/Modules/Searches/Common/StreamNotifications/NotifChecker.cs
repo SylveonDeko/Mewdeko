@@ -39,6 +39,11 @@ public class NotifChecker
             {
                 FollowedStream.FType.Trovo, new TrovoProvider(httpClientFactory, credsProvider)
             }
+            // Disabled until google makes their api not shit
+            // ,
+            // {
+            //     FollowedStream.FType.Youtube, new YouTubeProvider(credsProvider)
+            // }
         };
         offlineBuffer = new HashSet<(FollowedStream.FType, string)>();
         if (isMaster)
