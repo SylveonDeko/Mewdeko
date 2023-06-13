@@ -29,9 +29,34 @@ public class BotCredentials : IBotCredentials
 
         if (!File.Exists(credsFileName))
         {
-            Log.Warning("credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}",
-                Path.GetFullPath("./credentials_example.json"));
-            Environment.Exit(5);
+            Log.Information("credentials.json is missing. Which of the following do you want to do?");
+            Log.Information("1. Create a new credentials.json file using an interactive prompt");
+            Log.Information("2. Load credentials from environment variables (Start the variables with Mewdeko_)");
+            Log.Information("3. Exit the program");
+            Log.Information("Enter the number of your choice: ");
+            var choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    Log.Information("Please enter your bot's token. You can get it from https://discord.com/developers/applications");
+                    var token = Console.ReadLine();
+                    Log.Information(
+                        "Please enter your ID and and any other IDs seperated by a space to mark them as owners. You can get your ID by enabling developer mode in discord and right clicking your name.");
+                    var owners = Console.ReadLine();
+                    var ownersList = string.IsNullOrWhiteSpace(owners) ? new List<ulong>() : owners.Split(' ').Select(ulong.Parse).ToList();
+                    var model = new CredentialsModel
+                    {
+                        Token = token, OwnerIds = ownersList
+                    };
+                    File.WriteAllText(credsFileName, JsonConvert.SerializeObject(model, Formatting.Indented));
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    Environment.Exit(0);
+                    break;
+                default: throw new ArgumentOutOfRangeException();
+            }
         }
 
         UpdateCredentials(null, null);
@@ -204,7 +229,7 @@ public class BotCredentials : IBotCredentials
         public string? StatcordKey { get; set; } = "";
         public string? RestartCommand { get; set; } = null;
         public int? ShardRunPort { get; set; } = null;
-        public string? Token { get; } = "";
+        public string? Token { get; set; } = "";
 
         public string? GoogleApiKey { get; } = "";
         public string? MashapeKey { get; } = "";
@@ -239,7 +264,7 @@ public class BotCredentials : IBotCredentials
         public string? ChatSavePath { get; set; } = "/usr/share/nginx/cdn/chatlogs/";
 
         [JsonIgnore]
-        public ImmutableArray<ulong?> OwnerIds { get; }
+        public List<ulong> OwnerIds { get; set; }
 
         [JsonIgnore]
         public ImmutableArray<ulong?> OfficialMods { get; }
