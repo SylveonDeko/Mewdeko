@@ -1367,7 +1367,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         var canMention = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone;
 
-        var (attachments, processedMessage) = await HandleAttachmentsAsync(isTextInAttachments, message);
+        var (attachments, processedMessage, streams) = await HandleAttachmentsAsync(isTextInAttachments, message);
 
         var rep = new ReplacementBuilder()
             .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
@@ -1384,10 +1384,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     await channel.SendFilesAsync(attachments: attachments, plainText, embeds: embedData, components: components?.Build(),
                             allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                         .ConfigureAwait(false);
+                    foreach (var i in streams)
+                        await i.DisposeAsync();
                 }
-                catch
+                catch (Exception ex)
                 {
                     await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    Log.Error("Error sending message: {Message}", ex.Message);
                 }
             }
             else
@@ -1397,9 +1400,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                         .ConfigureAwait(false);
                 }
-                catch
+                catch (Exception ex)
                 {
                     await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    Log.Error("Error sending message: {Message}", ex.Message);
                 }
         }
         else if (!string.IsNullOrWhiteSpace(msg))
@@ -1410,6 +1414,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     await channel.SendFilesAsync(attachments, msg, allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                         .ConfigureAwait(false);
+                    foreach (var i in streams)
+                        await i.DisposeAsync();
                 }
                 catch
                 {
@@ -1421,17 +1427,20 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     await channel.SendConfirmAsync(msg).ConfigureAwait(false);
                 }
-                catch
+                catch (Exception ex)
                 {
                     await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    Log.Error("Error sending message: {Message}", ex.Message);
                 }
         }
     }
 
-    private async Task<(List<FileAttachment> attachments, string? message)> HandleAttachmentsAsync(bool isTextInAttachments, string? message)
+    private async Task<(List<FileAttachment> attachments, string? message, List<MemoryStream> streams)> HandleAttachmentsAsync(bool isTextInAttachments, string? message)
     {
         var attachments = new List<FileAttachment>();
-        if (!ctx.Message.Attachments.Any()) return (attachments, message);
+        var streams = new List<MemoryStream>();
+        if (!ctx.Message.Attachments.Any()) return (attachments, message, streams);
+
         var userAttachments = new List<IAttachment>(ctx.Message.Attachments);
 
         if (isTextInAttachments && await PromptUserConfirmAsync("Do you want to use the text file in your attachments as the message?", ctx.User.Id))
@@ -1445,13 +1454,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             using var sr = await httpClient.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var imgStream = imgData.ToStream();
+            var imgStream = new MemoryStream(imgData);
             attachments.Add(new FileAttachment(imgStream, i.Filename));
-
-            await imgStream.DisposeAsync();
+            streams.Add(imgStream);
         }
 
-        return (attachments, message);
+        return (attachments, message, streams);
     }
 
 
