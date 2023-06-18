@@ -194,7 +194,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                 await ctx.Interaction.SendEphemeralConfirmAsync($"Message sent to {channel.Mention}.");
             }
             else
-                await ctx.Interaction.SendEphemeralErrorAsync("The message was emoty after variable replacements. Please double check your input.");
+                await ctx.Interaction.SendEphemeralErrorAsync("The message was empty after variable replacements. Please double check your input.");
         }
     }
 
