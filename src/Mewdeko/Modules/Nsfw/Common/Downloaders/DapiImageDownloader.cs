@@ -2,43 +2,43 @@
 using System.Net.Http.Json;
 using System.Threading;
 
-namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
-
-public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
+namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 {
-    protected readonly string BaseUrl;
-
-    protected DapiImageDownloader(Booru booru, HttpClient http, string baseUrl) : base(booru, http) => BaseUrl = baseUrl;
-
-    public abstract Task<bool> IsTagValid(string tag, CancellationToken cancel = default);
-
-    protected async Task<bool> AllTagsValid(IEnumerable<string> tags, CancellationToken cancel = default)
+    public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
     {
-        var results = await Task.WhenAll(tags.Select(tag => IsTagValid(tag, cancel))).ConfigureAwait(false);
+        protected readonly string BaseUrl;
 
-        // if any of the tags is not valid, the query is not valid
-        return results.All(result => result);
-    }
+        public DapiImageDownloader(Booru booru, IHttpClientFactory http, string baseUrl)
+            : base(booru, http)
+            => BaseUrl = baseUrl;
 
-    public override async Task<List<DapiImageObject>> DownloadImagesAsync(string[] tags, int page,
-        bool isExplicit = false, CancellationToken cancel = default)
-    {
-        // up to 2 tags allowed on danbooru
-        if (tags.Length > 2)
-            return new List<DapiImageObject>();
+        protected abstract Task<bool> IsTagValid(string tag, CancellationToken cancel = default);
 
-        if (!await AllTagsValid(tags, cancel).ConfigureAwait(false))
-            return new List<DapiImageObject>();
+        protected async Task<bool> AllTagsValid(IEnumerable<string> tags, CancellationToken cancel = default)
+        {
+            var results = await tags.Select(tag => IsTagValid(tag, cancel)).WhenAll();
 
-        var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
+            return results.All(result => result);
+        }
 
-        var uri = $"{BaseUrl}/posts.json?limit=200&tags={tagString}&page={page}";
-        var imageObjects = await Http.GetFromJsonAsync<DapiImageObject[]>(uri, SerializerOptions, cancel)
-            .ConfigureAwait(false);
-        if (imageObjects is null)
-            return new List<DapiImageObject>();
-        return imageObjects
-            .Where(x => x.FileUrl is not null)
-            .ToList();
+        public override async Task<List<DapiImageObject>> DownloadImagesAsync(
+            string[] tags,
+            int page,
+            bool isExplicit = false,
+            CancellationToken cancel = default)
+        {
+            if (tags.Length > 2)
+                return new List<DapiImageObject>();
+
+            if (!await AllTagsValid(tags, cancel))
+                return new List<DapiImageObject>();
+
+            var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
+
+            var uri = $"{BaseUrl}/posts.json?limit=200&tags={tagString}&page={page}";
+            using var http = _http.CreateClient();
+            var imageObjects = await http.GetFromJsonAsync<DapiImageObject[]>(uri, _serializerOptions, cancel);
+            return imageObjects is null ? new List<DapiImageObject>() : imageObjects.Where(x => x.FileUrl is not null).ToList();
+        }
     }
 }

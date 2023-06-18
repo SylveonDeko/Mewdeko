@@ -268,21 +268,22 @@ public class SearchImageCacher : INService
         return new List<ImageData>();
     }
 
-    private static IImageDownloader GetImageDownloader(Booru booru, HttpClient http)
+    private IImageDownloader GetImageDownloader(Booru booru)
         => booru switch
         {
-            Booru.Danbooru => new DanbooruImageDownloader(http),
-            Booru.Yandere => new YandereImageDownloader(http),
-            Booru.Konachan => new KonachanImageDownloader(http),
-            Booru.Safebooru => new SafebooruImageDownloader(http),
-            Booru.E621 => new E621ImageDownloader(http),
-            Booru.Derpibooru => new DerpibooruImageDownloader(http),
-            Booru.Gelbooru => new GelbooruImageDownloader(http),
-            Booru.Rule34 => new Rule34ImageDownloader(http),
-            Booru.Sankaku => new SankakuImageDownloader(http),
-            Booru.Realbooru => new RealBooruImageDownloader(http),
+            Booru.Danbooru => new DanbooruImageDownloader(httpFactory),
+            Booru.Yandere => new YandereImageDownloader(httpFactory),
+            Booru.Konachan => new KonachanImageDownloader(httpFactory),
+            Booru.Safebooru => new SafebooruImageDownloader(httpFactory),
+            Booru.E621 => new E621ImageDownloader(httpFactory),
+            Booru.Derpibooru => new DerpibooruImageDownloader(httpFactory),
+            Booru.Gelbooru => new GelbooruImageDownloader(httpFactory),
+            Booru.Rule34 => new Rule34ImageDownloader(httpFactory),
+            Booru.Sankaku => new SankakuImageDownloader(httpFactory),
+            Booru.Realbooru => new RealbooruImageDownloader(httpFactory),
             _ => throw new NotImplementedException($"{booru} downloader not implemented.")
         };
+
 
     private async Task<List<ImageData>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, int page, CancellationToken cancel)
     {
@@ -293,7 +294,7 @@ public class SearchImageCacher : INService
 #endif
 
             using var http = httpFactory.CreateClient();
-            var downloader = GetImageDownloader(type, http);
+            var downloader = GetImageDownloader(type);
 
             var images = await downloader.DownloadImageDataAsync(tags, page, isExplicit, cancel).ConfigureAwait(false);
             if (images.Count != 0) return images;
