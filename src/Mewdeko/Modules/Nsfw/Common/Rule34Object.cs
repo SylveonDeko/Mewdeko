@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Nsfw.Common;
+﻿using System.Text.Json.Serialization;
+
+namespace Mewdeko.Modules.Nsfw.Common;
 
 public class Rule34Object : IImageData
 {
@@ -7,10 +9,10 @@ public class Rule34Object : IImageData
     public string Tags { get; init; }
     public int Score { get; init; }
 
-    public ImageData ToCachedImageData(Booru type) =>
-        new(
-            $"https://img.rule34.xxx//images/{Directory}/{Image}",
-            Booru.Rule34,
-            Tags.Split(' '),
-            Score.ToString());
+    [JsonPropertyName("file_url")]
+    public string FileUrl { get; init; }
+
+
+    public ImageData ToCachedImageData(Booru type)
+        => new(FileUrl, Booru.Rule34, Tags.Split(' '), Score.ToString());
 }

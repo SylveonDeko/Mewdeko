@@ -8,27 +8,33 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 public abstract class ImageDownloader<T> : IImageDownloader
     where T : IImageData
 {
-    protected readonly HttpClient Http;
+    public Booru Booru { get; }
+    protected readonly IHttpClientFactory _http;
 
-    protected readonly JsonSerializerOptions SerializerOptions = new()
+    protected readonly JsonSerializerOptions _serializerOptions = new()
     {
         PropertyNameCaseInsensitive = true, NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
     };
 
-    public Booru Booru { get; }
-
-    public ImageDownloader(Booru booru, HttpClient http)
+    public ImageDownloader(Booru booru, IHttpClientFactory http)
     {
-        Http = http;
+        _http = http;
         Booru = booru;
     }
 
-    public abstract Task<List<T>> DownloadImagesAsync(string[] tags, int page, bool isExplicit = false, CancellationToken cancel = default);
+    public abstract Task<List<T>> DownloadImagesAsync(
+        string[] tags,
+        int page,
+        bool isExplicit = false,
+        CancellationToken cancel = default);
 
-    public async Task<List<ImageData>> DownloadImageDataAsync(string[] tags, int page, bool isExplicit = false,
+    public async Task<List<ImageData>> DownloadImageDataAsync(
+        string[] tags,
+        int page,
+        bool isExplicit = false,
         CancellationToken cancel = default)
     {
-        var images = await DownloadImagesAsync(tags, page, isExplicit, cancel).ConfigureAwait(false);
+        var images = await DownloadImagesAsync(tags, page, isExplicit, cancel);
         return images.Select(x => x.ToCachedImageData(Booru)).ToList();
     }
 }
