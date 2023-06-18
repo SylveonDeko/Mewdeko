@@ -392,7 +392,6 @@ public class StreamNotificationService : IReadyExecutor, INService
 
     public async Task<StreamData?> FollowStream(ulong guildId, ulong channelId, string url)
     {
-        // this will
         var data = await streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
 
         if (data is null)

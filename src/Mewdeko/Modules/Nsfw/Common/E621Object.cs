@@ -2,6 +2,13 @@
 
 public class E621Object : IImageData
 {
+    public FileData File { get; set; }
+    public TagData Tags { get; set; }
+    public ScoreData Score { get; set; }
+
+    public ImageData ToCachedImageData(Booru type)
+        => new(File.Url, Booru.E621, Tags.General, Score.Total.ToString());
+
     public class FileData
     {
         public string Url { get; set; }
@@ -16,11 +23,4 @@ public class E621Object : IImageData
     {
         public int Total { get; set; }
     }
-
-    public FileData? File { get; set; }
-    public TagData? Tags { get; set; }
-    public ScoreData? Score { get; set; }
-
-    public ImageData ToCachedImageData(Booru type)
-        => new(File.Url, Booru.E621, Tags.General, Score.Total.ToString());
 }

@@ -548,18 +548,42 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return;
         }
 
-        await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithImageUrl(data.Url)
-                .WithDescription($"[link]({data.Url})")
-                .WithFooter(
-                    $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
-                .Build(),
-            components: config.Data.ShowInviteButton
-                ? new ComponentBuilder()
-                    .WithButton(style: ButtonStyle.Link,
-                        url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                : null).ConfigureAwait(false);
+        if (data.Url.IsImage())
+        {
+            await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithImageUrl(data.Url)
+                    .WithDescription($"[link]({data.Url})")
+                    .WithFooter(
+                        $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
+                    .Build(),
+                components: config.Data.ShowInviteButton
+                    ? new ComponentBuilder()
+                        .WithButton(style: ButtonStyle.Link,
+                            url:
+                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                            label: "Invite Me!",
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                    : null).ConfigureAwait(false);
+        }
+        else
+        {
+            using var sr = await client.GetAsync(data.Url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var imgStream = imgData.ToStream();
+            await using var _ = imgStream.ConfigureAwait(false);
+            await ctx.Channel.SendFileAsync(imgStream, "video.mp4",
+                embed: new EmbedBuilder().WithOkColor()
+                    .WithDescription($"[link]({data.Url})")
+                    .WithFooter(
+                        $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
+                    .Build(),
+                components: config.Data.ShowInviteButton
+                    ? new ComponentBuilder()
+                        .WithButton(style: ButtonStyle.Link,
+                            url:
+                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                            label: "Invite Me!",
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                    : null).ConfigureAwait(false);
+        }
     }
 }
