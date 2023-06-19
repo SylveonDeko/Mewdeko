@@ -267,12 +267,16 @@ public class NewEmbed
                 embed.WithDescription(i.Description);
             if (i.Url != null && Uri.IsWellFormedUriString(i.Url, UriKind.Absolute))
                 embed.WithUrl(i.Url);
-            if (i.Color.StartsWith("#"))
-                embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("#", ""), 16)));
-            if (i.Color.StartsWith("0x") && i.Color.Length == 8)
-                embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("0x", ""), 16)));
-            if (uint.TryParse(i.Color, out var colorNumber))
-                embed.WithColor(new Color(colorNumber));
+            if (i.Color is not null)
+            {
+                if (i.Color.StartsWith("#"))
+                    embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("#", ""), 16)));
+                if (i.Color.StartsWith("0x") && i.Color.Length == 8)
+                    embed.WithColor(new Color(Convert.ToUInt32(i.Color.Replace("0x", ""), 16)));
+                if (uint.TryParse(i.Color, out var colorNumber))
+                    embed.WithColor(new Color(colorNumber));
+            }
+
             if (i.Footer != null)
             {
                 embed.WithFooter(efb =>
