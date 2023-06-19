@@ -72,8 +72,7 @@ public static class Extensions
                 var mention = ctx.MentionedUserIds.FirstOrDefault();
                 if (mention is 0)
                     return "";
-                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
-                return user is null ? "" : user.Mention;
+                return mention.ToString();
             })
             .WithOverride("%targetuser.id%", () =>
             {
@@ -271,6 +270,7 @@ public static class Extensions
                 await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
                 return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
             }
+
             return await inter.FollowupAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
         }
 
@@ -308,25 +308,25 @@ public static class Extensions
             case -1:
                 return WordPosition.None;
             case 0:
-                {
-                    if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
-                        return WordPosition.Start;
-                    break;
-                }
+            {
+                if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
+                    return WordPosition.Start;
+                break;
+            }
             default:
+            {
+                if (wordIndex + word.Length == str.Length)
                 {
-                    if (wordIndex + word.Length == str.Length)
-                    {
-                        if (str.IsValidWordDivider(wordIndex - 1))
-                            return WordPosition.End;
-                    }
-                    else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
-                    {
-                        return WordPosition.Middle;
-                    }
-
-                    break;
+                    if (str.IsValidWordDivider(wordIndex - 1))
+                        return WordPosition.End;
                 }
+                else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
+                {
+                    return WordPosition.Middle;
+                }
+
+                break;
+            }
         }
 
         return WordPosition.None;
