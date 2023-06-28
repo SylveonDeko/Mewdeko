@@ -164,7 +164,6 @@ public class LogCommandService : INService
     {
         await using var uow = db.GetDbContext();
         var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (type)
         {
             case LogType.Other:
@@ -244,14 +243,15 @@ public class LogCommandService : INService
                 break;
         }
 
+        uow.LogSettings.Update(logSetting);
         await uow.SaveChangesAsync();
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var uow = db.GetDbContext();
         var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         switch (categoryTypes)
         {
             case LogCategoryTypes.All:
@@ -352,7 +352,9 @@ public class LogCommandService : INService
                 break;
         }
 
+        uow.LogSettings.Update(logSetting);
         await uow.SaveChangesAsync();
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 
     private async Task Client_UserUpdated(SocketUser before, SocketUser uAfter)
@@ -1044,8 +1046,7 @@ public class LogCommandService : INService
         }
     }
 
-    private async Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
-        Cacheable<IMessageChannel, ulong> channel)
+    private async Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages, Cacheable<IMessageChannel, ulong> channel)
     {
         if (channel.Value is not ITextChannel chan)
             return;
@@ -1079,9 +1080,9 @@ public class LogCommandService : INService
         if (count == 1)
             return;
 
-        while (toSend.Count > 0)
+        for (var i = 0; i < toSend.Count; i += 100)
         {
-            var toBatch = toSend.Take(100);
+            var toBatch = toSend.Skip(i).Take(100);
             foreach (var group in toBatch.Chunk(20))
             {
                 var eb = new EmbedBuilder().WithOkColor();
@@ -1091,10 +1092,10 @@ public class LogCommandService : INService
                 await logChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
-            toSend = toSend.Skip(100).ToList();
             await Task.Delay(1000).ConfigureAwait(false);
         }
     }
+
 
     private async Task Client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
