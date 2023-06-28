@@ -1,8 +1,8 @@
-﻿
-namespace Mewdeko.Services.Impl;
+﻿namespace Mewdeko.Services.Impl;
 
 public class EventHandler
 {
+    // Delegates
     public delegate Task AsyncEventHandler<in TEventArgs>(TEventArgs args);
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs>(TEventArgs args, TArgs arsg2);
@@ -10,6 +10,39 @@ public class EventHandler
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3);
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
+
+    // Actual events
+    public event AsyncEventHandler<SocketMessage>? MessageReceived;
+    public event AsyncEventHandler<SocketGuildEvent>? EventCreated;
+    public event AsyncEventHandler<SocketRole>? RoleCreated;
+    public event AsyncEventHandler<SocketGuild, SocketGuild>? GuildUpdated;
+    public event AsyncEventHandler<IGuildUser>? UserJoined;
+    public event AsyncEventHandler<SocketRole, SocketRole>? RoleUpdated;
+    public event AsyncEventHandler<IGuild, IUser>? UserLeft;
+    public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
+    public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
+    public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
+    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>? MessagesBulkDeleted;
+    public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
+    public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
+    public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
+    public event AsyncEventHandler<SocketUser, SocketVoiceState, SocketVoiceState>? UserVoiceStateUpdated;
+    public event AsyncEventHandler<SocketChannel>? ChannelCreated;
+    public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
+    public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
+    public event AsyncEventHandler<SocketRole>? RoleDeleted;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
+    public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
+    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
+    public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
+    public event AsyncEventHandler<IGuild>? JoinedGuild;
+    public event AsyncEventHandler<SocketThreadChannel>? ThreadCreated;
+    public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>, SocketThreadChannel>? ThreadUpdated;
+    public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>>? ThreadDeleted;
+    public event AsyncEventHandler<SocketThreadUser>? ThreadMemberJoined;
+    public event AsyncEventHandler<SocketThreadUser>? ThreadMemberLeft;
 
 
     public EventHandler(DiscordSocketClient client)
@@ -36,30 +69,52 @@ public class EventHandler
         client.UserIsTyping += ClientOnUserIsTyping;
         client.PresenceUpdated += ClientOnPresenceUpdated;
         client.JoinedGuild += ClientOnJoinedGuild;
+        client.GuildScheduledEventCreated += ClientOnEventCreated;
+        client.RoleUpdated += ClientOnRoleUpdated;
+        client.GuildUpdated += ClientOnGuildUpdated;
+        client.RoleCreated += ClientOnRoleCreated;
+        client.ThreadCreated += ClientOnThreadCreated;
+        client.ThreadUpdated += ClientOnThreadUpdated;
+        client.ThreadDeleted += ClientOnThreadDeleted;
+        client.ThreadMemberJoined += ClientOnThreadMemberJoined;
+        client.ThreadMemberLeft += ClientOnThreadMemberLeft;
     }
 
-    public event AsyncEventHandler<SocketMessage>? MessageReceived;
-    public event AsyncEventHandler<IGuildUser>? UserJoined;
-    public event AsyncEventHandler<IGuild, IUser>? UserLeft;
-    public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
-    public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
-    public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
-    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>? MessagesBulkDeleted;
-    public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
-    public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
-    public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
-    public event AsyncEventHandler<SocketUser, SocketVoiceState, SocketVoiceState>? UserVoiceStateUpdated;
-    public event AsyncEventHandler<SocketChannel>? ChannelCreated;
-    public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
-    public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
-    public event AsyncEventHandler<SocketRole>? RoleDeleted;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
-    public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
-    public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
-    public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
-    public event AsyncEventHandler<IGuild>? JoinedGuild;
+    private Task ClientOnThreadMemberLeft(SocketThreadUser arg)
+    {
+        if (ThreadMemberLeft is not null)
+            _ = ThreadMemberLeft(arg);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnThreadMemberJoined(SocketThreadUser arg)
+    {
+        if (ThreadMemberJoined is not null)
+            _ = ThreadMemberJoined(arg);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnThreadDeleted(Cacheable<SocketThreadChannel, ulong> arg)
+    {
+        if (ThreadDeleted is not null)
+            _ = ThreadDeleted(arg);
+        return Task.CompletedTask;
+    }
+
+
+    private Task ClientOnThreadUpdated(Cacheable<SocketThreadChannel, ulong> arg1, SocketThreadChannel arg2)
+    {
+        if (ThreadUpdated is not null)
+            _ = ThreadUpdated(arg1, arg2);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnThreadCreated(SocketThreadChannel arg)
+    {
+        if (ThreadCreated is not null)
+            _ = ThreadCreated(arg);
+        return Task.CompletedTask;
+    }
 
     private Task ClientOnJoinedGuild(SocketGuild arg)
     {
@@ -211,6 +266,34 @@ public class EventHandler
     {
         if (MessageReceived is not null)
             _ = MessageReceived(arg);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnEventCreated(SocketGuildEvent args)
+    {
+        if (EventCreated is not null)
+            _ = EventCreated(args);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnRoleUpdated(SocketRole arg1, SocketRole arg2)
+    {
+        if (RoleUpdated is not null)
+            _ = RoleUpdated(arg1, arg2);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnGuildUpdated(SocketGuild arg1, SocketGuild arg2)
+    {
+        if (GuildUpdated is not null)
+            _ = GuildUpdated(arg1, arg2);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnRoleCreated(SocketRole args)
+    {
+        if (RoleCreated is not null)
+            _ = RoleCreated(args);
         return Task.CompletedTask;
     }
 }
