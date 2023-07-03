@@ -4,7 +4,6 @@ using System.Net.Http;
 using AngleSharp;
 using AngleSharp.Html.Dom;
 using Anilist4Net;
-using Anilist4Net.Enums;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -300,41 +299,73 @@ public partial class Searches
         [Cmd, Aliases]
         public async Task Anime([Remainder] string query)
         {
-            var c2 = new Client();
-            Media? result;
-
-            try
-            {
-                result = await c2.GetMediaBySearch(query, MediaTypes.ANIME).ConfigureAwait(false);
-            }
-            catch (NullReferenceException)
+            var client = new Jikan();
+            var result = await client.SearchAnimeAsync(query);
+            if (result is null)
             {
                 await ctx.Channel.SendErrorAsync(
                     "The anime you searched for wasn't found! Please try a different query!").ConfigureAwait(false);
                 return;
             }
 
-            var eb = new EmbedBuilder
+            IEnumerable<Anime> newResult = ((ITextChannel)ctx.Channel).IsNsfw
+                ? result.Data
+                    .Where(x => x.Genres.Any(malUrl => malUrl.Name != "Hentai"))
+                : result.Data;
+
+            if (!newResult.Any())
             {
-                ImageUrl = result?.CoverImageLarge
-            };
-            var te = result?.SeasonInt.ToString()?[2..] is ""
-                ? result.SeasonInt.ToString()?[1..]
-                : result?.SeasonInt.ToString()?[2..];
-            if (result?.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
-            if (result!.Genres.Length > 0) eb.AddField("Genres", string.Join("\n", result.Genres), true);
-            if (result.CountryOfOrigin is not null) eb.AddField("Country of Origin", result.CountryOfOrigin, true);
-            eb.AddField("Episodes", result.Episodes, true);
-            if (result.SeasonInt is not null) eb.AddField("Seasons", te, true);
-            eb.AddField("Air Start Date", result.AiringStartDate, true);
-            eb.AddField("Air End Date", result.AiringEndDate, true);
-            eb.AddField("Average Score", result.AverageScore, true);
-            eb.AddField("Mean Score", result.MeanScore, true);
-            eb.AddField("Is this Nsfw?", result.IsAdult, true);
-            eb.Title = $"{result.EnglishTitle}";
-            eb.Color = Mewdeko.OkColor;
-            eb.WithUrl(result.SiteUrl);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No results found!").ConfigureAwait(false);
+                return;
+            }
+
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(result.Data.Count - 1)
+                .WithDefaultCanceledPage()
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                try
+                {
+                    await Task.CompletedTask;
+                    var data = newResult.Skip(page).FirstOrDefault();
+                    return new PageBuilder()
+                        .WithTitle(data.Titles.FirstOrDefault().Title)
+                        .WithUrl(data.Url)
+                        .WithDescription(data.Synopsis)
+                        .AddField("Genres", string.Join(", ", data.Genres), true)
+                        .AddField("Episodes", data.Episodes.HasValue ? data.Episodes : "Unknown", true)
+                        .AddField("Score", data.Score.HasValue ? data.Score : "Unknown", true)
+                        .AddField("Status", data.Status, true)
+                        .AddField("Type", data.Type, true)
+                        .AddField("Start Date", data.Aired.From.HasValue ? TimestampTag.FromDateTime(data.Aired.From.Value) : "Unknown", true)
+                        .AddField("End Date", data.Aired.To.HasValue ? TimestampTag.FromDateTime(data.Aired.To.Value) : "Unknown", true)
+                        .AddField("Rating", data.Rating, true)
+                        .AddField("Rank", data.Rank.HasValue ? data.Rank : "Unknown", true)
+                        .AddField("Popularity", data.Popularity.HasValue ? data.Popularity : "Unknown", true)
+                        .AddField("Members", data.Members.HasValue ? data.Members : "Unknown", true)
+                        .AddField("Favorites", data.Favorites.HasValue ? data.Favorites : "Unknown", true)
+                        .AddField("Source", data.Source, true)
+                        .AddField("Duration", data.Duration, true)
+                        .AddField("Studios", data.Studios.Any() ? string.Join(", ", data.Studios.Select(x => x.Name)) : "Unknown", true)
+                        .AddField("Producers", data.Producers.Any() ? string.Join(", ", data.Producers.Select(x => x.Name)) : "Unknown", true)
+                        .WithOkColor()
+                        .WithImageUrl(data.Images.JPG.LargeImageUrl);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -342,7 +373,7 @@ public partial class Searches
         {
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"{config.Data.LoadingEmote} Getting results for {query}...").ConfigureAwait(false);
-            IJikan jikan = new Jikan();
+            var jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
