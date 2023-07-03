@@ -534,11 +534,12 @@ public class CommandHandler : INService
 
     public async Task<bool> ExecuteCommandsInChannelAsync(ulong channelId)
     {
+        if (CommandParseLock.GetValueOrDefault(channelId, false) || CommandParseQueue.GetValueOrDefault(channelId)?.IsEmpty != false)
+            return false;
+
+        CommandParseLock[channelId] = true;
         try
         {
-            if (CommandParseLock.GetValueOrDefault(channelId, false)) return false;
-            if (CommandParseQueue.GetValueOrDefault(channelId) is null || CommandParseQueue[channelId].IsEmpty) return false;
-            CommandParseLock[channelId] = true;
             while (CommandParseQueue[channelId].TryDequeue(out var msg))
             {
                 await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
@@ -561,22 +562,17 @@ public class CommandHandler : INService
     {
         var execTime = Environment.TickCount;
 
-        //its nice to have early blockers and early blocking executors separate, but
-        //i could also have one interface with priorities, and just put early blockers on
-        //highest priority. :thinking:
         foreach (var beh in EarlyBehaviors)
         {
             if (!await beh.RunBehavior(client, guild, usrMsg).ConfigureAwait(false)) continue;
+
             switch (beh.BehaviorType)
             {
                 case ModuleBehaviorType.Blocker:
-                    Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
-                        usrMsg.Content, beh.GetType().Name);
+                    Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", $"{usrMsg.Author} | {usrMsg.Author.Id}", usrMsg.Content, beh.GetType().Name);
                     break;
                 case ModuleBehaviorType.Executor:
-                    Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
-                        usrMsg.Content,
-                        beh.GetType().Name, usrMsg.Author.Id);
+                    Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author, usrMsg.Content, beh.GetType().Name, usrMsg.Author.Id);
                     break;
             }
 
@@ -588,105 +584,100 @@ public class CommandHandler : INService
         var messageContent = usrMsg.Content;
         foreach (var exec in inputTransformers)
         {
-            string newContent;
-            if ((newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
-                    .ConfigureAwait(false))
-                == messageContent.ToLowerInvariant())
-            {
-                continue;
-            }
+            var newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
+                .ConfigureAwait(false);
 
+            if (newContent.Equals(messageContent, StringComparison.OrdinalIgnoreCase)) continue;
             messageContent = newContent;
             break;
         }
 
         var prefix = await gss.GetPrefix(guild?.Id);
-        // execute the command and measure the time it took
-        if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||
-            messageContent.StartsWith($"<@{client.CurrentUser.Id}> ") ||
-            messageContent.StartsWith($"<@!{client.CurrentUser.Id}>"))
-        {
-            if (messageContent.StartsWith($"<@{client.CurrentUser.Id}>"))
-                prefix = $"<@{client.CurrentUser.Id}> ";
-            if (messageContent.StartsWith($"<@!{client.CurrentUser.Id}>"))
-                prefix = $"<@!{client.CurrentUser.Id}> ";
-            if (messageContent == $"<@{client.CurrentUser.Id}>"
-                || messageContent == $"<@!{client.CurrentUser.Id}>")
-            {
-                return;
-            }
 
-            var (success, error, info) = await ExecuteCommandAsync(new CommandContext(client, usrMsg),
-                    messageContent, prefix.Length, services, MultiMatchHandling.Best)
-                .ConfigureAwait(false);
-            execTime = Environment.TickCount - execTime;
-            try
-            {
-                if (guild is not null)
-                {
-                    var gconf = await gss.GetGuildConfig(guild.Id);
-                    if (!gconf.StatsOptOut && info is not null)
-                    {
-                        await using var uow = db.GetDbContext();
-                        var user = await uow.GetOrCreateUser(usrMsg.Author);
-                        if (!user.StatsOptOut)
-                        {
-                            var comStats = new CommandStats
-                            {
-                                ChannelId = channel.Id,
-                                GuildId = guild.Id,
-                                NameOrId = info.Name,
-                                UserId = usrMsg.Author.Id,
-                                Module = info.Module.Name
-                            };
-                            await uow.CommandStats.AddAsync(comStats);
-                            await uow.SaveChangesAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error saving command stats:\n{e}");
-            }
+        var startsWithPrefix = messageContent.StartsWith(prefix, StringComparison.InvariantCulture);
+        var startsWithBotMention = messageContent.StartsWith($"<@{client.CurrentUser.Id}> ", StringComparison.InvariantCulture) ||
+                                   messageContent.StartsWith($"<@!{client.CurrentUser.Id}> ", StringComparison.InvariantCulture);
 
-            if (success)
-            {
-                await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime)
-                    .ConfigureAwait(false);
-                await CommandExecuted(usrMsg, info).ConfigureAwait(false);
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
-                if (guild != null)
-                {
-                    var perms = new PermissionService(client, db, strings, gss);
-                    var pc = await perms.GetCacheFor(guild.Id);
-                    if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
-                        await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
-                    if (pc == null)
-                        await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
-                }
-            }
-        }
-        else
+        if (!startsWithPrefix && !startsWithBotMention)
         {
             await OnMessageNoTrigger(usrMsg).ConfigureAwait(false);
+            return;
         }
 
-        foreach (var exec in lateExecutors) await exec.LateExecute(client, guild, usrMsg).ConfigureAwait(false);
+        if (startsWithBotMention)
+        {
+            prefix = messageContent.IndexOf('!') == -1 ? $"<@{client.CurrentUser.Id}> " : $"<@!{client.CurrentUser.Id}> ";
+        }
+
+        if (messageContent.Equals(prefix.Trim(), StringComparison.InvariantCulture))
+        {
+            return;
+        }
+
+        var (success, error, info) = await ExecuteCommandAsync(new CommandContext(client, usrMsg),
+                messageContent, prefix.Length, MultiMatchHandling.Best)
+            .ConfigureAwait(false);
+
+        execTime = Environment.TickCount - execTime;
+
+        if (guild is not null)
+        {
+            var gconf = await gss.GetGuildConfig(guild.Id);
+            if (!gconf.StatsOptOut && info is not null)
+            {
+                await using var uow = db.GetDbContext();
+                var user = await uow.GetOrCreateUser(usrMsg.Author);
+                if (!user.StatsOptOut)
+                {
+                    var comStats = new CommandStats
+                    {
+                        ChannelId = channel.Id,
+                        GuildId = guild.Id,
+                        NameOrId = info.Name,
+                        UserId = usrMsg.Author.Id,
+                        Module = info.Module.Name
+                    };
+                    await uow.CommandStats.AddAsync(comStats);
+                    await uow.SaveChangesAsync();
+                }
+            }
+        }
+
+        if (success)
+        {
+            await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime).ConfigureAwait(false);
+            await CommandExecuted(usrMsg, info).ConfigureAwait(false);
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(error))
+        {
+            await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
+            if (guild != null)
+            {
+                var perms = new PermissionService(client, db, strings, gss);
+                var pc = await perms.GetCacheFor(guild.Id);
+                if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
+                    await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
+                if (pc == null)
+                    await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);
+            }
+        }
+
+        foreach (var exec in lateExecutors)
+        {
+            await exec.LateExecute(client, guild, usrMsg).ConfigureAwait(false);
+        }
     }
 
+
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
-        string input, int argPos, IServiceProvider serviceProvider,
+        string input, int argPos,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
-        await ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling).ConfigureAwait(false);
+        await ExecuteCommand(context, input[argPos..], multiMatchHandling).ConfigureAwait(false);
 
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
-        string input, IServiceProvider services,
+        string input,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
         var searchResult = commandService.Search(context, input);

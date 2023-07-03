@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
@@ -20,7 +21,7 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 [OwnerOnly]
-public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
+public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 {
     public enum SettableUserStatus
     {
@@ -76,9 +77,7 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
-            Author = user,
-            Channel = ctx.Channel
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
         _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
@@ -89,9 +88,7 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
-            Author = await Context.Guild.GetOwnerAsync(),
-            Channel = ctx.Channel
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = await Context.Guild.GetOwnerAsync(), Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
         _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
@@ -875,46 +872,92 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     public async Task Bash([Remainder] string message)
     {
         using var process = new Process();
-        process.StartInfo = new ProcessStartInfo
+        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        if (isLinux)
         {
-            FileName = "/bin/bash",
-            Arguments = $"-c \"{message} 2>&1\"",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
+            process.StartInfo = new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{message} 2>&1\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+        }
+        else
+        {
+            process.StartInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"/c \"{message} 2>&1\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+        }
 
         using (ctx.Channel.EnterTypingState())
         {
             process.Start();
-
-            // Synchronously read the standard output of the spawned process.
             var reader = process.StandardOutput;
+            var timeout = TimeSpan.FromHours(2);
+            var task = Task.Run(() => reader.ReadToEndAsync());
+            if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
+            {
+                var output = await task.ConfigureAwait(false);
 
-            var output = await reader.ReadToEndAsync().ConfigureAwait(false);
-            if (output.Length > 2000)
-            {
-                var chunkSize = 1988;
-                var stringLength = output.Length;
-                for (var i = 0; i < stringLength; i += chunkSize)
+                if (string.IsNullOrEmpty(output))
                 {
-                    if (i + chunkSize > stringLength)
-                        chunkSize = stringLength - i;
-                    await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```").ConfigureAwait(false);
-                    await process.WaitForExitAsync().ConfigureAwait(false);
+                    await ctx.Channel.SendMessageAsync("```The output was blank```").ConfigureAwait(false);
+                    return;
                 }
-            }
-            else if (string.IsNullOrEmpty(output))
-            {
-                await ctx.Channel.SendMessageAsync("```The output was blank```").ConfigureAwait(false);
+
+                var chunkSize = 1988;
+                var stringList = new List<string>();
+
+                for (var i = 0; i < output.Length; i += chunkSize)
+                {
+                    if (i + chunkSize > output.Length)
+                        chunkSize = output.Length - i;
+                    stringList.Add(output.Substring(i, chunkSize));
+
+                    if (stringList.Count < 50) continue;
+                    process.Kill();
+                    break;
+                }
+
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(stringList.Count - 1)
+                    .WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .Build();
+
+                await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+                    return new PageBuilder()
+                        .WithOkColor()
+                        .WithAuthor($"Bash Output")
+                        .AddField("Input", message)
+                        .WithDescription($"```{(isLinux ? "bash" : "powershell")}\n{stringList[page]}```");
+                }
             }
             else
             {
-                await ctx.Channel.SendMessageAsync($"```bash\n{output}```").ConfigureAwait(false);
+                process.Kill();
+                await ctx.Channel.SendErrorAsync("The process was hanging and has been terminated.").ConfigureAwait(false);
+            }
+
+            if (!process.HasExited)
+            {
+                await process.WaitForExitAsync().ConfigureAwait(false);
             }
         }
-
-        await process.WaitForExitAsync().ConfigureAwait(false);
     }
 
     [Cmd, Aliases, OwnerOnly]
@@ -931,8 +974,7 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         var embed = new EmbedBuilder
         {
-            Title = "Evaluating...",
-            Color = new Color(0xD091B2)
+            Title = "Evaluating...", Color = new Color(0xD091B2)
         };
         var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
 
@@ -1005,8 +1047,7 @@ public partial class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         // execution succeeded
         embed = new EmbedBuilder
         {
-            Title = "Evaluation successful",
-            Color = new Color(0xD091B2)
+            Title = "Evaluation successful", Color = new Color(0xD091B2)
         };
 
         embed.AddField("Result", css.ReturnValue != null ? css.ReturnValue.ToString() : "No value returned")

@@ -625,7 +625,7 @@ banunder:
 bash:
   args:
     - neofetch
-  desc: Executes a bash command.
+  desc: Executes a bash/powershell command.
 betflip:
   args:
     - 5 heads
