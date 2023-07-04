@@ -20,7 +20,7 @@ jobs:
       run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
     - name: Build
-      run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o output/
+      run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release --self-contained true -p:PublishSingleFile=true -o output/
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
