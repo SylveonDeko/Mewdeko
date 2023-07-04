@@ -20,8 +20,17 @@ jobs:
       run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
     - name: Build
-      run: dotnet build src/Mewdeko/Mewdeko.csproj --no-restore -c Release -o /app/build
+      run: dotnet build src/Mewdeko/Mewdeko.csproj --no-restore -c Release -o output/
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
+    - name: Zip artifacts
+      run: |
+        zip -r Mewdeko.zip output/
+        
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Mewdeko
+        path: Mewdeko.zip
