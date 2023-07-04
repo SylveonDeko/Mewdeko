@@ -2,9 +2,8 @@ name: .NET
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -16,11 +15,17 @@ jobs:
         with:
           dotnet-version: 7.0.x
 
-      - name: Restore dependencies
+      - name: Restore dependencies Mewdeko
         run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
-      - name: Build
+      - name: Restore dependencies Mewdeko.Votes
+        run: dotnet restore src/Mewdeko.Votes/Mewdeko.Votes.csproj
+
+      - name: Build Mewdeko
         run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
+
+      - name: Build Mewdeko.Votes
+        run: dotnet publish src/Mewdeko.Votes/Mewdeko.Votes.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
@@ -30,6 +35,11 @@ jobs:
           cd output
           Compress-Archive -Path * -DestinationPath ../Mewdeko.zip
 
+      - name: Get current date
+        id: get_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        shell: bash
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -37,8 +47,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly-${{ github.run_number }}
-          release_name: Nightly Build ${{ github.run_number }} (${{ steps.get_date.outputs.date }})
-          body: Automated nightly build for commit ${{ github.sha }} on ${{ github.event.commits[0].timestamp }}.
+          release_name: Nightly build ${{ github.run_number }} (${{ steps.get_date.outputs.date }})
+          body: Automated nightly build for commit ${{ github.sha }}.
           draft: false
           prerelease: true
 
@@ -51,8 +61,3 @@ jobs:
           asset_path: ./Mewdeko.zip
           asset_name: Mewdeko.zip
           asset_content_type: application/zip
-
-      - name: Get current date
-        id: get_date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-        shell: bash
