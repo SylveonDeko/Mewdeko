@@ -20,15 +20,16 @@ jobs:
       run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
     - name: Build
-      run: dotnet build src/Mewdeko/Mewdeko.csproj --no-restore -c Release -o output/
+      run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o output/
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
     - name: Zip artifacts
       run: |
-        zip -r Mewdeko.zip output/
-        
+        cd output
+        zip -r ../Mewdeko.zip ./*
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
