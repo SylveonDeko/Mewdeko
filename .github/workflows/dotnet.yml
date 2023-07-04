@@ -10,28 +10,49 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 7.0.x
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore src/Mewdeko/Mewdeko.csproj
+      - name: Restore dependencies
+        run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
-    - name: Build
-      run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x86 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
+      - name: Build
+        run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
 
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
 
-    - name: Zip artifacts
-      run: |
-        cd output
-        Compress-Archive -Path * -DestinationPath ../Mewdeko.zip
+      - name: Zip artifacts
+        run: |
+          cd output
+          Compress-Archive -Path * -DestinationPath ../Mewdeko.zip
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Mewdeko
-        path: Mewdeko.zip
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly-${{ github.run_number }}
+          release_name: Nightly Build ${{ github.run_number }} (${{ steps.get_date.outputs.date }})
+          body: Automated nightly build for commit ${{ github.sha }} on ${{ github.event.commits[0].timestamp }}.
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Mewdeko.zip
+          asset_name: Mewdeko.zip
+          asset_content_type: application/zip
+
+      - name: Get current date
+        id: get_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        shell: bash
