@@ -1,0 +1,6 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Publish Mewdeko to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
+    <riderPublish configuration="Release" delete_existing_files="true" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="D:/output" target_framework="net7.0" trim_unused_assemblies="true" uuid_high="-4437561844542452535" uuid_low="-8091179327474338848" />
+    <method v="2" />
+  </configuration>
+</component>
