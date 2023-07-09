@@ -177,12 +177,29 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
         else
         {
+            Model modelToUse;
+            switch (bss.Data.ChatGptModel)
+            {
+                case "gpt4":
+                case "gpt-4":
+                    modelToUse = Model.GPT4;
+                    break;
+                case "gpt-3":
+                case "gpt3":
+                    modelToUse = Model.ChatGPTTurbo;
+                    break;
+                default:
+                    modelToUse = Model.ChatGPTTurbo;
+                    break;
+            }
+
             var chat = api.Chat.CreateConversation(new ChatRequest
             {
-                MaxTokens = 1000, Temperature = 0.9, Model = bss.Data.ChatGptModel ?? Model.ChatGPTTurbo
+                MaxTokens = 1000, Temperature = 0.9, Model = modelToUse
             });
             chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
-            chat.AppendSystemMessage($"The users name is {args.Author.Username}.");
+            chat.AppendSystemMessage($"The users name is {args.Author}.");
+            chat.AppendUserInputWithName(usrMsg.Author.ToString(), args.Content);
             try
             {
                 conversations.TryAdd(args.Author.Id, chat);
