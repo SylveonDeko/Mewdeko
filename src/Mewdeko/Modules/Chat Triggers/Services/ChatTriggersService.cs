@@ -958,7 +958,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             GuildId = guildId, Trigger = key, Response = message, IsRegex = regex
         };
 
-        if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
+        if (cr.Response.Contains("%target", StringComparison.OrdinalIgnoreCase))
             cr.AllowTarget = true;
 
         var uow = db.GetDbContext();
@@ -994,7 +994,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         ct.Trigger = trigger ?? ct.Trigger;
 
         // enable allow target if message is edited to contain target
-        if (ct.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
+        if (ct.Response.Contains("%target", StringComparison.OrdinalIgnoreCase))
             ct.AllowTarget = true;
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
