@@ -76,7 +76,7 @@ public static class Extensions
             })
             .WithOverride("%targetuser.id%", () =>
             {
-                var mention = ctx.MentionedUserIds.FirstOrDefault();
+                var mention = ctx.Content.GetUserMentions().FirstOrDefault();
                 if (mention is 0)
                     return "";
                 var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
@@ -84,11 +84,23 @@ public static class Extensions
             })
             .WithOverride("%targetuser.avatar%", () =>
             {
-                var mention = ctx.MentionedUserIds.FirstOrDefault();
+                var mention = ctx.Content.GetUserMentions().FirstOrDefault();
                 if (mention is 0)
                     return "";
                 var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
                 return user is null ? "" : user.RealAvatarUrl().ToString();
+            })
+            .WithOverride("%targetusers%", () =>
+            {
+                var mention = ctx.Content.GetUserMentions();
+                return !mention.Any() ? "" : string.Join(", ", mention.Select(x => $"<@{x}>"));
+            })
+            .WithOverride("%targetusers.id%", () =>
+            {
+                var mention = ctx.Content.GetUserMentions();
+                if (mention.Any())
+                    return "";
+                return !mention.Any() ? "" : string.Join(", ", mention);
             })
             .Build();
 

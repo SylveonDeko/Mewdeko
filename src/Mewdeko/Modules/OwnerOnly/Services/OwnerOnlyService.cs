@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OpenAI_API;
 using OpenAI_API.Chat;
+using OpenAI_API.Models;
 using Serilog;
 using StackExchange.Redis;
 using Image = Discord.Image;
@@ -132,6 +133,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 await usrMsg.SendConfirmReplyAsync("No session to delete");
                 return;
             }
+
         if (conversations.TryGetValue(args.Author.Id, out var conversation))
         {
             conversation.AppendUserInput(args.Content);
@@ -177,7 +179,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         {
             var chat = api.Chat.CreateConversation(new ChatRequest
             {
-                MaxTokens = 1000, Temperature = 0.9,
+                MaxTokens = 1000, Temperature = 0.9, Model = bss.Data.ChatGptModel ?? Model.ChatGPTTurbo
             });
             chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
             chat.AppendSystemMessage($"The users name is {args.Author.Username}.");

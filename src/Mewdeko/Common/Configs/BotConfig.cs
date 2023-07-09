@@ -116,6 +116,9 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
     public string ChatGptWebhook { get; set; }
 
+    [Comment("The model to use for chatgpt")]
+    public string ChatGptModel { get; set; }
+
     [Comment(@"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
