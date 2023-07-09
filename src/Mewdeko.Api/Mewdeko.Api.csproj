@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>annotations</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifiers>win-x86;win-x64;arch-x64;linux-x64;linux-arm</RuntimeIdentifiers>
     <RootNamespace>Mewdeko.Api</RootNamespace>
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
   </PropertyGroup>
