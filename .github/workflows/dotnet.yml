@@ -1,0 +1,64 @@
+name: .NET
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore dependencies Mewdeko
+        run: dotnet restore src/Mewdeko/Mewdeko.csproj
+
+      - name: Restore dependencies Mewdeko.Votes
+        run: dotnet restore src/Mewdeko.Votes/Mewdeko.Votes.csproj
+
+      - name: Build Mewdeko
+        run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
+
+      - name: Build Mewdeko.Votes
+        run: dotnet publish src/Mewdeko.Votes/Mewdeko.Votes.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+
+      - name: Zip artifacts
+        run: |
+          cd output
+          Get-ChildItem -Recurse -Include *.pdb | Remove-Item -Force
+          Compress-Archive -Path * -DestinationPath ../MewdekoNightly-win64.zip
+
+      - name: Get current date
+        id: get_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        shell: bash
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly-${{ github.run_number }}
+          release_name: Nightly build ${{ github.run_number }} (${{ steps.get_date.outputs.date }})
+          body: Automated nightly build for commit ${{ github.sha }}.
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./MewdekoNightly-win64.zip
+          asset_name: MewdekoNightly-win64.zip
+          asset_content_type: application/zip

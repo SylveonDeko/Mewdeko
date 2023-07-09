@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+      <RuntimeIdentifiers>win-x86;win-x64;arch-x64;linux-x64;linux-arm</RuntimeIdentifiers>
     </PropertyGroup>
 
     <ItemGroup>

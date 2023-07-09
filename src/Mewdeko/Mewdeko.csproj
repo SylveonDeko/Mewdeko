@@ -5,6 +5,7 @@
         <LangVersion>10</LangVersion>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <OutputType>exe</OutputType>
+        <RuntimeIdentifiers>win-x86;win-x64;arch-x64;linux-x64;linux-arm</RuntimeIdentifiers>
         <Nullable>annotations</Nullable>
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
