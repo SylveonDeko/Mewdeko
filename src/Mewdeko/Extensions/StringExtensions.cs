@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Mewdeko.Extensions;
 
-public static class StringExtensions
+public static partial class StringExtensions
 {
     private static readonly HashSet<char> LettersAndDigits = new(Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
@@ -37,13 +37,13 @@ public static class StringExtensions
         return sb.ToString();
     }
 
-    public static readonly Regex UserMentionsRegex = new(@"<(?:\@!|\@)(?'id'\d{15,19})>", RegexOptions.Compiled);
+    public static readonly Regex UserMentionsRegex = MyRegex();
     public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrWhiteSpace(str);
 
     public static string PadBoth(this string str, int length)
     {
         var spaces = length - str.Length;
-        var padLeft = (spaces / 2) + str.Length;
+        var padLeft = spaces / 2 + str.Length;
         return str.PadLeft(padLeft).PadRight(length);
     }
 
@@ -137,18 +137,16 @@ public static class StringExtensions
 
         // Step 3
         for (var i = 1; i <= n; i++)
-        {
             //Step 4
-            for (var j = 1; j <= m; j++)
-            {
-                // Step 5
-                var cost = t[j - 1] == s[i - 1] ? 0 : 1;
+        for (var j = 1; j <= m; j++)
+        {
+            // Step 5
+            var cost = t[j - 1] == s[i - 1] ? 0 : 1;
 
-                // Step 6
-                d[i, j] = Math.Min(
-                    Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                    d[i - 1, j - 1] + cost);
-            }
+            // Step 6
+            d[i, j] = Math.Min(
+                Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                d[i - 1, j - 1] + cost);
         }
 
         // Step 7
@@ -181,8 +179,7 @@ public static class StringExtensions
 
     public static string RemoveUserMentions(this string str) => UserMentionsRegex.Replace(str, "");
 
-    public static IEnumerable<ulong> GetUserMentions(this string str) => UserMentionsRegex.Matches(str)
-        .Select(x => x.Groups["id"]).SelectMany(x => x.Captures).Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
+    public static IEnumerable<ulong> GetUserMentions(this string str) => UserMentionsRegex.Matches(str).Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
         .Where(x => x is not 0).Distinct();
 
     public static string SanitizeAllMentions(this string? str) => str.SanitizeMentions().SanitizeRoleMentions();
@@ -214,4 +211,7 @@ public static class StringExtensions
             return false;
         }
     }
+
+    [GeneratedRegex("@<@\\d{17,19}>|\\d{17,19}", RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
 }
