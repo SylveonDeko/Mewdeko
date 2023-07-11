@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http;
 using Discord.Commands;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using PokeApiNet;
 
@@ -12,12 +14,19 @@ public partial class Searches
     public class PokemonCommands : MewdekoSubmodule
     {
         private readonly PokeApiClient pokeClient = new();
+        private readonly InteractiveService interactivity;
+
+        public PokemonCommands(InteractiveService interactivity)
+        {
+            this.interactivity = interactivity;
+        }
 
         [Cmd, Aliases]
         public async Task Pokemon([Remainder] string name)
         {
             var isShiny = false;
-            Pokemon? poke = null;
+            Pokemon? poke;
+
             if (name.ToLower().Contains("shiny"))
             {
                 isShiny = true;
@@ -28,18 +37,14 @@ public partial class Searches
             {
                 poke = await pokeClient.GetResourceAsync<Pokemon>(name.Replace(" ", "")).ConfigureAwait(false);
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    await ctx.Channel.SendErrorAsync(
-                        "Seems like that pokemon wasn't found. Please try again with a different query!").ConfigureAwait(false);
-                    return;
-                }
+                await ReplyAsync("Seems like that Pokémon wasn't found. Please try again with a different query!").ConfigureAwait(false);
+                return;
             }
 
             var abilities = new List<Ability>();
-            if (poke.Abilities.Count > 0)
+            if (poke.Abilities.Any())
             {
                 foreach (var i in poke.Abilities)
                 {
@@ -48,37 +53,60 @@ public partial class Searches
                 }
             }
 
-            if (isShiny)
+            var stats = poke.Stats.Select(s => $"{s.Stat.Name}: {s.BaseStat}").ToList();
+
+
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(poke.Moves.Count / 10)
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+
+            await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                var eb = new EmbedBuilder();
-                eb.WithTitle($"Shiny {char.ToUpper(poke.Name[0]) + poke.Name[1..]}");
-                eb.WithOkColor();
-                eb.AddField("Abilities",
-                    string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
-                if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
+                var pb = new PageBuilder();
+                pb.WithTitle(isShiny ? $"Shiny {char.ToUpper(poke.Name[0]) + poke.Name[1..]}" : char.ToUpper(poke.Name[0]) + poke.Name[1..]);
+                pb.WithOkColor();
+                pb.AddField("Abilities", string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
+
+                if (poke.Forms.Any())
                 {
-                    eb.AddField("Forms",
-                        string.Join("\n", poke.Forms.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
+                    pb.AddField("Forms", string.Join("\n", poke.Forms.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
                 }
 
-                eb.WithThumbnailUrl(poke.Sprites.FrontShiny);
-                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            }
-            else
-            {
-                var eb = new EmbedBuilder();
-                eb.WithTitle(char.ToUpper(poke.Name[0]) + poke.Name[1..]);
-                eb.WithOkColor();
-                eb.AddField("Abilities",
-                    string.Join("\n", abilities.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
-                if (poke.Forms.Count > 0 || poke.Forms.Count != 1)
+                if (stats.Any())
                 {
-                    eb.AddField("Forms",
-                        string.Join("\n", poke.Forms.Select(x => $"{char.ToUpper(x.Name[0]) + x.Name[1..]}")));
+                    pb.AddField("Base Stats", string.Join("\n", stats));
                 }
 
-                eb.WithThumbnailUrl(poke.Sprites.FrontDefault);
-                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                if (poke.Types.Any())
+                {
+                    pb.AddField("Types", string.Join("\n", poke.Types.Select(x => $"{char.ToUpper(x.Type.Name[0]) + x.Type.Name[1..]}")));
+                }
+
+                if (poke.HeldItems.Any())
+                {
+                    pb.AddField("Held Items", string.Join("\n", poke.HeldItems.Select(x => $"{char.ToUpper(x.Item.Name[0]) + x.Item.Name[1..]}")));
+                }
+
+                if (poke.GameIndicies.Any())
+                {
+                    pb.AddField("Game Indices", string.Join("\n", poke.GameIndicies.Skip(10 * 1).Take(10).Select(x => $"{char.ToUpper(x.Version.Name[0]) + x.Version.Name[1..]}")));
+                }
+
+                if (poke.Moves.Any())
+                {
+                    pb.AddField("Moves", string.Join("\n", poke.Moves.Skip(10 * page).Take(10).Select(x => $"{char.ToUpper(x.Move.Name[0]) + x.Move.Name[1..]}")));
+                }
+
+                pb.WithImageUrl(isShiny ? $"http://img.dscord.co/shiny/{poke.Id}-0-.png" : $"http://img.dscord.co/images/{poke.Id}-0-.png");
+
+                return Task.FromResult(pb);
             }
         }
     }
