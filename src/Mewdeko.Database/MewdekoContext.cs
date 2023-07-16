@@ -25,9 +25,12 @@ public class MewdekoContext : DbContext
     {
     }
 
-
+    public DbSet<JoinLeaveLogs> JoinLeaveLogs { get; set; }
     public DbSet<GuildConfig> GuildConfigs { get; set; }
+
     public DbSet<SuggestionsModel> Suggestions { get; set; }
+
+    // public DbSet<GlobalBanConfig> GlobalBanConfigs { get; set; }
     public DbSet<Warning2> Warnings2 { get; set; }
     public DbSet<Afk> Afk { get; set; }
     public DbSet<MultiGreet> MultiGreets { get; set; }
