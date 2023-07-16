@@ -7,7 +7,7 @@ public static class GlobalBanExensions
 {
     public static GlobalBans[] AllGlobalBans(this DbSet<GlobalBans> set) => set.AsQueryable().ToArray();
 
-    public static GlobalBans[] GlobalBansByType(this DbSet<GlobalBans> set, string type) => set.AsQueryable().Where(x => x.Type == type).ToArray();
+    public static GlobalBans[] GlobalBansByType(this DbSet<GlobalBans> set, GbType type) => set.AsQueryable().Where(x => x.Type == type).ToArray();
 
     public static GlobalBans[] GetGlobalBansAddedBy(this DbSet<GlobalBans> set, ulong uid) => set.AsQueryable().Where(x => x.AddedBy == uid).ToArray();
 

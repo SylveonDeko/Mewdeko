@@ -100,6 +100,7 @@
       <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta19.6" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0-alpha.0.69" />
       <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15.3" />
+      <PackageReference Include="SkiaSharp" Version="2.88.4-preview.84"/>
         <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
         <PackageReference Include="StackExchange.Redis" Version="2.6.104" />
@@ -147,6 +148,7 @@
         <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.dll" />
         <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.deps.json" />
         <None Remove="DiscordChatExporter\CliFx.dll" />
+      <None Remove="data\http.txt"/>
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

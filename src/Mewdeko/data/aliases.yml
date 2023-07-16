@@ -17,6 +17,9 @@ exportcommandsjson:
   - excj
 getjson:
   - getjson
+joinstats:
+  - joinstats
+  - jstats
 masskick:
   - masskick
   - mkick
