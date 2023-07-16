@@ -173,12 +173,12 @@ public class JoinLeaveLoggerService : INService
                 path.CubicTo(cp1, cp2, new SKPoint(x2, y2));
             }
 
-            var label = past10DaysData[i].Date.ToString("dd/MM/yyyy");
+            var label = past10DaysData[i].Date.ToString("dd/MM");
             canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
 
             // If current index is the penultimate, draw the last label and vertical line
             if (i != past10DaysData.Count - 2) continue;
-            var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM/yyyy");
+            var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
             canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
             canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
         }
