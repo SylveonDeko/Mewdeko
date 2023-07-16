@@ -11,6 +11,12 @@ public partial class Moderation
     public class PurgeCommands : MewdekoSubmodule<PurgeService>
     {
         private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
+        private readonly DiscordSocketClient client;
+
+        public PurgeCommands(DiscordSocketClient client)
+        {
+            this.client = client;
+        }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
@@ -38,6 +44,12 @@ public partial class Moderation
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
         public async Task Purge(ulong count, string? parameter = null, string? input = null)
         {
+            if (await client.Rest.GetUserAsync(count) is not null)
+            {
+                await Purge(count, 100, parameter);
+                return;
+            }
+
             StoopidTime? time = null;
             try
             {
