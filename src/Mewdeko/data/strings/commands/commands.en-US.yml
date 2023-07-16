@@ -21,6 +21,10 @@ joinstats:
   args:
     - ""
   desc: "Shows a join stats graph for the server. Highly experimental atm."
+leavestats:
+  args:
+    - ""
+  desc: "Shows a leave stats graph for the server. Highly experimental atm."
 removestatusrole:
   args:
     - "index"

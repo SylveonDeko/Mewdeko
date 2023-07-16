@@ -20,6 +20,9 @@ getjson:
 joinstats:
   - joinstats
   - jstats
+leavestats:
+  - leavestats
+  - lstats
 masskick:
   - masskick
   - mkick
