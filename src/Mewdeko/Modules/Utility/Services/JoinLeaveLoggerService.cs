@@ -78,7 +78,7 @@ public class JoinLeaveLoggerService : INService
         return joinEventsCount / allEvents.Length;
     }
 
-    public async Task<Stream> GenerateJoinLeaveGraphAsync(ulong guildId)
+    public async Task<Stream> GenerateJoinGraphAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
@@ -201,18 +201,134 @@ public class JoinLeaveLoggerService : INService
         return imageStream;
     }
 
-    private async Task<List<JoinLeaveLogs>> GetJoinLeaveLogsAsync(IDatabase redisDatabase, string redisKey)
+    public async Task<Stream> GenerateLeaveGraphAsync(ulong guildId)
     {
-        var joinLogs = new List<JoinLeaveLogs>();
-        var allEvents = await redisDatabase.ListRangeAsync(redisKey);
+        var redisDatabase = cache.Redis.GetDatabase();
+        var redisKey = GetRedisKey(guildId);
 
-        foreach (var log in allEvents)
+        var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
+        var groupLogs = joinLogs.Where(log => !log.IsJoin)
+            .GroupBy(log => log.DateAdded.Value.Date)
+            .Select(group => new
+            {
+                Date = group.Key, Count = group.Count()
+            })
+            .OrderBy(x => x.Date)
+            .ToList();
+
+        var latestDateInLogs = groupLogs.Any() ? groupLogs.Max(log => log.Date) : DateTime.UtcNow.Date;
+        var startDate = latestDateInLogs.AddDays(-10);
+        var dateRange = Enumerable.Range(0, 11)
+            .Select(i => startDate.AddDays(i));
+
+        var past10DaysData = dateRange
+            .GroupJoin(groupLogs, d => d, log => log.Date, (date, logs) => new
+            {
+                Date = date, Count = logs.Sum(log => log.Count)
+            })
+            .ToList();
+
+        var width = 800;
+        var height = 400;
+        var padding = 50;
+        var widthWithPadding = width - 2 * padding;
+        var heightWithPadding = height - 2 * padding;
+
+        using var bitmap = new SKBitmap(width, height);
+        using var canvas = new SKCanvas(bitmap);
+
+        canvas.Clear(new SKColor(38, 50, 56));
+
+        var gridPaint = new SKPaint
         {
-            var joinLeaveLog = JsonSerializer.Deserialize<JoinLeaveLogs>(log);
-            joinLogs.Add(joinLeaveLog);
+            Color = new SKColor(55, 71, 79), Style = SKPaintStyle.Stroke
+        };
+
+        var paint = new SKPaint
+        {
+            Color = new SKColor(255, 215, 0), StrokeWidth = 3, IsAntialias = true
+        };
+
+        var maxCount = past10DaysData.Max(log => (float)log.Count);
+        maxCount = (maxCount < 30) ? 30 : ((maxCount / 50) + 1) * 50;
+        var scaleX = widthWithPadding / (float)Math.Max(1, (past10DaysData.Count - 1));
+
+        // Draw horizontal grid lines and y-axis labels
+        for (var i = 0; i <= maxCount; i += (maxCount <= 30) ? 5 : 50)
+        {
+            var percentage = i / maxCount;
+            var y = height - (padding + percentage * heightWithPadding);
+
+            if (i != 0)
+                canvas.DrawLine(padding, y, width - padding, y, gridPaint);
+
+            var label = i.ToString();
+            canvas.DrawText(label, padding - 10 - paint.MeasureText(label), y, paint);
         }
 
-        return joinLogs;
+        // Draw vertical grid lines and x-axis labels
+        SKPath path = null;
+        for (var i = 0; i < past10DaysData.Count - 1; i++)
+        {
+            var countPercentage = past10DaysData[i].Count / maxCount;
+            var x1 = padding + i * scaleX;
+            var y1 = height - padding - (countPercentage * heightWithPadding);
+
+            // Calculate next point
+            var countPercentageNext = past10DaysData[i + 1].Count / maxCount;
+            var x2 = padding + (i + 1) * scaleX;
+            var y2 = height - padding - (countPercentageNext * heightWithPadding);
+
+            // Calculate control points for a smooth curve
+            var cp1 = new SKPoint(x1 + scaleX / 3, y1);
+            var cp2 = new SKPoint(x2 - scaleX / 3, y2);
+
+            if (i != 0)
+                canvas.DrawLine(x1, padding, x1, height - padding, gridPaint);
+
+            if (path == null)
+            {
+                path = new SKPath();
+                path.MoveTo(x1, y1);
+            }
+            else
+            {
+                path.CubicTo(cp1, cp2, new SKPoint(x2, y2));
+            }
+
+            var label = past10DaysData[i].Date.ToString("dd/MM");
+            canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
+
+            // If current index is the penultimate, draw the last label and vertical line
+            if (i != past10DaysData.Count - 2) continue;
+            var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
+            canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
+            canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
+        }
+
+        // Draw border lines for grid (bottom line and left line)
+        canvas.DrawLine(padding, height - padding, width - padding, height - padding, gridPaint);
+        canvas.DrawLine(padding, height - padding, padding, padding, gridPaint);
+
+        paint.Style = SKPaintStyle.Stroke;
+        canvas.DrawPath(path, paint);
+
+        var imageStream = new MemoryStream();
+        using (var image = SKImage.FromBitmap(bitmap))
+        using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+        {
+            data.SaveTo(imageStream);
+        }
+
+        imageStream.Position = 0;
+        return imageStream;
+    }
+
+    private async Task<List<JoinLeaveLogs>> GetJoinLeaveLogsAsync(IDatabase redisDatabase, string redisKey)
+    {
+        var allEvents = await redisDatabase.ListRangeAsync(redisKey);
+
+        return allEvents.Select(log => JsonSerializer.Deserialize<JoinLeaveLogs>(log)).ToList();
     }
 
 

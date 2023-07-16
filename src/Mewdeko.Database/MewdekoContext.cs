@@ -32,6 +32,7 @@ public class MewdekoContext : DbContext
 
     // public DbSet<GlobalBanConfig> GlobalBanConfigs { get; set; }
     public DbSet<Warning2> Warnings2 { get; set; }
+    public DbSet<ServerRecoveryStore> ServerRecoveryStore { get; set; }
     public DbSet<Afk> Afk { get; set; }
     public DbSet<MultiGreet> MultiGreets { get; set; }
     public DbSet<UserRoleStates> UserRoleStates { get; set; }

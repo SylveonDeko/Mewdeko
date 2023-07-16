@@ -11,15 +11,26 @@ public class JoinLeaveStats : MewdekoModuleBase<JoinLeaveLoggerService>
     {
         try
         {
-            var averageJoinsPerGuild = await Service.GenerateJoinLeaveGraphAsync(ctx.Guild.Id);
-            await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "joinleave.png", "Average joins per guild", embed: new EmbedBuilder
-            {
-                Description = $"Average joins per guild: {averageJoinsPerGuild}", Color = Mewdeko.OkColor
-            }.Build());
+            var averageJoinsPerGuild = await Service.GenerateJoinGraphAsync(ctx.Guild.Id);
+            await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "join.png");
         }
         catch (Exception e)
         {
             Log.Error(e, "Error generating join stats:");
+        }
+    }
+
+    [Cmd, Aliases, Ratelimit(10), RequireDragon]
+    public async Task LeaveStats()
+    {
+        try
+        {
+            var averageJoinsPerGuild = await Service.GenerateLeaveGraphAsync(ctx.Guild.Id);
+            await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "leave.png");
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error generating leave stats:");
         }
     }
 }
