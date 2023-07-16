@@ -514,4 +514,18 @@ public class GoogleApiService : IGoogleApiService
         languageDictionary.TryGetValue(language, out var mode);
         return mode;
     }
+
+    public class LiveVideo
+    {
+        public string Title { get; }
+        public string VideoId { get; }
+        public string ChannelTitle { get; }
+
+        public LiveVideo(string title, string videoId, string channelTitle)
+        {
+            Title = title;
+            VideoId = videoId;
+            ChannelTitle = channelTitle;
+        }
+    }
 }
