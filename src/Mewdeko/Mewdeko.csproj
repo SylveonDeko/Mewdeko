@@ -90,27 +90,28 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="NHentaiAPI" Version="1.5.0" />
         <PackageReference Include="NonBlocking" Version="2.1.1" />
-        <PackageReference Include="OpenAI" Version="1.7.2" />
-        <PackageReference Include="PokeApiNet" Version="3.0.10" />
-        <PackageReference Include="Scrutor" Version="4.2.2" />
-        <PackageReference Include="Serilog" Version="3.0.0-dev-01958" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
-        <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3-dev-00262" />
-        <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2" />
-      <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta19.6" />
-      <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0-alpha.0.69" />
-      <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15.3" />
+      <PackageReference Include="OpenAI" Version="1.7.2"/>
+      <PackageReference Include="PokeApiNet" Version="3.0.10"/>
+      <PackageReference Include="Scrutor" Version="4.2.2"/>
+      <PackageReference Include="Serilog" Version="3.0.0-dev-01958"/>
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910"/>
+      <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3-dev-00262"/>
+      <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2"/>
+      <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta19.6"/>
+      <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0-alpha.0.69"/>
+      <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15.3"/>
       <PackageReference Include="SkiaSharp" Version="2.88.4-preview.84"/>
-        <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
-        <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
-        <PackageReference Include="StackExchange.Redis" Version="2.6.104" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.0-preview.2.23128.3" />
-        <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
-        <PackageReference Include="System.Threading.Channels" Version="8.0.0-preview.3.23174.8" />
-        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-        <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f" />
-        <PackageReference Include="VirusTotalNet" Version="2.1.0" />
-        <PackageReference Include="YamlDotNet" Version="13.0.2" />
+      <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.4-preview.84"/>
+      <PackageReference Include="SpotifyAPI.Web" Version="7.0.0"/>
+      <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0"/>
+      <PackageReference Include="StackExchange.Redis" Version="2.6.104"/>
+      <PackageReference Include="System.Drawing.Common" Version="8.0.0-preview.2.23128.3"/>
+      <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0"/>
+      <PackageReference Include="System.Threading.Channels" Version="8.0.0-preview.3.23174.8"/>
+      <PackageReference Include="System.ValueTuple" Version="4.5.0"/>
+      <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f"/>
+      <PackageReference Include="VirusTotalNet" Version="2.1.0"/>
+      <PackageReference Include="YamlDotNet" Version="13.0.2"/>
     </ItemGroup>
     <ItemGroup>
         <Protobuf Include="..\Mewdeko.Coordinator\Protos\coordinator.proto" GrpcServices="Client">
