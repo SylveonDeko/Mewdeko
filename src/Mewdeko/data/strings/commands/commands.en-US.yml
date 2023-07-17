@@ -21,6 +21,10 @@ joinstats:
   args:
     - ""
   desc: "Shows a join stats graph for the server. Highly experimental atm."
+clearusedtokens:
+  args:
+    - ""
+  desc: Clears the used tokens count for ChatGPT
 leavestats:
   args:
     - ""
