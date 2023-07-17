@@ -85,6 +85,7 @@ public class JoinLeaveLoggerService : INService
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => log.IsJoin)
+            // ReSharper disable once PossibleInvalidOperationException
             .GroupBy(log => log.DateAdded.Value.Date)
             .Select(group => new
             {
@@ -208,6 +209,7 @@ public class JoinLeaveLoggerService : INService
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => !log.IsJoin)
+            // ReSharper disable once PossibleInvalidOperationException
             .GroupBy(log => log.DateAdded.Value.Date)
             .Select(group => new
             {
@@ -228,9 +230,9 @@ public class JoinLeaveLoggerService : INService
             })
             .ToList();
 
-        var width = 800;
-        var height = 400;
-        var padding = 50;
+        const int width = 800;
+        const int height = 400;
+        const int padding = 50;
         var widthWithPadding = width - 2 * padding;
         var heightWithPadding = height - 2 * padding;
 

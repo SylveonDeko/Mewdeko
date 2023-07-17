@@ -73,6 +73,16 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [Cmd, Aliases]
+    public async Task ClearUsedTokens()
+    {
+        if (await PromptUserConfirmAsync("Are you sure you want to clear the used token count for GPT?", ctx.User.Id))
+        {
+            await Service.ClearUsedTokens();
+            await ctx.Channel.SendErrorAsync("Cleared.");
+
+        }
+    }
+    [Cmd, Aliases]
     public async Task Sudo(IGuildUser user, [Remainder] string args)
     {
         var msg = new MewdekoUserMessage
