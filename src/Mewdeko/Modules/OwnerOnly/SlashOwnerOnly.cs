@@ -63,6 +63,15 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
         this.guildSettings = guildSettings;
         this.commandHandler = commandHandler;
     }
+    [SlashCommand("clearusedtokens", "Clears the used gpt tokens count")]
+    public async Task ClearUsedTokens()
+    {
+        if (await PromptUserConfirmAsync("Are you sure you want to clear the used token count for GPT?", ctx.User.Id))
+        {
+            await Service.ClearUsedTokens();
+            await ctx.Interaction.SendErrorAsync("Cleared.");
+        }
+    }
 
     [SlashCommand("sudo", "Run a command as another user")]
     public async Task Sudo([Remainder] string args, IUser user = null)

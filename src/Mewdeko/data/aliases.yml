@@ -23,6 +23,8 @@ joinstats:
 leavestats:
   - leavestats
   - lstats
+clearusedtokens:
+  - clearusedtokens
 masskick:
   - masskick
   - mkick

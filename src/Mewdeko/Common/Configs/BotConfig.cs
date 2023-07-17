@@ -30,7 +30,9 @@ public sealed class BotConfig
         RedirectUrl = "https://mewdeko.tech/auth.html";
         YoutubeSupport = true;
         ChatGptInitPrompt =
-            "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by SylveonDeko#0001";
+            "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by sylveondeko";
+        ChatGptMaxTokens = 1000;
+        ChatGptTemperature = 0.9;
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -110,11 +112,17 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("ChatGPT Init Prompt. Used to set how chatgpt will act.")]
     public string ChatGptInitPrompt { get; set; }
 
+    [Comment("Max tokens that chatgpt can output")]
+    public int ChatGptMaxTokens { get; set; }
+
     [Comment(@"Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
 
     [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
     public string ChatGptWebhook { get; set; }
+
+    [Comment("Sets the temperature for ChatGPT")]
+    public double ChatGptTemperature { get; set; }
 
     [Comment("The model to use for chatgpt")]
     public string ChatGptModel { get; set; }

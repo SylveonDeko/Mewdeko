@@ -35,6 +35,7 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("chatgptinitprompt", bs => bs.ChatGptInitPrompt, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("chatgptwebhook", bs => bs.ChatGptWebhook, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("chatgptmodel", bs => bs.ChatGptModel, ConfigParsers.String, ConfigPrinters.ToString);
+        AddParsedProp("chatgptmaxtokens", bs => bs.ChatGptMaxTokens, int.TryParse, ConfigPrinters.ToString);
 
         UpdateColors();
     }
