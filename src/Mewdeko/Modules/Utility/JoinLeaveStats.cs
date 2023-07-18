@@ -4,33 +4,36 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility;
 
-public class JoinLeaveStats : MewdekoModuleBase<JoinLeaveLoggerService>
+public partial class Utility
 {
-    [Cmd, Aliases, Ratelimit(10), RequireDragon]
-    public async Task JoinStats()
+    public class JoinLeaveStats : MewdekoSubmodule<JoinLeaveLoggerService>
     {
-        try
+        [Cmd, Aliases, Ratelimit(10), RequireDragon]
+        public async Task JoinStats()
         {
-            var averageJoinsPerGuild = await Service.GenerateJoinGraphAsync(ctx.Guild.Id);
-            await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "join.png");
+            try
+            {
+                var averageJoinsPerGuild = await Service.GenerateJoinGraphAsync(ctx.Guild.Id);
+                await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "join.png");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error generating join stats:");
+            }
         }
-        catch (Exception e)
-        {
-            Log.Error(e, "Error generating join stats:");
-        }
-    }
 
-    [Cmd, Aliases, Ratelimit(10), RequireDragon]
-    public async Task LeaveStats()
-    {
-        try
+        [Cmd, Aliases, Ratelimit(10), RequireDragon]
+        public async Task LeaveStats()
         {
-            var averageJoinsPerGuild = await Service.GenerateLeaveGraphAsync(ctx.Guild.Id);
-            await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "leave.png");
-        }
-        catch (Exception e)
-        {
-            Log.Error(e, "Error generating leave stats:");
+            try
+            {
+                var averageJoinsPerGuild = await Service.GenerateLeaveGraphAsync(ctx.Guild.Id);
+                await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "leave.png");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error generating leave stats:");
+            }
         }
     }
 }
