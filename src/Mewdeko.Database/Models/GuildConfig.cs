@@ -211,6 +211,6 @@ public class GuildConfig : DbEntity
     public int WarnExpireHours { get; set; } = 0;
     public WarnExpireAction WarnExpireAction { get; set; } = WarnExpireAction.Clear;
 
-    public uint JoinGraphColor { get; set; } = 16766720;
-    public uint LeaveGraphColor { get; set; } = 16766720;
+    public uint JoinGraphColor { get; set; } = 4294956800;
+    public uint LeaveGraphColor { get; set; } = 4294956800;
 }
