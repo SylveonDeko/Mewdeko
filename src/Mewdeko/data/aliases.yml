@@ -20,9 +20,15 @@ getjson:
 joinstats:
   - joinstats
   - jstats
+joinstatscolor:
+  - joinstatscolor
+  - jstatscolor
 leavestats:
   - leavestats
   - lstats
+leavestatscolor:
+  - leavestatscolor
+  - lstatscolor
 clearusedtokens:
   - clearusedtokens
 masskick:

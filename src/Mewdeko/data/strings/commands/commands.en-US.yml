@@ -21,6 +21,11 @@ joinstats:
   args:
     - ""
   desc: "Shows a join stats graph for the server. Highly experimental atm."
+joinstatscolor:
+  args:
+    - "94, 157, 59"
+    - ""
+  desc: "Sets the color of the join stats graph. Use with no input to reset. Experimental."
 clearusedtokens:
   args:
     - ""
@@ -29,6 +34,11 @@ leavestats:
   args:
     - ""
   desc: "Shows a leave stats graph for the server. Highly experimental atm."
+leavestatscolor:
+  args:
+    - "94, 157, 59"
+    - ""
+  desc: "Sets the color of the leave stats graph. Use with no input to reset. Experimental."
 removestatusrole:
   args:
     - "index"
