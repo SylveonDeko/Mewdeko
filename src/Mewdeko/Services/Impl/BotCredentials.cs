@@ -89,6 +89,9 @@ public class BotCredentials : IBotCredentials
             OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => ulong.Parse(c.Value))
                 .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
+            CsrfToken = data[nameof(CsrfToken)];
+            UserAgent = data[nameof(UserAgent)];
+            CfClearance = data[nameof(CfClearance)];
             MashapeKey = data[nameof(MashapeKey)];
             OsuApiKey = data[nameof(OsuApiKey)];
             PatreonAccessToken = data[nameof(PatreonAccessToken)];
@@ -170,6 +173,9 @@ public class BotCredentials : IBotCredentials
     public string SpotifyClientSecret { get; set; }
     public string MashapeKey { get; set; }
     public string StatcordKey { get; set; }
+    public string CfClearance { get; set; }
+    public string UserAgent { get; set; }
+    public string CsrfToken { get; set; }
 
     public ImmutableArray<ulong> OwnerIds { get; set; }
     public ImmutableArray<ulong> OfficialMods { get; set; }
@@ -225,6 +231,9 @@ public class BotCredentials : IBotCredentials
 
         public string Token { get; set; } = "";
         public string ClientSecret { get; } = "";
+        public string CfClearance { get; set; }
+        public string UserAgent { get; set; }
+        public string CsrfToken { get; set; }
 
         public string SoundCloudClientId { get; set; } = "";
         public string SpotifyClientId { get; set; } = "";
