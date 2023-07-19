@@ -59,7 +59,11 @@ public class CommandHandler : INService
         this.bot = bot;
         this.db = db;
         this.services = services;
-        eventHandler.InteractionCreated += TryRunInteraction;
+        client.InteractionCreated += x =>
+        {
+            Task.Run(() => TryRunInteraction(x));
+            return Task.CompletedTask;
+        };
         InteractionService.SlashCommandExecuted += HandleCommands;
         InteractionService.ContextCommandExecuted += HandleContextCommands;
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
@@ -127,13 +131,15 @@ public class CommandHandler : INService
                     await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
 
-                if (ctx.Guild is null) return;
+                if (ctx.Guild is null)
+                    return;
                 {
                     if (info.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
                     var gc = await gss.GetGuildConfig(ctx.Guild.Id);
-                    if (gc.CommandLogChannel is 0) return;
+                    if (gc.CommandLogChannel is 0)
+                        return;
                     var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                     if (channel is null)
                         return;
@@ -173,13 +179,15 @@ public class CommandHandler : INService
                 await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
-            if (ctx.Guild is null) return;
+            if (ctx.Guild is null)
+                return;
             {
                 if (info.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
                 var gc = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (gc.CommandLogChannel is 0) return;
+                if (gc.CommandLogChannel is 0)
+                    return;
                 var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                 if (channel is null)
                     return;
@@ -250,13 +258,15 @@ public class CommandHandler : INService
                     await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
 
-                if (ctx.Guild is null) return;
+                if (ctx.Guild is null)
+                    return;
                 {
                     if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                         return;
 
                     var gc = await gss.GetGuildConfig(ctx.Guild.Id);
-                    if (gc.CommandLogChannel is 0) return;
+                    if (gc.CommandLogChannel is 0)
+                        return;
                     var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                     if (channel is null)
                         return;
@@ -296,13 +306,15 @@ public class CommandHandler : INService
                 await restChannel1.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
-            if (ctx.Guild is null) return;
+            if (ctx.Guild is null)
+                return;
             {
                 if (slashInfo.MethodName.ToLower() is "confess" or "confessreport")
                     return;
 
                 var gc = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (gc.CommandLogChannel is 0) return;
+                if (gc.CommandLogChannel is 0)
+                    return;
                 var channel = await ctx.Guild.GetTextChannelAsync(gc.CommandLogChannel).ConfigureAwait(false);
                 if (channel is null)
                     return;
@@ -322,6 +334,7 @@ public class CommandHandler : INService
 
     private async Task TryRunInteraction(SocketInteraction interaction)
     {
+        await Task.Delay(2500);
         var blacklistService = services.GetService<BlacklistService>();
         var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
             url: "https://discord.gg/mewdeko").Build();
@@ -452,9 +465,11 @@ public class CommandHandler : INService
                 await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             }
 
-            if (channel?.Guild is null) return;
+            if (channel?.Guild is null)
+                return;
             var guildChannel = (await gss.GetGuildConfig(channel.Guild.Id)).CommandLogChannel;
-            if (guildChannel == 0) return;
+            if (guildChannel == 0)
+                return;
             var toSend = await client.Rest.GetChannelAsync(guildChannel).ConfigureAwait(false);
             if (toSend is RestTextChannel restTextChannel)
             {
@@ -564,7 +579,8 @@ public class CommandHandler : INService
 
         foreach (var beh in EarlyBehaviors)
         {
-            if (!await beh.RunBehavior(client, guild, usrMsg).ConfigureAwait(false)) continue;
+            if (!await beh.RunBehavior(client, guild, usrMsg).ConfigureAwait(false))
+                continue;
 
             switch (beh.BehaviorType)
             {
@@ -587,7 +603,8 @@ public class CommandHandler : INService
             var newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
                 .ConfigureAwait(false);
 
-            if (newContent.Equals(messageContent, StringComparison.OrdinalIgnoreCase)) continue;
+            if (newContent.Equals(messageContent, StringComparison.OrdinalIgnoreCase))
+                continue;
             messageContent = newContent;
             break;
         }

@@ -11,6 +11,8 @@ src/Mewdeko/credentials.json
 # these 2 are used for migrations1
 Mewdeko.Core/credentials.json
 Mewdeko.Core/credentials_example.json
+#generic cred catch
+credentials.json
 
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,windows,linux,macos
 

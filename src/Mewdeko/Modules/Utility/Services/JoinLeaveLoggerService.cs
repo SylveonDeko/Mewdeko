@@ -34,7 +34,9 @@ public class JoinLeaveLoggerService : INService
         var db = cache.Redis.GetDatabase();
         var joinEvent = new JoinLeaveLogs
         {
-            GuildId = args.Guild.Id, UserId = args.Id, IsJoin = true
+            GuildId = args.Guild.Id,
+            UserId = args.Id,
+            IsJoin = true
         };
 
         var serializedEvent = JsonSerializer.Serialize(joinEvent);
@@ -46,7 +48,9 @@ public class JoinLeaveLoggerService : INService
         var db = cache.Redis.GetDatabase();
         var leaveEvent = new JoinLeaveLogs
         {
-            GuildId = args.Id, UserId = arsg2.Id, IsJoin = false
+            GuildId = args.Id,
+            UserId = arsg2.Id,
+            IsJoin = false
         };
 
         var serializedEvent = JsonSerializer.Serialize(leaveEvent);
@@ -82,6 +86,8 @@ public class JoinLeaveLoggerService : INService
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
+        await using var db = dbContext.GetDbContext();
+        var config = await db.ForGuildId(guildId);
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => log.IsJoin)
@@ -89,7 +95,8 @@ public class JoinLeaveLoggerService : INService
             .GroupBy(log => log.DateAdded.Value.Date)
             .Select(group => new
             {
-                Date = group.Key, Count = group.Count()
+                Date = group.Key,
+                Count = group.Count()
             })
             .OrderBy(x => x.Date)
             .ToList();
@@ -102,7 +109,8 @@ public class JoinLeaveLoggerService : INService
         var past10DaysData = dateRange
             .GroupJoin(groupLogs, d => d, log => log.Date, (date, logs) => new
             {
-                Date = date, Count = logs.Sum(log => log.Count)
+                Date = date,
+                Count = logs.Sum(log => log.Count)
             })
             .ToList();
 
@@ -119,12 +127,15 @@ public class JoinLeaveLoggerService : INService
 
         var gridPaint = new SKPaint
         {
-            Color = new SKColor(55, 71, 79), Style = SKPaintStyle.Stroke
+            Color = new SKColor(55, 71, 79),
+            Style = SKPaintStyle.Stroke
         };
 
         var paint = new SKPaint
         {
-            Color = new SKColor(255, 215, 0), StrokeWidth = 3, IsAntialias = true
+            Color = new SKColor(config.JoinGraphColor),
+            StrokeWidth = 3,
+            IsAntialias = true
         };
 
         var maxCount = past10DaysData.Max(log => (float)log.Count);
@@ -178,7 +189,8 @@ public class JoinLeaveLoggerService : INService
             canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
 
             // If current index is the penultimate, draw the last label and vertical line
-            if (i != past10DaysData.Count - 2) continue;
+            if (i != past10DaysData.Count - 2)
+                continue;
             var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
             canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
             canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
@@ -206,6 +218,8 @@ public class JoinLeaveLoggerService : INService
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
+        await using var db = dbContext.GetDbContext();
+        var config = await db.ForGuildId(guildId);
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => !log.IsJoin)
@@ -213,7 +227,8 @@ public class JoinLeaveLoggerService : INService
             .GroupBy(log => log.DateAdded.Value.Date)
             .Select(group => new
             {
-                Date = group.Key, Count = group.Count()
+                Date = group.Key,
+                Count = group.Count()
             })
             .OrderBy(x => x.Date)
             .ToList();
@@ -226,7 +241,8 @@ public class JoinLeaveLoggerService : INService
         var past10DaysData = dateRange
             .GroupJoin(groupLogs, d => d, log => log.Date, (date, logs) => new
             {
-                Date = date, Count = logs.Sum(log => log.Count)
+                Date = date,
+                Count = logs.Sum(log => log.Count)
             })
             .ToList();
 
@@ -243,12 +259,15 @@ public class JoinLeaveLoggerService : INService
 
         var gridPaint = new SKPaint
         {
-            Color = new SKColor(55, 71, 79), Style = SKPaintStyle.Stroke
+            Color = new SKColor(55, 71, 79),
+            Style = SKPaintStyle.Stroke
         };
 
         var paint = new SKPaint
         {
-            Color = new SKColor(255, 215, 0), StrokeWidth = 3, IsAntialias = true
+            Color = new SKColor(config.LeaveGraphColor),
+            StrokeWidth = 3,
+            IsAntialias = true
         };
 
         var maxCount = past10DaysData.Max(log => (float)log.Count);
@@ -302,7 +321,8 @@ public class JoinLeaveLoggerService : INService
             canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
 
             // If current index is the penultimate, draw the last label and vertical line
-            if (i != past10DaysData.Count - 2) continue;
+            if (i != past10DaysData.Count - 2)
+                continue;
             var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
             canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
             canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
@@ -377,5 +397,23 @@ public class JoinLeaveLoggerService : INService
 
         await uow.SaveChangesAsync();
         Log.Information("Flushing join/leave logs to SQLite completed.");
+    }
+
+    public async Task SetJoinColor(uint color, ulong guildId)
+    {
+        await using var db = dbContext.GetDbContext();
+        var config = await db.ForGuildId(guildId);
+        config.JoinGraphColor = color;
+        db.Update(config);
+        await db.SaveChangesAsync();
+    }
+
+    public async Task SetLeaveColor(uint color, ulong guildId)
+    {
+        await using var db = dbContext.GetDbContext();
+        var config = await db.ForGuildId(guildId);
+        config.LeaveGraphColor = color;
+        db.Update(config);
+        await db.SaveChangesAsync();
     }
 }
