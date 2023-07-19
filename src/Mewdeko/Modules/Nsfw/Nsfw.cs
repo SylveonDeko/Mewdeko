@@ -26,16 +26,18 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     private readonly GuildSettingsService guildSettings;
     private readonly HttpClient client;
     private readonly BotConfigService config;
+    private readonly IBotCredentials credentials;
 
     public Nsfw(
         InteractiveService interactivity, MartineApi martineApi,
         GuildSettingsService guildSettings, HttpClient client,
-        BotConfigService config)
+        BotConfigService config, IBotCredentials credentials)
     {
         this.martineApi = martineApi;
         this.guildSettings = guildSettings;
         this.client = client;
         this.config = config;
+        this.credentials = credentials;
         this.interactivity = interactivity;
         rng = new MewdekoRandom();
     }
@@ -112,7 +114,16 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num)
     {
-        var nHentaiClient = new NHentaiClient();
+        var cookies = new Dictionary<string, string>
+        {
+            {
+                "cf_clearance", credentials.CfClearance
+            },
+            {
+                "csrftoken", credentials.CsrfToken
+            }
+        };
+        var nHentaiClient = new NHentaiClient(credentials.UserAgent, cookies);
         var book = await nHentaiClient.GetBookAsync(num).ConfigureAwait(false);
         var title = book.Title.English;
         var pages = book.Images.Pages;
@@ -140,7 +151,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder()
                 .WithTitle($"{Format.Bold($"{title}")} - {book.Images.Pages.Count} pages")
-                .WithImageUrl(NHentaiClient.GetPictureUrl(book, page + 1).AbsoluteUri)
+                .WithImageUrl(nHentaiClient.GetPictureUrl(book, page + 1))
                 .WithOkColor();
         }
     }
@@ -148,8 +159,16 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",
         string? exclude = null)
     {
-        var nHentaiClient = new NHentaiClient();
-
+        var cookies = new Dictionary<string, string>
+        {
+            {
+                "cf_clearance", credentials.CfClearance
+            },
+            {
+                "csrftoken", credentials.CsrfToken
+            }
+        };
+        var nHentaiClient = new NHentaiClient(credentials.UserAgent, cookies);
         var result = await nHentaiClient.GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
         if (result.Result.Count == 0)
         {
@@ -179,7 +198,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 .AddField("NHentai Magic URL",
                     $"https://nhentai.net/g/{result.Result.Skip(page1).FirstOrDefault().Id}")
                 .AddField("Pages", result.Result.Skip(page1).FirstOrDefault().Images.Pages.Count)
-                .WithImageUrl(nHentaiClient.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()).AbsoluteUri);
+                .WithImageUrl(nHentaiClient.GetBigCoverUrl(result.Result.Skip(page1).FirstOrDefault()));
         }
     }
 
