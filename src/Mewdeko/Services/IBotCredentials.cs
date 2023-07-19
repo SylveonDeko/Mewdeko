@@ -28,6 +28,9 @@ public interface IBotCredentials
     string LocationIqApiKey { get; }
     string TimezoneDbApiKey { get; }
     ulong ConfessionReportChannelId { get; }
+    public string CfClearance { get; }
+    public string UserAgent { get; }
+    public string CsrfToken { get; }
 
     bool IsOwner(IUser u);
     bool IsOfficialMod(IUser u);
