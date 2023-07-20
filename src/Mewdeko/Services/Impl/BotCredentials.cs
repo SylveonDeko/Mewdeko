@@ -113,6 +113,7 @@ public class BotCredentials : IBotCredentials
             ClientSecret = data[nameof(ClientSecret)];
             if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
+            GeniusKey = data[nameof(GeniusKey)];
 
             RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]) ? data[nameof(RedisOptions)] : "127.0.0.1,syncTimeout=3000";
 
@@ -205,6 +206,7 @@ public class BotCredentials : IBotCredentials
     public string CoinmarketcapApiKey { get; set; }
 
     public ulong DebugGuildId { get; set; }
+    public string GeniusKey { get; set; }
     public ulong GuildJoinsChannelId { get; set; }
     public ulong ConfessionReportChannelId { get; set; }
     public ulong GlobalBanReportChannelId { get; set; }
@@ -231,6 +233,7 @@ public class BotCredentials : IBotCredentials
 
         public string Token { get; set; } = "";
         public string ClientSecret { get; } = "";
+        public string GeniusKey { get; set; }
         public string CfClearance { get; set; }
         public string UserAgent { get; set; }
         public string CsrfToken { get; set; }

@@ -48,6 +48,7 @@
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
         <PackageReference Include="Fergun.Interactive" Version="1.7.1" />
         <PackageReference Include="Figgle" Version="0.5.1" />
+      <PackageReference Include="Genius.NET" Version="4.0.1"/>
         <PackageReference Include="GScraper" Version="1.1.0" />
         <PackageReference Include="GTranslate" Version="2.1.6" />
         <PackageReference Include="Html2Markdown" Version="5.1.0.703" />
@@ -67,11 +68,11 @@
         <PackageReference Include="MartineApiNet" Version="1.0.14" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0-1.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0-1.final" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
-            <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-preview.3.23174.2"/>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0-preview.3.23174.2">
         <PrivateAssets>all</PrivateAssets>
