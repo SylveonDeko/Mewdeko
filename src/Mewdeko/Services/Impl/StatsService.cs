@@ -111,6 +111,9 @@ public class StatsService : IStatsService
 
     public static async Task SetTopGuilds(DiscordSocketClient client, IDataCache cache, IBotCredentials creds)
     {
+        if (client.ShardId != 0)
+            return;
+
         var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
         // Set it once before executing the 12h loop
         var guilds = await client.Rest.GetGuildsAsync(true);
