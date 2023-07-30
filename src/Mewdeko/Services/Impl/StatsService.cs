@@ -6,6 +6,7 @@ using Discord.Commands;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
+using Swan.Formatters;
 
 namespace Mewdeko.Services.Impl;
 
@@ -21,7 +22,7 @@ public class StatsService : IStatsService
 
     public StatsService(
         DiscordSocketClient client, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
-        HttpClient http)
+        HttpClient http, IDataCache cache)
     {
         Client = client;
         Creds = creds;
@@ -31,6 +32,7 @@ public class StatsService : IStatsService
         started = DateTime.UtcNow;
         _ = PostToTopGg();
         _ = PostToStatcord(coord, client, cmdServ);
+        _ = SetTopGuilds(client, cache, creds);
     }
 
     public string Library => $"Discord.Net {DllVersionChecker.GetDllVersion()} ";
@@ -105,5 +107,30 @@ public class StatsService : IStatsService
                 // ignored
             }
         }
+    }
+
+    public static async Task SetTopGuilds(DiscordSocketClient client, IDataCache cache, IBotCredentials creds)
+    {
+        var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
+        // Set it once before executing the 12h loop
+        var guilds = await client.Rest.GetGuildsAsync(true);
+
+        do
+        {
+            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(10).Select(x => new MewdekoPartialGuild()
+            {
+                IconUrl = x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
+            });
+
+            var serialied = Json.Serialize(servers);
+            await cache.Redis.GetDatabase().StringSetAsync($"{creds.RedisKey()}_topguilds", serialied).ConfigureAwait(false);
+        } while (await periodicTimer.WaitForNextTickAsync());
+    }
+
+    public class MewdekoPartialGuild
+    {
+        public string Name { get; set; }
+        public string IconUrl { get; set; }
+        public int MemberCount { get; set; }
     }
 }
