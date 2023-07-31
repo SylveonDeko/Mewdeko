@@ -120,13 +120,22 @@ public class StatsService : IStatsService
 
         do
         {
-            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(7).Select(x => new MewdekoPartialGuild()
+            try
             {
-                IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
-            });
+                Log.Information("Updating top guilds");
+                var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(7).Select(x => new MewdekoPartialGuild()
+                {
+                    IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
+                });
 
-            var serialied = Json.Serialize(servers);
-            await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied).ConfigureAwait(false);
+                var serialied = Json.Serialize(servers);
+                await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied).ConfigureAwait(false);
+                Log.Information("Updated top guilds");
+            }
+            catch (Exception e)
+            {
+                Log.Error("Failed to update top guilds: {0}", e);
+            }
         } while (await periodicTimer.WaitForNextTickAsync());
     }
 
