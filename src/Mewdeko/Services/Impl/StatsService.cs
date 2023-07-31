@@ -120,13 +120,13 @@ public class StatsService : IStatsService
 
         do
         {
-            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(10).Select(x => new MewdekoPartialGuild()
+            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(7).Select(x => new MewdekoPartialGuild()
             {
-                IconUrl = x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
+                IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
             });
 
             var serialied = Json.Serialize(servers);
-            await cache.Redis.GetDatabase().StringSetAsync($"{creds.RedisKey()}_topguilds", serialied).ConfigureAwait(false);
+            await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied).ConfigureAwait(false);
         } while (await periodicTimer.WaitForNextTickAsync());
     }
 
