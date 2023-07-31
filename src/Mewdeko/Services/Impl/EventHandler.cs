@@ -43,10 +43,14 @@ public class EventHandler
     public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>>? ThreadDeleted;
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberJoined;
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberLeft;
+    public event AsyncEventHandler<DiscordSocketClient>? Ready;
+
+    private readonly DiscordSocketClient client;
 
 
     public EventHandler(DiscordSocketClient client)
     {
+        this.client = client;
         client.MessageReceived += ClientOnMessageReceived;
         client.UserJoined += ClientOnUserJoined;
         client.UserLeft += ClientOnUserLeft;
@@ -78,6 +82,14 @@ public class EventHandler
         client.ThreadDeleted += ClientOnThreadDeleted;
         client.ThreadMemberJoined += ClientOnThreadMemberJoined;
         client.ThreadMemberLeft += ClientOnThreadMemberLeft;
+        client.Ready += ClientOnReady;
+    }
+
+    private Task ClientOnReady()
+    {
+        if (Ready is not null)
+            _ = Ready(client);
+        return Task.CompletedTask;
     }
 
     private Task ClientOnThreadMemberLeft(SocketThreadUser arg)
