@@ -29,6 +29,13 @@ public partial class Permissions
         [Cmd, Aliases]
         public Task ServerBlacklist(AddRemove action, IGuild guild, [Remainder] string? reason) => Blacklist(action, guild.Id, BlacklistType.Server, reason);
 
+        [Cmd, Aliases]
+        public async Task ManualBlacklistCheck()
+        {
+            await ctx.Channel.SendConfirmAsync("Sending manual check...");
+            await Service.SendManualCheck();
+        }
+
         private async Task Blacklist(AddRemove action, ulong id, BlacklistType type, string? reason)
         {
             switch (action)

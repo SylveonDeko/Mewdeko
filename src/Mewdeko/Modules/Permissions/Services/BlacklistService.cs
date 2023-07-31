@@ -13,15 +13,16 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
     public IList<BlacklistEntry> BlacklistEntries;
+    private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
     public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client)
     {
         this.db = db;
         this.pubSub = pubSub;
         this.client = client;
-
         Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
+        this.pubSub.Sub(blPrivKey, ManualCheck);
         handler.JoinedGuild += CheckBlacklist;
         client.Ready += CheckAllGuilds;
         _ = CheckAllGuilds();
@@ -37,6 +38,12 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         {
             DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
         });
+    }
+
+    private ValueTask ManualCheck(bool _)
+    {
+        CheckAllGuilds();
+        return default;
     }
 
     private Task CheckAllGuilds()
@@ -56,6 +63,12 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 await guild.LeaveAsync().ConfigureAwait(false);
             }
         });
+        return Task.CompletedTask;
+    }
+
+    public Task SendManualCheck()
+    {
+        this.pubSub.Pub(blPrivKey, true);
         return Task.CompletedTask;
     }
 
