@@ -9,18 +9,22 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 {
     private readonly DbService db;
     private readonly IPubSub pubSub;
+    private readonly DiscordSocketClient client;
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
     public IList<BlacklistEntry> BlacklistEntries;
 
-    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler)
+    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client)
     {
         this.db = db;
         this.pubSub = pubSub;
+        this.client = client;
 
         Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
         handler.JoinedGuild += CheckBlacklist;
+        client.Ready += CheckAllGuilds;
+        _ = CheckAllGuilds();
         BlacklistEntries.Add(new BlacklistEntry
         {
             DateAdded = DateTime.Now, ItemId = 967780813741625344, Type = BlacklistType.User
@@ -33,6 +37,26 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         {
             DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
         });
+    }
+
+    private Task CheckAllGuilds()
+    {
+        _ = Task.Run(async () =>
+        {
+            var guilds = client.Guilds;
+            foreach (var guild in guilds)
+            {
+                if (BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
+                {
+                    await guild.LeaveAsync().ConfigureAwait(false);
+                }
+
+                if (!guild.Name.ToLower().Contains("nigger")) continue;
+                Blacklist(BlacklistType.Server, guild.Id, "Inappropriate Name");
+                await guild.LeaveAsync().ConfigureAwait(false);
+            }
+        });
+        return Task.CompletedTask;
     }
 
     private async Task CheckBlacklist(IGuild arg)
