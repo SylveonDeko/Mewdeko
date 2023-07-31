@@ -120,13 +120,13 @@ public class StatsService : IStatsService
 
             var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
             // Set it once before executing the 12h loop
-            var guilds = await Client.Rest.GetGuildsAsync(true);
 
             do
             {
                 try
                 {
                     Log.Information("Updating top guilds");
+                    var guilds = await Client.Rest.GetGuildsAsync(true);
                     var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value).Take(7).Select(x => new MewdekoPartialGuild()
                     {
                         IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl, MemberCount = x.ApproximateMemberCount.Value, Name = x.Name
