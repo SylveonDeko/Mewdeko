@@ -36,16 +36,17 @@ public class MewdekoRandom : Random
         return (sign * BitConverter.ToInt32(bytes, 0) % (maxValue - minValue)) + minValue;
     }
 
-    public long NextLong(long minValue, long maxValue)
+    public ulong NextULong(ulong minValue, ulong maxValue)
     {
         if (minValue > maxValue)
             throw new ArgumentOutOfRangeException(nameof(maxValue));
         if (minValue == maxValue)
             return minValue;
-        var bytes = new byte[sizeof(long)];
+
+        var bytes = new byte[sizeof(ulong)];
         rng.GetBytes(bytes);
-        var sign = Math.Sign(BitConverter.ToInt64(bytes, 0));
-        return (sign * BitConverter.ToInt64(bytes, 0) % (maxValue - minValue)) + minValue;
+
+        return (BitConverter.ToUInt64(bytes, 0) % (maxValue - minValue + 1)) + minValue;
     }
 
     public override void NextBytes(byte[] buffer) => rng.GetBytes(buffer);

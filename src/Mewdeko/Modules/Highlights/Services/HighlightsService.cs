@@ -113,7 +113,7 @@ public class HighlightsService : INService, IReadyExecutor
                     .FirstOrDefault(x => x.UserId == i.UserId && x.GuildId == channel.GuildId);
                 if (settings is not null)
                 {
-                    if (!settings.HighlightsOn)
+                    if (settings.HighlightsOn == 0)
                         continue;
                     if (settings.IgnoredChannels.Split(" ").Contains(channel.Id.ToString()))
                         continue;
@@ -187,7 +187,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = enabled,
+                HighlightsOn = enabled ? 1 : 0,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
@@ -198,7 +198,7 @@ public class HighlightsService : INService, IReadyExecutor
             await cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
         }
 
-        toupdate.HighlightsOn = enabled;
+        toupdate.HighlightsOn = enabled ? 1 : 0;
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
@@ -217,7 +217,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = true,
+                HighlightsOn = 1,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
@@ -263,7 +263,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = true,
+                HighlightsOn = 1,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };

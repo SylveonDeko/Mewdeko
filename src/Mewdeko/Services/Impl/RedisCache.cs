@@ -29,6 +29,8 @@ public class RedisCache : IDataCache
 
     private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
     {
+        options.AsyncTimeout = 20000;
+        options.SyncTimeout = 20000;
         Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
         redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
@@ -74,22 +76,6 @@ public class RedisCache : IDataCache
         var db = Redis.GetDatabase();
         var result = await db.StringGetAsync($"{redisKey}_statusroles");
         return result.HasValue ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result) : new List<StatusRolesTable>();
-    }
-
-    public async Task<GuildConfig?> GetGuildConfig(ulong guildId)
-    {
-        var db = Redis.GetDatabase();
-        var toDeserialize = await db.StringGetAsync($"{redisKey}_{guildId}_config");
-        return toDeserialize.IsNull ? null : JsonConvert.DeserializeObject<GuildConfig>(toDeserialize);
-    }
-
-    public async void SetGuildConfig(ulong guildId, GuildConfig guildConfig)
-    {
-        var db = Redis.GetDatabase();
-        _ = await db.StringSetAsync($"{redisKey}_{guildId}_config", JsonConvert.SerializeObject(guildConfig, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        }), flags: CommandFlags.FireAndForget);
     }
 
     public async Task<bool> AddProcessingUser(ulong id)
@@ -223,6 +209,23 @@ public class RedisCache : IDataCache
         customers.Remove(id);
         customers.Add(id, newHighlight);
         return Task.CompletedTask;
+    }
+
+    public void SetGuildConfigs(List<GuildConfig> configs)
+    {
+        var db = Redis.GetDatabase();
+        var serialized = JsonConvert.SerializeObject(configs, settings: new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        db.StringSet($"{redisKey}_guildconfigs", serialized, flags: CommandFlags.FireAndForget);
+    }
+
+    public List<GuildConfig> GetGuildConfigs()
+    {
+        var db = Redis.GetDatabase();
+        var value = db.StringGet($"{redisKey}_guildconfigs");
+        return JsonConvert.DeserializeObject<List<GuildConfig>>(value);
     }
 
     public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlight)

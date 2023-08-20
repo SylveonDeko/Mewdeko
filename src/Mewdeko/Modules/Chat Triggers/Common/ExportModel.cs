@@ -29,16 +29,16 @@ public class ExportedTriggers
         {
             Id = "",
             Res = ct.Response,
-            Ad = ct.AutoDeleteTrigger,
-            At = ct.AllowTarget,
-            Ca = ct.ContainsAnywhere,
-            Dm = ct.DmResponse,
-            Rgx = ct.IsRegex,
+            Ad = ct.AutoDeleteTrigger == 1,
+            At = ct.AllowTarget == 1,
+            Ca = ct.ContainsAnywhere == 1,
+            Dm = ct.DmResponse == 1,
+            Rgx = ct.IsRegex == 1,
             React = string.IsNullOrWhiteSpace(ct.Reactions)
                 ? null
                 : ct.GetReactions(),
-            Rtt = ct.ReactToTrigger,
-            Nr = ct.NoRespond,
+            Rtt = ct.ReactToTrigger == 1,
+            Nr = ct.NoRespond == 1,
             RRole = ct.GetRemovedRoles(),
             ARole = ct.GetGrantedRoles(),
             Rgt = ct.RoleGrantType,
@@ -46,6 +46,6 @@ public class ExportedTriggers
             AcName = ct.ApplicationCommandName,
             AcDesc = ct.ApplicationCommandDescription,
             Act = ct.ApplicationCommandType,
-            Eph = ct.EphemeralResponse
+            Eph = ct.EphemeralResponse == 1
         };
 }

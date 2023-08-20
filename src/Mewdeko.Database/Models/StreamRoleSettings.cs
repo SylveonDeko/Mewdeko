@@ -1,14 +1,18 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mewdeko.Database.Models;
 
 public class StreamRoleSettings : DbEntity
 {
+    [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
+
     public GuildConfig GuildConfig { get; set; }
 
     /// <summary>
     ///     Whether the feature is enabled in the guild.
     /// </summary>
-    public bool Enabled { get; set; }
+    public long Enabled { get; set; }
 
     /// <summary>
     ///     Id of the role to give to the users in the role 'FromRole' when they start streaming
@@ -42,6 +46,9 @@ public class StreamRoleBlacklistedUser : DbEntity
     public ulong UserId { get; set; }
     public string Username { get; set; }
 
+    [ForeignKey("StreamRoleSettingsId")]
+    public int StreamRoleSettingsId { get; set; }
+
     public override bool Equals(object obj)
     {
         if (obj is not StreamRoleBlacklistedUser x)
@@ -55,6 +62,9 @@ public class StreamRoleBlacklistedUser : DbEntity
 
 public class StreamRoleWhitelistedUser : DbEntity
 {
+    [ForeignKey("StreamRoleSettingsId")]
+    public int StreamRoleSettingsId { get; set; }
+
     public ulong UserId { get; set; }
     public string Username { get; set; }
 

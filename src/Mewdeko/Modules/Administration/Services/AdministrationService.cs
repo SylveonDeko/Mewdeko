@@ -10,24 +10,22 @@ public class AdministrationService : INService
     private readonly LogCommandService logService;
     private readonly GuildSettingsService guildSettings;
 
-    public AdministrationService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
+    public AdministrationService(CommandHandler cmdHandler, DbService db,
         LogCommandService logService,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, Mewdeko bot)
     {
+        var allgc = bot.AllGuildConfigs;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Include(x => x.DelMsgOnCmdChannels).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
         this.db = db;
         this.logService = logService;
         this.guildSettings = guildSettings;
 
-        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(gc
-            .Where(g => g.DeleteMessageOnCommand)
-            .Select(g => g.GuildId));
+        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(allgc.Where(g => g.DeleteMessageOnCommand == 1).Select(g => g.GuildId));
 
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(gc
-            .SelectMany(x => x.DelMsgOnCmdChannels)
-            .ToDictionary(x => x.ChannelId, x => x.State)
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(allgc.SelectMany(x => x.DelMsgOnCmdChannels)
+            .ToDictionary(x => x.ChannelId, x => x.State == 1)
             .ToConcurrent());
+
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
 
@@ -41,23 +39,29 @@ public class AdministrationService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<bool> ToggleOptOut(IGuild guild)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.StatsOptOut = !gc.StatsOptOut;
+
+        // Use a ternary operator to toggle the value
+        gc.StatsOptOut = gc.StatsOptOut == 0L ? 1L : 0L;
+
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
-        return gc.StatsOptOut;
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
+
+        // Return the boolean equivalent of the new value
+        return gc.StatsOptOut != 0;
     }
+
 
     public async Task<bool> DeleteStatsData(IGuild guild)
     {
         await using var uow = db.GetDbContext();
-        var toRemove = uow.CommandStats.Where(x => x.GuildId == guild.Id).ToList();
+        var toRemove = uow.CommandStats.Where(x => x.GuildId == guild.Id).AsEnumerable();
         if (!toRemove.Any())
             return false;
         uow.CommandStats.RemoveRange(toRemove);
@@ -71,7 +75,7 @@ public class AdministrationService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetStaffRole(ulong id) => (await guildSettings.GetGuildConfig(id)).StaffRole;
@@ -84,7 +88,7 @@ public class AdministrationService : INService
         var conf = await uow.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));
 
-        return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
+        return (false.ParseBoth(conf.DeleteMessageOnCommand.ToString()), conf.DelMsgOnCmdChannels);
     }
 
     private Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
@@ -133,60 +137,65 @@ public class AdministrationService : INService
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        var enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-        guildSettings.UpdateGuildConfig(guildId, conf);
+
+        // Toggle the value using a ternary operator
+        conf.DeleteMessageOnCommand = conf.DeleteMessageOnCommand == 0L ? 1L : 0L;
+
+        await guildSettings.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return enabled;
+        // Return the boolean equivalent of the new value
+        return conf.DeleteMessageOnCommand != 0;
     }
+
 
     public async Task SetDelMsgOnCmdState(ulong guildId, ulong chId, Administration.State newState)
     {
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+        await using var uow = db.GetDbContext();
+
+        var conf = await uow.ForGuildId(guildId,
+            set => set.Include(x => x.DelMsgOnCmdChannels));
+
+        var old = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == chId);
+
+        if (newState == Administration.State.Inherit)
         {
-            var conf = await uow.ForGuildId(guildId,
-                set => set.Include(x => x.DelMsgOnCmdChannels));
-
-            var old = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == chId);
-            if (newState == Administration.State.Inherit)
+            if (old != null)
             {
-                if (old is not null)
-                {
-                    conf.DelMsgOnCmdChannels.Remove(old);
-                    uow.Remove(old);
-                }
+                conf.DelMsgOnCmdChannels.Remove(old);
+                uow.Remove(old);
             }
-            else
-            {
-                if (old is null)
-                {
-                    old = new DelMsgOnCmdChannel
-                    {
-                        ChannelId = chId
-                    };
-                    conf.DelMsgOnCmdChannels.Add(old);
-                }
-
-                old.State = newState == Administration.State.Enable;
-                DeleteMessagesOnCommandChannels[chId] = newState == Administration.State.Enable;
-            }
-
-            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
+        else
+        {
+            if (old == null)
+            {
+                old = new DelMsgOnCmdChannel
+                {
+                    ChannelId = chId
+                };
+                conf.DelMsgOnCmdChannels.Add(old);
+            }
+
+            old.State = newState == Administration.State.Enable ? 1 : 0;
+            DeleteMessagesOnCommandChannels[chId] = newState == Administration.State.Enable;
+        }
+
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         switch (newState)
         {
             case Administration.State.Disable:
                 break;
             case Administration.State.Enable:
-                DeleteMessagesOnCommandChannels[chId] = true;
+                DeleteMessagesOnCommandChannels[chId] = true; // true
                 break;
             default:
                 DeleteMessagesOnCommandChannels.TryRemove(chId, out _);
                 break;
         }
     }
+
 
     public static async Task DeafenUsers(bool value, params IGuildUser[] users)
     {

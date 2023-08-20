@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mewdeko.Services.Settings;
 
@@ -38,5 +38,5 @@ public static class ConfigPrinters
 
     public static string Culture(CultureInfo culture) => culture.Name;
 
-    public static string Color(Rgba32 color) => ((uint)((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
+    public static string Color(SKColor color) => ((uint)((color.Blue << 0) | (color.Green << 8) | (color.Red << 16))).ToString("X6");
 }

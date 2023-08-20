@@ -6,11 +6,11 @@ public class HighlightAutocompleter : AutocompleteHandler
 {
     public HighlightAutocompleter(DbService db, IDataCache cache)
     {
-        Db = db;
+        db = db;
         this.cache = cache;
     }
 
-    public readonly DbService Db;
+    public readonly DbService db;
     private readonly IDataCache cache;
 
     public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter,

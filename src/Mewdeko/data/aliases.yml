@@ -17,6 +17,10 @@ exportcommandsjson:
   - excj
 getjson:
   - getjson
+manualblacklistcheck:
+  - manualblacklistcheck
+  - manualblcheck
+  - mbc
 joinstats:
   - joinstats
   - jstats

@@ -1,28 +1,29 @@
 ﻿using Discord.Commands;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 
-namespace Mewdeko.Common.TypeReaders;
-
-public class Rgba32TypeReader : MewdekoTypeReader<Color>
+namespace Mewdeko.Common.TypeReaders
 {
-    public Rgba32TypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+    public class SkColorTypeReader : MewdekoTypeReader<SKColor>
     {
-    }
-
-    public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-        IServiceProvider services)
-    {
-        await Task.Yield();
-
-        input = input.Replace("#", "", StringComparison.InvariantCulture);
-        try
+        public SkColorTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
-            return TypeReaderResult.FromSuccess(Color.Parse(input));
         }
-        catch
+
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+            IServiceProvider services)
         {
-            return TypeReaderResult.FromError(CommandError.ParseFailed,
-                "Parameter is not a valid color hex or name.");
+            await Task.Yield();
+
+            input = input.Replace("#", "", StringComparison.InvariantCulture);
+            try
+            {
+                return TypeReaderResult.FromSuccess(SKColor.Parse(input));
+            }
+            catch
+            {
+                return TypeReaderResult.FromError(CommandError.ParseFailed,
+                    "Parameter is not a valid color hex or name.");
+            }
         }
     }
 }

@@ -45,11 +45,19 @@ public class SelfAssignedRolesService : INService
     {
         await using var uow = db.GetDbContext();
         var config = await uow.ForGuildId(guildId, set => set);
-        var newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
+
+        // convert the long to bool for processing
+        var currentVal = config.AutoDeleteSelfAssignedRoleMessages != 0;
+        var newVal = !currentVal;
+
+        // convert the bool back to long for storage
+        config.AutoDeleteSelfAssignedRoleMessages = newVal ? 1 : 0;
+
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return newval;
+        return newVal;
     }
+
 
     public async Task<(AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
     {
@@ -170,8 +178,8 @@ public class SelfAssignedRolesService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
-        var autoDelete = gc.AutoDeleteSelfAssignedRoleMessages;
-        var exclusive = gc.ExclusiveSelfAssignedRoles;
+        var autoDelete = false.ParseBoth(gc.AutoDeleteSelfAssignedRoleMessages.ToString());
+        var exclusive = false.ParseBoth(gc.ExclusiveSelfAssignedRoles.ToString());
         var roles = await uow.SelfAssignableRoles.GetFromGuild(guildId);
 
         return (autoDelete, exclusive, roles);
@@ -200,17 +208,21 @@ public class SelfAssignedRolesService : INService
         await using var uow = db.GetDbContext();
         var config = await uow.ForGuildId(guildId, set => set);
 
-        var areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
+        // Use a ternary operator to toggle the value
+        config.ExclusiveSelfAssignedRoles = config.ExclusiveSelfAssignedRoles == 0L ? 1L : 0L;
+
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return areExclusive;
+        // Return the boolean equivalent of the new value
+        return config.ExclusiveSelfAssignedRoles != 0;
     }
+
 
     public async Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)> GetRoles(IGuild guild)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
-        var exclusive = gc.ExclusiveSelfAssignedRoles;
+        var exclusive = false.ParseBoth(gc.ExclusiveSelfAssignedRoles.ToString());
         IDictionary<int, string> groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
         var roleModels = await uow.SelfAssignableRoles.GetFromGuild(guild.Id);
         var roles = roleModels

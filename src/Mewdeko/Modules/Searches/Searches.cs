@@ -18,13 +18,10 @@ using Mewdeko.Services.Settings;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NsfwSpyNS;
 using Refit;
 using Serilog;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -40,12 +37,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     private readonly MartineApi martineApi;
     private readonly ToneTagService toneTagService;
     private readonly BotConfigService config;
+    private readonly INsfwSpy nsfwSpy;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
         InteractiveService serv,
         MartineApi martineApi, ToneTagService toneTagService,
-        BotConfigService config)
+        BotConfigService config, INsfwSpy nsfwSpy)
     {
         interactivity = serv;
         this.martineApi = martineApi;
@@ -56,6 +54,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         this.tzSvc = tzSvc;
         this.toneTagService = toneTagService;
         this.config = config;
+        this.nsfwSpy = nsfwSpy;
     }
 
     [Cmd, Aliases]
@@ -95,8 +94,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             var emt = new EmbedBuilder
             {
-                Description = "This subreddit is nsfw!",
-                Color = Mewdeko.ErrorColor
+                Description = "This subreddit is nsfw!", Color = Mewdeko.ErrorColor
             };
             await msg.ModifyAsync(x => x.Embed = emt.Build()).ConfigureAwait(false);
             return;
@@ -150,7 +148,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Weather([Remainder] string query)
     {
@@ -218,7 +216,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Time([Remainder] string query)
     {
@@ -258,7 +256,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Youtube([Remainder] string query)
     {
@@ -295,7 +293,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Movie([Remainder] string? query = null)
     {
@@ -321,23 +319,23 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithImageUrl(movie.Poster)).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
 
-    // done in 3.0
+
     private Task InternalRandomImage(SearchesService.ImageTag tag)
     {
         var url = Service.GetRandomImageUrl(tag);
@@ -346,28 +344,52 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithImageUrl(url.ToString()));
     }
 
-    // done in 3.0
-    [Cmd, Aliases]
+
+    [Cmd, Aliases, Ratelimit(20)]
     public async Task Image([Remainder] string query)
     {
         using var gscraper = new GoogleScraper();
         using var dscraper = new DuckDuckGoScraper();
         var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
-        var googleImageResults = search as GoogleImageResult[] ?? search.ToArray();
-        if (googleImageResults.Length == 0)
+        search = search.Take(10);
+        if (!search.Any())
         {
             var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
-            var duckDuckGoImageResults = search2 as DuckDuckGoImageResult[] ?? search2.ToArray();
-            if (duckDuckGoImageResults.Length == 0)
+            search2 = search2.Take(10);
+            if (!search2.Any())
             {
                 await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!").ConfigureAwait(false);
             }
             else
             {
+                var images = search2.ToHashSet();
+                var tasks = images.Select(ClassifyAndFilterImage).ToList();
+
+                await Task.WhenAll(tasks);
+
+                async Task ClassifyAndFilterImage(DuckDuckGoImageResult i)
+                {
+                    try
+                    {
+                        var isNsfw = await nsfwSpy.ClassifyImageAsync(new Uri(i.Url));
+                        if (isNsfw.IsNsfw)
+                        {
+                            lock (images)
+                            {
+                                images.Remove(i);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // ignored because 403s
+                    }
+                }
+
                 var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
                     .WithFooter(
                         PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(duckDuckGoImageResults.Length)
+                    .WithMaxPageIndex(images.Count)
                     .WithDefaultEmotes()
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
                 await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -375,7 +397,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
-                    var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
+                    var result = images.Skip(page).FirstOrDefault();
                     return new PageBuilder().WithOkColor().WithDescription(result!.Title)
                         .WithImageUrl(result.Url)
                         .WithAuthor(name: "DuckDuckGo Image Result",
@@ -386,9 +408,34 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
         else
         {
+            var images = search.ToHashSet();
+            var tasks = images.Select(ClassifyAndFilterImage).ToList();
+
+            await Task.WhenAll(tasks);
+
+            async Task ClassifyAndFilterImage(GoogleImageResult i)
+            {
+                try
+                {
+                    var isNsfw = await nsfwSpy.ClassifyImageAsync(new Uri(i.Url));
+                    if (isNsfw.IsNsfw)
+                    {
+                        lock (images)
+                        {
+                            images.Remove(i);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    // ignored because 403s
+                }
+            }
+
             var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
+                .WithMaxPageIndex(images.Count)
+                .WithDefaultEmotes()
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
             await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
@@ -396,7 +443,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask.ConfigureAwait(false);
-                var result = googleImageResults.Skip(page).FirstOrDefault();
+                var result = images.Skip(page).FirstOrDefault();
                 return new PageBuilder().WithOkColor().WithDescription(result.Title)
                     .WithImageUrl(result.Url)
                     .WithAuthor(name: "Google Image Result",
@@ -464,7 +511,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Google([Remainder] string? query = null)
     {
@@ -504,7 +551,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task MagicTheGathering([Remainder] string search)
     {
@@ -531,7 +578,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Hearthstone([Remainder] string name)
     {
@@ -562,7 +609,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task UrbanDict([Remainder] string? query = null)
     {
@@ -612,7 +659,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Define([Remainder] string word)
     {
@@ -688,7 +735,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Catfact()
     {
@@ -701,7 +748,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendConfirmAsync($"🐈{GetText("catfact")}", fact).ConfigureAwait(false);
     }
 
-    //done in 3.0
+
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Revav([Remainder] IGuildUser? usr = null)
     {
@@ -710,11 +757,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var av = usr.RealAvatarUrl();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-        await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}")
-            .ConfigureAwait(false);
+        await Revimg(av.ToString());
     }
 
-    //done in 3.0
+
     [Cmd, Aliases]
     public async Task Revimg([Remainder] string? imageLink = null)
     {
@@ -722,14 +768,44 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         if (string.IsNullOrWhiteSpace(imageLink))
             return;
-        await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={imageLink}")
-            .ConfigureAwait(false);
+
+        // Google reverse image search link
+        var googleLink = $"https://images.google.com/searchbyimage?image_url={imageLink}";
+
+        // TinEye reverse image search link
+        var tineyeLink = $"https://www.tineye.com/search?url={imageLink}";
+
+        // Yandex reverse image search link
+        var yandexLink = $"https://yandex.com/images/search?url={imageLink}&rpt=imageview";
+
+        var response = $"Google: [Link]({googleLink})\nTinEye: [Link]({tineyeLink})\nYandex: [Link]({yandexLink})";
+
+        await ctx.Channel.SendConfirmAsync(response).ConfigureAwait(false);
     }
+    //
+    // [Cmd, Aliases]
+    // public async Task FakeTweet(string tweetText)
+    // {
+    //     // Gather user information
+    //     var username = ctx.User.Username;
+    //     var profileImageUrl = ctx.User.GetAvatarUrl();
+    //
+    //     // Download the user's profile image
+    //     var httpClient = new HttpClient();
+    //     var profileImageBytes = await httpClient.GetByteArrayAsync(profileImageUrl);
+    //
+    //     // Generate the fake tweet
+    //     var tweetImageBytes = GenerateFakeTweet(username, profileImageBytes, tweetText);
+    //
+    //     var stream = new MemoryStream(tweetImageBytes);
+    //     await ctx.Channel.SendFileAsync(stream, "fake_tweet.jpg");
+    // }
+
 
     [Cmd, Aliases]
     public Task Safebooru([Remainder] string? tag = null) => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Wiki([Remainder] string? query = null)
     {
@@ -751,7 +827,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [Cmd, Aliases]
-    public async Task Color(params Color[] colors)
+    public async Task Color(params SKColor[] colors)
     {
         if (colors.Length == 0)
             return;
@@ -759,20 +835,28 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var colorObjects = colors.Take(10)
             .ToArray();
 
-        using var img = new Image<Rgba32>(colorObjects.Length * 50, 50);
-        for (var i = 0; i < colorObjects.Length; i++)
+        using var img = new SKBitmap(colorObjects.Length * 50, 50, SKColorType.Rgba8888, SKAlphaType.Premul);
+
+        using (var canvas = new SKCanvas(img))
         {
-            var x = i * 50;
-            img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF(x, 0), new PointF(x + 50, 0),
-                new PointF(x + 50, 50), new PointF(x, 50)));
+            for (var i = 0; i < colorObjects.Length; i++)
+            {
+                var x = i * 50;
+                var rect = new SKRect(x, 0, x + 50, 50);
+                using var paint = new SKPaint
+                {
+                    Color = colorObjects[i], IsAntialias = true, Style = SKPaintStyle.Fill
+                };
+                canvas.DrawRect(rect, paint);
+            }
         }
 
-        var ms = img.ToStream();
-        await using var _ = ms.ConfigureAwait(false);
-        await ctx.Channel.SendFileAsync(ms, "colors.png").ConfigureAwait(false);
+        var data = SKImage.FromBitmap(img).Encode(SKEncodedImageFormat.Png, 100);
+        var stream = data.AsStream();
+        await ctx.Channel.SendFileAsync(stream, "colors.png").ConfigureAwait(false);
     }
 
-    // done in 3.0
+
     [Cmd, Aliases]
     public async Task Wikia(string target, [Remainder] string query)
     {
@@ -810,7 +894,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    // done in 3.0
+
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Bible(string book, string chapterAndVerse)
     {
@@ -924,6 +1008,92 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await ErrorLocalizedAsync("__loctest_invalid");
             return;
         }
+
         await ConfirmLocalizedAsync(sp[0], sp.Skip(1).ToArray());
     }
+
+//     private byte[] GenerateFakeTweet(string username, byte[] profileImageBytes, string tweetText)
+// {
+//     int width = 600;  // Width of the tweet image
+//     int height = 200; // Starting height, will adjust based on text length
+//
+//     using var profileImage = SKBitmap.Decode(profileImageBytes);
+//     var resizedProfileImage = profileImage.Resize(new SKImageInfo(32, 32), SKFilterQuality.High); // Resize to 32x32
+//
+//     // Measure tweet text height
+//     using var textPaint = new SKPaint
+//     {
+//         Color = SKColors.White,
+//         TextSize = 20,
+//         IsAntialias = true,
+//     };
+//     var textBounds = new SKRect();
+//     textPaint.MeasureText(tweetText, ref textBounds);
+//     int textHeight = (int)textBounds.Height;
+//
+//     // Compute the position for the timestamp based on text height
+//     int timestampPosition = 110 + textHeight;  // Adjusted position for timestamp
+//
+//     // Adjust the overall height based on the timestamp position
+//     height = timestampPosition + 20;
+//
+//     using var bitmap = new SKBitmap(width, height);
+//     using var canvas = new SKCanvas(bitmap);
+//
+//     // Draw background (Dark Mode Color)
+//     canvas.DrawColor(new SKColor(32, 35, 39));  // Dark mode background color
+//
+//     // Save canvas state before clipping
+//     canvas.Save();
+//
+//     // Clip canvas to circle for profile image
+//     var profileImageRect = new SKRect(10, 20, 42, 52);  // Adjusted for smaller size and position
+//     var circularPath = new SKPath();
+//     circularPath.AddOval(profileImageRect);
+//     canvas.ClipPath(circularPath);
+//
+//     // Draw profile image
+//     canvas.DrawBitmap(resizedProfileImage, 10, 20);
+//
+//     // Restore canvas state to before clipping
+//     canvas.Restore();
+//
+//     // Draw username (Bold)
+//     using var usernamePaint = new SKPaint
+//     {
+//         Color = SKColors.White,
+//         TextSize = 24,
+//         IsAntialias = true,
+//         Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright)
+//     };
+//     canvas.DrawText(username, 60, 40, usernamePaint);
+//
+//     // Draw handle (Twitter ID)
+//     var handle = "@" + username.ToLower();
+//     using var handlePaint = new SKPaint
+//     {
+//         Color = SKColors.Gray,
+//         TextSize = 18,
+//         IsAntialias = true,
+//     };
+//     canvas.DrawText(handle, 60, 65, handlePaint);
+//
+//     // Draw tweet text
+//     canvas.DrawText(tweetText, 60, 90, textPaint);
+//
+//     // Draw timestamp
+//     var timestamp = DateTime.Now.ToString("h:mm tt · MMM d, yyyy");
+//     using var timestampPaint = new SKPaint
+//     {
+//         Color = SKColors.Gray,
+//         TextSize = 16,
+//         IsAntialias = true,
+//     };
+//     canvas.DrawText(timestamp, 60, timestampPosition, timestampPaint);
+//
+//     // Convert the bitmap to byte array
+//     using var image = SKImage.FromBitmap(bitmap);
+//     using var data = image.Encode(SKEncodedImageFormat.Jpeg, 100);
+//     return data.ToArray();
+// }
 }

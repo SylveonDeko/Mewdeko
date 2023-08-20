@@ -14,14 +14,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -32,6 +25,23 @@ public static class Extensions
     public static readonly Regex UrlRegex = new(@"^(https?|ftp)://(?<path>[^\s/$.?#].[^\s]*)$", RegexOptions.Compiled);
 
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
+
+    // public static bool ParseBoth(this bool _, string value)
+    // {
+    //     switch (value)
+    //     {
+    //         case null:
+    //             throw new ArgumentNullException(nameof(value));
+    //         case "0":
+    //         case "1":
+    //             return value == "1";
+    //     }
+    //
+    //     if (bool.TryParse(value, out var result))
+    //         return result;
+    //
+    //     throw new FormatException($"The value '{value}' is not a valid boolean representation.");
+    // }
 
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
         bool sanitizeAll = false)
@@ -148,44 +158,6 @@ public static class Extensions
         return value is not null;
     }
 
-    // https://github.com/SixLabors/Samples/blob/master/ImageSharp/AvatarWithRoundedCorner/Program.cs
-    public static void ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
-    {
-        var (width, height) = ctx.GetCurrentSize();
-        var corners = BuildCorners(width, height, cornerRadius);
-
-        ctx.SetGraphicsOptions(new GraphicsOptions
-        {
-            Antialias = true,
-            AlphaCompositionMode =
-                PixelAlphaCompositionMode
-                    .DestOut // enforces that any part of this shape that has color is punched out of the background
-        });
-
-        foreach (var c in corners) ctx = ctx.Fill(Color.Red, c);
-    }
-
-    private static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
-    {
-        // first create a square
-        var rect = new RectangularPolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
-
-        // then cut out of the square a circle so we are left with a corner
-        var cornerTopLeft = rect.Clip(new EllipsePolygon(cornerRadius - 0.5f, cornerRadius - 0.5f, cornerRadius));
-
-        // corner is now a corner shape positions top left
-        //lets make 3 more positioned correctly, we can do that by translating the original around the center of the image
-
-        var rightPos = imageWidth - cornerTopLeft.Bounds.Width + 1;
-        var bottomPos = imageHeight - cornerTopLeft.Bounds.Height + 1;
-
-        // move it across the width of the image - the width of the shape
-        var cornerTopRight = cornerTopLeft.RotateDegree(90).Translate(rightPos, 0);
-        var cornerBottomLeft = cornerTopLeft.RotateDegree(-90).Translate(0, bottomPos);
-        var cornerBottomRight = cornerTopLeft.RotateDegree(180).Translate(rightPos, bottomPos);
-
-        return new PathCollection(cornerTopLeft, cornerBottomLeft, cornerTopRight, cornerBottomRight);
-    }
 
     /// <summary>
     ///     First 10 characters of teh bot token.
@@ -316,24 +288,15 @@ public static class Extensions
             u.RoleIds.Contains(role.Id));
 
 
-    public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
+    public static MemoryStream ToStream(this SKImage img, SKEncodedImageFormat format = SKEncodedImageFormat.Png)
     {
-        var imageStream = new MemoryStream();
-        if (format?.Name == "GIF")
-        {
-            img.SaveAsGif(imageStream);
-        }
-        else
-        {
-            img.SaveAsPng(imageStream, new PngEncoder
-            {
-                ColorType = PngColorType.RgbWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression
-            });
-        }
-
-        imageStream.Position = 0;
-        return imageStream;
+        var data = img.Encode(format, 100);
+        var stream = new MemoryStream();
+        data.SaveTo(stream);
+        stream.Position = 0;
+        return stream;
     }
+
 
     public static Stream ToStream(this IEnumerable<byte> bytes, bool canWrite = false)
     {
@@ -359,6 +322,12 @@ public static class Extensions
 
         return msg.Content.Headers.ContentLength / 1.Mb();
     }
+
+    public static SKImage ToSkImage(this byte[] imageData)
+    {
+        return SKImage.FromEncodedData(imageData);
+    }
+
 
     public static IEnumerable<Type> LoadFrom(this IServiceCollection collection, Assembly assembly)
     {

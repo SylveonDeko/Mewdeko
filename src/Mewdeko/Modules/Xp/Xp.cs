@@ -1,8 +1,9 @@
-﻿using Discord.Commands;
+﻿using System.Reflection;
+using System.Text;
+using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
 using Mewdeko.Services.Settings;
@@ -36,17 +37,16 @@ public partial class Xp : MewdekoModuleBase<XpService>
     private readonly DownloadTracker tracker;
     private readonly XpConfigService xpConfig;
     private readonly InteractiveService interactivity;
-    private readonly GamblingConfigService gss;
     private readonly BotConfigService bss;
+    private readonly DbService db;
 
-    public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
-        GamblingConfigService gss, BotConfigService bss)
+    public Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv, BotConfigService bss, DbService db)
     {
         xpConfig = xpconfig;
         this.tracker = tracker;
         interactivity = serv;
-        this.gss = gss;
         this.bss = bss;
+        this.db = db;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -283,15 +283,21 @@ public partial class Xp : MewdekoModuleBase<XpService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Experience([Remainder] IGuildUser? user = null)
     {
-        user ??= ctx.User as IGuildUser;
-        await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-        var (img, fmt) = await Service.GenerateXpImageAsync(user).ConfigureAwait(false);
-        await using (img.ConfigureAwait(false))
+        try
         {
-            await ctx.Channel.SendFileAsync(img,
-                    $"{ctx.Guild.Id}_{user.Id}_xp.{fmt.FileExtensions.FirstOrDefault()}")
+            user ??= ctx.User as IGuildUser;
+            await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            var output = await Service.GenerateXpImageAsync(user).ConfigureAwait(false);
+            await using var disposable = output.ConfigureAwait(false);
+            await ctx.Channel.SendFileAsync(output,
+                    $"{ctx.Guild.Id}_{user.Id}_xp.png")
                 .ConfigureAwait(false);
-            await img.DisposeAsync().ConfigureAwait(false);
+            await output.DisposeAsync().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 
@@ -568,39 +574,202 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public async Task XpCurrencyReward(int level, int amount = 0)
-    {
-        if (level < 1 || amount < 0)
-            return;
-
-        Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
-        var config = gss.Data;
-
-        if (amount == 0)
-        {
-            await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, config.Currency.Sign)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await ReplyConfirmLocalizedAsync("cur_reward_added",
-                    level, Format.Bold(amount + config.Currency.Sign))
-                .ConfigureAwait(false);
-        }
-    }
+    // [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
+    // public async Task XpCurrencyReward(int level, int amount = 0)
+    // {
+    //     if (level < 1 || amount < 0)
+    //         return;
+    //
+    //     Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
+    //     var config = gss.Data;
+    //
+    //     if (amount == 0)
+    //     {
+    //         await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, config.Currency.Sign)
+    //             .ConfigureAwait(false);
+    //     }
+    //     else
+    //     {
+    //         await ReplyConfirmLocalizedAsync("cur_reward_added",
+    //                 level, Format.Bold(amount + config.Currency.Sign))
+    //             .ConfigureAwait(false);
+    //     }
+    // }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public async Task XpTemplateReload()
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
+    public async Task TemplateConfig(string property = null, string subProperty = null, string value = null)
     {
-        Service.ReloadXpTemplate();
-        await Task.Delay(1000).ConfigureAwait(false);
-        await ReplyConfirmLocalizedAsync("template_reloaded").ConfigureAwait(false);
+        await using var uow = db.GetDbContext();
+        var template = await Service.GetTemplate(ctx.Guild.Id);
+
+        var embedBuilder = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle("Template configuration");
+
+        if (string.IsNullOrEmpty(property))
+        {
+            var propBuilder = new StringBuilder();
+            var nestedClassBuilder = new StringBuilder();
+            var properties = typeof(Template).GetProperties()
+                .Where(p => p.Name != "Id" && p.Name != "DateAdded" && p.Name != "GuildId");
+            foreach (var prop in properties)
+            {
+                var propValue = prop.GetValue(template);
+                if (prop.PropertyType.Namespace == "System") // simple properties
+                {
+                    propBuilder.AppendLine($"`{prop.Name}:` {propValue}");
+                }
+                else // nested classes (subproperties)
+                {
+                    nestedClassBuilder.AppendLine($"{prop.Name}");
+                }
+            }
+
+            embedBuilder.AddField("Fields", propBuilder.ToString());
+            embedBuilder.AddField("Properties", nestedClassBuilder.ToString());
+
+            await ctx.Channel.SendMessageAsync(embed: embedBuilder.Build());
+            return;
+        }
+
+        var propertyInfo = typeof(Template).GetProperty(property, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+        if (propertyInfo == null)
+        {
+            await ctx.Channel.SendErrorAsync($"No property named {property} found.");
+            return;
+        }
+
+        if (value == null)
+        {
+            // If no value is specified, we list the property/subproperty values
+            if (subProperty == null)
+            {
+                // No subproperty is specified, list all properties of the class
+                var properties = propertyInfo.PropertyType.GetProperties();
+                foreach (var prop in properties)
+                {
+                    var propValue = prop.GetValue(propertyInfo.GetValue(template));
+                    if (prop.Name != "Id" && prop.Name != "DateAdded" && prop.Name != "GuildId") // Exclude Id, DateAdded and GuildId
+                    {
+                        embedBuilder.AddField(prop.Name, propValue.ToString(), inline: true);
+                    }
+                }
+
+                await ctx.Channel.SendMessageAsync(embed: embedBuilder.Build());
+            }
+            else
+            {
+                // Subproperty is specified, set its value
+                if (TryParseValue(propertyInfo.PropertyType, subProperty, out var propertyValue))
+                {
+                    propertyInfo.SetValue(template, propertyValue);
+                    uow.Templates.Update(template);
+                    await uow.SaveChangesAsync();
+                    await ctx.Channel.SendConfirmAsync($"Set {propertyInfo.Name} to {subProperty}.");
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync($"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {subProperty}.");
+                }
+            }
+        }
+        else
+        {
+            // Value is specified, user wants to set a property
+            if (subProperty != null)
+            {
+                // Subproperty is specified, user wants to set a property of a nested class within Template
+                var subPropertyInfo = propertyInfo.PropertyType.GetProperty(subProperty, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (subPropertyInfo == null)
+                {
+                    await ctx.Channel.SendErrorAsync($"No subproperty named {subProperty} found in {property}.");
+                    return;
+                }
+
+                if (subPropertyInfo.Name is "Id" or "DateAdded" or "GuildId")
+                {
+                    await ctx.Channel.SendErrorAsync($"No.");
+                    return;
+                }
+
+                if (TryParseValue(subPropertyInfo.PropertyType, value, out var subPropertyValue))
+                {
+                    // Set the value of the subproperty
+                    subPropertyInfo.SetValue(propertyInfo.GetValue(template), subPropertyValue);
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync($"Failed to set value. The type of {subProperty} is {subPropertyInfo.PropertyType}, but received {value}.");
+                    return;
+                }
+            }
+            else
+            {
+                // No subproperty is specified, user wants to set a property of Template directly
+                if (propertyInfo.Name is "Id" or "DateAdded" or "GuildId")
+                {
+                    await ctx.Channel.SendErrorAsync($"No.");
+                    return;
+                }
+
+                if (TryParseValue(propertyInfo.PropertyType, value, out var propertyValue))
+                {
+                    // Set the value of the property
+                    propertyInfo.SetValue(template, propertyValue);
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync($"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {value}.");
+                    return;
+                }
+            }
+
+            // Save changes to the database
+            uow.Templates.Update(template);
+            await uow.SaveChangesAsync();
+            await ctx.Channel.SendConfirmAsync("Configuration updated successfully!");
+        }
     }
+
+    private static bool TryParseValue(Type type, string value, out object result)
+    {
+        result = null;
+        if (type == typeof(int))
+        {
+            if (!int.TryParse(value, out var intValue)) return false;
+            result = intValue;
+            return true;
+        }
+
+        if (type == typeof(byte))
+        {
+            if (!byte.TryParse(value, out var doubleValue)) return false;
+            result = doubleValue;
+            return true;
+        }
+
+        if (type == typeof(string))
+        {
+            result = value;
+            return true;
+        }
+
+        if (type == typeof(bool))
+        {
+            if (!bool.TryParse(value, out var boolValue)) return false;
+            result = boolValue;
+            return true;
+        }
+        // Add more else if clauses here for other types you want to support
+
+        return false;
+    }
+
 
     private class XpStuffs
     {

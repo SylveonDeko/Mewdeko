@@ -39,7 +39,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     public async Task RateGirl(IGuildUser usr)
     {
         var dbUser = await db.GetOrCreateUser(usr);
-        if (dbUser.IsDragon)
+        if (dbUser.IsDragon == 1)
         {
             var eb = new EmbedBuilder()
                 .WithOkColor()
@@ -68,8 +68,8 @@ There really is a {loonix}, and these people are using it, but it is just a part
     public async Task Dragon()
     {
         var user = await db.GetOrCreateUser(ctx.User);
-        user.IsDragon = !user.IsDragon;
+        user.IsDragon = user.IsDragon == 1 ? 0 : 1;
         await db.SaveChangesAsync();
-        await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync(false.ParseBoth(user.IsDragon) ? "dragon_set" : "dragon_unset").ConfigureAwait(false);
     }
 }

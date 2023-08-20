@@ -24,10 +24,10 @@ public static class WarningExtensions
             .Skip(index)
             .FirstOrDefaultAsyncEF();
 
-        if (warn == null || warn.Forgiven)
+        if (warn == null || warn.Forgiven == 1)
             return false;
 
-        warn.Forgiven = true;
+        warn.Forgiven = 1;
         warn.ForgivenBy = mod;
         return true;
     }
@@ -36,8 +36,8 @@ public static class WarningExtensions
         await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
             .ForEachAsync(x =>
             {
-                if (x.Forgiven) return;
-                x.Forgiven = true;
+                if (x.Forgiven == 1) return;
+                x.Forgiven = 1;
                 x.ForgivenBy = mod;
             }).ConfigureAwait(false);
 

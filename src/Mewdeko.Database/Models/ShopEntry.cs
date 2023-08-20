@@ -1,16 +1,22 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mewdeko.Database.Models;
 
 public enum ShopEntryType
 {
     Role,
 
     List,
+
     ExclRole
     //Infinite_List,
 }
 
 public class ShopEntry : DbEntity, IIndexed
 {
+    [ForeignKey("GuildConfigId")]
+    public int GuildConfigId { get; set; }
+
     public int Price { get; set; }
     public string Name { get; set; }
     public ulong AuthorId { get; set; }
@@ -28,6 +34,9 @@ public class ShopEntry : DbEntity, IIndexed
 
 public class ShopEntryItem : DbEntity
 {
+    [ForeignKey("ShopEntryId")]
+    public int ShopEntryId { get; set; }
+
     public string Text { get; set; }
 
     public override bool Equals(object obj)

@@ -89,6 +89,8 @@ public class BotCredentials : IBotCredentials
             OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => ulong.Parse(c.Value))
                 .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
+            UsePsql = false.ParseBoth(data[nameof(UsePsql)] ?? "false");
+            PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
@@ -191,6 +193,9 @@ public class BotCredentials : IBotCredentials
     public string ShardRunCommand { get; set; }
     public string ShardRunArguments { get; set; }
 
+    public bool UsePsql { get; set; }
+    public string PsqlConnectionString { get; set; }
+
     public string PatreonCampaignId { get; set; }
 
     public string TwitchClientId { get; set; }
@@ -265,6 +270,8 @@ public class BotCredentials : IBotCredentials
         public string VotesToken { get; set; }
         public string VotesUrl { get; set; }
         public string RedisOptions { get; set; }
+        public bool UsePsql { get; set; }
+        public string PsqlConnectionString { get; set; }
         public string LocationIqApiKey { get; set; }
         public string TimezoneDbApiKey { get; set; }
         public string CoinmarketcapApiKey { get; set; }

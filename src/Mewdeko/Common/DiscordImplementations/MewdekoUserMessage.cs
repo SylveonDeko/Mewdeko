@@ -1,5 +1,3 @@
-
-
 // ReSharper disable NotNullMemberIsNotInitialized
 
 namespace Mewdeko.Common.DiscordImplementations;
@@ -33,8 +31,8 @@ public class MewdekoUserMessage : IUserMessage
     public DateTimeOffset? EditedTimestamp => DateTimeOffset.Now;
     public IMessageChannel Channel { get; set; }
     public IUser Author { get; set; }
-    public IReadOnlyCollection<IAttachment> Attachments { get; set; }
-    public IReadOnlyCollection<IEmbed> Embeds { get; set; }
+    public IReadOnlyCollection<IAttachment> Attachments { get; set; } = new List<IAttachment>();
+    public IReadOnlyCollection<IEmbed> Embeds { get; set; } = new List<IEmbed>();
     public IReadOnlyCollection<ITag> Tags { get; set; }
     public IReadOnlyCollection<ulong> MentionedChannelIds { get; set; }
     public IReadOnlyCollection<ulong> MentionedRoleIds { get; set; }

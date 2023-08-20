@@ -26,7 +26,7 @@ public class ClubService : INService
 
         if (xp.Level >= 5 && du.Club == null)
         {
-            du.IsClubAdmin = true;
+            du.IsClubAdmin = 1;
             du.Club = new ClubInfo
             {
                 Name = clubName, Discrim = await uow.Clubs.GetNextDiscrim(clubName).ConfigureAwait(false), Owner = du
@@ -61,8 +61,8 @@ public class ClubService : INService
             return null;
         }
 
-        club.Owner.IsClubAdmin = true; // old owner will stay as admin
-        newOwnerUser.IsClubAdmin = true;
+        club.Owner.IsClubAdmin = 1; // old owner will stay as admin
+        newOwnerUser.IsClubAdmin = 1;
         club.Owner = newOwnerUser;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -84,10 +84,10 @@ public class ClubService : INService
         if (club.OwnerId == adminUser.Id)
             return true;
 
-        var newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
+        var newState = adminUser.IsClubAdmin = !false.ParseBoth(adminUser.IsClubAdmin) ? 1 : 0;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return newState;
+        return false.ParseBoth(newState);
     }
 
     public async Task<ClubInfo?> GetClubByMember(IUser user)
@@ -182,7 +182,7 @@ public class ClubService : INService
             return (false, discordUser);
 
         applicant.User.Club = club;
-        applicant.User.IsClubAdmin = false;
+        applicant.User.IsClubAdmin = 0;
         club.Applicants.Remove(applicant);
 
         //remove that user's all other applications
@@ -211,7 +211,7 @@ public class ClubService : INService
             return false;
 
         du.Club = null;
-        du.IsClubAdmin = false;
+        du.IsClubAdmin = 0;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return true;
@@ -273,7 +273,7 @@ public class ClubService : INService
             return (false, null);
 
         if (club.OwnerId == usr.Id ||
-            (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
+            (false.ParseBoth(usr.IsClubAdmin) && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
         {
             return (false, club);
         }
@@ -319,7 +319,7 @@ public class ClubService : INService
         if (usr == null)
             return (false, null);
 
-        if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
+        if (club.OwnerId == usr.Id || (false.ParseBoth(usr.IsClubAdmin) && club.Owner.UserId != kickerId))
             return (false, club);
 
         club.Users.Remove(usr);

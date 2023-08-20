@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Moderation;
 
 public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
 {
-    private static HttpClient _httpClient = new();
+    private static readonly HttpClient _httpClient = new();
     public IBotCredentials Credentials { get; set; }
     public BotConfigService ConfigService { get; set; }
     public DbService DbService { get; set; }

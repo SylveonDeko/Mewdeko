@@ -51,6 +51,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         this.strings = strings;
         this.pubSub = pubSub;
         streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), client.ShardId == 0);
+        using var uow = this.db.GetDbContext();
 
         streamsOnlineKey = new TypedKey<List<StreamData>>("streams.online");
         streamsOfflineKey = new TypedKey<List<StreamData>>("streams.offline");
@@ -58,48 +59,40 @@ public class StreamNotificationService : IReadyExecutor, INService
         streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
         streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
 
-        using (var uow = db.GetDbContext())
+        var allgc = bot.AllGuildConfigs;
+
+        offlineNotificationServers = new List<ulong>(allgc
+            .Where(gc => gc.NotifyStreamOffline != 0)
+            .Select(x => x.GuildId)
+            .ToList());
+
+        var followedStreams = allgc.SelectMany(x => x.FollowedStreams).ToList();
+
+        shardTrackedStreams = followedStreams.GroupBy(x => new
+            {
+                x.Type, Name = x.Username.ToLower()
+            })
+            .ToList()
+            .ToDictionary(
+                x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
+                x => x.GroupBy(y => y.GuildId)
+                    .ToDictionary(y => y.Key,
+                        y => y.AsEnumerable().ToHashSet()));
+
+        // shard 0 will keep track of when there are no more guilds which track a stream
+        if (client.ShardId == 0)
         {
-            var ids = client.GetGuildIds();
-            var guildConfigs = uow.Set<GuildConfig>()
-                .AsQueryable()
-                .Include(x => x.FollowedStreams)
-                .Where(x => ids.Contains(x.GuildId))
-                .ToList();
+            var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
 
-            offlineNotificationServers = new List<ulong>(guildConfigs
-                .Where(gc => gc.NotifyStreamOffline)
-                .Select(x => x.GuildId)
-                .ToList());
+            foreach (var fs in allFollowedStreams)
+                streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
-            var followedStreams = guildConfigs.SelectMany(x => x.FollowedStreams).ToList();
-
-            shardTrackedStreams = followedStreams.GroupBy(x => new
+            trackCounter = allFollowedStreams.GroupBy(x => new
                 {
                     x.Type, Name = x.Username.ToLower()
                 })
-                .ToList()
-                .ToDictionary(
-                    x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
-                    x => x.GroupBy(y => y.GuildId)
-                        .ToDictionary(y => y.Key,
-                            y => y.AsEnumerable().ToHashSet()));
-
-            // shard 0 will keep track of when there are no more guilds which track a stream
-            if (client.ShardId == 0)
-            {
-                var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
-
-                foreach (var fs in allFollowedStreams)
-                    streamTracker.CacheAddData(fs.CreateKey(), null, false);
-
-                trackCounter = allFollowedStreams.GroupBy(x => new
-                    {
-                        x.Type, Name = x.Username.ToLower()
-                    })
-                    .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
-                        x => x.Select(fs => fs.GuildId).ToHashSet());
-            }
+                .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
+                    x => x.Select(fs => fs.GuildId).ToHashSet());
         }
 
         this.pubSub.Sub(streamsOfflineKey, HandleStreamsOffline);
@@ -291,7 +284,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             if (gc is null)
                 return Task.CompletedTask;
 
-            if (gc.NotifyStreamOffline)
+            if (false.ParseBoth(gc.NotifyStreamOffline.ToString()))
                 offlineNotificationServers.Add(gc.GuildId);
 
             foreach (var followedStream in gc.FollowedStreams)
@@ -466,16 +459,18 @@ public class StreamNotificationService : IReadyExecutor, INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
-        var newValue = gc.NotifyStreamOffline = !gc.NotifyStreamOffline;
+        var newValue = gc.NotifyStreamOffline == 0L ? 1L : 0L;
+        gc.NotifyStreamOffline = newValue;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        if (newValue)
+        if (newValue == 1L)
             offlineNotificationServers.Add(guildId);
         else
             offlineNotificationServers.Remove(guildId);
 
-        return newValue;
+        return newValue == 1L;
     }
+
 
     public Task<StreamData?> GetStreamDataAsync(string url)
         => streamTracker.GetStreamDataByUrlAsync(url);

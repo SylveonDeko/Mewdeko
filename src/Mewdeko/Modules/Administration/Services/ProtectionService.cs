@@ -34,21 +34,8 @@ public class ProtectionService : INService
         this.mute = mute;
         this.db = db;
         this.punishService = punishService;
-
-        var ids = client.GetGuildIds();
-        using (var uow = db.GetDbContext())
-        {
-            var configs = uow.GuildConfigs
-                .AsQueryable()
-                .Include(x => x.AntiRaidSetting)
-                .Include(x => x.AntiSpamSetting)
-                .ThenInclude(x => x.IgnoredChannels)
-                .Include(x => x.AntiAltSetting)
-                .Where(x => ids.Contains(x.GuildId))
-                .ToList();
-
-            foreach (var gc in configs) Initialize(gc);
-        }
+        var allgc = bot.AllGuildConfigs;
+        foreach (var gc in allgc) Initialize(gc);
 
         eventHandler.MessageReceived += HandleAntiSpam;
         eventHandler.UserJoined += HandleUserJoined;
@@ -151,7 +138,7 @@ public class ProtectionService : INService
                 if (user.CreatedAt != default)
                 {
                     var diff = DateTime.UtcNow - user.CreatedAt.UtcDateTime;
-                    if (diff < alts.MinAge)
+                    if (diff < TimeSpan.Parse(alts.MinAge))
                     {
                         alts.Increment();
 
@@ -445,7 +432,7 @@ public class ProtectionService : INService
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = new AntiAltSetting
         {
-            Action = action, ActionDurationMinutes = actionDurationMinutes, MinAge = TimeSpan.FromMinutes(minAgeMinutes), RoleId = roleId
+            Action = action, ActionDurationMinutes = actionDurationMinutes, MinAge = minAgeMinutes.ToString(), RoleId = roleId
         };
 
         await uow.SaveChangesAsync().ConfigureAwait(false);

@@ -2,20 +2,20 @@
 
 public readonly struct ShmartNumber : IEquatable<ShmartNumber>
 {
-    public long Value { get; }
+    public ulong Value { get; }
     public string Input { get; }
 
-    public ShmartNumber(long val, string? input = null)
+    public ShmartNumber(ulong val, string? input = null)
     {
         Value = val;
-        Input = input;
+        Input = input ?? string.Empty;
     }
 
-    public static implicit operator ShmartNumber(long num) => new(num);
+    public static implicit operator ShmartNumber(ulong num) => new(num);
 
-    public static implicit operator long(ShmartNumber num) => num.Value;
+    public static implicit operator ulong(ShmartNumber num) => num.Value;
 
-    public static implicit operator ShmartNumber(int num) => new(num);
+    public static implicit operator ShmartNumber(uint num) => new(num);
 
     public override string ToString() => Value.ToString();
 

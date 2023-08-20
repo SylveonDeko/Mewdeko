@@ -86,7 +86,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
     {
-        var rgx = bool.Parse(sRgx);
+        var rgx = false.ParseBoth(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Trigger) || string.IsNullOrWhiteSpace(modal.Message))
         {
             await RespondAsync("trigger_add_invalid").ConfigureAwait(false);
@@ -125,7 +125,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
     {
         var id = int.Parse(sId);
-        var rgx = bool.Parse(sRgx);
+        var rgx = false.ParseBoth(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Message) || id < 0)
             return;
 
@@ -220,9 +220,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                         .Take(20).Select(cr =>
                         {
                             var str = $"`#{cr.Id}` {cr.Trigger}";
-                            if (cr.AutoDeleteTrigger)
+                            if (cr.AutoDeleteTrigger == 1)
                                 str = $"🗑{str}";
-                            if (cr.DmResponse)
+                            if (cr.DmResponse == 1)
                                 str = $"📪{str}";
                             var reactions = cr.GetReactions();
                             if (reactions.Length > 0)

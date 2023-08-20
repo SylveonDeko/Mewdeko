@@ -60,9 +60,9 @@ public class RoleGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in checkGreets)
         {
-            if (i.Disabled)
+            if (i.Disabled == 1)
                 continue;
-            if (!i.GreetBots && user.IsBot)
+            if (i.GreetBots == 0 && user.IsBot)
                 continue;
             if (i.WebhookUrl != null)
                 continue;
@@ -127,9 +127,9 @@ public class RoleGreetService : INService
         {
             if (i.WebhookUrl == null)
                 continue;
-            if (i.Disabled)
+            if (i.Disabled == 1)
                 continue;
-            if (!i.GreetBots && user.IsBot)
+            if (i.GreetBots == 0 && user.IsBot)
                 continue;
 
             if (string.IsNullOrEmpty(i.WebhookUrl)) continue;
@@ -210,7 +210,7 @@ public class RoleGreetService : INService
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
         var uow = db.GetDbContext();
-        greet.Disabled = disabled;
+        greet.Disabled = disabled ? 1 : 0;
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -234,7 +234,7 @@ public class RoleGreetService : INService
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
         var uow = db.GetDbContext();
-        greet.GreetBots = enabled;
+        greet.GreetBots = enabled ? 1 : 0;
         uow.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
