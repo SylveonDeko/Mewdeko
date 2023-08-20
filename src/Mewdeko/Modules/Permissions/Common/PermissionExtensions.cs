@@ -61,28 +61,28 @@ public static class PermissionExtensions
         {
             case PrimaryPermissionType.User:
                 if (perm.PrimaryTargetId == message.Author.Id)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Channel:
                 if (perm.PrimaryTargetId == message.Channel.Id)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Category:
                 if (perm.PrimaryTargetId == ((ITextChannel)message.Channel).CategoryId)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Role:
                 if (message.Author is not IGuildUser guildUser)
                     break;
                 if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Server:
                 if (message.Author is not IGuildUser guildUser1)
                     break;
                 if (guildUser1 == null)
                     break;
-                return perm.State;
+                return false.ParseBoth(perm.State.ToString());
         }
 
         return null;
@@ -103,28 +103,28 @@ public static class PermissionExtensions
         {
             case PrimaryPermissionType.User:
                 if (perm.PrimaryTargetId == user.Id)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Channel:
                 if (perm.PrimaryTargetId == chan.Id)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Category:
                 if (perm.PrimaryTargetId == ((ITextChannel)chan).CategoryId)
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Role:
                 if (user is not IGuildUser guildUser)
                     break;
                 if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
-                    return perm.State;
+                    return false.ParseBoth(perm.State.ToString());
                 break;
             case PrimaryPermissionType.Server:
                 if (user is not IGuildUser guildUser1)
                     break;
                 if (guildUser1 == null)
                     break;
-                return perm.State;
+                return false.ParseBoth(perm.State.ToString());
         }
 
         return null;
@@ -165,10 +165,10 @@ public static class PermissionExtensions
                 break;
         }
 
-        var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand
+        var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !false.ParseBoth(perm.IsCustomCommand.ToString())
             ? prefix + perm.SecondaryTargetName
             : perm.SecondaryTargetName;
-        com += $" {(perm.SecondaryTargetName != "*" ? $"{secName} " : "")}{(perm.State ? "enable" : "disable")} ";
+        com += $" {(perm.SecondaryTargetName != "*" ? $"{secName} " : "")}{(perm.State == 1 ? "enable" : "disable")} ";
 
         switch (perm.PrimaryTarget)
         {

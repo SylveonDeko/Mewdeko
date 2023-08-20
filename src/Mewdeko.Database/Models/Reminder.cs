@@ -7,5 +7,5 @@ public class Reminder : DbEntity
     public ulong ServerId { get; set; }
     public ulong UserId { get; set; }
     public string Message { get; set; }
-    public bool IsPrivate { get; set; }
+    public long IsPrivate { get; set; }
 }

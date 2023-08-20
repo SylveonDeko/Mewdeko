@@ -59,7 +59,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
-            config.VerbosePermissions = Convert.ToBoolean((int)action);
+            config.VerbosePermissions = Convert.ToBoolean(action) ? 1 : 0;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
@@ -176,8 +176,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action),
-            IsCustomCommand = false
+            State = Convert.ToBoolean((int)action) ? 1 : 0,
+            IsCustomCommand = 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -204,7 +204,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -231,8 +231,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action),
-            IsCustomCommand = false
+            State = Convert.ToBoolean((int)action) ? 1 : 0,
+            IsCustomCommand = 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -261,7 +261,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -293,8 +293,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action),
-            IsCustomCommand = false
+            State = Convert.ToBoolean((int)action) ? 1 : 0,
+            IsCustomCommand = 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -326,7 +326,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -355,8 +355,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action),
-            IsCustomCommand = false
+            State = Convert.ToBoolean((int)action) ? 1 : 0,
+            IsCustomCommand = 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -385,7 +385,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -413,7 +413,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -438,8 +438,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action),
-            IsCustomCommand = false
+            State = Convert.ToBoolean((int)action) ? 1 : 0,
+            IsCustomCommand = 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -468,7 +468,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -496,7 +496,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -523,7 +523,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -547,7 +547,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -571,7 +571,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action)
+            State = Convert.ToBoolean((int)action) ? 1 : 0
         };
 
         var allowUser = new Permissionv2
@@ -580,7 +580,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = ctx.User.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = true
+            State = 1
         };
 
         await Service.AddPermissions(ctx.Guild.Id,
@@ -610,7 +610,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
 
         var cb = new ComponentBuilder()
-            .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary, Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true)
+            .WithButton(GetText("perm_quick_options"), "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it", ButtonStyle.Secondary,
+                Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true)
             .WithButton(GetText("back"), $"help_component_restore.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
 
         var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
@@ -618,11 +619,11 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         // check effecting for redundant permissions
         var redundant = effecting.Where(x => effecting.Any(y =>
-            y.Id                    != x.Id                 &&
-            y.PrimaryTarget         == x.PrimaryTarget      &&
-            y.PrimaryTargetId       == x.PrimaryTargetId    &&
-            y.SecondaryTarget       == x.SecondaryTarget    &&
-            y.SecondaryTargetName   == x.SecondaryTargetName)).ToList();
+            y.Id != x.Id &&
+            y.PrimaryTarget == x.PrimaryTarget &&
+            y.PrimaryTargetId == x.PrimaryTargetId &&
+            y.SecondaryTarget == x.SecondaryTarget &&
+            y.SecondaryTargetName == x.SecondaryTargetName)).ToList();
         if (redundant.Count >= 1)
         {
             redundant = redundant
@@ -646,10 +647,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return;
         }
 
-        if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == false))
-            cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Success, "<:perms_check:1085356998247317514>".ToIEmote());
+        if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == 0))
+            cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Success,
+                "<:perms_check:1085356998247317514>".ToIEmote());
         else
-            cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Danger, "<:perms_disabled:1085358511900327956>".ToIEmote());
+            cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}", ButtonStyle.Danger,
+                "<:perms_disabled:1085358511900327956>".ToIEmote());
 
         if (effecting.Any() || dpoUsed)
             cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger, "<:perms_warning:1085356999824396308>".ToIEmote());
@@ -684,11 +687,11 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var redundant = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => perms.Where(x => x.SecondaryTargetName == commandName).Any(y =>
-                y.Id                    != x.Id                 &&
-                y.PrimaryTarget         == x.PrimaryTarget      &&
-                y.PrimaryTargetId       == x.PrimaryTargetId    &&
-                y.SecondaryTarget       == x.SecondaryTarget    &&
-                y.SecondaryTargetName   == x.SecondaryTargetName))
+                y.Id != x.Id &&
+                y.PrimaryTarget == x.PrimaryTarget &&
+                y.PrimaryTargetId == x.PrimaryTargetId &&
+                y.SecondaryTarget == x.SecondaryTarget &&
+                y.SecondaryTargetName == x.SecondaryTargetName))
             .DistinctBy(x => (x.PrimaryTarget, x.PrimaryTargetId, x.SecondaryTarget, x.SecondaryTargetName))
             .ToList();
 
@@ -701,18 +704,21 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var perm = redundant.First();
 
         var cb = new ComponentBuilder()
-            .WithSelectMenu($"credperms_m.{((int)perm.PrimaryTarget)}.{perm.PrimaryTargetId}.{((int)perm.SecondaryTarget)}.{perm.SecondaryTargetName}", new List<SelectMenuOptionBuilder>() {
-                new(GetText("perm_quick_options_redundant_tool_enable"), "enabled", GetText("perm_quick_options_redundant_tool_enabled_description")),
-                new(GetText("perm_quick_options_redundant_tool_disable"), "disabled", GetText("perm_quick_options_redundant_tool_disable_description")),
-                new(GetText("perm_quick_options_redundant_tool_clear"), "clear", GetText("perm_quick_options_redundant_tool_clear_description")),
-                new(GetText("perm_quick_options_redundant_tool_current"), "current", GetText("perm_quick_options_redundant_tool_current_description")),
-            }, "Action");
+            .WithSelectMenu($"credperms_m.{((int)perm.PrimaryTarget)}.{perm.PrimaryTargetId}.{((int)perm.SecondaryTarget)}.{perm.SecondaryTargetName}",
+                new List<SelectMenuOptionBuilder>()
+                {
+                    new(GetText("perm_quick_options_redundant_tool_enable"), "enabled", GetText("perm_quick_options_redundant_tool_enabled_description")),
+                    new(GetText("perm_quick_options_redundant_tool_disable"), "disabled", GetText("perm_quick_options_redundant_tool_disable_description")),
+                    new(GetText("perm_quick_options_redundant_tool_clear"), "clear", GetText("perm_quick_options_redundant_tool_clear_description")),
+                    new(GetText("perm_quick_options_redundant_tool_current"), "current", GetText("perm_quick_options_redundant_tool_current_description")),
+                }, "Action");
 
         var eb = new EmbedBuilder()
             .WithTitle(GetText("perm_quick_options_redundant"))
             .WithDescription(GetText("perm_quick_options_redundant_tool_priority_disclaimer"))
             .AddField(GetText("perm_quick_options_redundant_tool_ptar"), perm.PrimaryTarget.ToString(), true)
-            .AddField(GetText("perm_quick_options_redundant_tool_ptarid"), $"{perm.PrimaryTargetId} ({PermissionService.MentionPerm(perm.PrimaryTarget, perm.PrimaryTargetId)})", true)
+            .AddField(GetText("perm_quick_options_redundant_tool_ptarid"), $"{perm.PrimaryTargetId} ({PermissionService.MentionPerm(perm.PrimaryTarget, perm.PrimaryTargetId)})",
+                true)
             .AddField(GetText("perm_quick_options_redundant_tool_custom"), perm.IsCustomCommand, false)
             .AddField(GetText("perm_quick_options_redundant_tool_star"), perm.SecondaryTarget.ToString(), true)
             .AddField(GetText("perm_quick_options_redundant_tool_starid"), $"{perm.SecondaryTargetName}", true)
@@ -801,7 +807,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var sc = perms
             .FirstOrDefault(x => x.PrimaryTarget == PrimaryPermissionType.Server, null);
 
-        if (sc is not null && sc.State)
+        if (sc is not null && sc.State == 1)
         {
             await Service.RemovePerm(ctx.Guild.Id, sc.Index);
             sc = null;
@@ -812,12 +818,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.AddPermissions(ctx.Guild.Id, new Permissionv2()
             {
                 GuildConfigId = uow.ForGuildId(ctx.Guild.Id).Id,
-                IsCustomCommand = false,
+                IsCustomCommand = 0,
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = commandName,
-                State = false
+                State = 0
             });
 
             // reset local cache
@@ -837,6 +843,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await UpdateMessageWithPermenu(commandName);
             return;
         }
+
         await Service.RemovePerm(ctx.Guild.Id, sc.Index);
         await UpdateMessageWithPermenu(commandName);
     }
@@ -895,18 +902,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         if (!truePerms.Any())
             truePerms = basePerms;
-        for (var i = 0; i < 25 && ((selects.Count-1)*25) < perms.Length && selects.Count <= 5; i++)
+        for (var i = 0; i < 25 && ((selects.Count - 1) * 25) < perms.Length && selects.Count <= 5; i++)
         {
             selects.Add(new SelectMenuBuilder()
                 .WithCustomId($"update_cmd_dpo.{commandName}${i}")
                 .WithMinValues(0)
                 .WithPlaceholder(GetText("cmd_perm_spawner_dpo_page", selects.Count + 1)));
             var current = selects.Last();
-            for (var j = 0; j < 25 &&((selects.Count-1)*25)+j < perms.Length; j++)
+            for (var j = 0; j < 25 && ((selects.Count - 1) * 25) + j < perms.Length; j++)
             {
-                var cdat = perms[((selects.Count-1)*25)+j];
+                var cdat = perms[((selects.Count - 1) * 25) + j];
                 current.AddOption(cdat.ToString(), ((ulong)cdat).ToString(), cdat.ToString(), isDefault: truePerms.Any(x => x == cdat));
-                current.MaxValues = j+1;
+                current.MaxValues = j + 1;
             }
         }
 
@@ -981,12 +988,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x))
             .Take(3)
@@ -994,10 +1001,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         // make component builders, slack fill with blank user selects
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_usr.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
-            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_usr.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
-            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_usr.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
-            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_usr.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_usr.{commandName}.{true}.{allow}$1",
+                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_usr.{commandName}.{false}.{allow}$2",
+                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_usr.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary,
+                "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_usr.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
+                "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
         var i = 0;
         for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
@@ -1005,12 +1016,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             var options = splitGroups[i]
                 .Select(async x => (x, user: (await TryGetUser(x.PrimaryTargetId))))
                 .Select(x => x.Result)
-                .Select(x => new SelectMenuOptionBuilder(x.user?.ToString() ?? "Unknown#0000", x.x.Id.ToString(), GetText($"perms_quick_options_user_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:perms_user_perms:1085426466818359367>".ToIEmote(), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_user_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_user_remove"), options.Count(), 0);
+                .Select(x => new SelectMenuOptionBuilder(x.user?.ToString() ?? "Unknown#0000", x.x.Id.ToString(),
+                    GetText($"perms_quick_options_user_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:perms_user_perms:1085426466818359367>".ToIEmote(), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_user_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_user_remove"),
+                options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
-        cb.WithSelectMenu($"perm_quick_options_user_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_users"), minValues: 1, maxValues: 10, type: ComponentType.UserSelect, options: null);
+        cb.WithSelectMenu($"perm_quick_options_user_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            placeholder: GetText("perm_quick_options_add_users"), minValues: 1, maxValues: 10, type: ComponentType.UserSelect, options: null);
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
@@ -1028,15 +1042,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x)
-                .ToList())
+                    .ToList())
             .ToList();
 
         perms = splitGroups[index];
@@ -1063,7 +1077,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1076,12 +1090,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2()
         {
-            IsCustomCommand = false,
+            IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.User,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = allow
+            State = 1
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1144,12 +1158,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x))
             .Take(3)
@@ -1157,22 +1171,29 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         // make component builders, slack fill with blank role selects
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_rol.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
-            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_rol.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
-            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_rol.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
-            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_rol.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_rol.{commandName}.{true}.{allow}$1",
+                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_rol.{commandName}.{false}.{allow}$2",
+                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_rol.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary,
+                "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_rol.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
+                "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
         var i = 0;
         for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
         {
             var options = splitGroups[i]
                 .Select(x => (x, role: (TryGetRole(x.PrimaryTargetId))))
-                .Select(x => new SelectMenuOptionBuilder(x.role?.ToString() ?? "Deleted Role", x.x.Id.ToString(), GetText($"perms_quick_options_role_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:role:808826577785716756>".ToIEmote(), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_role_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_role_remove"), options.Count(), 0);
+                .Select(x => new SelectMenuOptionBuilder(x.role?.ToString() ?? "Deleted Role", x.x.Id.ToString(),
+                    GetText($"perms_quick_options_role_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), "<:role:808826577785716756>".ToIEmote(), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_role_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_role_remove"),
+                options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
-        cb.WithSelectMenu($"perm_quick_options_role_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_roles"), minValues: 1, maxValues: 10, type: ComponentType.RoleSelect, options: null);
+        cb.WithSelectMenu($"perm_quick_options_role_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            placeholder: GetText("perm_quick_options_add_roles"), minValues: 1, maxValues: 10, type: ComponentType.RoleSelect, options: null);
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
@@ -1190,15 +1211,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x)
-                .ToList())
+                    .ToList())
             .ToList();
 
         perms = splitGroups[index];
@@ -1215,17 +1236,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     [ComponentInteraction("perm_quick_options_role_add.*.*.*$*", true)]
     public async Task AddRoleOveride(string commandName, bool overwright, bool allow, string _, IRole[] values)
     {
-        IList<Permissionv2> perms;
-
-        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
-            perms = permCache.Permissions.Source.ToList();
-        else
-            perms = Permissionv2.GetDefaultPermlist;
+        IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache) ? permCache.Permissions.Source.ToList() : Permissionv2.GetDefaultPermlist;
 
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1238,12 +1254,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2()
         {
-            IsCustomCommand = false,
+            IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Role,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = allow
+            State = 1
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1287,22 +1303,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
 #endif
         // get perm overwrights targeting users
-        IList<Permissionv2> perms;
 
-        if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
-            perms = permCache.Permissions.Source.ToList();
-        else
-            perms = Permissionv2.GetDefaultPermlist;
+        IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache) ? permCache.Permissions.Source.ToList() : Permissionv2.GetDefaultPermlist;
 
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x))
             .Take(3)
@@ -1310,10 +1322,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         // make component builders, slack fill with blank user selects
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_chn.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
-            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_chn.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
-            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_chn.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
-            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_chn.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_chn.{commandName}.{true}.{allow}$1",
+                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_chn.{commandName}.{false}.{allow}$2",
+                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_chn.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary,
+                "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_chn.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
+                "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
         var i = 0;
         for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
@@ -1321,12 +1337,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             var options = splitGroups[i]
                 .Select(async x => (x, channel: await (TryGetChannel(x.PrimaryTargetId))))
                 .Select(x => x.Result)
-                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(), GetText($"perms_quick_options_channel_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_channel_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_channel_remove"), options.Count(), 0);
+                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(),
+                    GetText($"perms_quick_options_channel_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_channel_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(),
+                GetText("perms_quick_options_channel_remove"), options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
-        cb.WithSelectMenu($"perm_quick_options_channel_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_channels"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null, channelTypes: Enum.GetValues<ChannelType>().Where(x => x != ChannelType.Category).ToArray());
+        cb.WithSelectMenu($"perm_quick_options_channel_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            placeholder: GetText("perm_quick_options_add_channels"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null,
+            channelTypes: Enum.GetValues<ChannelType>().Where(x => x != ChannelType.Category).ToArray());
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
@@ -1345,15 +1365,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x)
-                .ToList())
+                    .ToList())
             .ToList();
 
         perms = splitGroups[index];
@@ -1380,7 +1400,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1393,12 +1413,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2()
         {
-            IsCustomCommand = false,
+            IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Channel,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = allow
+            State = 1
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1452,12 +1472,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x))
             .Take(3)
@@ -1465,10 +1485,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         // make component builders, slack fill with blank user selects
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}", emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_cat.{commandName}.{true}.{allow}$1", overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
-            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_cat.{commandName}.{false}.{allow}$2", !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
-            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_cat.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary, "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
-            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_cat.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary, "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
+            .WithButton(GetText("perm_quick_options_overwright"), $"command_perm_spawner_cat.{commandName}.{true}.{allow}$1",
+                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+            .WithButton(GetText("perm_quick_options_fallback"), $"command_perm_spawner_cat.{commandName}.{false}.{allow}$2",
+                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary, "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+            .WithButton(GetText("perm_quick_options_allow"), $"command_perm_spawner_cat.{commandName}.{overwright}.{true}$3", allow ? ButtonStyle.Success : ButtonStyle.Secondary,
+                "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
+            .WithButton(GetText("perm_quick_options_deny"), $"command_perm_spawner_cat.{commandName}.{overwright}.{false}$4", !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
+                "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
         var i = 0;
         for (i = 0; i < Math.Min(splitGroups.Count, 3); i++)
@@ -1476,16 +1500,21 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             var options = splitGroups[i]
                 .Select(async x => (x, channel: await (TryGetChannel(x.PrimaryTargetId))))
                 .Select(x => x.Result)
-                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(), GetText($"perms_quick_options_category_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_category_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(), GetText("perms_quick_options_category_remove"), options.Count(), 0);
+                .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(),
+                    GetText($"perms_quick_options_category_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId), GetChannelEmote(x.channel), true));
+            var sb = new SelectMenuBuilder($"perm_quick_options_category_remove.{commandName}.{overwright}.{allow}${i}", options.ToList(),
+                GetText("perms_quick_options_category_remove"), options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
-        cb.WithSelectMenu($"perm_quick_options_category_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}", placeholder: GetText("perm_quick_options_add_categories"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null, channelTypes: new[] { ChannelType.Category });
+        cb.WithSelectMenu($"perm_quick_options_category_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            placeholder: GetText("perm_quick_options_add_categories"), minValues: 1, maxValues: 10, type: ComponentType.ChannelSelect, options: null, channelTypes: new[]
+            {
+                ChannelType.Category
+            });
 
         await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
-
 
 
     [ComponentInteraction("perm_quick_options_category_remove.*.*.*$*", true)]
@@ -1501,15 +1530,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
             .Select((x, i) => (x, i))
-            .GroupBy(x => x.i/25)
+            .GroupBy(x => x.i / 25)
             .Select(x =>
                 x.Select(y => y.x)
-                .ToList())
+                    .ToList())
             .ToList();
 
         perms = splitGroups[index];
@@ -1536,7 +1565,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == allow)
+            .Where(x => x.State == 1)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1549,12 +1578,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2()
         {
-            IsCustomCommand = false,
+            IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Category,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = allow
+            State = 1
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1564,12 +1593,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return;
         }
 
-        if (Service.Cache.TryGetValue(ctx.Guild.Id, out permCache))
-            perms = permCache.Permissions.Source.ToList();
-        else
-            perms = Permissionv2.GetDefaultPermlist;
+        perms = Service.Cache.TryGetValue(ctx.Guild.Id, out permCache) ? permCache.Permissions.Source.ToList() : Permissionv2.GetDefaultPermlist;
 
-        for (i = 0; i<needAdd.Count(); i++)
+        for (i = 0; i < needAdd.Count(); i++)
             await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
         await CommandPermsCat(commandName, overwright, allow, "");
     }
@@ -1587,6 +1613,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     public IRole? TryGetRole(ulong id) => Context.Guild.Roles.FirstOrDefault(x => x.Id == id);
+
     public async Task<IChannel?> TryGetChannel(ulong id)
     {
         try
@@ -1598,21 +1625,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return null;
         }
     }
+
     public IEmote GetChannelEmote(IChannel channel)
     {
-        if (channel is ICategoryChannel)
-            return GetText("not_an_easter_egg").ToIEmote();
-        if (channel is IForumChannel)
-            return "<:ForumChannelIcon:1086869270312517632>".ToIEmote();
-        if (channel is INewsChannel)
-            return "<:ChannelAnnouncements:779042577114202122>".ToIEmote();
-        if (channel is IThreadChannel)
-            return "<:threadchannel:824240882697633812>".ToIEmote();
-        if (channel is IStageChannel)
-            return "<:stagechannel:824240882793447444>".ToIEmote();
-        if (channel is IVoiceChannel)
-            return "<:ChannelVC:779036156607332394>".ToIEmote();
-
-        return "<:ChannelText:779036156175188001>".ToIEmote();
+        return channel switch
+        {
+            ICategoryChannel => GetText("not_an_easter_egg").ToIEmote(),
+            IForumChannel => "<:ForumChannelIcon:1086869270312517632>".ToIEmote(),
+            INewsChannel => "<:ChannelAnnouncements:779042577114202122>".ToIEmote(),
+            IThreadChannel => "<:threadchannel:824240882697633812>".ToIEmote(),
+            IStageChannel => "<:stagechannel:824240882793447444>".ToIEmote(),
+            IVoiceChannel => "<:ChannelVC:779036156607332394>".ToIEmote(),
+            _ => "<:ChannelText:779036156175188001>".ToIEmote()
+        };
     }
 }

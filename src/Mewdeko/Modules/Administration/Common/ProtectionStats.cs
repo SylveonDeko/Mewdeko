@@ -41,7 +41,7 @@ public class AntiAltStats
     public PunishmentAction Action => setting.Action;
     public int ActionDurationMinutes => setting.ActionDurationMinutes;
     public ulong? RoleId => setting.RoleId;
-    public TimeSpan MinAge => setting.MinAge;
+    public string MinAge => setting.MinAge;
     public int Counter => counter;
 
     public void Increment() => Interlocked.Increment(ref counter);

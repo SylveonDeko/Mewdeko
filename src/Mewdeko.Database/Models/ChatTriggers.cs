@@ -3,8 +3,8 @@
 public class ChatTriggers : DbEntity
 {
     public ulong UseCount { get; set; }
-    public bool IsRegex { get; set; }
-    public bool OwnerOnly { get; set; }
+    public long IsRegex { get; set; }
+    public long OwnerOnly { get; set; }
 
     public ulong? GuildId { get; set; }
     public string Response { get; set; }
@@ -13,12 +13,12 @@ public class ChatTriggers : DbEntity
     public RequirePrefixType PrefixType { get; set; } = RequirePrefixType.None;
     public string CustomPrefix { get; set; } = "";
 
-    public bool AutoDeleteTrigger { get; set; }
-    public bool ReactToTrigger { get; set; }
-    public bool NoRespond { get; set; }
-    public bool DmResponse { get; set; }
-    public bool ContainsAnywhere { get; set; }
-    public bool AllowTarget { get; set; }
+    public long AutoDeleteTrigger { get; set; }
+    public long ReactToTrigger { get; set; }
+    public long NoRespond { get; set; }
+    public long DmResponse { get; set; }
+    public long ContainsAnywhere { get; set; }
+    public long AllowTarget { get; set; }
     public string Reactions { get; set; }
 
     public string GrantedRoles { get; set; } = "";
@@ -37,7 +37,7 @@ public class ChatTriggers : DbEntity
     public string ApplicationCommandName { get; set; } = "";
     public string ApplicationCommandDescription { get; set; } = "";
     public CtApplicationCommandType ApplicationCommandType { get; set; } = CtApplicationCommandType.None;
-    public bool EphemeralResponse { get; set; } = false;
+    public long EphemeralResponse { get; set; } = 0;
     public ulong CrosspostingChannelId { get; set; } = 0;
     public string CrosspostingWebhookUrl { get; set; } = "";
 
@@ -46,7 +46,7 @@ public class ChatTriggers : DbEntity
 
 public class ReactionResponse : DbEntity
 {
-    public bool OwnerOnly { get; set; }
+    public long OwnerOnly { get; set; }
     public string Text { get; set; }
 }
 

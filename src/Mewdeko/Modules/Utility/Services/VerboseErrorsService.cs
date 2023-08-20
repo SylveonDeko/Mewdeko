@@ -19,10 +19,10 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly IServiceProvider services;
     private readonly BotConfigService botConfigService;
 
-    public VerboseErrorsService(DiscordSocketClient client, DbService db, CommandHandler ch,
+    public VerboseErrorsService(DbService db, CommandHandler ch,
         IBotStrings strings,
         GuildSettingsService guildSettings,
-        IServiceProvider services, BotConfigService botConfigService)
+        IServiceProvider services, BotConfigService botConfigService, Mewdeko bot)
     {
         this.strings = strings;
         this.guildSettings = guildSettings;
@@ -30,12 +30,11 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.botConfigService = botConfigService;
         this.db = db;
         this.ch = ch;
-        using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var allgc = bot.AllGuildConfigs;
         this.ch.CommandErrored += LogVerboseError;
 
-        guildsEnabled = new ConcurrentHashSet<ulong>(gc
-            .Where(x => x.VerboseErrors)
+        guildsEnabled = new ConcurrentHashSet<ulong>(allgc
+            .Where(x => x.VerboseErrors != 0)
             .Select(x => x.GuildId));
     }
 
@@ -91,14 +90,16 @@ public class VerboseErrorsService : INService, IUnloadableService
         {
             var gc = await uow.ForGuildId(guildId, set => set);
 
-            if (enabled == null)
-                enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
-            else gc.VerboseErrors = (bool)enabled; // New behaviour, just set it.
+            long? longEnabled = enabled.HasValue ? (enabled.Value ? 1L : 0L) : null;
+
+            if (longEnabled == null)
+                longEnabled = gc.VerboseErrors = gc.VerboseErrors == 0L ? 1L : 0L; // Old behaviour, now behind a condition
+            else gc.VerboseErrors = (long)longEnabled; // New behaviour, just set it.
 
             await uow.SaveChangesAsync();
         }
 
-        if ((bool)enabled) // This doesn't need to be duplicated inside the using block
+        if (enabled != null && (bool)enabled) // This doesn't need to be duplicated inside the using block
             guildsEnabled.Add(guildId);
         else
             guildsEnabled.TryRemove(guildId);

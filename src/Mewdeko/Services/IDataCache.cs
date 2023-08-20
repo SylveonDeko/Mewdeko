@@ -19,8 +19,6 @@ public interface IDataCache
     Task CacheHighlights(ulong id, List<Highlights> highlights);
     Task<bool> AddProcessingUser(ulong id);
     Task RemoveProcessingUser(ulong id);
-    Task<GuildConfig?> GetGuildConfig(ulong guildId);
-    void SetGuildConfig(ulong guildId, GuildConfig guildConfig);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight);
     Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight);

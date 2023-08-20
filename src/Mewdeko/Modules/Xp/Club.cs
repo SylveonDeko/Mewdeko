@@ -127,7 +127,7 @@ public partial class Xp
                     var l = new LevelStats(x.TotalXp).Level;
                     if (club.OwnerId == x.Id)
                         return int.MaxValue;
-                    if (x.IsClubAdmin)
+                    if (false.ParseBoth(x.IsClubAdmin))
                         return (int.MaxValue / 2) + l;
                     return l;
                 });
@@ -162,7 +162,7 @@ public partial class Xp
                             var lvlStr = Format.Bold($" ⟪{l.Level}⟫");
                             if (club.OwnerId == x.Id)
                                 return $"{x}🌟{lvlStr}";
-                            if (x.IsClubAdmin)
+                            if (false.ParseBoth(x.IsClubAdmin))
                                 return $"{x}⭐{lvlStr}";
                             return x + lvlStr;
                         })));

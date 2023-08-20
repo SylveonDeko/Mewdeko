@@ -484,6 +484,7 @@ public class SuggestionsService : INService
         await uow.Suggestions.Where(x => x.GuildId == guild.Id).DeleteAsync().ConfigureAwait(false);
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.sugnum = 1;
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -674,7 +675,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnDeny = value;
+        gc.ArchiveOnDeny = value ? 1L : 0L;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -683,7 +684,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnAccept = value;
+        gc.ArchiveOnAccept = value ? 1L : 0L;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -692,7 +693,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnConsider = value;
+        gc.ArchiveOnConsider = value ? 1L : 0L;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -701,10 +702,11 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnImplement = value;
+        gc.ArchiveOnImplement = value ? 1L : 0L;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
+
 
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
@@ -899,16 +901,16 @@ public class SuggestionsService : INService
         => (await guildSettings.GetGuildConfig(guild.Id)).DenyChannel;
 
     public async Task<bool> GetArchiveOnDeny(IGuild guild)
-        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny;
+        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny.ToString());
 
     public async Task<bool> GetArchiveOnAccept(IGuild guild)
-        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept;
+        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept.ToString());
 
     public async Task<bool> GetArchiveOnConsider(IGuild guild)
-        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider;
+        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider.ToString());
 
     public async Task<bool> GetArchiveOnImplement(IGuild guild)
-        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement;
+        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement.ToString());
 
     public async Task<string> GetSuggestButtonName(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonName;
@@ -951,325 +953,334 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
-        var rs = reason ?? "none";
-        var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
-        if (suggest is null)
+        try
         {
-            if (interaction is null)
+            var rs = reason ?? "none";
+            var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
+            if (suggest is null)
             {
-                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.").ConfigureAwait(false);
+                if (interaction is null)
+                {
+                    await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.").ConfigureAwait(false);
+                    return;
+                }
+
+                await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.").ConfigureAwait(false);
                 return;
             }
 
-            await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.").ConfigureAwait(false);
-            return;
-        }
-
-        var use = await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
-        EmbedBuilder eb;
-        if (await GetDenyMessage(guild) is "-" or "" or null)
-        {
-            if (suggest.Suggestion != null)
+            var use = await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
+            EmbedBuilder eb;
+            if (await GetDenyMessage(guild) is "-" or "" or null)
             {
-                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
-            }
-            else
-            {
-                var desc = await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false)).GetMessageAsync(suggest.MessageId)
-                    .ConfigureAwait(false);
-                eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(desc.Embeds.FirstOrDefault()?.Description).WithOkColor()
-                    .AddField("Reason", rs);
-            }
-
-            var chan = await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false);
-            if (chan is null)
-            {
-                if (interaction is not null)
-                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
-                else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
-                return;
-            }
-
-            if (await GetArchiveOnDeny(guild))
-            {
-                var threadChannel = await guild.GetThreadChannelAsync(await GetThreadByMessage(suggest.MessageId)).ConfigureAwait(false);
-                if (threadChannel is not null)
+                if (suggest.Suggestion != null)
                 {
-                    try
-                    {
-                        await threadChannel.ModifyAsync(x => x.Archived = true).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(suggest.Suggestion).WithOkColor().AddField("Reason", rs);
                 }
-            }
-
-            if (await chan.GetMessageAsync(suggest.MessageId).ConfigureAwait(false) is IUserMessage message)
-            {
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = null;
-                    x.Embed = eb.Build();
-                }).ConfigureAwait(false);
-                try
-                {
-                    await message.RemoveAllReactionsAsync().ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-            else
-            {
-                var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-                suggest.MessageId = msg.Id;
-                var uow = db.GetDbContext();
-                await using var _ = uow.ConfigureAwait(false);
-                uow.Update(suggest);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-            }
-
-            try
-            {
-                var emb = new EmbedBuilder();
-                emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{suggestion} Denied");
-                emb.WithDescription(suggest.Suggestion);
-                emb.AddField("Reason", rs);
-                emb.AddField("Denied By", user);
-                emb.WithErrorColor();
-                await (await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false)).SendMessageAsync(embed: emb.Build()).ConfigureAwait(false);
-                if (interaction is null)
-                    await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
                 else
-                    await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
-            }
-            catch
-            {
-                if (interaction is null)
-                    await channel.SendConfirmAsync("Suggestion set as denied but the user had their DMs off.").ConfigureAwait(false);
-                else
-                    await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.").ConfigureAwait(false);
-            }
+                {
+                    var desc = await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false)).GetMessageAsync(suggest.MessageId)
+                        .ConfigureAwait(false);
+                    eb = new EmbedBuilder().WithAuthor(use).WithTitle($"Suggestion #{suggestion} Denied").WithDescription(desc.Embeds.FirstOrDefault()?.Description).WithOkColor()
+                        .AddField("Reason", rs);
+                }
 
-            await UpdateSuggestState(suggest, (int)SuggestState.Denied, user.Id).ConfigureAwait(false);
-            if (await GetDenyChannel(guild) is not 0)
-            {
-                var denyChannel = await guild.GetTextChannelAsync(await GetDenyChannel(guild)).ConfigureAwait(false);
-                if (denyChannel is null)
+                var chan = await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false);
+                if (chan is null)
+                {
+                    if (interaction is not null)
+                        await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
+                    else
+                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
                     return;
-                if (!(await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
-                    return;
-                if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
+                }
+
+                if (await GetArchiveOnDeny(guild))
                 {
-                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
-                    var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
-                    if (toCheck is not null)
+                    var threadChannel = await guild.GetThreadChannelAsync(await GetThreadByMessage(suggest.MessageId)).ConfigureAwait(false);
+                    if (threadChannel is not null)
                     {
-                        var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
-                        if (messageCheck is not null)
+                        try
                         {
-                            try
-                            {
-                                await messageCheck.DeleteAsync().ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
+                            await threadChannel.ModifyAsync(x => x.Archived = true).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
                 }
 
-                var toSet = await denyChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-                await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
-            }
-        }
-        else
-        {
-            var sug = suggest.Suggestion ??
-                      (await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false)).GetMessageAsync(suggest.MessageId).ConfigureAwait(false))
-                      .Embeds.FirstOrDefault()?.Description;
-            var chan = await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false);
-            if (chan is null)
-            {
-                if (interaction is not null)
-                    await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
-                else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
-                return;
-            }
-
-            var message = await chan.GetMessageAsync(suggest.MessageId).ConfigureAwait(false) as IUserMessage;
-            var suguse = await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
-            var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
-                .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
-                .WithOverride("%suggest.user.name%", () => suguse.Username)
-                .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", user.ToString)
-                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
-                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
-                .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
-                .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
-                .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
-                .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
-                .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
-            var ebe = SmartEmbed.TryParse(replacer.Replace(await GetDenyMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
-            if (await GetArchiveOnDeny(guild))
-            {
-                var threadChannel = await guild.GetThreadChannelAsync(await GetThreadByMessage(suggest.MessageId)).ConfigureAwait(false);
-                if (threadChannel is not null)
+                if (await chan.GetMessageAsync(suggest.MessageId).ConfigureAwait(false) is IUserMessage message)
                 {
+                    await message.ModifyAsync(x =>
+                    {
+                        x.Content = null;
+                        x.Embed = eb.Build();
+                    }).ConfigureAwait(false);
                     try
                     {
-                        await threadChannel.ModifyAsync(x => x.Archived = true).ConfigureAwait(false);
+                        await message.RemoveAllReactionsAsync().ConfigureAwait(false);
                     }
                     catch
                     {
                         // ignored
                     }
                 }
-            }
-
-            if (!ebe)
-            {
-                if (message is not null)
-                {
-                    await message.ModifyAsync(async x =>
-                    {
-                        x.Embed = null;
-                        x.Content = replacer.Replace(await GetDenyMessage(guild));
-                    }).ConfigureAwait(false);
-                }
                 else
                 {
-                    var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetDenyMessage(guild))).ConfigureAwait(false);
-                    suggest.MessageId = toReplace.Id;
+                    var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    suggest.MessageId = msg.Id;
                     var uow = db.GetDbContext();
                     await using var _ = uow.ConfigureAwait(false);
-                    uow.Suggestions.Update(suggest);
+                    uow.Update(suggest);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
+                }
+
+                try
+                {
+                    var emb = new EmbedBuilder();
+                    emb.WithAuthor(use);
+                    emb.WithTitle($"Suggestion #{suggestion} Denied");
+                    emb.WithDescription(suggest.Suggestion);
+                    emb.AddField("Reason", rs);
+                    emb.AddField("Denied By", user);
+                    emb.WithErrorColor();
+                    await (await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false)).SendMessageAsync(embed: emb.Build()).ConfigureAwait(false);
+                    if (interaction is null)
+                        await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
+                    else
+                        await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
+                }
+                catch
+                {
+                    if (interaction is null)
+                        await channel.SendConfirmAsync("Suggestion set as denied but the user had their DMs off.").ConfigureAwait(false);
+                    else
+                        await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.").ConfigureAwait(false);
                 }
 
                 await UpdateSuggestState(suggest, (int)SuggestState.Denied, user.Id).ConfigureAwait(false);
                 if (await GetDenyChannel(guild) is not 0)
                 {
                     var denyChannel = await guild.GetTextChannelAsync(await GetDenyChannel(guild)).ConfigureAwait(false);
-                    if (denyChannel is not null)
+                    if (denyChannel is null)
+                        return;
+                    if (!(await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
+                        return;
+                    if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
                     {
-                        if ((await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
+                        var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
+                        var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
+                        if (toCheck is not null)
                         {
-                            if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
+                            var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
+                            if (messageCheck is not null)
                             {
-                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
-                                var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
-                                if (toCheck is not null)
+                                try
                                 {
-                                    var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
-                                    if (messageCheck is not null)
-                                    {
-                                        try
-                                        {
-                                            await messageCheck.DeleteAsync().ConfigureAwait(false);
-                                        }
-                                        catch
-                                        {
-                                            // ignored
-                                        }
-                                    }
+                                    await messageCheck.DeleteAsync().ConfigureAwait(false);
+                                }
+                                catch
+                                {
+                                    // ignored
                                 }
                             }
-
-                            var toSet = await denyChannel.SendMessageAsync(replacer.Replace(await GetDenyMessage(guild))).ConfigureAwait(false);
-                            await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
                         }
                     }
+
+                    var toSet = await denyChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                    await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
                 }
             }
             else
             {
-                if (message is not null)
+                var sug = suggest.Suggestion ??
+                          (await (await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false)).GetMessageAsync(suggest.MessageId)
+                              .ConfigureAwait(false))
+                          .Embeds.FirstOrDefault()?.Description;
+                var chan = await guild.GetTextChannelAsync(await GetSuggestionChannel(guild.Id)).ConfigureAwait(false);
+                if (chan is null)
                 {
-                    await message.ModifyAsync(x =>
-                    {
-                        x.Content = plainText;
-                        x.Embeds = embed;
-                    }).ConfigureAwait(false);
-                }
-                else
-                {
-                    var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                    var uow = db.GetDbContext();
-                    await using var _ = uow.ConfigureAwait(false);
-                    suggest.MessageId = toReplace.Id;
-                    uow.Suggestions.Update(suggest);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    if (interaction is not null)
+                        await interaction.SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
+                    else
+                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!").ConfigureAwait(false);
+                    return;
                 }
 
-                if (await GetDenyChannel(guild) is not 0)
+                var message = await chan.GetMessageAsync(suggest.MessageId).ConfigureAwait(false) as IUserMessage;
+                var suguse = await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false);
+                var replacer = new ReplacementBuilder().WithServer(client, guild as SocketGuild).WithOverride("%suggest.user%", () => suguse.ToString())
+                    .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
+                    .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
+                    .WithOverride("%suggest.number%", () => suggest.SuggestionId.ToString())
+                    .WithOverride("%suggest.user.name%", () => suguse.Username)
+                    .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
+                    .WithOverride("%suggest.mod.user%", user.ToString)
+                    .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
+                    .WithOverride("%suggest.mod.name%", () => user.Username).WithOverride("%suggest.mod.message%", () => rs)
+                    .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
+                    .WithOverride("%suggest.emote1count%", () => suggest.EmoteCount1.ToString())
+                    .WithOverride("%suggest.emote2count%", () => suggest.EmoteCount2.ToString())
+                    .WithOverride("%suggest.emote3count%", () => suggest.EmoteCount3.ToString())
+                    .WithOverride("%suggest.emote4count%", () => suggest.EmoteCount4.ToString())
+                    .WithOverride("%suggest.emote5count%", () => suggest.EmoteCount5.ToString()).Build();
+                var ebe = SmartEmbed.TryParse(replacer.Replace(await GetDenyMessage(guild)), chan.GuildId, out var embed, out var plainText, out _);
+                if (await GetArchiveOnDeny(guild))
                 {
-                    var denyChannel = await guild.GetTextChannelAsync(await GetDenyChannel(guild)).ConfigureAwait(false);
-                    if (denyChannel is not null)
+                    var threadChannel = await guild.GetThreadChannelAsync(await GetThreadByMessage(suggest.MessageId)).ConfigureAwait(false);
+                    if (threadChannel is not null)
                     {
-                        if ((await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
+                        try
                         {
-                            if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
-                            {
-                                var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
-                                var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
-                                if (toCheck is not null)
-                                {
-                                    var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
-                                    if (messageCheck is not null)
-                                    {
-                                        try
-                                        {
-                                            await messageCheck.DeleteAsync().ConfigureAwait(false);
-                                        }
-                                        catch
-                                        {
-                                            // ignored
-                                        }
-                                    }
-                                }
-                            }
-
-                            var toSet = await denyChannel.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
-                            await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
+                            await threadChannel.ModifyAsync(x => x.Archived = true).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
                         }
                     }
                 }
-            }
 
-            try
-            {
-                var emb = new EmbedBuilder();
-                emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{suggestion} Denied");
-                emb.WithDescription(suggest.Suggestion);
-                emb.AddField("Reason", rs);
-                emb.AddField("Denied By", user);
-                emb.WithOkColor();
-                await (await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false)).SendMessageAsync(embed: emb.Build()).ConfigureAwait(false);
-                if (interaction is null)
-                    await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!").ConfigureAwait(false);
+                if (!ebe)
+                {
+                    if (message is not null)
+                    {
+                        await message.ModifyAsync(async x =>
+                        {
+                            x.Embed = null;
+                            x.Content = replacer.Replace(await GetDenyMessage(guild));
+                        }).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var toReplace = await chan.SendMessageAsync(replacer.Replace(await GetDenyMessage(guild))).ConfigureAwait(false);
+                        suggest.MessageId = toReplace.Id;
+                        var uow = db.GetDbContext();
+                        await using var _ = uow.ConfigureAwait(false);
+                        uow.Suggestions.Update(suggest);
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                    }
+
+                    await UpdateSuggestState(suggest, (int)SuggestState.Denied, user.Id).ConfigureAwait(false);
+                    if (await GetDenyChannel(guild) is not 0)
+                    {
+                        var denyChannel = await guild.GetTextChannelAsync(await GetDenyChannel(guild)).ConfigureAwait(false);
+                        if (denyChannel is not null)
+                        {
+                            if ((await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
+                            {
+                                if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
+                                {
+                                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
+                                    var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
+                                    if (toCheck is not null)
+                                    {
+                                        var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
+                                        if (messageCheck is not null)
+                                        {
+                                            try
+                                            {
+                                                await messageCheck.DeleteAsync().ConfigureAwait(false);
+                                            }
+                                            catch
+                                            {
+                                                // ignored
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var toSet = await denyChannel.SendMessageAsync(replacer.Replace(await GetDenyMessage(guild))).ConfigureAwait(false);
+                                await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
+                            }
+                        }
+                    }
+                }
                 else
-                    await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
+                {
+                    if (message is not null)
+                    {
+                        await message.ModifyAsync(x =>
+                        {
+                            x.Content = plainText;
+                            x.Embeds = embed;
+                        }).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var toReplace = await chan.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
+                        var uow = db.GetDbContext();
+                        await using var _ = uow.ConfigureAwait(false);
+                        suggest.MessageId = toReplace.Id;
+                        uow.Suggestions.Update(suggest);
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                    }
+
+                    if (await GetDenyChannel(guild) is not 0)
+                    {
+                        var denyChannel = await guild.GetTextChannelAsync(await GetDenyChannel(guild)).ConfigureAwait(false);
+                        if (denyChannel is not null)
+                        {
+                            if ((await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false)).GetPermissions(denyChannel).EmbedLinks)
+                            {
+                                if ((await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false)).Item1 is not 0)
+                                {
+                                    var (messageId, messageChannel) = await GetRepostedMessageAndChannel(suggest, guild).ConfigureAwait(false);
+                                    var toCheck = await guild.GetTextChannelAsync(messageChannel).ConfigureAwait(false);
+                                    if (toCheck is not null)
+                                    {
+                                        var messageCheck = await toCheck.GetMessageAsync(messageId).ConfigureAwait(false);
+                                        if (messageCheck is not null)
+                                        {
+                                            try
+                                            {
+                                                await messageCheck.DeleteAsync().ConfigureAwait(false);
+                                            }
+                                            catch
+                                            {
+                                                // ignored
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var toSet = await denyChannel.SendMessageAsync(plainText, embeds: embed).ConfigureAwait(false);
+                                await UpdateStateMessageId(suggest, toSet.Id).ConfigureAwait(false);
+                            }
+                        }
+                    }
+                }
+
+                try
+                {
+                    var emb = new EmbedBuilder();
+                    emb.WithAuthor(use);
+                    emb.WithTitle($"Suggestion #{suggestion} Denied");
+                    emb.WithDescription(suggest.Suggestion);
+                    emb.AddField("Reason", rs);
+                    emb.AddField("Denied By", user);
+                    emb.WithOkColor();
+                    await (await guild.GetUserAsync(suggest.UserId).ConfigureAwait(false)).SendMessageAsync(embed: emb.Build()).ConfigureAwait(false);
+                    if (interaction is null)
+                        await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!").ConfigureAwait(false);
+                    else
+                        await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.").ConfigureAwait(false);
+                }
+                catch
+                {
+                    if (interaction is null)
+                        await channel.SendConfirmAsync("Suggestion set as denied but the user had their dms off.").ConfigureAwait(false);
+                    else
+                        await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.").ConfigureAwait(false);
+                }
             }
-            catch
-            {
-                if (interaction is null)
-                    await channel.SendConfirmAsync("Suggestion set as denied but the user had their dms off.").ConfigureAwait(false);
-                else
-                    await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.").ConfigureAwait(false);
-            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 
@@ -2438,7 +2449,7 @@ public class SuggestionsService : INService
         }
     }
 
-    public async Task<SuggestionsModel[]> Suggestions(ulong gid, ulong sid)
+    public async Task<SuggestionsModel[]?> Suggestions(ulong gid, ulong sid)
     {
         await using var uow = db.GetDbContext();
         return await uow.Suggestions.ForId(gid, sid);

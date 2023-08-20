@@ -32,12 +32,12 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     private readonly BotConfigService config;
     private readonly IBotCredentials creds;
 
-    public SlashMusic(LavalinkNode lava, InteractiveService interactive, DbService dbService,
+    public SlashMusic(LavalinkNode lava, InteractiveService interactive, DbService DbService,
         DiscordSocketClient client,
         GuildSettingsService guildSettings,
         BotConfigService config, IBotCredentials creds)
     {
-        db = dbService;
+        db = DbService;
         this.client = client;
         this.guildSettings = guildSettings;
         this.config = config;

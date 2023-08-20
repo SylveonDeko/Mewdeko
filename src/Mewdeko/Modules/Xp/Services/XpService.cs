@@ -8,17 +8,9 @@ using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
 using Serilog;
-using SixLabors.Fonts;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 using StackExchange.Redis;
-using Color = SixLabors.ImageSharp.Color;
-using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Xp.Services;
 
@@ -49,10 +41,6 @@ public class XpService : INService, IUnloadableService
     private readonly Mewdeko bot;
     private readonly IMemoryCache memoryCache;
 
-    private XpTemplate template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), new JsonSerializerSettings
-    {
-        ContractResolver = new RequireObjectPropertiesContractResolver()
-    });
 
     public XpService(
         DiscordSocketClient client,
@@ -83,37 +71,25 @@ public class XpService : INService, IUnloadableService
         excludedChannels = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>();
         this.client = client;
 
-        InternalReloadXpTemplate();
 
-        if (client.ShardId == 0)
-        {
-            var sub = this.cache.Redis.GetSubscriber();
-            sub.Subscribe($"{this.creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
-        }
-
-        using var uow = db.GetDbContext();
         //load settings
-        var allGuildConfigs = uow.GuildConfigs.Include(x => x.XpSettings).ThenInclude(x => x.RoleRewards)
-            .Include(x => x.XpSettings)
-            .ThenInclude(x => x.CurrencyRewards)
-            .Include(x => x.XpSettings)
-            .ThenInclude(x => x.ExclusionList).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
+        var allGuildConfigs = bot.AllGuildConfigs;
         XpTxtRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
-        excludedChannels = allGuildConfigs.Where(x => x.XpSettings.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
+        excludedChannels = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
+            x => new ConcurrentHashSet<ulong>(x.XpSettings?.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
-        excludedRoles = allGuildConfigs.Where(x => x.XpSettings.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
+        excludedRoles = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
+            x => new ConcurrentHashSet<ulong>(x.XpSettings?.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Role)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
         excludedServers = new ConcurrentHashSet<ulong>(
-            allGuildConfigs.Where(x => x.XpSettings.ServerExcluded).Select(x => x.GuildId));
+            allGuildConfigs.Where(x => x.XpSettings?.ServerExcluded == 1).Select(x => x.GuildId));
 
         this.cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
@@ -221,11 +197,9 @@ public class XpService : INService, IUnloadableService
                             for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
                             {
                                 var rrew = rrews.Find(x => x.Level == i);
-                                if (rrew != null)
-                                {
-                                    var role = first.User.Guild.GetRole(rrew.RoleId);
-                                    if (role is not null) _ = first.User.AddRoleAsync(role);
-                                }
+                                if (rrew == null) continue;
+                                var role = first.User.Guild.GetRole(rrew.RoleId);
+                                if (role is not null) _ = first.User.AddRoleAsync(role);
                             }
                         }
                     }
@@ -272,30 +246,6 @@ public class XpService : INService, IUnloadableService
         }
     }
 
-    private void InternalReloadXpTemplate()
-    {
-        try
-        {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new RequireObjectPropertiesContractResolver()
-            };
-            template = JsonConvert.DeserializeObject<XpTemplate>(File.ReadAllText("./data/xp_template.json"), settings);
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Xp template is invalid. Loaded default values");
-            template = new XpTemplate();
-            File.WriteAllText("./data/xp_template_backup.json",
-                JsonConvert.SerializeObject(template, Formatting.Indented));
-        }
-    }
-
-    public void ReloadXpTemplate()
-    {
-        var sub = cache.Redis.GetSubscriber();
-        sub.Publish($"{creds.RedisKey()}_reload_xp_template", "");
-    }
 
     public async void SetCurrencyReward(ulong guildId, int level, int amount)
     {
@@ -703,13 +653,13 @@ public class XpService : INService, IUnloadableService
         var xpSetting = await uow.XpSettingsFor(id);
         if (excludedServers.Add(id))
         {
-            xpSetting.ServerExcluded = true;
+            xpSetting.ServerExcluded = 1;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             return true;
         }
 
         excludedServers.TryRemove(id);
-        xpSetting.ServerExcluded = false;
+        xpSetting.ServerExcluded = 0;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         return false;
     }
@@ -765,157 +715,165 @@ public class XpService : INService, IUnloadableService
         return false;
     }
 
-    public async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(IGuildUser user)
+    public async Task<Stream> GenerateXpImageAsync(IGuildUser user)
     {
         var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
-        return await GenerateXpImageAsync(stats).ConfigureAwait(false);
+        var template = await GetTemplate(user.Guild.Id).ConfigureAwait(false);
+        return await GenerateXpImageAsync(stats, template).ConfigureAwait(false);
     }
 
-    private async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
+    private async Task<Stream> GenerateXpImageAsync(FullUserStats stats, Template template)
     {
-        var img = Image.Load<Rgba32>(images.XpBackground, out var format);
-        if (template.User.Name.Show)
+        // Load the background image
+        await using var xpstream = new MemoryStream(images.XpBackground);
+        var imgData = SKData.Create(xpstream);
+        var img = SKBitmap.Decode(imgData);
+        var canvas = new SKCanvas(img);
+
+        var textPaint = new SKPaint
         {
+            IsAntialias = true, Style = SKPaintStyle.Fill,
+        };
+
+        // Draw the username
+        if (template.TemplateUser.ShowText)
+        {
+            var color = SKColor.Parse(template.TemplateUser.TextColor);
+            textPaint.Color = color;
+            textPaint.TextSize = template.TemplateUser.FontSize;
+            textPaint.Typeface = SKTypeface.FromFamilyName("NotoSans", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright);
             var username = stats.User.Username;
-            var fontSize = (int)(template.User.Name.FontSize * 0.9);
-            var size = TextMeasurer.Measure($"{username}", new TextOptions(fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
-            var scale = 400f / size.Width;
-            var font = scale >= 1
-                ? fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)
-                : fonts.NotoSans.CreateFont(template.User.Name.FontSize * scale, FontStyle.Bold);
-
-            var options = new TextOptions(font)
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Origin = new PointF(template.User.Name.Pos.X, template.User.Name.Pos.Y + 8)
-            };
-
-            img.Mutate(x => x.DrawText(options, username, template.User.Name.Color));
+            canvas.DrawText(username, template.TemplateUser.TextX, template.TemplateUser.TextY, textPaint);
         }
 
-        if (template.User.GuildLevel.Show)
+        // Draw the guild level
+        if (template.TemplateGuild.ShowGuildLevel)
         {
-            img.Mutate(x => x.DrawText(stats.Guild.Level.ToString(),
-                fonts.NotoSans.CreateFont(template.User.GuildLevel.FontSize, FontStyle.Bold),
-                template.User.GuildLevel.Color,
-                new PointF(template.User.GuildLevel.Pos.X, template.User.GuildLevel.Pos.Y)));
+            textPaint.TextSize = template.TemplateGuild.GuildLevelFontSize;
+            var color = SKColor.Parse(template.TemplateGuild.GuildLevelColor);
+            textPaint.Color = color;
+            canvas.DrawText(stats.Guild.Level.ToString(), template.TemplateGuild.GuildLevelX, template.TemplateGuild.GuildLevelY, textPaint);
         }
-
-        var pen = new Pen(Color.Black, 1);
 
         var guild = stats.Guild;
 
-        //xp bar
-        if (template.User.Xp.Bar.Show)
+        // Draw the XP bar
+        if (template.TemplateBar.ShowBar)
         {
             var xpPercent = guild.LevelXp / (float)guild.RequiredXp;
-            DrawXpBar(xpPercent, template.User.Xp.Bar.Guild, img);
+            DrawXpBar(xpPercent, template.TemplateBar, canvas);
         }
 
-        if (template.User.Xp.Guild.Show)
-        {
-            img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
-                fonts.UniSans.CreateFont(template.User.Xp.Guild.FontSize, FontStyle.Bold),
-                Brushes.Solid(template.User.Xp.Guild.Color),
-                new PointF(template.User.Xp.Guild.Pos.X, template.User.Xp.Guild.Pos.Y)));
-        }
-
-        if (stats.FullGuildStats.AwardedXp != 0 && template.User.Xp.Awarded.Show)
+        // Draw awarded XP
+        if (stats.FullGuildStats.AwardedXp != 0 && template.ShowAwarded)
         {
             var sign = stats.FullGuildStats.AwardedXp > 0 ? "+ " : "";
-            var awX = template.User.Xp.Awarded.Pos.X
-                      - (Math.Max(0, stats.FullGuildStats.AwardedXp.ToString().Length - 2) * 5);
-            var awY = template.User.Xp.Awarded.Pos.Y;
-            img.Mutate(x => x.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})",
-                fonts.NotoSans.CreateFont(template.User.Xp.Awarded.FontSize, FontStyle.Bold),
-                Brushes.Solid(template.User.Xp.Awarded.Color), pen, new PointF(awX, awY)));
+            textPaint.TextSize = template.AwardedFontSize;
+            var color = SKColor.Parse(template.AwardedColor);
+            textPaint.Color = color;
+            var text = $"({sign}{stats.FullGuildStats.AwardedXp})";
+            canvas.DrawText(text, template.AwardedX, template.AwardedY, textPaint);
         }
 
-        //ranking
-
-        if (template.User.GuildRank.Show)
+        // Draw guild rank
+        if (template.TemplateGuild.ShowGuildRank)
         {
-            img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(),
-                fonts.UniSans.CreateFont(template.User.GuildRank.FontSize, FontStyle.Bold),
-                template.User.GuildRank.Color,
-                new PointF(template.User.GuildRank.Pos.X, template.User.GuildRank.Pos.Y)));
+            textPaint.TextSize = template.TemplateGuild.GuildRankFontSize;
+            var color = SKColor.Parse(template.TemplateGuild.GuildRankColor);
+            textPaint.Color = color;
+            canvas.DrawText(stats.GuildRanking.ToString(), template.TemplateGuild.GuildRankX, template.TemplateGuild.GuildRankY, textPaint);
         }
 
-        //time on this level
-
-        string GetTimeSpent(DateTime time)
+        // Draw time on level
+        if (template.ShowTimeOnLevel)
         {
-            var offset = DateTime.UtcNow - time;
-            return $"{offset.Humanize()} ago";
+            textPaint.TextSize = template.TimeOnLevelFontSize;
+            var color = SKColor.Parse(template.TimeOnLevelColor);
+            textPaint.Color = color;
+            var text = GetTimeSpent(stats.FullGuildStats.LastLevelUp);
+            canvas.DrawText(text, template.TimeOnLevelX, template.TimeOnLevelY, textPaint);
         }
 
-        if (template.User.TimeOnLevel.Guild.Show)
-        {
-            img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp),
-                fonts.UniSans.CreateFont(template.User.TimeOnLevel.Guild.FontSize),
-                template.User.TimeOnLevel.Guild.Color,
-                new PointF(template.User.TimeOnLevel.Guild.Pos.X, template.User.TimeOnLevel.Guild.Pos.Y)));
-        }
-        //avatar
-
-        if (stats.User.AvatarId != null && template.User.Icon.Show)
+        if (stats.User.AvatarId != null && template.TemplateUser.ShowIcon)
         {
             try
             {
                 var avatarUrl = stats.User.RealAvatarUrl();
 
-                var (succ, data) = await cache.TryGetImageDataAsync(avatarUrl).ConfigureAwait(false);
-                if (!succ)
+                using var httpClient = new HttpClient();
+                var httpResponse = await httpClient.GetAsync(avatarUrl);
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    using (var http = httpFactory.CreateClient())
-                    {
-                        var avatarData = await http.GetByteArrayAsync(avatarUrl).ConfigureAwait(false);
-                        using var tempDraw = Image.Load<Rgba32>(avatarData);
-                        tempDraw.Mutate(x => x
-                            .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
-                            .ApplyRoundedCorners(Math.Max(template.User.Icon.Size.X,
-                                                     template.User.Icon.Size.Y)
-                                                 / 2));
-                        var stream = tempDraw.ToStream();
-                        await using var _ = stream.ConfigureAwait(false);
-                        data = stream.ToArray();
-                    }
+                    var avatarData = await httpResponse.Content.ReadAsByteArrayAsync();
+                    await using var avatarStream = new MemoryStream(avatarData);
+                    var avatarImgData = SKData.Create(avatarStream);
+                    var avatarImg = SKBitmap.Decode(avatarImgData);
 
-                    await cache.SetImageDataAsync(avatarUrl, data).ConfigureAwait(false);
+                    // resize the avatar
+                    var resizedAvatar = avatarImg.Resize(new SKImageInfo(template.TemplateUser.IconSizeX, template.TemplateUser.IconSizeY), SKFilterQuality.High);
+
+                    // apply rounded corners
+                    var roundedAvatar = ApplyRoundedCorners(resizedAvatar, template.TemplateUser.IconSizeX / 2);
+
+                    // draw the avatar onto the main image canvas
+                    canvas.DrawImage(roundedAvatar, template.TemplateUser.IconX, template.TemplateUser.IconY);
                 }
-
-                using var toDraw = Image.Load(data);
-                if (toDraw.Size() != new Size(template.User.Icon.Size.X, template.User.Icon.Size.Y))
-                    toDraw.Mutate(x => x.Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y));
-
-                img.Mutate(x => x.DrawImage(toDraw, new Point(template.User.Icon.Pos.X, template.User.Icon.Pos.Y), 1));
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Error drawing avatar image");
+                // Log error or handle it appropriately
+                Console.WriteLine($"Error drawing avatar image: {ex.Message}");
             }
         }
 
-        //club image
-
-        img.Mutate(x => x.Resize(template.OutputSize.X, template.OutputSize.Y));
-        return (img.ToStream(format), format);
+        // Convert to Stream and return
+        var image = SKImage.FromBitmap(img);
+        var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        var stream = data.AsStream();
+        return stream;
     }
 
-    private static void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
+    private static SKImage ApplyRoundedCorners(SKBitmap src, float cornerRadius)
     {
-        var x1 = info.PointA.X;
-        var y1 = info.PointA.Y;
+        var width = src.Width;
+        var height = src.Height;
+        var info = new SKImageInfo(width, height);
+        var surface = SKSurface.Create(info);
+        var canvas = surface.Canvas;
 
-        var x2 = info.PointB.X;
-        var y2 = info.PointB.Y;
+        var paint = new SKPaint
+        {
+            IsAntialias = true,
+        };
 
-        var length = info.Length * percent;
+        var rect = SKRect.Create(width, height);
+        var rrect = new SKRoundRect(rect, cornerRadius, cornerRadius);
+
+        canvas.Clear(SKColors.Transparent);
+
+        // Clip the canvas to the round rectangle
+        canvas.ClipRoundRect(rrect, antialias: true);
+
+        // Now draw the bitmap, it will only be drawn where the canvas is not clipped
+        canvas.DrawBitmap(src, 0, 0, paint);
+
+        return surface.Snapshot();
+    }
+
+
+    private void DrawXpBar(float percent, TemplateBar info, SKCanvas canvas)
+    {
+        var x1 = info.BarPointAx;
+        var y1 = info.BarPointAy;
+
+        var x2 = info.BarPointBx;
+        var y2 = info.BarPointBy;
+
+        var length = info.BarLength * percent;
 
         float x3, x4, y3, y4;
 
-        switch (info.Direction)
+        switch (info.BarDirection)
         {
             case XpTemplateDirection.Down:
                 x3 = x1;
@@ -943,8 +901,49 @@ public class XpService : INService, IUnloadableService
                 break;
         }
 
-        img.Mutate(x => x.FillPolygon(info.Color, new PointF(x1, y1), new PointF(x3, y3), new PointF(x4, y4),
-            new PointF(x2, y2)));
+        using var path = new SKPath();
+        path.MoveTo(x1, y1);
+        path.LineTo(x3, y3);
+        path.LineTo(x4, y4);
+        path.LineTo(x2, y2);
+        path.Close();
+
+        using var paint = new SKPaint();
+        paint.Style = SKPaintStyle.Fill;
+        var color = SKColor.Parse(info.BarColor);
+        paint.Color = new SKColor(color.Red, color.Green, color.Green, info.BarTransparency);
+        canvas.DrawPath(path, paint);
+    }
+
+    public async Task<Template> GetTemplate(ulong guildId)
+    {
+        await using var uow = db.GetDbContext();
+        var template = uow.Templates
+            .Include(x => x.TemplateUser)
+            .Include(x => x.TemplateBar)
+            .Include(x => x.TemplateClub)
+            .Include(x => x.TemplateGuild)
+            .FirstOrDefault(x => x.GuildId == guildId);
+
+        if (template != null) return template;
+        var toAdd = new Template
+        {
+            GuildId = guildId,
+            TemplateBar = new TemplateBar(),
+            TemplateClub = new TemplateClub(),
+            TemplateGuild = new TemplateGuild(),
+            TemplateUser = new TemplateUser()
+        };
+        uow.Templates.Add(toAdd);
+        await uow.SaveChangesAsync();
+        return uow.Templates.FirstOrDefault(x => x.GuildId == guildId);
+    }
+
+
+    private string GetTimeSpent(DateTime time)
+    {
+        var offset = DateTime.UtcNow - time;
+        return $"{offset.Humanize()} ago";
     }
 
     public void XpReset(ulong guildId, ulong userId)

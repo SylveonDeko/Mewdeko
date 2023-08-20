@@ -1,7 +1,12 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mewdeko.Database.Models;
 
 public class UnmuteTimer : DbEntity
 {
+    [ForeignKey("GuildConfigId")]
+    public int GuildConfigId { get; set; }
+
     public ulong UserId { get; set; }
     public DateTime UnmuteAt { get; set; }
 

@@ -21,7 +21,6 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         using var uow = this.db.GetDbContext();
         overrides = uow.DiscordPermOverrides
             .AsNoTracking()
-            .AsEnumerable()
             .ToDictionary(o => (o.GuildId ?? 0, o.Command), o => o)
             .ToConcurrent();
     }
@@ -104,11 +103,10 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     public async Task ClearAllOverrides(ulong guildId)
     {
         await using var uow = db.GetDbContext();
-        var discordPermOverrides = await uow.DiscordPermOverrides
+        var discordPermOverrides = uow.DiscordPermOverrides
             .AsQueryable()
             .AsNoTracking()
-            .Where(x => x.GuildId == guildId)
-            .ToListAsync().ConfigureAwait(false);
+            .Where(x => x.GuildId == guildId);
 
         uow.DiscordPermOverrides.RemoveRange(discordPermOverrides);
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -135,14 +133,13 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         overrides.TryRemove((guildId, commandName), out _);
     }
 
-    public Task<List<DiscordPermOverride>> GetAllOverrides(ulong guildId)
+    public IEnumerable<DiscordPermOverride> GetAllOverrides(ulong guildId)
     {
         using var uow = db.GetDbContext();
         return
             uow.DiscordPermOverrides
                 .AsQueryable()
                 .AsNoTracking()
-                .Where(x => x.GuildId == guildId)
-                .ToListAsync();
+                .Where(x => x.GuildId == guildId);
     }
 }

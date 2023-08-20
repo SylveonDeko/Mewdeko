@@ -4,17 +4,14 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
-public class RemindService : INService
+public partial class RemindService : INService
 {
     private readonly DiscordSocketClient client;
     private readonly IBotCredentials creds;
     private readonly DbService db;
 
     private readonly Regex regex =
-        new(
-            @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)"
-            ,
-            RegexOptions.Compiled | RegexOptions.Multiline);
+        MyRegex();
 
     public RemindService(DiscordSocketClient client, DbService db, IBotCredentials creds)
     {
@@ -41,7 +38,7 @@ public class RemindService : INService
                 // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
                 var i = 0;
                 foreach (var group in reminders
-                             .GroupBy(_ => ++i / ((reminders.Count / 5) + 1)))
+                             .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
                 {
                     var executedReminders = group.ToList();
                     await Task.WhenAll(executedReminders.Select(ReminderTimerAction)).ConfigureAwait(false);
@@ -66,14 +63,28 @@ public class RemindService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
+    private async Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
-        using var uow = db.GetDbContext();
-        return uow.Reminders
-            .FromSqlInterpolated(
-                $"select * from reminders where ((serverid >> 22) % {creds.TotalShards}) == {client.ShardId} and \"when\" < {now};")
-            .ToListAsync();
+        await using var uow = db.GetDbContext();
+        List<Reminder> reminders;
+
+        if (uow.Database.IsNpgsql())
+        {
+            reminders = await uow.Reminders
+                .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId && x.When < now)
+                .ToListAsync();
+        }
+        else
+        {
+            reminders = await uow.Reminders
+                .FromSqlInterpolated(
+                    $"select * from reminders where ((ServerId >> 22) % {creds.TotalShards}) = {client.ShardId} and \"when\" < {now};")
+                .ToListAsync();
+        }
+
+        return reminders;
     }
+
 
     public bool TryParseRemindMessage(string input, out RemindObject obj)
     {
@@ -118,7 +129,7 @@ public class RemindService : INService
 
         var ts = new TimeSpan
         (
-            (30 * values["mo"]) + (7 * values["w"]) + values["d"],
+            30 * values["mo"] + 7 * values["w"] + values["d"],
             values["h"],
             values["m"],
             0
@@ -137,7 +148,7 @@ public class RemindService : INService
         try
         {
             IMessageChannel ch;
-            if (r.IsPrivate)
+            if (r.IsPrivate == 1)
             {
                 var user = client.GetUser(r.ChannelId);
                 if (user == null)
@@ -145,9 +156,7 @@ public class RemindService : INService
                 ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
             }
             else
-            {
                 ch = client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
-            }
 
             if (ch == null)
                 return;
@@ -171,4 +180,9 @@ public class RemindService : INService
         public string? What { get; set; }
         public TimeSpan Time { get; set; }
     }
+
+    [GeneratedRegex(
+        "^(?:in\\s?)?\\s*(?:(?<mo>\\d+)(?:\\s?(?:months?|mos?),?))?(?:(?:\\sand\\s|\\s*)?(?<w>\\d+)(?:\\s?(?:weeks?|w),?))?(?:(?:\\sand\\s|\\s*)?(?<d>\\d+)(?:\\s?(?:days?|d),?))?(?:(?:\\sand\\s|\\s*)?(?<h>\\d+)(?:\\s?(?:hours?|h),?))?(?:(?:\\sand\\s|\\s*)?(?<m>\\d+)(?:\\s?(?:minutes?|mins?|m),?))?\\s+(?:to:?\\s+)?(?<what>(?:\\r\\n|[\\r\\n]|.)+)",
+        RegexOptions.Multiline | RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
 }

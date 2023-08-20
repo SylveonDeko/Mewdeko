@@ -6,7 +6,7 @@ public class GlobalBans : DbEntity
     public string Proof { get; set; }
     public string Reason { get; set; }
     public GBActionType RecommendedAction { get; set; }
-    public TimeSpan Duration { get; set; }
+    public string Duration { get; set; }
     public ulong AddedBy { get; set; }
     public GbType Type { get; set; }
 }

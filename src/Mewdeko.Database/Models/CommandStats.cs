@@ -6,8 +6,8 @@ public class CommandStats : DbEntity
 {
     public string NameOrId { get; set; }
     public string Module { get; set; } = null;
-    public bool IsSlash { get; set; } = false;
-    public bool Trigger { get; set; } = false;
+    public long IsSlash { get; set; } = 0;
+    public long Trigger { get; set; } = 0;
     public ulong GuildId { get; set; }
     public ulong ChannelId { get; set; }
     public ulong UserId { get; set; }

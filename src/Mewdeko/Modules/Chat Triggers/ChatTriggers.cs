@@ -132,9 +132,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 string.Join("\n", chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20).Take(20).Select(cr =>
                 {
                     var str = $"`#{cr.Id}` {cr.Trigger}";
-                    if (cr.AutoDeleteTrigger)
+                    if (cr.AutoDeleteTrigger == 1)
                         str = $"🗑{str}";
-                    if (cr.DmResponse)
+                    if (cr.DmResponse == 1)
                         str = $"📪{str}";
                     var reactions = cr.GetReactions();
                     if (reactions.Length > 0)

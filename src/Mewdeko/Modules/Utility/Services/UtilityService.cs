@@ -68,13 +68,13 @@ public class UtilityService : INService
         }
     }
 
-    public async Task<bool> GetSnipeSet(ulong id) => (await guildSettings.GetGuildConfig(id)).snipeset;
+    public async Task<bool> GetSnipeSet(ulong id) => false.ParseBoth((await guildSettings.GetGuildConfig(id)).snipeset.ToString());
 
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.snipeset = enabled;
+        gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -83,10 +83,11 @@ public class UtilityService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.snipeset = enabled;
+        gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
         await uow.SaveChangesAsync().ConfigureAwait(false);
         guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
+
 
     private async Task BulkMsgStore(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages, Cacheable<IMessageChannel, ulong> channel)
     {

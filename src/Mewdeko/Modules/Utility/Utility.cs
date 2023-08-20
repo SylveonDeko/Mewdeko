@@ -1509,6 +1509,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await Sem.WaitAsync(5000).ConfigureAwait(false);
         try
         {
+            await using var uow = db.GetDbContext();
             var sw = Stopwatch.StartNew();
             var msg = await ctx.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
             sw.Stop();

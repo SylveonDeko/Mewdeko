@@ -8,16 +8,11 @@ public class CommandMapService : IInputTransformer, INService
     private readonly DbService db;
 
     //commandmap
-    public CommandMapService(DiscordSocketClient client, DbService db)
+    public CommandMapService(DbService db, Mewdeko bot)
     {
-        using var uow = db.GetDbContext();
-        var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.GuildConfigs
-            .Include(gc => gc.CommandAliases)
-            .Where(x => guildIds.Contains(x.GuildId))
-            .ToList();
+        var allgc = bot.AllGuildConfigs;
 
-        AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(configs
+        AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(allgc
             .ToDictionary(
                 x => x.GuildId,
                 x => new ConcurrentDictionary<string, string>(x.CommandAliases

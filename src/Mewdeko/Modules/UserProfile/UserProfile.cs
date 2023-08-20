@@ -2,8 +2,7 @@
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.UserProfile.Services;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp.PixelFormats;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.UserProfile;
 
@@ -48,12 +47,11 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
     }
 
     [Cmd, Aliases]
-    public async Task SetProfileColor(Color input)
+    public async Task SetProfileColor(SKColor input)
     {
-        var color = Rgba32.ParseHex(input.ToHex());
-        var discordColor = new Discord.Color(color.R, color.G, color.B);
+        var discordColor = new Discord.Color(input.Red, input.Green, input.Blue);
         await Service.SetProfileColor(ctx.User, discordColor);
-        await ctx.Channel.SendConfirmAsync($"Your Profile Color has been set to:\n`{color}`");
+        await ctx.Channel.SendConfirmAsync($"Your Profile Color has been set to:\n`{input}`");
     }
 
     [Cmd, Aliases]
@@ -174,7 +172,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
 
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
-        if (!user.PronounsDisabled) return false;
+        if (user.PronounsDisabled == 0) return false;
         await ReplyErrorLocalizedAsync("pronouns_disabled_user", user.PronounsClearedReason).ConfigureAwait(false);
         return true;
     }
@@ -186,7 +184,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
         var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
-        dbUser.PronounsDisabled = pronounsDisabledAbuse;
+        dbUser.PronounsDisabled = pronounsDisabledAbuse ? 1 : 0;
         dbUser.PronounsClearedReason = reason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared").ConfigureAwait(false);
@@ -198,7 +196,7 @@ public class UserProfile : MewdekoModuleBase<UserProfileService>
         var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
-        dbUser.PronounsDisabled = pronounsDisabledAbuse;
+        dbUser.PronounsDisabled = pronounsDisabledAbuse ? 1 : 0;
         dbUser.PronounsClearedReason = reason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared").ConfigureAwait(false);

@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mewdeko.Database.Models;
 
 public class MutedUserId : DbEntity
 {
@@ -6,6 +8,9 @@ public class MutedUserId : DbEntity
 
     // ReSharper disable once InconsistentNaming
     public string roles { get; set; }
+
+    [ForeignKey("GuildConfigId")]
+    public int GuildConfigId { get; set; }
 
     public override int GetHashCode() => UserId.GetHashCode();
 

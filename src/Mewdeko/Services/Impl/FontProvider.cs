@@ -1,29 +1,26 @@
 ﻿using System.IO;
-using SixLabors.Fonts;
+using SkiaSharp;
 
 namespace Mewdeko.Services.Impl;
 
-public class FontProvider : INService
+public class FontProvider
 {
     public FontProvider()
     {
-        var fonts = new FontCollection();
+        var fontsFolder = "data/fonts";
+        NotoSans = SKTypeface.FromFile(Path.Combine(fontsFolder, "NotoSans-Bold.ttf"));
+        UniSans = SKTypeface.FromFile(Path.Combine(fontsFolder, "Uni Sans.ttf"));
 
-        NotoSans = fonts.Add("data/fonts/NotoSans-Bold.ttf");
-        UniSans = fonts.Add("data/fonts/Uni Sans.ttf");
+        FallBackFonts = new List<SKTypeface>();
 
-        FallBackFonts = new List<FontFamily>();
-
-        //FallBackFonts.Add(_fonts.Install("data/fonts/OpenSansEmoji.ttf"));
-
-        // try loading some emoji and jap fonts on windows as fallback fonts
+        // Try loading some fallback fonts
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
             try
             {
-                var fontsfolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
-                FallBackFonts.Add(fonts.Add(Path.Combine(fontsfolder, "seguiemj.ttf")));
-                FallBackFonts.AddRange(fonts.AddCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
+                var systemFontsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+                FallBackFonts.Add(SKTypeface.FromFile(Path.Combine(systemFontsFolder, "seguiemj.ttf")));
+                FallBackFonts.Add(SKTypeface.FromFile(Path.Combine(systemFontsFolder, "msgothic.ttc")));
             }
             catch
             {
@@ -31,27 +28,26 @@ public class FontProvider : INService
             }
         }
 
-        // any fonts present in data/fonts should be added as fallback fonts
-        // this will allow support for special characters when drawing text
-        foreach (var font in Directory.GetFiles(@"data/fonts"))
+        foreach (var font in Directory.GetFiles(fontsFolder))
         {
-            if (font.EndsWith(".ttf"))
-                FallBackFonts.Add(fonts.Add(font));
-            else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(fonts.AddCollection(font));
+            if (font.EndsWith(".ttf") || font.EndsWith(".ttc"))
+                FallBackFonts.Add(SKTypeface.FromFile(font));
         }
 
-        RipFont = NotoSans.CreateFont(20, FontStyle.Bold);
+        RipFont = new SKPaint
+        {
+            Typeface = NotoSans, TextSize = 20, IsAntialias = true,
+        };
     }
 
-    public FontFamily UniSans { get; }
+    public SKTypeface UniSans { get; }
 
-    public FontFamily NotoSans { get; }
-    //public FontFamily Emojis { get; }
+    public SKTypeface NotoSans { get; }
 
     /// <summary>
     ///     Font used for .rip command
     /// </summary>
-    public Font RipFont { get; }
+    public SKPaint RipFont { get; }
 
-    public List<FontFamily> FallBackFonts { get; }
+    public List<SKTypeface> FallBackFonts { get; }
 }

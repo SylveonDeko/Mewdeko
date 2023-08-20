@@ -1,26 +1,27 @@
 using System.Net.Http;
+using System.Text.Json;
 using Discord.Rest;
 using Mewdeko.Common.ModuleBehaviors;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
 public class RoleMetadataService : INService, IReadyExecutor
 {
-    private DbService _dbService;
+    private DbService DbService;
     private DiscordSocketClient _client;
     private IBotCredentials _botCredentials;
+
     private List<RoleConnectionMetadataProperties> _props = new()
     {
         new(RoleConnectionMetadataType.IntegerGreaterOrEqual, "total_cmds", "Total Commands",
             "The total commands a user has run since we started keeping track"),
         new(RoleConnectionMetadataType.DateTimeGreaterOrEqual, "earliest_use", "First Command",
-            "Days since this user's first command after we started keeping track"),
-        new(RoleConnectionMetadataType.IntegerGreaterOrEqual, "total_currency", "Total Currency",
-            "The user's current total currency.")
+            "Days since this user's first command after we started keeping track")
     };
-    public RoleMetadataService(DbService dbService, DiscordSocketClient client, IBotCredentials botCredentials)
-        => (_dbService, _client, _botCredentials) = (dbService, client, botCredentials);
+
+    public RoleMetadataService(DbService DbService, DiscordSocketClient client, IBotCredentials botCredentials)
+        => (this.DbService, _client, _botCredentials) = (DbService, client, botCredentials);
+
     public async Task OnReadyAsync()
     {
         // keys
@@ -30,7 +31,7 @@ public class RoleMetadataService : INService, IReadyExecutor
 
         await _client.Rest.ModifyRoleConnectionMetadataRecordsAsync(_props);
 
-        await using var uow = _dbService.GetDbContext();
+        await using var uow = DbService.GetDbContext();
         var cachedValues = new Dictionary<ulong, int>();
         var client = new HttpClient();
         while (true)
@@ -53,10 +54,18 @@ public class RoleMetadataService : INService, IReadyExecutor
         var resp = await client.PostAsync("https://discord.com/api/v10/oauth2/token",
             new FormUrlEncodedContent(new Dictionary<string, string>()
             {
-                {"client_id", clientId.ToString()},
-                {"client_secret", clientSecret},
-                {"grant_type", "refresh_token"},
-                {"refresh_token", val.RefreshToken}
+                {
+                    "client_id", clientId.ToString()
+                },
+                {
+                    "client_secret", clientSecret
+                },
+                {
+                    "grant_type", "refresh_token"
+                },
+                {
+                    "refresh_token", val.RefreshToken
+                }
             }));
         var data =
             JsonSerializer.Deserialize<SlashRoleMetadataCommands.AuthResponce>(await resp.Content.ReadAsStringAsync());
@@ -75,7 +84,6 @@ public class RoleMetadataService : INService, IReadyExecutor
         var count = cmds.Count;
         var date = cmds.OrderByDescending(x => x.NameOrId).First().DateAdded;
         var dbu = uow.DiscordUser.FirstOrDefault(y => y.UserId == userId);
-        var currency = (dbu?.CurrencyAmount ?? 0) > int.MaxValue ? int.MaxValue : (int)dbu.CurrencyAmount;
 
         var token = tokenData.Token;
         if (tokenData.ExpiresAt <= DateTime.UtcNow)
@@ -88,13 +96,18 @@ public class RoleMetadataService : INService, IReadyExecutor
         {
             await dClient.ModifyUserApplicationRoleConnectionAsync(clientId, new RoleConnectionProperties("Mewdeko",
                 $"User #{(dbu?.Id.ToString() ?? "unknown")}", new Dictionary<string, string>
-            {
-                { "total_cmds", count.ToString() },
-                { "earliest_use", date.ToString() },
-                { "total_currency", currency.ToString() }
-            }));
+                {
+                    {
+                        "total_cmds", count.ToString()
+                    },
+                    {
+                        "earliest_use", date.ToString()
+                    }
+                }));
         }
-        catch (TaskCanceledException) { /*ignored*/ }
-
+        catch (TaskCanceledException)
+        {
+            /*ignored*/
+        }
     }
 }

@@ -41,6 +41,8 @@ public class CommandHandler : INService
     private IEnumerable<ILateExecutor> lateExecutors;
     public readonly InteractionService InteractionService;
     private readonly GuildSettingsService gss;
+    private readonly IBotCredentials creds;
+    private readonly IDataCache cache;
 
     public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
     public NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
@@ -48,10 +50,12 @@ public class CommandHandler : INService
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
-        GuildSettingsService gss, EventHandler eventHandler)
+        GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
     {
         InteractionService = interactionService;
         this.gss = gss;
+        this.creds = creds;
+        this.cache = cache;
         strings = strngs;
         this.client = client;
         this.commandService = commandService;
@@ -86,17 +90,17 @@ public class CommandHandler : INService
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (!gconf.StatsOptOut)
+                if (!false.ParseBoth(gconf.StatsOptOut.ToString()))
                 {
                     await using var uow = db.GetDbContext();
                     var user = await uow.GetOrCreateUser(ctx.User);
-                    if (!user.StatsOptOut)
+                    if (!false.ParseBoth(user.StatsOptOut))
                     {
                         var comStats = new CommandStats
                         {
                             ChannelId = ctx.Channel.Id,
                             GuildId = ctx.Guild.Id,
-                            IsSlash = true,
+                            IsSlash = 1,
                             NameOrId = info.Name,
                             UserId = ctx.User.Id,
                             Module = info.Module.Name
@@ -212,17 +216,17 @@ public class CommandHandler : INService
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (!gconf.StatsOptOut)
+                if (!false.ParseBoth(gconf.StatsOptOut.ToString()))
                 {
                     await using var uow = db.GetDbContext();
                     var user = await uow.GetOrCreateUser(ctx.User);
-                    if (!user.StatsOptOut)
+                    if (!false.ParseBoth(user.StatsOptOut))
                     {
                         var comStats = new CommandStats
                         {
                             ChannelId = ctx.Channel.Id,
                             GuildId = ctx.Guild.Id,
-                            IsSlash = true,
+                            IsSlash = 1,
                             NameOrId = slashInfo.Name,
                             UserId = ctx.User.Id,
                             Module = slashInfo.Module.Name
@@ -640,11 +644,11 @@ public class CommandHandler : INService
         if (guild is not null)
         {
             var gconf = await gss.GetGuildConfig(guild.Id);
-            if (!gconf.StatsOptOut && info is not null)
+            if (!false.ParseBoth(gconf.StatsOptOut.ToString()) && info is not null)
             {
                 await using var uow = db.GetDbContext();
                 var user = await uow.GetOrCreateUser(usrMsg.Author);
-                if (!user.StatsOptOut)
+                if (!false.ParseBoth(user.StatsOptOut))
                 {
                     var comStats = new CommandStats
                     {
@@ -672,7 +676,7 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-                var perms = new PermissionService(client, db, strings, gss);
+                var perms = new PermissionService(client, db, strings, gss, bot);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                     await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);

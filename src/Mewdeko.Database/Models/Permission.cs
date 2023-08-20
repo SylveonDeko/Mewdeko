@@ -16,7 +16,7 @@ public class Permission : DbEntity
     public SecondaryPermissionType SecondaryTarget { get; set; }
     public string SecondaryTargetName { get; set; }
 
-    public bool State { get; set; }
+    public long State { get; set; }
 }
 
 public interface IIndexed
@@ -27,6 +27,7 @@ public interface IIndexed
 [DebuggerDisplay("{PrimaryTarget}{SecondaryTarget} {SecondaryTargetName} {State} {PrimaryTargetId}")]
 public class Permissionv2 : DbEntity, IIndexed
 {
+    [ForeignKey("GuildConfigId")]
     public int? GuildConfigId { get; set; }
 
     public PrimaryPermissionType PrimaryTarget { get; set; }
@@ -35,9 +36,9 @@ public class Permissionv2 : DbEntity, IIndexed
     public SecondaryPermissionType SecondaryTarget { get; set; }
     public string SecondaryTargetName { get; set; }
 
-    public bool IsCustomCommand { get; set; }
+    public long IsCustomCommand { get; set; }
 
-    public bool State { get; set; }
+    public long State { get; set; }
 
     [NotMapped]
     public static Permissionv2 AllowAllPerm => new()
@@ -46,7 +47,7 @@ public class Permissionv2 : DbEntity, IIndexed
         PrimaryTargetId = 0,
         SecondaryTarget = SecondaryPermissionType.AllModules,
         SecondaryTargetName = "*",
-        State = true,
+        State = 1,
         Index = 0
     };
 

@@ -6,5 +6,5 @@ public class HighlightSettings : DbEntity
     public ulong UserId { get; set; }
     public string IgnoredChannels { get; set; }
     public string IgnoredUsers { get; set; }
-    public bool HighlightsOn { get; set; }
+    public long HighlightsOn { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mewdeko.Common.DumbEmbed;
 
@@ -93,9 +93,9 @@ public class DumbEmbed
                 embed.WithDescription(i.Description);
             if (i != null && Uri.IsWellFormedUriString(i.Url, UriKind.Absolute))
                 embed.WithUrl(i.Url);
-            if (!string.IsNullOrWhiteSpace(i.Color) && Rgba32.TryParseHex(i.Color, out var color))
+            if (!string.IsNullOrWhiteSpace(i.Color) && SKColor.TryParse(i.Color, out var color))
             {
-                embed.WithColor(new Color(color.R, color.G, color.B));
+                embed.WithColor(new Color(color.Red, color.Green, color.Blue));
             }
 
             if (i.Footer != null)

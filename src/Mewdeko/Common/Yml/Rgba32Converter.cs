@@ -1,25 +1,25 @@
 ﻿using System.Globalization;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Yml;
 
-public class Rgba32Converter : IYamlTypeConverter
+public class SkColorConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type) => type == typeof(Rgba32);
+    public bool Accepts(Type type) => type == typeof(SKColor);
 
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
-        return Rgba32.ParseHex(scalar.Value);
+        return SKColor.Parse(scalar.Value);
     }
 
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
-        var color = (Rgba32)value;
-        var val = (uint)((color.B << 0) | (color.G << 8) | (color.R << 16));
+        var color = (SKColor)value;
+        var val = (uint)((color.Blue << 0) | (color.Green << 8) | (color.Red << 16));
         emitter.Emit(new Scalar(val.ToString("X6").ToLower()));
     }
 }

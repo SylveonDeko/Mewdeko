@@ -4,7 +4,6 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Embed = Discord.Embed;
 
@@ -79,20 +78,10 @@ public class LogCommandService : INService
         this.db = db;
         this.tz = tz;
 
-        using (var uow = db.GetDbContext())
-        {
-            var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow.GuildConfigs
-                .AsQueryable()
-                .Include(gc => gc.LogSetting)
-                .ThenInclude(ls => ls.IgnoredChannels)
-                .Where(x => guildIds.Contains(x.GuildId))
-                .ToList();
-
-            GuildLogSettings = configs
-                .ToDictionary(g => g.GuildId, g => g.LogSetting)
-                .ToConcurrent();
-        }
+        var allgc = bot.AllGuildConfigs;
+        GuildLogSettings = allgc
+            .ToDictionary(g => g.GuildId, g => g.LogSetting)
+            .ToConcurrent();
 
         //_client.MessageReceived += Client_MessageReceived;
         eventHandler.MessageUpdated += Client_MessageUpdated;

@@ -17,21 +17,19 @@ public class PermissionService : ILateBlocker, INService
         DiscordSocketClient client,
         DbService db,
         IBotStrings strings,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings, Mewdeko bot)
     {
         this.db = db;
         Strings = strings;
         this.guildSettings = guildSettings;
-
+        var allgc = bot.AllGuildConfigs;
         using var uow = this.db.GetDbContext();
-        foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
+        foreach (var x in allgc)
         {
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
-                    Verbose = x.VerbosePermissions,
-                    PermRole = x.PermissionRole,
-                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    Verbose = false.ParseBoth(x.VerbosePermissions.ToString()), PermRole = x.PermissionRole, Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                 });
         }
     }
@@ -199,12 +197,12 @@ public class PermissionService : ILateBlocker, INService
         {
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
             PermRole = config.PermissionRole,
-            Verbose = config.VerbosePermissions
+            Verbose = false.ParseBoth(config.VerbosePermissions.ToString())
         }, (_, old) =>
         {
             old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
             old.PermRole = config.PermissionRole;
-            old.Verbose = config.VerbosePermissions;
+            old.Verbose = false.ParseBoth(config.VerbosePermissions.ToString());
             return old;
         });
 
@@ -225,7 +223,8 @@ public class PermissionService : ILateBlocker, INService
             PrimaryPermissionType.Role => $"<@&{id}>",
             PrimaryPermissionType.Server => $"This Server",
             PrimaryPermissionType.Category => $"<#{id}>",
-            _ => "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/mewdeko with a screenshot of this message for more information."
+            _ =>
+                "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/mewdeko with a screenshot of this message for more information."
         };
 
     public async Task RemovePerm(ulong guildId, int index)
@@ -250,7 +249,7 @@ public class PermissionService : ILateBlocker, INService
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
         var p = permsCol[index];
-        p.State = state;
+        p.State = state ? 1 : 0;
         uow.Update(p);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);

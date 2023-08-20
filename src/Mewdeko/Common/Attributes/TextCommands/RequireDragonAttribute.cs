@@ -11,7 +11,7 @@ public class RequireDragonAttribute : PreconditionAttribute
         var guildConfigService = services.GetRequiredService(typeof(GuildSettingsService)) as GuildSettingsService;
         await using var ctx = db.GetDbContext();
         var user = await ctx.GetOrCreateUser(context.User);
-        return user.IsDragon
+        return user.IsDragon == 1
             ? PreconditionResult.FromSuccess()
             : PreconditionResult.FromError("Your meek human arms could never push the 10,000 pound rock blocking the " +
                                            "path out of the cave of stable features. You must call upon the dragon in " +

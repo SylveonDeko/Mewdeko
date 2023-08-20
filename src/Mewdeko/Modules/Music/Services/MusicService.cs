@@ -7,7 +7,7 @@ using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music.Services;
 
-public class    MusicService : INService
+public class MusicService : INService
 {
     public readonly ConcurrentDictionary<ulong, List<LavalinkTrack?>> Queues;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> settings;
@@ -443,7 +443,7 @@ public class    MusicService : INService
             return;
         if ((await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id)).AutoDisconnect is AutoDisconnect.Either or AutoDisconnect.Voice)
         {
-            if (after.VoiceChannel.Users.Count <= 1)
+            if (before.VoiceChannel.ConnectedUsers.Count - 1 <= 1)
             {
                 await player.StopAsync(true);
                 await QueueClear(after.VoiceChannel.Guild.Id);

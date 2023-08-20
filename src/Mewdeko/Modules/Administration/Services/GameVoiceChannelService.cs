@@ -52,12 +52,12 @@ public class GameVoiceChannelService : INService
         if (gc.GameVoiceChannel == vchId)
         {
             id = gc.GameVoiceChannel = 0;
-            guildSettings.UpdateGuildConfig(guildId, gc);
+            await guildSettings.UpdateGuildConfig(guildId, gc);
         }
         else
         {
             id = gc.GameVoiceChannel = vchId;
-            guildSettings.UpdateGuildConfig(guildId, gc);
+            await guildSettings.UpdateGuildConfig(guildId, gc);
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);

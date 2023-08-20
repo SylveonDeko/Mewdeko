@@ -121,7 +121,7 @@ public static class Extensions
     public static async Task<IUserMessage>? Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
         DiscordSocketClient client, bool sanitize, MewdekoContext dbContext = null)
     {
-        var channel = ct.DmResponse
+        var channel = ct.DmResponse == 1
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
             : ctx.Channel;
 
@@ -129,7 +129,7 @@ public static class Extensions
         {
             var trigger = ct.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length;
-            if (ct.ContainsAnywhere)
+            if (ct.ContainsAnywhere == 1)
             {
                 var pos = ctx.Content.AsSpan().GetWordPosition(trigger);
                 if (pos == WordPosition.Start)
@@ -195,12 +195,12 @@ public static class Extensions
                 }
             }
 
-            if (ct.NoRespond)
+            if (ct.NoRespond == 1)
                 return null;
             return await channel.SendMessageAsync(plainText, embeds: crembed, components: components?.Build()).ConfigureAwait(false);
         }
 
-        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere, dbContext).ConfigureAwait(false))
+        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere == 1, dbContext).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
             await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
@@ -217,7 +217,7 @@ public static class Extensions
             }
         }
 
-        if (ct.NoRespond)
+        if (ct.NoRespond == 1)
             return null;
         return await channel.SendMessageAsync(context).ConfigureAwait(false);
     }
@@ -275,7 +275,7 @@ public static class Extensions
                 }
             }
 
-            if (ct.NoRespond)
+            if (ct.NoRespond == 1)
                 return null;
             if (!followup)
             {
@@ -286,7 +286,7 @@ public static class Extensions
             return await inter.FollowupAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build()).ConfigureAwait(false);
         }
 
-        var context = rep.Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbContext).ConfigureAwait(false))
+        var context = rep.Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere == 1, dbContext).ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
             await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId).SendMessageAsync(context).ConfigureAwait(false);
@@ -303,7 +303,7 @@ public static class Extensions
             }
         }
 
-        if (ct.NoRespond)
+        if (ct.NoRespond == 1)
             return null;
         if (followup)
             return await inter.FollowupAsync(context, ephemeral: ephemeral).ConfigureAwait(false);
