@@ -22,6 +22,22 @@ lyrics:
     - "song name"
     - ""
   desc: "Gets the lyrics for a song"
+gdm:
+  args:
+    - ""
+  desc: "Toggles whether the bot should DM a giveaway winner"
+gembedcolor:
+  args:
+    - "#5E9D3B"
+  desc: "Sets the color of the giveaway embed."
+gwinembedcolor:
+  args:
+    - "#5E9D3B"
+  desc: "Sets the color of the giveaway winner embed."
+gbanner:
+  args:
+    - "url"
+  desc: "Sets the banner of the giveaway embed."
 joinstats:
   args:
     - ""

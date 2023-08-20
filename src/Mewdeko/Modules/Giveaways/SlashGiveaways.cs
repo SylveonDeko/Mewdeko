@@ -48,6 +48,66 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
     }
 
+    [SlashCommand("banner", "Allows you to set a banner for giveaways!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GBanner(string banner)
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute))
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
+            return;
+        }
+
+        gc.GiveawayBanner = banner;
+        guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        await ctx.Interaction.SendConfirmAsync(
+            $"Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+    }
+
+    [SlashCommand("winembedcolor", "Allows you to set the win embed color!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GWinEmbedColor(string color)
+    {
+        if (SixLabors.ImageSharp.Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayWinEmbedColor = color;
+            guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Interaction.SendConfirmAsync(
+                $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("embedcolor", "Allows you to set the regular embed color!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GEmbedColor(string color)
+    {
+        if (SixLabors.ImageSharp.Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayEmbedColor = color;
+            guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Interaction.SendConfirmAsync(
+                $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("dm", "Toggles whether winners get dmed!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GDm()
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        gc.DmOnGiveawayWin = !gc.DmOnGiveawayWin;
+        guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        await ctx.Interaction.SendConfirmAsync(
+            $"Giveaway DMs set to {gc.DmOnGiveawayWin}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+    }
+
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {

@@ -68,6 +68,10 @@ public class GuildConfig : DbEntity
     public ulong SuggestButtonMessageId { get; set; } = 0;
     public int SuggestButtonRepostThreshold { get; set; } = 5;
     public int SuggestButtonColor { get; set; } = 2;
+    public string GiveawayBanner { get; set; } = "";
+    public string GiveawayEmbedColor { get; set; } = "";
+    public string GiveawayWinEmbedColor { get; set; } = "";
+    public bool DmOnGiveawayWin { get; set; } = false;
 
     // Guild Currency Config
     // public string CurrencyEmote { get; set; }

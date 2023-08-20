@@ -4,7 +4,6 @@ accept:
   - acceptsuggest
 acceptchannel:
   - acceptchannel
-
 acceptmessage:
   - acceptmessage
   - acceptmsg
@@ -17,6 +16,18 @@ exportcommandsjson:
   - excj
 getjson:
   - getjson
+gbanner:
+  - gbanner
+  - giveawaybanner
+gwinembedcolor:
+  - gwinembedcolor
+  - giveawaywinembedcolor
+gembedcolor:
+  - gembedcolor
+  - giveawayembedcolor
+gdm:
+  - gdm
+  - giveawaydm
 joinstats:
   - joinstats
   - jstats

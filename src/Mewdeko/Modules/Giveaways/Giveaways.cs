@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Giveaways.Services;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Giveaways;
 
@@ -22,6 +23,66 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         this.guildSettings = guildSettings;
         this.db = db;
         this.servs = servs;
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    public async Task GBanner(string banner)
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute))
+        {
+            await ctx.Channel.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
+            return;
+        }
+
+        gc.GiveawayBanner = banner;
+        guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        await ctx.Channel.SendConfirmAsync(
+            $"Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    public async Task GWinEmbedColor(string color)
+    {
+        if (Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayWinEmbedColor = color;
+            guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Channel.SendConfirmAsync(
+                $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    public async Task GEmbedColor(string color)
+    {
+        if (Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayEmbedColor = color;
+            guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Channel.SendConfirmAsync(
+                $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Channel.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    public async Task GDm()
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        gc.DmOnGiveawayWin = !gc.DmOnGiveawayWin;
+        guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        await ctx.Channel.SendConfirmAsync(
+            $"Giveaway DMs set to {gc.DmOnGiveawayWin}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]

@@ -106,6 +106,7 @@ public class GiveawayService : INService, IReadyExecutor
         ulong serverId, ITextChannel currentChannel, IGuild guild, string? reqroles = null, string? blacklistusers = null,
         string? blacklistroles = null, IDiscordInteraction? interaction = null)
     {
+        var gconfig = await guildSettings.GetGuildConfig(serverId).ConfigureAwait(false);
         var hostuser = await guild.GetUserAsync(host).ConfigureAwait(false);
         var emote = (await GetGiveawayEmote(guild.Id)).ToIEmote();
         var eb = new EmbedBuilder
@@ -139,6 +140,22 @@ public class GiveawayService : INService, IReadyExecutor
                 eb.WithDescription(
                     $"React with {emote} to enter!\nHosted by {hostuser.Mention}\nRequired Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\nEnd Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
             }
+        }
+
+        if (!string.IsNullOrEmpty(gconfig.GiveawayEmbedColor))
+        {
+            if (gconfig.GiveawayEmbedColor.StartsWith("#"))
+                eb.WithColor(new Discord.Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("#", ""), 16)));
+            if (gconfig.GiveawayWinEmbedColor.StartsWith("0x") && gconfig.GiveawayEmbedColor.Length == 8)
+                eb.WithColor(new Discord.Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("0x", ""), 16)));
+            if (uint.TryParse(gconfig.GiveawayEmbedColor, out var colorNumber))
+                eb.WithColor(new Discord.Color(colorNumber));
+        }
+
+        if (!string.IsNullOrEmpty(gconfig.GiveawayBanner))
+        {
+            if (Uri.IsWellFormedUriString(gconfig.GiveawayBanner, UriKind.Absolute))
+                eb.WithImageUrl(gconfig.GiveawayBanner);
         }
 
         var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -215,6 +232,7 @@ public class GiveawayService : INService, IReadyExecutor
 
             reacts = await ch.GetReactionUsersAsync(emoteTest.ToIEmote(), 999999).FlattenAsync().ConfigureAwait(false);
         }
+
         if (reacts.Count(x => !x.IsBot) - 1 < r.Winners)
         {
             var eb = new EmbedBuilder
@@ -270,10 +288,50 @@ public class GiveawayService : INService, IReadyExecutor
                 var rand = new Random();
                 var index = rand.Next(users.Count);
                 var user = users.ToList()[index];
+                var gset = await guildSettings.GetGuildConfig(guild.Id);
                 var eb = new EmbedBuilder
                 {
                     Color = Mewdeko.OkColor, Description = $"{user.Mention} won the giveaway for {r.Item}!"
                 };
+                if (gset.DmOnGiveawayWin)
+                {
+                    var dmEb = new EmbedBuilder()
+                        .WithDescription($"You won the giveaway for {r.Item} in {guild.Name}!")
+                        .WithOkColor();
+
+                    if (!string.IsNullOrWhiteSpace(gset.GiveawayWinEmbedColor))
+                    {
+                        if (gset.GiveawayWinEmbedColor.StartsWith("#"))
+                            dmEb.WithColor(new Discord.Color(Convert.ToUInt32(gset.GiveawayWinEmbedColor.Replace("#", ""), 16)));
+                        if (gset.GiveawayWinEmbedColor.StartsWith("0x") && gset.GiveawayWinEmbedColor.Length == 8)
+                            dmEb.WithColor(new Discord.Color(Convert.ToUInt32(gset.GiveawayWinEmbedColor.Replace("0x", ""), 16)));
+                        if (uint.TryParse(gset.GiveawayWinEmbedColor, out var colorNumber))
+                            dmEb.WithColor(new Discord.Color(colorNumber));
+                    }
+
+                    var components = new ComponentBuilder()
+                        .WithButton("Link", url: $"https://discord.com/channels/{r.ServerId}/{r.ChannelId}/{r.MessageId}", style: ButtonStyle.Link).Build();
+
+                    try
+                    {
+                        await user.SendMessageAsync(embed: dmEb.Build(), components: components);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(gset.GiveawayWinEmbedColor))
+                {
+                    if (gset.GiveawayWinEmbedColor.StartsWith("#"))
+                        eb.WithColor(new Discord.Color(Convert.ToUInt32(gset.GiveawayWinEmbedColor.Replace("#", ""), 16)));
+                    if (gset.GiveawayWinEmbedColor.StartsWith("0x") && gset.GiveawayWinEmbedColor.Length == 8)
+                        eb.WithColor(new Discord.Color(Convert.ToUInt32(gset.GiveawayWinEmbedColor.Replace("0x", ""), 16)));
+                    if (uint.TryParse(gset.GiveawayWinEmbedColor, out var colorNumber))
+                        eb.WithColor(new Discord.Color(colorNumber));
+                }
+
                 await ch.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
@@ -385,6 +443,7 @@ public class GiveawayService : INService, IReadyExecutor
 
             reacts = await ch.GetReactionUsersAsync(emoteTest.ToIEmote(), 999999).FlattenAsync().ConfigureAwait(false);
         }
+
         if (reacts.Count(x => !x.IsBot) - 1 < r.Winners)
         {
             var eb = new EmbedBuilder
