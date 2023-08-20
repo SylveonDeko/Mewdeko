@@ -117,7 +117,16 @@ public sealed class AutoAssignRoleService : INService
         });
 
         eventHandler.UserJoined += OnClientOnUserJoined;
+        eventHandler.GuildMemberUpdated += OnClientOnGuildMemberUpdated;
         eventHandler.RoleDeleted += OnClientRoleDeleted;
+    }
+
+    private async Task OnClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> args, SocketGuildUser arsg2)
+    {
+        if (arsg2.IsBot)
+            return;
+        if (arsg2.IsPending.HasValue && !arsg2.IsPending.Value)
+            await assignQueue.Writer.WriteAsync(arsg2).ConfigureAwait(false);
     }
 
     private async Task OnClientRoleDeleted(SocketRole role)
@@ -139,6 +148,8 @@ public sealed class AutoAssignRoleService : INService
 
     private async Task OnClientOnUserJoined(IGuildUser user)
     {
+        if (user.IsPending.HasValue && user.IsPending.Value)
+            return;
         var broles = await TryGetBotRoles(user.Guild.Id);
         var roles = await TryGetNormalRoles(user.Guild.Id);
         if (user.IsBot && broles.Any())
@@ -146,6 +157,7 @@ public sealed class AutoAssignRoleService : INService
         if (roles.Any())
             await assignQueue.Writer.WriteAsync(user).ConfigureAwait(false);
     }
+
 
     public async Task<IReadOnlyList<ulong>> ToggleAarAsync(ulong guildId, ulong roleId)
     {
@@ -157,7 +169,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableRoles(roles);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -167,7 +179,7 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         gc.AutoAssignRoleId = "";
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -177,7 +189,7 @@ public sealed class AutoAssignRoleService : INService
 
         var gc = await uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableBotRoles(newRoles);
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -191,7 +203,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableBotRoles(roles);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -201,7 +213,7 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         gc.AutoBotRoleIds = " ";
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
@@ -210,7 +222,7 @@ public sealed class AutoAssignRoleService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableRoles(newRoles);
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 

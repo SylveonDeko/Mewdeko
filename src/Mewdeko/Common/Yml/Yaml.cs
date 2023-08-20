@@ -11,14 +11,14 @@ public class Yaml
         .WithEventEmitter(args => new MultilineScalarFlowStyleEmitter(args))
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
         .WithIndentedSequences()
-        .WithTypeConverter(new Rgba32Converter())
+        .WithTypeConverter(new SkColorConverter())
         .WithTypeConverter(new CultureInfoConverter())
         .WithTypeConverter(new UriConverter())
         .Build();
 
     public static IDeserializer Deserializer => new DeserializerBuilder()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
-        .WithTypeConverter(new Rgba32Converter())
+        .WithTypeConverter(new SkColorConverter())
         .WithTypeConverter(new CultureInfoConverter())
         .WithTypeConverter(new UriConverter())
         .Build();

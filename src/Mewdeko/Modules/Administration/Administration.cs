@@ -41,16 +41,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     }
 
     private readonly InteractiveService interactivity;
-    private readonly GuildSettingsService guildSettingsService;
     private readonly BotConfigService configService;
-    private readonly DownloadTracker downloadTracker;
 
-    public Administration(InteractiveService serv, GuildSettingsService guildSettingsService, BotConfigService configService, DownloadTracker downloadTracker)
+    public Administration(InteractiveService serv, BotConfigService configService)
     {
         interactivity = serv;
-        this.guildSettingsService = guildSettingsService;
         this.configService = configService;
-        this.downloadTracker = downloadTracker;
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -115,7 +111,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         await ctx.Channel.SendConfirmAsync(GetText("nameban_message_delete"));
         var deleteString = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-        var deleteCount = 0;
         if (deleteString == null)
         {
             await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}");
@@ -128,7 +123,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             return;
         }
 
-        deleteCount = int.Parse(deleteString);
+        var deleteCount = int.Parse(deleteString);
         var components = new ComponentBuilder()
             .WithButton(GetText("preview"), "previewbans")
             .WithButton(GetText("execute"), "executeorder66", ButtonStyle.Success)
@@ -226,7 +221,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
                     return new PageBuilder()
-                    .WithTitle(GetText("banunder_preview", users.Count(), time.Time.Humanize(maxUnit: TimeUnit.Year)))
+                        .WithTitle(GetText("banunder_preview", users.Count(), time.Time.Humanize(maxUnit: TimeUnit.Year)))
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
                 }
             }
@@ -349,8 +344,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
                 var eb = new EmbedBuilder
                 {
-                    Description = $"Are you sure you want to prune {toprune} Members?",
-                    Color = Mewdeko.OkColor
+                    Description = $"Are you sure you want to prune {toprune} Members?", Color = Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
@@ -362,8 +356,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                     await ctx.Guild.PruneUsersAsync(time.Time.Days).ConfigureAwait(false);
                     var ebi = new EmbedBuilder
                     {
-                        Description = GetText("pruned_members", toprune),
-                        Color = Mewdeko.OkColor
+                        Description = GetText("pruned_members", toprune), Color = Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
                 }
@@ -384,8 +377,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
                 var eb = new EmbedBuilder
                 {
-                    Description = GetText("prune_confirm", toprune),
-                    Color = Mewdeko.OkColor
+                    Description = GetText("prune_confirm", toprune), Color = Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
@@ -401,8 +393,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                         });
                     var ebi = new EmbedBuilder
                     {
-                        Description = GetText("pruned_members", toprune),
-                        Color = Mewdeko.OkColor
+                        Description = GetText("pruned_members", toprune), Color = Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build()).ConfigureAwait(false);
                 }
@@ -520,7 +511,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             {
                 var ch = guild.GetChannel(x.ChannelId)?.ToString()
                          ?? x.ChannelId.ToString();
-                var prefix = x.State ? "✅ " : "❌ ";
+                var prefix = x.State == 1 ? "✅ " : "❌ ";
                 return prefix + ch;
             }));
 

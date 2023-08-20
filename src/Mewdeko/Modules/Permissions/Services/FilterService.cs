@@ -27,7 +27,7 @@ public class FilterService : IEarlyBehavior, INService
 
     public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
-        GuildSettingsService gss, EventHandler eventHandler)
+        GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;
         this.client = client;
@@ -38,41 +38,30 @@ public class FilterService : IEarlyBehavior, INService
         this.pubSub.Sub(blPubKey, OnReload);
         Ass = ass;
         this.gss = gss;
-        using (var uow = db.GetDbContext())
-        {
-            var ids = client.GetGuildIds();
-            var configs = uow.GuildConfigs
-                .AsQueryable()
-                .Include(x => x.FilteredWords)
-                .Include(x => x.FilterLinksChannelIds)
-                .Include(x => x.FilterWordsChannelIds)
-                .Include(x => x.FilterInvitesChannelIds)
-                .Where(gc => ids.Contains(gc.GuildId))
-                .ToList();
+        var allgc = bot.AllGuildConfigs;
 
-            InviteFilteringServers =
-                new ConcurrentHashSet<ulong>(configs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
-            InviteFilteringChannels =
-                new ConcurrentHashSet<ulong>(configs.SelectMany(gc =>
-                    gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
+        InviteFilteringServers =
+            new ConcurrentHashSet<ulong>(allgc.Where(gc => gc.FilterInvites != 0).Select(gc => gc.GuildId));
+        InviteFilteringChannels =
+            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
+                gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
 
-            LinkFilteringServers =
-                new ConcurrentHashSet<ulong>(configs.Where(gc => gc.FilterLinks).Select(gc => gc.GuildId));
-            LinkFilteringChannels =
-                new ConcurrentHashSet<ulong>(configs.SelectMany(gc =>
-                    gc.FilterLinksChannelIds.Select(fci => fci.ChannelId)));
+        LinkFilteringServers =
+            new ConcurrentHashSet<ulong>(allgc.Where(gc => gc.FilterLinks != 0).Select(gc => gc.GuildId));
+        LinkFilteringChannels =
+            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
+                gc.FilterLinksChannelIds.Select(fci => fci.ChannelId)));
 
-            var dict = configs.ToDictionary(gc => gc.GuildId,
-                gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
+        var dict = allgc.ToDictionary(gc => gc.GuildId,
+            gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
 
-            ServerFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
+        ServerFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
 
-            var serverFiltering = configs.Where(gc => gc.FilterWords);
-            WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
-            WordFilteringChannels =
-                new ConcurrentHashSet<ulong>(configs.SelectMany(gc =>
-                    gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
-        }
+        var serverFiltering = allgc.Where(gc => gc.FilterWords != 0);
+        WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
+        WordFilteringChannels =
+            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
+                gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
 
         eventHandler.MessageUpdated += (_, newMsg, channel) =>
         {
@@ -219,7 +208,7 @@ public class FilterService : IEarlyBehavior, INService
 
         foreach (var c in gc.FilterWordsChannelIds) WordFilteringChannels.TryRemove(c.ChannelId);
 
-        gc.FilterWords = false;
+        gc.FilterWords = 0;
         gc.FilteredWords.Clear();
         gc.FilterWordsChannelIds.Clear();
 

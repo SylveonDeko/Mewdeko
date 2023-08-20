@@ -53,7 +53,7 @@ public class LogSetting : DbEntity
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool IsLogging { get; set; } = true;
+    public long IsLogging { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
@@ -63,57 +63,57 @@ public class LogSetting : DbEntity
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool MessageUpdated { get; set; } = true;
+    public long MessageUpdated { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool MessageDeleted { get; set; } = true;
+    public long MessageDeleted { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool UserJoined { get; set; } = true;
+    public long UserJoined { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool UserLeft { get; set; } = true;
+    public long UserLeft { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool UserBanned { get; set; } = true;
+    public long UserBanned { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool UserUnbanned { get; set; } = true;
+    public long UserUnbanned { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool UserUpdated { get; set; } = true;
+    public long UserUpdated { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool ChannelCreated { get; set; } = true;
+    public long ChannelCreated { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool ChannelDestroyed { get; set; } = true;
+    public long ChannelDestroyed { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool ChannelUpdated { get; set; } = true;
+    public long ChannelUpdated { get; set; } = 1;
 
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool LogUserPresence { get; set; } = false;
+    public long LogUserPresence { get; set; } = 0;
 
     /// <summary>
     /// DON'T USE
@@ -123,7 +123,7 @@ public class LogSetting : DbEntity
     /// <summary>
     /// DON'T USE
     /// </summary>
-    public bool LogVoicePresence { get; set; } = false;
+    public long LogVoicePresence { get; set; } = 0;
 
     /// <summary>
     /// DON'T USE

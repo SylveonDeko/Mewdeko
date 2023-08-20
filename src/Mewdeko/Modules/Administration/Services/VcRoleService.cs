@@ -17,18 +17,8 @@ public class VcRoleService : INService
         eventHandler.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
         VcRoles = new NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>>();
         ToAssign = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
-
-        using (var uow = db.GetDbContext())
-        {
-            var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow.GuildConfigs
-                .AsQueryable()
-                .Include(x => x.VcRoleInfos)
-                .Where(x => guildIds.Contains(x.GuildId))
-                .ToList();
-
-            Task.WhenAll(configs.Select(InitializeVcRole));
-        }
+        var allgc = bot.AllGuildConfigs;
+        Task.WhenAll(allgc.Select(InitializeVcRole));
 
         Task.Run(async () =>
         {

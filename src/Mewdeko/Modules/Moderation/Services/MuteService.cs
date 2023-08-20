@@ -30,88 +30,79 @@ public class MuteService : INService
     public string[] Uroles = Array.Empty<string>();
     private readonly GuildSettingsService guildSettings;
 
-    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler)
+    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler, Mewdeko bot)
     {
         this.client = client;
         this.db = db;
         this.guildSettings = guildSettings;
-        using (var uow = db.GetDbContext())
+        var allgc = bot.AllGuildConfigs;
+
+
+        GuildMuteRoles = allgc
+            .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
+            .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
+            .ToConcurrent();
+
+        MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(allgc
+            .ToDictionary(
+                k => k.GuildId,
+                v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
+            ));
+
+        var max = TimeSpan.FromDays(49);
+
+        foreach (var conf in allgc)
         {
-            var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow.GuildConfigs.AsQueryable()
-                .Include(x => x.MutedUsers)
-                .Include(x => x.UnbanTimer)
-                .Include(x => x.UnmuteTimers)
-                .Include(x => x.UnroleTimer)
-                .Where(x => guildIds.Contains(x.GuildId))
-                .ToList();
-
-            GuildMuteRoles = configs
-                .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-                .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
-                .ToConcurrent();
-
-            MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(configs
-                .ToDictionary(
-                    k => k.GuildId,
-                    v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
-                ));
-
-            var max = TimeSpan.FromDays(49);
-
-            foreach (var conf in configs)
+            foreach (var x in conf.UnmuteTimers)
             {
-                foreach (var x in conf.UnmuteTimers)
+                TimeSpan after;
+                if (x.UnmuteAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
                 {
-                    TimeSpan after;
-                    if (x.UnmuteAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
-                    {
-                        after = TimeSpan.FromMinutes(2);
-                    }
-                    else
-                    {
-                        var unmute = x.UnmuteAt - DateTime.UtcNow;
-                        after = unmute > max ? max : unmute;
-                    }
-
-                    StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Mute);
+                    after = TimeSpan.FromMinutes(2);
+                }
+                else
+                {
+                    var unmute = x.UnmuteAt - DateTime.UtcNow;
+                    after = unmute > max ? max : unmute;
                 }
 
-                foreach (var x in conf.UnbanTimer)
-                {
-                    TimeSpan after;
-                    if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
-                    {
-                        after = TimeSpan.FromMinutes(2);
-                    }
-                    else
-                    {
-                        var unban = x.UnbanAt - DateTime.UtcNow;
-                        after = unban > max ? max : unban;
-                    }
-
-                    StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Ban);
-                }
-
-                foreach (var x in conf.UnroleTimer)
-                {
-                    TimeSpan after;
-                    if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
-                    {
-                        after = TimeSpan.FromMinutes(2);
-                    }
-                    else
-                    {
-                        var unban = x.UnbanAt - DateTime.UtcNow;
-                        after = unban > max ? max : unban;
-                    }
-
-                    StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.AddRole, x.RoleId);
-                }
+                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Mute);
             }
 
-            eventHandler.UserJoined += Client_UserJoined;
+            foreach (var x in conf.UnbanTimer)
+            {
+                TimeSpan after;
+                if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
+                {
+                    after = TimeSpan.FromMinutes(2);
+                }
+                else
+                {
+                    var unban = x.UnbanAt - DateTime.UtcNow;
+                    after = unban > max ? max : unban;
+                }
+
+                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Ban);
+            }
+
+            foreach (var x in conf.UnroleTimer)
+            {
+                TimeSpan after;
+                if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
+                {
+                    after = TimeSpan.FromMinutes(2);
+                }
+                else
+                {
+                    var unban = x.UnbanAt - DateTime.UtcNow;
+                    after = unban > max ? max : unban;
+                }
+
+                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.AddRole, x.RoleId);
+            }
         }
+
+        eventHandler.UserJoined += Client_UserJoined;
 
         UserMuted += OnUserMuted;
         UserUnmuted += OnUserUnmuted;

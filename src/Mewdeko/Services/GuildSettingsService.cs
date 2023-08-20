@@ -6,14 +6,13 @@ public class GuildSettingsService : INService
 {
     private readonly DbService db;
     private readonly BotConfigService bss;
-    private readonly IDataCache cache;
+    private readonly Mewdeko bot;
 
-    public GuildSettingsService(DbService db, BotConfigService bss, IDataCache cache)
+    public GuildSettingsService(DbService db, BotConfigService bss, Mewdeko bot)
     {
         this.db = db;
         this.bss = bss;
-        this.cache = cache;
-        using var uow = db.GetDbContext();
+        this.bot = bot;
     }
 
     public async Task<string> SetPrefix(IGuild guild, string prefix)
@@ -42,20 +41,67 @@ public class GuildSettingsService : INService
 
     public async Task<GuildConfig> GetGuildConfig(ulong guildId)
     {
-        var config = await cache.GetGuildConfig(guildId);
-        if (config is { })
-            return config;
-        await using var uow = db.GetDbContext();
-        var newConfig = await uow.ForGuildId(guildId);
-        cache.SetGuildConfig(guildId, newConfig);
-        return newConfig;
+        var configs = bot.AllGuildConfigs;
+        var toReturn = configs.FirstOrDefault(x => x.GuildId == guildId);
+        if (toReturn is not null) return toReturn;
+        {
+            await using var uow = db.GetDbContext();
+            var toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+            configs.Add(toLoad);
+            bot.AllGuildConfigs = configs;
+            return toLoad;
+        }
     }
 
-    public void UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
+    public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
     {
-        using var uow = db.GetDbContext();
-        cache.SetGuildConfig(guildId, toUpdate);
-        uow.GuildConfigs.Update(toUpdate);
-        uow.SaveChanges();
+        await using var uow = db.GetDbContext();
+        var configs = bot.AllGuildConfigs;
+        var old = configs.FirstOrDefault(x => x.GuildId == guildId);
+
+        if (old is not null)
+        {
+            configs.TryRemove(old);
+            var properties = typeof(GuildConfig).GetProperties();
+            foreach (var property in properties)
+            {
+                var oldValue = property.GetValue(old);
+                var newValue = property.GetValue(toUpdate);
+
+                if (newValue != null && !newValue.Equals(oldValue))
+                {
+                    property.SetValue(old, newValue);
+                }
+            }
+
+            configs.Add(old);
+            bot.AllGuildConfigs = configs;
+            uow.GuildConfigs.Update(old);
+            await uow.SaveChangesAsync();
+        }
+        else
+        {
+            var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
+
+            if (config != null)
+            {
+                var properties = typeof(GuildConfig).GetProperties();
+                foreach (var property in properties)
+                {
+                    var oldValue = property.GetValue(config);
+                    var newValue = property.GetValue(toUpdate);
+
+                    if (newValue != null && !newValue.Equals(oldValue))
+                    {
+                        property.SetValue(config, newValue);
+                    }
+                }
+
+                uow.GuildConfigs.Update(config);
+                await uow.SaveChangesAsync();
+                configs.Add(config);
+                bot.AllGuildConfigs = configs;
+            }
+        }
     }
 }

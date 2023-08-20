@@ -14,13 +14,13 @@ public class Localization : ILocalization
     private readonly BotConfigService bss;
     private readonly DbService db;
 
-    public Localization(BotConfigService bss, DiscordSocketClient client, DbService db)
+    public Localization(BotConfigService bss, DbService db, Mewdeko bot)
     {
         this.bss = bss;
         this.db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
-        var cultureInfoNames = gc
+        var allgc = bot.AllGuildConfigs;
+        var cultureInfoNames = allgc
             .ToDictionary(x => x.GuildId, x => x.Locale);
 
         GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo?>(cultureInfoNames.ToDictionary(x => x.Key,

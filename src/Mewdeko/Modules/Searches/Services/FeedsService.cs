@@ -15,23 +15,16 @@ public class FeedsService : INService
 
     private readonly ConcurrentDictionary<string, HashSet<FeedSub>> subs;
 
-    public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
+    public FeedsService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.db = db;
+        var allgc = bot.AllGuildConfigs;
+        subs = allgc
+            .SelectMany(x => x.FeedSubs)
+            .GroupBy(x => x.Url.ToLower())
+            .ToDictionary(x => x.Key, x => x.ToHashSet())
+            .ToConcurrent();
 
-        using (var uow = db.GetDbContext())
-        {
-            var guildConfigIds = uow.GuildConfigs.Where(x => bot.Client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId)).Select(x => x.Id);
-            subs = uow.GuildConfigs
-                .AsQueryable()
-                .Where(x => guildConfigIds.Contains(x.Id))
-                .Include(x => x.FeedSubs)
-                .ToList()
-                .SelectMany(x => x.FeedSubs)
-                .GroupBy(x => x.Url.ToLower())
-                .ToDictionary(x => x.Key, x => x.ToHashSet())
-                .ToConcurrent();
-        }
 
         this.client = client;
 

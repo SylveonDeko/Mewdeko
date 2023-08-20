@@ -63,6 +63,7 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
         this.guildSettings = guildSettings;
         this.commandHandler = commandHandler;
     }
+
     [SlashCommand("clearusedtokens", "Clears the used gpt tokens count")]
     public async Task ClearUsedTokens()
     {
@@ -141,13 +142,13 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
         await using var uow = db.GetDbContext();
         var commandStatsTable = uow.CommandStats;
         // fetch actual tops
-        var topCommand = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.NameOrId)
+        var topCommand = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.NameOrId)
             .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topModule = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.Module)
+        var topModule = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.Module)
             .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topGuild = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.GuildId)
+        var topGuild = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.GuildId)
             .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topUser = await commandStatsTable.Where(x => !x.Trigger).GroupBy(q => q.UserId)
+        var topUser = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.UserId)
             .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
 
         // then fetch their counts... This can probably be done better....

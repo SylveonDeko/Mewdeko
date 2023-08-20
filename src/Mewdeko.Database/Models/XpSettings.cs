@@ -1,16 +1,20 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Mewdeko.Database.Models;
 
 public class XpSettings : DbEntity
 {
+    [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
+
     public GuildConfig GuildConfig { get; set; }
 
     public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
     public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
-    public bool XpRoleRewardExclusive { get; set; }
+    public long XpRoleRewardExclusive { get; set; }
     public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
     public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
-    public bool ServerExcluded { get; set; }
+    public long ServerExcluded { get; set; }
 }
 
 public enum ExcludedItemType
@@ -21,7 +25,9 @@ public enum ExcludedItemType
 
 public class XpRoleReward : DbEntity
 {
+    [ForeignKey("XpSettingsId")]
     public int XpSettingsId { get; set; }
+
     public XpSettings XpSettings { get; set; }
 
     public int Level { get; set; }
@@ -49,6 +55,9 @@ public class ExcludedItem : DbEntity
 {
     public ulong ItemId { get; set; }
     public ExcludedItemType ItemType { get; set; }
+
+    [ForeignKey("XpSettingsId")]
+    public int XpSettingsId { get; set; }
 
     public override int GetHashCode() => ItemId.GetHashCode() ^ ItemType.GetHashCode();
 

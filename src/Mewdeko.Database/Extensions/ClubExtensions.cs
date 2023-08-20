@@ -20,7 +20,7 @@ public static class ClubExtensions
 
     public static async Task<ClubInfo> GetByOwnerOrAdmin(this DbSet<ClubInfo> clubs, ulong userId)
         => await Include(clubs).FirstOrDefaultAsync(c => c.Owner.UserId == userId
-                                                         || c.Users.Any(u => u.UserId == userId && u.IsClubAdmin)).ConfigureAwait(false);
+                                                         || c.Users.Any(u => u.UserId == userId && u.IsClubAdmin == 1)).ConfigureAwait(false);
 
     public static async Task<ClubInfo> GetByMember(this DbSet<ClubInfo> clubs, ulong userId)
         => await Include(clubs).FirstOrDefaultAsync(c => c.Users.Any(u => u.UserId == userId)).ConfigureAwait(false);

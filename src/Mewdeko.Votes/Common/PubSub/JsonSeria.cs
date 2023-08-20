@@ -9,7 +9,7 @@ public class JsonSeria : ISeria
     {
         Converters =
         {
-            new Rgba32Converter(), new CultureInfoConverter()
+            new CultureInfoConverter()
         }
     };
 

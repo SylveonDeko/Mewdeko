@@ -9,12 +9,11 @@ public class RoleCommandsService : INService
     private readonly DbService db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> models;
 
-    public RoleCommandsService(DiscordSocketClient client, DbService db, EventHandler eventHandler)
+    public RoleCommandsService(DbService db, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;
-        using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Include(x => x.ReactionRoleMessages).ThenInclude(x => x.ReactionRoles).Where(x => client.Guilds.Select(socketGuild => socketGuild.Id).Contains(x.GuildId));
-        models = gc.ToDictionary(x => x.GuildId,
+        var allgc = bot.AllGuildConfigs;
+        models = allgc.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
         eventHandler.ReactionAdded += _client_ReactionAdded;
@@ -51,7 +50,7 @@ public class RoleCommandsService : INService
                 x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
             if (reactionRole == null)
                 return;
-            if (conf.Exclusive)
+            if (conf.Exclusive == 1)
             {
                 var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
                     .Where(x => x != reactionRole.RoleId)

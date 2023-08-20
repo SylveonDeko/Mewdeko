@@ -4,8 +4,7 @@ using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Modules.UserProfile.Services;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp.PixelFormats;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.UserProfile;
 
@@ -82,16 +81,15 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [SlashCommand("setcolor", "Set's the color in your user profile"), CheckPermissions]
     public async Task SetProfileColor([Summary("color", "Accepts hex and regular color names.")] string input)
     {
-        if (!Color.TryParse(input, out var inputColor))
+        if (!SKColor.TryParse(input, out var inputColor))
         {
             await ctx.Interaction.SendErrorAsync("You have input an invalid color.");
             return;
         }
 
-        var color = Rgba32.ParseHex(inputColor.ToHex());
-        var discordColor = new Discord.Color(color.R, color.G, color.B);
+        var discordColor = new Discord.Color(inputColor.Red, inputColor.Green, inputColor.Blue);
         await Service.SetProfileColor(ctx.User, discordColor);
-        await ctx.Interaction.SendConfirmAsync($"Your Profile Color has been set to:\n`{color}`");
+        await ctx.Interaction.SendConfirmAsync($"Your Profile Color has been set to:\n`{inputColor}`");
     }
 
     [SlashCommand("setbirthday", "Set's the color in your user profile"), CheckPermissions]
@@ -246,7 +244,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
         user.Pronouns = "";
-        user.PronounsDisabled = bool.TryParse(sPronounsDisable, out var disable) && disable;
+        user.PronounsDisabled = bool.TryParse(sPronounsDisable, out var disable) && disable ? 1 : 0;
         user.PronounsClearedReason = modal.FcbReason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         if (bool.TryParse(sBlacklist, out var blacklist) && blacklist)
@@ -256,7 +254,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
-        if (!user.PronounsDisabled) return false;
+        if (user.PronounsDisabled == 0) return false;
         await ReplyErrorLocalizedAsync("pronouns_disabled_user", user.PronounsClearedReason).ConfigureAwait(false);
         return true;
     }

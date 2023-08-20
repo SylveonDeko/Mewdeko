@@ -71,20 +71,27 @@ public class HelpService : ILateExecutor, INService
     {
         var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
         var compBuilder = new ComponentBuilder();
-        var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
-        foreach (var i in modules.Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
+        var menuCount = (modules.Count() - 1) / 25 + 1;
+
+        for (var j = 0; j < menuCount; j++)
         {
-            selMenu.Options.Add(new SelectMenuOptionBuilder()
-                .WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
+            var selMenu = new SelectMenuBuilder().WithCustomId($"helpselect:{j}");
+            foreach (var i in modules.Skip(j * 25).Take(25).Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
+            {
+                selMenu.Options.Add(new SelectMenuOptionBuilder()
+                    .WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
+            }
+
+            compBuilder.WithSelectMenu(selMenu); // add the select menu to the component builder
         }
 
         compBuilder.WithButton(GetText("toggle_descriptions", guild), $"toggle-descriptions:{descriptions},{user.Id}");
         compBuilder.WithButton(GetText("invite_me", guild), style: ButtonStyle.Link,
             url: "https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands");
         compBuilder.WithButton(GetText("donatetext", guild), style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko");
-        compBuilder.WithSelectMenu(selMenu);
         return compBuilder;
     }
+
 
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {

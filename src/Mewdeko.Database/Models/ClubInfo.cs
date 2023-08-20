@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mewdeko.Database.Models;
 
@@ -13,7 +14,9 @@ public class ClubInfo : DbEntity
     public int MinimumLevelReq { get; set; } = 5;
     public int Xp { get; set; } = 0;
 
+    [ForeignKey("OwnerId")]
     public int OwnerId { get; set; }
+
     public DiscordUser Owner { get; set; }
 
     public List<DiscordUser> Users { get; set; } = new();

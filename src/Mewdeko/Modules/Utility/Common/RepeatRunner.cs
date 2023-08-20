@@ -23,7 +23,7 @@ public class RepeatRunner
         this.mrs = mrs;
         this.client = client;
 
-        InitialInterval = Repeater.Interval;
+        InitialInterval = TimeSpan.Parse(Repeater.Interval);
 
         Run();
     }
@@ -52,7 +52,7 @@ public class RepeatRunner
 
     private void Run()
     {
-        if (Repeater.StartTimeOfDay != null)
+        if (!string.IsNullOrEmpty(Repeater.StartTimeOfDay))
         {
             // if there was a start time of day
             // calculate whats the next time of day repeat should trigger at
@@ -64,7 +64,7 @@ public class RepeatRunner
                 var added = Repeater.DateAdded.Value;
 
                 // initial trigger was the time of day specified by the command.
-                var initialTriggerTimeOfDay = Repeater.StartTimeOfDay.Value;
+                var initialTriggerTimeOfDay = TimeSpan.Parse(Repeater.StartTimeOfDay);
 
                 DateTime initialDateTime;
 
@@ -88,14 +88,14 @@ public class RepeatRunner
         else
         {
             // if repeater is not running daily, it's initial time is the time it was Added at, plus the interval
-            if (Repeater.DateAdded != null) CalculateInitialInterval(Repeater.DateAdded.Value + Repeater.Interval);
+            if (Repeater.DateAdded != null) CalculateInitialInterval(Repeater.DateAdded.Value + TimeSpan.Parse(Repeater.Interval));
         }
 
         // wait at least a minute for the bot to have all data needed in the cache
         if (InitialInterval < TimeSpan.FromMinutes(1))
             InitialInterval = TimeSpan.FromMinutes(1);
 
-        t = new Timer(Callback, null, InitialInterval, Repeater.Interval);
+        t = new Timer(Callback, null, InitialInterval, TimeSpan.Parse(Repeater.Interval));
     }
 
     private async void Callback(object _)
@@ -130,7 +130,7 @@ public class RepeatRunner
             var diff = DateTime.UtcNow - initialDateTime;
 
             // see how many times the repeater theoretically ran already
-            var triggerCount = diff / Repeater.Interval;
+            var triggerCount = diff / TimeSpan.Parse(Repeater.Interval);
 
             // ok lets say repeater was scheduled to run 10h ago.
             // we have an interval of 2.4h
@@ -142,7 +142,7 @@ public class RepeatRunner
             // interval (2.4h) * 0.834 is 2.0016 and that is the initial interval
 
             var initialIntervalMultiplier = 1 - (triggerCount - Math.Truncate(triggerCount));
-            InitialInterval = Repeater.Interval * initialIntervalMultiplier;
+            InitialInterval = TimeSpan.Parse(Repeater.Interval) * initialIntervalMultiplier;
         }
     }
 
@@ -157,7 +157,7 @@ public class RepeatRunner
         }
 
         // next execution is interval amount of time after now
-        NextDateTime = DateTime.UtcNow + Repeater.Interval;
+        NextDateTime = DateTime.UtcNow + TimeSpan.Parse(Repeater.Interval);
 
         var toSend = Repeater.Message;
         try
@@ -170,7 +170,7 @@ public class RepeatRunner
                 return;
             }
 
-            if (Repeater.NoRedundant)
+            if (Repeater.NoRedundant == 1)
             {
                 var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false))
                     .FirstOrDefault();
@@ -208,7 +208,7 @@ public class RepeatRunner
                 newMsg = await Channel.SendMessageAsync(rep.Replace(toSend)).ConfigureAwait(false);
             }
 
-            if (Repeater.NoRedundant)
+            if (Repeater.NoRedundant == 1)
             {
                 mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
                 Repeater.LastMessageId = newMsg.Id;
@@ -235,6 +235,10 @@ public class RepeatRunner
 
     public void Stop() => t.Change(Timeout.Infinite, Timeout.Infinite);
 
-    public override string ToString() =>
-        $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} {(Repeater.NoRedundant ? "| ✍" : "")}| {(int)Repeater.Interval.TotalHours}:{Repeater.Interval:mm} | {Repeater.Message.TrimTo(33)}";
+    public override string ToString()
+    {
+        TimeSpan.TryParse(Repeater.Interval, out var interval);
+        return
+            $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} {(Repeater.NoRedundant == 1 ? "| ✍" : "")}| {interval.TotalHours}:{interval:mm} | {Repeater.Message.TrimTo(33)}";
+    }
 }

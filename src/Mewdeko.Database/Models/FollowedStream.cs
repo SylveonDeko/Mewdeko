@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Mewdeko.Database.Common;
 
 namespace Mewdeko.Database.Models;
 
@@ -14,6 +15,10 @@ public class FollowedStream : DbEntity
     }
 
     public ulong GuildId { get; set; }
+
+    [ForeignKey("GuildConfigId")]
+    public int GuildConfigId { get; set; }
+
     public ulong ChannelId { get; set; }
     public string Username { get; set; }
     public FType Type { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mewdeko.Services.Settings;
 
@@ -15,9 +15,9 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
     public BotConfigService(IConfigSeria serializer, IPubSub pubSub)
         : base(FilePath, serializer, pubSub, ChangeKey)
     {
-        AddParsedProp("color.ok", bs => bs.Color.Ok, Rgba32.TryParseHex, ConfigPrinters.Color);
-        AddParsedProp("color.error", bs => bs.Color.Error, Rgba32.TryParseHex, ConfigPrinters.Color);
-        AddParsedProp("color.pending", bs => bs.Color.Pending, Rgba32.TryParseHex, ConfigPrinters.Color);
+        AddParsedProp("color.ok", bs => bs.Color.Ok, SKColor.TryParse, ConfigPrinters.Color);
+        AddParsedProp("color.error", bs => bs.Color.Error, SKColor.TryParse, ConfigPrinters.Color);
+        AddParsedProp("color.pending", bs => bs.Color.Pending, SKColor.TryParse, ConfigPrinters.Color);
         AddParsedProp("help.text", bs => bs.HelpText, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("help.dmtext", bs => bs.DmHelpText, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("console.type", bs => bs.ConsoleOutputType, Enum.TryParse, ConfigPrinters.ToString);
@@ -46,8 +46,8 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
     {
         var ok = data.Color.Ok;
         var error = data.Color.Error;
-        Mewdeko.OkColor = new Color(ok.R, ok.G, ok.B);
-        Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
+        Mewdeko.OkColor = new Color(ok.Red, ok.Green, ok.Blue);
+        Mewdeko.ErrorColor = new Color(error.Red, error.Green, error.Blue);
     }
 
 

@@ -10,8 +10,6 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 public class TriviaGame
 {
     private readonly DiscordSocketClient client;
-    private readonly GamesConfig config;
-    private readonly ICurrencyService cs;
     private readonly SemaphoreSlim guessLock = new(1, 1);
     private readonly TriviaOptions options;
 
@@ -22,15 +20,13 @@ public class TriviaGame
 
     private CancellationTokenSource triviaCancelSource;
 
-    public TriviaGame(IBotStrings strings, DiscordSocketClient client, GamesConfig config,
-        IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
+    public TriviaGame(IBotStrings strings, DiscordSocketClient client,
+        IDataCache cache, IGuild guild, ITextChannel channel,
         TriviaOptions options, string? quitCommand)
     {
         questionPool = new TriviaQuestionPool(cache);
         this.strings = strings;
         this.client = client;
-        this.config = config;
-        this.cs = cs;
         this.options = options;
         this.quitCommand = quitCommand;
 
@@ -253,9 +249,6 @@ public class TriviaGame
                         // ignored
                     }
 
-                    var reward = config.Trivia.CurrencyReward;
-                    if (reward > 0)
-                        await cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                     return;
                 }
 

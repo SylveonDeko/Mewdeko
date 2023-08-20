@@ -323,7 +323,7 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(statusRoles.Count - 1)
+            .WithMaxPageIndex(statusRoles.Count() - 1)
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();

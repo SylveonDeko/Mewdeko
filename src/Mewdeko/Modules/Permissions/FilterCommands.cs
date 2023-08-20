@@ -112,16 +112,17 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            bool enabled;
+            long newValue;
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                enabled = config.FilterInvites = !config.FilterInvites;
+                newValue = config.FilterInvites == 0L ? 1L : 0L;
+                config.FilterInvites = newValue;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
-            if (enabled)
+            if (newValue == 1L)
             {
                 Service.InviteFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("invite_filter_server_on").ConfigureAwait(false);
@@ -133,18 +134,19 @@ public partial class Permissions
             }
         }
 
+
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterInv()
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            FilterChannelId removed;
+            FilterInvitesChannelIds removed;
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterInvitesChannelIds));
-                var match = new FilterChannelId
+                var match = new FilterInvitesChannelIds
                 {
                     ChannelId = channel.Id
                 };
@@ -174,16 +176,17 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            bool enabled;
+            long newValue;
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                enabled = config.FilterLinks = !config.FilterLinks;
+                newValue = config.FilterLinks == 0L ? 1L : 0L;
+                config.FilterLinks = newValue;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
-            if (enabled)
+            if (newValue == 1L)
             {
                 Service.LinkFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("link_filter_server_on").ConfigureAwait(false);
@@ -236,16 +239,17 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            bool enabled;
+            long newValue;
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                enabled = config.FilterWords = !config.FilterWords;
+                newValue = config.FilterWords == 0L ? 1L : 0L;
+                config.FilterWords = newValue;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
-            if (enabled)
+            if (newValue == 1L)
             {
                 Service.WordFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("word_filter_server_on").ConfigureAwait(false);
@@ -262,14 +266,14 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            FilterChannelId removed;
+            FilterWordsChannelIds removed;
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
                 var config = await uow.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterWordsChannelIds));
 
-                var match = new FilterChannelId
+                var match = new FilterWordsChannelIds
                 {
                     ChannelId = channel.Id
                 };

@@ -6,6 +6,6 @@ namespace Mewdeko.Database.Extensions;
 public static class GiveawayExtensions
 {
     public static List<Giveaways> GiveawaysForGuild(this DbSet<Giveaways> set, ulong serverId) =>
-        set.AsQueryable()
+        set.AsNoTracking()
             .Where(x => x.ServerId == serverId).ToList();
 }

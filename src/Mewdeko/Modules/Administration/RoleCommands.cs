@@ -6,8 +6,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
-using SixLabors.ImageSharp.PixelFormats;
-using Color = SixLabors.ImageSharp.Color;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -97,7 +96,7 @@ public partial class Administration
 
             if (target != null && await Service.Add(ctx.Guild.Id, new ReactionRoleMessage
                 {
-                    Exclusive = exclusive,
+                    Exclusive = exclusive ? 1 : 0,
                     MessageId = target.Id,
                     ChannelId = target.Channel.Id,
                     ReactionRoles = all.Select(x => new ReactionRole
@@ -168,7 +167,7 @@ public partial class Administration
                         eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",
                                 string.Join(",",
                                     rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
-                            .AddField("Users can select more than one role", !rr.Exclusive)
+                            .AddField("Users can select more than one role", rr.Exclusive == 1)
                             .AddField("Was Deleted?", msg == null ? "Yes" : "No")
                             .AddField("Message Link",
                                 msg == null ? "None, Message was Deleted." : $"[Link]({msg.GetJumpUrl()})");
@@ -386,12 +385,11 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
-        public async Task RoleColor(IRole role, Color color)
+        public async Task RoleColor(IRole role, SKColor color)
         {
             try
             {
-                var rgba32 = color.ToPixel<Rgba32>();
-                await role.ModifyAsync(r => r.Color = new Discord.Color(rgba32.R, rgba32.G, rgba32.B))
+                await role.ModifyAsync(r => r.Color = new Color(color.Red, color.Green, color.Blue))
                     .ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("rc", Format.Bold(role.Name)).ConfigureAwait(false);
             }

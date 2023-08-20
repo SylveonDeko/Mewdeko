@@ -50,8 +50,8 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
     }
 
-    [ComponentInteraction("helpselect", true)]
-    public async Task HelpSlash(string[] selected)
+    [ComponentInteraction("helpselect:*", true)]
+    public async Task HelpSlash(string unused, string[] selected)
     {
         var currentmsg = new MewdekoUserMessage
         {

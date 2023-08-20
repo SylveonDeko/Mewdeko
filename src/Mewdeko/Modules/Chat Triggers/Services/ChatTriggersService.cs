@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
@@ -80,6 +81,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly IBotStrings strings;
     private readonly GuildSettingsService guildSettings;
     private readonly BotConfigService configService;
+    private readonly IBotCredentials creds;
 
     // it is perfectly fine to have global chattriggers as an array
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
@@ -101,7 +103,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         IPubSub pubSub,
         DiscordPermOverrideService discordPermOverride,
         GuildSettingsService guildSettings,
-        BotConfigService configService)
+        BotConfigService configService, IBotCredentials creds)
     {
         this.db = db;
         this.client = client;
@@ -113,6 +115,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         this.discordPermOverride = discordPermOverride;
         this.guildSettings = guildSettings;
         this.configService = configService;
+        this.creds = creds;
         rng = new MewdekoRandom();
 
         pubSub.Sub(crsReloadedKey, OnCrsShouldReload);
@@ -127,7 +130,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private async ValueTask OnCrAdded(CTModel arg)
     {
-        await AddAsync(arg.GuildId, arg.Trigger, arg.Response, arg.IsRegex);
+        await AddAsync(arg.GuildId, arg.Trigger, arg.Response, arg.IsRegex == 1);
     }
 
     public int Priority => -1;
@@ -190,12 +193,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             var guildConfig = await guildSettings.GetGuildConfig(guild.Id);
             var uow = db.GetDbContext();
             var dbUser = await uow.GetOrCreateUser(msg.Author);
-            if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
+            if (!false.ParseBoth(guildConfig.StatsOptOut.ToString()) && dbUser.StatsOptOut == 0)
             {
                 var toAdd = new CommandStats
                 {
                     ChannelId = msg.Channel.Id,
-                    Trigger = true,
+                    Trigger = 1,
                     NameOrId = $"{ct.Id}",
                     GuildId = guild.Id,
                     UserId = msg.Author.Id
@@ -210,7 +213,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 try
                 {
-                    if (!ct.ReactToTrigger && !ct.NoRespond)
+                    if (ct.ReactToTrigger == 0 && ct.NoRespond == 0)
                         await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
                     else
                         await msg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
@@ -227,7 +230,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             try
             {
-                if (ct.AutoDeleteTrigger)
+                if (ct.AutoDeleteTrigger == 1)
                     await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch
@@ -337,12 +340,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var guildConfig = await guildSettings.GetGuildConfig(channel.GuildId);
                     await using var uow = db.GetDbContext();
                     var dbUser = await uow.GetOrCreateUser(fakeMsg.Author);
-                    if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
+                    if (!false.ParseBoth(guildConfig.StatsOptOut) && dbUser.StatsOptOut == 0)
                     {
                         var toAdd = new CommandStats
                         {
                             ChannelId = channel.Id,
-                            Trigger = true,
+                            Trigger = 1,
                             NameOrId = $"{ct.Id}",
                             GuildId = channel.GuildId,
                             UserId = inter.User.Id
@@ -351,13 +354,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         await uow.SaveChangesAsync();
                     }
 
-                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, ct.EphemeralResponse, uow, followup).ConfigureAwait(false);
+                    var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg, false.ParseBoth(ct.EphemeralResponse), uow, followup).ConfigureAwait(false);
 
                     foreach (var reaction in ct.GetReactions())
                     {
                         try
                         {
-                            if (!ct.ReactToTrigger && !ct.NoRespond)
+                            if (ct.ReactToTrigger == 0 && ct.NoRespond == 0)
                                 await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
                             else
                                 await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
@@ -479,21 +482,21 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         Response = ct.Res,
                         Reactions = ct.React?.JoinWith("@@@"),
                         Trigger = trigger,
-                        AllowTarget = ct.At,
-                        ContainsAnywhere = ct.Ca,
-                        DmResponse = ct.Dm,
-                        AutoDeleteTrigger = ct.Ad,
-                        NoRespond = ct.Nr,
-                        IsRegex = ct.Rgx,
+                        AllowTarget = ct.At ? 1 : 0,
+                        ContainsAnywhere = ct.Ca ? 1 : 0,
+                        DmResponse = ct.Dm ? 1 : 0,
+                        AutoDeleteTrigger = ct.Ad ? 1 : 0,
+                        NoRespond = ct.Nr ? 1 : 0,
+                        IsRegex = ct.Rgx ? 1 : 0,
                         GrantedRoles = string.Join("@@@", ct.ARole.Select(x => x.ToString())),
                         RemovedRoles = string.Join("@@@", ct.RRole.Select(x => x.ToString())),
-                        ReactToTrigger = ct.Rtt,
+                        ReactToTrigger = ct.Rtt ? 1 : 0,
                         RoleGrantType = ct.Rgt,
                         ValidTriggerTypes = ct.VTypes,
                         ApplicationCommandName = ct.AcName,
                         ApplicationCommandDescription = ct.AcDesc,
                         ApplicationCommandType = ct.Act,
-                        EphemeralResponse = ct.Eph
+                        EphemeralResponse = ct.Eph ? 1 : 0
                     }));
             }
 
@@ -522,9 +525,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         await using var uow = db.GetDbContext();
         var guildItems = await uow.ChatTriggers
-            .AsNoTracking()
-            .Where(x => allGuildIds.Contains(x.GuildId.Value))
-            .ToListAsync().ConfigureAwait(false);
+            .ToLinqToDB().Where(x => (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId)
+            .AsNoTracking().ToListAsyncLinqToDB();
 
         newGuildReactions = guildItems
             .GroupBy(k => k.GuildId!.Value)
@@ -615,7 +617,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             // regex triggers are only checked on regex content
-            if (ct.IsRegex)
+            if (ct.IsRegex == 1)
             {
                 if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromMilliseconds(1)))
                     result.Add(ct);
@@ -633,7 +635,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 // if input is greater than the trigger, it can only work if:
                 // it has CA enabled
-                if (ct.ContainsAnywhere)
+                if (ct.ContainsAnywhere == 1)
                 {
                     // if ca is enabled, we have to check if it is a word within the content
                     var wp = Extensions.Extensions.GetWordPosition(content, trigger);
@@ -650,8 +652,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
                 // if CA is disabled, and CR has AllowTarget, then the
                 // content has to start with the trigger followed by a space
-                if (ct.AllowTarget && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
-                                   && content[trigger.Length] == ' ')
+                if (ct.AllowTarget == 1 && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
+                                        && content[trigger.Length] == ' ')
                 {
                     result.Add(ct);
                 }
@@ -818,32 +820,33 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
     }
 
-    public async Task<(bool Sucess, bool NewValue)> ToggleCrOptionAsync(CTModel? ct, CtField? field)
+    public async Task<(bool Success, bool NewValue)> ToggleCrOptionAsync(CTModel? ct, CtField? field)
     {
-        var newVal = false;
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+        long newVal = 0;
+        await using var uow = db.GetDbContext();
+
+        if (ct is null)
+            return (false, false);
+
+        newVal = field switch
         {
-            if (ct is null)
-                return (false, false);
-            newVal = field switch
-            {
-                CtField.AutoDelete => ct.AutoDeleteTrigger = !ct.AutoDeleteTrigger,
-                CtField.ContainsAnywhere => ct.ContainsAnywhere = !ct.ContainsAnywhere,
-                CtField.DmResponse => ct.DmResponse = !ct.DmResponse,
-                CtField.AllowTarget => ct.AllowTarget = !ct.AllowTarget,
-                CtField.ReactToTrigger => ct.ReactToTrigger = !ct.ReactToTrigger,
-                CtField.NoRespond => ct.NoRespond = !ct.NoRespond,
-                _ => newVal
-            };
-            uow.ChatTriggers.Update(ct);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-        }
+            CtField.AutoDelete => ct.AutoDeleteTrigger ^= 1,
+            CtField.ContainsAnywhere => ct.ContainsAnywhere ^= 1,
+            CtField.DmResponse => ct.DmResponse ^= 1,
+            CtField.AllowTarget => ct.AllowTarget ^= 1,
+            CtField.ReactToTrigger => ct.ReactToTrigger ^= 1,
+            CtField.NoRespond => ct.NoRespond ^= 1,
+            _ => newVal
+        };
+
+        uow.ChatTriggers.Update(ct);
+        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         await UpdateInternalAsync(ct.GuildId, ct).ConfigureAwait(false);
 
-        return (true, newVal);
+        return (true, false.ParseBoth(newVal));
     }
+
 
     public async Task<CTModel?> GetChatTriggers(ulong? guildId, int id)
     {
@@ -955,11 +958,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         key = key.ToLowerInvariant();
         var cr = new CTModel
         {
-            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex
+            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex ? 1 : 0
         };
 
         if (cr.Response.Contains("%target", StringComparison.OrdinalIgnoreCase))
-            cr.AllowTarget = true;
+            cr.AllowTarget = 1;
 
         var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
@@ -975,30 +978,30 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     public async Task<CTModel?> EditAsync(ulong? guildId, int id, string? message, bool? regex, string? trigger = null)
     {
-        await using var uow = db.GetDbContext();
+        using var uow = db.GetDbContext();
         var ct = await uow.ChatTriggers.GetById(id);
 
         if (ct == null || ct.GuildId != guildId)
             return null;
 
-        ct.IsRegex = regex ?? ct.IsRegex;
+        ct.IsRegex = regex.HasValue ? Convert.ToInt64(regex.Value) : ct.IsRegex;
 
         // disable allowtarget if message had target, but it was removed from it
         if (!message.Contains("%target%", StringComparison.OrdinalIgnoreCase)
             && ct.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
         {
-            ct.AllowTarget = false;
+            ct.AllowTarget = 0; // false
         }
 
         ct.Response = message;
         ct.Trigger = trigger ?? ct.Trigger;
 
         // enable allow target if message is edited to contain target
-        if (ct.Response.Contains("%target", StringComparison.OrdinalIgnoreCase))
-            ct.AllowTarget = true;
+        if (ct.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
+            ct.AllowTarget = 1; // true
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+        await UpdateInternalAsync(guildId.Value, ct).ConfigureAwait(false);
 
         return ct;
     }
@@ -1092,7 +1095,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (ct == null || ct.GuildId != guildId)
             return null;
 
-        ct.EphemeralResponse = ephemeral;
+        ct.EphemeralResponse = ephemeral ? 1 : 0;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
 

@@ -28,12 +28,12 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly IBotCredentials creds;
     private readonly BotConfigService config;
 
-    public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
+    public Music(LavalinkNode lava, InteractiveService interactive, DbService DbService,
         DiscordSocketClient client,
         GuildSettingsService guildSettings,
         BotConfigService config, IBotCredentials creds)
     {
-        db = dbService;
+        db = DbService;
         this.client = client;
         this.guildSettings = guildSettings;
         this.config = config;

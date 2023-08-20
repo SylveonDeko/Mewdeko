@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Text.RegularExpressions;
-using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
@@ -9,20 +8,17 @@ using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.UserProfile.Services;
 
-public class UserProfileService : INService
+public partial class UserProfileService : INService
 {
     private readonly DbService db;
     private readonly HttpClient http;
     private readonly List<string> zodiacList;
-    private readonly GamblingConfigService gss;
-    public readonly Regex FcRegex = new(@"sw(-\d{4}){3}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    public readonly Regex FcRegex = MyRegex();
 
-    public UserProfileService(DbService db, HttpClient http,
-        GamblingConfigService gss)
+    public UserProfileService(DbService db, HttpClient http)
     {
         this.db = db;
         this.http = http;
-        this.gss = gss;
         zodiacList = new List<string>
         {
             "Aries",
@@ -194,10 +190,10 @@ public class UserProfileService : INService
     {
         await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
-        dbUser.StatsOptOut = !dbUser.StatsOptOut;
+        dbUser.StatsOptOut = dbUser.StatsOptOut == 0 ? 1 : 0;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
-        return dbUser.StatsOptOut;
+        return false.ParseBoth(dbUser.StatsOptOut);
     }
 
     public async Task<bool> DeleteStatsData(IUser user)
@@ -225,7 +221,6 @@ public class UserProfileService : INService
         eb.WithThumbnailUrl(user.RealAvatarUrl().ToString());
         if (!string.IsNullOrEmpty(dbUser.Bio))
             eb.WithDescription(dbUser.Bio);
-        eb.AddField("Currency", $"{dbUser.CurrencyAmount} {gss.Data.Currency.Sign}");
         eb.AddField("Pronouns", (await GetPronounsOrUnspecifiedAsync(user.Id)).Pronouns);
         eb.AddField("Zodiac Sign", string.IsNullOrEmpty(dbUser.ZodiacSign) ? "Unspecified" : dbUser.ZodiacSign);
         if (!string.IsNullOrEmpty(dbUser.ZodiacSign))
@@ -261,4 +256,7 @@ public class UserProfileService : INService
             eb.WithImageUrl(dbUser.ProfileImageUrl);
         return eb.Build();
     }
+
+    [GeneratedRegex("sw(-\\d{4}){3}", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex MyRegex();
 }

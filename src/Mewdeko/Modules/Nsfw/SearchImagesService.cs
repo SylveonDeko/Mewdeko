@@ -28,17 +28,17 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public SearchImagesService(
         IHttpClientFactory http,
-        SearchImageCacher cacher, DiscordSocketClient client,
-        DbService db)
+        SearchImageCacher cacher,
+        DbService db, Mewdeko bot)
     {
         this.http = http.CreateClient();
         this.http.AddFakeHeaders();
         cache = cacher;
         this.db = db;
         using var uow = db.GetDbContext();
-        var gc = uow.GuildConfigs.Include(x => x.NsfwBlacklistedTags).Where(x => client.Guilds.Select(x => x.Id).Contains(x.GuildId));
+        var allgc = bot.AllGuildConfigs;
         blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            gc.ToDictionary(
+            allgc.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }

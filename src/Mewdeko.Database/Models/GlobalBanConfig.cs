@@ -6,7 +6,7 @@ public class GlobalBanConfig : DbEntity
     public GbType BanTypes { get; set; }
     public ulong GlobalBanLogChannel { get; set; }
     public GBActionType Action { get; set; }
-    public bool UseRecommendedAction { get; set; }
+    public long UseRecommendedAction { get; set; }
     public int Duration { get; set; }
 }
 
