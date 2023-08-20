@@ -208,6 +208,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         }
 
         int winners;
+        string banner;
         //string blacklistroles;
         //string blacklistusers;
         IUser host;
@@ -321,10 +322,33 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             }
         }
 
+        await msg.ModifyAsync(x =>
+            x.Embed = eb.WithDescription("Would you like to set a banner?").Build()).ConfigureAwait(false);
+
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+
+        if (next.ToLower() is "yes" or "y")
+        {
+            await msg.ModifyAsync(x =>
+                x.Embed = eb.WithDescription("Please provide a link to the banner.").Build()).ConfigureAwait(false);
+            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (Uri.IsWellFormedUriString(next, UriKind.Absolute))
+                banner = next;
+            else
+            {
+                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+                return;
+            }
+        }
+        else
+        {
+            banner = null;
+        }
+
         if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id).ConfigureAwait(false))
         {
             await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-                ctx.Guild).ConfigureAwait(false);
+                ctx.Guild, banner: banner).ConfigureAwait(false);
             await msg.DeleteAsync().ConfigureAwait(false);
         }
 

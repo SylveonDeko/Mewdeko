@@ -104,7 +104,7 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host,
         ulong serverId, ITextChannel currentChannel, IGuild guild, string? reqroles = null, string? blacklistusers = null,
-        string? blacklistroles = null, IDiscordInteraction? interaction = null)
+        string? blacklistroles = null, IDiscordInteraction? interaction = null, string banner = null)
     {
         var gconfig = await guildSettings.GetGuildConfig(serverId).ConfigureAwait(false);
         var hostuser = await guild.GetUserAsync(host).ConfigureAwait(false);
@@ -145,17 +145,23 @@ public class GiveawayService : INService, IReadyExecutor
         if (!string.IsNullOrEmpty(gconfig.GiveawayEmbedColor))
         {
             if (gconfig.GiveawayEmbedColor.StartsWith("#"))
-                eb.WithColor(new Discord.Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("#", ""), 16)));
-            if (gconfig.GiveawayWinEmbedColor.StartsWith("0x") && gconfig.GiveawayEmbedColor.Length == 8)
-                eb.WithColor(new Discord.Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("0x", ""), 16)));
-            if (uint.TryParse(gconfig.GiveawayEmbedColor, out var colorNumber))
-                eb.WithColor(new Discord.Color(colorNumber));
+                eb.WithColor(new Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("#", ""), 16)));
+            else if (gconfig.GiveawayWinEmbedColor.StartsWith("0x") && gconfig.GiveawayEmbedColor.Length == 8)
+                eb.WithColor(new Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("0x", ""), 16)));
+            else if (uint.TryParse(gconfig.GiveawayEmbedColor, out var colorNumber))
+                eb.WithColor(new Color(colorNumber));
         }
 
         if (!string.IsNullOrEmpty(gconfig.GiveawayBanner))
         {
             if (Uri.IsWellFormedUriString(gconfig.GiveawayBanner, UriKind.Absolute))
                 eb.WithImageUrl(gconfig.GiveawayBanner);
+        }
+
+        if (!string.IsNullOrEmpty(banner))
+        {
+            if (Uri.IsWellFormedUriString(banner, UriKind.Absolute))
+                eb.WithImageUrl(banner);
         }
 
         var msg = await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);

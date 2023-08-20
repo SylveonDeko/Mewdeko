@@ -7,6 +7,7 @@ public class Giveaways : DbEntity
     public ulong ServerId { get; set; }
     public int Ended { get; set; }
     public ulong MessageId { get; set; }
+    public string Banner { get; set; }
     public int Winners { get; set; }
     public ulong UserId { get; set; }
     public string Item { get; set; }
