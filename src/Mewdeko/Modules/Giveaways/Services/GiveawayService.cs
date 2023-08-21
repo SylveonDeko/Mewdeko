@@ -339,7 +339,7 @@ public class GiveawayService : INService, IReadyExecutor
                         {
                             try
                             {
-                                await user.SendMessageAsync(plaintext, embeds: embeds, components: components.Build());
+                                await user.SendMessageAsync(plaintext, embeds: embeds ?? null, components: components?.Build());
                             }
                             catch
                             {
