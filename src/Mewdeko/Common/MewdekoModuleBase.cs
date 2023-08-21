@@ -180,6 +180,44 @@ public abstract class MewdekoModule : ModuleBase
             }).ConfigureAwait(false);
         }
     }
+
+    public async Task<SocketMessage>? NextFullMessageAsync(ulong channelId, ulong userId)
+    {
+        var userInputTask = new TaskCompletionSource<SocketMessage>();
+        var dsc = (DiscordSocketClient)ctx.Client;
+        try
+        {
+            dsc.MessageReceived += Interaction;
+            if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
+                userInputTask.Task)
+            {
+                return null;
+            }
+
+            return await userInputTask.Task.ConfigureAwait(false);
+        }
+        finally
+        {
+            dsc.MessageReceived -= Interaction;
+        }
+
+        async Task Interaction(SocketMessage arg)
+        {
+            await Task.Run(async () =>
+            {
+                if (arg.Author.Id != userId || arg.Channel.Id != channelId) return;
+                userInputTask.TrySetResult(arg);
+                try
+                {
+                    await arg.DeleteAsync().ConfigureAwait(false);
+                }
+                catch
+                {
+                    //Exclude
+                }
+            }).ConfigureAwait(false);
+        }
+    }
 }
 
 public abstract class MewdekoModuleBase<TService> : MewdekoModule

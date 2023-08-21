@@ -126,7 +126,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             return;
         }
 
-        await Service.GiveawayReroll(gway).ConfigureAwait(false);
+        await Service.GiveawayTimerAction(gway).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync("Giveaway Rerolled!").ConfigureAwait(false);
     }
 
@@ -164,7 +164,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     }
 
     [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
-    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what)
+    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null, IAttachment attachment = null)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
@@ -195,7 +195,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         }
 
         await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment.Url).ConfigureAwait(false);
     }
 
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
@@ -256,7 +256,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         }
         else
         {
-            await Service.GiveawayReroll(gway).ConfigureAwait(false);
+            await Service.GiveawayTimerAction(gway).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Giveaway ended!").ConfigureAwait(false);
         }
     }

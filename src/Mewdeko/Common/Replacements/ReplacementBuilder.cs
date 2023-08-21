@@ -57,12 +57,13 @@ public partial class ReplacementBuilder
         return this;
     }
 
-    public ReplacementBuilder WithServer(DiscordSocketClient socketClient, SocketGuild? g)
+    public ReplacementBuilder WithServer(DiscordSocketClient socketClient, IGuild? g)
     {
+        var users = g?.GetUsersAsync().GetAwaiter().GetResult();
         /*OBSOLETE*/
         reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
         reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
-        reps.TryAdd("%members%", () => g is { } sg ? sg.MemberCount.ToString() : "?");
+        reps.TryAdd("%members%", () => g != null ? g.ApproximateMemberCount?.ToString() : "?");
         reps.TryAdd("%server_time%", () =>
         {
             var to = TimeZoneInfo.Local;
@@ -87,15 +88,15 @@ public partial class ReplacementBuilder
             return e.StartsWith("Tier") ? e.Replace("Tier", "") : "0";
         });
         reps.TryAdd("%server.boostcount%", () => g.PremiumSubscriptionCount.ToString());
-        reps.TryAdd("%server.members%", () => g is { } sg ? sg.Users.Count.ToString() : "?");
+        reps.TryAdd("%server.members%", () => g is { } sg ? users.Count.ToString() : "?");
         reps.TryAdd("%server.members.online%",
-            () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Online).ToString() : "?");
+            () => g is not null ? users.Count(x => x.Status == UserStatus.Online).ToString() : "?");
         reps.TryAdd("%server.members.offline%",
-            () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Offline).ToString() : "?");
+            () => g is not null ? users.Count(x => x.Status == UserStatus.Offline).ToString() : "?");
         reps.TryAdd("%server.members.dnd%",
-            () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.DoNotDisturb).ToString() : "?");
+            () => g is not null ? users.Count(x => x.Status == UserStatus.DoNotDisturb).ToString() : "?");
         reps.TryAdd("%server.members.idle%",
-            () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Idle).ToString() : "?");
+            () => g is not null ? users.Count(x => x.Status == UserStatus.Idle).ToString() : "?");
         reps.TryAdd("%server.timestamp.longdatetime%", () =>
         {
             var to = TimeZoneInfo.Local;
@@ -297,8 +298,8 @@ public partial class ReplacementBuilder
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
     {
         foreach (var provider in phProviders)
-            foreach (var ovr in provider.GetPlaceholders())
-                reps.TryAdd(ovr.Name, ovr.Func);
+        foreach (var ovr in provider.GetPlaceholders())
+            reps.TryAdd(ovr.Name, ovr.Func);
 
         return this;
     }

@@ -26,6 +26,15 @@ gdm:
   args:
     - ""
   desc: "Toggles whether the bot should DM a giveaway winner"
+gpingrole:
+  args:
+    - "roleid"
+    - "@role"
+  desc: "Sets the role to ping when a giveaway starts"
+gdmmessage:
+  args:
+    - "message"
+  desc: "Sets the message to DM to a giveaway winner. Supports custom embed code! https://eb.mewdeko.tech"
 gembedcolor:
   args:
     - "#5E9D3B"

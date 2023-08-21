@@ -72,6 +72,8 @@ public class GuildConfig : DbEntity
     public string GiveawayEmbedColor { get; set; } = "";
     public string GiveawayWinEmbedColor { get; set; } = "";
     public bool DmOnGiveawayWin { get; set; } = false;
+    public string GiveawayEndMessage { get; set; } = "";
+    public ulong GiveawayPingRole { get; set; } = 0;
 
     // Guild Currency Config
     // public string CurrencyEmote { get; set; }

@@ -14,6 +14,12 @@ exportcommandsjson:
   - exportcommandsjson
   - exportcommands
   - excj
+gpingrole:
+  - gpingrole
+  - giveawaypingrole
+gdmmmessage:
+  - gdmmmessage
+  - giveawaydmmessage
 getjson:
   - getjson
 gbanner:
