@@ -195,7 +195,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         }
 
         await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment.Url).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment.Url, pingROle: pingRole).ConfigureAwait(false);
     }
 
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
