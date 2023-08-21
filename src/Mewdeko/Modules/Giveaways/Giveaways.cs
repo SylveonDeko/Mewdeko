@@ -488,7 +488,7 @@ public partial class Giveaways : MewdekoModuleBase<GiveawayService>
         var reqroles = string.Join(" ", parsed.Select(x => x.Id));
         await msg.DeleteAsync().ConfigureAwait(false);
         await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild, reqroles, pingROle: pingrole).ConfigureAwait(false);
+            ctx.Guild, reqroles, pingROle: pingrole, banner: banner).ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
