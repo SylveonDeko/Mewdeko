@@ -112,7 +112,8 @@ public class GiveawayService : INService, IReadyExecutor
         {
             role = guild.GetRole(gconfig.GiveawayPingRole);
         }
-        else if (pingROle is not null)
+
+        if (pingROle is not null)
         {
             role = pingROle;
         }
