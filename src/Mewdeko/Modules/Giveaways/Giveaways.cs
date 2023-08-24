@@ -29,16 +29,18 @@ public partial class Giveaways : MewdekoModuleBase<GiveawayService>
     public async Task GBanner(string banner)
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute))
+        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute) && banner != "none")
         {
             await ctx.Channel.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
             return;
         }
 
-        gc.GiveawayBanner = banner;
+        gc.GiveawayBanner = banner == "none" ? "" : banner;
         guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-        await ctx.Channel.SendConfirmAsync(
-            $"Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        if (banner == "none")
+            await ctx.Channel.SendConfirmAsync("Giveaway banner removed!").ConfigureAwait(false);
+        else
+            await ctx.Channel.SendConfirmAsync("Giveaway banner set!").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]

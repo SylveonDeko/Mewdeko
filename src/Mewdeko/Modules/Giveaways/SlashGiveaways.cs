@@ -52,16 +52,18 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     public async Task GBanner(string banner)
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute))
+        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute) && banner != "none")
         {
             await ctx.Interaction.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
             return;
         }
 
-        gc.GiveawayBanner = banner;
+        gc.GiveawayBanner = banner == "none" ? "" : banner;
         guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-        await ctx.Interaction.SendConfirmAsync(
-            $"Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        if (banner == "none")
+            await ctx.Interaction.SendConfirmAsync("Giveaway banner removed!").ConfigureAwait(false);
+        else
+            await ctx.Interaction.SendConfirmAsync("Giveaway banner set!").ConfigureAwait(false);
     }
 
     [SlashCommand("winembedcolor", "Allows you to set the win embed color!"), SlashUserPerm(GuildPermission.ManageMessages)]
