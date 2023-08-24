@@ -5,6 +5,9 @@ namespace Mewdeko.Database;
 
 public class MewdekoContext : DbContext
 {
+    public DbSet<GlobalUserBalance> GlobalUserBalances { get; set; }
+    public DbSet<GuildUserBalance> GuildUserBalances { get; set; }
+    public DbSet<TransactionHistory> TransactionHistories { get; set; }
     public DbSet<JoinLeaveLogs> JoinLeaveLogs { get; set; }
     public DbSet<GuildConfig> GuildConfigs { get; set; }
 

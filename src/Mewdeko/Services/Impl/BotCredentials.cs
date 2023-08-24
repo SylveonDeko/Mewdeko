@@ -158,6 +158,7 @@ public class BotCredentials : IBotCredentials
             ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
             GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
             PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId) ? pnrepId : 970086914826858547;
+            UseGlobalCurrency = bool.TryParse(data[nameof(UseGlobalCurrency)], out var ugc) && ugc;
         }
         catch (Exception ex)
         {
@@ -199,6 +200,7 @@ public class BotCredentials : IBotCredentials
     public string PatreonCampaignId { get; set; }
 
     public string TwitchClientId { get; set; }
+    public bool UseGlobalCurrency { get; set; }
     public string TwitchClientSecret { get; set; }
     public string TrovoClientId { get; set; }
 
@@ -237,6 +239,8 @@ public class BotCredentials : IBotCredentials
         };
 
         public string Token { get; set; } = "";
+
+        public bool UseGlobalCurrency { get; set; } = false;
         public string ClientSecret { get; } = "";
         public string GeniusKey { get; set; }
         public string CfClearance { get; set; }
