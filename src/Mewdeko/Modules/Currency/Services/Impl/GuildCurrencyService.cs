@@ -1,0 +1,74 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Mewdeko.Modules.Currency.Services.Impl;
+
+public class GuildCurrencyService : ICurrencyService
+{
+    private readonly DbService dbService;
+
+    public GuildCurrencyService(DbService dbService)
+    {
+        this.dbService = dbService;
+    }
+
+    public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId)
+    {
+        await using var uow = dbService.GetDbContext();
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+
+        var existingBalance = await uow.GuildUserBalances
+            .FirstOrDefaultAsync(g => g.UserId == userId && g.GuildId == guildId.Value);
+
+        if (existingBalance != null)
+        {
+            existingBalance.Balance += amount;
+            uow.GuildUserBalances.Update(existingBalance);
+        }
+        else
+        {
+            var guildBalance = new GuildUserBalance
+            {
+                UserId = userId, GuildId = guildId.Value, Balance = amount
+            };
+            uow.GuildUserBalances.Add(guildBalance);
+        }
+
+        await uow.SaveChangesAsync();
+    }
+
+
+    public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+
+        await using var uow = dbService.GetDbContext();
+        return await uow.GuildUserBalances
+            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)
+            .Select(x => x.Balance)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task AddTransactionAsync(ulong userId, int amount, string description, ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        await using var uow = dbService.GetDbContext();
+
+        var transaction = new TransactionHistory
+        {
+            UserId = userId, GuildId = guildId.Value, Amount = amount, Description = description
+        };
+
+        uow.TransactionHistories.Add(transaction);
+        await uow.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<TransactionHistory>> GetTransactionsAsync(ulong userId, ulong? guildId)
+    {
+        await using var uow = dbService.GetDbContext();
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+
+        return await uow.TransactionHistories
+            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)
+            .ToListAsync();
+    }
+}

@@ -15,6 +15,8 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Interactions;
+using Mewdeko.Modules.Currency.Services;
+using Mewdeko.Modules.Currency.Services.Impl;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
@@ -133,6 +135,15 @@ public class Mewdeko
             })
             .AddScoped<ISearchImagesService, SearchImagesService>()
             .AddSingleton<ToneTagService>();
+        if (Credentials.UseGlobalCurrency)
+        {
+            s.AddTransient<ICurrencyService, GlobalCurrencyService>();
+        }
+        else
+        {
+            s.AddTransient<ICurrencyService, GuildCurrencyService>();
+        }
+
 
         Log.Information("Passed Singletons");
 
