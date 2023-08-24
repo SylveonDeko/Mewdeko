@@ -164,8 +164,9 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     }
 
     [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
-    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null, IAttachment attachment = null)
+    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null, IAttachment attachment = null, IUser host = null)
     {
+        host ??= ctx.User;
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         try
@@ -194,8 +195,8 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             return;
         }
 
-        await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment.Url, pingROle: pingRole).ConfigureAwait(false);
+        await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole).ConfigureAwait(false);
     }
 
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
