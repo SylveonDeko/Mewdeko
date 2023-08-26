@@ -16,7 +16,7 @@ public class RedisCache : IDataCache
 
     private readonly object timelyLock = new();
     private readonly object voteLock = new();
-    private int shardId;
+    private readonly int shardId;
 
     public RedisCache(IBotCredentials creds, int shardId)
     {

@@ -48,7 +48,7 @@ public class GuildCurrencyService : ICurrencyService
             .FirstOrDefaultAsync();
     }
 
-    public async Task AddTransactionAsync(ulong userId, int amount, string description, ulong? guildId)
+    public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId)
     {
         if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
         await using var uow = dbService.GetDbContext();
@@ -62,13 +62,39 @@ public class GuildCurrencyService : ICurrencyService
         await uow.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<TransactionHistory>> GetTransactionsAsync(ulong userId, ulong? guildId)
+    public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId)
     {
         await using var uow = dbService.GetDbContext();
         if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
 
         return await uow.TransactionHistories
-            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)
+            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)?
             .ToListAsync();
+    }
+
+    public async Task<string> GetCurrencyEmote(ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        await using var uow = dbService.GetDbContext();
+
+        return await uow.GuildConfigs
+            .Where(x => x.GuildId == guildId.Value)
+            .Select(x => x.CurrencyEmoji)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        await using var uow = dbService.GetDbContext();
+
+        var balances = uow.GuildUserBalances
+            .Where(x => x.GuildId == guildId.Value)
+            .Select(x => new LbCurrency
+            {
+                UserId = x.UserId, Balance = x.Balance
+            }).ToHashSet();
+
+        return balances;
     }
 }
