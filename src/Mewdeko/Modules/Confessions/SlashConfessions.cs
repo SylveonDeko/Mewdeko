@@ -20,6 +20,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Confess(string confession, IAttachment? attachment = null)
     {
+        await DeferAsync(true);
         var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
         var attachUrl = attachment?.Url;
         if ((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel is 0)
