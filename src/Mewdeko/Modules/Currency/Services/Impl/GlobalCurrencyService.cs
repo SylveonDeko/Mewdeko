@@ -44,7 +44,7 @@ public class GlobalCurrencyService : ICurrencyService
             .FirstOrDefaultAsync();
     }
 
-    public async Task AddTransactionAsync(ulong userId, int amount, string description, ulong? guildId = null)
+    public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
     {
         await using var uow = dbService.GetDbContext();
 
@@ -57,12 +57,32 @@ public class GlobalCurrencyService : ICurrencyService
         await uow.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<TransactionHistory>> GetTransactionsAsync(ulong userId, ulong? guildId = null)
+    public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
     {
         await using var uow = dbService.GetDbContext();
 
         return await uow.TransactionHistories
-            .Where(x => x.UserId == userId && x.GuildId == 0)
+            .Where(x => x.UserId == userId && x.GuildId == 0)?
             .ToListAsync();
+    }
+
+    public async Task<string> GetCurrencyEmote(ulong? guildId = null)
+    {
+        await using var uow = dbService.GetDbContext();
+
+        return await uow.OwnerOnly
+            .Select(x => x.CurrencyEmote)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId = null)
+    {
+        await using var uow = dbService.GetDbContext();
+
+        return uow.GlobalUserBalances
+            .Select(x => new LbCurrency
+            {
+                UserId = x.UserId, Balance = x.Balance
+            }).ToList();
     }
 }

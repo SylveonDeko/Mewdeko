@@ -17,6 +17,10 @@ public class GuildConfig : DbEntity
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string? AutoAssignRoleId { get; set; } = "0";
     public long StatsOptOut { get; set; } = 0;
+    public string CurrencyName { get; set; } = "Coins";
+
+    public string CurrencyEmoji { get; set; } = "💰";
+    //public int DailyReward { get; set; } = 200;
 
     // Starboard
     public long StarboardAllowBots { get; set; } = 1;
