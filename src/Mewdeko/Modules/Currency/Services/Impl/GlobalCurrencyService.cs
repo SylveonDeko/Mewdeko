@@ -75,7 +75,7 @@ public class GlobalCurrencyService : ICurrencyService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId = null)
+    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
     {
         await using var uow = dbService.GetDbContext();
 
@@ -84,5 +84,22 @@ public class GlobalCurrencyService : ICurrencyService
             {
                 UserId = x.UserId, Balance = x.Balance
             }).ToList();
+    }
+
+    public async Task SetReward(int amount, int seconds, ulong? _)
+    {
+        await using var uow = dbService.GetDbContext();
+        var config = await uow.OwnerOnly.FirstOrDefaultAsync();
+        config.RewardAmount = amount;
+        config.RewardTimeoutSeconds = seconds;
+        uow.OwnerOnly.Update(config);
+        await uow.SaveChangesAsync();
+    }
+
+    public async Task<(int, int)> GetReward(ulong? _)
+    {
+        await using var uow = dbService.GetDbContext();
+        var config = await uow.OwnerOnly.FirstOrDefaultAsync();
+        return (config.RewardAmount, config.RewardTimeoutSeconds);
     }
 }

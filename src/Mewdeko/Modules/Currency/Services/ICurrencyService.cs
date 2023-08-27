@@ -12,4 +12,6 @@ public interface ICurrencyService
     Task<string> GetCurrencyEmote(ulong? guildId);
 
     Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId = null);
+    Task SetReward(int amount, int seconds, ulong? guildId);
+    Task<(int, int)> GetReward(ulong? guildId);
 }
