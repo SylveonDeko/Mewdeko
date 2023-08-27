@@ -1,17 +1,18 @@
 ﻿using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Currency.Services;
 
 namespace Mewdeko.Modules.Currency
 {
     public class Currency : MewdekoModuleBase<ICurrencyService>
     {
-        private readonly InteractiveService _interactive;
+        private readonly InteractiveService interactive;
 
         public Currency(InteractiveService interactive)
         {
-            _interactive = interactive;
+            this.interactive = interactive;
         }
 
         [Cmd, Aliases]
@@ -53,27 +54,29 @@ namespace Mewdeko.Modules.Currency
         [Cmd, Aliases]
         public async Task DailyReward()
         {
-            try
+            var (rewardAmount, cooldownSeconds) = await Service.GetReward(Context.Guild.Id);
+            if (rewardAmount == 0)
             {
-                var recentTransactions = (await Service.GetTransactionsAsync(Context.User.Id, Context.Guild.Id))
-                    .Where(t => t.Description == "Daily Reward" && t.DateAdded > DateTime.UtcNow.AddDays(-1));
-
-                if (recentTransactions.Any())
-                {
-                    await Context.Channel.SendErrorAsync("You already claimed your daily reward. Come back in 24 hours!");
-                    return;
-                }
-
-                var rewardAmount = 500; // This can be any desired value or a random value.
-                await Service.AddUserBalanceAsync(Context.User.Id, rewardAmount, Context.Guild.Id);
-                await Service.AddTransactionAsync(Context.User.Id, rewardAmount, "Daily Reward", Context.Guild.Id);
-                await Context.Channel.SendConfirmAsync($"You claimed your daily reward of {rewardAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+                await Context.Channel.SendErrorAsync("Daily reward is not set up.");
+                return;
             }
-            catch (Exception e)
+
+            var minimumTimeBetweenClaims = TimeSpan.FromSeconds(cooldownSeconds);
+
+            var recentTransactions = (await Service.GetTransactionsAsync(Context.User.Id, Context.Guild.Id))
+                .Where(t => t.Description == "Daily Reward" && t.DateAdded > DateTime.UtcNow - minimumTimeBetweenClaims);
+
+            if (recentTransactions.Any())
             {
-                Console.WriteLine(e);
-                throw;
+                var nextAllowedClaimTime = recentTransactions.Max(t => t.DateAdded) + minimumTimeBetweenClaims;
+
+                await Context.Channel.SendErrorAsync($"You already claimed your daily reward. Come back at {TimestampTag.FromDateTime(nextAllowedClaimTime.Value)}");
+                return;
             }
+
+            await Service.AddUserBalanceAsync(Context.User.Id, rewardAmount, Context.Guild.Id);
+            await Service.AddTransactionAsync(Context.User.Id, rewardAmount, "Daily Reward", Context.Guild.Id);
+            await Context.Channel.SendConfirmAsync($"You claimed your daily reward of {rewardAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
         }
 
 
@@ -114,7 +117,7 @@ namespace Mewdeko.Modules.Currency
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await _interactive.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactive.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int index)
             {
@@ -128,6 +131,47 @@ namespace Mewdeko.Modules.Currency
                 {
                     var user = await Context.Guild.GetUserAsync(users[i].UserId) ?? (IUser)await Context.Client.GetUserAsync(users[i].UserId);
                     pageBuilder.AddField($"{i + 1}. {user.Username}", $"{users[i].Balance} {await Service.GetCurrencyEmote(Context.Guild.Id)}", inline: true);
+                }
+
+                return pageBuilder;
+            }
+        }
+
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+        public async Task SetDaily(int amount, StoopidTime time)
+        {
+            await Service.SetReward(amount, time.Time.Seconds, Context.Guild.Id);
+            await ctx.Channel.SendConfirmAsync($"Daily reward set to {amount} {await Service.GetCurrencyEmote(Context.Guild.Id)} every {time.Time.Seconds} seconds.");
+        }
+
+        [Cmd, Aliases]
+        public async Task Transactions(IUser user = null)
+        {
+            user ??= ctx.User;
+
+            var transactions = await Service.GetTransactionsAsync(user.Id, ctx.Guild.Id);
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex((transactions.Count() - 1) / 10)
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+
+            await interactive.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+            async Task<PageBuilder> PageFactory(int index)
+            {
+                var pageBuilder = new PageBuilder()
+                    .WithTitle($"Transactions")
+                    .WithDescription($"Transactions for {user.Username}")
+                    .WithColor(Color.Blue);
+
+                for (var i = index * 10; i < (index + 1) * 10 && i < transactions.Count(); i++)
+                {
+                    pageBuilder.AddField($"{i + 1}. {transactions.ElementAt(i).Description}", $"{transactions.ElementAt(i).Amount} {await Service.GetCurrencyEmote(ctx.Guild.Id)}",
+                        inline: true);
                 }
 
                 return pageBuilder;
