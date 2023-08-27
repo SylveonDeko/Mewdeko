@@ -5,10 +5,12 @@ namespace Mewdeko.Modules.Currency.Services.Impl;
 public class GuildCurrencyService : ICurrencyService
 {
     private readonly DbService dbService;
+    private readonly GuildSettingsService guildSettingsService;
 
-    public GuildCurrencyService(DbService dbService)
+    public GuildCurrencyService(DbService dbService, GuildSettingsService guildSettingsService)
     {
         this.dbService = dbService;
+        this.guildSettingsService = guildSettingsService;
     }
 
     public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId)
@@ -96,5 +98,21 @@ public class GuildCurrencyService : ICurrencyService
             }).ToHashSet();
 
         return balances;
+    }
+
+    public async Task SetReward(int amount, int seconds, ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        var settings = await guildSettingsService.GetGuildConfig(guildId.Value);
+        settings.RewardAmount = amount;
+        settings.RewardTimeoutSeconds = seconds;
+        await guildSettingsService.UpdateGuildConfig(guildId.Value, settings);
+    }
+
+    public async Task<(int, int)> GetReward(ulong? guildId)
+    {
+        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        var settings = await guildSettingsService.GetGuildConfig(guildId.Value);
+        return (settings.RewardAmount, settings.RewardTimeoutSeconds);
     }
 }

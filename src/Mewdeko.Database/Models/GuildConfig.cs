@@ -20,7 +20,8 @@ public class GuildConfig : DbEntity
     public string CurrencyName { get; set; } = "Coins";
 
     public string CurrencyEmoji { get; set; } = "💰";
-    //public int DailyReward { get; set; } = 200;
+    public int RewardAmount { get; set; } = 200;
+    public int RewardTimeoutSeconds { get; set; } = 86400;
 
     // Starboard
     public long StarboardAllowBots { get; set; } = 1;
