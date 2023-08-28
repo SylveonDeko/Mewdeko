@@ -1,8 +1,10 @@
-﻿using Fergun.Interactive;
+﻿using System.IO;
+using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Currency.Services;
+using SkiaSharp;
 
 namespace Mewdeko.Modules.Currency
 {
@@ -145,11 +147,91 @@ namespace Mewdeko.Modules.Currency
         }
 
         [Cmd, Aliases]
+        public async Task SpinWheel()
+        {
+            string[] segments =
+            {
+                "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
+            };
+            int[] weights =
+            {
+                2, 2, 1, 1, 1, 2
+            };
+            var rand = new Random();
+            var winningSegment = GenerateWeightedRandomSegment();
+
+            using var bitmap = new SKBitmap(500, 500);
+            using var canvas = new SKCanvas(bitmap);
+            DrawWheel(canvas, segments.Length, segments, winningSegment + 2);
+
+            using var stream = new MemoryStream();
+            bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var balanceChange = await ComputeBalanceChange(segments[winningSegment]);
+            await Service.AddUserBalanceAsync(Context.User.Id, balanceChange, Context.Guild.Id);
+            await Service.AddTransactionAsync(Context.User.Id, balanceChange, $"Wheel Spin {(segments[winningSegment].Contains('-') ? "Loss" : "Win")}", Context.Guild.Id);
+            var eb = new EmbedBuilder()
+                .WithImageUrl("attachment://wheelResult.png");
+
+            switch (balanceChange)
+            {
+                case > 0:
+                    eb.WithTitle("You won!");
+                    eb.WithDescription($"You won {balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+                    eb.WithOkColor();
+                    break;
+                case < 0:
+                    eb.WithTitle("You lost!");
+                    eb.WithDescription($"You lost {-balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+                    eb.WithErrorColor();
+                    break;
+            }
+
+            await Context.Channel.SendFileAsync(stream, "wheelResult.png", embed: eb.Build());
+
+            int GenerateWeightedRandomSegment()
+            {
+                var totalWeight = weights.Sum();
+                var randomNumber = rand.Next(totalWeight);
+
+                var accumulatedWeight = 0;
+                for (var i = 0; i < segments.Length; i++)
+                {
+                    accumulatedWeight += weights[i];
+                    if (randomNumber < accumulatedWeight)
+                        return i;
+                }
+
+                return segments.Length - 1;
+            }
+
+
+            async Task<long> ComputeBalanceChange(string segment)
+            {
+                var currentBalance = await Service.GetUserBalanceAsync(Context.User.Id, Context.Guild.Id);
+
+                if (!segment.EndsWith("%"))
+                {
+                    var val = int.Parse(segment.Replace("$", "").Replace("+", "").Replace("-", ""));
+                    return segment.StartsWith("-") ? -val : val;
+                }
+
+                var percent = int.Parse(segment.Substring(1, segment.Length - 2));
+                var amount = (long)Math.Ceiling(currentBalance * (percent / 100.0));
+
+                return segment.StartsWith("-") ? -amount : amount;
+            }
+        }
+
+
+        [Cmd, Aliases]
         public async Task Transactions(IUser user = null)
         {
             user ??= ctx.User;
 
             var transactions = await Service.GetTransactionsAsync(user.Id, ctx.Guild.Id);
+            transactions = transactions.OrderByDescending(x => x.DateAdded);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -170,12 +252,95 @@ namespace Mewdeko.Modules.Currency
 
                 for (var i = index * 10; i < (index + 1) * 10 && i < transactions.Count(); i++)
                 {
-                    pageBuilder.AddField($"{i + 1}. {transactions.ElementAt(i).Description}", $"{transactions.ElementAt(i).Amount} {await Service.GetCurrencyEmote(ctx.Guild.Id)}",
-                        inline: true);
+                    pageBuilder.AddField($"{i + 1}. {transactions.ElementAt(i).Description}",
+                        $"`Amount:` {transactions.ElementAt(i).Amount} {await Service.GetCurrencyEmote(ctx.Guild.Id)}" +
+                        $"\n`Date:` {TimestampTag.FromDateTime(transactions.ElementAt(i).DateAdded.Value)}");
                 }
 
                 return pageBuilder;
             }
+        }
+
+        private static void DrawWheel(SKCanvas canvas, int numSegments, string[] segments, int winningSegment)
+        {
+            var pastelColor = GeneratePastelColor();
+            var colors = new[]
+            {
+                SKColors.White, pastelColor
+            };
+
+            var centerX = canvas.LocalClipBounds.MidX;
+            var centerY = canvas.LocalClipBounds.MidY;
+            var radius = Math.Min(centerX, centerY) - 10;
+
+            var offsetAngle = 360f / numSegments * winningSegment;
+
+            for (var i = 0; i < numSegments; i++)
+            {
+                using var paint = new SKPaint
+                {
+                    Style = SKPaintStyle.Fill, Color = colors[i % colors.Length], IsAntialias = true
+                };
+
+                var startAngle = (i * 360 / numSegments) - offsetAngle;
+                var sweepAngle = 360f / numSegments;
+
+                canvas.DrawArc(new SKRect(centerX - radius, centerY - radius, centerX + radius, centerY + radius), startAngle, sweepAngle, true, paint);
+            }
+
+            using var textPaint = new SKPaint
+            {
+                Color = SKColors.Black, TextSize = 20, IsAntialias = true, TextAlign = SKTextAlign.Center
+            };
+
+            for (var i = 0; i < numSegments; i++)
+            {
+                var startAngle = (i * 360 / numSegments) - offsetAngle;
+                var middleAngle = startAngle + (360 / numSegments) / 2;
+                var textPosition = new SKPoint(centerX + (radius * 0.7f) * (float)Math.Cos(DegreesToRadians(middleAngle)),
+                    centerY + (radius * 0.7f) * (float)Math.Sin(DegreesToRadians(middleAngle)) + textPaint.TextSize / 2);
+
+                canvas.DrawText(segments[i], textPosition.X, textPosition.Y, textPaint);
+            }
+
+            var arrowShaftLength = radius * 0.2f;
+            const float arrowHeadLength = 30;
+            var arrowShaftEnd = new SKPoint(centerX, centerY - arrowShaftLength);
+            var arrowTip = new SKPoint(centerX, arrowShaftEnd.Y - arrowHeadLength);
+            var arrowLeftSide = new SKPoint(centerX - 15, arrowShaftEnd.Y);
+            var arrowRightSide = new SKPoint(centerX + 15, arrowShaftEnd.Y);
+
+            using var arrowPaint = new SKPaint
+            {
+                Style = SKPaintStyle.StrokeAndFill, Color = SKColors.Black, IsAntialias = true
+            };
+
+            var arrowPath = new SKPath();
+            arrowPath.MoveTo(centerX, centerY);
+            arrowPath.LineTo(arrowShaftEnd.X, arrowShaftEnd.Y);
+
+            arrowPath.MoveTo(arrowTip.X, arrowTip.Y);
+            arrowPath.LineTo(arrowLeftSide.X, arrowLeftSide.Y);
+            arrowPath.LineTo(arrowRightSide.X, arrowRightSide.Y);
+            arrowPath.LineTo(arrowTip.X, arrowTip.Y);
+
+            canvas.DrawPath(arrowPath, arrowPaint);
+        }
+
+
+        private static float DegreesToRadians(float degrees)
+        {
+            return degrees * (float)Math.PI / 180;
+        }
+
+        private static SKColor GeneratePastelColor()
+        {
+            var rand = new Random();
+            var hue = (float)rand.Next(0, 361);
+            var saturation = 40f + (float)rand.NextDouble() * 20f;
+            var lightness = 70f + (float)rand.NextDouble() * 20f;
+
+            return SKColor.FromHsl(hue, saturation, lightness);
         }
     }
 }
