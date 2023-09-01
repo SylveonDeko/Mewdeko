@@ -130,7 +130,7 @@ public partial class Utility
             var textchn = guild.TextChannels.Count;
             var voicechn = guild.VoiceChannels.Count;
 
-            var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
+            var component = new ComponentBuilder().WithButton("More Info", "moresinfo");
             var embed = new EmbedBuilder()
                 .WithAuthor(eab => eab.WithName(GetText("server_info")))
                 .WithTitle(guild.Name)
@@ -154,25 +154,7 @@ public partial class Utility
                             .TrimTo(1024)));
             }
 
-            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build()).ConfigureAwait(false);
-            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
-            if (input == "moreinfo")
-            {
-                var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
-                var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
-                embed
-                    .AddField("Bots", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.IsBot))
-                    .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot))
-                    .AddField("Text Channels", textchn.ToString())
-                    .AddField("Voice Channels", voicechn.ToString())
-                    .AddField("Roles", (guild.Roles.Count - 1).ToString())
-                    .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
-                await msg.ModifyAsync(x =>
-                {
-                    x.Embed = embed.Build();
-                    x.Components = null;
-                }).ConfigureAwait(false);
-            }
+            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build()).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -196,8 +178,8 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task UserInfo(IGuildUser? usr = null)
         {
-            var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;
+            var component = new ComponentBuilder().WithButton("More Info", $"moreuinfo:{user.Id}");
             var userbanner = (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048);
             var serverUserType = user.GuildPermissions.Administrator ? "Administrator" : "Regular User";
             var restUser = await client.Rest.GetUserAsync(user.Id);
@@ -236,7 +218,7 @@ public partial class Utility
 
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build()).ConfigureAwait(false);
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
-            if (input == "moreinfo")
+            if (input == "moreuinfo")
             {
                 if (user.GetRoles().Any(x => x.Id != ctx.Guild.EveryoneRole.Id))
                 {

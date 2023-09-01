@@ -477,4 +477,51 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         var tag = TimestampTag.FromDateTimeOffset(utc, format);
         await ctx.Interaction.SendEphemeralConfirmAsync($"{tag} (`{tag}`)");
     }
+
+    [ComponentInteraction("moresinfo", true)]
+    public async Task MoreSInfo()
+    {
+        var textchn = (await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count;
+        var voicechn = (await ctx.Guild.GetVoiceChannelsAsync().ConfigureAwait(false)).Count;
+        await DeferAsync();
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var embed = componentInteraction.Message.Embeds.FirstOrDefault().ToEmbedBuilder();
+        var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
+        var setFeatures = vals.Where(x => Context.Guild.Features.Value.HasFlag(x));
+        embed
+            .AddField("Bots", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.IsBot))
+            .AddField("Users", (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => !x.IsBot))
+            .AddField("Text Channels", textchn.ToString())
+            .AddField("Voice Channels", voicechn.ToString())
+            .AddField("Roles", ctx.Guild.Roles.Count.ToString())
+            .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
+        await componentInteraction.Message.ModifyAsync(x =>
+        {
+            x.Embed = embed.Build();
+            x.Components = null;
+        }).ConfigureAwait(false);
+    }
+
+    [ComponentInteraction("moreuinfo:*", true)]
+    public async Task MoreUInfo(ulong userId)
+    {
+        await DeferAsync();
+        var user = await ctx.Guild.GetUserAsync(userId).ConfigureAwait(false);
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+        var embed = componentInteraction.Message.Embeds.FirstOrDefault().ToEmbedBuilder();
+        if (user.GetRoles().Any(x => x.Id != ctx.Guild.EveryoneRole.Id))
+        {
+            embed.AddField("Roles",
+                string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
+        }
+
+        embed.AddField("Deafened", user.IsDeafened);
+        embed.AddField("Is VC Muted", user.IsMuted);
+        embed.AddField("Is Server Muted", user.GetRoles().Contains(await muteService.GetMuteRole(ctx.Guild).ConfigureAwait(false)));
+        await componentInteraction.Message.ModifyAsync(x =>
+        {
+            x.Embed = embed.Build();
+            x.Components = null;
+        }).ConfigureAwait(false);
+    }
 }
