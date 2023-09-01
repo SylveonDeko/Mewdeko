@@ -56,7 +56,7 @@ public partial class Administration
         {
             if (timer is < 0 or > 600)
             {
-                await ctx.Channel.SendErrorAsync("The max delete time is 600 seconds!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(GetText("maxdeletetime", "600 seconds")).ConfigureAwait(false);
                 return;
             }
 
@@ -104,7 +104,7 @@ public partial class Administration
             if (text is not null && text.ToLower() == "disable")
             {
                 await Service.SetWebGreetUrl(ctx.Guild, "").ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync("Greet webhook disabled.").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("greethookdisabled")).ConfigureAwait(false);
                 return;
             }
 
@@ -129,13 +129,11 @@ public partial class Administration
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -155,13 +153,11 @@ public partial class Administration
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -173,13 +169,11 @@ public partial class Administration
                 var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the greet webhook and enabled webhook greets. Please use {await guildSettings.GetPrefix(ctx.Guild)}greet to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
         }
@@ -192,7 +186,7 @@ public partial class Administration
             if (text is not null && text.ToLower() == "disable")
             {
                 await Service.SetWebLeaveUrl(ctx.Guild, "").ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync("Leave webhook disabled.").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("leavehookdisabled")).ConfigureAwait(false);
                 return;
             }
 
@@ -217,13 +211,11 @@ public partial class Administration
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -243,13 +235,11 @@ public partial class Administration
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -261,13 +251,11 @@ public partial class Administration
                 var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                 if (enabled)
                 {
-                    await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset")).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Set the leave webhook and enabled webhook leaves. Please use {await guildSettings.GetPrefix(ctx.Guild)}bye to enable greet messages.")
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
                 }
             }
         }
@@ -312,7 +300,7 @@ public partial class Administration
             if (!ctx.Client.CurrentUser.Flags.HasFlag(UserProperties.VerifiedBot))
             {
                 if (!await PromptUserConfirmAsync(
-                        "Bots that are not verified can get quarantined by Discord if they dm too many users at once, Do you still want to toggle this feature?", ctx.User.Id))
+                        GetText("dmgreetcheck"), ctx.User.Id))
                     return;
             }
 

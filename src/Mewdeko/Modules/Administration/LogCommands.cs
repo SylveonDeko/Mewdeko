@@ -16,11 +16,11 @@ public partial class Administration
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
             if (channel is null)
             {
-                await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been disabled.");
+                await ctx.Channel.SendConfirmAsync(GetText("logging_category_disabled", type));
                 return;
             }
 
-            await ctx.Channel.SendConfirmAsync($"Logging for the `{type}` Category has been set to {channel.Mention}");
+            await ctx.Channel.SendConfirmAsync(GetText("logging_category_enabled", type, channel.Mention));
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]

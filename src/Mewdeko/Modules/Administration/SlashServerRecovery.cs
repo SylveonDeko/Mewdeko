@@ -25,14 +25,14 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
 
         if (!setup)
         {
-            await ctx.Interaction.SendErrorAsync("Theres nothing setup!");
+            await ctx.Interaction.SendErrorAsync(GetText("nothingsetup"));
         }
         else
         {
-            if (await PromptUserConfirmAsync("Are you absolutely sure? ***This cannot be recovered***", ctx.User.Id))
+            if (await PromptUserConfirmAsync(GetText("areyouabsolutelysure"), ctx.User.Id))
             {
                 await Service.ClearRecoverySetup(store);
-                await ctx.Interaction.SendErrorFollowupAsync("Recovery Store deleted.");
+                await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverydeleted"));
             }
         }
     }
@@ -44,7 +44,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         var curBotUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         if (!curBotUser.GuildPermissions.Has(GuildPermission.Administrator))
         {
-            await ctx.Interaction.SendErrorFollowupAsync("Server recovery cannot function without admin, exiting...");
+            await ctx.Interaction.SendErrorFollowupAsync(GetText("recovernoadmin"));
             return;
         }
 
@@ -54,7 +54,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         {
             if (ctx.Guild.OwnerId != ctx.User.Id)
             {
-                await ctx.Interaction.SendErrorFollowupAsync("Server recovery setup can only be run by the server owner.");
+                await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverowneronly"));
                 return;
             }
 
@@ -79,7 +79,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
 
             var eb = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle("KEEP THIS SECRET, DO NOT GIVE IT TO ANYBODY ELSE")
+                .WithTitle(GetText("keepsecret"))
                 .WithDescription($"\nRecovery Key: {secureString}" +
                                  $"\n2FA Key ***only***: {base32Secret}" +
                                  $"\n***The recovery key will also be sent to your dms.***");
@@ -125,16 +125,16 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         {
             if (modal.RecoveryKey == rescue)
             {
-                var component = new ComponentBuilder().WithButton("Enter 2FA Code", "2fa-verify-rescue").Build();
+                var component = new ComponentBuilder().WithButton(GetText("enter2fa"), "2fa-verify-rescue").Build();
                 await ctx.Interaction.RespondAsync(embed: new EmbedBuilder()
-                    .WithDescription("Please enter your 2fa code.")
+                    .WithDescription(GetText("pleaseenter2fa"))
                     .WithOkColor()
                     .Build(), components: component);
             }
 
             else
             {
-                await ctx.Interaction.SendErrorAsync("Please try again.");
+                await ctx.Interaction.SendErrorAsync(GetText("tryagain"));
                 await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                 await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
             }
@@ -163,20 +163,20 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
                 if (isValid)
                 {
                     await Service.SetupRecovery(ctx.Guild.Id, rescueKey, Base32Encoding.ToString(secret));
-                    await ctx.Interaction.SendConfirmAsync("Recovery setup completed.");
+                    await ctx.Interaction.SendConfirmAsync(GetText("recoverysetupcomplete"));
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 }
                 else
                 {
-                    await ctx.Interaction.SendErrorAsync("Incorrect 2fa code, please try again.");
+                    await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"));
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 }
             }
             else
             {
-                await ctx.Interaction.SendErrorAsync("Please start setup again.");
+                await ctx.Interaction.SendErrorAsync(GetText("startagain"));
             }
         }
         else
@@ -188,7 +188,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             var isValid = totp.VerifyTotp(modal.Code, out _, new VerificationWindow(2, 2));
             if (!isValid)
             {
-                await ctx.Interaction.SendErrorAsync("The 2fa code is invalid. Please try again.");
+                await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"));
                 await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                 await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 return;
@@ -202,7 +202,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             await newRole.ModifyAsync(x => x.Position = highestRole - 1);
             var curuser = ctx.User as IGuildUser;
             await curuser.AddRoleAsync(newRole);
-            await ctx.Interaction.SendConfirmAsync("You now have the highest role that I can possibly give you along with admin.");
+            await ctx.Interaction.SendConfirmAsync(GetText("highestpossiblerole"));
         }
     }
 }
