@@ -377,7 +377,9 @@ public class CommandHandler : INService
 
         var ctx = new SocketInteractionContext(client, interaction);
         var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+#if DEBUG
         Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
+#endif
     }
 
     public string SetDefaultPrefix(string prefix)
