@@ -52,6 +52,84 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         this.tracker = tracker;
     }
 
+    public enum PermissionType
+    {
+        And,
+        Or
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task RolePermList(PermissionType searchType = PermissionType.And, params GuildPermission[] perms)
+    {
+        List<IRole> rolesWithPerms;
+        var rolesWithMatchedPerms = new Dictionary<IRole, List<GuildPermission>>();
+
+        if (searchType == PermissionType.And)
+        {
+            rolesWithPerms = (from role in ctx.Guild.Roles
+                let hasAllPerms = perms.All(perm => role.Permissions.Has(perm))
+                where hasAllPerms
+                select role).ToList();
+        }
+        else // PermissionType.Or
+        {
+            rolesWithPerms = (from role in ctx.Guild.Roles
+                let matchedPerms = perms.Where(perm => role.Permissions.Has(perm)).ToList()
+                where matchedPerms.Any()
+                select role).ToList();
+
+            foreach (var role in rolesWithPerms)
+            {
+                rolesWithMatchedPerms[role] = perms.Where(perm => role.Permissions.Has(perm)).ToList();
+            }
+        }
+
+        if (!rolesWithPerms.Any() && !rolesWithMatchedPerms.Any())
+        {
+            await ctx.Channel.SendErrorAsync("No roles with the specified permissions were found.");
+            return;
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .WithUsers(ctx.User)
+            .WithMaxPageIndex(searchType == PermissionType.Or ? (rolesWithMatchedPerms.Count - 1) / 6 : (rolesWithPerms.Count - 1) / 6)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber)
+            .WithDefaultEmotes()
+            .Build();
+
+        await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(5));
+
+        async Task<PageBuilder> PageFactory(int pagenum)
+        {
+            var embed = new PageBuilder()
+                .WithOkColor()
+                .WithTitle("Roles with the specified permissions");
+
+            if (searchType == PermissionType.And)
+            {
+                foreach (var role in rolesWithPerms.Skip(pagenum * 6).Take(6))
+                {
+                    embed.AddField(role.Name, $"`Id`: {role.Id}\n`Mention`: {role.Mention}\n`Users`: {(await role.GetMembersAsync()).Count()}");
+                }
+            }
+            else // PermissionType.Or
+            {
+                foreach (var role in rolesWithMatchedPerms.Skip(pagenum * 6).Take(6))
+                {
+                    embed.AddField(role.Key.Name,
+                        $"`Id`: {role.Key.Id}\n`Mention`: {role.Key.Mention}\n`Users`: {(await role.Key.GetMembersAsync()).Count()}\n`Matched Permissions`: {string.Join(", ", role.Value)}");
+                }
+            }
+
+            return embed;
+        }
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task RolePermList(params GuildPermission[] perms)
+        => await RolePermList(PermissionType.And, perms);
+
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GetJson(ulong id, ITextChannel channel = null)
     {
