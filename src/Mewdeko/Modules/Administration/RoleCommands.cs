@@ -164,13 +164,13 @@ public partial class Administration
                         msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;
                     var eb = new PageBuilder().WithOkColor();
                     return
-                        eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",
+                        eb.AddField("ID", rr.Index + 1).AddField(GetText("rero_roles_count", rr.ReactionRoles.Count),
                                 string.Join(",",
                                     rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
-                            .AddField("Users can select more than one role", rr.Exclusive == 1)
-                            .AddField("Was Deleted?", msg == null ? "Yes" : "No")
-                            .AddField("Message Link",
-                                msg == null ? "None, Message was Deleted." : $"[Link]({msg.GetJumpUrl()})");
+                            .AddField(GetText("users_can_select_morethan_one"), rr.Exclusive == 1)
+                            .AddField(GetText("wasdeleted"), msg == null ? GetText("yes") : GetText("no"))
+                            .AddField(GetText("messagelink"),
+                                msg == null ? GetText("messagewasdeleted") : $"[{GetText("HYATT")}]({msg.GetJumpUrl()})");
                 }
             }
         }
@@ -380,7 +380,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public async Task RoleColor([Remainder] IRole role) =>
-            await ctx.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("x6"))
+            await ctx.Channel.SendConfirmAsync(GetText("rolecolor"), role.Color.RawValue.ToString("x6"))
                 .ConfigureAwait(false);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

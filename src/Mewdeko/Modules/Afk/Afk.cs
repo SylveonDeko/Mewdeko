@@ -208,7 +208,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         {
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithOkColor()
-                .WithTitle($"{Format.Bold("Active AFKs")} - {afks.ToArray().Length}")
+                .WithTitle($"{Format.Bold(GetText("active_afks"))} - {afks.ToArray().Length}")
                 .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20)));
         }
     }
@@ -267,7 +267,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             await Task.CompletedTask.ConfigureAwait(false);
             return new PageBuilder().WithOkColor()
                 .WithTitle(
-                    $"{Format.Bold("Disabled Afk Channels")} - {mentions.ToArray().Length}")
+                    $"{Format.Bold(GetText("disabled_afk_channels"))} - {mentions.ToArray().Length}")
                 .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20)));
         }
     }

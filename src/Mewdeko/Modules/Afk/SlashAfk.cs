@@ -72,14 +72,12 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
         if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
         {
-            await ctx.Interaction.SendErrorAsync(
-                    $"That's too long! The length for afk on this server is set to {Service.GetAfkLength(ctx.Guild.Id)} characters.")
-                .ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
 
         await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"AFK Message set to:\n{message}").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
     }
 
@@ -260,22 +258,22 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         switch (ehm.ToLower())
         {
             case "onmessage":
-                {
-                    await Service.AfkTypeSet(ctx.Guild, 3).ConfigureAwait(false);
-                    await ConfirmLocalizedAsync("afk_disable_message").ConfigureAwait(false);
-                }
+            {
+                await Service.AfkTypeSet(ctx.Guild, 3).ConfigureAwait(false);
+                await ConfirmLocalizedAsync("afk_disable_message").ConfigureAwait(false);
+            }
                 break;
             case "ontype":
-                {
-                    await Service.AfkTypeSet(ctx.Guild, 2).ConfigureAwait(false);
-                    await ConfirmLocalizedAsync("afk_disable_typing").ConfigureAwait(false);
-                }
+            {
+                await Service.AfkTypeSet(ctx.Guild, 2).ConfigureAwait(false);
+                await ConfirmLocalizedAsync("afk_disable_typing").ConfigureAwait(false);
+            }
                 break;
             case "selfdisable":
-                {
-                    await Service.AfkTypeSet(ctx.Guild, 1).ConfigureAwait(false);
-                    await ConfirmLocalizedAsync("afk_disable_self").ConfigureAwait(false);
-                }
+            {
+                await Service.AfkTypeSet(ctx.Guild, 1).ConfigureAwait(false);
+                await ConfirmLocalizedAsync("afk_disable_self").ConfigureAwait(false);
+            }
                 break;
         }
     }
