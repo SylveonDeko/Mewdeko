@@ -232,9 +232,21 @@ public class FilterService : IEarlyBehavior, INService
         if (msg is null)
             return false;
         var bannedwords = Blacklist.Where(x => x.GuildId == guild.Id);
-        foreach (var i in bannedwords.Select(x => x.Word))
+        foreach (var i in bannedwords)
         {
-            var regex = new Regex(i, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
+            Regex regex;
+            try
+            {
+                regex = new Regex(i.Word, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
+            }
+            catch
+            {
+                Log.Error($"Invalid regex, removing.: {i.Word}");
+                await using var uow = db.GetDbContext();
+                uow.AutoBanWords.Remove(i);
+                await uow.SaveChangesAsync();
+                return false;
+            }
             var match = regex.Match(msg.Content.ToLower()).Value;
             if (!regex.IsMatch(msg.Content.ToLower())) continue;
             try
@@ -288,7 +300,23 @@ public class FilterService : IEarlyBehavior, INService
         {
             foreach (var word in filteredChannelWords)
             {
-                var regex = new Regex(word, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
+                Regex regex;
+                try
+                {
+                    regex = new Regex(word, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
+                }
+                catch
+                {
+                    Log.Error($"Invalid regex, removing.: {word}");
+                    await using var uow = db.GetDbContext();
+                    var found = uow.FilteredWords.FirstOrDefault(x => x.Word == word);
+                    ServerFilteredWords.TryGetValue(guild.Id, out var words);
+                    words?.TryRemove(word);
+                    if (found is null) return false;
+                    uow.FilteredWords.Remove(found);
+                    await uow.SaveChangesAsync();
+                    return false;
+                }
                 if (!regex.IsMatch(usrMsg.Content.ToLower())) continue;
                 try
                 {
