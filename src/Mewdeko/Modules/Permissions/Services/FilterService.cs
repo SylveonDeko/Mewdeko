@@ -18,9 +18,9 @@ public class FilterService : IEarlyBehavior, INService
     private readonly DbService db;
     private readonly IPubSub pubSub;
 
-    private readonly TypedKey<AutoBanEntry[]> blPubKey = new("autobanword.reload");
+    private readonly TypedKey<HashSet<AutoBanEntry>> blPubKey = new("autobanword.reload");
     private readonly DiscordSocketClient client;
-    public IReadOnlyList<AutoBanEntry> Blacklist;
+    public HashSet<AutoBanEntry> Blacklist;
     public readonly AdministrationService Ass;
     public readonly UserPunishService Upun;
     private readonly GuildSettingsService gss;
@@ -97,7 +97,7 @@ public class FilterService : IEarlyBehavior, INService
                                                || await FilterLinks(guild, msg).ConfigureAwait(false)
                                                || await FilterBannedWords(guild, msg).ConfigureAwait(false));
 
-    private ValueTask OnReload(AutoBanEntry[] blacklist)
+    private ValueTask OnReload(HashSet<AutoBanEntry> blacklist)
     {
         Blacklist = blacklist;
         return default;
@@ -106,7 +106,7 @@ public class FilterService : IEarlyBehavior, INService
     public void Reload(bool publish = true)
     {
         using var uow = db.GetDbContext();
-        var toPublish = uow.AutoBanWords.AsNoTracking().ToArray();
+        var toPublish = uow.AutoBanWords.AsNoTracking().ToHashSet();
         Blacklist = toPublish;
         if (publish) pubSub.Pub(blPubKey, toPublish);
     }
@@ -245,6 +245,7 @@ public class FilterService : IEarlyBehavior, INService
                 await using var uow = db.GetDbContext();
                 uow.AutoBanWords.Remove(i);
                 await uow.SaveChangesAsync();
+                Blacklist.Remove(i);
                 return false;
             }
             var match = regex.Match(msg.Content.ToLower()).Value;
