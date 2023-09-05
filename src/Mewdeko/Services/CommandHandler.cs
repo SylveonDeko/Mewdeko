@@ -559,7 +559,7 @@ public class CommandHandler : INService
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Error occured in the handler:", e);
+                    Log.Error($"Error occured in the handler: {e}");
                 }
             }
 
