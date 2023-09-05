@@ -149,6 +149,13 @@ namespace Mewdeko.Modules.Currency
         [Cmd, Aliases]
         public async Task SpinWheel()
         {
+            var balance = await Service.GetUserBalanceAsync(Context.User.Id, Context.Guild.Id);
+            if (balance is <= 0)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    $"You either have no {Service.GetCurrencyEmote(Context.Guild.Id)} or are negative. Please do dailyreward and try again.");
+                return;
+            }
             string[] segments =
             {
                 "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
