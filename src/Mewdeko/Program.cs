@@ -5,7 +5,7 @@ using Mewdeko.Services.Impl;
 using Serilog;
 
 Console.WriteLine(
-    FiggleFonts.Ogre.Render("Mewdeko v7.1"));
+    FiggleFonts.Ogre.Render("Mewdeko v8"));
 
 var pid = Environment.ProcessId;
 var shardId = 0;
