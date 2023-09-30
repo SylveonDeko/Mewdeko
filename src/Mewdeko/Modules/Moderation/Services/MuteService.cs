@@ -30,7 +30,8 @@ public class MuteService : INService
     public string[] Uroles = Array.Empty<string>();
     private readonly GuildSettingsService guildSettings;
 
-    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler, Mewdeko bot)
+    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings,
+        EventHandler eventHandler, Mewdeko bot)
     {
         this.client = client;
         this.db = db;
@@ -259,7 +260,7 @@ public class MuteService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.removeroles = yesno;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,

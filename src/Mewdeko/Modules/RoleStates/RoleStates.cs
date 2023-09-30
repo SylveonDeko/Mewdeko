@@ -6,18 +6,8 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.RoleStates;
 
-public class RoleStates : MewdekoModuleBase<RoleStatesService>
+public class RoleStates(BotConfigService bss, InteractiveService interactivity) : MewdekoModuleBase<RoleStatesService>
 {
-
-    private readonly BotConfigService bss;
-    private readonly InteractiveService interactivity;
-
-    public RoleStates(BotConfigService bss, InteractiveService interactivity)
-    {
-        this.bss = bss;
-        this.interactivity = interactivity;
-    }
-
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStates()
     {
@@ -33,9 +23,11 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
+
         if (await Service.ToggleIgnoreBots(roleStateSettings))
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States will ignore bots!");
         else
@@ -48,9 +40,11 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
+
         if (await Service.ToggleClearOnBan(roleStateSettings))
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Role states will clear on ban!");
         else
@@ -63,7 +57,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
         else
         {
             var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
@@ -107,7 +102,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -153,7 +149,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
 
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -173,7 +170,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         roleStateSettings.DeniedRoles = string.Join(",", deniedRoles);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully added {addedCount} role(s) to the deny list.");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully added {addedCount} role(s) to the deny list.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -183,7 +181,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
 
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -203,7 +202,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         roleStateSettings.DeniedRoles = string.Join(",", deniedRoles);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed {removedCount} role(s) from the deny list.");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully removed {removedCount} role(s) from the deny list.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -213,7 +213,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
 
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -233,7 +234,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         roleStateSettings.DeniedUsers = string.Join(",", deniedUsers);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully added {addedCount} user(s) to the deny list.");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully added {addedCount} user(s) to the deny list.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -243,7 +245,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
 
         if (roleStateSettings is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -263,7 +266,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         roleStateSettings.DeniedUsers = string.Join(",", deniedUsers);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed {removedCount} user(s) from the deny list.");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully removed {removedCount} user(s) from the deny list.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -273,7 +277,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         if (!roleIds.Any())
             await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no valid roles specified!");
         await Service.SetRoleStateManually(user, ctx.Guild.Id, roleIds);
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully set the role state for user {user.Mention} with the specified roles.");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully set the role state for user {user.Mention} with the specified roles.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -283,7 +288,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         if (!removed.Item1)
             await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Remove failed because:\n{removed.Item2}");
         else
-            await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
+            await ctx.Channel.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -293,7 +299,8 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         if (!removed.Item1)
             await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Remove failed because:\n{removed.Item2}");
         else
-            await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
+            await ctx.Channel.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -305,5 +312,4 @@ public class RoleStates : MewdekoModuleBase<RoleStatesService>
         else
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully deleted {user}'s Role State!");
     }
-
 }

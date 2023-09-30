@@ -1,9 +1,7 @@
 ﻿namespace Mewdeko.Common.Attributes.TextCommands;
 
 [AttributeUsage(AttributeTargets.Method)]
-public sealed class MewdekoOptionsAttribute : Attribute
+public sealed class MewdekoOptionsAttribute(Type t) : Attribute
 {
-    public MewdekoOptionsAttribute(Type t) => OptionType = t;
-
-    public Type OptionType { get; set; }
+    public Type OptionType { get; set; } = t;
 }

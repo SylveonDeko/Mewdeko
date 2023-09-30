@@ -218,7 +218,8 @@ public class StreamRoleService : INService, IUnloadableService
         var g = (StreamingGame)user.Activities
             .FirstOrDefault(a => a is StreamingGame &&
                                  (string.IsNullOrWhiteSpace(setting.Keyword)
-                                  || a.Name.Contains(setting.Keyword, StringComparison.InvariantCultureIgnoreCase) || setting.Whitelist.Any(x => x.UserId == user.Id)));
+                                  || a.Name.Contains(setting.Keyword, StringComparison.InvariantCultureIgnoreCase) ||
+                                  setting.Whitelist.Any(x => x.UserId == user.Id)));
 
         if (g is not null
             && setting.Enabled == 1
@@ -231,7 +232,7 @@ public class StreamRoleService : INService, IUnloadableService
                 if (addRole == null)
                 {
                     await StopStreamRole(user.Guild).ConfigureAwait(false);
-                    Log.Warning("Stream role in server {0} no longer exists. Stopping.", setting.AddRoleId);
+                    Log.Warning("Stream role in server {0} no longer exists. Stopping", setting.AddRoleId);
                     return;
                 }
 
@@ -298,5 +299,6 @@ public class StreamRoleService : INService, IUnloadableService
         }
     }
 
-    private void UpdateCache(ulong guildId, StreamRoleSettings setting) => guildSettings.AddOrUpdate(guildId, _ => setting, (_, _) => setting);
+    private void UpdateCache(ulong guildId, StreamRoleSettings setting) =>
+        guildSettings.AddOrUpdate(guildId, _ => setting, (_, _) => setting);
 }

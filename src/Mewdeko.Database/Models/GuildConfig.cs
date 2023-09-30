@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Mewdeko.Database.Common;
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+
 // ReSharper disable InconsistentNaming
 
 namespace Mewdeko.Database.Models;
@@ -22,6 +24,13 @@ public class GuildConfig : DbEntity
     public string CurrencyEmoji { get; set; } = "💰";
     public int RewardAmount { get; set; } = 200;
     public int RewardTimeoutSeconds { get; set; } = 86400;
+
+    public string GiveawayBanner { get; set; } = "";
+    public string GiveawayEmbedColor { get; set; } = "";
+    public string GiveawayWinEmbedColor { get; set; } = "";
+    public long DmOnGiveawayWin { get; set; } = 0;
+    public string GiveawayEndMessage { get; set; } = "";
+    public ulong GiveawayPingRole { get; set; } = 0;
 
     // Starboard
     public long StarboardAllowBots { get; set; } = 1;

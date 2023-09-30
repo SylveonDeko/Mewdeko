@@ -5,59 +5,155 @@ namespace Mewdeko.Extensions;
 
 public static partial class UserExtensions
 {
-    private static readonly Dictionary<string, string> replacements = new()
+    private static readonly Dictionary<string, string> Replacements = new()
     {
-        {"[áàäâãåāăąǎǟ]", "a"},
-        {"[ÁÀÄÂÃÅĀĂĄǍǞ]", "A"},
-        {"(æ|ǽ)", "ae"},
-        {"(Æ|Ǽ)", "AE"},
-        {"[çćĉċč]", "c"},
-        {"[ÇĆĈĊČ]", "C"},
-        {"[ðďđ]", "d"},
-        {"[ÐĎĐ]", "D"},
-        {"[éèëêēĕėęě]", "e"},
-        {"[ÉÈËÊĒĔĖĘĚ]", "E"},
-        {"[ƒ]", "f"},
-        {"[Ƒ]", "F"},
-        {"[ĝğġģ]", "g"},
-        {"[ĜĞĠĢ]", "G"},
-        {"[ĥħ]", "h"},
-        {"[ĤĦ]", "H"},
-        {"[íìïîīĭįıǐ]", "i"},
-        {"[ÍÌÏÎĪĬĮİǏ]", "I"},
-        {"[ĵ]", "j"},
-        {"[Ĵ]", "J"},
-        {"[ķ]", "k"},
-        {"[Ķ]", "K"},
-        {"[łĺļľŀ]", "l"},
-        {"[ŁĹĻĽĿ]", "L"},
-        {"[ñńņňŉŋ]", "n"},
-        {"[ÑŃŅŇŊ]", "N"},
-        {"[óòöôõøōŏőǒǫǿ]", "o"},
-        {"[ÓÒÖÔÕØŌŎŐǑǪǾ]", "O"},
-        {"(œ)", "oe"},
-        {"(Œ)", "OE"},
-        {"[ŕŗř]", "r"},
-        {"[ŔŖŘ]", "R"},
-        {"[śšşŝș]", "s"},
-        {"[ŚŠŞŜȘ]", "S"},
-        {"(ß)", "ss"},
-        {"[ťţŧț]", "t"},
-        {"[ŤŢŦȚ]", "T"},
-        {"[úùüûūŭůűųǔǖǘǚǜ]", "u"},
-        {"[ÚÙÜÛŪŬŮŰŲǓǕǗǙǛ]", "U"},
-        {"[ṽ]", "v"},
-        {"[Ṽ]", "V"},
-        {"[ŵ]", "w"},
-        {"[Ŵ]", "W"},
-        {"[ýÿŷ]", "y"},
-        {"[ÝŸŶ]", "Y"},
-        {"[źżž]", "z"},
-        {"[ŹŻŽ]", "Z"}};
+        {
+            "[áàäâãåāăąǎǟ]", "a"
+        },
+        {
+            "[ÁÀÄÂÃÅĀĂĄǍǞ]", "A"
+        },
+        {
+            "(æ|ǽ)", "ae"
+        },
+        {
+            "(Æ|Ǽ)", "AE"
+        },
+        {
+            "[çćĉċč]", "c"
+        },
+        {
+            "[ÇĆĈĊČ]", "C"
+        },
+        {
+            "[ðďđ]", "d"
+        },
+        {
+            "[ÐĎĐ]", "D"
+        },
+        {
+            "[éèëêēĕėęě]", "e"
+        },
+        {
+            "[ÉÈËÊĒĔĖĘĚ]", "E"
+        },
+        {
+            "[ƒ]", "f"
+        },
+        {
+            "[Ƒ]", "F"
+        },
+        {
+            "[ĝğġģ]", "g"
+        },
+        {
+            "[ĜĞĠĢ]", "G"
+        },
+        {
+            "[ĥħ]", "h"
+        },
+        {
+            "[ĤĦ]", "H"
+        },
+        {
+            "[íìïîīĭįıǐ]", "i"
+        },
+        {
+            "[ÍÌÏÎĪĬĮİǏ]", "I"
+        },
+        {
+            "[ĵ]", "j"
+        },
+        {
+            "[Ĵ]", "J"
+        },
+        {
+            "[ķ]", "k"
+        },
+        {
+            "[Ķ]", "K"
+        },
+        {
+            "[łĺļľŀ]", "l"
+        },
+        {
+            "[ŁĹĻĽĿ]", "L"
+        },
+        {
+            "[ñńņňŉŋ]", "n"
+        },
+        {
+            "[ÑŃŅŇŊ]", "N"
+        },
+        {
+            "[óòöôõøōŏőǒǫǿ]", "o"
+        },
+        {
+            "[ÓÒÖÔÕØŌŎŐǑǪǾ]", "O"
+        },
+        {
+            "(œ)", "oe"
+        },
+        {
+            "(Œ)", "OE"
+        },
+        {
+            "[ŕŗř]", "r"
+        },
+        {
+            "[ŔŖŘ]", "R"
+        },
+        {
+            "[śšşŝș]", "s"
+        },
+        {
+            "[ŚŠŞŜȘ]", "S"
+        },
+        {
+            "(ß)", "ss"
+        },
+        {
+            "[ťţŧț]", "t"
+        },
+        {
+            "[ŤŢŦȚ]", "T"
+        },
+        {
+            "[úùüûūŭůűųǔǖǘǚǜ]", "u"
+        },
+        {
+            "[ÚÙÜÛŪŬŮŰŲǓǕǗǙǛ]", "U"
+        },
+        {
+            "[ṽ]", "v"
+        },
+        {
+            "[Ṽ]", "V"
+        },
+        {
+            "[ŵ]", "w"
+        },
+        {
+            "[Ŵ]", "W"
+        },
+        {
+            "[ýÿŷ]", "y"
+        },
+        {
+            "[ÝŸŶ]", "Y"
+        },
+        {
+            "[źżž]", "z"
+        },
+        {
+            "[ŹŻŽ]", "Z"
+        }
+    };
 
 
     public static async Task SendConfirmAsync(this IUser user, string text) =>
-        await (await user.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
+        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
+            .SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
             .ConfigureAwait(false);
 
     public static string SanitizeUserName(this IUser user)
@@ -80,7 +176,8 @@ public static partial class UserExtensions
 
     public static string ReplaceSpecialChars(string input)
     {
-        return replacements.Aggregate(input, (current, replacement) => Regex.Replace(current, replacement.Key, replacement.Value));
+        return Replacements.Aggregate(input,
+            (current, replacement) => Regex.Replace(current, replacement.Key, replacement.Value));
     }
 
     public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text,
@@ -136,8 +233,10 @@ public static partial class UserExtensions
             : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
                 ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif?size=2048"
                 : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png?size=2048");
+
     [GeneratedRegex("[^\\w\\s]")]
     private static partial Regex AlphaWhiteRegex();
+
     [GeneratedRegex("<@!?[0-9]+>")]
     private static partial Regex MentionRegex();
 }

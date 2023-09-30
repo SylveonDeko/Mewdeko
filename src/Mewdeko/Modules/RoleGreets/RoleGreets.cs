@@ -10,17 +10,8 @@ using Mewdeko.Modules.RoleGreets.Services;
 
 namespace Mewdeko.Modules.RoleGreets;
 
-public class RoleGreets : MewdekoModuleBase<RoleGreetService>
+public class RoleGreets(InteractiveService interactivity, HttpClient http) : MewdekoModuleBase<RoleGreetService>
 {
-    private readonly InteractiveService interactivity;
-    private readonly HttpClient http;
-
-    public RoleGreets(InteractiveService interactivity, HttpClient http)
-    {
-        this.interactivity = interactivity;
-        this.http = http;
-    }
-
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetAdd(IRole role, [Remainder] ITextChannel? channel = null)
     {
@@ -28,11 +19,13 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         switch (await Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id))
         {
             case true:
-                await ctx.Channel.SendConfirmAsync($"Added {role.Mention} to greet in {channel.Mention}!").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Added {role.Mention} to greet in {channel.Mention}!")
+                    .ConfigureAwait(false);
                 break;
             case false:
                 await ctx.Channel.SendErrorAsync(
-                    "Seems like you reached your maximum of 10 RoleGreets! Please remove one to continue.").ConfigureAwait(false);
+                        "Seems like you reached your maximum of 10 RoleGreets! Please remove one to continue.")
+                    .ConfigureAwait(false);
                 break;
         }
     }
@@ -61,7 +54,9 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             return;
         }
 
-        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id)
+        if (await PromptUserConfirmAsync(
+                    new EmbedBuilder().WithOkColor()
+                        .WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id)
                 .ConfigureAwait(false))
         {
             await Service.MultiRemoveRoleGreetInternal(greet.ToArray()).ConfigureAwait(false);
@@ -80,7 +75,8 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             return;
         }
 
-        await Service.ChangeRgDelete(greet, int.Parse(time.Time.TotalSeconds.ToString(CultureInfo.InvariantCulture))).ConfigureAwait(false);
+        await Service.ChangeRgDelete(greet, int.Parse(time.Time.TotalSeconds.ToString(CultureInfo.InvariantCulture)))
+            .ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated RoleGreet #{id} to delete after {time.Time.Humanize()}.").ConfigureAwait(false);
     }
@@ -100,7 +96,8 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         if (howlong > 0)
         {
             await ctx.Channel.SendConfirmAsync(
-                $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.").ConfigureAwait(false);
+                    $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.")
+                .ConfigureAwait(false);
         }
         else
         {
@@ -160,7 +157,8 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
             {
                 await ctx.Channel.SendErrorAsync(
-                    "The avatar url used is not a direct url or is invalid! Please use a different url.").ConfigureAwait(false);
+                        "The avatar url used is not a direct url or is invalid! Please use a different url.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -170,13 +168,15 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             var imgStream = imgData.ToStream();
             await using var _ = imgStream.ConfigureAwait(false);
             var webhook = await channel.CreateWebhookAsync(name, imgStream).ConfigureAwait(false);
-            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}").ConfigureAwait(false);
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}")
+                .ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Webhook set!").ConfigureAwait(false);
         }
         else
         {
             var webhook = await channel.CreateWebhookAsync(name).ConfigureAwait(false);
-            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}").ConfigureAwait(false);
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}")
+                .ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Webhook set!").ConfigureAwait(false);
         }
     }
@@ -195,13 +195,15 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
         {
             var components = new ComponentBuilder().WithButton("Preview", "preview").WithButton("Regular", "regular");
             var msg = await ctx.Channel.SendConfirmAsync(
-                "Would you like to view this as regular text or would you like to preview how it actually looks?", components).ConfigureAwait(false);
+                "Would you like to view this as regular text or would you like to preview how it actually looks?",
+                components).ConfigureAwait(false);
             var response = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             switch (response)
             {
                 case "preview":
                     await msg.DeleteAsync().ConfigureAwait(false);
-                    var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient)
+                    var replacer = new ReplacementBuilder().WithUser(ctx.User)
+                        .WithClient(ctx.Client as DiscordSocketClient)
                         .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))

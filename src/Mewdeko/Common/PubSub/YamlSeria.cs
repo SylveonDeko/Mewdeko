@@ -5,11 +5,10 @@ using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.PubSub;
 
-public class YamlSeria : IConfigSeria
+public partial class YamlSeria : IConfigSeria
 {
     private static readonly Regex CodePointRegex =
-        new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
-            RegexOptions.Compiled);
+        MyRegex();
 
     private readonly IDeserializer deserializer;
     private readonly ISerializer serializer;
@@ -41,4 +40,8 @@ public class YamlSeria : IConfigSeria
 
     public T Deserialize<T>(string data)
         => deserializer.Deserialize<T>(data);
+
+    [GeneratedRegex("(\\\\U(?<code>[a-zA-Z0-9]{8})|\\\\u(?<code>[a-zA-Z0-9]{4})|\\\\x(?<code>[a-zA-Z0-9]{2}))",
+        RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
 }

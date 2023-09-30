@@ -44,20 +44,21 @@ public abstract class MewdekoModule : ModuleBase
     }
 
     public async Task<bool> PromptUserConfirmAsync(string message, ulong userid)
-        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid).ConfigureAwait(false);
+        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid)
+            .ConfigureAwait(false);
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();
-        var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success).WithButton("No", "no", ButtonStyle.Danger);
-        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build()).ConfigureAwait(false);
+        var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
+            .WithButton("No", "no", ButtonStyle.Danger);
+        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build())
+            .ConfigureAwait(false);
         try
         {
             var input = await GetButtonInputAsync(msg.Channel.Id, msg.Id, userid).ConfigureAwait(false);
 
-            if (input != "Yes") return false;
-
-            return true;
+            return input == "Yes";
         }
         finally
         {
@@ -73,7 +74,9 @@ public abstract class MewdekoModule : ModuleBase
         var targetMaxRole = target.GetRoles().Max(r => r.Position);
         var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
 
-        var hierarchyCheck = ctx.User.Id == ownerId ? botMaxRole > targetMaxRole : botMaxRole >= targetMaxRole && modMaxRole > targetMaxRole;
+        var hierarchyCheck = ctx.User.Id == ownerId
+            ? botMaxRole > targetMaxRole
+            : botMaxRole >= targetMaxRole && modMaxRole > targetMaxRole;
 
         if (!hierarchyCheck && displayError)
             await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
@@ -96,7 +99,8 @@ public abstract class MewdekoModule : ModuleBase
         return input == "Yes";
     }
 
-    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId, bool alreadyDeferred = false)
+    public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId,
+        bool alreadyDeferred = false)
     {
         var userInputTask = new TaskCompletionSource<string>();
         var dsc = (DiscordSocketClient)ctx.Client;
@@ -180,6 +184,44 @@ public abstract class MewdekoModule : ModuleBase
             }).ConfigureAwait(false);
         }
     }
+
+    public async Task<SocketMessage>? NextFullMessageAsync(ulong channelId, ulong userId)
+    {
+        var userInputTask = new TaskCompletionSource<SocketMessage>();
+        var dsc = (DiscordSocketClient)ctx.Client;
+        try
+        {
+            dsc.MessageReceived += Interaction;
+            if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
+                userInputTask.Task)
+            {
+                return null;
+            }
+
+            return await userInputTask.Task.ConfigureAwait(false);
+        }
+        finally
+        {
+            dsc.MessageReceived -= Interaction;
+        }
+
+        async Task Interaction(SocketMessage arg)
+        {
+            await Task.Run(async () =>
+            {
+                if (arg.Author.Id != userId || arg.Channel.Id != channelId) return;
+                userInputTask.TrySetResult(arg);
+                try
+                {
+                    await arg.DeleteAsync().ConfigureAwait(false);
+                }
+                catch
+                {
+                    //Exclude
+                }
+            }).ConfigureAwait(false);
+        }
+    }
 }
 
 public abstract class MewdekoModuleBase<TService> : MewdekoModule
@@ -187,10 +229,6 @@ public abstract class MewdekoModuleBase<TService> : MewdekoModule
     public TService Service { get; set; }
 }
 
-public abstract class MewdekoSubmodule : MewdekoModule
-{
-}
+public abstract class MewdekoSubmodule : MewdekoModule;
 
-public abstract class MewdekoSubmodule<TService> : MewdekoModuleBase<TService>
-{
-}
+public abstract class MewdekoSubmodule<TService> : MewdekoModuleBase<TService>;

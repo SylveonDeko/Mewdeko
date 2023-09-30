@@ -138,7 +138,8 @@ public class LogCommandService : INService
         return removed > 0;
     }
 
-    private string GetText(IGuild guild, string key, params object[] replacements) => strings.GetText(key, guild.Id, replacements);
+    private string GetText(IGuild guild, string key, params object[] replacements) =>
+        strings.GetText(key, guild.Id, replacements);
 
     private string CurrentTime(IGuild? g)
     {
@@ -357,7 +358,8 @@ public class LogCommandService : INService
             var g = guildUser.Guild;
 
             if (!GuildLogSettings.TryGetValue(g.Id, out var logSetting)
-                || logSetting.UserUpdatedId == null && logSetting.NicknameUpdatedId == null && logSetting.UsernameUpdatedId == null && logSetting.AvatarUpdatedId == null)
+                || logSetting.UserUpdatedId == null && logSetting.NicknameUpdatedId == null &&
+                logSetting.UsernameUpdatedId == null && logSetting.AvatarUpdatedId == null)
             {
                 return;
             }
@@ -390,7 +392,8 @@ public class LogCommandService : INService
                     .WithOkColor().Build());
 
                 var aav = guildUser.RealAvatarUrl();
-                embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor().Build());
+                embeds.Add(new EmbedBuilder().AddField("New Avatar", "_ _").WithImageUrl(aav.ToString()).WithOkColor()
+                    .Build());
             }
             else
             {
@@ -412,10 +415,11 @@ public class LogCommandService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CommandLogChannel = id;
         await uow.SaveChangesAsync();
-        gss.UpdateGuildConfig(guild.Id, gc);
+        await gss.UpdateGuildConfig(guild.Id, gc);
     }
 
-    private async Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+    private async Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before,
+        SocketVoiceState after)
     {
         try
         {
@@ -1035,7 +1039,8 @@ public class LogCommandService : INService
         }
     }
 
-    private async Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages, Cacheable<IMessageChannel, ulong> channel)
+    private async Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+        Cacheable<IMessageChannel, ulong> channel)
     {
         if (channel.Value is not ITextChannel chan)
             return;

@@ -11,20 +11,26 @@ public sealed class RedisPubSub : IPubSub
 
     public RedisPubSub(ConnectionMultiplexer multi, ISeria serializer, IBotCredentials creds)
     {
-        this.multi = multi;
-        this.serializer = serializer;
-        this.creds = creds;
+        this.multi = multi ?? throw new ArgumentNullException(nameof(multi));
+        this.serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        this.creds = creds ?? throw new ArgumentNullException(nameof(creds));
     }
 
-    public Task Pub<TData>(in TypedKey<TData> key, TData data)
+    public Task Pub<TData>(TypedKey<TData> key, TData data)
         where TData : notnull
     {
+        if (data is null)
+        {
+            Log.Warning("Trying to publish a null value for event {EventName}. This is not allowed", key.Key);
+            return Task.CompletedTask;
+        }
+
         var serialized = serializer.Serialize(data);
         return multi.GetSubscriber()
             .PublishAsync($"{creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
     }
 
-    public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
+    public Task Sub<TData>(TypedKey<TData> key, Func<TData, ValueTask> action)
         where TData : notnull
     {
         var eventName = key.Key;
@@ -40,8 +46,7 @@ public sealed class RedisPubSub : IPubSub
                 }
                 else
                 {
-                    Log.Warning("Publishing event {EventName} with a null value. This is not allowed",
-                        eventName);
+                    Log.Warning("Received a null value for event {EventName}. This is not allowed", eventName);
                 }
             }
             catch (Exception ex)
@@ -51,5 +56,11 @@ public sealed class RedisPubSub : IPubSub
         }
 
         return multi.GetSubscriber().SubscribeAsync($"{creds.RedisKey()}:{eventName}", OnSubscribeHandler);
+    }
+
+    // Potential Unsubscribe method:
+    public Task Unsub<TData>(TypedKey<TData> key)
+    {
+        return multi.GetSubscriber().UnsubscribeAsync($"{creds.RedisKey()}:{key.Key}");
     }
 }

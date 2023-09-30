@@ -8,12 +8,8 @@ using Mewdeko.Modules.Votes.Services;
 
 namespace Mewdeko.Modules.Votes;
 
-public class Vote : MewdekoModuleBase<VoteService>
+public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteService>
 {
-    private readonly InteractiveService interactivity;
-
-    public Vote(InteractiveService interactivity) => this.interactivity = interactivity;
-
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteChannel([Remainder] ITextChannel channel)
     {
@@ -45,9 +41,12 @@ public class Vote : MewdekoModuleBase<VoteService>
                     var rep = new ReplacementBuilder()
                         .WithDefault(ctx.User, null, ctx.Guild as SocketGuild, ctx.Client as DiscordSocketClient)
                         .WithOverride("%votestotalcount%", () => votes.Count.ToString())
-                        .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
+                        .WithOverride("%votesmonthcount%",
+                            () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString())
+                        .Build();
 
-                    if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText, out var components))
+                    if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText,
+                            out var components))
                     {
                         await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
                     }
@@ -84,11 +83,13 @@ public class Vote : MewdekoModuleBase<VoteService>
             var added = await Service.AddVoteRole(ctx.Guild.Id, role.Id, (int)time.Time.TotalSeconds);
             if (!added.Item1)
             {
-                await ctx.Channel.SendErrorAsync($"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
+                await ctx.Channel.SendErrorAsync(
+                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
             }
             else
             {
-                await ctx.Channel.SendConfirmAsync($"{role.Mention} added as a vote role and will last {time.Time.Humanize()} when a person votes.");
+                await ctx.Channel.SendConfirmAsync(
+                    $"{role.Mention} added as a vote role and will last {time.Time.Humanize()} when a person votes.");
             }
         }
         else
@@ -96,7 +97,8 @@ public class Vote : MewdekoModuleBase<VoteService>
             var added = await Service.AddVoteRole(ctx.Guild.Id, role.Id);
             if (!added.Item1)
             {
-                await ctx.Channel.SendErrorAsync($"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
+                await ctx.Channel.SendErrorAsync(
+                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
             }
             else
             {
@@ -112,7 +114,8 @@ public class Vote : MewdekoModuleBase<VoteService>
         if (removed.Item1)
             await ctx.Channel.SendConfirmAsync("Vote role removed.");
         else
-            await ctx.Channel.SendErrorAsync($"Vote role remove failed for the following reason:\n{Format.Code(removed.Item2)}");
+            await ctx.Channel.SendErrorAsync(
+                $"Vote role remove failed for the following reason:\n{Format.Code(removed.Item2)}");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
@@ -128,7 +131,9 @@ public class Vote : MewdekoModuleBase<VoteService>
             var eb = new EmbedBuilder()
                 .WithTitle($"{roles.Count} Vote Roles")
                 .WithOkColor()
-                .WithDescription(string.Join("\n", roles.Select(x => $"<@&{x.RoleId}>: {(x.Timer == 0 ? "No Timer." : $"{TimeSpan.FromSeconds(x.Timer).Humanize()}")}")));
+                .WithDescription(string.Join("\n",
+                    roles.Select(x =>
+                        $"<@&{x.RoleId}>: {(x.Timer == 0 ? "No Timer." : $"{TimeSpan.FromSeconds(x.Timer).Humanize()}")}")));
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
     }
@@ -136,22 +141,26 @@ public class Vote : MewdekoModuleBase<VoteService>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task VoteRolesClear()
     {
-        if (await PromptUserConfirmAsync("Are you sure you want to clear all vote roles, cannot be undone!", ctx.User.Id))
+        if (await PromptUserConfirmAsync("Are you sure you want to clear all vote roles, cannot be undone!",
+                ctx.User.Id))
         {
             var cleared = await Service.ClearVoteRoles(ctx.Guild.Id);
             if (cleared.Item1)
                 await ctx.Channel.SendConfirmAsync("Vote roles cleared!");
             else
-                await ctx.Channel.SendErrorAsync($"Vote roles not cleared for the following reason:\n{Format.Code(cleared.Item2)}");
+                await ctx.Channel.SendErrorAsync(
+                    $"Vote roles not cleared for the following reason:\n{Format.Code(cleared.Item2)}");
         }
     }
 
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild),
+     Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
     public async Task VoteRoleEdit(IRole role, StoopidTime time)
     {
         var update = await Service.UpdateTimer(role.Id, (int)time.Time.TotalSeconds);
         if (!update.Item1)
-            await ctx.Channel.SendErrorAsync($"Updating vote role time failed due to the following reason:\n{Format.Code(update.Item2)}");
+            await ctx.Channel.SendErrorAsync(
+                $"Updating vote role time failed due to the following reason:\n{Format.Code(update.Item2)}");
         else
             await ctx.Channel.SendConfirmAsync($"Successfuly updated the vote role time to {time.Time.Humanize()}");
     }
@@ -163,7 +172,8 @@ public class Vote : MewdekoModuleBase<VoteService>
                 "Please make absolute sure nobody else sees this password, otherwise this will lead to improper data. ***Mewdeko and it's team are not responsible for stolen passwords***. \n\nDo you agree to these terms?",
                 ctx.User.Id))
         {
-            var component = new ComponentBuilder().WithButton("Press this to set the password. Remember, do not share it to anyone else.", "setvotepassword");
+            var component = new ComponentBuilder().WithButton(
+                "Press this to set the password. Remember, do not share it to anyone else.", "setvotepassword");
             await ctx.Channel.SendMessageAsync("_ _", components: component.Build());
         }
     }
@@ -180,11 +190,14 @@ public class Vote : MewdekoModuleBase<VoteService>
     {
         List<Database.Models.Votes> votes;
         if (monthly)
-            votes = (await Service.GetVotes(ctx.Guild.Id)).Where(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToList();
+            votes = (await Service.GetVotes(ctx.Guild.Id)).Where(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month)
+                .ToList();
         else votes = await Service.GetVotes(ctx.Guild.Id);
         if (votes is null || !votes.Any())
         {
-            await ctx.Channel.SendErrorAsync(monthly ? "Not enough monthly votes for a leaderboard." : "Not enough votes for a leaderboard.");
+            await ctx.Channel.SendErrorAsync(monthly
+                ? "Not enough monthly votes for a leaderboard."
+                : "Not enough votes for a leaderboard.");
             return;
         }
 
@@ -219,13 +232,15 @@ public class Vote : MewdekoModuleBase<VoteService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+            .ConfigureAwait(false);
 
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var eb = new PageBuilder().WithTitle(monthly ? "Votes leaaderboard for this month" : "Votes Leaderboard").WithOkColor();
+            var eb = new PageBuilder().WithTitle(monthly ? "Votes leaaderboard for this month" : "Votes Leaderboard")
+                .WithOkColor();
 
             for (var i = 0; i < voteList.Count; i++)
             {

@@ -18,9 +18,7 @@ public class AntiRaidStats
     public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new();
 }
 
-public class AntiMassMentionStats
-{
-}
+public class AntiMassMentionStats;
 
 public class AntiSpamStats
 {

@@ -11,12 +11,8 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class FeedCommands : MewdekoSubmodule<FeedsService>
+    public class FeedCommands(InteractiveService serv) : MewdekoSubmodule<FeedsService>
     {
-        private readonly InteractiveService interactivity;
-
-        public FeedCommands(InteractiveService serv) => interactivity = serv;
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedAdd(string url, [Remainder] ITextChannel? channel = null)
         {
@@ -103,7 +99,7 @@ public partial class Searches
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

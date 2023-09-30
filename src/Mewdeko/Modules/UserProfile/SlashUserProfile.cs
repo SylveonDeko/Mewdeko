@@ -51,7 +51,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         var optout = await Service.ToggleOptOut(ctx.User);
         if (optout)
-            await ctx.Interaction.SendConfirmAsync("Succesfully enabled command stats collection! (This does ***not*** collect message contents!)");
+            await ctx.Interaction.SendConfirmAsync(
+                "Succesfully enabled command stats collection! (This does ***not*** collect message contents!)");
         else
             await ctx.Interaction.SendConfirmAsync("Succesfully disable command stats collection.");
     }
@@ -59,7 +60,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible."), InteractionRatelimit(3600)]
     public async Task DeleteStatsData()
     {
-        if (await PromptUserConfirmAsync("Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
+        if (await PromptUserConfirmAsync(
+                "Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
         {
             if (await Service.DeleteStatsData(ctx.User))
                 await ctx.Channel.SendErrorAsync("Command Stats deleted.");
@@ -87,7 +89,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             return;
         }
 
-        var discordColor = new Discord.Color(inputColor.Red, inputColor.Green, inputColor.Blue);
+        var discordColor = new Color(inputColor.Red, inputColor.Green, inputColor.Blue);
         await Service.SetProfileColor(ctx.User, discordColor);
         await ctx.Interaction.SendConfirmAsync($"Your Profile Color has been set to:\n`{inputColor}`");
     }
@@ -109,17 +111,20 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
         await Service.SetBirthdayDisplayMode(ctx.User, birthdayDisplayModeEnum);
-        await ctx.Interaction.SendConfirmAsync($"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
+        await ctx.Interaction.SendConfirmAsync(
+            $"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
     }
 
     [SlashCommand("setswitchfriendcode", "Display your switch friend code on your user profile"), CheckPermissions]
     public async Task SetSwitchFc(
-        [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17), MaxLength(17)]
+        [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17),
+         MaxLength(17)]
         string switchFc = "")
     {
         if (!await Service.SetSwitchFc(ctx.User, switchFc))
         {
-            await Context.Interaction.SendErrorAsync("The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+            await Context.Interaction.SendErrorAsync(
+                "The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
             return;
         }
 
@@ -134,12 +139,14 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         if (!url.IsImage())
         {
-            await ctx.Interaction.SendErrorAsync("The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`");
+            await ctx.Interaction.SendErrorAsync(
+                "The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`");
             return;
         }
 
         await Service.SetProfileImage(ctx.User, url);
-        var eb = new EmbedBuilder().WithOkColor().WithDescription("Sucesffully set the profile image to:").WithImageUrl(url);
+        var eb = new EmbedBuilder().WithOkColor().WithDescription("Sucesffully set the profile image to:")
+            .WithImageUrl(url);
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
@@ -151,7 +158,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     [ComponentInteraction("pronouns_overwrite", true)]
-    public async Task OverwritePronouns() => await RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal").ConfigureAwait(false);
+    public async Task OverwritePronouns() =>
+        await RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal").ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
@@ -187,43 +195,55 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == id).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(user?.Pronouns)) return;
 
-        var channel = await ctx.Client.GetChannelAsync(bot.Credentials.PronounAbuseReportChannelId).ConfigureAwait(false);
-        var eb = new EmbedBuilder().WithAuthor(ctx.User).WithTitle("Pronoun abuse report").AddField("Reported User", $"{user.Username} ({user.UserId}, <@{user.UserId}>)")
+        var channel = await ctx.Client.GetChannelAsync(bot.Credentials.PronounAbuseReportChannelId)
+            .ConfigureAwait(false);
+        var eb = new EmbedBuilder().WithAuthor(ctx.User).WithTitle("Pronoun abuse report")
+            .AddField("Reported User", $"{user.Username} ({user.UserId}, <@{user.UserId}>)")
             .AddField("Reporter", $"{reporter.Username} ({reporter.UserId}, <@{reporter.UserId}>)")
-            .AddField("Pronouns Cleared Reason", string.IsNullOrWhiteSpace(user.PronounsClearedReason) ? "Never Cleared" : user.PronounsClearedReason)
+            .AddField("Pronouns Cleared Reason",
+                string.IsNullOrWhiteSpace(user.PronounsClearedReason) ? "Never Cleared" : user.PronounsClearedReason)
             .AddField("Pronouns", user.Pronouns)
-            .WithFooter($"reported in the guild {ctx.Guild?.Id ?? 0} on shard {(ctx.Client as DiscordSocketClient)?.ShardId ?? 0}").WithErrorColor();
-        var cb = new ComponentBuilder().WithButton("Reported User", "reported_row", ButtonStyle.Secondary, disabled: true)
+            .WithFooter(
+                $"reported in the guild {ctx.Guild?.Id ?? 0} on shard {(ctx.Client as DiscordSocketClient)?.ShardId ?? 0}")
+            .WithErrorColor();
+        var cb = new ComponentBuilder()
+            .WithButton("Reported User", "reported_row", ButtonStyle.Secondary, disabled: true)
             .WithButton("Clear Pronouns", $"pronouns_clear:{user.UserId},false", ButtonStyle.Danger)
             .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{user.UserId},true", ButtonStyle.Danger)
             .WithButton("Blacklist User", $"pronouns_blacklist:{user.UserId}", ButtonStyle.Danger)
             .WithButton("DM User", $"pronouns_reportdm:{user.UserId}", ButtonStyle.Danger)
             .WithButton("Reporter", "reporter_row", ButtonStyle.Secondary, disabled: true, row: 1)
             .WithButton("Clear Pronouns", $"pronouns_clear:{reporter.UserId},false", ButtonStyle.Danger, row: 1)
-            .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger, row: 1)
+            .WithButton("Clear and Disable Pronouns", $"pronouns_clear:{reporter.UserId},true", ButtonStyle.Danger,
+                row: 1)
             .WithButton("Blacklist User", $"pronouns_blacklist:{reporter.UserId}", ButtonStyle.Danger, row: 1)
             .WithButton("DM User", $"pronouns_reportdm:{reporter.UserId}", ButtonStyle.Danger, row: 1)
             .WithButton("Context", "context_row", ButtonStyle.Secondary, disabled: true, row: 2)
             .WithButton("Blacklist Guild", $"pronouns_blacklist_guild:{ctx.Guild.Id}", ButtonStyle.Danger, row: 2)
             .WithButton("DM Guild Owner", $"pronouns_reportdm:{ctx.Guild.OwnerId}", ButtonStyle.Danger, row: 2);
 
-        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
+        await (channel as ITextChannel).SendMessageAsync(embed: eb.Build(), components: cb.Build())
+            .ConfigureAwait(false);
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported").ConfigureAwait(false);
     }
 
     [ComponentInteraction("pronouns_clear:*,*", true), SlashOwnerOnly]
     public async Task ClearPronouns(string sId, string sDisable) =>
-        await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false", null, x => x.WithTitle("Clear Pronouns"))
+        await Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false",
+                null, x => x.WithTitle("Clear Pronouns"))
             .ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist:*", true), SlashOwnerOnly]
     public async Task BlacklistPronouns(string sId) =>
-        await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null, x => x.WithTitle("Blacklist User and Clear Pronouns"))
+        await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
+                x => x.WithTitle("Blacklist User and Clear Pronouns"))
             .ConfigureAwait(false);
 
     [ComponentInteraction("pronouns_blacklist_guild:*", true), SlashOwnerOnly]
     public async Task BlacklistGuildPronouns(string sId) =>
-        await ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null, x => x.WithTitle("Blacklist Guild")).ConfigureAwait(false);
+        await ctx.Interaction
+            .RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null, x => x.WithTitle("Blacklist Guild"))
+            .ConfigureAwait(false);
 
     [ModalInteraction("pronouns_fcb_g:*", true), SlashOwnerOnly]
     public async Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
@@ -271,7 +291,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         if (!pronouns.PronounDb)
             cb.WithButton(GetText("pronouns_report_button"), $"pronouns_report.{user.Id};", ButtonStyle.Danger);
         await RespondAsync(
-            GetText(pronouns.PronounDb ? pronouns.Pronouns.Contains(' ') ? "pronouns_pndb_special" : "pronouns_pndb_get" : "pronouns_internal_get", user.ToString(),
+            GetText(
+                pronouns.PronounDb
+                    ? pronouns.Pronouns.Contains(' ') ? "pronouns_pndb_special" : "pronouns_pndb_get"
+                    : "pronouns_internal_get", user.ToString(),
                 pronouns.Pronouns), components: cb.Build(), ephemeral: true).ConfigureAwait(false);
     }
 
@@ -286,12 +309,14 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             var cb = new ComponentBuilder().WithButton(GetText("pronouns_overwrite_button"), "pronouns_overwrite");
             if (string.IsNullOrWhiteSpace(user.Pronouns))
             {
-                await RespondAsync(GetText("pronouns_internal_no_override"), components: cb.Build()).ConfigureAwait(false);
+                await RespondAsync(GetText("pronouns_internal_no_override"), components: cb.Build())
+                    .ConfigureAwait(false);
                 return;
             }
 
             cb.WithButton(GetText("pronouns_overwrite_clear_button"), "pronouns_overwrite_clear", ButtonStyle.Danger);
-            await RespondAsync(GetText("pronouns_internal_self", user.Pronouns), components: cb.Build()).ConfigureAwait(false);
+            await RespondAsync(GetText("pronouns_internal_self", user.Pronouns), components: cb.Build())
+                .ConfigureAwait(false);
             return;
         }
 
@@ -302,7 +327,9 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
     [ComponentInteraction("pronouns_reportdm:*", true), SlashOwnerOnly]
     public async Task DmUser(string uIdStr) =>
-        await ctx.Interaction.RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user")).ConfigureAwait(false);
+        await ctx.Interaction
+            .RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"))
+            .ConfigureAwait(false);
 
     [ModalInteraction("pronouns_reportdm_modal:*", true), SlashOwnerOnly]
     public async Task DmUserModal(string uIdStr, DmUserModal modal)

@@ -7,23 +7,15 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.StatusRoles;
 
-public class StatusRoles : MewdekoModuleBase<StatusRolesService>
+public class StatusRoles(BotConfigService bss, InteractiveService interactivity) : MewdekoModuleBase<StatusRolesService>
 {
-    private readonly BotConfigService bss;
-    private readonly InteractiveService interactivity;
-
-    public StatusRoles(BotConfigService bss, InteractiveService interactivity)
-    {
-        this.bss = bss;
-        this.interactivity = interactivity;
-    }
-
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task AddStatusRole([Remainder] string status)
     {
         if (status.Length > 128)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
             return;
         }
 
@@ -76,7 +68,8 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         {
             if (string.IsNullOrWhiteSpace(potentialStatusRole.StatusEmbed))
             {
-                await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
                 return;
             }
 
@@ -86,7 +79,8 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
 
             var msgid = await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithOkColor()
-                .WithDescription($"{bss.Data.LoadingEmote} Please select what you want to do with the current StatusRole text")
+                .WithDescription(
+                    $"{bss.Data.LoadingEmote} Please select what you want to do with the current StatusRole text")
                 .Build(), components: componentBuilder.Build());
 
             var button = await GetButtonInputAsync(ctx.Channel.Id, msgid.Id, ctx.User.Id);
@@ -95,7 +89,8 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
                 case "preview":
                     var rep = new ReplacementBuilder()
                         .WithDefault(ctx).Build();
-                    if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds, out var plainText, out var components))
+                    if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds,
+                            out var plainText, out var components))
                         await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
                     else
                         await ctx.Channel.SendMessageAsync(rep.Replace(potentialStatusRole.StatusEmbed));
@@ -139,7 +134,8 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         }
 
         await Service.SetStatusChannel(potentialStatusRole, channel.Id);
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
@@ -163,7 +159,8 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         {
             var splitRoleIds = string.Join(" ", roles.Select(x => x.Id));
             await Service.SetAddRoles(potentialStatusRole, splitRoleIds);
-            await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
+            await ctx.Channel.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Having this status will now add the following roles:\n{string.Join("|", roles.Select(x => x.Mention))}");
         }
         else
         {
@@ -230,12 +227,14 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var newList = addRoles.Except(roles.Select(x => $"{x.Id}")).ToList();
         if (addRoles.Length == newList.Count)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
             return;
         }
 
         await Service.SetAddRoles(potentialStatusRole, string.Join(" ", newList));
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
@@ -259,12 +258,14 @@ public class StatusRoles : MewdekoModuleBase<StatusRolesService>
         var newList = removeRoles.Except(roles.Select(x => $"{x.Id}")).ToList();
         if (removeRoles.Length == newList.Count)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
+            await ctx.Channel.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
             return;
         }
 
         await Service.SetRemoveRoles(potentialStatusRole, string.Join(" ", newList));
-        await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
+        await ctx.Channel.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]

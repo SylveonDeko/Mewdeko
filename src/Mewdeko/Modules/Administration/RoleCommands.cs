@@ -12,20 +12,12 @@ namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
-    public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
+    public class RoleCommands
+        (IServiceProvider services, InteractiveService intserv) : MewdekoSubmodule<RoleCommandsService>
     {
         public enum Exclude
         {
             Excl
-        }
-
-        private readonly IServiceProvider services;
-        private readonly InteractiveService interactivity;
-
-        public RoleCommands(IServiceProvider services, InteractiveService intserv)
-        {
-            this.services = services;
-            interactivity = intserv;
         }
 
         public async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
@@ -49,7 +41,7 @@ public partial class Administration
                     var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, services).ConfigureAwait(false);
                     if (!roleResult.IsSuccess)
                     {
-                        Log.Warning("Role {0} not found.", inputRoleStr);
+                        Log.Warning("Role {0} not found", inputRoleStr);
                         return null;
                     }
 
@@ -87,7 +79,8 @@ public partial class Administration
                 }
                 catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.BadRequest)
                 {
-                    await ReplyErrorLocalizedAsync("reaction_cant_access", Format.Code(x.emote.ToString())).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("reaction_cant_access", Format.Code(x.emote.ToString()))
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -114,15 +107,18 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), BotPerm(GuildPermission.ManageRoles), Priority(0)]
-        public Task ReactionRoles(ulong messageId, params string[] input) => InternalReactionRoles(false, messageId, input);
+        public Task ReactionRoles(ulong messageId, params string[] input) =>
+            InternalReactionRoles(false, messageId, input);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) => InternalReactionRoles(true, messageId, input);
+        public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) =>
+            InternalReactionRoles(true, messageId, input);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task ReactionRoles(Exclude _, ulong messageId, params string[] input) => InternalReactionRoles(true, messageId, input);
+        public Task ReactionRoles(Exclude _, ulong messageId, params string[] input) =>
+            InternalReactionRoles(true, messageId, input);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
@@ -152,7 +148,8 @@ public partial class Administration
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await intserv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                    .ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -170,7 +167,9 @@ public partial class Administration
                             .AddField(GetText("users_can_select_morethan_one"), rr.Exclusive == 1)
                             .AddField(GetText("wasdeleted"), msg == null ? GetText("yes") : GetText("no"))
                             .AddField(GetText("messagelink"),
-                                msg == null ? GetText("messagewasdeleted") : $"[{GetText("HYATT")}]({msg.GetJumpUrl()})");
+                                msg == null
+                                    ? GetText("messagewasdeleted")
+                                    : $"[{GetText("HYATT")}]({msg.GetJumpUrl()})");
                 }
             }
         }
@@ -319,7 +318,8 @@ public partial class Administration
                 .ToList();
 
             if (user.Id == ctx.Guild.OwnerId || (ctx.User.Id != ctx.Guild.OwnerId &&
-                                                 guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
+                                                 guser.GetRoles().Max(x => x.Position) <=
+                                                 userRoles.Max(x => x.Position)))
             {
                 return;
             }

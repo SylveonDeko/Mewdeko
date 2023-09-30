@@ -6,12 +6,8 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     [Group]
-    public class PrefixCommands : MewdekoSubmodule
+    public class PrefixCommands(GuildSettingsService guildSettings) : MewdekoSubmodule
     {
-        private readonly GuildSettingsService guildSettings;
-
-        public PrefixCommands(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
-
         public enum Set
         {
             Set

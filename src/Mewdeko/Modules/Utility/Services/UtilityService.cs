@@ -30,7 +30,8 @@ public class UtilityService : INService
         this.client = client;
     }
 
-    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) => await cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
+    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) =>
+        await cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
 
     public async Task<int> GetPLinks(ulong id) => (await guildSettings.GetGuildConfig(id)).PreviewLinks;
 
@@ -42,7 +43,7 @@ public class UtilityService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ReactChannel = yesnt;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
@@ -64,11 +65,12 @@ public class UtilityService : INService
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-            guildSettings.UpdateGuildConfig(guild.Id, gc);
+            await guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
     }
 
-    public async Task<bool> GetSnipeSet(ulong id) => false.ParseBoth((await guildSettings.GetGuildConfig(id)).snipeset.ToString());
+    public async Task<bool> GetSnipeSet(ulong id) =>
+        false.ParseBoth((await guildSettings.GetGuildConfig(id)).snipeset.ToString());
 
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
@@ -76,7 +78,7 @@ public class UtilityService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SnipeSetBool(IGuild guild, bool enabled)
@@ -85,11 +87,12 @@ public class UtilityService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
 
-    private async Task BulkMsgStore(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages, Cacheable<IMessageChannel, ulong> channel)
+    private async Task BulkMsgStore(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+        Cacheable<IMessageChannel, ulong> channel)
     {
         if (!channel.HasValue)
             return;
@@ -147,7 +150,10 @@ public class UtilityService : INService
             GuildId = channel.Guild.Id,
             ChannelId = channel.Id,
             Message = msg.Content,
-            ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(400)}",
+            ReferenceMessage =
+                msg.ReferencedMessage == null
+                    ? null
+                    : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(400)}",
             UserId = msg.Author.Id,
             Edited = false,
             DateAdded = DateTime.UtcNow
@@ -177,7 +183,10 @@ public class UtilityService : INService
             GuildId = channel.GuildId,
             ChannelId = channel.Id,
             Message = msg.Content,
-            ReferenceMessage = msg.ReferencedMessage == null ? null : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(1048)}",
+            ReferenceMessage =
+                msg.ReferencedMessage == null
+                    ? null
+                    : $"{Format.Bold(msg.ReferencedMessage.Author.ToString())}: {msg.ReferencedMessage.Content.TrimTo(1048)}",
             UserId = msg.Author.Id,
             Edited = true,
             DateAdded = DateTime.UtcNow
@@ -225,7 +234,8 @@ public class UtilityService : INService
             var gid = t.Guild;
             if (await GetPLinks(gid.Id) == 1)
             {
-                var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+                var linkParser = new Regex(
+                    @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
                     RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 foreach (Match m in linkParser.Matches(msg.Content))
                 {
@@ -278,7 +288,8 @@ public class UtilityService : INService
 
                     if (msg2.Attachments.Count > 0) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
 
-                    await msg.Channel.SendMessageAsync(embed: en2.WithTimestamp(msg2.Timestamp).Build()).ConfigureAwait(false);
+                    await msg.Channel.SendMessageAsync(embed: en2.WithTimestamp(msg2.Timestamp).Build())
+                        .ConfigureAwait(false);
                 }
             }
         }

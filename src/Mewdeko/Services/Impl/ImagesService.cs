@@ -84,7 +84,8 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
     public async Task Reload()
     {
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(imagesPath).ConfigureAwait(false));
+        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(imagesPath)
+            .ConfigureAwait(false));
         foreach (var key in GetAllKeys())
         {
             switch (key)
@@ -145,7 +146,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         if (uris.Length != vals.Length)
         {
             Log.Information("{Loaded}/{Max} URIs for the key '{ImageKey}' have been loaded.\n" +
-                            "Some of the supplied URIs are either unavailable or invalid.",
+                            "Some of the supplied URIs are either unavailable or invalid",
                 vals.Length, uris.Length, key);
         }
     }

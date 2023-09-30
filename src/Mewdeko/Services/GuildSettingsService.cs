@@ -24,7 +24,7 @@ public class GuildSettingsService : INService
 
         var config = await GetGuildConfig(guild.Id);
         config.Prefix = prefix;
-        UpdateGuildConfig(guild.Id, config);
+        await UpdateGuildConfig(guild.Id, config);
         return prefix;
     }
 

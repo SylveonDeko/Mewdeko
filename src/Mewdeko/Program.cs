@@ -5,7 +5,7 @@ using Mewdeko.Services.Impl;
 using Serilog;
 
 Console.WriteLine(
-    FiggleFonts.Ogre.Render("Mewdeko v7.1"));
+    FiggleFonts.Ogre.Render("Mewdeko v8"));
 
 var pid = Environment.ProcessId;
 var shardId = 0;
@@ -73,7 +73,8 @@ if (Environment.OSVersion.Platform == PlatformID.Unix)
                 }
 
                 Log.Information("Mewdeko folder created!");
-                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/.local/share/Mewdeko/Mewdeko/{clientId}/data");
+                Log.Information(
+                    $"Mewdeko folder created! Your database has been migrated to {folderpath}/.local/share/Mewdeko/Mewdeko/{clientId}/data");
             }
         }
         else
@@ -90,7 +91,8 @@ if (Environment.OSVersion.Platform == PlatformID.Unix)
                 // ignored, used if the bot didnt shutdown properly and left behind db files
             }
 
-            Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/.local/share/Mewdeko/Mewdeko/{clientId}/data");
+            Log.Information(
+                $"Mewdeko folder created! Your database has been migrated to {folderpath}/.local/share/Mewdeko/Mewdeko/{clientId}/data");
         }
     }
     catch (Exception e)
@@ -124,7 +126,8 @@ else
                     // ignored, used if the bot didnt shutdown properly and left behind db files
                 }
 
-                Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+                Log.Information(
+                    $"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
             }
         }
         else
@@ -141,7 +144,8 @@ else
                 // ignored, used if the bot didnt shutdown properly and left behind db files
             }
 
-            Log.Information($"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
+            Log.Information(
+                $"Mewdeko folder created! Your database has been migrated to {folderpath}/Mewdeko/{clientId}");
         }
     }
     catch (Exception e)

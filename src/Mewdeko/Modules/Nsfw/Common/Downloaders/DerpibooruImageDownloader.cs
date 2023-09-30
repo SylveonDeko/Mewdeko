@@ -4,13 +4,9 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
+public class DerpibooruImageDownloader(IHttpClientFactory http) : ImageDownloader<DerpiImageObject>(Booru.Derpibooru,
+    http)
 {
-    public DerpibooruImageDownloader(IHttpClientFactory http)
-        : base(Booru.Derpibooru, http)
-    {
-    }
-
     public override async Task<List<DerpiImageObject>> DownloadImagesAsync(
         string[] tags,
         int page,
@@ -22,11 +18,13 @@ public class DerpibooruImageDownloader : ImageDownloader<DerpiImageObject>
             $"https://www.derpibooru.org/api/v1/json/search/images?q={tagString.Replace('+', ',')}&per_page=49&page={page}";
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
         req.Headers.AddFakeHeaders();
-        using var http = _http.CreateClient();
+        using var http = Http.CreateClient();
         using var res = await http.SendAsync(req, cancel);
         res.EnsureSuccessStatusCode();
 
-        var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(_serializerOptions, cancel);
-        return container?.Images is null ? new List<DerpiImageObject>() : container.Images.Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl)).ToList();
+        var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(SerializerOptions, cancel);
+        return container?.Images is null
+            ? new List<DerpiImageObject>()
+            : container.Images.Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl)).ToList();
     }
 }

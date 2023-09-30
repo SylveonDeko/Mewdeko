@@ -8,12 +8,9 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class XkcdCommands : MewdekoSubmodule
+    public class XkcdCommands(IHttpClientFactory factory) : MewdekoSubmodule
     {
         private const string XkcdUrl = "https://xkcd.com";
-        private readonly IHttpClientFactory httpFactory;
-
-        public XkcdCommands(IHttpClientFactory factory) => httpFactory = factory;
 
         [Cmd, Aliases, Priority(0)]
         public async Task Xkcd(string? arg = null)
@@ -22,7 +19,7 @@ public partial class Searches
             {
                 try
                 {
-                    using var http = httpFactory.CreateClient();
+                    using var http = factory.CreateClient();
                     var res = await http.GetStringAsync($"{XkcdUrl}/info.0.json").ConfigureAwait(false);
                     var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                     var embed = new EmbedBuilder().WithColor(Mewdeko.OkColor)
@@ -64,7 +61,7 @@ public partial class Searches
                 return;
             try
             {
-                using var http = httpFactory.CreateClient();
+                using var http = factory.CreateClient();
                 var res = await http.GetStringAsync($"{XkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
                 var comic = JsonConvert.DeserializeObject<XkcdComic>(res);

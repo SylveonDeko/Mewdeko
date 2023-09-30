@@ -14,20 +14,11 @@ namespace Mewdeko.Modules.Moderation;
 public partial class Moderation
 {
     [Group]
-    public class UserPunishCommands2 : MewdekoSubmodule<UserPunishService2>
+    public class UserPunishCommands2(DbService db, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
     {
         public enum AddRole
         {
             AddRole
-        }
-
-        private readonly DbService db;
-        private readonly InteractiveService interactivity;
-
-        public UserPunishCommands2(DbService db, InteractiveService serv)
-        {
-            interactivity = serv;
-            this.db = db;
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -47,7 +38,8 @@ public partial class Moderation
             {
                 await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
                 var warnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -55,7 +47,8 @@ public partial class Moderation
             await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
             var newWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}").ConfigureAwait(false);
+                    $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}")
+                .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -116,7 +109,8 @@ public partial class Moderation
                 var condition = punishment != null;
                 var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).Humanize() : " ";
                 var punishaction = condition ? punishment.Punishment.ToString() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetMWarnlogChannel(ctx.Guild.Id)).ConfigureAwait(false);
+                var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetMWarnlogChannel(ctx.Guild.Id))
+                    .ConfigureAwait(false);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                         .WithThumbnailUrl(user.RealAvatarUrl().ToString())
                         .WithTitle($"Mini Warned by: {ctx.User}")
@@ -233,7 +227,7 @@ public partial class Moderation
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -268,7 +262,8 @@ public partial class Moderation
         {
             if (index < 0)
                 return;
-            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString()).ConfigureAwait(false);
+            var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString())
+                .ConfigureAwait(false);
             var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
             if (index == 0)
             {

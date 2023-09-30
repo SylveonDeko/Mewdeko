@@ -71,7 +71,8 @@ public partial class RemindService : INService
         if (uow.Database.IsNpgsql())
         {
             reminders = await uow.Reminders
-                .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId && x.When < now)
+                .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
+                            x.When < now)
                 .ToListAsync();
         }
         else
@@ -99,7 +100,7 @@ public partial class RemindService : INService
 
         if (string.IsNullOrWhiteSpace(what))
         {
-            Log.Warning("No message provided for the reminder.");
+            Log.Warning("No message provided for the reminder");
             return false;
         }
 
@@ -120,7 +121,7 @@ public partial class RemindService : INService
 
             if (value < 1)
             {
-                Log.Warning("Reminder time value has to be an integer greater than 0.");
+                Log.Warning("Reminder time value has to be an integer greater than 0");
                 return false;
             }
 

@@ -59,16 +59,20 @@ public class HighlightsService : INService, IReadyExecutor
             var hlSettings = allHighlightSettings.FirstOrDefault(x => x.GuildId == i.Id);
             if (highlights is not null)
             {
-                _ = Task.Run(async () => await cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
+                _ = Task.Run(async () =>
+                    await cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList())
+                        .ConfigureAwait(false));
             }
 
             if (hlSettings is not null)
             {
-                _ = Task.Run(async () => await cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
+                _ = Task.Run(async () =>
+                    await cache.CacheHighlightSettings(i.Id,
+                        allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
             }
         }
 
-        Log.Information("Highlights Cached.");
+        Log.Information("Highlights Cached");
         return Task.CompletedTask;
     }
 
@@ -101,7 +105,9 @@ public class HighlightsService : INService, IReadyExecutor
         var highlightWords = GetForGuild(channel.Guild.Id);
         if (highlightWords.Count == 0)
             return true;
-        foreach (var i in (List<Database.Models.Highlights>)(from h in highlightWords where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b") select h).ToList())
+        foreach (var i in (List<Database.Models.Highlights>)(from h in highlightWords
+                     where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b")
+                     select h).ToList())
         {
             if (await cache.GetHighlightStagger(channel.Guild.Id, i.UserId).ConfigureAwait(false))
                 continue;
@@ -131,7 +137,8 @@ public class HighlightsService : INService, IReadyExecutor
                 continue;
             try
             {
-                messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync().ConfigureAwait(false)).Append(message);
+                messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()
+                    .ConfigureAwait(false)).Append(message);
             }
             catch
             {
@@ -139,13 +146,16 @@ public class HighlightsService : INService, IReadyExecutor
                 continue;
             }
 
-            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n", messages.OrderBy(x => x.Timestamp)
-                .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
-                             $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
-                             $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")));
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
+                messages.OrderBy(x => x.Timestamp)
+                    .Select(x =>
+                        $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
+                        $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
+                        $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")));
 
             var cb = new ComponentBuilder()
-                .WithButton("Jump to message", style: ButtonStyle.Link, emote: Emote.Parse("<:MessageLink:778925231506587668>"), url: message.GetJumpLink());
+                .WithButton("Jump to message", style: ButtonStyle.Link,
+                    emote: Emote.Parse("<:MessageLink:778925231506587668>"), url: message.GetJumpLink());
 
             try
             {

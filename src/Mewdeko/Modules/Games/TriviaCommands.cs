@@ -8,23 +8,11 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     [Group]
-    public class TriviaCommands : MewdekoSubmodule<GamesService>
-    {
-        private readonly IDataCache cache;
-        private readonly DiscordSocketClient client;
-        private readonly GamesConfigService gamesConfig;
-        private readonly GuildSettingsService guildSettings;
-
-        public TriviaCommands(DiscordSocketClient client, IDataCache cache,
+    public class TriviaCommands(DiscordSocketClient client, IDataCache cache,
             GamesConfigService gamesConfig,
             GuildSettingsService guildSettings)
-        {
-            this.cache = cache;
-            this.gamesConfig = gamesConfig;
-            this.guildSettings = guildSettings;
-            this.client = client;
-        }
-
+        : MewdekoSubmodule<GamesService>
+    {
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0),
          MewdekoOptions(typeof(TriviaOptions))]
         public Task Trivia(params string[] args) => InternalTrivia(args);

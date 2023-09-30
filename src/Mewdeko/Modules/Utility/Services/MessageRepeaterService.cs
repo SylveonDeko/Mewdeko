@@ -22,7 +22,7 @@ public class MessageRepeaterService : INService
     public async Task OnReadyAsync(DiscordSocketClient discordSocketClient, Mewdeko bot)
     {
         await bot.Ready.Task.ConfigureAwait(false);
-        Log.Information("Loading message repeaters on shard {ShardId}.", this.client.ShardId);
+        Log.Information("Loading message repeaters on shard {ShardId}", this.client.ShardId);
         await using var uow = db.GetDbContext();
         // tolist resolves invalid state issues
         var allgc = bot.AllGuildConfigs;
@@ -34,7 +34,7 @@ public class MessageRepeaterService : INService
                 var guild = this.client.GetGuild(gc.GuildId);
                 if (guild is null)
                 {
-                    Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.GuildId);
+                    Log.Information("Unable to find guild {GuildId} for message repeaters", gc.GuildId);
                     continue;
                 }
 
@@ -49,7 +49,7 @@ public class MessageRepeaterService : INService
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.GuildId);
+                Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.GuildId);
             }
         }
 

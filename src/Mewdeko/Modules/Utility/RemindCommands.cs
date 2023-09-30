@@ -9,21 +9,12 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group]
-    public class RemindCommands : MewdekoSubmodule<RemindService>
+    public class RemindCommands(DbService db, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
     {
         public enum MeOrHere
         {
             Me,
             Here
-        }
-
-        private readonly DbService db;
-        private readonly GuildTimezoneService tz;
-
-        public RemindCommands(DbService db, GuildTimezoneService tz)
-        {
-            this.db = db;
-            this.tz = tz;
         }
 
         [Cmd, Aliases, Priority(1)]

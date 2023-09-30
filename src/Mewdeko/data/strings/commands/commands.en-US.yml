@@ -8,6 +8,31 @@ addstatusrole:
   args:
     - "status"
   desc: Adds a status to be configured with the rest of the statusrole commands
+gpingrole:
+  args:
+    - "roleid"
+    - "@role"
+  desc: "Sets the role to ping when a giveaway starts"
+gdmmessage:
+  args:
+    - "message"
+  desc: "Sets the message to DM to a giveaway winner. Supports custom embed code! https://eb.mewdeko.tech"
+gdm:
+  args:
+    - ""
+  desc: "Toggles whether the bot should DM a giveaway winner"
+gembedcolor:
+  args:
+    - "#5E9D3B"
+  desc: "Sets the color of the giveaway embed."
+gwinembedcolor:
+  args:
+    - "#5E9D3B"
+  desc: "Sets the color of the giveaway winner embed."
+gbanner:
+  args:
+    - "url"
+  desc: "Sets the banner of the giveaway embed."
 importrolelist:
   args:
     - ""

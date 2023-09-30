@@ -12,17 +12,8 @@ namespace Mewdeko.Modules.Permissions;
 public partial class Permissions
 {
     [Group]
-    public class CmdCdsCommands : MewdekoSubmodule
+    public class CmdCdsCommands(CmdCdService service, DbService db) : MewdekoSubmodule
     {
-        private readonly DbService db;
-        private readonly CmdCdService service;
-
-        public CmdCdsCommands(CmdCdService service, DbService db)
-        {
-            this.service = service;
-            this.db = db;
-        }
-
         private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns
             => service.CommandCooldowns;
 

@@ -40,7 +40,6 @@ public class SearchesService : INService, IUnloadableService
     private readonly IDataCache cache;
     private readonly IBotCredentials creds;
     private readonly DbService db;
-    private readonly FontProvider fonts;
     private readonly IGoogleApiService google;
     private readonly IHttpClientFactory httpFactory;
 
@@ -62,7 +61,6 @@ public class SearchesService : INService, IUnloadableService
         this.db = db;
         imgs = cache.LocalImages;
         this.cache = cache;
-        this.fonts = fonts;
         this.creds = creds;
         rng = new MewdekoRandom();
         var allgc = bot.AllGuildConfigs;
@@ -130,12 +128,12 @@ public class SearchesService : INService, IUnloadableService
         if (File.Exists("data/wowjokes.json"))
             WowJokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
         else
-            Log.Warning("data/wowjokes.json is missing. WOW Jokes are not loaded.");
+            Log.Warning("data/wowjokes.json is missing. WOW Jokes are not loaded");
 
         if (File.Exists("data/magicitems.json"))
             MagicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
         else
-            Log.Warning("data/magicitems.json is missing. Magic items are not loaded.");
+            Log.Warning("data/magicitems.json is missing. Magic items are not loaded");
 
         if (File.Exists("data/yomama.txt"))
         {
@@ -222,7 +220,8 @@ public class SearchesService : INService, IUnloadableService
 
         var textPaint = new SKPaint
         {
-            Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright),
+            Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal,
+                SKFontStyleSlant.Upright),
             TextSize = 14,
             IsAntialias = true,
             Color = SKColors.Black
@@ -291,7 +290,8 @@ public class SearchesService : INService, IUnloadableService
         try
         {
             var data = await http.GetStringAsync(
-                $"https://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
+                    $"https://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric")
+                .ConfigureAwait(false);
 
             return string.IsNullOrEmpty(data) ? null : JsonConvert.DeserializeObject<WeatherData>(data);
         }
@@ -302,7 +302,8 @@ public class SearchesService : INService, IUnloadableService
         }
     }
 
-    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg) => GetTimeDataFactory(arg);
+    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg) =>
+        GetTimeDataFactory(arg);
 
     //return _cache.GetOrAddCachedDataAsync($"Mewdeko_time_{arg}",
     //    GetTimeDataFactory,
@@ -383,14 +384,18 @@ public class SearchesService : INService, IUnloadableService
     {
         using var translator = new AggregateTranslator();
         var translation = await translator.TranslateAsync(str, to, from).ConfigureAwait(false);
-        return translation.Translation == str ? (await translator.TransliterateAsync(str, to, from).ConfigureAwait(false)).Transliteration : translation.Translation;
+        return translation.Translation == str
+            ? (await translator.TransliterateAsync(str, to, from).ConfigureAwait(false)).Transliteration
+            : translation.Translation;
     }
 
     public static async Task<string> Translate(string langs, string? text = null)
     {
         using var translator = new AggregateTranslator();
         var translation = await translator.TranslateAsync(text, langs).ConfigureAwait(false);
-        return translation.Translation == text ? (await translator.TransliterateAsync(text, langs).ConfigureAwait(false)).Transliteration : translation.Translation;
+        return translation.Translation == text
+            ? (await translator.TransliterateAsync(text, langs).ConfigureAwait(false)).Transliteration
+            : translation.Translation;
     }
 
     public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
@@ -625,7 +630,9 @@ public class SearchesService : INService, IUnloadableService
     private async Task<OmdbMovie?> GetMovieDataFactory(string name)
     {
         using var http = httpFactory.CreateClient();
-        var res = await http.GetStringAsync($"https://omdbapi.nadeko.bot/?t={name.Trim().Replace(' ', '+')}&y=&plot=full&r=json").ConfigureAwait(false);
+        var res = await http
+            .GetStringAsync($"https://omdbapi.nadeko.bot/?t={name.Trim().Replace(' ', '+')}&y=&plot=full&r=json")
+            .ConfigureAwait(false);
         var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
         if (movie?.Title == null)
             return null;
@@ -778,14 +785,11 @@ public class SearchesService : INService, IUnloadableService
 
         using var http = httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
-        http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
+        http.DefaultRequestHeaders.Add("User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36");
 
-        using var formData = new MultipartFormDataContent
-        {
-            {
-                new StringContent(query), "q"
-            }
-        };
+        using var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(query), "q");
         using var response = await http.PostAsync(fullQueryLink, formData).ConfigureAwait(false);
         var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 

@@ -86,7 +86,7 @@ public sealed class CoordinatorRunner : BackgroundService
         {
             if (config.ClientId == 0)
             {
-                Log.Error("Client ID needs to be set to start the coordinator. Exiting.");
+                Log.Error("Client ID needs to be set to start the coordinator. Exiting");
                 Environment.Exit(1);
                 return;
             }
