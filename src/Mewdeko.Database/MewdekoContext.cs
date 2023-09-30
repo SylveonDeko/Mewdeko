@@ -12,6 +12,7 @@ public class MewdekoContext : DbContext
     public DbSet<GuildConfig> GuildConfigs { get; set; }
 
     public DbSet<SuggestionsModel> Suggestions { get; set; }
+    public DbSet<FilteredWord> FilteredWords { get; set; }
     public DbSet<OwnerOnly> OwnerOnly { get; set; }
 
     // public DbSet<GlobalBanConfig> GlobalBanConfigs { get; set; }

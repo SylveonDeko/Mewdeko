@@ -400,16 +400,6 @@ public class CommandHandler : INService
 #endif
     }
 
-    public string SetDefaultPrefix(string prefix)
-    {
-        if (string.IsNullOrWhiteSpace(prefix))
-            throw new ArgumentNullException(nameof(prefix));
-
-        bss.ModifyConfig(bs => bs.Prefix = prefix);
-
-        return prefix;
-    }
-
 
     public void AddServices(IServiceCollection services)
     {
@@ -589,7 +579,14 @@ public class CommandHandler : INService
         {
             while (CommandParseQueue[channelId].TryDequeue(out var msg))
             {
-                await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
+                try
+                {
+                    await TryRunCommand((msg.Channel as IGuildChannel)?.Guild, msg.Channel, msg).ConfigureAwait(false);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"Error occured in the handler: {e}");
+                }
             }
 
             CommandParseQueue[channelId] = new ConcurrentQueue<IUserMessage>();
