@@ -12,7 +12,8 @@ using Serilog;
 
 namespace Mewdeko.Modules.Administration;
 
-public partial class Administration : MewdekoModuleBase<AdministrationService>
+public partial class Administration
+    (InteractiveService serv, BotConfigService configService) : MewdekoModuleBase<AdministrationService>
 {
     public enum Channel
     {
@@ -38,15 +39,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         Enable,
         Disable,
         Inherit
-    }
-
-    private readonly InteractiveService interactivity;
-    private readonly BotConfigService configService;
-
-    public Administration(InteractiveService serv, BotConfigService configService)
-    {
-        interactivity = serv;
-        this.configService = configService;
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -83,7 +75,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
         await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
-        await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]
@@ -147,7 +140,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                    .ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -161,7 +155,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 if (await PromptUserConfirmAsync(GetText("nameban_confirm", users.Count), ctx.User.Id))
                 {
                     var failedUsers = 0;
-                    await ctx.Channel.SendConfirmAsync($"{configService.Data.LoadingEmote} executing order 66 on {users.Count} users, this may take a bit...");
+                    await ctx.Channel.SendConfirmAsync(
+                        $"{configService.Data.LoadingEmote} executing order 66 on {users.Count} users, this may take a bit...");
                     foreach (var i in users)
                     {
                         try
@@ -201,7 +196,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             }
             else
             {
-                users = ((SocketGuild)ctx.Guild).Users.Where(c => c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+                users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
+                    time.Time.TotalSeconds);
             }
 
             if (!users.Any())
@@ -212,16 +209,19 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
             if (option is not null && option.ToLower() == "-p")
             {
-                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory).WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                     .WithMaxPageIndex(users.Count() / 20).WithDefaultCanceledPage().WithDefaultEmotes()
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                    .ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
                     return new PageBuilder()
-                        .WithTitle(GetText("banunder_preview", users.Count(), time.Time.Humanize(maxUnit: TimeUnit.Year)))
+                        .WithTitle(GetText("banunder_preview", users.Count(),
+                            time.Time.Humanize(maxUnit: TimeUnit.Year)))
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
                 }
             }
@@ -287,13 +287,14 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultEmotes()
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 return new PageBuilder()
-                    .WithTitle(GetText("kickunder_preview", guildUsers.Length, time.Time.Humanize(maxUnit: TimeUnit.Year)))
+                    .WithTitle(GetText("kickunder_preview", guildUsers.Length,
+                        time.Time.Humanize(maxUnit: TimeUnit.Year)))
                     .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20)));
             }
         }
@@ -327,7 +328,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageGuild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     BotPerm(GuildPermission.ManageGuild)]
     public async Task PruneMembers(StoopidTime time, string e = "no")
     {
         try
@@ -673,7 +675,8 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel)ctx.Channel, messageId, time);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) => await InternalMessageAction(channel, messageId, time).ConfigureAwait(false);
+    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) =>
+        await InternalMessageAction(channel, messageId, time).ConfigureAwait(false);
 
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {

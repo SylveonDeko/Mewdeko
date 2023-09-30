@@ -37,12 +37,15 @@ public class BotCredentials : IBotCredentials
             switch (choice)
             {
                 case "1":
-                    Log.Information("Please enter your bot's token. You can get it from https://discord.com/developers/applications");
+                    Log.Information(
+                        "Please enter your bot's token. You can get it from https://discord.com/developers/applications");
                     var token = Console.ReadLine();
                     Log.Information(
-                        "Please enter your ID and and any other IDs seperated by a space to mark them as owners. You can get your ID by enabling developer mode in discord and right clicking your name.");
+                        "Please enter your ID and and any other IDs seperated by a space to mark them as owners. You can get your ID by enabling developer mode in discord and right clicking your name");
                     var owners = Console.ReadLine();
-                    var ownersList = string.IsNullOrWhiteSpace(owners) ? new List<ulong>() : owners.Split(' ').Select(ulong.Parse).ToList();
+                    var ownersList = string.IsNullOrWhiteSpace(owners)
+                        ? new List<ulong>()
+                        : owners.Split(' ').Select(ulong.Parse).ToList();
                     var model = new CredentialsModel
                     {
                         Token = token, OwnerIds = ownersList
@@ -80,7 +83,7 @@ public class BotCredentials : IBotCredentials
             if (string.IsNullOrWhiteSpace(Token))
             {
                 Log.Error(
-                    "Token is missing from credentials.json or Environment variables. Add it and restart the program.");
+                    "Token is missing from credentials.json or Environment variables. Add it and restart the program");
                 Helpers.ReadErrorAndExit(5);
             }
 
@@ -117,7 +120,9 @@ public class BotCredentials : IBotCredentials
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
             GeniusKey = data[nameof(GeniusKey)];
 
-            RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]) ? data[nameof(RedisOptions)] : "127.0.0.1,syncTimeout=3000";
+            RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)])
+                ? data[nameof(RedisOptions)]
+                : "127.0.0.1,syncTimeout=3000";
 
             VotesToken = data[nameof(VotesToken)];
             VotesUrl = data[nameof(VotesUrl)];
@@ -154,15 +159,23 @@ public class BotCredentials : IBotCredentials
             if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
 
             DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 843489716674494475;
-            GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 892789588739891250;
-            ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
-            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
-            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId) ? pnrepId : 970086914826858547;
+            GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid)
+                ? gjid
+                : 892789588739891250;
+            ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid)
+                ? crid
+                : 942825117820530709;
+            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid)
+                ? gbrid
+                : 905109141620682782;
+            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId)
+                ? pnrepId
+                : 970086914826858547;
             UseGlobalCurrency = bool.TryParse(data[nameof(UseGlobalCurrency)], out var ugc) && ugc;
         }
         catch (Exception ex)
         {
-            Log.Error("JSON serialization has failed. Fix your credentials file and restart the bot.");
+            Log.Error("JSON serialization has failed. Fix your credentials file and restart the bot");
             Log.Fatal(ex.ToString());
             Helpers.ReadErrorAndExit(6);
         }

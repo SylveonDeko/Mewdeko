@@ -8,19 +8,9 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     [Group]
-    public class SpeedTypingCommands : MewdekoSubmodule<GamesService>
+    public class SpeedTypingCommands(DiscordSocketClient client, GamesService games, GuildSettingsService guildSettings)
+        : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient client;
-        private readonly GamesService games;
-        private readonly GuildSettingsService guildSettings;
-
-        public SpeedTypingCommands(DiscordSocketClient client, GamesService games, GuildSettingsService guildSettings)
-        {
-            this.games = games;
-            this.guildSettings = guildSettings;
-            this.client = client;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(TypingGame.Options))]
         public async Task TypeStart(params string[] args)
@@ -29,7 +19,8 @@ public partial class Games
             var channel = (ITextChannel)ctx.Channel;
 
             var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
-                _ => new TypingGame(games, client, channel, guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), options));
+                _ => new TypingGame(games, client, channel, guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(),
+                    options));
 
             if (game.IsActive)
             {

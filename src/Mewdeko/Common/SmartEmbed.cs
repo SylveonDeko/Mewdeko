@@ -38,7 +38,7 @@ public class SmartEmbed
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, "Failed to parse new format. trying dumb format.");
+                    Log.Error(e, "Failed to parse new format. trying dumb format");
                     try
                     {
                         var dumbEmbed = JsonConvert.DeserializeObject<DumbEmbed.DumbEmbed>(input);
@@ -48,7 +48,7 @@ public class SmartEmbed
                     }
                     catch (Exception e2)
                     {
-                        Log.Error(e2, "Failed to parse dumb format.");
+                        Log.Error(e2, "Failed to parse dumb format");
                         return false;
                     }
                 }
@@ -121,7 +121,7 @@ public class SmartEmbed
         }
         catch (Exception e)
         {
-            Log.Error($"Failed to parse embed: {e}");
+            Log.Error("Failed to parse embed: {E}", e);
             components = null;
             embeds = null;
             plainText = null;

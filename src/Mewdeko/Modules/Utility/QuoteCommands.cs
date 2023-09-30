@@ -6,12 +6,8 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group]
-    public class QuoteCommands : MewdekoSubmodule
+    public class QuoteCommands(DbService db) : MewdekoSubmodule
     {
-        private readonly DbService db;
-
-        public QuoteCommands(DbService db) => this.db = db;
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task ListQuotes(OrderType order = OrderType.Keyword) => ListQuotes(1, order);
 
@@ -66,7 +62,8 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText,
+                    out var components))
             {
                 await ctx.Channel.SendMessageAsync($"`#{quote.Id}` 📣 {plainText?.SanitizeAllMentions()}",
                     embeds: embed, components: components?.Build()).ConfigureAwait(false);
@@ -122,14 +119,16 @@ public partial class Utility
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
-                keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text).ConfigureAwait(false);
+                keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text)
+                    .ConfigureAwait(false);
             }
 
             if (keywordquote == null)
                 return;
 
             await ctx.Channel.SendMessageAsync(
-                $"`#{keywordquote.Id}` 💬 {keyword.ToLowerInvariant()}:  {keywordquote.Text.SanitizeAllMentions()}").ConfigureAwait(false);
+                    $"`#{keywordquote.Id}` 💬 {keyword.ToLowerInvariant()}:  {keywordquote.Text.SanitizeAllMentions()}")
+                .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
@@ -159,9 +158,11 @@ public partial class Utility
             var infoText =
                 $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ {quote.Keyword.ToLowerInvariant().SanitizeAllMentions()}:\n";
 
-            if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(quote.Text), ctx.Guild?.Id, out var embed, out var plainText,
+                    out var components))
             {
-                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed, components: components?.Build())
+                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed,
+                        components: components?.Build())
                     .ConfigureAwait(false);
             }
             else

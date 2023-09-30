@@ -7,20 +7,12 @@ using Mewdeko.Modules.Chat_Triggers.Services;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
-public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
+public class ChatTriggers
+    (IHttpClientFactory clientFactory, InteractiveService serv) : MewdekoModuleBase<ChatTriggersService>
 {
     public enum All
     {
         All
-    }
-
-    private readonly IHttpClientFactory clientFactory;
-    private readonly InteractiveService interactivity;
-
-    public ChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
-    {
-        interactivity = serv;
-        this.clientFactory = clientFactory;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
@@ -84,7 +76,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, false).ConfigureAwait(false);
 
-        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")))
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -95,7 +88,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, key, message, true).ConfigureAwait(false);
 
-        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig"))).ConfigureAwait(false);
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(cr, ctx.Guild?.Id, GetText("new_chat_trig")))
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
@@ -122,7 +116,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
             .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
@@ -165,7 +159,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 .WithMaxPageIndex(chatTriggers.Length / 20).WithDefaultEmotes()
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
                 .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
@@ -280,7 +274,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
         else
         {
-            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig"))).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")))
+                .ConfigureAwait(false);
         }
     }
 
@@ -545,7 +540,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     {
         var errors = Service.GetAcctErrors(ctx.Guild?.Id);
         var eb = new EmbedBuilder();
-        var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko",
+        var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link,
+            url: "https://discord.gg/Mewdeko",
             emote: Emote.Parse("<:IconInvite:778931752835088426>"));
         if (errors?.Any() ?? false)
         {

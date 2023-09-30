@@ -1,36 +1,48 @@
 using Discord.Interactions;
 using Mewdeko.Modules.Chat_Triggers.Services;
 
-namespace Mewdeko.Common.Autocompleters;
-
-public class ChatTriggerAutocompleter : AutocompleteHandler
+namespace Mewdeko.Common.Autocompleters
 {
-    public ChatTriggersService Triggers { get; set; }
-    private IBotCredentials Credentials { get; set; }
-
-    public ChatTriggerAutocompleter(ChatTriggersService triggers, IBotCredentials credentials)
+    public class ChatTriggerAutocompleter : AutocompleteHandler
     {
-        Triggers = triggers;
-        Credentials = credentials;
-    }
+        private const int MaxSuggestions = 25;
+        private const int MaxDescriptionLength = 100;
 
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
-        IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services)
-    {
-        if ((autocompleteInteraction.User is IGuildUser user
-             && user.Guild.OwnerId != user.Id
-             && !user.GuildPermissions.Has(GuildPermission.Administrator))
-            || (autocompleteInteraction.User is not IGuildUser && !Credentials.IsOwner(autocompleteInteraction.User)))
-            return Task.FromResult(AutocompletionResult.FromError(InteractionCommandError.Unsuccessful,
-                "You don't have permission to view chat triggers!"));
+        public ChatTriggersService Triggers { get; set; }
+        private IBotCredentials Credentials { get; set; }
 
-        var inpt = autocompleteInteraction.Data.Current.Value as string;
+        public ChatTriggerAutocompleter(ChatTriggersService triggers, IBotCredentials credentials)
+        {
+            Triggers = triggers;
+            Credentials = credentials;
+        }
 
+        public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+            IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services)
+        {
+            if (!HasPermission(autocompleteInteraction))
+                return Task.FromResult(AutocompletionResult.FromError(InteractionCommandError.Unsuccessful,
+                    "You don't have permission to view chat triggers!"));
 
-        return Task.FromResult(AutocompletionResult.FromSuccess(Triggers.GetChatTriggersFor(context.Guild?.Id)
-            .Where(x => (x.Trigger + x.RealName + x.Response).Contains(inpt, StringComparison.OrdinalIgnoreCase))
-            .OrderByDescending(x => x.Trigger.StartsWith(inpt, StringComparison.OrdinalIgnoreCase))
-            .Take(25)
-            .Select(x => new AutocompleteResult($"{x.RealName} ({x.Trigger})".TrimTo(100), x.Id))));
+            var input = autocompleteInteraction.Data.Current.Value as string;
+
+            var suggestions = Triggers.GetChatTriggersFor(context.Guild?.Id)
+                .Where(x => (x.Trigger + x.RealName + x.Response).Contains(input, StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(x => x.Trigger.StartsWith(input, StringComparison.OrdinalIgnoreCase))
+                .Take(MaxSuggestions)
+                .Select(x => new AutocompleteResult($"{x.RealName} ({x.Trigger})".TrimTo(MaxDescriptionLength), x.Id));
+
+            return Task.FromResult(AutocompletionResult.FromSuccess(suggestions));
+        }
+
+        private bool HasPermission(IDiscordInteraction autocompleteInteraction)
+        {
+            if (autocompleteInteraction.User is IGuildUser user)
+            {
+                return user.Guild.OwnerId == user.Id || user.GuildPermissions.Has(GuildPermission.Administrator);
+            }
+
+            return Credentials.IsOwner(autocompleteInteraction.User);
+        }
     }
 }

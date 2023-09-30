@@ -11,17 +11,8 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group]
-    public class RepeatCommands : MewdekoSubmodule<MessageRepeaterService>
+    public class RepeatCommands(DiscordSocketClient client, DbService db) : MewdekoSubmodule<MessageRepeaterService>
     {
-        private readonly DiscordSocketClient client;
-        private readonly DbService db;
-
-        public RepeatCommands(DiscordSocketClient client, DbService db)
-        {
-            this.client = client;
-            this.db = db;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatInvoke(int index)
         {

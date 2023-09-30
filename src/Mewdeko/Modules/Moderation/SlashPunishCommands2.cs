@@ -1,5 +1,3 @@
 ﻿namespace Mewdeko.Modules.Moderation;
 
-public class SlashPunishCommands2
-{
-}
+public class SlashPunishCommands2;

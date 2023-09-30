@@ -15,37 +15,20 @@ using Swan;
 
 namespace Mewdeko.Modules.Help;
 
-public class Help : MewdekoModuleBase<HelpService>
-{
-    private readonly CommandService cmds;
-    private readonly BotConfigService config;
-    private readonly GuildSettingsService guildSettings;
-    private readonly InteractiveService interactive;
-    private readonly GlobalPermissionService perms;
-    private readonly IServiceProvider services;
-    private readonly IBotStrings strings;
-
-    public Help(GlobalPermissionService perms, CommandService cmds,
+public class Help(GlobalPermissionService perms, CommandService cmds,
         IServiceProvider services, IBotStrings strings,
         InteractiveService serv,
         GuildSettingsService guildSettings,
         BotConfigService config)
-    {
-        interactive = serv;
-        this.guildSettings = guildSettings;
-        this.config = config;
-        this.cmds = cmds;
-        this.perms = perms;
-        this.services = services;
-        this.strings = strings;
-    }
-
+    : MewdekoModuleBase<HelpService>
+{
     [Cmd, Aliases, Ratelimit(60)]
     public async Task ExportCommandsJson()
     {
         try
         {
-            var msg = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Exporting commands to json, please wait a moment...");
+            var msg = await ctx.Channel.SendConfirmAsync(
+                $"{config.Data.LoadingEmote} Exporting commands to json, please wait a moment...");
             var prefix = await guildSettings.GetPrefix(ctx.Guild);
             var modules = cmds.Modules;
             var newList = new ConcurrentDictionary<string, List<Command>>();
@@ -55,16 +38,25 @@ public class Help : MewdekoModuleBase<HelpService>
                 var commands = (from j in i.Commands.OrderByDescending(x => x.Name)
                     let userPerm = j.Preconditions.FirstOrDefault(ca => ca is UserPermAttribute) as UserPermAttribute
                     let botPerm = j.Preconditions.FirstOrDefault(ca => ca is BotPermAttribute) as BotPermAttribute
-                    let isDragon = j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
+                    let isDragon =
+                        j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
                     select new Command
                     {
                         CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
                         Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
                         Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? new List<string>(),
-                        GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission != null ? userPerm.UserPermissionAttribute.GuildPermission.ToString() : "",
-                        ChannelUserPermissions = userPerm?.UserPermissionAttribute.ChannelPermission != null ? userPerm.UserPermissionAttribute.ChannelPermission.ToString() : "",
-                        GuildBotPermissions = botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
-                        ChannelBotPermissions = botPerm?.ChannelPermission != null ? botPerm.ChannelPermission.ToString() : "",
+                        GuildUserPermissions =
+                            userPerm?.UserPermissionAttribute.GuildPermission != null
+                                ? userPerm.UserPermissionAttribute.GuildPermission.ToString()
+                                : "",
+                        ChannelUserPermissions =
+                            userPerm?.UserPermissionAttribute.ChannelPermission != null
+                                ? userPerm.UserPermissionAttribute.ChannelPermission.ToString()
+                                : "",
+                        GuildBotPermissions =
+                            botPerm?.GuildPermission != null ? botPerm.GuildPermission.ToString() : "",
+                        ChannelBotPermissions =
+                            botPerm?.ChannelPermission != null ? botPerm.ChannelPermission.ToString() : "",
                         IsDragon = isDragon is not null
                     }).ToList();
                 newList.AddOrUpdate(modulename, commands, (_, old) =>
@@ -78,7 +70,8 @@ public class Help : MewdekoModuleBase<HelpService>
             {
                 ContractResolver = new OrderedResolver()
             };
-            var jsonVersion = JsonConvert.SerializeObject(newList.Select(x => new Module(x.Value, x.Key)), Formatting.Indented, settings);
+            var jsonVersion = JsonConvert.SerializeObject(newList.Select(x => new Module(x.Value, x.Key)),
+                Formatting.Indented, settings);
             await using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonVersion));
             await ctx.Channel.SendFileAsync(stream, $"Commands-{DateTime.UtcNow:u}.json");
             await msg.DeleteAsync();
@@ -94,7 +87,8 @@ public class Help : MewdekoModuleBase<HelpService>
     [Cmd, Aliases]
     public async Task SearchCommand(string commandname)
     {
-        var commandInfos = this.cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
+        var commandInfos = cmds.Commands.Distinct()
+            .Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
         if (!commandInfos.Any())
         {
             await ctx.Channel.SendErrorAsync(
@@ -107,7 +101,8 @@ public class Help : MewdekoModuleBase<HelpService>
             foreach (var i in commandInfos)
             {
                 cmdnames += $"\n{i.Name}";
-                cmdremarks += $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
+                cmdremarks +=
+                    $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
             }
 
             var eb = new EmbedBuilder()
@@ -124,7 +119,9 @@ public class Help : MewdekoModuleBase<HelpService>
         var embed = await Service.GetHelpEmbed(false, ctx.Guild ?? null, ctx.Channel, ctx.User);
         try
         {
-            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
+            await ctx.Channel
+                .SendMessageAsync(embed: embed.Build(),
+                    components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -152,7 +149,7 @@ public class Help : MewdekoModuleBase<HelpService>
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
-        var commandInfos = this.cmds.Commands.Where(c =>
+        var commandInfos = cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
                     .StartsWith(module, StringComparison.InvariantCulture))
             .Where(c => !perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
@@ -190,14 +187,16 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactive.SendPaginatorAsync(paginator, Context.Channel,
+        await serv.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask.ConfigureAwait(false);
-            var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? commandInfo.Preconditions.Any(preconditionAttribute => preconditionAttribute is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
+            var transformed = groups.Select(x => x.ElementAt(page)
+                    .Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(
+                        commandInfo =>
+                            $"{(succ.Contains(commandInfo) ? commandInfo.Preconditions.Any(preconditionAttribute => preconditionAttribute is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -249,10 +248,12 @@ public class Help : MewdekoModuleBase<HelpService>
     }
 
     [Cmd, Aliases]
-    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech").ConfigureAwait(false);
+    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech")
+        .ConfigureAwait(false);
 
     [Cmd, Aliases]
-    public async Task Source() => await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko").ConfigureAwait(false);
+    public async Task Source() =>
+        await ctx.Channel.SendConfirmAsync("https://github.com/Sylveon76/Mewdeko").ConfigureAwait(false);
 }
 
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
@@ -262,16 +263,10 @@ public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
     public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 }
 
-public class Module
+public class Module(List<Command> commands, string name)
 {
-    public Module(List<Command> commands, string name)
-    {
-        Commands = commands;
-        Name = name;
-    }
-
-    public List<Command> Commands { get; }
-    public string Name { get; }
+    public List<Command> Commands { get; } = commands;
+    public string Name { get; } = name;
 }
 
 public class Command

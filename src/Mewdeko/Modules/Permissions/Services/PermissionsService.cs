@@ -13,9 +13,7 @@ public class PermissionService : ILateBlocker, INService
     public readonly IBotStrings Strings;
     private readonly GuildSettingsService guildSettings;
 
-    public PermissionService(
-        DiscordSocketClient client,
-        DbService db,
+    public PermissionService(DbService db,
         IBotStrings strings,
         GuildSettingsService guildSettings, Mewdeko bot)
     {
@@ -29,7 +27,9 @@ public class PermissionService : ILateBlocker, INService
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
-                    Verbose = false.ParseBoth(x.VerbosePermissions.ToString()), PermRole = x.PermissionRole, Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    Verbose = false.ParseBoth(x.VerbosePermissions.ToString()),
+                    PermRole = x.PermissionRole,
+                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                 });
         }
     }
@@ -145,12 +145,14 @@ public class PermissionService : ILateBlocker, INService
         var resetCommand = commandName == "resetperms";
 
         var pc = await GetCacheFor(guild.Id);
-        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User, ctx.Channel, out var index))
+        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User,
+                ctx.Channel, out var index))
             return false;
         try
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
-                    Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                    Format.Bold(pc.Permissions[index]
+                        .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
                 .ConfigureAwait(false);
         }
         catch

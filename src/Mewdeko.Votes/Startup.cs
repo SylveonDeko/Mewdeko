@@ -43,17 +43,17 @@ public class Startup
         services
             .AddAuthentication(opts =>
             {
-                opts.DefaultScheme = AuthHandler.SCHEME_NAME;
-                opts.AddScheme<AuthHandler>(AuthHandler.SCHEME_NAME, AuthHandler.SCHEME_NAME);
+                opts.DefaultScheme = AuthHandler.SchemeName;
+                opts.AddScheme<AuthHandler>(AuthHandler.SchemeName, AuthHandler.SchemeName);
             });
 
         services
             .AddAuthorization(opts =>
             {
-                opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SCHEME_NAME)
+                opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SchemeName)
                     .RequireAssertion(_ => false)
                     .Build();
-                opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TOPGG_CLAIM));
+                opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TopggClaim));
             });
     }
 

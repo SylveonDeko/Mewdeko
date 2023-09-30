@@ -4,13 +4,9 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public class RealbooruImageDownloader : ImageDownloader<RealBooruElement>
+public class RealbooruImageDownloader(IHttpClientFactory http) : ImageDownloader<RealBooruElement>(Booru.Realbooru,
+    http)
 {
-    public RealbooruImageDownloader(IHttpClientFactory http)
-        : base(Booru.Realbooru, http)
-    {
-    }
-
     public override async Task<List<RealBooruElement>> DownloadImagesAsync(
         string[] tags,
         int page,
@@ -21,8 +17,8 @@ public class RealbooruImageDownloader : ImageDownloader<RealBooruElement>
         var uri =
             $"https://realbooru.com/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
 
-        using var http = _http.CreateClient();
-        var images = await http.GetFromJsonAsync<List<RealBooruElement>>(uri, _serializerOptions, cancel);
+        using var http = Http.CreateClient();
+        var images = await http.GetFromJsonAsync<List<RealBooruElement>>(uri, SerializerOptions, cancel);
         return images ?? new List<RealBooruElement>();
     }
 }

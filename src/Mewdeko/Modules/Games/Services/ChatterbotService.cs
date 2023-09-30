@@ -41,7 +41,7 @@ public class ChatterBotService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetCleverbotChannel(ulong id) => (await guildSettings.GetGuildConfig(id)).CleverbotChannel;
@@ -68,7 +68,8 @@ public class ChatterBotService : INService
 
             if (string.IsNullOrEmpty(message.Item1) || message.Item2.Equals(default))
                 return;
-            var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg).ConfigureAwait(false);
+            var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg)
+                .ConfigureAwait(false);
             if (cleverbotExecuted)
             {
                 Log.Information(
@@ -103,13 +104,15 @@ public class ChatterBotService : INService
 
         if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(channel.Guild.Id))
         {
-            await channel.SendErrorAsync("This server is blacklisted. Please join using the button below for an explanation or to appeal.");
+            await channel.SendErrorAsync(
+                "This server is blacklisted. Please join using the button below for an explanation or to appeal.");
             return (null, null);
         }
 
         if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(msg.Author.Id))
         {
-            (msg as IUserMessage).ReplyError("You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
+            (msg as IUserMessage).ReplyError(
+                "You are blacklisted from Mewdeko, join using the button below to get more info or appeal.");
             return (null, null);
         }
 
@@ -136,7 +139,8 @@ public class ChatterBotService : INService
         return (message, lazyCleverbot.Value);
     }
 
-    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message, IUserMessage msg)
+    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message,
+        IUserMessage msg)
     {
         await channel.TriggerTypingAsync().ConfigureAwait(false);
         string response;
@@ -152,7 +156,8 @@ public class ChatterBotService : INService
             return false;
         }
 
-        await msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true)).Build()).ConfigureAwait(false);
+        await msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true))
+            .Build()).ConfigureAwait(false);
 
         return true;
     }

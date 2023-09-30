@@ -14,40 +14,23 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Help;
 
 [Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
-public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
-{
-    private readonly InteractiveService interactivity;
-    private readonly IServiceProvider serviceProvider;
-    private readonly GlobalPermissionService permissionService;
-    private readonly CommandService cmds;
-    private readonly GuildSettingsService guildSettings;
-    private readonly CommandHandler ch;
-    private readonly BotConfigService config;
-    private static readonly ConcurrentDictionary<ulong, ulong> helpMessages = new();
-
-    public HelpSlashCommand(
-        GlobalPermissionService permissionService,
+public class HelpSlashCommand(GlobalPermissionService permissionService,
         InteractiveService interactivity,
         IServiceProvider serviceProvider,
         CommandService cmds,
         CommandHandler ch,
         GuildSettingsService guildSettings,
         BotConfigService config)
-    {
-        this.permissionService = permissionService;
-        this.interactivity = interactivity;
-        this.serviceProvider = serviceProvider;
-        this.cmds = cmds;
-        this.ch = ch;
-        this.guildSettings = guildSettings;
-        this.config = config;
-    }
+    : MewdekoSlashModuleBase<HelpService>
+{
+    private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
 
     [SlashCommand("help", "Shows help on how to use the bot"), CheckPermissions]
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
-        await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build()).ConfigureAwait(false);
+        await RespondAsync(embed: embed.Build(), components: Service.GetHelpComponents(ctx.Guild, ctx.User).Build())
+            .ConfigureAwait(false);
     }
 
     [ComponentInteraction("helpselect:*", true)]
@@ -58,12 +41,12 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             Content = "help", Author = ctx.User, Channel = ctx.Channel
         };
 
-        if (helpMessages.TryGetValue(ctx.Channel.Id, out var msgId))
+        if (HelpMessages.TryGetValue(ctx.Channel.Id, out var msgId))
         {
             try
             {
                 await ctx.Channel.DeleteMessageAsync(msgId);
-                helpMessages.TryRemove(ctx.Channel.Id, out _);
+                HelpMessages.TryRemove(ctx.Channel.Id, out _);
             }
 
             catch
@@ -84,16 +67,18 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         // Find commands for that module
         // don't show commands which are blocked
         // order by name
-        var commandInfos = this.cmds.Commands.Where(c =>
+        var commandInfos = cmds.Commands.Where(c =>
                 c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                    .StartsWith(module, StringComparison.InvariantCulture) && !permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                    .StartsWith(module, StringComparison.InvariantCulture) &&
+                !permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
         // check preconditions for all commands, but only if it's not 'all'
         // because all will show all commands anyway, no need to check
         var succ = new HashSet<CommandInfo>((await Task.WhenAll(commandInfos.Select(async x =>
             {
-                var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider).ConfigureAwait(false);
+                var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider)
+                    .ConfigureAwait(false);
                 return (Cmd: x, Succ: pre.IsSuccess);
             })).ConfigureAwait(false))
             .Where(x => x.Succ)
@@ -122,14 +107,16 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         var msg = await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
             TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
-        helpMessages.TryAdd(ctx.Channel.Id, msg.Message.Id);
+        HelpMessages.TryAdd(ctx.Channel.Id, msg.Message.Id);
 
 
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask.ConfigureAwait(false);
-            var transformed = groups.Select(x => x.ElementAt(page).Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(commandInfo =>
-                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
+            var transformed = groups.Select(x => x.ElementAt(page)
+                    .Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(
+                        commandInfo =>
+                            $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -166,7 +153,8 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     [SlashCommand("search", "get information on a specific command"), CheckPermissions]
     public async Task SearchCommand
     (
-        [Discord.Interactions.Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))]
+        [Discord.Interactions.Summary("command", "the command to get information about"),
+         Autocomplete(typeof(GenericCommandAutocompleter))]
         string command
     )
     {
@@ -204,7 +192,9 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await DeferAsync().ConfigureAwait(false);
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}", Author = ctx.User, Channel = ctx.Channel
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{command} {modal.Args}",
+            Author = ctx.User,
+            Channel = ctx.Channel
         };
         ch.AddCommandToParseQueue(msg);
         _ = Task.Run(() => ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);

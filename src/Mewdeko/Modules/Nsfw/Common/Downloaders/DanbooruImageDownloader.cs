@@ -4,33 +4,29 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public sealed class DanbooruImageDownloader : DapiImageDownloader
+public sealed class DanbooruImageDownloader(IHttpClientFactory http) : DapiImageDownloader(Booru.Danbooru, http,
+    "http://danbooru.donmai.us")
 {
     // using them as concurrent hashsets, value doesn't matter
-    private static readonly ConcurrentDictionary<string, bool> _existentTags = new();
-    private static readonly ConcurrentDictionary<string, bool> _nonexistentTags = new();
-
-    public DanbooruImageDownloader(IHttpClientFactory http)
-        : base(Booru.Danbooru, http, "http://danbooru.donmai.us")
-    {
-    }
+    private static readonly ConcurrentDictionary<string, bool> ExistentTags = new();
+    private static readonly ConcurrentDictionary<string, bool> NonexistentTags = new();
 
     protected override async Task<bool> IsTagValid(string tag, CancellationToken cancel = default)
     {
-        if (_existentTags.ContainsKey(tag))
+        if (ExistentTags.ContainsKey(tag))
             return true;
 
-        if (_nonexistentTags.ContainsKey(tag))
+        if (NonexistentTags.ContainsKey(tag))
             return false;
 
-        using var http = _http.CreateClient();
+        using var http = Http.CreateClient();
         var tags = await http.GetFromJsonAsync<DapiTag[]>(
             BaseUrl + "/tags.json" + $"?search[name_or_alias_matches]={tag}",
-            _serializerOptions,
+            SerializerOptions,
             cancel);
         if (tags is { Length: > 0 })
-            return _existentTags[tag] = true;
+            return ExistentTags[tag] = true;
 
-        return _nonexistentTags[tag] = false;
+        return NonexistentTags[tag] = false;
     }
 }

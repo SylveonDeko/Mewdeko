@@ -8,15 +8,9 @@ namespace Mewdeko.Modules.Moderation;
 public partial class Moderation
 {
     [Group]
-    public class PurgeCommands : MewdekoSubmodule<PurgeService>
+    public class PurgeCommands(DiscordSocketClient client) : MewdekoSubmodule<PurgeService>
     {
         private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
-        private readonly DiscordSocketClient client;
-
-        public PurgeCommands(DiscordSocketClient client)
-        {
-            this.client = client;
-        }
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
@@ -94,7 +88,8 @@ public partial class Moderation
                     if (time.Time > TwoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds).ConfigureAwait(false);
+                            x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds)
+                        .ConfigureAwait(false);
                     break;
                 case "-a":
                 case "--after":
@@ -103,15 +98,18 @@ public partial class Moderation
                     if (time.Time > TwoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds).ConfigureAwait(false);
+                            x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds)
+                        .ConfigureAwait(false);
                     break;
                 case "-he":
                 case "--hasembed":
-                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count > 0).ConfigureAwait(false);
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count > 0)
+                        .ConfigureAwait(false);
                     break;
                 case "-ne":
                 case "--noembed":
-                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count == 0).ConfigureAwait(false);
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Embeds.Count == 0)
+                        .ConfigureAwait(false);
                     break;
                 case "-c":
                 case "--contains":
@@ -137,7 +135,8 @@ public partial class Moderation
         //Purge @user [x]
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null) => Purge(user.Id, count, parameter);
+        public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null) =>
+            Purge(user.Id, count, parameter);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]

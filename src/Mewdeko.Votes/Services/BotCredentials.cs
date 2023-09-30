@@ -33,7 +33,8 @@ public class BotCredentials : IBotCredentials
         {
             Log.Information(Directory.GetCurrentDirectory());
             Log.Warning(
-                $"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'Mewdeko_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
+                "credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}",
+                Path.GetFullPath("./credentials_example.json"));
             Environment.Exit(1);
         }
 
@@ -54,11 +55,13 @@ public class BotCredentials : IBotCredentials
             if (string.IsNullOrWhiteSpace(Token))
             {
                 Log.Error(
-                    "Token is missing from credentials.json or Environment variables. Add it and restart the program.");
+                    "Token is missing from credentials.json or Environment variables. Add it and restart the program");
                 Environment.Exit(5);
             }
 
-            RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]) ? data[nameof(RedisOptions)] : "127.0.0.1,syncTimeout=3000";
+            RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)])
+                ? data[nameof(RedisOptions)]
+                : "127.0.0.1,syncTimeout=3000";
         }
         catch (Exception ex)
         {

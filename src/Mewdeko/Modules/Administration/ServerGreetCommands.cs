@@ -7,17 +7,9 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     [Group]
-    public class ServerGreetCommands : MewdekoSubmodule<GreetSettingsService>
+    public class ServerGreetCommands(IHttpClientFactory fact, GuildSettingsService guildSettings)
+        : MewdekoSubmodule<GreetSettingsService>
     {
-        private readonly IHttpClientFactory httpFactory;
-        private readonly GuildSettingsService guildSettings;
-
-        public ServerGreetCommands(IHttpClientFactory fact, GuildSettingsService guildSettings)
-        {
-            httpFactory = fact;
-            this.guildSettings = guildSettings;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
@@ -81,7 +73,8 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("boostmsg_new").ConfigureAwait(false);
             if (!sendBoostEnabled)
-                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"{await guildSettings.GetPrefix(ctx.Guild)}boost").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"{await guildSettings.GetPrefix(ctx.Guild)}boost")
+                    .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -116,7 +109,7 @@ public partial class Administration
 
             if (image is not null && text is null)
             {
-                using var http = httpFactory.CreateClient();
+                using var http = fact.CreateClient();
                 var uri = new Uri(image);
                 using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
@@ -133,13 +126,14 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
             if (ctx.Message.Attachments.Count > 0 && image is null && text is null)
             {
-                using var http = httpFactory.CreateClient();
+                using var http = fact.CreateClient();
                 var tags = ctx.Message.Attachments.FirstOrDefault();
                 var uri = new Uri(tags.Url);
                 using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
@@ -157,7 +151,8 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -173,7 +168,8 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("greethookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
         }
@@ -198,7 +194,7 @@ public partial class Administration
 
             if (image is not null && text is null)
             {
-                using var http = httpFactory.CreateClient();
+                using var http = fact.CreateClient();
                 var uri = new Uri(image);
                 using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
@@ -215,13 +211,14 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
             if (ctx.Message.Attachments.Count > 0 && image is null && text is null)
             {
-                using var http = httpFactory.CreateClient();
+                using var http = fact.CreateClient();
                 var tags = ctx.Message.Attachments.FirstOrDefault();
                 var uri = new Uri(tags.Url);
                 using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
@@ -239,7 +236,8 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
 
@@ -255,7 +253,8 @@ public partial class Administration
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2", guildSettings.GetPrefix(Context.Guild)));
+                    await ctx.Channel.SendConfirmAsync(GetText("leavehookset2",
+                        guildSettings.GetPrefix(Context.Guild)));
                 }
             }
         }
@@ -290,7 +289,8 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("greetmsg_new").ConfigureAwait(false);
             if (!sendGreetEnabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetmsg_enable",
+                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -334,7 +334,8 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("greetdmmsg_new").ConfigureAwait(false);
             if (!sendGreetEnabled)
-                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetdmmsg_enable",
+                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -371,7 +372,8 @@ public partial class Administration
 
             await ReplyConfirmLocalizedAsync("byemsg_new").ConfigureAwait(false);
             if (!sendByeEnabled)
-                await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}bye`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}bye`")
+                    .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -394,7 +396,9 @@ public partial class Administration
 
             await Service.ByeTest((ITextChannel)Context.Channel, user).ConfigureAwait(false);
             var enabled = await Service.GetByeEnabled(Context.Guild.Id);
-            if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}bye`").ConfigureAwait(false);
+            if (!enabled)
+                await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}bye`")
+                    .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -405,7 +409,8 @@ public partial class Administration
             await Service.BoostTest(ctx.Channel as ITextChannel, user).ConfigureAwait(false);
             var enabled = await Service.GetBoostEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("boostmsg_enable",
+                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -417,7 +422,8 @@ public partial class Administration
             await Service.GreetTest((ITextChannel)Context.Channel, user).ConfigureAwait(false);
             var enabled = await Service.GetGreetEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetmsg_enable",
+                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -434,7 +440,8 @@ public partial class Administration
                 await Context.WarningAsync().ConfigureAwait(false);
             var enabled = await Service.GetGreetDmEnabled(Context.Guild.Id);
             if (!enabled)
-                await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{await guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("greetdmmsg_enable",
+                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greetdm`").ConfigureAwait(false);
         }
     }
 }

@@ -1,19 +1,9 @@
 ﻿namespace Mewdeko.Modules.Confessions.Services;
 
-public class ConfessionService : INService
-{
-    private readonly DbService db;
-    private readonly DiscordSocketClient client;
-    private readonly GuildSettingsService guildSettings;
-
-    public ConfessionService(DbService db, DiscordSocketClient client,
+public class ConfessionService(DbService db, DiscordSocketClient client,
         GuildSettingsService guildSettings)
-    {
-        this.db = db;
-        this.client = client;
-        this.guildSettings = guildSettings;
-    }
-
+    : INService
+{
     public async Task SendConfession(
         ulong serverId,
         IUser user,
@@ -27,18 +17,21 @@ public class ConfessionService : INService
             var guild = client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
             var currentUser = guild.GetUser(client.CurrentUser.Id);
-            var confessionChannel = guild.GetTextChannel((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel);
+            var confessionChannel =
+                guild.GetTextChannel((await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionChannel);
             if (confessionChannel is null)
             {
                 if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                        "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
+                            "The confession channel is invalid! Please tell the server staff about this!")
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                    "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
+                        "The confession channel is invalid! Please tell the server staff about this!")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -56,12 +49,14 @@ public class ConfessionService : INService
                 if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
+                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                    "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
+                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -114,12 +109,14 @@ public class ConfessionService : INService
                 if (ctx is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                        "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
+                            "The confession channel is invalid! Please tell the server staff about this!")
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                    "The confession channel is invalid! Please tell the server staff about this!").ConfigureAwait(false);
+                        "The confession channel is invalid! Please tell the server staff about this!")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -137,12 +134,14 @@ public class ConfessionService : INService
                 if (ctx is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
+                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                    "Seems I dont have permission to post in the confession channel! Please tell the server staff.").ConfigureAwait(false);
+                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -193,7 +192,7 @@ public class ConfessionService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetConfessionChannel(ulong id)
@@ -209,7 +208,7 @@ public class ConfessionService : INService
 
         gc.SetConfessionBlacklists(blacklists);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
@@ -218,7 +217,7 @@ public class ConfessionService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.ConfessionLogChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<ulong> GetConfessionLogChannel(ulong id)
@@ -228,7 +227,9 @@ public class ConfessionService : INService
 public static class ConfessionExtensions
 {
     public static List<ulong> GetConfessionBlacklists(this GuildConfig gc)
-        => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist) ? new List<ulong>() : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
+        => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist)
+            ? new List<ulong>()
+            : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
 
     public static void SetConfessionBlacklists(this GuildConfig gc, IEnumerable<ulong> blacklists) =>
         gc.ConfessionBlacklist = blacklists.JoinWith(' ');

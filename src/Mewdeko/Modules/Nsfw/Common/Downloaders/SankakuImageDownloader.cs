@@ -4,15 +4,10 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public sealed class SankakuImageDownloader : ImageDownloader<SankakuImageObject>
+public sealed class SankakuImageDownloader(IHttpClientFactory http) : ImageDownloader<SankakuImageObject>(Booru.Sankaku,
+    http)
 {
-    private readonly string baseUrl;
-
-    public SankakuImageDownloader(IHttpClientFactory http)
-        : base(Booru.Sankaku, http)
-    {
-        baseUrl = "https://capi-v2.sankakucomplex.com";
-    }
+    private readonly string baseUrl = "https://capi-v2.sankakucomplex.com";
 
     public override async Task<List<SankakuImageObject>> DownloadImagesAsync(
         string[] tags,
@@ -25,10 +20,10 @@ public sealed class SankakuImageDownloader : ImageDownloader<SankakuImageObject>
 
         var uri = $"{baseUrl}/posts?tags={tagString}&limit=50";
 
-        using var http = _http.CreateClient();
+        using var http = Http.CreateClient();
         http.AddFakeHeaders();
         var data = await http.GetStringAsync(uri, cancel);
-        return JsonSerializer.Deserialize<SankakuImageObject[]>(data, _serializerOptions)
+        return JsonSerializer.Deserialize<SankakuImageObject[]>(data, SerializerOptions)
             ?.Where(x => !string.IsNullOrWhiteSpace(x.FileUrl) && x.FileType.StartsWith("image"))
             .ToList();
     }

@@ -82,7 +82,7 @@ public class UserPunishService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.WarnlogChannelId = channel.Id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<WarningPunishment>? Warn(IGuild guild, ulong userId, IUser mod, string reason)
@@ -128,7 +128,8 @@ public class UserPunishService : INService
             if (user == null)
                 return null;
 
-            await ApplyPunishment(guild, user, mod, p.Punishment, p.Time, p.RoleId, "Warned too many times.").ConfigureAwait(false);
+            await ApplyPunishment(guild, user, mod, p.Punishment, p.Time, p.RoleId, "Warned too many times.")
+                .ConfigureAwait(false);
             return p;
         }
 
@@ -404,7 +405,8 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
         return toReturn;
     }
 
-    public async Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
+    public async Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time,
+        IRole? role = null)
     {
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
@@ -420,7 +422,10 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
 
         ps.Add(new WarningPunishment
         {
-            Count = number, Punishment = punish, Time = (int?)time?.Time.TotalMinutes ?? 0, RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
+            Count = number,
+            Punishment = punish,
+            Time = (int?)time?.Time.TotalMinutes ?? 0,
+            RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -536,7 +541,8 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
         uow.SaveChanges();
     }
 
-    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string? defaultMessage,
+    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target,
+        string? defaultMessage,
         string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient)context.Client,
@@ -547,7 +553,8 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
             banReason,
             duration);
 
-    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context, IGuildUser target, string? defaultMessage,
+    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context,
+        IGuildUser target, string? defaultMessage,
         string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient)context.Client,
@@ -558,7 +565,8 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
             banReason,
             duration);
 
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient discordSocketClient, SocketGuild guild,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient discordSocketClient,
+        SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);

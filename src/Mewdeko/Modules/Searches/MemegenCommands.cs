@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class MemegenCommands : MewdekoSubmodule
+    public class MemegenCommands(IHttpClientFactory factory, InteractiveService serv) : MewdekoSubmodule
     {
         private static readonly ImmutableDictionary<char, string> Map = new Dictionary<char, string>
         {
@@ -42,19 +42,10 @@ public partial class Searches
             }
         }.ToImmutableDictionary();
 
-        private readonly IHttpClientFactory httpFactory;
-        private readonly InteractiveService interactivity;
-
-        public MemegenCommands(IHttpClientFactory factory, InteractiveService serv)
-        {
-            interactivity = serv;
-            httpFactory = factory;
-        }
-
         [Cmd, Aliases]
         public async Task Memelist()
         {
-            using var http = httpFactory.CreateClient("memelist");
+            using var http = factory.CreateClient("memelist");
             var res = await http.GetAsync("https://api.memegen.link/templates/")
                 .ConfigureAwait(false);
 
@@ -71,12 +62,13 @@ public partial class Searches
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask.ConfigureAwait(false);
-                var templates = data.Skip(page * 15).Take(15).Aggregate("", (current, template) => current + $"**{template.Name}:**\n key: `{template.Id}`\n");
+                var templates = data.Skip(page * 15).Take(15).Aggregate("",
+                    (current, template) => current + $"**{template.Name}:**\n key: `{template.Id}`\n");
                 return new PageBuilder()
                     .WithOkColor()
                     .WithDescription(templates);
@@ -89,7 +81,8 @@ public partial class Searches
             var memeUrl = $"https://api.memegen.link/{meme}";
             if (!string.IsNullOrWhiteSpace(memeText))
             {
-                memeUrl = memeText.Split(';').Select(Replace).Aggregate(memeUrl, (current, newText) => current + $"/{newText}");
+                memeUrl = memeText.Split(';').Select(Replace)
+                    .Aggregate(memeUrl, (current, newText) => current + $"/{newText}");
             }
 
             memeUrl += ".png";
@@ -112,16 +105,10 @@ public partial class Searches
             return sb.ToString();
         }
 
-        private class MemegenTemplate
+        private class MemegenTemplate(string name, string id)
         {
-            public MemegenTemplate(string name, string id)
-            {
-                Name = name;
-                Id = id;
-            }
-
-            public string Name { get; }
-            public string Id { get; }
+            public string Name { get; } = name;
+            public string Id { get; } = id;
         }
     }
 }
