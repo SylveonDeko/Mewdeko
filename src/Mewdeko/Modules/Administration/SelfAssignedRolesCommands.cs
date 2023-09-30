@@ -10,17 +10,9 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     [Group]
-    public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
+    public class SelfAssignedRolesCommands(InteractiveService serv, GuildSettingsService guildSettings)
+        : MewdekoSubmodule<SelfAssignedRolesService>
     {
-        private readonly InteractiveService interactivity;
-        private readonly GuildSettingsService guildSettings;
-
-        public SelfAssignedRolesCommands(InteractiveService serv, GuildSettingsService guildSettings)
-        {
-            interactivity = serv;
-            this.guildSettings = guildSettings;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
         public async Task AdSarm()
@@ -28,9 +20,11 @@ public partial class Administration
             var newVal = await Service.ToggleAdSarm(ctx.Guild.Id);
 
             if (newVal)
-                await ReplyConfirmLocalizedAsync("adsarm_enable", await guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_enable", await guildSettings.GetPrefix(ctx.Guild))
+                    .ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("adsarm_disable", await guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("adsarm_disable", await guildSettings.GetPrefix(ctx.Guild))
+                    .ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -104,7 +98,7 @@ public partial class Administration
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -119,7 +113,9 @@ public partial class Administration
 
                 foreach (var kvp in roleGroups)
                 {
-                    var groupNameText = Format.Bold(!groups.TryGetValue(kvp.Key, out var name) ? GetText("self_assign_group", kvp.Key) : $"{kvp.Key} - {name.TrimTo(25, true)}");
+                    var groupNameText = Format.Bold(!groups.TryGetValue(kvp.Key, out var name)
+                        ? GetText("self_assign_group", kvp.Key)
+                        : $"{kvp.Key} - {name.TrimTo(25, true)}");
 
                     rolesStr.AppendLine($"\t\t\t\t ⟪{groupNameText}⟫");
                     foreach (var (model, role) in kvp.AsEnumerable())

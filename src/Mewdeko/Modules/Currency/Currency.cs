@@ -8,15 +8,8 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Currency
 {
-    public class Currency : MewdekoModuleBase<ICurrencyService>
+    public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurrencyService>
     {
-        private readonly InteractiveService interactive;
-
-        public Currency(InteractiveService interactive)
-        {
-            this.interactive = interactive;
-        }
-
         [Cmd, Aliases]
         public async Task Cash()
         {
@@ -43,13 +36,15 @@ namespace Mewdeko.Modules.Currency
             {
                 await Service.AddUserBalanceAsync(Context.User.Id, betAmount, Context.Guild.Id);
                 await Service.AddTransactionAsync(Context.User.Id, betAmount, "Won Coin Flip", Context.Guild.Id);
-                await ReplyAsync($"It was {coinFlip}! You won {betAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+                await ReplyAsync(
+                    $"It was {coinFlip}! You won {betAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
             }
             else
             {
                 await Service.AddUserBalanceAsync(Context.User.Id, -betAmount, Context.Guild.Id);
                 await Service.AddTransactionAsync(Context.User.Id, -betAmount, "Lost Coin Flip", Context.Guild.Id);
-                await ReplyAsync($"It was {coinFlip}. You lost {betAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}.");
+                await ReplyAsync(
+                    $"It was {coinFlip}. You lost {betAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}.");
             }
         }
 
@@ -66,19 +61,22 @@ namespace Mewdeko.Modules.Currency
             var minimumTimeBetweenClaims = TimeSpan.FromSeconds(cooldownSeconds);
 
             var recentTransactions = (await Service.GetTransactionsAsync(Context.User.Id, Context.Guild.Id))
-                .Where(t => t.Description == "Daily Reward" && t.DateAdded > DateTime.UtcNow - minimumTimeBetweenClaims);
+                .Where(t => t.Description == "Daily Reward" &&
+                            t.DateAdded > DateTime.UtcNow - minimumTimeBetweenClaims);
 
             if (recentTransactions.Any())
             {
                 var nextAllowedClaimTime = recentTransactions.Max(t => t.DateAdded) + minimumTimeBetweenClaims;
 
-                await Context.Channel.SendErrorAsync($"You already claimed your daily reward. Come back at {TimestampTag.FromDateTime(nextAllowedClaimTime.Value)}");
+                await Context.Channel.SendErrorAsync(
+                    $"You already claimed your daily reward. Come back at {TimestampTag.FromDateTime(nextAllowedClaimTime.Value)}");
                 return;
             }
 
             await Service.AddUserBalanceAsync(Context.User.Id, rewardAmount, Context.Guild.Id);
             await Service.AddTransactionAsync(Context.User.Id, rewardAmount, "Daily Reward", Context.Guild.Id);
-            await Context.Channel.SendConfirmAsync($"You claimed your daily reward of {rewardAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+            await Context.Channel.SendConfirmAsync(
+                $"You claimed your daily reward of {rewardAmount} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
         }
 
 
@@ -119,7 +117,8 @@ namespace Mewdeko.Modules.Currency
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactive.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactive.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int index)
             {
@@ -131,8 +130,10 @@ namespace Mewdeko.Modules.Currency
                 // Add the top 10 users for this page
                 for (var i = index * 10; i < (index + 1) * 10 && i < users.Count; i++)
                 {
-                    var user = await Context.Guild.GetUserAsync(users[i].UserId) ?? (IUser)await Context.Client.GetUserAsync(users[i].UserId);
-                    pageBuilder.AddField($"{i + 1}. {user.Username}", $"{users[i].Balance} {await Service.GetCurrencyEmote(Context.Guild.Id)}", inline: true);
+                    var user = await Context.Guild.GetUserAsync(users[i].UserId) ??
+                               (IUser)await Context.Client.GetUserAsync(users[i].UserId);
+                    pageBuilder.AddField($"{i + 1}. {user.Username}",
+                        $"{users[i].Balance} {await Service.GetCurrencyEmote(Context.Guild.Id)}", inline: true);
                 }
 
                 return pageBuilder;
@@ -143,7 +144,8 @@ namespace Mewdeko.Modules.Currency
         public async Task SetDaily(int amount, StoopidTime time)
         {
             await Service.SetReward(amount, time.Time.Seconds, Context.Guild.Id);
-            await ctx.Channel.SendConfirmAsync($"Daily reward set to {amount} {await Service.GetCurrencyEmote(Context.Guild.Id)} every {time.Time.Seconds} seconds.");
+            await ctx.Channel.SendConfirmAsync(
+                $"Daily reward set to {amount} {await Service.GetCurrencyEmote(Context.Guild.Id)} every {time.Time.Seconds} seconds.");
         }
 
         [Cmd, Aliases]
@@ -170,7 +172,8 @@ namespace Mewdeko.Modules.Currency
 
             var balanceChange = await ComputeBalanceChange(segments[winningSegment]);
             await Service.AddUserBalanceAsync(Context.User.Id, balanceChange, Context.Guild.Id);
-            await Service.AddTransactionAsync(Context.User.Id, balanceChange, $"Wheel Spin {(segments[winningSegment].Contains('-') ? "Loss" : "Win")}", Context.Guild.Id);
+            await Service.AddTransactionAsync(Context.User.Id, balanceChange,
+                $"Wheel Spin {(segments[winningSegment].Contains('-') ? "Loss" : "Win")}", Context.Guild.Id);
             var eb = new EmbedBuilder()
                 .WithImageUrl("attachment://wheelResult.png");
 
@@ -183,7 +186,8 @@ namespace Mewdeko.Modules.Currency
                     break;
                 case < 0:
                     eb.WithTitle("You lost!");
-                    eb.WithDescription($"You lost {-balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
+                    eb.WithDescription(
+                        $"You lost {-balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
                     eb.WithErrorColor();
                     break;
             }
@@ -241,7 +245,8 @@ namespace Mewdeko.Modules.Currency
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactive.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactive.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int index)
             {
@@ -277,28 +282,32 @@ namespace Mewdeko.Modules.Currency
 
             for (var i = 0; i < numSegments; i++)
             {
-                using var paint = new SKPaint
-                {
-                    Style = SKPaintStyle.Fill, Color = colors[i % colors.Length], IsAntialias = true
-                };
+                using var paint = new SKPaint();
+                paint.Style = SKPaintStyle.Fill;
+                paint.Color = colors[i % colors.Length];
+                paint.IsAntialias = true;
 
                 var startAngle = (i * 360 / numSegments) - offsetAngle;
                 var sweepAngle = 360f / numSegments;
 
-                canvas.DrawArc(new SKRect(centerX - radius, centerY - radius, centerX + radius, centerY + radius), startAngle, sweepAngle, true, paint);
+                canvas.DrawArc(new SKRect(centerX - radius, centerY - radius, centerX + radius, centerY + radius),
+                    startAngle, sweepAngle, true, paint);
             }
 
-            using var textPaint = new SKPaint
-            {
-                Color = SKColors.Black, TextSize = 20, IsAntialias = true, TextAlign = SKTextAlign.Center
-            };
+            using var textPaint = new SKPaint();
+            textPaint.Color = SKColors.Black;
+            textPaint.TextSize = 20;
+            textPaint.IsAntialias = true;
+            textPaint.TextAlign = SKTextAlign.Center;
 
             for (var i = 0; i < numSegments; i++)
             {
                 var startAngle = (i * 360 / numSegments) - offsetAngle;
                 var middleAngle = startAngle + (360 / numSegments) / 2;
-                var textPosition = new SKPoint(centerX + (radius * 0.7f) * (float)Math.Cos(DegreesToRadians(middleAngle)),
-                    centerY + (radius * 0.7f) * (float)Math.Sin(DegreesToRadians(middleAngle)) + textPaint.TextSize / 2);
+                var textPosition = new SKPoint(
+                    centerX + (radius * 0.7f) * (float)Math.Cos(DegreesToRadians(middleAngle)),
+                    centerY + (radius * 0.7f) * (float)Math.Sin(DegreesToRadians(middleAngle)) +
+                    textPaint.TextSize / 2);
 
                 canvas.DrawText(segments[i], textPosition.X, textPosition.Y, textPaint);
             }
@@ -310,10 +319,10 @@ namespace Mewdeko.Modules.Currency
             var arrowLeftSide = new SKPoint(centerX - 15, arrowShaftEnd.Y);
             var arrowRightSide = new SKPoint(centerX + 15, arrowShaftEnd.Y);
 
-            using var arrowPaint = new SKPaint
-            {
-                Style = SKPaintStyle.StrokeAndFill, Color = SKColors.Black, IsAntialias = true
-            };
+            using var arrowPaint = new SKPaint();
+            arrowPaint.Style = SKPaintStyle.StrokeAndFill;
+            arrowPaint.Color = SKColors.Black;
+            arrowPaint.IsAntialias = true;
 
             var arrowPath = new SKPath();
             arrowPath.MoveTo(centerX, centerY);

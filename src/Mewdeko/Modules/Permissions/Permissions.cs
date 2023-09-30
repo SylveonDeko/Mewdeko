@@ -9,22 +9,12 @@ using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;
 
-public partial class Permissions : MewdekoModuleBase<PermissionService>
+public partial class Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
+    : MewdekoModuleBase<PermissionService>
 {
     public enum Reset
     {
         Reset
-    }
-
-    private readonly DbService db;
-    private readonly InteractiveService interactivity;
-    private readonly GuildSettingsService guildSettings;
-
-    public Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
-    {
-        interactivity = inter;
-        this.guildSettings = guildSettings;
-        this.db = db;
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
@@ -109,7 +99,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ListPerms()
     {
-        IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache) ? permCache.Permissions.Source.ToList() : Permissionv2.GetDefaultPermlist;
+        IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache)
+            ? permCache.Permissions.Source.ToList()
+            : Permissionv2.GetDefaultPermlist;
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
@@ -118,7 +110,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await inter.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -126,7 +118,8 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return new PageBuilder().WithDescription(string.Join("\n",
                 perms.Skip(page * 10).Take(10).Select(p =>
                 {
-                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
+                    var str =
+                        $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{GetText("uneditable")}]";
                     return str;
@@ -156,8 +149,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             }
 
             await ReplyConfirmLocalizedAsync("removed",
-                index + 1,
-                Format.Code(p.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild))).ConfigureAwait(false);
+                    index + 1,
+                    Format.Code(p.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)))
+                .ConfigureAwait(false);
         }
         catch (IndexOutOfRangeException)
         {
@@ -205,7 +199,8 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 }
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
-                        Format.Code(fromPerm.GetCommand(await guildSettings.GetPrefix(ctx.Guild), (SocketGuild)ctx.Guild)),
+                        Format.Code(fromPerm.GetCommand(await guildSettings.GetPrefix(ctx.Guild),
+                            (SocketGuild)ctx.Guild)),
                         ++from,
                         ++to)
                     .ConfigureAwait(false);

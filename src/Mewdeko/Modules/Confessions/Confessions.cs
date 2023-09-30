@@ -4,12 +4,8 @@ using Mewdeko.Modules.Confessions.Services;
 
 namespace Mewdeko.Modules.Confessions;
 
-public class Confessions : MewdekoModuleBase<ConfessionService>
+public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase<ConfessionService>
 {
-    private readonly GuildSettingsService guildSettings;
-
-    public Confessions(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
-
     [Cmd, Aliases, RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string? confession = null)
     {
@@ -32,11 +28,13 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                     return;
                 }
 
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment).ConfigureAwait(false);
+                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment)
+                    .ConfigureAwait(false);
             }
             else
             {
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment).ConfigureAwait(false);
+                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment)
+                    .ConfigureAwait(false);
             }
         }
         else

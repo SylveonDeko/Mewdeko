@@ -9,12 +9,8 @@ using Mewdeko.Modules.MultiGreets.Services;
 
 namespace Mewdeko.Modules.MultiGreets;
 
-public class MultiGreets : MewdekoModuleBase<MultiGreetService>
+public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<MultiGreetService>
 {
-    private readonly InteractiveService interactivity;
-
-    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
-
     public enum MultiGreetTypes
     {
         MultiGreet,
@@ -30,11 +26,13 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         switch (added)
         {
             case true:
-                await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!")
+                    .ConfigureAwait(false);
                 break;
             case false:
                 await ctx.Channel.SendErrorAsync(
-                    "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again").ConfigureAwait(false);
+                        "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again")
+                    .ConfigureAwait(false);
                 break;
         }
     }
@@ -63,7 +61,10 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             return;
         }
 
-        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all MultiGreets for this channel?"), ctx.User.Id)
+        if (await PromptUserConfirmAsync(
+                    new EmbedBuilder().WithOkColor()
+                        .WithDescription("Are you sure you want to remove all MultiGreets for this channel?"),
+                    ctx.User.Id)
                 .ConfigureAwait(false))
         {
             await Service.MultiRemoveMultiGreetInternal(greet.ToArray()).ConfigureAwait(false);
@@ -101,7 +102,8 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         await Service.ChangeMgDelete(greet, howlong).ConfigureAwait(false);
         if (howlong > 0)
             await ctx.Channel.SendConfirmAsync(
-                $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.").ConfigureAwait(false);
+                    $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.")
+                .ConfigureAwait(false);
         else
             await ctx.Channel.SendConfirmAsync($"MultiGreet #{id} will no longer delete.").ConfigureAwait(false);
     }
@@ -178,7 +180,8 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
             {
                 await ctx.Channel.SendErrorAsync(
-                    "The avatar url used is not a direct url or is invalid! Please use a different url.").ConfigureAwait(false);
+                        "The avatar url used is not a direct url or is invalid! Please use a different url.")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -189,13 +192,15 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             var imgStream = imgData.ToStream();
             await using var _ = imgStream.ConfigureAwait(false);
             var webhook = await channel.CreateWebhookAsync(name, imgStream).ConfigureAwait(false);
-            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}").ConfigureAwait(false);
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}")
+                .ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Webhook set!").ConfigureAwait(false);
         }
         else
         {
             var webhook = await channel.CreateWebhookAsync(name).ConfigureAwait(false);
-            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}").ConfigureAwait(false);
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}")
+                .ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Webhook set!").ConfigureAwait(false);
         }
     }
@@ -214,18 +219,23 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         {
             var components = new ComponentBuilder().WithButton("Preview", "preview").WithButton("Regular", "regular");
             var msg = await ctx.Channel.SendConfirmAsync(
-                "Would you like to view this as regular text or would you like to preview how it actually looks?", components).ConfigureAwait(false);
+                "Would you like to view this as regular text or would you like to preview how it actually looks?",
+                components).ConfigureAwait(false);
             var response = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             switch (response)
             {
                 case "preview":
                     await msg.DeleteAsync().ConfigureAwait(false);
-                    var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient)
+                    var replacer = new ReplacementBuilder().WithUser(ctx.User)
+                        .WithClient(ctx.Client as DiscordSocketClient)
                         .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
-                    if (SmartEmbed.TryParse(content, ctx.Guild.Id, out var embedData, out var plainText, out var components2))
+                    if (SmartEmbed.TryParse(content, ctx.Guild.Id, out var embedData, out var plainText,
+                            out var components2))
                     {
-                        await ctx.Channel.SendMessageAsync(plainText, embeds: embedData, components: components2.Build()).ConfigureAwait(false);
+                        await ctx.Channel
+                            .SendMessageAsync(plainText, embeds: embedData, components: components2.Build())
+                            .ConfigureAwait(false);
                     }
                     else
                     {

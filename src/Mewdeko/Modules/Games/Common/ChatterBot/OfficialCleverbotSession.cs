@@ -4,24 +4,16 @@ using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.ChatterBot;
 
-public class OfficialCleverbotSession : IChatterBotSession
+public class OfficialCleverbotSession(string apiKey, IHttpClientFactory factory) : IChatterBotSession
 {
-    private readonly string apiKey;
-    private readonly IHttpClientFactory httpFactory;
     private string cs;
-
-    public OfficialCleverbotSession(string apiKey, IHttpClientFactory factory)
-    {
-        this.apiKey = apiKey;
-        httpFactory = factory;
-    }
 
     private string QueryString =>
         $"https://www.cleverbot.com/getreply?key={apiKey}&wrapper=Mewdeko&input={{0}}&cs={{1}}";
 
     public async Task<string>? Think(string input)
     {
-        using var http = httpFactory.CreateClient();
+        using var http = factory.CreateClient();
         var dataString = await http.GetStringAsync(string.Format(QueryString, input, cs))
             .ConfigureAwait(false);
         try
@@ -64,8 +56,8 @@ public class CleverbotIoSession : IChatterBotSession
         using var http = httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key), new KeyValuePair<string, string>("nick", await nick),
-            new KeyValuePair<string, string>("text", input)
+            new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key),
+            new KeyValuePair<string, string>("nick", await nick), new KeyValuePair<string, string>("text", input)
         });
         using var data = await http.PostAsync(askEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);

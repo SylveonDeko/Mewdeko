@@ -5,22 +5,17 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public abstract class ImageDownloader<T> : IImageDownloader
+public abstract class ImageDownloader<T>(Booru booru, IHttpClientFactory http) : IImageDownloader
     where T : IImageData
 {
-    public Booru Booru { get; }
-    protected readonly IHttpClientFactory _http;
+    public Booru Booru { get; } = booru;
+    protected readonly IHttpClientFactory Http = http;
 
-    protected readonly JsonSerializerOptions _serializerOptions = new()
+    protected readonly JsonSerializerOptions SerializerOptions = new()
     {
-        PropertyNameCaseInsensitive = true, NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
+        PropertyNameCaseInsensitive = true,
+        NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString
     };
-
-    public ImageDownloader(Booru booru, IHttpClientFactory http)
-    {
-        _http = http;
-        Booru = booru;
-    }
 
     public abstract Task<List<T>> DownloadImagesAsync(
         string[] tags,

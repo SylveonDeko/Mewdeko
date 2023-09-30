@@ -12,22 +12,11 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group("snipe", "Snipe edited or delete messages!")]
-    public class SlashSnipes : MewdekoSlashModuleBase<UtilityService>
-    {
-        private readonly DiscordSocketClient client;
-        private readonly InteractiveService interactivity;
-        private readonly GuildSettingsService guildSettings;
-        private readonly BotConfigService config;
-
-        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService, GuildSettingsService guildSettings,
+    public class SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService,
+            GuildSettingsService guildSettings,
             BotConfigService config)
-        {
-            this.client = client;
-            interactivity = interactiveService;
-            this.guildSettings = guildSettings;
-            this.config = config;
-        }
-
+        : MewdekoSlashModuleBase<UtilityService>
+    {
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task Snipe(IMessageChannel? channel = null, IUser? user = null)
@@ -54,7 +43,8 @@ public partial class Utility
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ??
+                   await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -112,7 +102,8 @@ public partial class Utility
                 return;
             }
 
-            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ?? await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
+            user = await ctx.Channel.GetUserAsync(msg.UserId).ConfigureAwait(false) ??
+                   await client.Rest.GetUserAsync(msg.UserId).ConfigureAwait(false);
 
             var em = new EmbedBuilder
             {
@@ -149,7 +140,8 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!").ConfigureAwait(false);
+                        $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -180,7 +172,9 @@ public partial class Utility
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactiveService
+                .SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

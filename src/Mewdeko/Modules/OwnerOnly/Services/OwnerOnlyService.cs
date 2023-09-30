@@ -179,7 +179,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         {
                             embedBuilder.WithOkColor()
                                 .WithDescription(messagePart)
-                                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                                .WithAuthor("ChatGPT",
+                                    "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
                         }
                         else
                         {
@@ -205,7 +206,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later. Probably a bad webhook.");
+                    await usrMsg.SendErrorReplyAsync(
+                        "Something went wrong, please try again later. Probably a bad webhook.");
                 }
             }
             else
@@ -233,7 +235,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     {
                         embedBuilder.WithOkColor()
                             .WithDescription(messagePart)
-                            .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                            .WithAuthor("ChatGPT",
+                                "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
                     }
                     else
                     {
@@ -310,7 +313,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         {
                             embedBuilder.WithOkColor()
                                 .WithDescription(messagePart)
-                                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                                .WithAuthor("ChatGPT",
+                                    "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
                         }
                         else
                         {
@@ -357,7 +361,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         {
                             embedBuilder.WithOkColor()
                                 .WithDescription(messagePart)
-                                .WithAuthor("ChatGPT", "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                                .WithAuthor("ChatGPT",
+                                    "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
                         }
                         else
                         {
@@ -491,7 +496,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (ownerChannels.Count == 0)
             {
                 Log.Warning(
-                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server");
             }
             else
             {
@@ -520,7 +525,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 if (rotatingStatuses.Count == 0)
                     continue;
 
-                var playingStatus = currentStatusNum >= rotatingStatuses.Count ? rotatingStatuses[currentStatusNum = 0] : rotatingStatuses[currentStatusNum++];
+                var playingStatus = currentStatusNum >= rotatingStatuses.Count
+                    ? rotatingStatuses[currentStatusNum = 0]
+                    : rotatingStatuses[currentStatusNum++];
 
                 var statusText = rep.Replace(playingStatus.Status);
                 await bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);

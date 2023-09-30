@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Moderation;
 
 public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
 {
-    private static readonly HttpClient _httpClient = new();
+    private static readonly HttpClient HttpClient = new();
     public IBotCredentials Credentials { get; set; }
     public BotConfigService ConfigService { get; set; }
     public DbService DbService { get; set; }
@@ -45,7 +45,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
                 "redirect_uri", ConfigService.Data.RedirectUrl
             }
         });
-        var req = await _httpClient.PostAsync(url, content);
+        var req = await HttpClient.PostAsync(url, content);
         var response = JsonSerializer.Deserialize<AuthResponce>(await req.Content.ReadAsStringAsync());
 
         if (response.access_token.IsNullOrWhiteSpace())
@@ -60,7 +60,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         await client.LoginAsync(TokenType.Bearer, response.access_token);
         if (client.CurrentUser.Id != Context.Interaction.User.Id)
         {
-            await ctx.Interaction.SendErrorFollowupAsync("This auth token was not issued to you. Attempting to impersonate another user may result in a permanent ban.");
+            await ctx.Interaction.SendErrorFollowupAsync(
+                "This auth token was not issued to you. Attempting to impersonate another user may result in a permanent ban.");
             return;
         }
 
@@ -79,7 +80,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
 
         await Task.Delay(1000);
         await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, uow, Context.Client.CurrentUser.Id,
-            Credentials.ClientSecret, _httpClient);
+            Credentials.ClientSecret, HttpClient);
 
         var eb = new EmbedBuilder()
             .WithTitle("Code Saved")
@@ -88,7 +89,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
             .WithColor(Color.Green)
             .AddField("Dragon Notice",
                 "If you disable dragon mode on your account before this feature is complete your early-use of it, and related records may be removed.")
-            .WithImageUrl("https://media.discordapp.net/attachments/915770282579484693/1064141713385467935/Deactivate_Mewdeko.png?width=618&height=671");
+            .WithImageUrl(
+                "https://media.discordapp.net/attachments/915770282579484693/1064141713385467935/Deactivate_Mewdeko.png?width=618&height=671");
         await FollowupAsync(embed: eb.Build());
     }
 

@@ -9,12 +9,8 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     [Group]
-    public class TimeZoneCommands : MewdekoSubmodule<GuildTimezoneService>
+    public class TimeZoneCommands(InteractiveService serv) : MewdekoSubmodule<GuildTimezoneService>
     {
-        private readonly InteractiveService interactivity;
-
-        public TimeZoneCommands(InteractiveService serv) => interactivity = serv;
-
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Timezones()
         {
@@ -47,7 +43,7 @@ public partial class Administration
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

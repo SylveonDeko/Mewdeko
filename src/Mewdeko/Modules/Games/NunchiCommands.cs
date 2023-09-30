@@ -8,12 +8,8 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     [Group]
-    public class NunchiCommands : MewdekoSubmodule<GamesService>
+    public class NunchiCommands(DiscordSocketClient client) : MewdekoSubmodule<GamesService>
     {
-        private readonly DiscordSocketClient client;
-
-        public NunchiCommands(DiscordSocketClient client) => this.client = client;
-
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Nunchi()
         {
@@ -99,14 +95,16 @@ public partial class Games
                 Format.Bold(arg.ParticipantCount.ToString()),
                 Format.Bold(cur.ToString()));
 
-        private Task Nunchi_OnUserGuessed(NunchiGame arg) => ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
+        private Task Nunchi_OnUserGuessed(NunchiGame arg) =>
+            ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
 
         private Task Nunchi_OnRoundEnded(NunchiGame arg1, (ulong Id, string Name)? arg2)
         {
             if (arg2.HasValue)
                 return ConfirmLocalizedAsync("nunchi_round_ended", Format.Bold(arg2.Value.Name));
             return ConfirmLocalizedAsync("nunchi_round_ended_boot",
-                Format.Bold($"\n{string.Join("\n, ", arg1.Participants.Select(x => x.Name))}")); // this won't work if there are too many users
+                Format.Bold(
+                    $"\n{string.Join("\n, ", arg1.Participants.Select(x => x.Name))}")); // this won't work if there are too many users
         }
     }
 }

@@ -4,16 +4,15 @@ namespace Mewdeko.Common.Autocompleters;
 
 public class HighlightAutocompleter : AutocompleteHandler
 {
-    public HighlightAutocompleter(DbService db, IDataCache cache)
+    public HighlightAutocompleter(IDataCache cache)
     {
-        db = db;
         this.cache = cache;
     }
 
-    public readonly DbService db;
     private readonly IDataCache cache;
 
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter,
+    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+        IAutocompleteInteraction interaction, IParameterInfo parameter,
         IServiceProvider services)
     {
         var content = (string)interaction.Data.Current.Value;

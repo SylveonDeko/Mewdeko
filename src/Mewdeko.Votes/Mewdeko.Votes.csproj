@@ -2,14 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-      <RuntimeIdentifiers>win-x86;win-x64;arch-x64;linux-x64;linux-arm</RuntimeIdentifiers>
+      <RuntimeIdentifiers>win-x86;win-x64;linux-x64;linux-arm;</RuntimeIdentifiers>
+      <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-      <PackageReference Include="Serilog" Version="3.0.1"/>
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-      <PackageReference Include="StackExchange.Redis" Version="2.6.104"/>
+      <PackageReference Include="Serilog" Version="3.0.2-dev-02056"/>
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918"/>
+      <PackageReference Include="StackExchange.Redis" Version="2.6.122"/>
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 

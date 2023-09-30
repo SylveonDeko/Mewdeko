@@ -10,17 +10,9 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class StreamNotificationCommands : MewdekoSubmodule<StreamNotificationService>
+    public class StreamNotificationCommands
+        (DbService db, InteractiveService serv) : MewdekoSubmodule<StreamNotificationService>
     {
-        private readonly DbService db;
-        private readonly InteractiveService interactivity;
-
-        public StreamNotificationCommands(DbService db, InteractiveService serv)
-        {
-            interactivity = serv;
-            this.db = db;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamAdd(string link)
         {
@@ -94,7 +86,7 @@ public partial class Searches
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {

@@ -6,19 +6,9 @@ using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Modules.Highlights;
 
-public class Highlights : MewdekoModuleBase<HighlightsService>
+public class Highlights(InteractiveService interactivity, IServiceProvider svcs, DbService db)
+    : MewdekoModuleBase<HighlightsService>
 {
-    private readonly InteractiveService interactivity;
-    private readonly IServiceProvider svcs;
-    private readonly DbService db;
-
-    public Highlights(InteractiveService interactivity, IServiceProvider svcs, DbService db)
-    {
-        this.interactivity = interactivity;
-        this.svcs = svcs;
-        this.db = db;
-    }
-
     public enum HighlightActions
     {
         Add,
@@ -49,13 +39,15 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     else
                     {
                         await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words).ConfigureAwait(false);
-                        await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!").ConfigureAwait(false);
+                        await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!")
+                            .ConfigureAwait(false);
                     }
                 }
                 else
                 {
                     await Service.AddHighlight(ctx.Guild.Id, ctx.User.Id, words).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Added {Format.Code(words)} to your highlights!")
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -85,7 +77,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
                         .WithTitle($"{highlightsForUser.Count} Highlights")
-                        .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                        .WithDescription(string.Join("\n",
+                            highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
@@ -96,7 +89,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!")
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -110,7 +104,9 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     }
 
                     await Service.RemoveHighlight(todelete).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.").ConfigureAwait(false);
+                    await ctx.Channel
+                        .SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.")
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -121,7 +117,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 }
 
                 await Service.RemoveHighlight(highlightsForUser.Find(x => x.Word == words)).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.")
+                    .ConfigureAwait(false);
                 break;
             case HighlightActions.Match:
                 if (string.IsNullOrWhiteSpace(words))
@@ -158,7 +155,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
                         .WithTitle($"{highlightsForUser.Count()} Highlights")
-                        .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
+                        .WithDescription(string.Join("\n",
+                            highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
@@ -179,26 +177,32 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                         return;
                     }
 
-                    if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, host.Id.ToString()).ConfigureAwait(false))
+                    if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, host.Id.ToString())
+                            .ConfigureAwait(false))
                     {
-                        await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!").ConfigureAwait(false);
+                        await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!")
+                            .ConfigureAwait(false);
                         return;
                     }
 
-                    await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!")
+                        .ConfigureAwait(false);
 
                     return;
                 }
 
                 var channel = (ITextChannel)result.BestMatch;
 
-                if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()).ConfigureAwait(false))
+                if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString())
+                        .ConfigureAwait(false))
                 {
-                    await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!")
+                        .ConfigureAwait(false);
                 }
                 else
                 {
-                    await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!").ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!")
+                        .ConfigureAwait(false);
                 }
 
                 break;
@@ -208,7 +212,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     return;
                 if (!bool.TryParse(words, out var enabled))
                 {
-                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.")
+                        .ConfigureAwait(false);
                     return;
                 }
 

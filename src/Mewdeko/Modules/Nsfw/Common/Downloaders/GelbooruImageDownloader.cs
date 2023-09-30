@@ -5,13 +5,8 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
-public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
+public class GelbooruImageDownloader(IHttpClientFactory http) : ImageDownloader<DapiImageObject>(Booru.Gelbooru, http)
 {
-    public GelbooruImageDownloader(IHttpClientFactory http)
-        : base(Booru.Gelbooru, http)
-    {
-    }
-
     public override async Task<List<DapiImageObject>> DownloadImagesAsync(
         string[] tags,
         int page,
@@ -27,14 +22,14 @@ public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
                   + $"&tags={tagString}"
                   + $"&pid={page}";
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
-        using var http = _http.CreateClient();
+        using var http = Http.CreateClient();
         using var res = await http.SendAsync(req, cancel);
         res.EnsureSuccessStatusCode();
         var resString = await res.Content.ReadAsStringAsync(cancel);
         if (string.IsNullOrWhiteSpace(resString))
             return new();
 
-        var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, _serializerOptions);
+        var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, SerializerOptions);
         if (images is null or { Post: null })
             return new();
 

@@ -10,17 +10,8 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group]
-    public class InviteCommands : MewdekoSubmodule<InviteService>
+    public class InviteCommands(InteractiveService serv, DiscordSocketClient client) : MewdekoSubmodule<InviteService>
     {
-        private readonly InteractiveService interactivity;
-        private readonly DiscordSocketClient client;
-
-        public InviteCommands(InteractiveService serv, DiscordSocketClient client)
-        {
-            this.client = client;
-            interactivity = serv;
-        }
-
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
          MewdekoOptions(typeof(InviteService.Options))]
@@ -45,7 +36,8 @@ public partial class Utility
             var invinfo = await client.Rest.GetInviteAsync(text).ConfigureAwait(false);
             if (!invinfo.GuildId.HasValue)
             {
-                await ctx.Channel.SendErrorAsync("That invite was not found. Please make sure it's valid and not a vanity.");
+                await ctx.Channel.SendErrorAsync(
+                    "That invite was not found. Please make sure it's valid and not a vanity.");
                 return;
             }
 
@@ -98,7 +90,7 @@ public partial class Utility
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -109,7 +101,8 @@ public partial class Utility
                     return new PageBuilder().WithErrorColor().WithDescription(GetText("no_invites"));
                 return invs.Aggregate(new PageBuilder().WithOkColor(),
                     (acc, inv) => acc.AddField(
-                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} ({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})", inv.Url));
+                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} ({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})",
+                        inv.Url));
             }
         }
 

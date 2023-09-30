@@ -4,7 +4,24 @@ accept:
   - acceptsuggest
 acceptchannel:
   - acceptchannel
-
+gpingrole:
+  - gpingrole
+  - giveawaypingrole
+gdmmmessage:
+  - gdmmmessage
+  - giveawaydmmessage
+gbanner:
+  - gbanner
+  - giveawaybanner
+gwinembedcolor:
+  - gwinembedcolor
+  - giveawaywinembedcolor
+gembedcolor:
+  - gembedcolor
+  - giveawayembedcolor
+gdm:
+  - gdm
+  - giveawaydm
 acceptmessage:
   - acceptmessage
   - acceptmsg

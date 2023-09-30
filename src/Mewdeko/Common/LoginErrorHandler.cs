@@ -8,7 +8,8 @@ namespace Mewdeko.Common;
 public static class LoginErrorHandler
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Handle(Exception ex) => Log.Fatal(ex, "A fatal error has occurred while attempting to connect to Discord");
+    public static void Handle(Exception ex) =>
+        Log.Fatal(ex, "A fatal error has occurred while attempting to connect to Discord");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Handle(HttpException ex)
@@ -23,7 +24,7 @@ public static class LoginErrorHandler
 
             case HttpStatusCode.BadRequest:
                 Log.Error("Something has been incorrectly formatted in your credentials file.\n" +
-                          "Use the JSON Guide as reference to fix it and restart the bot.");
+                          "Use the JSON Guide as reference to fix it and restart the bot");
                 Log.Error("If you are on Linux, make sure Redis is installed and running");
                 break;
 
@@ -47,6 +48,7 @@ public static class LoginErrorHandler
                 break;
         }
 
+        // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
         Log.Fatal(ex.ToString());
     }
 }

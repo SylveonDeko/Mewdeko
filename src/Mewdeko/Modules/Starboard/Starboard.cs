@@ -4,12 +4,8 @@ using Mewdeko.Modules.Starboard.Services;
 
 namespace Mewdeko.Modules.Starboard;
 
-public class Starboard : MewdekoSubmodule<StarboardService>
+public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<StarboardService>
 {
-    private readonly GuildSettingsService guildSettings;
-
-    public Starboard(GuildSettingsService guildSettings) => this.guildSettings = guildSettings;
-
     public enum WhitelistMode
     {
         Whitelist = 0,
@@ -54,7 +50,8 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         var count = await Service.GetStarCount(ctx.Guild.Id);
         await Service.SetStarCount(ctx.Guild, num).ConfigureAwait(false);
         var count2 = await Service.GetStarCount(ctx.Guild.Id);
-        await ctx.Channel.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!")
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -70,7 +67,8 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             }
 
             await ctx.Channel.SendConfirmAsync(
-                $"Your current starboard emote is {maybeEmote} {Format.Code(maybeEmote.ToString())}").ConfigureAwait(false);
+                    $"Your current starboard emote is {maybeEmote} {Format.Code(maybeEmote.ToString())}")
+                .ConfigureAwait(false);
             return;
         }
 
@@ -80,7 +78,8 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         }
         catch
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use that emote! Please use a different one.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm unable to use that emote! Please use a different one.")
+                .ConfigureAwait(false);
             return;
         }
 
@@ -94,7 +93,8 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()).ConfigureAwait(false))
         {
             await ctx.Channel.SendConfirmAsync(
-                $"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)").ConfigureAwait(false);
+                    $"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {await guildSettings.GetPrefix(ctx.Guild)}swm)")
+                .ConfigureAwait(false);
         }
         else
         {
@@ -124,9 +124,12 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     {
         await Service.SetRemoveOnClear(ctx.Guild, enabled).ConfigureAwait(false);
         if (enabled)
-            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the message's reactions are cleared.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendConfirmAsync("Starboard posts will now be removed when the message's reactions are cleared.")
+                .ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.")
+                .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -134,9 +137,13 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     {
         await Service.SetRemoveOnDelete(ctx.Guild, enabled).ConfigureAwait(false);
         if (enabled)
-            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the original message is deleted.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendConfirmAsync("Starboard posts will now be removed when the original message is deleted.")
+                .ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.")
+                .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
@@ -144,9 +151,15 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     {
         await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled).ConfigureAwait(false);
         if (enabled)
-            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the messages star count is below the current star count.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendConfirmAsync(
+                    "Starboard posts will now be removed when the messages star count is below the current star count.")
+                .ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed when the messages star count is below the current star count").ConfigureAwait(false);
+            await ctx.Channel
+                .SendConfirmAsync(
+                    "Starboard posts will no longer be removed when the messages star count is below the current star count")
+                .ConfigureAwait(false);
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]

@@ -25,7 +25,8 @@ namespace Mewdeko.Common.Collections
                 throw new ArgumentNullException(nameof(values));
             }
 
-            backingStore = new ConcurrentDictionary<T, bool>(values.Select(x => new KeyValuePair<T, bool>(x, true)), comparer);
+            backingStore =
+                new ConcurrentDictionary<T, bool>(values.Select(x => new KeyValuePair<T, bool>(x, true)), comparer);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -145,7 +146,7 @@ namespace Mewdeko.Common.Collections
         {
             if (other == null) throw new ArgumentNullException(nameof(other));
 
-            return this.Any(x => other.Contains(x));
+            return this.Any(other.Contains);
         }
 
         public bool SetEquals(IEnumerable<T> other)

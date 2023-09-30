@@ -21,31 +21,7 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 [OwnerOnly]
-public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
-{
-    public enum SettableUserStatus
-    {
-        Online,
-        Invisible,
-        Idle,
-        Dnd
-    }
-
-    private readonly Mewdeko bot;
-    private readonly DiscordSocketClient client;
-    private readonly DbService db;
-    private readonly ICoordinator coord;
-    private readonly IEnumerable<IConfigService> settingServices;
-    private readonly IBotStrings strings;
-    private readonly InteractiveService interactivity;
-    private readonly IDataCache cache;
-    private readonly CommandService commandService;
-    private readonly IServiceProvider services;
-    private readonly GuildSettingsService guildSettings;
-    private readonly CommandHandler commandHandler;
-
-    public OwnerOnly(
-        DiscordSocketClient client,
+public class OwnerOnly(DiscordSocketClient client,
         Mewdeko bot,
         IBotStrings strings,
         InteractiveService serv,
@@ -57,19 +33,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         IServiceProvider services,
         GuildSettingsService guildSettings,
         CommandHandler commandHandler)
+    : MewdekoModuleBase<OwnerOnlyService>
+{
+    public enum SettableUserStatus
     {
-        interactivity = serv;
-        this.client = client;
-        this.bot = bot;
-        this.strings = strings;
-        this.coord = coord;
-        this.settingServices = settingServices;
-        this.db = db;
-        this.cache = cache;
-        this.commandService = commandService;
-        this.services = services;
-        this.guildSettings = guildSettings;
-        this.commandHandler = commandHandler;
+        Online,
+        Invisible,
+        Idle,
+        Dnd
     }
 
     [Cmd, Aliases]
@@ -90,7 +61,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -98,10 +70,13 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var msg = new MewdekoUserMessage
         {
-            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = await Context.Guild.GetOwnerAsync(), Channel = ctx.Channel
+            Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}",
+            Author = await Context.Guild.GetOwnerAsync(),
+            Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
+        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -135,7 +110,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -284,7 +259,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
             if (!success)
             {
-                await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value)).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value))
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -293,7 +269,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         catch (Exception e)
         {
             Console.WriteLine(e);
-            await ctx.Channel.SendErrorAsync("There was an error setting or printing the config, please check the logs.");
+            await ctx.Channel.SendErrorAsync(
+                "There was an error setting or printing the config, please check the logs.");
         }
     }
 
@@ -353,7 +330,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            await ReplyConfirmLocalizedAsync("defprefix_current", await guildSettings.GetPrefix()).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("defprefix_current", await guildSettings.GetPrefix())
+                .ConfigureAwait(false);
             return;
         }
 
@@ -441,7 +419,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
             return;
-        var command = commandService.Search(cmdText.Replace(await guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
+        var command =
+            commandService.Search(cmdText.Replace(await guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
         if (!command.IsSuccess)
             return;
         foreach (var i in command.Commands)
@@ -643,7 +622,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -799,13 +778,16 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             var potentialUser = client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!")
+                    .ConfigureAwait(false);
                 return;
             }
 
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText,
+                    out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build()).ConfigureAwait(false);
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build())
+                    .ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
                 return;
             }
@@ -817,41 +799,51 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         if (to == 0)
         {
-            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!")
+                .ConfigureAwait(false);
             return;
         }
 
         var channel = await potentialServer.GetTextChannelAsync(to).ConfigureAwait(false);
         if (channel is not null)
         {
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText,
+                    out var components))
             {
-                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build()).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
+                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                    .ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                    .ConfigureAwait(false);
                 return;
             }
 
             await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                .ConfigureAwait(false);
             return;
         }
 
         var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
         if (user is null)
         {
-            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.")
+                .ConfigureAwait(false);
             return;
         }
 
-        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1, out var components1))
+        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1,
+                out var components1))
         {
-            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build()).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}").ConfigureAwait(false);
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build())
+                .ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}")
+                .ConfigureAwait(false);
             return;
         }
 
         await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}")
+            .ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
@@ -945,7 +937,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+                await serv.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
                 {
@@ -960,7 +952,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             else
             {
                 process.Kill();
-                await ctx.Channel.SendErrorAsync("The process was hanging and has been terminated.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("The process was hanging and has been terminated.")
+                    .ConfigureAwait(false);
             }
 
             if (!process.HasExited)
@@ -1017,7 +1010,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             foreach (var xd in csc.Take(3))
             {
                 var ls = xd.Location.GetLineSpan();
-                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}", Format.Code(xd.GetMessage()));
+                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}",
+                    Format.Code(xd.GetMessage()));
             }
 
             if (csc.Length > 3)
@@ -1071,11 +1065,9 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 }
 
-public sealed class EvaluationEnvironment
+public sealed class EvaluationEnvironment(CommandContext ctx)
 {
-    public EvaluationEnvironment(CommandContext ctx) => Ctx = ctx;
-
-    public CommandContext Ctx { get; }
+    public CommandContext Ctx { get; } = ctx;
 
     public IUserMessage Message => Ctx.Message;
     public IMessageChannel Channel => Ctx.Channel;

@@ -115,7 +115,8 @@ public class NewEmbed
         !string.IsNullOrWhiteSpace(Embed?.Url) ||
         Embed?.Thumbnail != null ||
         Embed?.Image != null ||
-        (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) || !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
+        (Embed?.Footer != null && (!string.IsNullOrWhiteSpace(Embed?.Footer.Text) ||
+                                   !string.IsNullOrWhiteSpace(Embed?.Footer.IconUrl))) ||
         Embed?.Fields is { Count: > 0 };
 
     public class NewEmbedComponent
@@ -160,7 +161,7 @@ public class NewEmbed
                 rowLength = 0;
             }
 
-            if (comp.IsSelect is true)
+            if (comp.IsSelect)
             {
                 if (rowLength != 0)
                     ++activeRowId;
@@ -184,15 +185,21 @@ public class NewEmbed
     {
         var bb = new ButtonBuilder();
         if (btn.Url.IsNullOrWhiteSpace() && btn.Id.IsNullOrWhiteSpace())
-            bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+            bb.WithDisabled(true).WithLabel("Buttons must have a url or id").WithStyle(ButtonStyle.Danger)
+                .WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Id.IsNullOrWhiteSpace())
-            bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+            bb.WithDisabled(true).WithLabel("Buttons cannot have both a url and id").WithStyle(ButtonStyle.Danger)
+                .WithCustomId(pos.ToString());
         else if (btn.Url.IsNullOrWhiteSpace() && btn.Style == ButtonStyle.Link)
-            bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+            bb.WithDisabled(true).WithLabel("Button styles must be 1, 2, 3, or 4").WithStyle(ButtonStyle.Danger)
+                .WithCustomId(pos.ToString());
         else if (btn.DisplayName.IsNullOrWhiteSpace())
-            bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
-        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://") && !btn.Url.StartsWith("http://") && !btn.Url.StartsWith("discord://"))
-            bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link").WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
+            bb.WithDisabled(true).WithLabel("Buttons must have a display name").WithStyle(ButtonStyle.Danger)
+                .WithCustomId(pos.ToString());
+        else if (!btn.Url.IsNullOrWhiteSpace() && !btn.Url.StartsWith("https://") && !btn.Url.StartsWith("http://") &&
+                 !btn.Url.StartsWith("discord://"))
+            bb.WithDisabled(true).WithLabel("Buttons with a url must have a https://, https://, or discord:// link")
+                .WithStyle(ButtonStyle.Danger).WithCustomId(pos.ToString());
         else if (!btn.Url.IsNullOrWhiteSpace())
         {
             bb.WithLabel(btn.DisplayName).WithStyle(ButtonStyle.Link).WithUrl(btn.Url);
@@ -248,7 +255,8 @@ public class NewEmbed
                 .WithMaxValues(sel.MaxOptions)
                 .WithMinValues(sel.MinOptions)
                 .WithOptions(sel.Options
-                    .Select(x => new SelectMenuOptionBuilder(x.Name, x.Id.ToString(), x.Description, x.Emoji?.ToIEmote()))
+                    .Select(x =>
+                        new SelectMenuOptionBuilder(x.Name, x.Id.ToString(), x.Description, x.Emoji?.ToIEmote()))
                     .ToList());
 
         return sb;
@@ -303,7 +311,8 @@ public class NewEmbed
 
             if (i.Fields != null)
             {
-                foreach (var f in i.Fields.Where(f => !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
+                foreach (var f in i.Fields.Where(f =>
+                             !string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value)))
                     embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
             }
 

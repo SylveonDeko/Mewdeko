@@ -2,13 +2,13 @@ using Discord.Interactions;
 
 namespace Mewdeko.Common.TypeReaders.Interactions;
 
-public partial class StatusRolesTypeConverter : TypeConverter<StatusRolesTable>
+public class StatusRolesTypeConverter : TypeConverter<StatusRolesTable>
 {
-
     public override ApplicationCommandOptionType GetDiscordType() => ApplicationCommandOptionType.String;
 
 
-    public override async Task<TypeConverterResult> ReadAsync(IInteractionContext context, IApplicationCommandInteractionDataOption input, IServiceProvider services)
+    public override async Task<TypeConverterResult> ReadAsync(IInteractionContext context,
+        IApplicationCommandInteractionDataOption input, IServiceProvider services)
     {
         var option = input.Value as string;
         var cache = services.GetService(typeof(IDataCache)) as IDataCache;
@@ -28,5 +28,4 @@ public partial class StatusRolesTypeConverter : TypeConverter<StatusRolesTable>
     {
         properties.Description = "The statusrole to look at/modify.";
     }
-
 }
