@@ -22,7 +22,7 @@ namespace Mewdeko.Services;
 
 public class CommandHandler : INService
 {
-    public const int GlobalCommandsCooldown = 750;
+    private const int GlobalCommandsCooldown = 750;
 
     private const float OneThousandth = 1.0f / 1000;
     private readonly Mewdeko bot;
@@ -35,24 +35,24 @@ public class CommandHandler : INService
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer clearUsersOnShortCooldown;
     private readonly IBotStrings strings;
-    public IEnumerable<IEarlyBehavior> EarlyBehaviors;
+    private IEnumerable<IEarlyBehavior> earlyBehaviors;
     private IEnumerable<IInputTransformer> inputTransformers;
-    public IEnumerable<ILateBlocker> LateBlockers;
+    private IEnumerable<ILateBlocker> lateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
-    public readonly InteractionService InteractionService;
+    private readonly InteractionService interactionService;
     private readonly GuildSettingsService gss;
     private readonly IBotCredentials creds;
     private readonly IDataCache cache;
 
-    public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
-    public NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
+    private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
+    private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
         GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
     {
-        InteractionService = interactionService;
+        this.interactionService = interactionService;
         this.gss = gss;
         this.creds = creds;
         this.cache = cache;
@@ -68,14 +68,14 @@ public class CommandHandler : INService
             Task.Run(() => TryRunInteraction(x));
             return Task.CompletedTask;
         };
-        InteractionService.SlashCommandExecuted += HandleCommands;
-        InteractionService.ContextCommandExecuted += HandleContextCommands;
+        this.interactionService.SlashCommandExecuted += HandleCommands;
+        this.interactionService.ContextCommandExecuted += HandleContextCommands;
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
             GlobalCommandsCooldown);
         eventHandler.MessageReceived += MessageReceivedHandler;
     }
 
-    public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
+    private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
@@ -86,7 +86,7 @@ public class CommandHandler : INService
 
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
+    private Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
         _ = Task.Run(async () =>
         {
@@ -394,7 +394,7 @@ public class CommandHandler : INService
         //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
         var ctx = new SocketInteractionContext(client, interaction);
-        var result = await InteractionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+        var result = await interactionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
 #if DEBUG
         Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
 #endif
@@ -403,7 +403,7 @@ public class CommandHandler : INService
 
     public void AddServices(IServiceCollection services)
     {
-        LateBlockers = services
+        lateBlockers = services
             .Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
             .Select(x => this.services.GetService(x.ImplementationType) as ILateBlocker)
             .OrderByDescending(x => x.Priority)
@@ -419,7 +419,7 @@ public class CommandHandler : INService
             .Select(x => this.services.GetService(x.ImplementationType) as IInputTransformer)
             .ToArray();
 
-        EarlyBehaviors = services.Where(x =>
+        earlyBehaviors = services.Where(x =>
                 x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
             .Select(x => this.services.GetService(x.ImplementationType) as IEarlyBehavior)
             .ToArray();
@@ -534,7 +534,7 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    public async Task MessageReceivedHandler(IMessage msg)
+    private async Task MessageReceivedHandler(IMessage msg)
     {
         try
         {
@@ -606,7 +606,7 @@ public class CommandHandler : INService
     {
         var execTime = Environment.TickCount;
 
-        foreach (var beh in EarlyBehaviors)
+        foreach (var beh in earlyBehaviors)
         {
             if (!await beh.RunBehavior(client, guild, usrMsg).ConfigureAwait(false))
                 continue;
@@ -780,27 +780,6 @@ public class CommandHandler : INService
             parseResultsDict[pair.Key] = parseResult;
         }
 
-        // Calculates the 'score' of a command given a parse result
-        static float CalculateScore(CommandMatch match, Discord.Commands.ParseResult parseResult)
-        {
-            float argValuesScore = 0, paramValuesScore = 0;
-
-            if (match.Command.Parameters.Count > 0)
-            {
-                var argValuesSum =
-                    parseResult.ArgValues?.Sum(x =>
-                        x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
-                var paramValuesSum = parseResult.ParamValues?.Sum(x =>
-                    x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
-
-                argValuesScore = argValuesSum / match.Command.Parameters.Count;
-                paramValuesScore = paramValuesSum / match.Command.Parameters.Count;
-            }
-
-            var totalArgsScore = (argValuesScore + paramValuesScore) / 2;
-            return match.Command.Priority + (totalArgsScore * 0.99f);
-        }
-
         //Order the parse results by their score so that we choose the most likely result to execute
         var parseResults = parseResultsDict
             .OrderByDescending(x => CalculateScore(x.Key, x.Value));
@@ -825,15 +804,13 @@ public class CommandHandler : INService
             return (false, null, cmd);
 
         var commandName = cmd.Aliases[0];
-        foreach (var exec in LateBlockers)
+        foreach (var exec in lateBlockers)
         {
-            if (await exec.TryBlockLate(client, context, cmd.Module.GetTopLevelModule().Name, cmd)
-                    .ConfigureAwait(false))
-            {
-                Log.Information("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName,
-                    exec.GetType().Name);
-                return (false, null, cmd);
-            }
+            if (!await exec.TryBlockLate(client, context, cmd.Module.GetTopLevelModule().Name, cmd)
+                    .ConfigureAwait(false)) continue;
+            Log.Information("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName,
+                exec.GetType().Name);
+            return (false, null, cmd);
         }
 
         //If we get this far, at least one parse was successful. Execute the most likely overload.
@@ -849,5 +826,26 @@ public class CommandHandler : INService
         }
 
         return (true, null, cmd);
+
+        // Calculates the 'score' of a command given a parse result
+        static float CalculateScore(CommandMatch match, Discord.Commands.ParseResult parseResult)
+        {
+            float argValuesScore = 0, paramValuesScore = 0;
+
+            if (match.Command.Parameters.Count > 0)
+            {
+                var argValuesSum =
+                    parseResult.ArgValues?.Sum(x =>
+                        x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+                var paramValuesSum = parseResult.ParamValues?.Sum(x =>
+                    x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+
+                argValuesScore = argValuesSum / match.Command.Parameters.Count;
+                paramValuesScore = paramValuesSum / match.Command.Parameters.Count;
+            }
+
+            var totalArgsScore = (argValuesScore + paramValuesScore) / 2;
+            return match.Command.Priority + (totalArgsScore * 0.99f);
+        }
     }
 }

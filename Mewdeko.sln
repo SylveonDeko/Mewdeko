@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Tests", "src\Mewdek
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Votes", "src\Mewdeko.Votes\Mewdeko.Votes.csproj", "{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.GlobalBanAPI", "Mewdeko.GlobalBanAPI\Mewdeko.GlobalBanAPI.csproj", "{9A0977EE-13E2-4372-86B4-C919FFB9D85E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A0977EE-13E2-4372-86B4-C919FFB9D85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A0977EE-13E2-4372-86B4-C919FFB9D85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A0977EE-13E2-4372-86B4-C919FFB9D85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A0977EE-13E2-4372-86B4-C919FFB9D85E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,6 @@
 public class GlobalBanConfig : DbEntity
 {
     public ulong GuildId { get; set; }
-    public GbType BanTypes { get; set; }
     public ulong GlobalBanLogChannel { get; set; }
     public GbActionType Action { get; set; }
     public long UseRecommendedAction { get; set; }

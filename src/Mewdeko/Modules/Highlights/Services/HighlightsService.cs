@@ -20,7 +20,7 @@ public class HighlightsService : INService, IReadyExecutor
         _ = HighlightLoop();
     }
 
-    public async Task HighlightLoop()
+    private async Task HighlightLoop()
     {
         while (true)
         {
@@ -323,7 +323,7 @@ public class HighlightsService : INService, IReadyExecutor
         await cache.RemoveHighlightFromCache(toremove.GuildId, current).ConfigureAwait(false);
     }
 
-    public List<Database.Models.Highlights?> GetForGuild(ulong guildId)
+    private List<Database.Models.Highlights?> GetForGuild(ulong guildId)
     {
         var highlightsForGuild = this.cache.GetHighlightsForGuild(guildId);
         if (highlightsForGuild is not null) return highlightsForGuild;
@@ -334,7 +334,7 @@ public class HighlightsService : INService, IReadyExecutor
         return highlights;
     }
 
-    public IEnumerable<HighlightSettings?> GetSettingsForGuild(ulong guildId)
+    private IEnumerable<HighlightSettings?> GetSettingsForGuild(ulong guildId)
     {
         var highlightSettingsForGuild = this.cache.GetHighlightSettingsForGuild(guildId);
         if (highlightSettingsForGuild is not null) return highlightSettingsForGuild;

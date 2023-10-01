@@ -16,7 +16,7 @@ public class UserPunishService : INService
     private readonly MuteService mute;
     private readonly DiscordSocketClient client;
     private readonly GuildSettingsService guildSettings;
-    private Dictionary<ulong, MassNick> massNicks = new();
+    private readonly Dictionary<ulong, MassNick> massNicks = new();
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         DiscordSocketClient client,
