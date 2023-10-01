@@ -61,7 +61,6 @@ public class MewdekoContext : DbContext
     public DbSet<AutoBanEntry> AutoBanWords { get; set; }
     public DbSet<StatusRolesTable> StatusRoles { get; set; }
     public DbSet<Stake> Stakes { get; set; }
-    public DbSet<GlobalBans> GlobalBans { get; set; }
     public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<BanTemplate> BanTemplates { get; set; }

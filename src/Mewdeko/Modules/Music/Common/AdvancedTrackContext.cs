@@ -1,13 +1,7 @@
 ﻿namespace Mewdeko.Modules.Music.Common;
 
-public class AdvancedTrackContext
+public class AdvancedTrackContext(IUser queueUser, Platform queuedPlatform = Platform.Youtube)
 {
-    public AdvancedTrackContext(IUser queueUser, Platform queuedPlatform = Platform.Youtube)
-    {
-        QueueUser = queueUser;
-        QueuedPlatform = queuedPlatform;
-    }
-
-    public IUser QueueUser { get; }
-    public Platform QueuedPlatform { get; }
+    public IUser QueueUser { get; } = queueUser;
+    public Platform QueuedPlatform { get; } = queuedPlatform;
 }
