@@ -25,27 +25,7 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 [SlashOwnerOnly, Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
-public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
-{
-    public enum SettableUserStatus
-    {
-        Online,
-        Invisible,
-        Idle,
-        Dnd
-    }
-
-    private readonly DiscordSocketClient client;
-    private readonly DbService db;
-    private readonly ICoordinator coord;
-    private readonly IBotStrings strings;
-    private readonly InteractiveService interactivity;
-    private readonly IDataCache cache;
-    private readonly GuildSettingsService guildSettings;
-    private readonly CommandHandler commandHandler;
-
-    public SlashOwnerOnly(
-        DiscordSocketClient client,
+public class SlashOwnerOnly(DiscordSocketClient client,
         IBotStrings strings,
         InteractiveService serv,
         ICoordinator coord,
@@ -53,15 +33,14 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
         IDataCache cache,
         GuildSettingsService guildSettings,
         CommandHandler commandHandler)
+    : MewdekoSlashModuleBase<OwnerOnlyService>
+{
+    public enum SettableUserStatus
     {
-        interactivity = serv;
-        this.client = client;
-        this.strings = strings;
-        this.coord = coord;
-        this.db = db;
-        this.cache = cache;
-        this.guildSettings = guildSettings;
-        this.commandHandler = commandHandler;
+        Online,
+        Invisible,
+        Idle,
+        Dnd
     }
 
     [SlashCommand("clearusedtokens", "Clears the used gpt tokens count")]
@@ -83,7 +62,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Interaction.Id)).ConfigureAwait(false);
+        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Interaction.Id))
+            .ConfigureAwait(false);
     }
 
     [SlashCommand("redisexec", "Run a redis command")]
@@ -117,7 +97,7 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await serv.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -171,30 +151,18 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
     }
 
     [Discord.Interactions.Group("config", "Commands to manage various bot things")]
-    public class ConfigCommands : MewdekoSlashModuleBase<OwnerOnlyService>
-    {
-        private readonly GuildSettingsService guildSettings;
-        private readonly CommandService commandService;
-        private readonly IServiceProvider services;
-        private readonly DiscordSocketClient client;
-        private readonly IEnumerable<IConfigService> settingServices;
-
-        public ConfigCommands(GuildSettingsService guildSettings, CommandService commandService, IServiceProvider services, DiscordSocketClient client,
+    public class ConfigCommands(GuildSettingsService guildSettings, CommandService commandService,
+            IServiceProvider services, DiscordSocketClient client,
             IEnumerable<IConfigService> settingServices)
-        {
-            this.guildSettings = guildSettings;
-            this.commandService = commandService;
-            this.services = services;
-            this.client = client;
-            this.settingServices = settingServices;
-        }
-
+        : MewdekoSlashModuleBase<OwnerOnlyService>
+    {
         [SlashCommand("defprefix", "Sets the default prefix for the bots text commands")]
         public async Task DefPrefix(string? prefix = null)
         {
             if (string.IsNullOrWhiteSpace(prefix))
             {
-                await ReplyConfirmLocalizedAsync("defprefix_current", await guildSettings.GetPrefix()).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("defprefix_current", await guildSettings.GetPrefix())
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -231,12 +199,15 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             }
         }
 
-        [SlashCommand("startupcommandadd", "Adds a command to run in the current channel on startup"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+        [SlashCommand("startupcommandadd", "Adds a command to run in the current channel on startup"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task StartupCommandAdd([Remainder] string cmdText)
         {
-            if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) ||
-                cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}restart", StringComparison.InvariantCulture))
+            if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die",
+                    StringComparison.InvariantCulture) ||
+                cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}restart",
+                    StringComparison.InvariantCulture))
                 return;
 
             var guser = (IGuildUser)ctx.User;
@@ -263,13 +234,15 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
                     .WithValue(cmdText).WithIsInline(false)).Build()).ConfigureAwait(false);
         }
 
-        [SlashCommand("autocommandadd", "Adds a command to run at a set interval"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+        [SlashCommand("autocommandadd", "Adds a command to run at a set interval"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
         {
             if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
                 return;
-            var command = commandService.Search(cmdText.Replace(await guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
+            var command =
+                commandService.Search(cmdText.Replace(await guildSettings.GetPrefix(ctx.Guild), "").Split(" ")[0]);
             if (!command.IsSuccess)
                 return;
 
@@ -309,7 +282,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
                 .ConfigureAwait(false);
         }
 
-        [SlashCommand("startupcommandslist", "Lists the current startup commands"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+        [SlashCommand("startupcommandslist", "Lists the current startup commands"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
         public async Task StartupCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -340,7 +314,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             }
         }
 
-        [SlashCommand("autocommandslist", "Lists all auto commands"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+        [SlashCommand("autocommandslist", "Lists all auto commands"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
         public async Task AutoCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -373,7 +348,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
 
         private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
 
-        [SlashCommand("autocommandremove", "Removes an auto command"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+        [SlashCommand("autocommandremove", "Removes an auto command"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandRemove([Remainder] int index)
         {
@@ -386,7 +362,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             await ctx.Interaction.SendConfirmAsync($"Auto Command Removed.").ConfigureAwait(false);
         }
 
-        [SlashCommand("startupcommandremove", "Removes a startup command"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+        [SlashCommand("startupcommandremove", "Removes a startup command"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
         public async Task StartupCommandRemove([Remainder] int index)
         {
             if (!Service.RemoveStartupCommand(--index, out _))
@@ -395,7 +372,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
                 await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);
         }
 
-        [SlashCommand("startupcommandsclear", "Clears all startup commands"), Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+        [SlashCommand("startupcommandsclear", "Clears all startup commands"),
+         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task StartupCommandsClear()
         {
@@ -553,7 +531,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
 
                 if (!success)
                 {
-                    await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value)).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("config_edit_fail", Format.Code(prop), Format.Code(value))
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -562,7 +541,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                await ctx.Interaction.SendErrorFollowupAsync("There was an error setting or printing the config, please check the logs.");
+                await ctx.Interaction.SendErrorFollowupAsync(
+                    "There was an error setting or printing the config, please check the logs.");
             }
         }
 
@@ -584,17 +564,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
     }
 
     [Discord.Interactions.Group("statuscommands", "Commands to manage bot status")]
-    public class StatusCommands : MewdekoSlashModuleBase<OwnerOnlyService>
+    public class StatusCommands(Mewdeko bot, DiscordSocketClient client) : MewdekoSlashModuleBase<OwnerOnlyService>
     {
-        private readonly Mewdeko bot;
-        private readonly DiscordSocketClient client;
-
-        public StatusCommands(Mewdeko bot, DiscordSocketClient client)
-        {
-            this.bot = bot;
-            this.client = client;
-        }
-
         [SlashCommand("rotateplaying", "Toggles rotating playing status")]
         public async Task RotatePlaying()
         {
@@ -706,7 +677,7 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -802,14 +773,18 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             var potentialUser = client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
-                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!").ConfigureAwait(false);
+                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!")
+                    .ConfigureAwait(false);
                 return;
             }
 
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText,
+                    out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build()).ConfigureAwait(false);
-                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build())
+                    .ConfigureAwait(false);
+                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!")
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -820,41 +795,52 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
 
         if (to == 0)
         {
-            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!")
+                .ConfigureAwait(false);
             return;
         }
 
         var channel = await potentialServer.GetTextChannelAsync(to).ConfigureAwait(false);
         if (channel is not null)
         {
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText,
+                    out var components))
             {
-                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build()).ConfigureAwait(false);
-                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
+                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                    .ConfigureAwait(false);
+                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                    .ConfigureAwait(false);
                 return;
             }
 
             await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                .ConfigureAwait(false);
             return;
         }
 
         var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
         if (user is null)
         {
-            await ctx.Interaction.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.").ConfigureAwait(false);
+            await ctx.Interaction
+                .SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.")
+                .ConfigureAwait(false);
             return;
         }
 
-        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1, out var components1))
+        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1,
+                out var components1))
         {
-            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build()).ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}").ConfigureAwait(false);
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build())
+                .ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}")
+                .ConfigureAwait(false);
             return;
         }
 
         await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}").ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}")
+            .ConfigureAwait(false);
     }
 
     [SlashCommand("imagesreload", "Recaches and redownloads all images")]
@@ -949,7 +935,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
                     .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                     .Build();
 
-                await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60), InteractionResponseType.DeferredChannelMessageWithSource)
+                await serv.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60),
+                        InteractionResponseType.DeferredChannelMessageWithSource)
                     .ConfigureAwait(false);
 
                 async Task<PageBuilder> PageFactory(int page)
@@ -966,7 +953,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             else
             {
                 process.Kill();
-                await ctx.Interaction.FollowupAsync("The process was hanging and has been terminated.").ConfigureAwait(false);
+                await ctx.Interaction.FollowupAsync("The process was hanging and has been terminated.")
+                    .ConfigureAwait(false);
             }
 
             if (!process.HasExited)
@@ -999,7 +987,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
                 "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
                 "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
                 "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
-                "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management", "Discord.Interactions")
+                "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management",
+                "Discord.Interactions")
             .WithReferences(AppDomain.CurrentDomain.GetAssemblies()
                 .Where(xa => !xa.IsDynamic && !string.IsNullOrWhiteSpace(xa.Location)));
 
@@ -1020,7 +1009,8 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
             foreach (var xd in csc.Take(3))
             {
                 var ls = xd.Location.GetLineSpan();
-                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}", Format.Code(xd.GetMessage()));
+                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}",
+                    Format.Code(xd.GetMessage()));
             }
 
             if (csc.Length > 3)
@@ -1074,11 +1064,9 @@ public class SlashOwnerOnly : MewdekoSlashModuleBase<OwnerOnlyService>
     }
 }
 
-public sealed class InteractionEvaluationEnvironment
+public sealed class InteractionEvaluationEnvironment(IInteractionContext ctx)
 {
-    public InteractionEvaluationEnvironment(IInteractionContext ctx) => Ctx = ctx;
-
-    public IInteractionContext Ctx { get; }
+    public IInteractionContext Ctx { get; } = ctx;
 
     public IDiscordInteraction Interaction => Ctx.Interaction;
     public IMessageChannel Channel => Ctx.Channel;

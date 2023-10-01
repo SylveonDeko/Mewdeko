@@ -9,7 +9,7 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly List<StatusRolesTable> statusRoles = new();
+    private readonly HashSet<StatusRolesTable> statusRoles = new();
 
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
@@ -22,7 +22,11 @@ public class StatusRolesService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         await using var uow = db.GetDbContext();
-        statusRoles.AddRange(uow.StatusRoles);
+        foreach (var i in uow.StatusRoles)
+        {
+            statusRoles.Add(i);
+        }
+
         Log.Information("StatusRoles cached");
     }
 
@@ -231,12 +235,12 @@ public class StatusRolesService : INService, IReadyExecutor
         }
     }
 
-    public async Task<IEnumerable<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
+    public async Task<HashSet<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
     {
         if (!statusRoles.Any())
-            return new List<StatusRolesTable>();
-        var statusList = statusRoles.Where(x => x.GuildId == guildId);
-        return statusList.Any() ? statusList : new List<StatusRolesTable>();
+            return new HashSet<StatusRolesTable>();
+        var statusList = statusRoles.Where(x => x.GuildId == guildId).ToHashSet();
+        return statusList.Any() ? statusList : new HashSet<StatusRolesTable>();
     }
 
 

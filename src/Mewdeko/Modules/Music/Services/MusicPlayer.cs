@@ -7,22 +7,11 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Music.Services;
 
-public class MusicPlayer : LavalinkPlayer
-{
-    private readonly DiscordSocketClient client;
-    private readonly MusicService musicService;
-    private readonly BotConfigService config;
-
-    public MusicPlayer(
-        DiscordSocketClient client,
+public class MusicPlayer(DiscordSocketClient client,
         MusicService musicService,
         BotConfigService config)
-    {
-        this.client = client;
-        this.musicService = musicService;
-        this.config = config;
-    }
-
+    : LavalinkPlayer
+{
     public override async Task OnTrackStartedAsync(TrackStartedEventArgs args)
     {
         var queue = musicService.GetQueue(args.Player.GuildId);
@@ -37,7 +26,8 @@ public class MusicPlayer : LavalinkPlayer
             //ignored
         }
 
-        var resultMusicChannelId = (await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).MusicChannelId;
+        var resultMusicChannelId =
+            (await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).MusicChannelId;
         var autoPlay = (await musicService.GetSettingsInternalAsync(args.Player.GuildId)).AutoPlay;
         if (resultMusicChannelId != null)
         {
@@ -52,7 +42,8 @@ public class MusicPlayer : LavalinkPlayer
                         .WithOkColor()
                         .WithDescription($"Now playing {track.Title} by {track.Author}")
                         .WithTitle($"Track #{queue.IndexOf(track) + 1}")
-                        .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId)).ConfigureAwait(false))
+                        .WithFooter(await musicService.GetPrettyInfo(args.Player, client.GetGuild(args.Player.GuildId))
+                            .ConfigureAwait(false))
                         .WithThumbnailUrl(artWork.OriginalString);
                     if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
                     if (nextTrack is null && autoPlay > 0)
@@ -112,7 +103,8 @@ public class MusicPlayer : LavalinkPlayer
                                 label: "Invite Me!",
                                 emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
                         : null).ConfigureAwait(false);
-                if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false)).AutoDisconnect is
+                if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false))
+                    .AutoDisconnect is
                     AutoDisconnect.Either or AutoDisconnect.Queue)
                 {
                     await args.Player.StopAsync(true).ConfigureAwait(false);
