@@ -137,9 +137,9 @@ public class    MusicService : INService
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    "",
+                                    label: "",
+                                    emote: "".ToIEmote()).Build()
                             : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items.Select(i => i.Track as FullTrack))
@@ -198,9 +198,9 @@ public class    MusicService : INService
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    "",
+                                    label: "",
+                                    emote: "".ToIEmote()).Build()
                             : null).ConfigureAwait(false);
                     var addedcount = 0;
                     foreach (var track in items)

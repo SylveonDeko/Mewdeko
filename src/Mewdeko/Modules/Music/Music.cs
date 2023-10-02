@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -775,7 +775,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     searchResponse = await lavaNode.LoadTracksAsync(searchQuery,SearchMode.SoundCloud)
                         .ConfigureAwait(false);
                 var platform = Platform.Youtube;
-                if (client.CurrentUser.Id == 752236274261426212)
+                if (client.CurrentUser.Id == 1092943806732710058)
                     platform = Platform.Soundcloud;
                 if (searchQuery.Contains("soundcloud.com"))
                     platform = Platform.Soundcloud;
@@ -797,9 +797,9 @@ public class Music : MewdekoModuleBase<MusicService>
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    "",
+                                    label: "",
+                                    emote: "".ToIEmote()).Build()
                             : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
@@ -820,9 +820,9 @@ public class Music : MewdekoModuleBase<MusicService>
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    "",
+                                    label: "",
+                                    emote: "".ToIEmote()).Build()
                             : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
@@ -996,9 +996,9 @@ public class Music : MewdekoModuleBase<MusicService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        "",
+                        label: "",
+                        emote: "".ToIEmote())
                 : null).ConfigureAwait(false);
     }
 
@@ -1030,9 +1030,9 @@ public class Music : MewdekoModuleBase<MusicService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        "",
+                        label: "",
+                        emote: "".ToIEmote())
                 : null).ConfigureAwait(false);
     }
 
@@ -1094,9 +1094,9 @@ public class Music : MewdekoModuleBase<MusicService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        "",
+                        label: "",
+                        emote: "".ToIEmote())
                 : null).ConfigureAwait(false);
     }
 
@@ -1166,9 +1166,9 @@ public class Music : MewdekoModuleBase<MusicService>
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                                "",
+                                label: "",
+                                emote: "".ToIEmote())
                         : null);
                 break;
             case > 5:
@@ -1180,9 +1180,9 @@ public class Music : MewdekoModuleBase<MusicService>
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                                "",
+                                label: "",
+                                emote: "".ToIEmote())
                         : null);
                 break;
         }
@@ -1223,9 +1223,9 @@ public class Music : MewdekoModuleBase<MusicService>
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            "",
+                            label: "",
+                            emote: "".ToIEmote()).Build()
                     : null).ConfigureAwait(false);
         }
         catch (Exception e)

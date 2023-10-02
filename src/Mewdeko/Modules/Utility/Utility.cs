@@ -181,10 +181,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
-            .AddField("Invite Link",
-                "[Anime](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Non Anime](https://discord.com/oauth2/authorize?client_id=733370438175948891&scope=bot&permissions=66186303)")
-            .AddField("Website/Docs", "https://mewdeko.tech")
-            .AddField("Support Server", config.Data.SupportServer)
+            .AddField("",
+                "")
+            .AddField("", "")
+            .AddField("", config.Data.SupportServer)
             .WithOkColor();
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
@@ -288,9 +288,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        "",
+                        label: "",
+                        emote: "".ToIEmote()).Build()
                 : null).ConfigureAwait(false);
     }
 
@@ -771,9 +771,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        "",
+                        label: "",
+                        emote: "".ToIEmote()).Build()
                 : null).ConfigureAwait(false);
     }
 
@@ -839,9 +839,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        "",
+                        label: "",
+                        emote: "".ToIEmote()).Build()
                 : null).ConfigureAwait(false);
     }
 
@@ -889,9 +889,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            "",
+                            label: "",
+                            emote: "".ToIEmote()).Build()
                     : null).ConfigureAwait(false);
         }
     }
@@ -957,9 +957,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
-                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                        label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        "",
+                        label: "",
+                        emote: "".ToIEmote()).Build()
                 : null).ConfigureAwait(false);
     }
 
@@ -1008,9 +1008,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            "",
+                            label: "",
+                            emote: "".ToIEmote()).Build()
                     : null).ConfigureAwait(false);
         }
     }
@@ -1061,9 +1061,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            "",
+                            label: "",
+                            emote: "".ToIEmote()).Build()
                     : null).ConfigureAwait(false);
         }
     }
@@ -1114,9 +1114,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            "",
+                            label: "",
+                            emote: "".ToIEmote()).Build()
                     : null).ConfigureAwait(false);
         }
     }
@@ -1176,7 +1176,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task Vote() =>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithDescription(
-                    "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"))
+                    ""))
             .ConfigureAwait(false);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]

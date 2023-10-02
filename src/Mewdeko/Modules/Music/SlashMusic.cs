@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -746,7 +746,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var searchResponse = await lavaNode.LoadTracksAsync(searchQuery, !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.None)
                 .ConfigureAwait(false);
             var platform = Platform.Youtube;
-            if (client.CurrentUser.Id == 752236274261426212)
+            if (client.CurrentUser.Id == 1092943806732710058)
                 platform = Platform.Soundcloud;
             if (searchQuery.Contains("soundcloud.com"))
                 platform = Platform.Soundcloud;
@@ -768,9 +768,9 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                "",
+                                label: "",
+                                emote: "".ToIEmote()).Build()
                         : null).ConfigureAwait(false);
                 if (player.State != PlayerState.Playing)
                     await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
@@ -800,9 +800,9 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                "",
+                                label: "",
+                                emote: "".ToIEmote()).Build()
                         : null).ConfigureAwait(false);
                 if (player.State != PlayerState.Playing)
                     await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
