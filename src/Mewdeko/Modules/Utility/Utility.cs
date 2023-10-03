@@ -1474,12 +1474,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
         var users = new[]
         {
-            await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false), await client.Rest.GetUserAsync(786375627892064257).ConfigureAwait(false),
+            await client.Rest.GetUserAsync(170185463200481280).ConfigureAwait(false), await client.Rest.GetUserAsync(224188029324099584).ConfigureAwait(false),
         };
         await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    .AddField(GetText("authors"), $"[{users[0]}](https://github.com/)\n[{users[1]}](https://github.com/)")
+                    //.AddField(GetText("authors"), $"[{users[0]}](https://github.com/)\n[{users[1]}](https://github.com/)")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
