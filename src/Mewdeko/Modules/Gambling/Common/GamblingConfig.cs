@@ -1,4 +1,4 @@
-﻿using Mewdeko.Common.Yml;
+using Mewdeko.Common.Yml;
 
 namespace Mewdeko.Modules.Gambling.Common;
 

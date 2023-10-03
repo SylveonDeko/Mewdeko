@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.Attributes.TextCommands;
@@ -20,6 +20,6 @@ public sealed class OwnerOnlyAttribute : PreconditionAttribute
             creds != null && (creds.IsOwner(context.User) || context.Client.CurrentUser.Id == context.User.Id)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError(
-                    "Not owner\nYou can host your own version of Mewdeko by following the instructions at https://github.com/sylveondeko/Mewdeko\nOr if you don't have anywhere to host it you can subscribe to our ko-fi at https://ko-fi.com/mewdeko"));
+                    "Not owner\n"));
     }
 }
