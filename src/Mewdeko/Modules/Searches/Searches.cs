@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using Discord.Commands;
@@ -397,13 +397,23 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             {
                 await Task.CompletedTask.ConfigureAwait(false);
                 var result = googleImageResults.Skip(page).FirstOrDefault();
-                return new PageBuilder().WithOkColor().WithDescription(result.Title)
-                    .WithImageUrl(result.Url)
+
+                // Check for null result
+                if (result == null)
+                {
+                    return new PageBuilder().WithOkColor().WithDescription("No results found.")
+                        .WithAuthor(name: "Google Image Result",
+                                    iconUrl: "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
+                }
+
+                return new PageBuilder().WithOkColor()
+                    .WithDescription(result?.Title) // Using safe navigation
+                    .WithImageUrl(result?.Url) // Using safe navigation
                     .WithAuthor(name: "Google Image Result",
-                        iconUrl:
-                        "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
+                                iconUrl: "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
             }
         }
+
     }
 
     [Cmd, Aliases]

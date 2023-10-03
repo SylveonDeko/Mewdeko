@@ -149,7 +149,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }, true);
         }
 
-        if (!args.Content.StartsWith("!frog"))
+        if (!args.Content.StartsWith("!frog") && !args.Content.StartsWith("!frogbot"))
             return;
 
         if (conversations.TryGetValue(args.Author.Id, out var conversation))

@@ -179,7 +179,7 @@ public class ChatterBotService : INService
         }
         catch
         {
-            await channel.SendErrorAsync("GPT is pay-as-you-go. Don't abuse it or you'll lose access.").ConfigureAwait(false);
+            //await channel.SendErrorAsync("GPT is pay-as-you-go. Don't abuse it or you'll lose access.").ConfigureAwait(false);
             return false;
         }
 
