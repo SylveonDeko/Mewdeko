@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
@@ -148,6 +148,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 GptTokensUsed = 0
             }, true);
         }
+
+        if (!args.Content.StartsWith("!frog"))
+            return;
 
         if (conversations.TryGetValue(args.Author.Id, out var conversation))
         {
