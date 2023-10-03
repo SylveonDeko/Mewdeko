@@ -26,7 +26,7 @@ public sealed class BotConfig
         LoadingEmote = "<a:YesYes:1158138756033945820>";
         ErrorEmote = "<:NoNo:1158002856473923684>";
         SuccessEmote = "<:wow:1158546872881922189>";
-        SupportServer = "https://discord.gg/";
+        SupportServer = "https://discord.gg/TBD2";
         RedirectUrl = "https://";
         YoutubeSupport = true;
         ChatGptInitPrompt =

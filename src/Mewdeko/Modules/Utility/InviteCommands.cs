@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -34,7 +34,7 @@ public partial class Utility
             var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
                 .ConfigureAwait(false);
 
-            await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
+            await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/TBD11{invite.Code}")
                 .ConfigureAwait(false);
         }
 

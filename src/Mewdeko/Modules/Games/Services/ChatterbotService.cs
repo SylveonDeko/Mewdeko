@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Permissions.Services;
@@ -142,12 +142,12 @@ public class ChatterBotService : INService
         string response;
         try
         {
-            response = await cleverbot.Think(message).ConfigureAwait(false);
+            response = await cleverbot.Think(message).ConfigureAwait(false); // can be nullref
         }
         catch
         {
             await channel.SendErrorAsync(
-                    "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!")
+                    "GPT is pay-as-you-go dont abuse it or you lose access")
                 .ConfigureAwait(false);
             return false;
         }

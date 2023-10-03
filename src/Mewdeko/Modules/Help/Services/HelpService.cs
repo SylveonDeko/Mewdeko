@@ -140,7 +140,7 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{await guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/)!**\n\n I hope you have a great day!");
+                        $"Hi there! To see my command categories do `{await guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/TBD9)!**\n\n I hope you have a great day!");
                     //eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(client.CurrentUser.Username).WithIconUrl(client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);

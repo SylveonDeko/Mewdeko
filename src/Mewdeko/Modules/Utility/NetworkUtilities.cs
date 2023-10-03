@@ -72,7 +72,7 @@ public partial class Utility
                 }
                 else if (pingReply.Status == IPStatus.HardwareError)
                 {
-                    await ctx.Channel.SendErrorAsync("Ping failed due to a hardware error. Please report this at https://discord.gg/.");
+                    await ctx.Channel.SendErrorAsync("Ping failed due to a hardware error. Please report this at https://discord.gg/TBD12.");
                     typing.Dispose();
                     break;
                 }

@@ -225,7 +225,7 @@ public class PermissionService : ILateBlocker, INService
             PrimaryPermissionType.Role => $"<@&{id}>",
             PrimaryPermissionType.Server => $"This Server",
             PrimaryPermissionType.Category => $"<#{id}>",
-            _ => "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/ with a screenshot of this message for more information."
+            _ => "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/TBD12 with a screenshot of this message for more information."
         };
 
     public async Task RemovePerm(ulong guildId, int index)
