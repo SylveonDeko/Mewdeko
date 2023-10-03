@@ -58,7 +58,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             {
                 await msg.DeleteAsync();
                 Log.Error($"Seems that NSFW Subreddit fetching has failed. Here's the error:\nCode: {ex.StatusCode}\nContent: {(ex.HasContent ? ex.Content : "No Content.")}");
-                await ctx.Channel.SendErrorAsync("Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.");
+                await ctx.Channel.SendErrorAsync("Unable to fetch nsfw subreddit. Please check console.");
                 return;
             }
 

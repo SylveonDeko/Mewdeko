@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.NetworkInformation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Embed = Discord.Embed;
@@ -72,7 +72,7 @@ public partial class Utility
                 }
                 else if (pingReply.Status == IPStatus.HardwareError)
                 {
-                    await ctx.Channel.SendErrorAsync("Ping failed due to a hardware error. Please report this at https://discord.gg/mewdeko.");
+                    await ctx.Channel.SendErrorAsync("Ping failed due to a hardware error. Please report this at https://discord.gg/.");
                     typing.Dispose();
                     break;
                 }

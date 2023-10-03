@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Mewdeko.Common.Yml;
 using SixLabors.ImageSharp.PixelFormats;
 using YamlDotNet.Core;
@@ -23,14 +23,14 @@ public sealed class BotConfig
         RotateStatuses = false;
         GroupGreets = false;
         ShowInviteButton = true;
-        LoadingEmote = "<a:HaneMeow:968564817784877066>";
-        ErrorEmote = "<:HaneNo:914307917954576414>";
-        SuccessEmote = "<:hane_wow:945005763829575680>";
-        SupportServer = "https://discord.gg/mewdeko";
-        RedirectUrl = "https://mewdeko.tech/auth.html";
+        LoadingEmote = "<a:YesYes:1158138756033945820>";
+        ErrorEmote = "<:NoNo:1158002856473923684>";
+        SuccessEmote = "<:wow:1158546872881922189>";
+        SupportServer = "https://discord.gg/";
+        RedirectUrl = "https://";
         YoutubeSupport = true;
         ChatGptInitPrompt =
-            "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by sylveondeko";
+            "Your name is Frogbot. You are a discord bot.";
         ChatGptMaxTokens = 1000;
         ChatGptTemperature = 0.9;
     }

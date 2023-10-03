@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 
 namespace Mewdeko.Extensions;
 
@@ -33,7 +33,7 @@ public static class MessageChannelExtensions
         if (fields is not null)
             eb.WithFields(fields);
         return ch.SendMessageAsync(embed: eb.Build(),
-            components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build() : null);
+            components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/").Build() : null);
     }
 
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? title, string? text,

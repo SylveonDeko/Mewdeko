@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
 using Discord.Commands;
@@ -337,19 +337,19 @@ public class CommandHandler : INService
         await Task.Delay(2500);
         var blacklistService = services.GetService<BlacklistService>();
         var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
-            url: "https://discord.gg/mewdeko").Build();
+            url: "https://discord.gg/").Build();
         foreach (var bl in blacklistService.BlacklistEntries)
         {
             if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
             {
-                await interaction.RespondAsync($"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                await interaction.RespondAsync($"*This guild is blacklisted for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
                     components: cb).ConfigureAwait(false);
                 return;
             }
 
             if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
             {
-                await interaction.RespondAsync($"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                await interaction.RespondAsync($"*You are blacklisted for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
                     ephemeral: true, components: cb).ConfigureAwait(false);
                 return;
             }

@@ -140,8 +140,8 @@ public class HelpService : ILateExecutor, INService
                     var eb = new EmbedBuilder();
                     eb.WithOkColor();
                     eb.WithDescription(
-                        $"Hi there! To see my command categories do `{await guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/mewdeko)!\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**\n\n I hope you have a great day!");
-                    eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
+                        $"Hi there! To see my command categories do `{await guildSettings.GetPrefix(chan.Guild)}cmds`\nMy current Prefix is `{await guildSettings.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/)!**\n\n I hope you have a great day!");
+                    //eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(client.CurrentUser.Username).WithIconUrl(client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
                 }
@@ -160,14 +160,14 @@ public class HelpService : ILateExecutor, INService
         var eb = new EmbedBuilder
         {
             Description =
-                $"Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
+                $"Hi, thanks for inviting! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
         };
         eb.AddField("How to look for commands",
             $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
-        eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
+        //eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
         // eb.AddField("Youtube Channel", "https://youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg");
-        eb.WithThumbnailUrl(
-            "https://cdn.discordapp.com/emojis/968564817784877066.gif");
+        //eb.WithThumbnailUrl(
+        //    "https://cdn.discordapp.com/emojis/968564817784877066.gif");
         eb.WithOkColor();
         await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }

@@ -214,7 +214,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n{config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
+                    $"✅: You can use this command.\n❌: You cannot use this command.\n{config.Data.LoadingEmote}: \nDo `{prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
     }
