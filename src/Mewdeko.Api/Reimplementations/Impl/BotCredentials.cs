@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using System.Collections.Immutable;
 using Discord;
@@ -155,13 +155,13 @@ public class BotCredentials : IBotCredentials
                     : dbSection["Connectionstring?"]);
 
             TwitchClientId = data[nameof(TwitchClientId)];
-            if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+            if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "68zrkitgvahggxwss4r7bm6kn88h9b";
 
-            DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 843489716674494475;
-            GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 892789588739891250;
-            ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 942825117820530709;
-            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 905109141620682782;
-            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId) ? pnrepId : 970086914826858547;
+            DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 286091280537092097;
+            GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 1051401727787671613;
+            ConfessionReportChannelId = ulong.TryParse(data[nameof(ConfessionReportChannelId)], out var crid) ? crid : 1051401727787671613;
+            GlobalBanReportChannelId = ulong.TryParse(data[nameof(GlobalBanReportChannelId)], out var gbrid) ? gbrid : 1051401727787671613;
+            PronounAbuseReportChannelId = ulong.TryParse(data[nameof(PronounAbuseReportChannelId)], out var pnrepId) ? pnrepId : 1051401727787671613;
         }
         catch (Exception ex)
         {

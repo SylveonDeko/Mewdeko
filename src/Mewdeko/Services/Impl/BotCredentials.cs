@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -221,12 +221,12 @@ public class BotCredentials : IBotCredentials
     {
         public List<ulong> OwnerIds { get; set; } = new()
         {
-            280835732728184843, 786375627892064257
+            170185463200481280, 224188029324099584
         };
 
         public ulong[] OfficialMods { get; set; } =
         {
-            280835732728184843, 786375627892064257
+            170185463200481280, 224188029324099584
         };
 
         public string Token { get; set; } = "";
@@ -252,7 +252,7 @@ public class BotCredentials : IBotCredentials
         public string CarbonKey { get; } = "";
         public int TotalShards { get; } = 1;
         public string PatreonAccessToken { get; } = "";
-        public string PatreonCampaignId { get; } = "334038";
+        public string PatreonCampaignId { get; } = "";
 
         public string ShardRunCommand { get; } = "";
         public string ShardRunArguments { get; } = "";
@@ -266,11 +266,11 @@ public class BotCredentials : IBotCredentials
         public string TimezoneDbApiKey { get; set; }
         public string CoinmarketcapApiKey { get; set; }
 
-        public ulong DebugGuildId { get; set; } = 843489716674494475;
-        public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
-        public ulong ConfessionReportChannelId { get; set; } = 942825117820530709;
-        public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
-        public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
+        public ulong DebugGuildId { get; set; } = 286091280537092097;
+        public ulong GuildJoinsChannelId { get; set; } = 1051401727787671613;
+        public ulong ConfessionReportChannelId { get; set; } = 1051401727787671613;
+        public ulong GlobalBanReportChannelId { get; set; } = 1051401727787671613;
+        public ulong PronounAbuseReportChannelId { get; set; } = 1051401727787671613;
         public string ChatSavePath { get; set; } = "/usr/share/nginx/cdn/chatlogs/";
 
         [JsonIgnore]
