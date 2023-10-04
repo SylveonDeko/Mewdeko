@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
@@ -8,18 +9,23 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 {
     private readonly DbService db;
     private readonly IPubSub pubSub;
+    private readonly DiscordSocketClient client;
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
     public IList<BlacklistEntry> BlacklistEntries;
+    private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
-    public BlacklistService(DbService db, IPubSub pubSub, DiscordSocketClient client)
+    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client)
     {
         this.db = db;
         this.pubSub = pubSub;
-
+        this.client = client;
         Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
-        client.JoinedGuild += CheckBlacklist;
+        this.pubSub.Sub(blPrivKey, ManualCheck);
+        handler.JoinedGuild += CheckBlacklist;
+        client.Ready += CheckAllGuilds;
+        _ = CheckAllGuilds();
         BlacklistEntries.Add(new BlacklistEntry
         {
             DateAdded = DateTime.Now, ItemId = 967780813741625344, Type = BlacklistType.User
@@ -34,24 +40,84 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         });
     }
 
-    private Task CheckBlacklist(SocketGuild arg)
+    private ValueTask ManualCheck(bool _)
+    {
+        CheckAllGuilds();
+        return default;
+    }
+
+    private Task CheckAllGuilds()
     {
         _ = Task.Run(async () =>
         {
-            if (BlacklistEntries.Select(x => x.ItemId).Contains(arg.Id))
+            var guilds = client.Guilds;
+            foreach (var guild in guilds)
             {
-                var channel = arg.DefaultChannel;
-                if (channel is null)
+                if (BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
                 {
-                    await arg.LeaveAsync().ConfigureAwait(false);
-                    return;
+                    await guild.LeaveAsync().ConfigureAwait(false);
                 }
 
-                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.").ConfigureAwait(false);
-                await arg.LeaveAsync().ConfigureAwait(false);
+                if (!guild.Name.ToLower().Contains("nigger")) continue;
+                Blacklist(BlacklistType.Server, guild.Id, "Inappropriate Name");
+                await guild.LeaveAsync().ConfigureAwait(false);
             }
         });
         return Task.CompletedTask;
+    }
+
+    public Task SendManualCheck()
+    {
+        this.pubSub.Pub(blPrivKey, true);
+        return Task.CompletedTask;
+    }
+
+    private async Task CheckBlacklist(IGuild arg)
+    {
+        var channels = await arg.GetTextChannelsAsync();
+        var channel = channels.FirstOrDefault(x => x is not IVoiceChannel);
+        if (arg.Name.ToLower().Contains("nigger"))
+        {
+            Blacklist(BlacklistType.Server, arg.Id, "Inappropriate Name");
+            try
+            {
+                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.").ConfigureAwait(false);
+            }
+            catch
+            {
+                Log.Error($"Unable to send blacklist message to {arg.Name}");
+            }
+            finally
+            {
+                await arg.LeaveAsync().ConfigureAwait(false);
+            }
+
+            await arg.LeaveAsync();
+        }
+
+        if (BlacklistEntries.Select(x => x.ItemId).Contains(arg.Id))
+        {
+            if (channel is null)
+            {
+                await arg.LeaveAsync().ConfigureAwait(false);
+                return;
+            }
+
+            try
+            {
+                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.").ConfigureAwait(false);
+            }
+            catch
+            {
+                Log.Error($"Unable to send blacklist message to {arg.Name}");
+            }
+            finally
+            {
+                await arg.LeaveAsync().ConfigureAwait(false);
+            }
+
+            await arg.LeaveAsync().ConfigureAwait(false);
+        }
     }
 
     public int Priority => -100;
