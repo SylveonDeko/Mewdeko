@@ -82,6 +82,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         }
     }
+
     [Cmd, Aliases]
     public async Task Sudo(IGuildUser user, [Remainder] string args)
     {

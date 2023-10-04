@@ -386,7 +386,6 @@ public class CommandHandler : INService
         return prefix;
     }
 
-
     public void AddServices(IServiceCollection services)
     {
         LateBlockers = services
@@ -686,7 +685,6 @@ public class CommandHandler : INService
             await exec.LateExecute(client, guild, usrMsg).ConfigureAwait(false);
         }
     }
-
 
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos,

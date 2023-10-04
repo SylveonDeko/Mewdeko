@@ -143,7 +143,6 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
-
     [SlashCommand("getjson", "Gets the json from a message to use with our embed builder!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GetJson(ulong messageId, ITextChannel channel = null)
     {

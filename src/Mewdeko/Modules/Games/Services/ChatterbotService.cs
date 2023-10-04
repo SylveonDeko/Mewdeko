@@ -158,6 +158,7 @@ public class ChatterBotService : INService
         return true;
     }
     */
+
     private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message, IUserMessage msg)
     {
         if (cleverbot == null || channel == null)

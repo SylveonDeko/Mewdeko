@@ -4,7 +4,6 @@ accept:
   - acceptsuggest
 acceptchannel:
   - acceptchannel
-
 acceptmessage:
   - acceptmessage
   - acceptmsg
@@ -13,7 +12,6 @@ acrophobia:
   - acro
 docs:
   - docs
-  - dcs
 exportcommandsjson:
   - exportcommandsjson
   - exportcommands

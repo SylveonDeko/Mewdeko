@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Mewdeko.Modules.Utility.Common;
 using VirusTotalNet;
 using VirusTotalNet.Results;
