@@ -180,6 +180,7 @@ public class ChatterBotService : INService
         }
         catch
         {
+            //todo: this is a lazy workaround to avoid the spam. not a proper fix. 
             //await channel.SendErrorAsync("GPT is pay-as-you-go. Don't abuse it or you'll lose access.").ConfigureAwait(false);
             return false;
         }

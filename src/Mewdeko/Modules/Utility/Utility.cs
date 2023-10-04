@@ -1490,12 +1490,63 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
+    //[Cmd, Aliases]
+    //public async Task Docs()
+    //{
+    //    await ctx.Channel.EmbedAsync(
+    //            new EmbedBuilder().WithOkColor()
+    //                .AddField("Docs", $"https://docs.tealstreet.io/"))
+    //        .ConfigureAwait(false);
+    //}
+
     [Cmd, Aliases]
-    public async Task Docs()
+    public async Task Docs(string platform)
     {
+        string link;
+
+        switch (platform.ToLower())
+        {
+            case "windows":
+                link = "https://docs.tealstreet.io/docs/desktopclient/windows";
+                break;
+            case "linux":
+                link = "https://docs.tealstreet.io/docs/desktopclient/linux";
+                break;
+            case "mac":
+                link = "https://docs.tealstreet.io/docs/desktopclient/mac";
+                break;
+            case "binance":
+                link = "https://docs.tealstreet.io/docs/connect/binance";
+                break;
+            case "bitget":
+                link = "https://docs.tealstreet.io/docs/connect/bitget";
+                break;
+            case "bitmex":
+                link = "https://docs.tealstreet.io/docs/connect/bitmex";
+                break;
+            case "bybit":
+                link = "https://docs.tealstreet.io/docs/connect/bybit";
+                break;
+            case "bingx":
+                link = "https://docs.tealstreet.io/docs/connect/bingx";
+                break;
+            case "okex":
+                link = "https://docs.tealstreet.io/docs/connect/okex";
+                break;
+            case "phemex":
+                link = "https://docs.tealstreet.io/docs/connect/phemex";
+                break;
+            case "woox":
+                link = "https://docs.tealstreet.io/docs/connect/woo";
+                break;
+            default:
+                link = "https://docs.tealstreet.io/";
+                break;
+        }
+
         await ctx.Channel.EmbedAsync(
-                new EmbedBuilder().WithOkColor()
-                    .AddField("Docs", $"https://docs.tealstreet.io/"))
+            new EmbedBuilder().WithOkColor()
+            .AddField("Docs", link))
             .ConfigureAwait(false);
     }
 
