@@ -11,6 +11,9 @@ acceptmessage:
 acrophobia:
   - acrophobia
   - acro
+docs:
+  - docs
+  - dcs
 exportcommandsjson:
   - exportcommandsjson
   - exportcommands

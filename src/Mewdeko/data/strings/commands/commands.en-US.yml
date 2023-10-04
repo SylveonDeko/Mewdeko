@@ -13,6 +13,10 @@ importrolelist:
     - ""
     - "true"
   desc: "Imports a list of roles from a file exported from the exportrolelist command. Add true to the command to add new roles instead of adding users to existing roles"
+docs:
+  args:
+    - ""
+  desc: "Link to the terminal documentation."
 exportrolelist:
   args:
     - ""

@@ -1491,6 +1491,15 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [Cmd, Aliases]
+    public async Task Docs()
+    {
+        await ctx.Channel.EmbedAsync(
+                new EmbedBuilder().WithOkColor()
+                    .AddField("Docs", $"https://docs.tealstreet.io/"))
+            .ConfigureAwait(false);
+    }
+
+    [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
