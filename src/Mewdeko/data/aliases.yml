@@ -1345,6 +1345,9 @@ removeusersfromrole:
 renamechannel:
   - renamechannel
   - channelrename
+lyrics:
+  - lyrics
+  - ly
 renameemote:
   - renameemote
   - emoterename

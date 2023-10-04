@@ -21,6 +21,11 @@ exportrolelist:
   args:
     - ""
   desc: "Exports a list of roles to a file that can be imported with the importrolelist command"
+lyrics:
+  args:
+    - "song name"
+    - ""
+  desc: "Gets the lyrics for a song"
 joinstats:
   args:
     - ""

@@ -1,7 +1,11 @@
-#nullable enable
+﻿#nullable enable
+using System.Net.Http;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using Genius;
+using Genius.Models.Song;
+using HtmlAgilityPack;
 using Lavalink4NET;
 using Lavalink4NET.Artwork;
 using Lavalink4NET.DiscordNet;
@@ -21,17 +25,19 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly DbService db;
     private readonly DiscordSocketClient client;
     private readonly GuildSettingsService guildSettings;
+    private readonly IBotCredentials creds;
     private readonly BotConfigService config;
 
     public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
         DiscordSocketClient client,
         GuildSettingsService guildSettings,
-        BotConfigService config)
+        BotConfigService config, IBotCredentials creds)
     {
         db = dbService;
         this.client = client;
         this.guildSettings = guildSettings;
         this.config = config;
+        this.creds = creds;
         interactivity = interactive;
         lavaNode = lava;
     }
@@ -594,6 +600,97 @@ public class Music : MewdekoModuleBase<MusicService>
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task Lyrics([Remainder] string? name = null)
+    {
+        if (string.IsNullOrEmpty(creds.GeniusKey))
+        {
+            await ctx.Channel.SendErrorAsync("Genius API key is not set up.").ConfigureAwait(false);
+            return;
+        }
+
+        var api = new GeniusClient(creds.GeniusKey);
+        if (api is null)
+        {
+            await ctx.Channel.SendErrorAsync("Wrong genius key.");
+            return;
+        }
+
+        Song song;
+        if (name is null)
+        {
+            var player = lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
+            if (player is null)
+            {
+                await ctx.Channel.SendErrorAsync("Theres nothing playing.").ConfigureAwait(false);
+                return;
+            }
+
+            var search = await api.SearchClient.Search($"{player.CurrentTrack.Author} {player.CurrentTrack.Title}").ConfigureAwait(false);
+            if (!search.Response.Hits.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                return;
+            }
+
+            song = search.Response.Hits.First().Result;
+        }
+        else
+        {
+            var search = await api.SearchClient.Search(name).ConfigureAwait(false);
+            if (!search.Response.Hits.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                return;
+            }
+
+            song = search.Response.Hits.First().Result;
+        }
+
+        var httpClient = new HttpClient();
+        var songPage = await httpClient.GetStringAsync($"{song.Url}?bagon=1");
+        var htmlDoc = new HtmlDocument();
+        htmlDoc.LoadHtml(songPage);
+        var lyricsDiv = htmlDoc.DocumentNode.SelectSingleNode("//*[contains(@class, 'Lyrics__Container-sc-1ynbvzw-5')]");
+        if (lyricsDiv is null)
+        {
+            await ctx.Channel.SendErrorAsync("Could not find lyrics for this song.").ConfigureAwait(false);
+            return;
+        }
+
+        var htmlWithLineBreaks = lyricsDiv.InnerHtml.Replace("<br>", "\n").Replace("<p>", "\n");
+        var htmlDocWithLineBreaks = new HtmlDocument();
+        htmlDocWithLineBreaks.LoadHtml(htmlWithLineBreaks);
+
+        var fullLyrics = htmlDocWithLineBreaks.DocumentNode.InnerText.Trim();
+        var lyricsPages = new List<string>();
+        for (var i = 0; i < fullLyrics.Length; i += 4000)
+        {
+            lyricsPages.Add(fullLyrics.Substring(i, Math.Min(4000, fullLyrics.Length - i)));
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.Users | PaginatorFooter.PageNumber)
+            .WithMaxPageIndex(lyricsPages.Count - 1)
+            .WithDefaultCanceledPage()
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask.ConfigureAwait(false);
+            return new PageBuilder()
+                .WithTitle($"{song.PrimaryArtist.Name} - {song.Title}")
+                .WithDescription(lyricsPages[page])
+                .WithOkColor();
+        }
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Join()
     {
         var currentUser = await ctx.Guild.GetUserAsync(Context.Client.CurrentUser.Id).ConfigureAwait(false);
@@ -772,7 +869,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     searchResponse = await lavaNode.LoadTracksAsync(searchQuery)
                         .ConfigureAwait(false);
                 else
-                    searchResponse = await lavaNode.LoadTracksAsync(searchQuery,SearchMode.SoundCloud)
+                    searchResponse = await lavaNode.LoadTracksAsync(searchQuery, SearchMode.SoundCloud)
                         .ConfigureAwait(false);
                 var platform = Platform.Youtube;
                 if (client.CurrentUser.Id == 1092943806732710058)
@@ -839,11 +936,11 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         IEnumerable<LavalinkTrack> searchResponse2;
-       if (config.Data.YoutubeSupport)
-           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, SearchMode.YouTube)
-               .ConfigureAwait(false);
-       else
-           searchResponse2 = await lavaNode.GetTracksAsync(searchQuery,SearchMode.SoundCloud)
+        if (config.Data.YoutubeSupport)
+            searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, SearchMode.YouTube)
+                .ConfigureAwait(false);
+        else
+            searchResponse2 = await lavaNode.GetTracksAsync(searchQuery, SearchMode.SoundCloud)
                 .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {

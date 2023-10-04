@@ -8,6 +8,7 @@ public interface IBotCredentials
     string ClientSecret { get; }
     string GoogleApiKey { get; }
     ImmutableArray<ulong> OwnerIds { get; }
+    public string GeniusKey { get; }
     string StatcordKey { get; }
     ImmutableArray<ulong> OfficialMods { get; }
     string MashapeKey { get; }
