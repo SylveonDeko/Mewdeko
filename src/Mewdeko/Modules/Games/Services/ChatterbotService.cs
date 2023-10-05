@@ -69,6 +69,8 @@ public class ChatterBotService : INService
             if (string.IsNullOrEmpty(message.Item1) || message.Item2.Equals(default))
                 return;
             var cleverbotExecuted = await TryAsk(message.Item2, (ITextChannel)usrMsg.Channel, message.Item1, usrMsg).ConfigureAwait(false);
+
+            //todo: Despite cleverbot being disabled, this will still execute if GPT is also enabled
             if (cleverbotExecuted)
             {
                 Log.Information(
