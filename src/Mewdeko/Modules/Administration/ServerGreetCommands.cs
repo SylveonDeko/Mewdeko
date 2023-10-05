@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 
@@ -20,9 +20,9 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetDel(int timer = 30)
+        public async Task GreetDel(int timer = 300)
         {
-            if (timer is < 0 or > 600)
+            if (timer is < 0 or > 90000)
                 return;
 
             await Service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
@@ -52,9 +52,9 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
-        public async Task BoostDel(int timer = 30)
+        public async Task BoostDel(int timer = 300)
         {
-            if (timer is < 0 or > 600)
+            if (timer is < 0 or > 90000)
             {
                 await ctx.Channel.SendErrorAsync("The max delete time is 600 seconds!").ConfigureAwait(false);
                 return;
@@ -388,7 +388,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task ByeDel(int timer = 30)
+        public async Task ByeDel(int timer = 300)
         {
             await Service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
 

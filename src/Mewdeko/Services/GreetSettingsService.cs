@@ -1,4 +1,4 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
@@ -675,7 +675,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     public async Task SetByeDel(ulong guildId, int timer)
     {
-        if (timer is < 0 or > 600)
+        if (timer is < 0 or > 90000)
             return;
 
         await using var uow = db.GetDbContext();
@@ -690,7 +690,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     public async Task SetGreetDel(ulong id, int timer)
     {
-        if (timer is < 0 or > 600)
+        if (timer is < 0 or > 90000)
             return;
 
         await using var uow = db.GetDbContext();
