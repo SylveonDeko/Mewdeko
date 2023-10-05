@@ -182,7 +182,7 @@ public class FeedsService : INService
         }
     }
 
-    public async Task TestRss(FeedSub sub, ITextChannel channel)
+    public async Task TestRss(FeedSub sub, ITextChannel channel, bool sendBoth = false)
     {
         var feed = await FeedReader.ReadAsync(sub.Url);
         var (feedItem, _) = feed.Items
@@ -249,8 +249,21 @@ public class FeedsService : INService
         var desc = feedItem.Description?.StripHtml();
         if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
         var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId);
+
+        if (sendBoth || sub.Message is "-" or null)
+        {
+            await channel.EmbedAsync(embed);
+        }
+
+        if (sendBoth || !(sub.Message is "-" or null))
+        {
+            await channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build());
+        }
+
+        /*
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
         else await channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build());
+        */
     }
 
     private Task<(Embed[] builder, string content, ComponentBuilder componentBuilder)> GetFeedEmbed(string message, ulong guildId)

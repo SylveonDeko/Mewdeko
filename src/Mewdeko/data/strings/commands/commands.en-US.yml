@@ -3152,6 +3152,7 @@ rsar:
 rsstest:
   args:
     - '1'
+    - true
   desc: Tests an rss feed that you are subscribed to.
 rtt:
   args:

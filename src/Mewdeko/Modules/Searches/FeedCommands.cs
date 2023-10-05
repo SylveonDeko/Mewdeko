@@ -68,7 +68,7 @@ public partial class Searches
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
-        public async Task RssTest(int index)
+        public async Task RssTest(int index, bool sendBoth = false)
         {
             var feeds = Service.GetFeeds(ctx.Guild.Id);
             if (feeds.ElementAt(index - 1) is null)
@@ -77,7 +77,7 @@ public partial class Searches
                 return;
             }
 
-            await Service.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel).ConfigureAwait(false);
+            await Service.TestRss(feeds.ElementAt(index - 1), ctx.Channel as ITextChannel, sendBoth).ConfigureAwait(false);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
