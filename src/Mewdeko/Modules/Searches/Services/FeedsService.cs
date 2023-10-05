@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader;
+using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Microsoft.EntityFrameworkCore;
 using Embed = Discord.Embed;
@@ -283,7 +283,7 @@ public class FeedsService : INService
 
         if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
             return false;
-        if (gc.FeedSubs.Count >= 10) return false;
+        if (gc.FeedSubs.Count >= 20) return false;
 
         gc.FeedSubs.Add(fs);
         await uow.SaveChangesAsync();
