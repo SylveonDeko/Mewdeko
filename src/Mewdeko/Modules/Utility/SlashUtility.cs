@@ -218,15 +218,6 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
-    //[SlashCommand("docs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
-    //public async Task Docs()
-    //{
-    //    await ctx.Interaction.RespondAsync(embed:
-    //            new EmbedBuilder().WithOkColor()
-    //                .AddField("Docs", $"https://docs.tealstreet.io/").Build())
-    //        .ConfigureAwait(false);
-    //}
-
     [SlashCommand("docs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Docs(string platform = "")
     {
