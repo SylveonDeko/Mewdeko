@@ -180,7 +180,7 @@ public class FeedsService : INService
                 }
             }
 
-            await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(10000)).ConfigureAwait(false);
+            await Task.WhenAll(allSendTasks).ConfigureAwait(false);
         }
     }
 
