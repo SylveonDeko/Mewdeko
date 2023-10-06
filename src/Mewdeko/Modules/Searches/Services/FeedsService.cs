@@ -167,10 +167,23 @@ public class FeedsService : INService
                             if (channel is null)
                                 continue;
                             var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild.Id);
+
+                            if (feed1.Message is "-" or null)
+                            {
+                                allSendTasks.Add(channel.EmbedAsync(embed));
+                            }
+                            else
+                            {
+                                allSendTasks.Add(channel.EmbedAsync(embed));
+                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
+                            }
+
+                            /*
                             if (feed1.Message is "-" or null)
                                 allSendTasks.Add(channel.EmbedAsync(embed));
                             else
                                 allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
+                            */
                         }
                     }
                 }
