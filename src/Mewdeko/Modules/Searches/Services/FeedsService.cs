@@ -43,6 +43,7 @@ public class FeedsService : INService
 
         while (true)
         {
+            //todo: should probably make this wait upwards of 3-5minutes just to be sure dont hit ratelimited
             await Task.Delay(120000).ConfigureAwait(false); // Delay for 2m
             var allSendTasks = new List<Task>(subs.Count);
             foreach (var (rssUrl, value) in subs)

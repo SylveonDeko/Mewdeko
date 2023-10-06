@@ -228,7 +228,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     //}
 
     [SlashCommand("docs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
-    public async Task Docs(string platform)
+    public async Task Docs(string platform = "")
     {
         string link;
 
@@ -267,6 +267,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             case "woox":
                 link = "https://docs.tealstreet.io/docs/connect/woo";
                 break;
+            case "":
+                link = "https://docs.tealstreet.io/";
+                break;
             default:
                 link = "https://docs.tealstreet.io/";
                 break;
@@ -274,7 +277,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
 
         await ctx.Interaction.RespondAsync(embed:
                     new EmbedBuilder().WithOkColor()
-                    .AddField("Docs", $"").Build())
+                    .AddField("Docs", link).Build())
                     .ConfigureAwait(false);
     }
 

@@ -1500,7 +1500,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     //}
 
     [Cmd, Aliases]
-    public async Task Docs(string platform)
+    public async Task Docs(string platform = "")
     {
         string link;
 
@@ -1538,6 +1538,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 break;
             case "woox":
                 link = "https://docs.tealstreet.io/docs/connect/woo";
+                break;
+            case "":
+                link = "https://docs.tealstreet.io/";
                 break;
             default:
                 link = "https://docs.tealstreet.io/";
