@@ -23,9 +23,9 @@ public sealed class BotConfig
         RotateStatuses = false;
         GroupGreets = false;
         ShowInviteButton = true;
-        LoadingEmote = "<a:YesYes:1158138756033945820>";
-        ErrorEmote = "<:NoNo:1158002856473923684>";
-        SuccessEmote = "<:wow:1158546872881922189>";
+        LoadingEmote = "<:Oldge:1159709449720696912>";
+        ErrorEmote = "<a:NoNo:1143320192261296150>";
+        SuccessEmote = "<a:YesYes:1158565534258958386>";
         SupportServer = "https://discord.gg/TBD2";
         RedirectUrl = "https://";
         YoutubeSupport = true;
