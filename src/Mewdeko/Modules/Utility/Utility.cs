@@ -1479,7 +1479,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    //.AddField(GetText("authors"), $"[{users[0]}](https://github.com/)\n[{users[1]}](https://github.com/)")
+                    //.AddField(GetText("authors"), $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))

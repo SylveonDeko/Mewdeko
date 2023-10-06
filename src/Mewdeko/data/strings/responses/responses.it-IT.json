@@ -289,7 +289,7 @@
     "command_not_found": "Non riesco a trovare questo comando. Per favore verifica che esista prima di riprovare.",
     "desc": "Descrizione",
     "cant_dm": "",
-    "donate": "Puoi supportare \" project\" su \nPatreon <{0}> oppure su\nPaypal <{1}>\nNon dimenticarti di firmare con il tuo nome o id di discord.\n\n**Grazie** ♥️",
+    "donate": "Puoi supportare \"Mewdeko project\" su \nPatreon <{0}> oppure su\nPaypal <{1}>\nNon dimenticarti di firmare con il tuo nome o id di discord.\n\n**Grazie** ♥️",
     "guide": "**Lista dei comandi**: <{0}>\n**Trovi delle guide per diventare host e altri documenti qui**: <{1}>",
     "list_of_commands": "Lista dei comandi",
     "list_of_modules": "Lista dei moduli",

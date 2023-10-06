@@ -3980,7 +3980,7 @@ typestop:
   desc: Stops a typing contest on the current channel.
 unban:
   args:
-    - Sylveon
+    - Sylveon#0069
     - '123123123'
   desc: Unbans a user with the provided user#discrim or id.
 undeafen:
