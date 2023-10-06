@@ -40,8 +40,10 @@ public class FeedsService : INService
 
     public async Task<EmbedBuilder> TrackFeeds()
     {
+
         while (true)
         {
+            await Task.Delay(120000).ConfigureAwait(false); // Delay for 2m
             var allSendTasks = new List<Task>(subs.Count);
             foreach (var (rssUrl, value) in subs)
             {
