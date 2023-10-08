@@ -1,6 +1,7 @@
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Searches.Services;
@@ -43,8 +44,6 @@ public class FeedsService : INService
 
         while (true)
         {
-            //todo: should probably make this wait upwards of 3-5minutes just to be sure dont hit ratelimited
-            await Task.Delay(120000).ConfigureAwait(false); // Delay for 2m
             var allSendTasks = new List<Task>(subs.Count);
             foreach (var (rssUrl, value) in subs)
             {
@@ -169,32 +168,32 @@ public class FeedsService : INService
                                 continue;
                             var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(feed1.Message), channel.Guild.Id);
 
-                            if (feed1.Message is "-" or null)
-                            {
-                                allSendTasks.Add(channel.EmbedAsync(embed));
-                            }
-                            else
-                            {
-                                allSendTasks.Add(channel.EmbedAsync(embed));
-                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
-                            }
-
                             /*
                             if (feed1.Message is "-" or null)
+                            {
+                                allSendTasks.Add(channel.EmbedAsync(embed));
+                            }
+                            else
+                            {
+                                allSendTasks.Add(channel.EmbedAsync(embed));
+                                allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
+                            }
+                            */
+
+                            if (feed1.Message is "-" or null)
                                 allSendTasks.Add(channel.EmbedAsync(embed));
                             else
                                 allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null, components: componentBuilder?.Build()));
-                            */
+                            
                         }
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //ignored
+                    Log.Warning($"Error occurred in feed reader: {ex.Message}\n{ex.StackTrace}");
                 }
             }
-
-            await Task.WhenAll(allSendTasks).ConfigureAwait(false);
+            await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(120000)).ConfigureAwait(false);
         }
     }
 

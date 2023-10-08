@@ -34,6 +34,10 @@ public static class MessageChannelExtensions
             eb.WithFields(fields);
         return ch.SendMessageAsync(embed: eb.Build(),
             components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/TBD10").Build() : null);
+
+        //todo: this test failed, maybe even broke other things. reverting
+        //todo: does this remove antispam button? if yes remove this comment
+        //return ch.SendMessageAsync(embed: eb.Build(), components: null);
     }
 
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? title, string? text,
