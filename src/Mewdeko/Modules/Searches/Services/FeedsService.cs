@@ -1,5 +1,6 @@
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
+using CodeHollow.FeedReader.Parser;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Embed = Discord.Embed;
@@ -53,6 +54,13 @@ public class FeedsService : INService
                 try
                 {
                     var feed = await FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
+
+                    // Check for RSS 2.0 type
+                    if (feed.Type == FeedType.Rss_2_0)
+                    {
+                        Log.Information("RSS 2.0 feed type detected");
+                        // Additional processing for RSS 2.0
+                    }
 
                     var items = feed
                         .Items
@@ -188,9 +196,26 @@ public class FeedsService : INService
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (UrlNotFoundException ex)
                 {
-                    Log.Warning($"Error occurred in feed reader: {ex.Message}\n{ex.StackTrace}");
+                    Log.Warning($"URL not found for RSS URL: {rssUrl}. Exception: {ex.Message}");
+                }
+                catch (InvalidFeedLinkException ex)
+                {
+                    Log.Warning($"Invalid feed link for RSS URL: {rssUrl}. Exception: {ex.Message}");
+                }
+                catch (FeedTypeNotSupportedException ex)
+                {
+                    Log.Warning($"Feed type not supported for RSS URL: {rssUrl}. The feed might be of a different type not supported by the library. Exception: {ex.Message}");
+                }
+                catch (Exception ex) // General Exception for other errors
+                {
+                    Log.Warning($"Error occurred in feed reader for RSS URL: {rssUrl}. Exception: {ex.Message}. StackTrace: {ex.StackTrace}");
+
+                    if (ex.InnerException != null)
+                    {
+                        Log.Warning($"Inner Exception: {ex.InnerException.Message}. StackTrace: {ex.InnerException.StackTrace}");
+                    }
                 }
             }
             await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(120000)).ConfigureAwait(false);

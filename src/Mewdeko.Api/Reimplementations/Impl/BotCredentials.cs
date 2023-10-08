@@ -155,7 +155,7 @@ public class BotCredentials : IBotCredentials
                     : dbSection["Connectionstring?"]);
 
             TwitchClientId = data[nameof(TwitchClientId)];
-            if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "68zrkitgvahggxwss4r7bm6kn88h9b";
+            if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
 
             DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 286091280537092097;
             GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid) ? gjid : 1051401727787671613;
