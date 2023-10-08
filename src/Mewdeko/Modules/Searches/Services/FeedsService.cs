@@ -55,11 +55,20 @@ public class FeedsService : INService
                 {
                     var feed = await FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
 
+                    string feedTitle = null;
+
                     // Check for RSS 2.0 type
                     if (feed.Type == FeedType.Rss_2_0)
                     {
-                        Log.Information("RSS 2.0 feed type detected");
-                        // Additional processing for RSS 2.0
+                        var rss20feed = (Rss20Feed)feed.SpecificFeed;
+                        feedTitle = rss20feed.Title;
+
+                        /*
+                        Log.Information("pubDate: " + rss20feed.PublishingDate);
+                        Log.Information("Description: " + rss20feed.Description);
+                        Log.Information("Title: " + rss20feed.Title);
+                        Log.Information("Link: " + rss20feed.Link);
+                        */
                     }
 
                     var items = feed
@@ -128,9 +137,9 @@ public class FeedsService : INService
                         if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute))
                             embed.WithUrl(link);
 
-                        var title = string.IsNullOrWhiteSpace(feedItem.Title)
-                            ? "-"
-                            : feedItem.Title;
+                        var title = string.IsNullOrWhiteSpace(feedTitle)
+                            ? (string.IsNullOrWhiteSpace(feedItem.Title) ? "-" : feedItem.Title)
+                            : feedTitle;
 
                         var gotImage = false;
                         if (feedItem.SpecificItem is MediaRssFeedItem mrfi &&

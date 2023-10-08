@@ -1,9 +1,9 @@
 version: 3
 coins:
   heads:
-    - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
+    - https://cdn.discordapp.com/attachments/991299656053178378/1016494566066626603/1_coins.png
   tails:
-    - https://media.discordapp.net/attachments/985686009662570561/993950440456736959/1_coins.png
+    - https://cdn.discordapp.com/attachments/991299656053178378/1016494543404810270/1_coins.png
 currency:
   - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
   - https://media.discordapp.net/attachments/985686009662570561/993950797794652220/1_coins-1.png
