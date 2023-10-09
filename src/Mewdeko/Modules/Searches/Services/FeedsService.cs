@@ -12,8 +12,7 @@ public class FeedsService : INService
     private readonly DiscordSocketClient client;
     private readonly DbService db;
 
-    private readonly ConcurrentDictionary<string, DateTime> lastPosts =
-        new();
+    private readonly ConcurrentDictionary<string, DateTime> lastPosts = new();
 
     private readonly ConcurrentDictionary<string, HashSet<FeedSub>> subs;
 
@@ -56,6 +55,7 @@ public class FeedsService : INService
                     var feed = await FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
 
                     string feedTitle = null;
+                    //FeedImage feedImage = null;
 
                     // Check for RSS 2.0 type
                     if (feed.Type == FeedType.Rss_2_0)
@@ -64,6 +64,7 @@ public class FeedsService : INService
                         feedTitle = rss20feed.Title;
 
                         /*
+                        feedImage = rss20feed.Image;
                         Log.Information("pubDate: " + rss20feed.PublishingDate);
                         Log.Information("Description: " + rss20feed.Description);
                         Log.Information("Title: " + rss20feed.Title);
@@ -234,6 +235,25 @@ public class FeedsService : INService
     public async Task TestRss(FeedSub sub, ITextChannel channel, bool sendBoth = false)
     {
         var feed = await FeedReader.ReadAsync(sub.Url);
+
+        string feedTitle = null;
+        //FeedImage feedImage = null;
+
+        // Check for RSS 2.0 type
+        if (feed.Type == FeedType.Rss_2_0)
+        {
+            var rss20feed = (Rss20Feed)feed.SpecificFeed;
+            feedTitle = rss20feed.Title;
+
+            /*
+            feedImage = rss20feed.Image;
+            Log.Information("pubDate: " + rss20feed.PublishingDate);
+            Log.Information("Description: " + rss20feed.Description);
+            Log.Information("Title: " + rss20feed.Title);
+            Log.Information("Link: " + rss20feed.Link);
+            */
+        }
+
         var (feedItem, _) = feed.Items
             .Select(item => (Item: item,
                 LastUpdate: item.PublishingDate?.ToUniversalTime() ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate?.ToUniversalTime()))
@@ -270,8 +290,17 @@ public class FeedsService : INService
             .WithOverride("%feedurl%", () => sub.Url).Build();
         var embed = new EmbedBuilder().WithFooter(sub.Url);
         var link = feedItem.SpecificItem.Link;
-        if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute)) embed.WithUrl(link);
+        if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute))
+            embed.WithUrl(link);
+
+        /*
         var title = string.IsNullOrWhiteSpace(feedItem.Title) ? "-" : feedItem.Title;
+        */
+
+        var title = string.IsNullOrWhiteSpace(feedTitle)
+                            ? (string.IsNullOrWhiteSpace(feedItem.Title) ? "-" : feedItem.Title)
+                            : feedTitle;
+
         var gotImage = false;
         if (feedItem.SpecificItem is MediaRssFeedItem mrfi && (mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
         {
@@ -296,7 +325,10 @@ public class FeedsService : INService
 
         embed.WithTitle(title.TrimTo(256));
         var desc = feedItem.Description?.StripHtml();
-        if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
+
+        if (!string.IsNullOrWhiteSpace(feedItem.Description))
+            embed.WithDescription(desc.TrimTo(2048));
+
         var (builder, content, componentBuilder) = await GetFeedEmbed(repbuilder.Replace(sub.Message), channel.GuildId);
 
         if (sendBoth || sub.Message is "-" or null)
