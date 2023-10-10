@@ -55,7 +55,6 @@ public class FeedsService : INService
                     var feed = await FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
 
                     string feedTitle = null;
-                    //FeedImage feedImage = null;
 
                     // Check for RSS 2.0 type
                     if (feed.Type == FeedType.Rss_2_0)
@@ -253,7 +252,6 @@ public class FeedsService : INService
         var feed = await FeedReader.ReadAsync(sub.Url);
 
         string feedTitle = null;
-        //FeedImage feedImage = null;
 
         // Check for RSS 2.0 type
         if (feed.Type == FeedType.Rss_2_0)
@@ -318,22 +316,44 @@ public class FeedsService : INService
                             : feedTitle;
 
         var gotImage = false;
-        if (feedItem.SpecificItem is MediaRssFeedItem mrfi && (mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
+
+        // Check for RSS 1.0 compliant media
+        if (feedItem.SpecificItem is MediaRssFeedItem mrfi &&
+            (mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
         {
             var imgUrl = mrfi.Enclosure.Url;
-            if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
+            if (!string.IsNullOrWhiteSpace(imgUrl) &&
+                Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
             {
                 embed.WithImageUrl(imgUrl);
                 gotImage = true;
             }
         }
 
+        // Check for RSS 2.0 compliant media
+        if (!gotImage && feed.Type == FeedType.Rss_2_0)
+        {
+            var rss20feed = (Rss20Feed)feed.SpecificFeed;
+            var imageUrl = rss20feed?.Image?.Url;
+            if (!string.IsNullOrWhiteSpace(imageUrl) &&
+                Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            {
+                embed.WithImageUrl(imageUrl);
+                gotImage = true;
+            }
+        }
+
+        // Check for ATOM format images
         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
         {
-            var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview") ??
-                                 afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+            var previewElement = afi.Element.Elements()
+                .FirstOrDefault(x => x.Name.LocalName == "preview") ?? afi.Element.Elements()
+                .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+
             var urlAttribute = previewElement?.Attribute("url");
-            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
+            if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                     && Uri.IsWellFormedUriString(urlAttribute.Value,
+                                         UriKind.Absolute))
             {
                 embed.WithImageUrl(urlAttribute.Value);
             }
