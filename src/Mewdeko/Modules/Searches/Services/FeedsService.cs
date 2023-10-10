@@ -143,6 +143,8 @@ public class FeedsService : INService
                             : feedTitle;
 
                         var gotImage = false;
+
+                        // Check for RSS 1.0 compliant media
                         if (feedItem.SpecificItem is MediaRssFeedItem mrfi &&
                             (mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
                         {
@@ -155,6 +157,20 @@ public class FeedsService : INService
                             }
                         }
 
+                        // Check for RSS 2.0 compliant media
+                        if (!gotImage && feed.Type == FeedType.Rss_2_0)
+                        {
+                            var rss20feed = (Rss20Feed)feed.SpecificFeed;
+                            var imageUrl = rss20feed?.Image?.Url;
+                            if (!string.IsNullOrWhiteSpace(imageUrl) &&
+                                Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+                            {
+                                embed.WithImageUrl(imageUrl);
+                                gotImage = true;
+                            }
+                        }
+
+                        // Check for ATOM format images
                         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
                         {
                             var previewElement = afi.Element.Elements()
@@ -228,7 +244,7 @@ public class FeedsService : INService
                     }
                 }
             }
-            await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(120000)).ConfigureAwait(false);
+            await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(180000)).ConfigureAwait(false);
         }
     }
 
