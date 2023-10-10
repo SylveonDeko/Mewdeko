@@ -111,7 +111,7 @@ public class FeedsService : INService
 
                                 if (feedItem.SpecificItem is not MediaRssFeedItem mediaRssFeedItem
                                     || !(mediaRssFeedItem.Enclosure?.MediaType?.StartsWith("image/") ?? false))
-                                    return feed.ImageUrl;
+                                        return feed.ImageUrl;
                                 var imgUrl = mediaRssFeedItem.Enclosure.Url;
                                 if (!string.IsNullOrWhiteSpace(imgUrl) &&
                                     Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
@@ -156,6 +156,7 @@ public class FeedsService : INService
                             }
                         }
 
+                        /*
                         // Check for RSS 2.0 compliant media
                         if (!gotImage && feed.Type == FeedType.Rss_2_0)
                         {
@@ -168,6 +169,7 @@ public class FeedsService : INService
                                 gotImage = true;
                             }
                         }
+                        */
 
                         // Check for ATOM format images
                         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
@@ -292,8 +294,10 @@ public class FeedsService : INService
 
                 if (feedItem.SpecificItem is not MediaRssFeedItem mediaRssFeedItem || !(mediaRssFeedItem.Enclosure?.MediaType?.StartsWith("image/") ?? false))
                     return feed.ImageUrl;
+
                 var imgUrl = mediaRssFeedItem.Enclosure.Url;
-                if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute)) return imgUrl;
+                if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
+                    return imgUrl;
 
                 return feed.ImageUrl;
             })
@@ -330,6 +334,7 @@ public class FeedsService : INService
             }
         }
 
+        /*
         // Check for RSS 2.0 compliant media
         if (!gotImage && feed.Type == FeedType.Rss_2_0)
         {
@@ -342,6 +347,7 @@ public class FeedsService : INService
                 gotImage = true;
             }
         }
+        */
 
         // Check for ATOM format images
         if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
