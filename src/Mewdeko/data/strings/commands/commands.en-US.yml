@@ -15,19 +15,10 @@ importrolelist:
   desc: "Imports a list of roles from a file exported from the exportrolelist command. Add true to the command to add new roles instead of adding users to existing roles"
 docs:
   args:
-    - "linux"
     - "windows"
-    - "mac"
-    - "binance"
-    - "bitget"
-    - "bitmex"
     - "bybit"
-    - "bingx"
-    - "okex"
-    - "phemex"
-    - "woox"
     - ""
-  desc: "Link to the terminal documentation."
+  desc: "Link to the terminal documentation. Supply an argument to goto a more specific page."
 exportrolelist:
   args:
     - ""
@@ -544,7 +535,7 @@ autoassignrole:
     - ''
     - RoleName
   desc: >-
-    Toggles the role which will be assigned to every bot who joins the server.
+    Toggles the role which will be assigned to every user who joins the server.
     You can run this command multiple times to add multiple roles (up to 10).
     Specifying the role that is already added will remove that role from the
     list. Provide no parameters to list current roles.

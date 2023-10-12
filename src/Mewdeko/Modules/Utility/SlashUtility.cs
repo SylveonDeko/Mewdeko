@@ -258,6 +258,21 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             case "woox":
                 link = "https://docs.tealstreet.io/docs/connect/woo";
                 break;
+            case "terminal":
+                link = "https://docs.tealstreet.io/docs/trade/terminal";
+                break;
+            case "ref":
+                link = "https://docs.tealstreet.io/docs/ref-links";
+                break;
+            case "changelog":
+                link = "https://docs.tealstreet.io/docs/changelog";
+                break;
+            case "runbot":
+                link = "https://docs.tealstreet.io/docs/webhooks/runbot";
+                break;
+            case "troubleshooting":
+                link = "https://docs.tealstreet.io/docs/about/troubleshooting";
+                break;
             case "":
                 link = "https://docs.tealstreet.io/";
                 break;
