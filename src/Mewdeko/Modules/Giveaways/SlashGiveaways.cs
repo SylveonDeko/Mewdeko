@@ -33,10 +33,17 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
      SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
     {
-        if (SKColor.TryParse(color, out _))
+        var colorVal = StringExtensions.GetHexFromColorName(color);
+        if (color.StartsWith("#"))
+        {
+            if (SKColor.TryParse(color, out _))
+                colorVal = color;
+        }
+
+        if (colorVal is not null)
         {
             var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayWinEmbedColor = color;
+            gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Interaction.SendConfirmAsync(
                     $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
@@ -52,10 +59,17 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
      SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
     {
-        if (SKColor.TryParse(color, out _))
+        var colorVal = StringExtensions.GetHexFromColorName(color);
+        if (color.StartsWith("#"))
+        {
+            if (SKColor.TryParse(color, out _))
+                colorVal = color;
+        }
+
+        if (colorVal is not null)
         {
             var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayEmbedColor = color;
+            gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Interaction.SendConfirmAsync(
                     $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
