@@ -83,10 +83,17 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
     {
-        if (SKColor.TryParse(color, out var potentialColorValue))
+        var colorVal = StringExtensions.GetHexFromColorName(color);
+        if (color.StartsWith("#"))
+        {
+            if (SKColor.TryParse(color, out _))
+                colorVal = color;
+        }
+
+        if (colorVal is not null)
         {
             var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayWinEmbedColor = color;
+            gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Channel.SendConfirmAsync(
                     $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
@@ -94,17 +101,27 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
         }
         else
         {
-            await ctx.Channel.SendErrorAsync("That's not a valid color! Please use hex.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendErrorAsync(
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                .ConfigureAwait(false);
         }
     }
 
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
     {
-        if (SKColor.TryParse(color, out var potentialColorValue))
+        var colorVal = StringExtensions.GetHexFromColorName(color);
+        if (color.StartsWith("#"))
+        {
+            if (SKColor.TryParse(color, out _))
+                colorVal = color;
+        }
+
+        if (colorVal is not null)
         {
             var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayEmbedColor = color;
+            gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Channel.SendConfirmAsync(
                     $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
@@ -112,7 +129,10 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
         }
         else
         {
-            await ctx.Channel.SendErrorAsync("That's not a valid color! Please use hex.").ConfigureAwait(false);
+            await ctx.Channel
+                .SendErrorAsync(
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                .ConfigureAwait(false);
         }
     }
 

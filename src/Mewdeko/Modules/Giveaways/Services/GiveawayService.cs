@@ -161,11 +161,15 @@ public class GiveawayService(DiscordSocketClient client, DbService db, IBotCrede
 
         if (!string.IsNullOrEmpty(gconfig.GiveawayEmbedColor))
         {
-            if (gconfig.GiveawayEmbedColor.StartsWith("#"))
-                eb.WithColor(new Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("#", ""), 16)));
-            else if (gconfig.GiveawayWinEmbedColor.StartsWith("0x") && gconfig.GiveawayEmbedColor.Length == 8)
-                eb.WithColor(new Color(Convert.ToUInt32(gconfig.GiveawayEmbedColor.Replace("0x", ""), 16)));
-            else if (uint.TryParse(gconfig.GiveawayEmbedColor, out var colorNumber))
+            var colorStr = gconfig.GiveawayEmbedColor;
+
+            if (colorStr.StartsWith("#"))
+                eb.WithColor(new Color(Convert.ToUInt32(colorStr.Replace("#", ""), 16)));
+            else if (colorStr.StartsWith("0x") && colorStr.Length == 8)
+                eb.WithColor(new Color(Convert.ToUInt32(colorStr.Replace("0x", ""), 16)));
+            else if (colorStr.Length == 6 && IsHex(colorStr))
+                eb.WithColor(new Color(Convert.ToUInt32(colorStr, 16)));
+            else if (uint.TryParse(colorStr, out var colorNumber))
                 eb.WithColor(new Color(colorNumber));
         }
 
@@ -211,6 +215,12 @@ public class GiveawayService(DiscordSocketClient client, DbService db, IBotCrede
             await interaction.SendConfirmFollowupAsync($"Giveaway started in {chan.Mention}").ConfigureAwait(false);
         else
             await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}").ConfigureAwait(false);
+        return;
+
+        bool IsHex(string value)
+        {
+            return value.All(c => c is >= '0' and <= '9' or >= 'A' and <= 'F' or >= 'a' and <= 'f');
+        }
     }
 
     public async Task GiveawayTimerAction(Database.Models.Giveaways r, IGuild? inputguild = null,
