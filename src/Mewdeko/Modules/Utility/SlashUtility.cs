@@ -246,6 +246,9 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             case "bybit":
                 link = "https://docs.tealstreet.io/docs/connect/bybit";
                 break;
+            case "bybitv5":
+                link = "https://docs.tealstreet.io/docs/connect/bybitv5";
+                break;
             case "bingx":
                 link = "https://docs.tealstreet.io/docs/connect/bingx";
                 break;
