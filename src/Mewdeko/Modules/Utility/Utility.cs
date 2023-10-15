@@ -1490,15 +1490,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
-    //[Cmd, Aliases]
-    //public async Task Docs()
-    //{
-    //    await ctx.Channel.EmbedAsync(
-    //            new EmbedBuilder().WithOkColor()
-    //                .AddField("Docs", $"https://docs.tealstreet.io/"))
-    //        .ConfigureAwait(false);
-    //}
-
     [Cmd, Aliases]
     public async Task Docs(string platform = "")
     {

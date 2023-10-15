@@ -35,7 +35,7 @@ public static class MessageChannelExtensions
         return ch.SendMessageAsync(embed: eb.Build(), components: null);
 
         //return ch.SendMessageAsync(embed: eb.Build(),
-        //    components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/TBD10").Build() : null);
+        //    components: helpButton ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko").Build() : null);
     }
 
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? title, string? text,

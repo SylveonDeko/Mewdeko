@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader;
+using CodeHollow.FeedReader;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
