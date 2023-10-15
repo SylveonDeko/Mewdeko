@@ -286,7 +286,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
 
         await ctx.Interaction.RespondAsync(embed:
                     new EmbedBuilder().WithOkColor()
-                    .AddField("Docs", link).Build())
+                    .AddField("Tealstreet Docs", link).Build())
                     .ConfigureAwait(false);
     }
 

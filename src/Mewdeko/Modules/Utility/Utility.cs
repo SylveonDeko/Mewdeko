@@ -1558,7 +1558,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         await ctx.Channel.EmbedAsync(
             new EmbedBuilder().WithOkColor()
-            .AddField("Docs", link))
+            .AddField("Tealstreet Docs", link))
             .ConfigureAwait(false);
     }
 

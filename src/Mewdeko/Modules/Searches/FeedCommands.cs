@@ -20,6 +20,25 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedAdd(string url, [Remainder] ITextChannel? channel = null)
         {
+            // Replace 'twitter.com' with 'nitter.cz'
+            if (url.Contains("twitter.com"))
+            {
+                if (url.StartsWith("https://"))
+                {
+                    var baseString = url;
+                    baseString = url + "/rss";
+                    url = baseString;
+                    url = url.Replace("twitter.com", "nitter.cz");
+                }
+                else
+                {
+                    var baseString = url;
+                    baseString = "https://" + url + "/rss";
+                    url = baseString;
+                    url = url.Replace("twitter.com", "nitter.cz");
+                }
+            }
+
             var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
                           (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
             if (success)
@@ -31,7 +50,7 @@ public partial class Searches
                 }
                 catch (Exception ex)
                 {
-                    Log.Information(ex, "Unable to get feeds from that url");
+                    Log.Information(ex, "Unable to get feeds from that url: " + url);
                     success = false;
                 }
             }
@@ -46,6 +65,7 @@ public partial class Searches
                 }
             }
 
+            Log.Information("error in url: " + url);
             await ReplyErrorLocalizedAsync("feed_not_valid").ConfigureAwait(false);
         }
 
