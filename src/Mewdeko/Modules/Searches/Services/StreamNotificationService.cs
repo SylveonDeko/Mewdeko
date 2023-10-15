@@ -261,7 +261,8 @@ public class StreamNotificationService : IReadyExecutor, INService
                         if (textChannel is null)
                             return Task.CompletedTask;
 
-                        var rep = new ReplacementBuilder().WithOverride("%user%", () => fs.Username)
+                        var rep = new ReplacementBuilder()
+                            .WithOverride("%user%", () => fs.Username)
                             .WithOverride("%platform%", () => fs.Type.ToString())
                             .Build();
 
@@ -271,6 +272,9 @@ public class StreamNotificationService : IReadyExecutor, INService
                     })
                     .WhenAll().ConfigureAwait(false);
             }
+
+            // Add 60 second delay after each loop, dont need to hit the api so fast
+            await Task.Delay(60000);
         }
     }
 
