@@ -1142,7 +1142,6 @@
   "stats_not_found": "No stats for that trigger found, no action taken.",
   "stats_songs": "Playing {0} songs, {1} queued.",
   "stats": "Chat Trigger Stats",
-  "docs": "Terminal Documentation",
   "status": "Status",
   "stopped": "Stopped reposting.",
   "store_url": "Store url",

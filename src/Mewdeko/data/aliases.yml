@@ -735,6 +735,9 @@ experience:
   - lvl
 facepalm:
   - facepalm
+recentfeed:
+  - recentfeed
+  - recenttweet
 feed:
   - feed
 feedadd:
@@ -968,6 +971,7 @@ linux:
 listchattriggers:
   - listchattriggers
   - lct
+  - chattriggerslist
 listchattriggersgroup:
   - listchattriggersgroup
   - lctg
