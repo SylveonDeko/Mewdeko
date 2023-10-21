@@ -1493,6 +1493,43 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Docs(string platform = "")
     {
+        var link = platform.ToLower() switch
+        {
+            "windows" or "win" => "https://docs.tealstreet.io/docs/desktopclient/windows",
+            "linux" or "nix" => "https://docs.tealstreet.io/docs/desktopclient/linux",
+            "mac" or "macos" => "https://docs.tealstreet.io/docs/desktopclient/mac",
+            "binance" or "nance" => "https://docs.tealstreet.io/docs/connect/binance",
+            "bitget" or "bg" => "https://docs.tealstreet.io/docs/connect/bitget",
+            "bitmex" or "bmex" => "https://docs.tealstreet.io/docs/connect/bitmex",
+            "bybit" => "https://docs.tealstreet.io/docs/connect/bybit",
+            "bybitv5" => "https://docs.tealstreet.io/docs/connect/bybitv5",
+            "bingx" => "https://docs.tealstreet.io/docs/connect/bingx",
+            "okx" or "okex" => "https://docs.tealstreet.io/docs/connect/okex",
+            "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
+            "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
+            "terminal" or "term" => "https://docs.tealstreet.io/docs/trade/terminal",
+            "ref" or "reflink" or "referral" => "https://docs.tealstreet.io/docs/ref-links",
+            "changelog" or "changes" => "https://docs.tealstreet.io/docs/changelog",
+            "multiaccstreaming" or "multiacc" => "https://docs.tealstreet.io/docs/trade/multi-acc-streaming",
+            "troubleshoot" or "troubleshooting" => "https://docs.tealstreet.io/docs/about/troubleshooting",
+            "beta" or "betafeatures" => "https://docs.tealstreet.io/docs/trade/beta-features",
+            "runbot" => "https://docs.tealstreet.io/docs/webhooks/runbot",
+
+            // default case
+            "" => "https://docs.tealstreet.io/",
+            _ => "https://docs.tealstreet.io/" // This is like the default case in traditional switch.
+        };
+
+        await ctx.Channel.EmbedAsync(
+            new EmbedBuilder().WithOkColor()
+            .AddField("Tealstreet Docs", link))
+            .ConfigureAwait(false);
+    }
+
+    /*
+    [Cmd, Aliases]
+    public async Task Docs(string platform = "")
+    {
         string link;
 
         switch (platform.ToLower())
@@ -1542,6 +1579,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             case "changelog":
                 link = "https://docs.tealstreet.io/docs/changelog";
                 break;
+            case "multiaccstreaming":
+                link = "https://docs.tealstreet.io/docs/trade/multi-acc-streaming";
+                break;
             case "troubleshooting":
                 link = "https://docs.tealstreet.io/docs/about/troubleshooting";
                 break;
@@ -1564,6 +1604,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .AddField("Tealstreet Docs", link))
             .ConfigureAwait(false);
     }
+    */
 
     [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
