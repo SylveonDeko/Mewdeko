@@ -243,6 +243,9 @@ public class StreamNotificationService : IReadyExecutor, INService
                         ?.EmbedAsync(GetEmbed(fs.GuildId, stream)))
                     .WhenAll().ConfigureAwait(false);
             }
+
+            // Add 60 second delay after each loop, dont need to hit the api so fast
+            await Task.Delay(60000);
         }
     }
 
@@ -273,8 +276,8 @@ public class StreamNotificationService : IReadyExecutor, INService
                     .WhenAll().ConfigureAwait(false);
             }
 
-            // Add 60 second delay after each loop, dont need to hit the api so fast
-            await Task.Delay(60000);
+            // Add 120 second delay after each loop, dont need to hit the api so fast
+            await Task.Delay(120000);
         }
     }
 
