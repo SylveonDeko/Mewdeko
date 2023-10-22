@@ -109,6 +109,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private async Task OnMessageReceived(SocketMessage args)
     {
+        //todo: This is a pathetic bandaid, it should be redone properly
+#if (DEBUG)
+        return;
+#endif
+
         if (args.Channel is not IGuildChannel guildChannel)
             return;
         var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
