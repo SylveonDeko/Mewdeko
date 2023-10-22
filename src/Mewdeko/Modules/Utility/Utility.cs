@@ -1508,6 +1508,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
             "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
             "terminal" or "term" => "https://docs.tealstreet.io/docs/trade/terminal",
+            "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",
             "ref" or "reflink" or "referral" => "https://docs.tealstreet.io/docs/ref-links",
             "changelog" or "changes" => "https://docs.tealstreet.io/docs/changelog",
             "multiaccstreaming" or "multiacc" => "https://docs.tealstreet.io/docs/trade/multi-acc-streaming",
