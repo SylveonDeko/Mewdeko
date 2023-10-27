@@ -478,6 +478,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             {
                 // ignored
             }
+
+            // lets chill out for 100ms to hopefully stop the commands tripping over themselves.
+            // This is supposed to be handle via .wait but its broken so bad method for now
+            // todo: fix .wait and then get rid of this
+            await Task.Delay(100);
         }
 
         if (client.ShardId == 0)

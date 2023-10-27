@@ -112,7 +112,8 @@
       <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
       <PackageReference Include="System.Threading.Channels" Version="8.0.0-preview.3.23174.8" />
       <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-      <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f" />
+      <PackageReference Include="TwitchLib.Api" Version="3.9.0" />
+      <PackageReference Include="TwitchLib.Client" Version="3.3.1" />
       <PackageReference Include="VirusTotalNet" Version="2.1.0" />
       <PackageReference Include="YamlDotNet" Version="13.0.2" />
     </ItemGroup>

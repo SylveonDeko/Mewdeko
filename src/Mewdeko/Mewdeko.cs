@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
 using Discord.Commands;
@@ -21,6 +21,7 @@ using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.TwitchChat;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -169,6 +170,8 @@ public class Mewdeko
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
         _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
+        var obj = new TwitchChat();
+        await obj.InitializeClient();
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
