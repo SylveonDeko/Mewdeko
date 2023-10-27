@@ -18,7 +18,6 @@ namespace Mewdeko.Services.TwitchChat
             public int expires_in { get; set; }
             public string token_type { get; set; }
         }
-
         private void TwitchClient_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             // Rate Limit mitigation
@@ -36,19 +35,17 @@ namespace Mewdeko.Services.TwitchChat
                 var user = e.ChatMessage.Username;
                 var message = e.ChatMessage.Message;
 
-                Log.Information($"{user}:{message}");
+                Log.Information($"MSG Received: {user}:{message}");
             });
         }
         private void TwitchClient_OnLog(object sender, OnLogArgs e)
         {
-            Log.Information($"{e.DateTime.ToString()}: {e.BotUsername} - {e.Data}");
+            Log.Information($"OnLog: {e.DateTime}: {e.BotUsername} - {e.Data}");
         }
-
         private void TwitchClient_OnConnected(object sender, OnConnectedArgs e)
         {
             Log.Information($"Connected to {e.AutoJoinChannel}");
         }
-
         private void TwitchClient_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
         {
 
@@ -59,7 +56,6 @@ namespace Mewdeko.Services.TwitchChat
             });
             
         }
-
         private void TwitchClient_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
             Log.Information($"Joined channel: {e.Channel}");
@@ -77,7 +73,7 @@ namespace Mewdeko.Services.TwitchChat
                         var username = Environment.GetEnvironmentVariable("TWITCH_USERNAME");
                         var clientId = Environment.GetEnvironmentVariable("TWITCH_CLIENT_ID");
                         var secret = Environment.GetEnvironmentVariable("TWITCH_CLIENT_SECRET");
-                        var redirectUri = "httpL//localhost";
+                        var redirectUri = "http://localhost";
 
                         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(secret))
                         {
@@ -93,15 +89,19 @@ namespace Mewdeko.Services.TwitchChat
                             return;
                         }
 
+                        Log.Information($"token response: {token}");
+
                         // Generate the API object
                         var api = new TwitchAPI();
                         api.Settings.ClientId = clientId;
                         api.Settings.AccessToken = token;
-                        var newtoken = await api.Auth.RefreshAuthTokenAsync(token, secret, clientId);
-                        twitchClient.Initialize(new ConnectionCredentials("DaxxTrias", newtoken.AccessToken));
+                        var newtoken = await api.Auth.GetAccessTokenAsync(token);
 
+                        //todo: probably need to put this on a slow loop somewhere, or check expiry value and when low run it
+                        //var refreshedtoken = await api.Auth.RefreshAuthTokenAsync(newtoken, secret, clientId);
 
                         // Generate the Client object
+                        twitchClient.Initialize(new ConnectionCredentials("DaxxTrias", newtoken));
                         twitchClient.OnMessageReceived += TwitchClient_OnMessageReceived;
                         twitchClient.OnChatCommandReceived += TwitchClient_OnChatCommandReceived;
                         twitchClient.OnJoinedChannel += TwitchClient_OnJoinedChannel;
@@ -130,15 +130,20 @@ namespace Mewdeko.Services.TwitchChat
                 return null;
             }
 
+            // https://id.twitch.tv/oauth2/authorize?client_id={ClientID}&redirect_uri=http://localhost&response_type=code&scope=chat:read+chat:edit
+            //string authUrl = $"https://id.twitch.tv/oauth2/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope=chat:read+chat:edit";
+
             using (var httpClient = new HttpClient())
             {
                 var postData = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("client_id", clientId),
-                    new KeyValuePair<string, string>("redirect_uri", redirectUri),
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
                     new KeyValuePair<string, string>("client_secret", clientSecret),
+                    //new KeyValuePair<string, string>("response_type", "code"),
+                    //new KeyValuePair<string, string>("response_type", "token"),
+                    new KeyValuePair<string, string>("grant_type", "client_credentials"), // client auth grant, mutually exclusive with response_type? i think?
                     new KeyValuePair<string, string>("scope", "chat:read chat:edit"),
+                    new KeyValuePair<string, string>("redirect_uri", redirectUri),
                 });
 
                 var response = await httpClient.PostAsync("https://id.twitch.tv/oauth2/token", postData);
