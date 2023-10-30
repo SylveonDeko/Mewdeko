@@ -70,35 +70,30 @@ namespace Mewdeko.Services.TwitchChat
                 {
                     await Task.Run(async () =>
                     {
+                        // Check that we have the information we need
+                        // todo: replace this with entries in credentials.json later
                         var username = Environment.GetEnvironmentVariable("TWITCH_USERNAME");
                         var clientId = Environment.GetEnvironmentVariable("TWITCH_CLIENT_ID");
                         var secret = Environment.GetEnvironmentVariable("TWITCH_CLIENT_SECRET");
-                        var redirectUri = "http://localhost";
+                        var accessToken = Environment.GetEnvironmentVariable("TWITCH_ACCESS_TOKEN");
 
-                        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(secret))
+                        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(clientId)
+                           || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(accessToken))
                         {
                             Log.Information("Twitch Client not initialized. Missing environment variables.");
                             return;
                         }
 
-                        var token = await GetOauthTokenAsync(clientId, secret, redirectUri);
-
-                        if (string.IsNullOrEmpty(token))
-                        {
-                            Log.Information("OAUTH Token is null or empty");
-                            return;
-                        }
-
-                        Log.Information($"token response: {token}");
-
                         // Generate the API object
-                        var api = new TwitchAPI();
-                        api.Settings.ClientId = clientId;
-                        api.Settings.AccessToken = token;
-                        var newtoken = await api.Auth.GetAccessTokenAsync(token);
-
-                        //todo: probably need to put this on a slow loop somewhere, or check expiry value and when low run it
-                        //var refreshedtoken = await api.Auth.RefreshAuthTokenAsync(newtoken, secret, clientId);
+                        var api = new TwitchAPI
+                        {
+                            Settings =
+                            {
+                                ClientId = clientId,
+                                Secret = secret,
+                                AccessToken = accessToken
+                            }
+                        };
 
                         // Generate the Client object
                         twitchClient.Initialize(new ConnectionCredentials("DaxxTrias", newtoken));
