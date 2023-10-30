@@ -236,12 +236,16 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
             "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
             "terminal" or "term" => "https://docs.tealstreet.io/docs/trade/terminal",
-            "ref" or "reflink" or "referral" => "https://docs.tealstreet.io/docs/ref-links",
-            "changelog" or "changes" => "https://docs.tealstreet.io/docs/changelog",
+            "ref" or "reflink" or "referral" or "ref-link" => "https://docs.tealstreet.io/docs/ref-links",
+            "changelog" or "changes" or "patchnotes" => "https://docs.tealstreet.io/docs/changelog",
             "multiaccstreaming" or "multiacc" => "https://docs.tealstreet.io/docs/trade/multi-acc-streaming",
             "troubleshoot" or "troubleshooting" => "https://docs.tealstreet.io/docs/about/troubleshooting",
             "beta" or "betafeatures" => "https://docs.tealstreet.io/docs/trade/beta-features",
             "runbot" => "https://docs.tealstreet.io/docs/webhooks/runbot",
+            "copytrade" => "https://docs.tealstreet.io/docs/copy-trade",
+            "webhook" or "webhooks" => "https://docs.tealstreet.io/docs/webhooks/",
+            "FAQ" => "https://docs.tealstreet.io/docs/FAQ",
+            "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",
 
             // default case
             "" => "https://docs.tealstreet.io/",
