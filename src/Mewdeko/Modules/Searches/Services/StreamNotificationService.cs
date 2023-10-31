@@ -416,7 +416,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 Type = data.StreamType, Username = data.UniqueName, ChannelId = channelId, GuildId = guildId
             };
 
-            if (gc.FollowedStreams.Count >= 10)
+            if (gc.FollowedStreams.Count >= 20)
                 return null;
 
             gc.FollowedStreams.Add(fs);
