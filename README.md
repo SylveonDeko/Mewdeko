@@ -1,4 +1,4 @@
-<a href="https://discord.gg/mewdeko">
+<a href="https://discord.gg/deko">
         <img src="https://discordapp.com/api/guilds/843489716674494475/widget.png" alt="Get support at the Mewdeko's Clubhouse discord server!">
     </a>
     <a href="https://opensource.org/licenses/AGPL-3.0">
@@ -20,7 +20,7 @@
 ### - [Selfhost Guide (Linux)](Selfhost-Linux.md)
 ### - [Code of Conduct](CODE_OF_CONDUCT.md)
 ### - [Contribution Guide](CONTRIBUTING.md)
-### - [Discord Server](https://discord.gg/mewdeko)
+### - [Discord Server](https://discord.gg/deko)
 ### - [Top.gg Link](https://top.gg/bot/752236274261426212)
 ### - [License](LICENSE)
 
