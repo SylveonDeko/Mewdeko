@@ -96,7 +96,7 @@ namespace Mewdeko.Services.TwitchChat
                         };
 
                         // Generate the Client object
-                        twitchClient.Initialize(new ConnectionCredentials("DaxxTrias", newtoken));
+                        twitchClient.Initialize(new ConnectionCredentials("DaxxTrias", accessToken));
                         twitchClient.OnMessageReceived += TwitchClient_OnMessageReceived;
                         twitchClient.OnChatCommandReceived += TwitchClient_OnChatCommandReceived;
                         twitchClient.OnJoinedChannel += TwitchClient_OnJoinedChannel;

@@ -1514,7 +1514,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "troubleshoot" or "troubleshooting" => "https://docs.tealstreet.io/docs/about/troubleshooting",
             "beta" or "betafeatures" => "https://docs.tealstreet.io/docs/trade/beta-features",
             "runbot" => "https://docs.tealstreet.io/docs/webhooks/runbot",
-            "copytrade" => "https://docs.tealstreet.io/docs/copy-trade",
+            "copytrade" or "copytrading" or "copy-trade" => "https://docs.tealstreet.io/docs/copy-trade",
             "webhook" or "webhooks" => "https://docs.tealstreet.io/docs/webhooks/",
             "FAQ" => "https://docs.tealstreet.io/docs/FAQ",
             "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",

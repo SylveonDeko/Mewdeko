@@ -170,8 +170,11 @@ public class Mewdeko
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
         _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
+
+#if DEBUG
         var obj = new TwitchChat();
         await obj.InitializeClient();
+#endif
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");

@@ -156,6 +156,10 @@ public class FeedsService : INService
                             }
                         }
 
+                        //todo: Disabling this until I have desire to implement a proper img resizer or scraper
+                        // Some issues with regex filtering inside the descriptor field from nitter
+                        // Can either host a custom nitter, setup a proper regex scraper,
+                        // or get a lib dedicated to parsing this specific stuff
                         /*
                         // Check for RSS 2.0 compliant media
                         if (!gotImage && feed.Type == FeedType.Rss_2_0)
