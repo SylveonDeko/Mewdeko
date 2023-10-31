@@ -1,15 +1,123 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Timers;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Api;
+using Mewdeko.Services.TwitchChat.Entities;
 
 namespace Mewdeko.Services.TwitchChat
 {
     public class TwitchChat
     {
+        private BotConnection _botConnection;
+        private TwitchAPI _twitchApi;
+        private readonly TwitchClient _twitchClient;
+        private readonly IConfiguration _configuration;
+
+        private void OnOAuthTokenRefreshTimer(object sender, ElapsedEventArgs e)
+        {
+            RefreshAccessToken();
+        }
+
+        public Task Connect(BotConnection botConnection)
+        {
+            _botConnection = botConnection;
+
+            _twitchApi = new TwitchAPI
+            {
+                Settings =
+                {
+                    ClientId = _configuration["TWITCH_CLIENTID"],
+                    Secret = _configuration["TWITCH_CLIENT_SECRET"],
+                    AccessToken = botConnection.AccessToken
+                }
+            };
+
+            if (!string.IsNullOrEmpty(botConnection.RefreshToken))
+            {
+                try
+                {
+                    //refresh the token
+                    var response = _twitchApi.Auth.RefreshAuthTokenAsync(
+                                    _botConnection.RefreshToken, _configuration["TWITCH_CLIENT_SECRET"],
+                                    _configuration["TWITCH_CLIENT_ID"]).Result;
+                    _twitchApi.Settings.AccessToken = response.AccessToken;
+                    _botConnection.AccessToken = response.AccessToken;
+                    _botConnection.RefreshToken = response.RefreshToken;
+
+                    if (string.IsNullOrEmpty(_botConnection.ChannelId))
+                    {
+                        var user = _twitchApi.Helix.Users.GetUsersAsync(
+                            logins: new List<string>() { _botConnection.Login}).Result;
+
+                        _botConnection.ChannelId = user.Users[0].Id;
+                    }
+
+                    //todo: connection repository (add to)
+
+                    //setup token autorefresh
+                    var aTimer = new Timer(TimeSpan.FromSeconds(response.ExpiresIn).TotalMilliseconds);
+                    aTimer.Elapsed += OnOAuthTokenRefreshTimer;
+                    aTimer.AutoReset = true;
+                    aTimer.Enabled = true;
+                }
+                catch (Exception e)
+                {
+                    Log.Information($"{e}, Error when trying to refresh access token");
+                }
+            }
+
+            var credentials = new ConnectionCredentials(_configuration["TWITCH_USERNAME"], _configuration["BOT_ACCESS_TOKEN"]);
+
+            _twitchClient.Initialize(credentials);
+
+            if (!string.IsNullOrEmpty(_botConnection.ChannelId))
+            {
+                // pubsub. do we care about this stuff? not immediately
+                //todo: come back to implement pubsub stuff (predictions, subs, etc)
+            }
+
+            _twitchClient.Connect();
+            //_twitchPubSub.Connect();
+
+            _twitchClient.JoinChannel(_botConnection.Login);
+
+            return Task.CompletedTask;
+        }
+
+        private async void RefreshAccessToken()
+        {
+            try
+            {
+                Log.Information($"{_botConnection.Login} - attempting to refresh access token");
+
+                //todo: connection repository (get from)
+
+                var response = _twitchApi.Auth.RefreshAuthTokenAsync(_botConnection.RefreshToken,
+                    _configuration["TWITCH_CLIENT_SECRET"], _configuration["TWITCH_CLIENT_ID"]).Result;
+
+                _twitchApi.Settings.AccessToken = response.AccessToken;
+
+                _botConnection.AccessToken = response.AccessToken;
+                _botConnection.RefreshToken = response.RefreshToken;
+
+                //todo: connection repository (save to)
+
+                Log.Information($"{_botConnection.Login} - Refreshing of access token successful");
+            }
+            catch (Exception e)
+            {
+                Log.Information($"{e}, {_botConnection.Login} - Error occured trying to refresh token");
+            }
+        }
+
+        #region TwitchChat 1.0
         TwitchClient twitchClient = new TwitchClient();
         private Dictionary<string, DateTime> userRateLimit = new Dictionary<string, DateTime>();
         public class TokenResponse
@@ -18,6 +126,7 @@ namespace Mewdeko.Services.TwitchChat
             public int expires_in { get; set; }
             public string token_type { get; set; }
         }
+        
         private void TwitchClient_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             // Rate Limit mitigation
@@ -61,7 +170,7 @@ namespace Mewdeko.Services.TwitchChat
             Log.Information($"Joined channel: {e.Channel}");
             twitchClient.SendMessage(e.Channel, "Hello World!");
         }
-
+        
         public async Task InitializeClient()
         {
             await Task.Run(async () =>
@@ -177,5 +286,6 @@ namespace Mewdeko.Services.TwitchChat
                 }
             }
         }
+        #endregion
     }
 }

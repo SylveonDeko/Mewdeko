@@ -218,7 +218,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
-    [SlashCommand("newdocs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    [SlashCommand("docs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Docs(string platform = "")
     {
         var link = platform.ToLower() switch
@@ -257,86 +257,6 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                     .AddField("Tealstreet Docs", link).Build())
                     .ConfigureAwait(false);
     }
-
-    /*
-    [SlashCommand("docs", "Link to the terminal docs"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
-    public async Task Docs(string platform = "")
-    {
-        string link;
-
-        switch (platform.ToLower())
-        {
-            case "windows":
-                link = "https://docs.tealstreet.io/docs/desktopclient/windows";
-                break;
-            case "linux":
-                link = "https://docs.tealstreet.io/docs/desktopclient/linux";
-                break;
-            case "mac":
-                link = "https://docs.tealstreet.io/docs/desktopclient/mac";
-                break;
-            case "binance":
-                link = "https://docs.tealstreet.io/docs/connect/binance";
-                break;
-            case "bitget":
-                link = "https://docs.tealstreet.io/docs/connect/bitget";
-                break;
-            case "bitmex":
-                link = "https://docs.tealstreet.io/docs/connect/bitmex";
-                break;
-            case "bybit":
-                link = "https://docs.tealstreet.io/docs/connect/bybit";
-                break;
-            case "bybitv5":
-                link = "https://docs.tealstreet.io/docs/connect/bybitv5";
-                break;
-            case "bingx":
-                link = "https://docs.tealstreet.io/docs/connect/bingx";
-                break;
-            case "okex":
-                link = "https://docs.tealstreet.io/docs/connect/okex";
-                break;
-            case "phemex":
-                link = "https://docs.tealstreet.io/docs/connect/phemex";
-                break;
-            case "woox":
-                link = "https://docs.tealstreet.io/docs/connect/woo";
-                break;
-            case "terminal":
-                link = "https://docs.tealstreet.io/docs/trade/terminal";
-                break;
-            case "ref":
-                link = "https://docs.tealstreet.io/docs/ref-links";
-                break;
-            case "changelog":
-                link = "https://docs.tealstreet.io/docs/changelog";
-                break;
-            case "multiaccstreaming":
-                link = "https://docs.tealstreet.io/docs/trade/multi-acc-streaming";
-                break;
-            case "troubleshooting":
-                link = "https://docs.tealstreet.io/docs/about/troubleshooting";
-                break;
-            case "beta":
-                link = "https://docs.tealstreet.io/docs/trade/beta-features";
-                break;
-            case "runbot":
-                link = "https://docs.tealstreet.io/docs/webhooks/runbot";
-                break;
-            case "":
-                link = "https://docs.tealstreet.io/";
-                break;
-            default:
-                link = "https://docs.tealstreet.io/";
-                break;
-        }
-
-        await ctx.Interaction.RespondAsync(embed:
-                    new EmbedBuilder().WithOkColor()
-                    .AddField("Tealstreet Docs", link).Build())
-                    .ConfigureAwait(false);
-    }
-    */
 
     [SlashCommand("roleinfo", "Shows info for a role")]
     public async Task RInfo(IRole role)
