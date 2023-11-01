@@ -277,6 +277,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             }
 
             // Add 120 second delay after each loop, dont need to hit the api so fast
+            //todo: this 'patch' didnt fix the problem
             await Task.Delay(120000);
         }
     }
