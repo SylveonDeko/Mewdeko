@@ -201,7 +201,8 @@ public class NotifChecker
             return new Dictionary<StreamDataKey, StreamData?>();
 
         return db.HashGetAll(key)
-            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name), Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
+            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name),
+                    Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
             .Where(keyValuePair => keyValuePair.Key.Name is not null)
             .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
     }

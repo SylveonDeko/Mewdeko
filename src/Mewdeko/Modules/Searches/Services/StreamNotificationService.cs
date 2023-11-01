@@ -102,6 +102,8 @@ public class StreamNotificationService : IReadyExecutor, INService
             }
         }
 
+        //todo: Entrypoint
+
         this.pubSub.Sub(streamsOfflineKey, HandleStreamsOffline);
         this.pubSub.Sub(streamsOnlineKey, HandleStreamsOnline);
 

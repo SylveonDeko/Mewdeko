@@ -152,6 +152,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (!args.Content.StartsWith("!frog") && !args.Content.StartsWith("!frogbot"))
             return;
 
+#if DEBUG
+        return;
+#endif
+
         if (conversations.TryGetValue(args.Author.Id, out var conversation))
         {
             conversation.AppendUserInput(args.Content);
