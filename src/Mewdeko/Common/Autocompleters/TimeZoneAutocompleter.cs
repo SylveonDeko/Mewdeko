@@ -4,7 +4,8 @@ namespace Mewdeko.Common.Autocompleters;
 
 public class TimeZoneAutocompleter : AutocompleteHandler
 {
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction,
+    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+        IAutocompleteInteraction interaction,
         IParameterInfo parameter, IServiceProvider services)
     {
         var val = interaction.Data.Current.Value.ToString() ?? "";

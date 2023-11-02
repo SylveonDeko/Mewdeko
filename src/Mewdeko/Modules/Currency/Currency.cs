@@ -158,6 +158,7 @@ namespace Mewdeko.Modules.Currency
                     $"You either have no {Service.GetCurrencyEmote(Context.Guild.Id)} or are negative. Please do dailyreward and try again.");
                 return;
             }
+
             string[] segments =
             {
                 "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"

@@ -67,8 +67,8 @@ public class GreetSettingsService : INService, IReadyExecutor
         }
     }
 
-    public ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
-    public bool GroupGreets => bss.Data.GroupGreets;
+    private ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
+    private bool GroupGreets => bss.Data.GroupGreets;
 
     private async Task TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
     {

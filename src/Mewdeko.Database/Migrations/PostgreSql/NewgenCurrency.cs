@@ -26,7 +26,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     DateAdded = table.Column<DateTime>(nullable: true, defaultValue: DateTime.UtcNow),
                     UserId = table.Column<ulong>(nullable: false),
                     Balance = table.Column<long>(nullable: false)
@@ -42,7 +43,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     DateAdded = table.Column<DateTime>(nullable: true, defaultValue: DateTime.UtcNow),
                     GuildId = table.Column<ulong>(nullable: false),
                     UserId = table.Column<ulong>(nullable: false),
@@ -59,7 +61,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     DateAdded = table.Column<DateTime>(nullable: true, defaultValue: DateTime.UtcNow),
                     GuildId = table.Column<ulong>(nullable: false),
                     UserId = table.Column<ulong>(nullable: true),

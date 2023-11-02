@@ -39,7 +39,7 @@ public partial class Utility
         [Cmd, Aliases, RequireDragon]
         public async Task JoinStatsColor(int r, int g, int b)
         {
-            if ((r is <0 or >255) || (g is <0 or >255) || (b is <0 or >255))
+            if ((r is < 0 or > 255) || (g is < 0 or > 255) || (b is < 0 or > 255))
             {
                 await ErrorLocalizedAsync("color_invalid");
             }
@@ -60,10 +60,11 @@ public partial class Utility
         [Cmd, Aliases, RequireDragon]
         public async Task LeaveStatsColor(int r, int g, int b)
         {
-            if ((r is <0 or >255) || (g is <0 or >255) || (b is <0 or >255))
+            if ((r is < 0 or > 255) || (g is < 0 or > 255) || (b is < 0 or > 255))
             {
                 await ErrorLocalizedAsync("color_invalid");
             }
+
             var color = (uint)System.Drawing.Color.FromArgb(r, g, b).ToArgb();
             await Service.SetLeaveColor(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");

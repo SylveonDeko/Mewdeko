@@ -5,7 +5,8 @@ namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 public class RequireDragonAttribute : PreconditionAttribute
 {
-    public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context, ICommandInfo commandInfo, IServiceProvider services)
+    public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
+        ICommandInfo commandInfo, IServiceProvider services)
     {
         var db = services.GetRequiredService(typeof(DbService)) as DbService;
         await using var ctx = db.GetDbContext();

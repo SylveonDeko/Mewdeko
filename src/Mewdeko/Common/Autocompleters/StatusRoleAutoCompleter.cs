@@ -8,7 +8,8 @@ public class StatusRoleAutocompleter : AutocompleteHandler
 
     private readonly IDataCache cache;
 
-    public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter,
+    public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+        IAutocompleteInteraction interaction, IParameterInfo parameter,
         IServiceProvider services)
     {
         var content = (string)interaction.Data.Current.Value;

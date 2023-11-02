@@ -12,7 +12,8 @@ public partial class AddTemplates : Migration
             columns: table => new
             {
                 Id = table.Column<int>(nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 DateAdded = table.Column<DateTime>(nullable: true),
                 TextColor = table.Column<string>(nullable: true),
                 FontSize = table.Column<int>(nullable: false),
@@ -35,7 +36,8 @@ public partial class AddTemplates : Migration
             columns: table => new
             {
                 Id = table.Column<int>(nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 DateAdded = table.Column<DateTime>(nullable: true),
                 GuildLevelColor = table.Column<string>(nullable: true),
                 GuildLevelFontSize = table.Column<int>(nullable: false),
@@ -58,7 +60,8 @@ public partial class AddTemplates : Migration
             columns: table => new
             {
                 Id = table.Column<int>(nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 DateAdded = table.Column<DateTime>(nullable: true),
                 ClubIconX = table.Column<int>(nullable: false),
                 ClubIconY = table.Column<int>(nullable: false),
@@ -81,7 +84,8 @@ public partial class AddTemplates : Migration
             columns: table => new
             {
                 Id = table.Column<int>(nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 DateAdded = table.Column<DateTime>(nullable: true),
                 BarColor = table.Column<string>(nullable: true),
                 BarPointAx = table.Column<int>(nullable: false),
@@ -103,7 +107,8 @@ public partial class AddTemplates : Migration
             columns: table => new
             {
                 Id = table.Column<int>(nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 DateAdded = table.Column<DateTime>(nullable: true),
                 GuildId = table.Column<long>(nullable: false),
                 OutputSizeX = table.Column<int>(nullable: false),
