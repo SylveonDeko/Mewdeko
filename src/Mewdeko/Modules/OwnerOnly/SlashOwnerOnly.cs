@@ -25,14 +25,15 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 [SlashOwnerOnly, Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
-public class SlashOwnerOnly(DiscordSocketClient client,
-        IBotStrings strings,
-        InteractiveService serv,
-        ICoordinator coord,
-        DbService db,
-        IDataCache cache,
-        GuildSettingsService guildSettings,
-        CommandHandler commandHandler)
+public class SlashOwnerOnly(
+    DiscordSocketClient client,
+    IBotStrings strings,
+    InteractiveService serv,
+    ICoordinator coord,
+    DbService db,
+    IDataCache cache,
+    GuildSettingsService guildSettings,
+    CommandHandler commandHandler)
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     public enum SettableUserStatus
@@ -151,9 +152,12 @@ public class SlashOwnerOnly(DiscordSocketClient client,
     }
 
     [Discord.Interactions.Group("config", "Commands to manage various bot things")]
-    public class ConfigCommands(GuildSettingsService guildSettings, CommandService commandService,
-            IServiceProvider services, DiscordSocketClient client,
-            IEnumerable<IConfigService> settingServices)
+    public class ConfigCommands(
+        GuildSettingsService guildSettings,
+        CommandService commandService,
+        IServiceProvider services,
+        DiscordSocketClient client,
+        IEnumerable<IConfigService> settingServices)
         : MewdekoSlashModuleBase<OwnerOnlyService>
     {
         [SlashCommand("defprefix", "Sets the default prefix for the bots text commands")]

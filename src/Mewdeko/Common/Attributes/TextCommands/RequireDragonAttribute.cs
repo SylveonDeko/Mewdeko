@@ -5,7 +5,8 @@ namespace Mewdeko.Common.Attributes.TextCommands;
 
 public class RequireDragonAttribute : PreconditionAttribute
 {
-    public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
+    public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
+        IServiceProvider services)
     {
         var db = services.GetRequiredService(typeof(DbService)) as DbService;
         var guildConfigService = services.GetRequiredService(typeof(GuildSettingsService)) as GuildSettingsService;

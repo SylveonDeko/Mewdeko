@@ -61,7 +61,8 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             var secretKey = KeyGeneration.GenerateRandomKey(); //Generates a random secret key
             var base32Secret = Base32Encoding.ToString(secretKey);
 
-            var otpauth = $"otpauth://totp/{ctx.User.Username}?secret={Base32Encoding.ToString(secretKey)}&issuer={ctx.Client.CurrentUser.Username}";
+            var otpauth =
+                $"otpauth://totp/{ctx.User.Username}?secret={Base32Encoding.ToString(secretKey)}&issuer={ctx.Client.CurrentUser.Username}";
 
             var qrGenerator = new QRCoder.QRCodeGenerator();
             var qrCodeData = qrGenerator.CreateQrCode(otpauth, QRCoder.QRCodeGenerator.ECCLevel.Q);
@@ -73,9 +74,12 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             await db.StringSetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", secureString);
 
             var component = new ComponentBuilder().WithButton("Click to enter 2fa", customId: $"2fa-verify-setup")
-                .WithButton("Download Authy (iOS)", style: ButtonStyle.Link, url: "https://apps.apple.com/us/app/twilio-authy/id494168017")
-                .WithButton("Download Authy (Android)", style: ButtonStyle.Link, url: "https://play.google.com/store/apps/details?id=com.authy.authy")
-                .WithButton("Download Authy (macOS/Windows)", style: ButtonStyle.Link, url: "https://authy.com/download/");
+                .WithButton("Download Authy (iOS)", style: ButtonStyle.Link,
+                    url: "https://apps.apple.com/us/app/twilio-authy/id494168017")
+                .WithButton("Download Authy (Android)", style: ButtonStyle.Link,
+                    url: "https://play.google.com/store/apps/details?id=com.authy.authy")
+                .WithButton("Download Authy (macOS/Windows)", style: ButtonStyle.Link,
+                    url: "https://authy.com/download/");
 
             var eb = new EmbedBuilder()
                 .WithOkColor()
@@ -85,7 +89,8 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
                                  $"\n***The recovery key will also be sent to your dms.***");
 
             await ctx.Interaction.FollowupWithFileAsync(new MemoryStream(qrCodeImage),
-                "qrcode.png", embed: eb.WithImageUrl("attachment://qrcode.png").Build(), ephemeral: true, components: component.Build());
+                "qrcode.png", embed: eb.WithImageUrl("attachment://qrcode.png").Build(), ephemeral: true,
+                components: component.Build());
 
             try
             {
@@ -198,7 +203,8 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
             var currentBotUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             var highestRole = currentBotUser.GetRoles().Max(role => role.Position);
-            var newRole = await ctx.Guild.CreateRoleAsync("Recovered Server Owner Role", new GuildPermissions(administrator: true), null, false, null);
+            var newRole = await ctx.Guild.CreateRoleAsync("Recovered Server Owner Role",
+                new GuildPermissions(administrator: true), null, false, null);
             await newRole.ModifyAsync(x => x.Position = highestRole - 1);
             var curuser = ctx.User as IGuildUser;
             await curuser.AddRoleAsync(newRole);
