@@ -68,7 +68,8 @@ public partial class SplitFilterChannelId : Migration
             name: "FilterChannelId",
             columns: table => new
             {
-                ChannelId = table.Column<ulong>(type: "INTEGER", nullable: false), GuildConfigId = table.Column<int>(type: "INTEGER", nullable: false)
+                ChannelId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                GuildConfigId = table.Column<int>(type: "INTEGER", nullable: false)
             },
             constraints: table =>
             {

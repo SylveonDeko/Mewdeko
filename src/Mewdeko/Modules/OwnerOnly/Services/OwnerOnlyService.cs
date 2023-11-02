@@ -108,55 +108,113 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private async Task OnMessageReceived(SocketMessage args)
     {
-        if (args.Channel is not IGuildChannel guildChannel)
-            return;
-        var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
-        if (args.Content.StartsWith(prefix))
-            return;
-        if (bss.Data.ChatGptKey is null or "" || bss.Data.ChatGptChannel is 0)
-            return;
-        if (args.Author.IsBot)
-            return;
-        if (args.Channel.Id != bss.Data.ChatGptChannel)
-            return;
-        var api = new OpenAIAPI(bss.Data.ChatGptKey);
-        if (args is not IUserMessage usrMsg)
-            return;
-        if (args.Content is "deletesession")
-            if (conversations.TryRemove(args.Author.Id, out _))
-            {
-                await usrMsg.SendConfirmReplyAsync("Session deleted");
+        try
+        {
+            if (args.Channel is not IGuildChannel guildChannel)
                 return;
+            var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
+            if (args.Content.StartsWith(prefix))
+                return;
+            if (bss.Data.ChatGptKey is null or "" || bss.Data.ChatGptChannel is 0)
+                return;
+            if (args.Author.IsBot)
+                return;
+            if (args.Channel.Id != bss.Data.ChatGptChannel)
+                return;
+            var api = new OpenAIAPI(bss.Data.ChatGptKey);
+            if (args is not IUserMessage usrMsg)
+                return;
+            if (args.Content is "deletesession")
+                if (conversations.TryRemove(args.Author.Id, out _))
+                {
+                    await usrMsg.SendConfirmReplyAsync("Session deleted");
+                    return;
+                }
+                else
+                {
+                    await usrMsg.SendConfirmReplyAsync("No session to delete");
+                    return;
+                }
+
+            await using var uow = db.GetDbContext();
+            (Database.Models.OwnerOnly actualItem, bool added) toUpdate;
+            if (uow.OwnerOnly.Any())
+            {
+                toUpdate = (await uow.OwnerOnly.FirstOrDefaultAsync(), false);
             }
             else
             {
-                await usrMsg.SendConfirmReplyAsync("No session to delete");
-                return;
+                toUpdate = (new Database.Models.OwnerOnly
+                {
+                    GptTokensUsed = 0
+                }, true);
             }
 
-        await using var uow = db.GetDbContext();
-        (Database.Models.OwnerOnly actualItem, bool added) toUpdate;
-        if (uow.OwnerOnly.Any())
-        {
-            toUpdate = (await uow.OwnerOnly.FirstOrDefaultAsync(), false);
-        }
-        else
-        {
-            toUpdate = (new Database.Models.OwnerOnly
+            if (conversations.TryGetValue(args.Author.Id, out var conversation))
             {
-                GptTokensUsed = 0
-            }, true);
-        }
-
-        if (conversations.TryGetValue(args.Author.Id, out var conversation))
-        {
-            conversation.AppendUserInput(args.Content);
-            if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
-            {
-                try
+                conversation.AppendUserInput(args.Content);
+                if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
                 {
-                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
-                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                    try
+                    {
+                        var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
+                        var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                        var response = await conversation.GetResponseFromChatbotAsync();
+                        toUpdate.actualItem.GptTokensUsed += conversation.MostResentAPIResult.Usage.TotalTokens;
+                        if (toUpdate.added)
+                            uow.OwnerOnly.Add(toUpdate.actualItem);
+                        else
+                            uow.OwnerOnly.Update(toUpdate.actualItem);
+                        await uow.SaveChangesAsync();
+
+                        var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
+
+                        var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
+
+                        for (var i = 0; i < embeds.Capacity; i++)
+                        {
+                            var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
+
+                            var embedBuilder = new EmbedBuilder();
+
+                            if (i == 0)
+                            {
+                                embedBuilder.WithOkColor()
+                                    .WithDescription(messagePart)
+                                    .WithAuthor("ChatGPT",
+                                        "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                            }
+                            else
+                            {
+                                embedBuilder.WithDescription(messagePart);
+                            }
+
+                            if (i == embeds.Capacity - 1)
+                            {
+                                embedBuilder.WithFooter(
+                                    $"Requested by {args.Author} | Response Tokens: {conversation.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
+                            }
+
+                            embeds.Add(embedBuilder);
+                        }
+
+                        var embedArray = embeds.Select(e => e.Build()).ToArray();
+
+                        await webhook.ModifyMessageAsync(msg, properties =>
+                        {
+                            properties.Embeds = embedArray;
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        await usrMsg.SendErrorReplyAsync(
+                            "Something went wrong, please try again later. Probably a bad webhook.");
+                    }
+                }
+                else
+                {
+                    var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
                     var response = await conversation.GetResponseFromChatbotAsync();
                     toUpdate.actualItem.GptTokensUsed += conversation.MostResentAPIResult.Usage.TotalTokens;
                     if (toUpdate.added)
@@ -198,196 +256,145 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
                     var embedArray = embeds.Select(e => e.Build()).ToArray();
 
-                    await webhook.ModifyMessageAsync(msg, properties =>
-                    {
-                        properties.Embeds = embedArray;
-                    });
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    await usrMsg.SendErrorReplyAsync(
-                        "Something went wrong, please try again later. Probably a bad webhook.");
+                    await msg.ModifyAsync(x => x.Embeds = embedArray);
                 }
             }
             else
             {
-                var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
-                var response = await conversation.GetResponseFromChatbotAsync();
-                toUpdate.actualItem.GptTokensUsed += conversation.MostResentAPIResult.Usage.TotalTokens;
-                if (toUpdate.added)
-                    uow.OwnerOnly.Add(toUpdate.actualItem);
-                else
-                    uow.OwnerOnly.Update(toUpdate.actualItem);
-                await uow.SaveChangesAsync();
-
-                var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
-
-                var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
-
-                for (var i = 0; i < embeds.Capacity; i++)
+                Model modelToUse;
+                switch (bss.Data.ChatGptModel)
                 {
-                    var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
+                    case "gpt-4-0613":
+                        modelToUse = Model.GPT4_32k_Context;
+                        break;
+                    case "gpt4":
+                    case "gpt-4":
+                        modelToUse = Model.GPT4;
+                        break;
+                    case "gpt-3":
+                    case "gpt3":
+                        modelToUse = Model.ChatGPTTurbo;
+                        break;
+                    default:
+                        modelToUse = Model.ChatGPTTurbo;
+                        break;
+                }
 
-                    var embedBuilder = new EmbedBuilder();
-
-                    if (i == 0)
+                var chat = api.Chat.CreateConversation(new ChatRequest
+                {
+                    MaxTokens = bss.Data.ChatGptMaxTokens, Temperature = bss.Data.ChatGptTemperature, Model = modelToUse
+                });
+                chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
+                chat.AppendSystemMessage($"The users name is {args.Author}.");
+                chat.AppendUserInput(args.Content);
+                try
+                {
+                    conversations.TryAdd(args.Author.Id, chat);
+                    if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
                     {
-                        embedBuilder.WithOkColor()
-                            .WithDescription(messagePart)
-                            .WithAuthor("ChatGPT",
-                                "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                        var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
+                        var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                        var response = await chat.GetResponseFromChatbotAsync();
+                        toUpdate.actualItem.GptTokensUsed += chat.MostResentAPIResult.Usage.TotalTokens;
+                        if (toUpdate.added)
+                            uow.OwnerOnly.Add(toUpdate.actualItem);
+                        else
+                            uow.OwnerOnly.Update(toUpdate.actualItem);
+
+                        var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
+
+                        var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
+
+                        for (var i = 0; i < embeds.Capacity; i++)
+                        {
+                            var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
+
+                            var embedBuilder = new EmbedBuilder();
+
+                            if (i == 0)
+                            {
+                                embedBuilder.WithOkColor()
+                                    .WithDescription(messagePart)
+                                    .WithAuthor("ChatGPT",
+                                        "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                            }
+                            else
+                            {
+                                embedBuilder.WithDescription(messagePart);
+                            }
+
+                            if (i == embeds.Capacity - 1)
+                            {
+                                embedBuilder.WithFooter(
+                                    $"Requested by {args.Author} | Response Tokens: {chat.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
+                            }
+
+                            embeds.Add(embedBuilder);
+                        }
+
+                        var embedArray = embeds.Select(e => e.Build()).ToArray();
+
+                        await webhook.ModifyMessageAsync(msg, properties =>
+                        {
+                            properties.Embeds = embedArray;
+                        });
                     }
                     else
                     {
-                        embedBuilder.WithDescription(messagePart);
-                    }
+                        var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
+                        var response = await chat.GetResponseFromChatbotAsync();
+                        toUpdate.actualItem.GptTokensUsed += chat.MostResentAPIResult.Usage.TotalTokens;
+                        if (toUpdate.added)
+                            uow.OwnerOnly.Add(toUpdate.actualItem);
+                        else
+                            uow.OwnerOnly.Update(toUpdate.actualItem);
 
-                    if (i == embeds.Capacity - 1)
-                    {
-                        embedBuilder.WithFooter(
-                            $"Requested by {args.Author} | Response Tokens: {conversation.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
-                    }
+                        var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
 
-                    embeds.Add(embedBuilder);
+                        var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
+
+                        for (var i = 0; i < embeds.Capacity; i++)
+                        {
+                            var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
+
+                            var embedBuilder = new EmbedBuilder();
+
+                            if (i == 0)
+                            {
+                                embedBuilder.WithOkColor()
+                                    .WithDescription(messagePart)
+                                    .WithAuthor("ChatGPT",
+                                        "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
+                            }
+                            else
+                            {
+                                embedBuilder.WithDescription(messagePart);
+                            }
+
+                            if (i == embeds.Capacity - 1)
+                            {
+                                embedBuilder.WithFooter(
+                                    $"Requested by {args.Author} | Response Tokens: {chat.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
+                            }
+
+                            embeds.Add(embedBuilder);
+                        }
+
+                        var embedArray = embeds.Select(e => e.Build()).ToArray();
+
+                        await msg.ModifyAsync(m => m.Embeds = embedArray);
+                    }
                 }
-
-                var embedArray = embeds.Select(e => e.Build()).ToArray();
-
-                await msg.ModifyAsync(x => x.Embeds = embedArray);
+                catch (Exception e)
+                {
+                    Log.Warning(e, "Error in ChatGPT");
+                    await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
+                }
             }
         }
-        else
+        catch (Exception e)
         {
-            Model modelToUse;
-            switch (bss.Data.ChatGptModel)
-            {
-                case "gpt-4-0613":
-                    modelToUse = Model.GPT4_32k_Context;
-                    break;
-                case "gpt4":
-                case "gpt-4":
-                    modelToUse = Model.GPT4;
-                    break;
-                case "gpt-3":
-                case "gpt3":
-                    modelToUse = Model.ChatGPTTurbo;
-                    break;
-                default:
-                    modelToUse = Model.ChatGPTTurbo;
-                    break;
-            }
-
-            var chat = api.Chat.CreateConversation(new ChatRequest
-            {
-                MaxTokens = bss.Data.ChatGptMaxTokens, Temperature = bss.Data.ChatGptTemperature, Model = modelToUse
-            });
-            chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
-            chat.AppendSystemMessage($"The users name is {args.Author}.");
-            chat.AppendUserInput(args.Content);
-            try
-            {
-                conversations.TryAdd(args.Author.Id, chat);
-                if (!string.IsNullOrEmpty(bss.Data.ChatGptWebhook))
-                {
-                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
-                    var msg = await webhook.SendConfirmAsync($"{bss.Data.LoadingEmote} awaiting response...");
-                    var response = await chat.GetResponseFromChatbotAsync();
-                    toUpdate.actualItem.GptTokensUsed += chat.MostResentAPIResult.Usage.TotalTokens;
-                    if (toUpdate.added)
-                        uow.OwnerOnly.Add(toUpdate.actualItem);
-                    else
-                        uow.OwnerOnly.Update(toUpdate.actualItem);
-
-                    var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
-
-                    var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
-
-                    for (var i = 0; i < embeds.Capacity; i++)
-                    {
-                        var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
-
-                        var embedBuilder = new EmbedBuilder();
-
-                        if (i == 0)
-                        {
-                            embedBuilder.WithOkColor()
-                                .WithDescription(messagePart)
-                                .WithAuthor("ChatGPT",
-                                    "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
-                        }
-                        else
-                        {
-                            embedBuilder.WithDescription(messagePart);
-                        }
-
-                        if (i == embeds.Capacity - 1)
-                        {
-                            embedBuilder.WithFooter(
-                                $"Requested by {args.Author} | Response Tokens: {chat.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
-                        }
-
-                        embeds.Add(embedBuilder);
-                    }
-
-                    var embedArray = embeds.Select(e => e.Build()).ToArray();
-
-                    await webhook.ModifyMessageAsync(msg, properties =>
-                    {
-                        properties.Embeds = embedArray;
-                    });
-                }
-                else
-                {
-                    var msg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} awaiting response...");
-                    var response = await chat.GetResponseFromChatbotAsync();
-                    toUpdate.actualItem.GptTokensUsed += chat.MostResentAPIResult.Usage.TotalTokens;
-                    if (toUpdate.added)
-                        uow.OwnerOnly.Add(toUpdate.actualItem);
-                    else
-                        uow.OwnerOnly.Update(toUpdate.actualItem);
-
-                    var embedsCount = Math.Max(1, (int)Math.Ceiling((double)response.Length / 4096));
-
-                    var embeds = new List<EmbedBuilder>(Math.Min(embedsCount, 10));
-
-                    for (var i = 0; i < embeds.Capacity; i++)
-                    {
-                        var messagePart = response.Substring(i * 4096, Math.Min(4096, response.Length - i * 4096));
-
-                        var embedBuilder = new EmbedBuilder();
-
-                        if (i == 0)
-                        {
-                            embedBuilder.WithOkColor()
-                                .WithDescription(messagePart)
-                                .WithAuthor("ChatGPT",
-                                    "https://seeklogo.com/images/C/chatgpt-logo-02AFA704B5-seeklogo.com.png");
-                        }
-                        else
-                        {
-                            embedBuilder.WithDescription(messagePart);
-                        }
-
-                        if (i == embeds.Capacity - 1)
-                        {
-                            embedBuilder.WithFooter(
-                                $"Requested by {args.Author} | Response Tokens: {chat.MostResentAPIResult.Usage.TotalTokens} | Total Used: {toUpdate.actualItem.GptTokensUsed}");
-                        }
-
-                        embeds.Add(embedBuilder);
-                    }
-
-                    var embedArray = embeds.Select(e => e.Build()).ToArray();
-
-                    await msg.ModifyAsync(m => m.Embeds = embedArray);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
-            }
+            Log.Warning(e, "Error in ChatGPT");
         }
     }
 

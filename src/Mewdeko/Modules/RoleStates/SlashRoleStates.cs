@@ -6,10 +6,10 @@ using Mewdeko.Modules.RoleStates.Services;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.RoleStates;
+
 [Group("rolestates", "Manage roles for users when they leave and rejoin!")]
 public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
 {
-
     private readonly BotConfigService bss;
     private readonly InteractiveService interactivity;
 
@@ -19,7 +19,7 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         this.interactivity = interactivity;
     }
 
-    [SlashCommand("toggle","Toggle whether RoleStates are enabled"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("toggle", "Toggle whether RoleStates are enabled"), SlashUserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStates()
     {
         if (await Service.ToggleRoleStates(ctx.Guild.Id))
@@ -28,30 +28,36 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
             await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States are now disabled!");
     }
 
-    [SlashCommand("toggle-ignore-bots","Toggle whether Role States will ignore bots"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("toggle-ignore-bots", "Toggle whether Role States will ignore bots"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStatesIgnoreBots()
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
+
         if (await Service.ToggleIgnoreBots(roleStateSettings))
             await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States will ignore bots!");
         else
             await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States will not ignore bots!");
     }
 
-    [SlashCommand("toggle-clear-on-ban","Toggle whether role states get cleared on ban"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("toggle-clear-on-ban", "Toggle whether role states get cleared on ban"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStatesClearOnBan()
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
+
         if (await Service.ToggleClearOnBan(roleStateSettings))
             await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Role states will clear on ban!");
         else
@@ -59,12 +65,14 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
     }
 
 
-    [SlashCommand("viewsettings","View the current settings for RoleStates"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("viewsettings", "View the current settings for RoleStates"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task ViewRoleStatesSettings()
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
         if (roleStateSettings is null)
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
         else
         {
             var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
@@ -88,7 +96,8 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         }
     }
 
-    [SlashCommand("viewstates", "Let's you view all active RoleStates for every user!"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("viewstates", "Let's you view all active RoleStates for every user!"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task ViewUserRoleStates()
     {
         var userRoleStates = await Service.GetAllUserRoleStates(ctx.Guild.Id);
@@ -108,7 +117,8 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -135,14 +145,16 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         }
     }
 
-    [SlashCommand("add-deny-roles","Adds one or more roles to the exluded roles list"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("add-deny-roles", "Adds one or more roles to the exluded roles list"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesAddDenyRole(IRole[] roles)
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
 
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -162,17 +174,20 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         roleStateSettings.DeniedRoles = string.Join(",", deniedRoles);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully added {addedCount} role(s) to the deny list.");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully added {addedCount} role(s) to the deny list.");
     }
 
-    [SlashCommand("remove-deny-roles","Removes one or more roles from the exclusion list"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("remove-deny-roles", "Removes one or more roles from the exclusion list"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesRemoveDenyRole(IRole[] roles)
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
 
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -192,17 +207,20 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         roleStateSettings.DeniedRoles = string.Join(",", deniedRoles);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed {removedCount} role(s) from the deny list.");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully removed {removedCount} role(s) from the deny list.");
     }
 
-    [SlashCommand("add-deny-users","Adds one or more users to the excluded users list"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("add-deny-users", "Adds one or more users to the excluded users list"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesAddDenyUser(IUser[] users)
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
 
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -222,17 +240,20 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         roleStateSettings.DeniedUsers = string.Join(",", deniedUsers);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully added {addedCount} user(s) to the deny list.");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully added {addedCount} user(s) to the deny list.");
     }
 
-    [SlashCommand("remove-deny-users","Removes one or more users from the users blacklist"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("remove-deny-users", "Removes one or more users from the users blacklist"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesRemoveDenyUser(IUser[] users)
     {
         var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
 
         if (roleStateSettings is null)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} Role States are not enabled and have not been configured!");
             return;
         }
 
@@ -252,47 +273,52 @@ public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
         roleStateSettings.DeniedUsers = string.Join(",", deniedUsers);
         await Service.UpdateRoleStateSettings(roleStateSettings);
 
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed {removedCount} user(s) from the deny list.");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully removed {removedCount} user(s) from the deny list.");
     }
 
-    [SlashCommand("set-role-state","Sets a users role state"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("set-role-state", "Sets a users role state"), SlashUserPerm(GuildPermission.Administrator)]
     public async Task SetUserRoleState(IUser user, IRole[] roles)
     {
         var roleIds = roles.Where(x => x.Id != ctx.Guild.Id && !x.IsManaged).Select(x => x.Id);
         if (!roleIds.Any())
             await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} There are no valid roles specified!");
         await Service.SetRoleStateManually(user, ctx.Guild.Id, roleIds);
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully set the role state for user {user.Mention} with the specified roles.");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Successfully set the role state for user {user.Mention} with the specified roles.");
     }
 
-    [SlashCommand("remove-from-rolestate","Removes a role from a RoleState"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("remove-from-rolestate", "Removes a role from a RoleState"),
+     SlashUserPerm(GuildPermission.Administrator)]
     public async Task RemoveRolesFromRoleState(IUser user, IRole[] roles)
     {
         var removed = await Service.RemoveRolesFromUserRoleState(ctx.Guild.Id, user.Id, roles.Select(x => x.Id));
         if (!removed.Item1)
             await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Remove failed because:\n{removed.Item2}");
         else
-            await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
+            await ctx.Interaction.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
-    [SlashCommand("add-to-rolestate","Adds a role to a RoleState"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("add-to-rolestate", "Adds a role to a RoleState"), SlashUserPerm(GuildPermission.Administrator)]
     public async Task AddRolesToRoleState(IUser user, IRole[] roles)
     {
         var removed = await Service.AddRolesToUserRoleState(ctx.Guild.Id, user.Id, roles.Select(x => x.Id));
         if (!removed.Item1)
             await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} Remove failed because:\n{removed.Item2}");
         else
-            await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
+            await ctx.Interaction.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
-    [SlashCommand("delete-role-state","Deletes a users RoleState"), SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("delete-role-state", "Deletes a users RoleState"), SlashUserPerm(GuildPermission.Administrator)]
     public async Task DeleteUserRoleState(IUser user)
     {
         var deleted = await Service.DeleteUserRoleState(user.Id, ctx.Guild.Id);
         if (!deleted)
             await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} No Role State to delete!");
         else
-            await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Successfully deleted {user}'s Role State!");
+            await ctx.Interaction.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} Successfully deleted {user}'s Role State!");
     }
-
 }

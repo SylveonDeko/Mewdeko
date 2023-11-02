@@ -25,32 +25,38 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
     {
         if (status.Length > 128)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
             return;
         }
 
         var added = await Service.AddStatusRoleConfig(status, ctx.Guild.Id);
         if (added)
-            await ctx.Interaction.SendConfirmAsync("Added StatusRole config! Please configure it with the other commands.");
+            await ctx.Interaction.SendConfirmAsync(
+                "Added StatusRole config! Please configure it with the other commands.");
         else
             await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!");
     }
 
     [SlashCommand("remove-status-role", "Removes an existing statusrole"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task RemoveStatusRole([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
+    public async Task RemoveStatusRole(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
     {
         await Service.RemoveStatusRoleConfig(potentialStatusRole);
         await ctx.Interaction.SendConfirmAsync("StatusRole config removed!");
     }
 
-    [SlashCommand("set-embed", "Sets or previews an embed for a specific status role"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task SetStatusRoleEmbed([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, string embedText = null)
+    [SlashCommand("set-embed", "Sets or previews an embed for a specific status role"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task SetStatusRoleEmbed(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, string embedText = null)
     {
         if (string.IsNullOrWhiteSpace(embedText))
         {
             if (string.IsNullOrWhiteSpace(potentialStatusRole.StatusEmbed))
             {
-                await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
+                await ctx.Interaction.SendErrorAsync(
+                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
                 return;
             }
 
@@ -62,7 +68,8 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
 
             var msgid = await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder()
                 .WithOkColor()
-                .WithDescription($"{bss.Data.LoadingEmote} Please select what you want to do with the current StatusRole text")
+                .WithDescription(
+                    $"{bss.Data.LoadingEmote} Please select what you want to do with the current StatusRole text")
                 .Build(), components: componentBuilder.Build());
 
             var button = await GetButtonInputAsync(ctx.Interaction.Id, msgid.Id, ctx.User.Id);
@@ -71,7 +78,8 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
                 case "preview":
                     var rep = new ReplacementBuilder()
                         .WithDefault(ctx).Build();
-                    if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds, out var plainText, out var components))
+                    if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds,
+                            out var plainText, out var components))
                         await ctx.Interaction.FollowupAsync(plainText, embeds: embeds, components: components.Build());
                     else
                         await ctx.Interaction.FollowupAsync(rep.Replace(potentialStatusRole.StatusEmbed));
@@ -91,8 +99,10 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         }
     }
 
-    [SlashCommand("set-channel", "Sets the channel the embed will use for this StatusRole"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task SetStatusRoleChannel([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, ITextChannel channel)
+    [SlashCommand("set-channel", "Sets the channel the embed will use for this StatusRole"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task SetStatusRoleChannel(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, ITextChannel channel)
     {
         if (potentialStatusRole.StatusChannelId == channel.Id)
         {
@@ -101,11 +111,14 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         }
 
         await Service.SetStatusChannel(potentialStatusRole, channel.Id);
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
-    [SlashCommand("set-add-roles", "Sets the roles to add when a user has the selected status"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task SetAddRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
+    [SlashCommand("set-add-roles", "Sets the roles to add when a user has the selected status"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task SetAddRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole,
+        IRole[] roles)
     {
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToAdd))
         {
@@ -124,8 +137,10 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         }
     }
 
-    [SlashCommand("set-remove-roles", "Set roles to be removed when a user has a certain status"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task SetRemoveRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
+    [SlashCommand("set-remove-roles", "Set roles to be removed when a user has a certain status"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task SetRemoveRoles(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
     {
         if (string.IsNullOrWhiteSpace(potentialStatusRole.ToRemove))
         {
@@ -144,29 +159,37 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
         }
     }
 
-    [SlashCommand("remove-add-roles", "Remove one or more roles from the roles added when a user has a certain status"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task RemoveAddRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
+    [SlashCommand("remove-add-roles", "Remove one or more roles from the roles added when a user has a certain status"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task RemoveAddRoles(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, IRole[] roles)
     {
         var addRoles = potentialStatusRole.ToAdd.Split(" ");
         var newList = addRoles.Except(roles.Select(x => $"{x.Id}")).ToList();
         if (addRoles.Length == newList.Count)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
             return;
         }
 
         await Service.SetAddRoles(potentialStatusRole, string.Join(" ", newList));
-        await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
-    [SlashCommand("remove-remove-roles", "Remove one or more roles from the roles removed when a user has a certain status"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task RemoveRemoveRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, params IRole[] roles)
+    [SlashCommand("remove-remove-roles",
+         "Remove one or more roles from the roles removed when a user has a certain status"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task RemoveRemoveRoles(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole, params IRole[] roles)
     {
         var removeRoles = potentialStatusRole.ToRemove.Split(" ");
         var newList = removeRoles.Except(roles.Select(x => $"{x.Id}")).ToList();
         if (removeRoles.Length == newList.Count)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
+            await ctx.Interaction.SendErrorAsync(
+                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
             return;
         }
 
@@ -175,21 +198,26 @@ public class SlashStatusRoles : MewdekoSlashModuleBase<StatusRolesService>
             $"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
-    [SlashCommand("toggle-remove-added", "Toggles whether added roles are removed when a status is removed"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task ToggleRemoveAdded([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
+    [SlashCommand("toggle-remove-added", "Toggles whether added roles are removed when a status is removed"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task ToggleRemoveAdded(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
     {
         var returned = await Service.ToggleRemoveAdded(potentialStatusRole);
         await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} RemoveAdded is now `{returned}`");
     }
 
-    [SlashCommand("toggle-readd-removed", "Toggles whether removed roles are readded when a status is removed"), SlashUserPerm(GuildPermission.ManageGuild)]
-    public async Task ToggleReaddRemoved([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
+    [SlashCommand("toggle-readd-removed", "Toggles whether removed roles are readded when a status is removed"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task ToggleReaddRemoved(
+        [Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole)
     {
         var returned = await Service.ToggleAddRemoved(potentialStatusRole);
         await ctx.Interaction.SendConfirmAsync($"{bss.Data.SuccessEmote} ReaddRemoved is now `{returned}`");
     }
 
-    [SlashCommand("list", "Lists all current status roles with their index"), SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("list", "Lists all current status roles with their index"),
+     SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task ListStatusRoles()
     {
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);

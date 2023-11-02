@@ -12,12 +12,14 @@ public class SettingsServicePropAutoCompleter : AutocompleteHandler
         this.settingServices = settingServices;
     }
 
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter,
+    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+        IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter,
         IServiceProvider services)
     {
         var firstOption = autocompleteInteraction.Data.Options.FirstOrDefault(x => x.Name == "name");
         var setting = settingServices.FirstOrDefault(x => x.Name == (string)firstOption.Value);
-        if (setting is null) return Task.FromResult(AutocompletionResult.FromSuccess(Enumerable.Empty<AutocompleteResult>()));
+        if (setting is null)
+            return Task.FromResult(AutocompletionResult.FromSuccess(Enumerable.Empty<AutocompleteResult>()));
         {
             var propNames = GetPropsAndValuesString(setting, setting.GetSettableProps());
             var dict = setting.GetSettableProps().Zip(propNames).ToDictionary(x => x.First, x => x.Second);
