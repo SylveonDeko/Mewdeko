@@ -20,7 +20,7 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetDel(int timer = 300)
+        public async Task GreetDel(int timer = 30)
         {
             if (timer is < 0 or > 90000)
                 return;
@@ -52,11 +52,11 @@ public partial class Administration
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
-        public async Task BoostDel(int timer = 300)
+        public async Task BoostDel(int timer = 30)
         {
             if (timer is < 0 or > 90000)
             {
-                await ctx.Channel.SendErrorAsync("The max delete time is 600 seconds!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("The max delete time is 90000 seconds!").ConfigureAwait(false);
                 return;
             }
 
