@@ -196,7 +196,7 @@ public class GreetSettingsService : INService, IReadyExecutor
 
     public async Task SetBoostDel(ulong guildId, int timer)
     {
-        if (timer is < 0 or > 600)
+        if (timer is < 0 or > 90000)
             throw new ArgumentOutOfRangeException(nameof(timer));
 
         await using var uow = db.GetDbContext();

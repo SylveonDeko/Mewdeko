@@ -1516,7 +1516,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "runbot" => "https://docs.tealstreet.io/docs/webhooks/runbot",
             "copytrade" or "copytrading" or "copy-trade" => "https://docs.tealstreet.io/docs/copy-trade",
             "webhook" or "webhooks" => "https://docs.tealstreet.io/docs/webhooks/",
-            "FAQ" => "https://docs.tealstreet.io/docs/FAQ",
+            "faq" => "https://docs.tealstreet.io/docs/FAQ",
+            "twap" => "https://docs.tealstreet.io/docs/trade/beta-features#twap-orders",
             "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",
 
             // default case
