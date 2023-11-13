@@ -13,6 +13,10 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+update:
+  args:
+    - ""
+  desc: "Updates the bot"
 gdmmessage:
   args:
     - "message"
