@@ -16,23 +16,25 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
+using Octokit;
 using Serilog;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
 [OwnerOnly]
-public class OwnerOnly(DiscordSocketClient client,
-        Mewdeko bot,
-        IBotStrings strings,
-        InteractiveService serv,
-        ICoordinator coord,
-        IEnumerable<IConfigService> settingServices,
-        DbService db,
-        IDataCache cache,
-        CommandService commandService,
-        IServiceProvider services,
-        GuildSettingsService guildSettings,
-        CommandHandler commandHandler)
+public class OwnerOnly(
+    DiscordSocketClient client,
+    Mewdeko bot,
+    IBotStrings strings,
+    InteractiveService serv,
+    ICoordinator coord,
+    IEnumerable<IConfigService> settingServices,
+    DbService db,
+    IDataCache cache,
+    CommandService commandService,
+    IServiceProvider services,
+    GuildSettingsService guildSettings,
+    CommandHandler commandHandler)
     : MewdekoModuleBase<OwnerOnlyService>
 {
     public enum SettableUserStatus
@@ -50,6 +52,150 @@ public class OwnerOnly(DiscordSocketClient client,
         {
             await Service.ClearUsedTokens();
             await ctx.Channel.SendErrorAsync("Cleared.");
+        }
+    }
+
+    [Cmd, Aliases]
+    public async Task Update()
+    {
+        var shell = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/bash";
+
+        var buttons = new ComponentBuilder()
+            .WithButton("Stable", "stable")
+            .WithButton("Nightly", "nightly", ButtonStyle.Danger);
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithDescription("Which version would you like to check updates against?");
+
+        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: buttons.Build());
+        var result = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+
+        if (result is null)
+        {
+            await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                .WithErrorColor()
+                .WithDescription("Timed out.")
+                .Build());
+            return;
+        }
+
+        var branch = result switch
+        {
+            "stable" => "main",
+            "nightly" => "psqldeko",
+            _ => "main"
+        };
+
+        var process = Process.Start(new ProcessStartInfo
+        {
+            FileName = shell,
+            Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? "/c \"git rev-parse --abbrev-ref HEAD\""
+                : "-c \"git rev-parse --abbrev-ref HEAD\"",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        });
+        await process.WaitForExitAsync();
+        var text = await process.StandardOutput.ReadToEndAsync();
+        if (text.Replace("\n", "") != branch)
+        {
+            if (await PromptUserConfirmAsync(
+                    "Switching branches can cause issues like database incompatibility," +
+                    " or in the case of going from stable to nightly, " +
+                    "major bugs, ***Are you sure you want to continue?***",
+                    ctx.User.Id))
+            {
+                await ctx.Channel.SendConfirmAsync("Switching branches and updating, please wait...");
+                var typing = ctx.Channel.EnterTypingState();
+                var sw = Stopwatch.StartNew();
+                var process2 = Process.Start(new ProcessStartInfo
+                {
+                    FileName = shell,
+                    Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                        ? $"/c \"git checkout {branch} && git pull\""
+                        : $"-c \"git checkout {branch} && git pull\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+                await process2.WaitForExitAsync();
+                Log.Information("Update Logs: {UpdateLogs}", await process2.StandardOutput.ReadToEndAsync());
+                sw.Stop();
+                var eb2 = new EmbedBuilder()
+                    .WithDescription("Update complete.")
+                    .WithOkColor()
+                    .WithFooter("Time taken: " + sw.Elapsed.ToString("g"));
+                await ctx.Channel.SendMessageAsync(embed: eb2.Build());
+                typing.Dispose();
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("Cancelled.");
+            }
+        }
+        else
+        {
+            var getCommit = Process.Start(new ProcessStartInfo
+            {
+                FileName = shell,
+                Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? "/c \"git rev-parse HEAD\""
+                    : "-c \"git rev-parse HEAD\"",
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            });
+            await getCommit.WaitForExitAsync();
+            var commit = await getCommit.StandardOutput.ReadToEndAsync();
+            var github = new GitHubClient(new ProductHeaderValue("Mewdeko"));
+            var repo = await github.Repository.Branch.Get("sylveondeko", "Mewdeko", branch);
+            if (repo is null)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    "Failed to get repo info. Please create an issue on the repo or join the support server.");
+                return;
+            }
+
+            var commitSha = repo.Commit.Sha;
+            if (commitSha != commit.Replace("\n", ""))
+            {
+                if (await PromptUserConfirmAsync(
+                        "Are you sure you want to update?",
+                        ctx.User.Id))
+                {
+                    await ctx.Channel.SendConfirmAsync("Updating, please wait...");
+                    var typing = ctx.Channel.EnterTypingState();
+                    var sw = Stopwatch.StartNew();
+                    var process2 = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = shell,
+                        Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                            ? $"/c git pull"
+                            : $"-c git pull",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    });
+                    await process2.WaitForExitAsync();
+                    Log.Information("Update Logs: {UpdateLogs}", await process2.StandardOutput.ReadToEndAsync());
+                    sw.Stop();
+                    var eb2 = new EmbedBuilder()
+                        .WithDescription("Update complete.")
+                        .WithOkColor()
+                        .WithFooter("Time taken: " + sw.Elapsed.ToString("g"));
+                    await ctx.Channel.SendMessageAsync(embed: eb2.Build());
+                    typing.Dispose();
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync("Cancelled.");
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("Already up to date.");
+            }
         }
     }
 

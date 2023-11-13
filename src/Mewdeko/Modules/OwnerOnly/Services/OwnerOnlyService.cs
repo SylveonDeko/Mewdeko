@@ -3,11 +3,13 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Octokit;
 using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
@@ -68,7 +70,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 .WithProviders(phProviders)
                 .Build();
 
-            _ = Task.Run(async () => await RotatingStatuses());
+            _ = Task.Run(RotatingStatuses);
         }
 
         var sub = redis.GetSubscriber();
@@ -106,6 +108,174 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 // ignored
             }
         }, CommandFlags.FireAndForget);
+
+        _ = CheckUpdateTimer();
+        handler.GuildMemberUpdated += QuarantineCheck;
+    }
+
+    private async Task QuarantineCheck(Cacheable<SocketGuildUser, ulong> args, SocketGuildUser arsg2)
+    {
+        if (!args.HasValue)
+            return;
+
+        if (args.Id != client.CurrentUser.Id)
+            return;
+
+        var value = args.Value;
+
+        if (value.Roles is null)
+            return;
+
+
+        if (!bss.Data.QuarantineNotification)
+            return;
+
+        if (!Equals(value.Roles, arsg2.Roles))
+        {
+            var quarantineRole = value.Guild.Roles.FirstOrDefault(x => x.Name == "Quarantine");
+            if (quarantineRole is null)
+                return;
+
+            if (value.Roles.All(x => x.Id != quarantineRole.Id) && arsg2.Roles.Any(x => x.Id == quarantineRole.Id))
+            {
+                if (bss.Data.ForwardToAllOwners)
+                {
+                    foreach (var i in creds.OwnerIds)
+                    {
+                        var user = await client.Rest.GetUserAsync(i);
+                        if (user is null) continue;
+                        var channel = await user.CreateDMChannelAsync();
+                        await channel.SendMessageAsync(
+                            $"Quarantined in {value.Guild.Name} [{value.Guild.Id}]");
+                    }
+                }
+                else
+                {
+                    var user = await client.Rest.GetUserAsync(creds.OwnerIds[0]);
+                    if (user is not null)
+                    {
+                        var channel = await user.CreateDMChannelAsync();
+                        await channel.SendMessageAsync(
+                            $"Quarantined in {value.Guild.Name} [{value.Guild.Id}]");
+                    }
+                }
+            }
+        }
+    }
+
+    private async Task CheckUpdateTimer()
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromHours(bss.Data.CheckUpdateInterval));
+        do
+        {
+            var github = new GitHubClient(new ProductHeaderValue("Mewdeko"));
+            var redis = cache.Redis.GetDatabase();
+            switch (bss.Data.CheckForUpdates)
+            {
+                case UpdateCheckType.Release:
+                    var latestRelease = await github.Repository.Release.GetLatest("SylveonDeko", "Mewdeko");
+                    var eb = new EmbedBuilder()
+                        .WithAuthor($"New Release found: {latestRelease.TagName}",
+                            "https://seeklogo.com/images/G/github-logo-5F384D0265-seeklogo.com.png",
+                            latestRelease.HtmlUrl)
+                        .WithDescription(
+                            $"- If on Windows, you can download the new release [here]({latestRelease.Assets[0].BrowserDownloadUrl})\n" +
+                            $"- If running source just run the `{bss.Data.Prefix}update command and the bot will do the rest for you.`")
+                        .WithOkColor();
+                    var list = await redis.StringGetAsync($"{creds.RedisKey()}_ReleaseList");
+                    if (!list.HasValue)
+                    {
+                        await redis.StringSetAsync($"{creds.RedisKey()}_ReleaseList",
+                            JsonConvert.SerializeObject(latestRelease));
+                        Log.Information("Setting latest release to {ReleaseTag}", latestRelease.TagName);
+                    }
+                    else
+                    {
+                        var release = JsonConvert.DeserializeObject<Release>(list);
+                        if (release.TagName != latestRelease.TagName)
+                        {
+                            Log.Information("New release found: {ReleaseTag}", latestRelease.TagName);
+                            await redis.StringSetAsync($"{creds.RedisKey()}_ReleaseList",
+                                JsonConvert.SerializeObject(latestRelease));
+                            if (bss.Data.ForwardToAllOwners)
+                            {
+                                foreach (var i in creds.OwnerIds)
+                                {
+                                    var user = await client.Rest.GetUserAsync(i);
+                                    if (user is null) continue;
+                                    var channel = await user.CreateDMChannelAsync();
+                                    await channel.SendMessageAsync(embed: eb.Build());
+                                }
+                            }
+                            else
+                            {
+                                var user = await client.Rest.GetUserAsync(creds.OwnerIds[0]);
+                                if (user is not null)
+                                {
+                                    var channel = await user.CreateDMChannelAsync();
+                                    await channel.SendMessageAsync(embed: eb.Build());
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case UpdateCheckType.Commit:
+                    var latestCommit =
+                        await github.Repository.Commit.Get("SylveonDeko", "Mewdeko", bss.Data.UpdateBranch);
+                    if (latestCommit is null)
+                    {
+                        Log.Warning(
+                            "Failed to get latest commit, make sure you have the correct branch set in bot.yml");
+                        break;
+                    }
+
+                    var redisCommit = await redis.StringGetAsync($"{creds.RedisKey()}_CommitList");
+                    if (!redisCommit.HasValue)
+                    {
+                        await redis.StringSetAsync($"{creds.RedisKey()}_CommitList",
+                            latestCommit.Sha);
+                        Log.Information("Setting latest commit to {CommitSha}", latestCommit.Sha);
+                    }
+                    else
+                    {
+                        if (redisCommit.ToString() != latestCommit.Sha)
+                        {
+                            Log.Information("New commit found: {CommitSha}", latestCommit.Sha);
+                            await redis.StringSetAsync($"{creds.RedisKey()}_CommitList",
+                                JsonConvert.SerializeObject(latestCommit));
+                            if (bss.Data.ForwardToAllOwners)
+                            {
+                                foreach (var i in creds.OwnerIds)
+                                {
+                                    var user = await client.Rest.GetUserAsync(i);
+                                    if (user is null) continue;
+                                    var channel = await user.CreateDMChannelAsync();
+                                    await channel.SendMessageAsync(
+                                        $"New commit found: {latestCommit.Sha}\n{latestCommit.HtmlUrl}");
+                                }
+                            }
+                            else
+                            {
+                                var user = await client.Rest.GetUserAsync(creds.OwnerIds[0]);
+                                if (user is not null)
+                                {
+                                    var channel = await user.CreateDMChannelAsync();
+                                    await channel.SendMessageAsync(
+                                        $"New commit found: {latestCommit.Sha}\n{latestCommit.HtmlUrl}");
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case UpdateCheckType.None:
+                    break;
+                default:
+                    Log.Error("Invalid UpdateCheckType {UpdateCheckType}", bss.Data.CheckForUpdates);
+                    break;
+            }
+        } while (await timer.WaitForNextTickAsync());
     }
 
     private async Task OnMessageReceived(SocketMessage args)
