@@ -33,6 +33,7 @@ public sealed class BotConfig
             "Your name is Mewdeko. You are a discord bot. Your profile picture is of the character Hanekawa Tsubasa in Black Hanekawa form. You were created by sylveondeko";
         ChatGptMaxTokens = 1000;
         ChatGptTemperature = 0.9;
+        QuarantineNotification = true;
     }
 
     [Comment(@"DO NOT CHANGE")]
@@ -53,17 +54,21 @@ and copy the hex code fo your selected color (marked as #)")]
 Allowed values: Simple, Normal, None")]
     public ConsoleOutputType ConsoleOutputType { get; set; }
 
-    //         [Comment(@"For what kind of updates will the bot check.
-    // Allowed values: Release, Commit, None")]
-    //         public UpdateCheckType CheckForUpdates { get; set; }
+    [Comment(@"For what kind of updates will the bot check.
+    Allowed values: Release, Commit, None")]
+    public UpdateCheckType CheckForUpdates { get; set; }
 
-    // [Comment(@"How often will the bot check for updates, in hours")]
-    // public int CheckUpdateInterval { get; set; }
+    [Comment(@"How often will the bot check for updates, in hours")]
+    public int CheckUpdateInterval { get; set; }
+
+    [Comment("Set which branch to check for updates")]
+    public string UpdateBranch { get; set; }
 
     [Comment(@"Do you want any messages sent by users in Bot's DM to be forwarded to the owner(s)?")]
     public bool ForwardMessages { get; set; }
 
-    [Comment(@"Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
+    [Comment(
+        @"Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
 or all owners? (this might cause the bot to lag if there's a lot of owners specified)")]
     public bool ForwardToAllOwners { get; set; }
 
@@ -127,7 +132,8 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("The model to use for chatgpt")]
     public string ChatGptModel { get; set; }
 
-    [Comment(@"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
+    [Comment(
+        @"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
     [Comment("Used to set the error emote used across the bot.")]
@@ -141,6 +147,10 @@ See RotatingStatuses submodule in Administration.")]
 
     [Comment("Used to set the support server invite on public Mewdeko")]
     public string SupportServer { get; set; }
+
+    [Comment(
+        "Notify the owner of the bot when the bot gets quarantined. Only dms first owner if ForwardMessages is enabled.")]
+    public bool QuarantineNotification { get; set; }
 
 
     public string Prefixed(string text) => Prefix + text;
@@ -181,5 +191,12 @@ public enum ConsoleOutputType
 {
     Normal = 0,
     Simple = 1,
+    None = 2
+}
+
+public enum UpdateCheckType
+{
+    Release = 0,
+    Commit = 1,
     None = 2
 }

@@ -43,6 +43,7 @@ public class RedisCache : IDataCache
     public IImageCache LocalImages { get; set; }
     public ILocalDataCache LocalData { get; set; }
 
+
     // things here so far don't need the bot id
     // because it's a good thing if different bots
     // which are hosted on the same PC
@@ -75,7 +76,9 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
         var result = await db.StringGetAsync($"{redisKey}_statusroles");
-        return result.HasValue ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result) : new List<StatusRolesTable>();
+        return result.HasValue
+            ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result)
+            : new List<StatusRolesTable>();
     }
 
     public async Task<bool> AddProcessingUser(ulong id)
@@ -193,7 +196,8 @@ public class RedisCache : IDataCache
     public Task<bool> TryAddHighlightStaggerUser(ulong userId)
     {
         var db = Redis.GetDatabase();
-        return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2), when: When.NotExists, flags: CommandFlags.FireAndForget));
+        return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2),
+            when: When.NotExists, flags: CommandFlags.FireAndForget));
     }
 
     public string GetIgnoredUsers(ulong guildId, ulong userId)
@@ -335,7 +339,8 @@ public class RedisCache : IDataCache
     public Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
-        return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(3), when: When.NotExists, flags: CommandFlags.FireAndForget));
+        return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(3),
+            when: When.NotExists, flags: CommandFlags.FireAndForget));
     }
 
     public Task<bool> GetHighlightStagger(ulong guildId, ulong userId)
@@ -374,7 +379,8 @@ public class RedisCache : IDataCache
     public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value), flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
+            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 
     public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
@@ -387,7 +393,8 @@ public class RedisCache : IDataCache
     public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value), flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
+            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 
     public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
@@ -404,7 +411,8 @@ public class RedisCache : IDataCache
         {
             User1 = user1, User2 = user2, Score = score
         };
-        await db.StringSetAsync($"{redisKey}_shipcache:{user1}:{user2}", JsonConvert.SerializeObject(toCache), expiry: TimeSpan.FromHours(12));
+        await db.StringSetAsync($"{redisKey}_shipcache:{user1}:{user2}", JsonConvert.SerializeObject(toCache),
+            expiry: TimeSpan.FromHours(12));
     }
 
     public async Task<ShipCache?> GetShip(ulong user1, ulong user2)
@@ -417,7 +425,8 @@ public class RedisCache : IDataCache
     public async Task SetGuildSettingString(ulong guildId, string setting, string value)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value), flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
+            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 
     public async Task<string> GetGuildSettingString(ulong guildId, string setting)
@@ -460,13 +469,15 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
 
-        db.StringSet($"{redisKey}_last_currency_decay", JsonConvert.SerializeObject(DateTime.UtcNow), flags: CommandFlags.FireAndForget);
+        db.StringSet($"{redisKey}_last_currency_decay", JsonConvert.SerializeObject(DateTime.UtcNow),
+            flags: CommandFlags.FireAndForget);
     }
 
     public Task SetStreamDataAsync(string url, string data)
     {
         var db = Redis.GetDatabase();
-        return db.StringSetAsync($"{redisKey}_stream_{url}", data, TimeSpan.FromHours(6), flags: CommandFlags.FireAndForget);
+        return db.StringSetAsync($"{redisKey}_stream_{url}", data, TimeSpan.FromHours(6),
+            flags: CommandFlags.FireAndForget);
     }
 
     public bool TryGetStreamData(string url, out string dataStr)

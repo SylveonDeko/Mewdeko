@@ -10,6 +10,9 @@ gpingrole:
 gdmmmessage:
   - gdmmmessage
   - giveawaydmmessage
+update:
+  - update
+  - upd
 gbanner:
   - gbanner
   - giveawaybanner
