@@ -243,7 +243,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         {
                             Log.Information("New commit found: {CommitSha}", latestCommit.Sha);
                             await redis.StringSetAsync($"{creds.RedisKey()}_CommitList",
-                                JsonConvert.SerializeObject(latestCommit));
+                                latestCommit.Sha);
                             if (bss.Data.ForwardToAllOwners)
                             {
                                 foreach (var i in creds.OwnerIds)
