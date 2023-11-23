@@ -38,7 +38,7 @@ public class CommandStringsTests
             TestContext.Out.WriteLine($"{commandName} doesn't exist in commands.en-US.yml");
         }
 
-        Assert.IsTrue(isSuccess);
+        Assert.That(isSuccess);
     }
 
     private static IEnumerable<string> GetCommandMethodNames()
@@ -69,7 +69,7 @@ public class CommandStringsTests
             isSuccess = false;
         }
 
-        Assert.IsTrue(isSuccess);
+        Assert.That(isSuccess);
     }
 
     [Test]
@@ -88,6 +88,6 @@ public class CommandStringsTests
             isSuccess = false;
         }
 
-        Assert.IsTrue(isSuccess);
+        Assert.That(isSuccess);
     }
 }

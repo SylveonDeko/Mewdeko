@@ -3,7 +3,6 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Modules.Giveaways.Services;
-using SkiaSharp;
 
 namespace Mewdeko.Modules.Giveaways;
 
@@ -11,87 +10,6 @@ namespace Mewdeko.Modules.Giveaways;
 public class SlashGiveaways(DbService db, InteractiveService interactiveService, GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
-    [SlashCommand("banner", "Allows you to set a banner for giveaways!"), SlashUserPerm(GuildPermission.ManageMessages)]
-    public async Task GBanner(string banner)
-    {
-        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute) && banner != "none")
-        {
-            await ctx.Interaction.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
-            return;
-        }
-
-        gc.GiveawayBanner = banner == "none" ? "" : banner;
-        await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-        if (banner == "none")
-            await ctx.Interaction.SendConfirmAsync("Giveaway banner removed!").ConfigureAwait(false);
-        else
-            await ctx.Interaction.SendConfirmAsync("Giveaway banner set!").ConfigureAwait(false);
-    }
-
-    [SlashCommand("winembedcolor", "Allows you to set the win embed color!"),
-     SlashUserPerm(GuildPermission.ManageMessages)]
-    public async Task GWinEmbedColor(string color)
-    {
-        var colorVal = StringExtensions.GetHexFromColorName(color);
-        if (color.StartsWith("#"))
-        {
-            if (SKColor.TryParse(color, out _))
-                colorVal = color;
-        }
-
-        if (colorVal is not null)
-        {
-            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayEmbedColor = colorVal;
-            await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-            await ctx.Interaction.SendConfirmAsync(
-                    $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await ctx.Interaction.SendErrorAsync("That's not a valid color! Please use hex.").ConfigureAwait(false);
-        }
-    }
-
-    [SlashCommand("embedcolor", "Allows you to set the regular embed color!"),
-     SlashUserPerm(GuildPermission.ManageMessages)]
-    public async Task GEmbedColor(string color)
-    {
-        var colorVal = StringExtensions.GetHexFromColorName(color);
-        if (color.StartsWith("#"))
-        {
-            if (SKColor.TryParse(color, out _))
-                colorVal = color;
-        }
-
-        if (colorVal is not null)
-        {
-            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-            gc.GiveawayEmbedColor = colorVal;
-            await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-            await ctx.Interaction.SendConfirmAsync(
-                    $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await ctx.Interaction.SendErrorAsync("That's not a valid color! Please use hex.").ConfigureAwait(false);
-        }
-    }
-
-    [SlashCommand("dm", "Toggles whether winners get dmed!"), SlashUserPerm(GuildPermission.ManageMessages)]
-    public async Task GDm()
-    {
-        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        gc.DmOnGiveawayWin = gc.DmOnGiveawayWin == 0 ? 1 : 0;
-        await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
-        await ctx.Interaction.SendConfirmAsync(
-                $"Giveaway DMs set to {gc.DmOnGiveawayWin == 1}! Just keep in mind this doesn't update until the next giveaway.")
-            .ConfigureAwait(false);
-    }
-
     [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEmote(string maybeEmote)
     {
@@ -111,15 +29,75 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         catch
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.")
-                .ConfigureAwait(false);
+                "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.").ConfigureAwait(false);
             return;
         }
 
         await Service.SetGiveawayEmote(ctx.Guild, emote.ToString()).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmFollowupAsync(
-                $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.")
-            .ConfigureAwait(false);
+            $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+    }
+
+    [SlashCommand("banner", "Allows you to set a banner for giveaways!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GBanner(string banner)
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute) && banner != "none")
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
+            return;
+        }
+
+        gc.GiveawayBanner = banner == "none" ? "" : banner;
+        await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        if (banner == "none")
+            await ctx.Interaction.SendConfirmAsync("Giveaway banner removed!").ConfigureAwait(false);
+        else
+            await ctx.Interaction.SendConfirmAsync("Giveaway banner set!").ConfigureAwait(false);
+    }
+
+    [SlashCommand("winembedcolor", "Allows you to set the win embed color!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GWinEmbedColor(string color)
+    {
+        if (SixLabors.ImageSharp.Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayWinEmbedColor = color;
+            await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Interaction.SendConfirmAsync(
+                $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("embedcolor", "Allows you to set the regular embed color!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GEmbedColor(string color)
+    {
+        if (SixLabors.ImageSharp.Color.TryParse(color, out _))
+        {
+            var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+            gc.GiveawayEmbedColor = color;
+            await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+            await ctx.Interaction.SendConfirmAsync(
+                $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
+        }
+        else
+        {
+            await ctx.Interaction.SendErrorAsync("That's not a valid color!").ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("dm", "Toggles whether winners get dmed!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task GDm()
+    {
+        var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
+        gc.DmOnGiveawayWin = gc.DmOnGiveawayWin == 1 ? 0 : 1;
+        await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
+        await ctx.Interaction.SendConfirmAsync(
+            $"Giveaway DMs set to {gc.DmOnGiveawayWin}! Just keep in mind this doesn't update until the next giveaway.").ConfigureAwait(false);
     }
 
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
@@ -130,8 +108,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
-                .ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);
             return;
         }
 
@@ -179,8 +156,9 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
     }
 
     [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
-    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what)
+    public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null, IAttachment attachment = null, IUser host = null)
     {
+        host ??= ctx.User;
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         try
@@ -191,8 +169,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         catch
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.")
-                .ConfigureAwait(false);
+                "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.").ConfigureAwait(false);
             return;
         }
 
@@ -200,8 +177,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!")
-                .ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!").ConfigureAwait(false);
             return;
         }
 
@@ -211,8 +187,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             return;
         }
 
-        await Service.GiveawaysInternal(chan, time, what, winners, ctx.User.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild).ConfigureAwait(false);
+        await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole).ConfigureAwait(false);
     }
 
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
@@ -243,8 +219,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             return new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways")
                 .WithDescription(string.Join("\n\n",
                     await gways.Skip(page * 5).Take(5).Select(async x =>
-                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId).ConfigureAwait(false)}")
-                        .GetResults()
+                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId).ConfigureAwait(false)}").GetResults()
                         .ConfigureAwait(false)));
         }
     }
@@ -256,8 +231,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         return message.GetJumpUrl();
     }
 
-    [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
         await using var uow = db.GetDbContext();
@@ -265,15 +239,13 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
-                .ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!").ConfigureAwait(false);
         }
 
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                    $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!")
-                .ConfigureAwait(false);
+                $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!").ConfigureAwait(false);
         }
         else
         {
