@@ -9,5 +9,4 @@ public interface IGoogleApiService : INService
     Task<SearchResult[]> GetVideoLinksByKeywordAsync(string keywords);
 
     Task<string> ShortenUrl(string url);
-    Task<SearchResult[]> GetVideoLinksByVideoId(string id, int max);
 }
