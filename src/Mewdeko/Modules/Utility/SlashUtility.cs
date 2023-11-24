@@ -227,6 +227,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             "linux" or "nix" => "https://docs.tealstreet.io/docs/desktopclient/linux",
             "mac" or "macos" => "https://docs.tealstreet.io/docs/desktopclient/mac",
             "binance" or "nance" => "https://docs.tealstreet.io/docs/connect/binance",
+            "encryption" => "https://docs.tealstreet.io/docs/connect/api-encryption",
             "bitget" or "bg" => "https://docs.tealstreet.io/docs/connect/bitget",
             "bitmex" or "bmex" => "https://docs.tealstreet.io/docs/connect/bitmex",
             "bybit" => "https://docs.tealstreet.io/docs/connect/bybit",

@@ -123,7 +123,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var api = new OpenAIAPI(bss.Data.ChatGptKey);
         if (args is not IUserMessage usrMsg)
             return;
-        if (args.Content is "deletesession")
+        //todo: hacky fix. this should use proper prefix var not hardcoded solution
+        if (args.Content is ".deletesession" or "deletesession")
             if (conversations.TryRemove(args.Author.Id, out _))
             {
                 await usrMsg.SendConfirmReplyAsync("Session deleted");
@@ -149,8 +150,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }, true);
         }
 
-        if (!args.Content.StartsWith("!frog") && !args.Content.StartsWith("!frogbot"))
+        if (!args.Content.StartsWith(".frog") &&
+            !args.Content.StartsWith(".frogbot") &&
+            !args.Content.StartsWith("!frog") &&
+            !args.Content.StartsWith("!frogbot"))
             return;
+
 
 #if DEBUG
         return;
