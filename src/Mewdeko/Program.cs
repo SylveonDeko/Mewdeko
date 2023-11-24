@@ -4,8 +4,10 @@ using Figgle;
 using Mewdeko.Services.Impl;
 using Serilog;
 
+var v = StatsService.BotVersion;
+
 Console.WriteLine(
-    FiggleFonts.Ogre.Render("Mewdeko v7.1"));
+    FiggleFonts.Ogre.Render($"Mewdeko v{v}"));
 
 var pid = Environment.ProcessId;
 var shardId = 0;
