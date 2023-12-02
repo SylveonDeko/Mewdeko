@@ -39,8 +39,7 @@ public class Mewdeko
 
     public Mewdeko(int shardId)
     {
-        if (shardId < 0)
-            throw new ArgumentOutOfRangeException(nameof(shardId));
+        ArgumentOutOfRangeException.ThrowIfNegative(shardId);
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);

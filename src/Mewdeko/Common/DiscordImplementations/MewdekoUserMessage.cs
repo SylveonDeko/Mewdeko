@@ -10,15 +10,26 @@ public class MewdekoUserMessage : IUserMessage
 
     public Task AddReactionAsync(IEmote emote, RequestOptions options = null) => throw new NotImplementedException();
 
-    public Task RemoveReactionAsync(IEmote emote, IUser user, RequestOptions options = null) => throw new NotImplementedException();
+    public Task RemoveReactionAsync(IEmote emote, IUser user, RequestOptions options = null) =>
+        throw new NotImplementedException();
 
-    public Task RemoveReactionAsync(IEmote emote, ulong userId, RequestOptions options = null) => throw new NotImplementedException();
+    public Task RemoveReactionAsync(IEmote emote, ulong userId, RequestOptions options = null) =>
+        throw new NotImplementedException();
 
     public Task RemoveAllReactionsAsync(RequestOptions options = null) => throw new NotImplementedException();
 
-    public Task RemoveAllReactionsForEmoteAsync(IEmote emote, RequestOptions options = null) => throw new NotImplementedException();
+    public Task RemoveAllReactionsForEmoteAsync(IEmote emote, RequestOptions options = null) =>
+        throw new NotImplementedException();
 
-    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit, RequestOptions options = null) => throw new NotImplementedException();
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit,
+        RequestOptions options = null,
+        ReactionType type = ReactionType.Normal)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit,
+        RequestOptions options = null) => throw new NotImplementedException();
 
     public MessageType Type => MessageType.Default;
     public MessageSource Source => MessageSource.User;
@@ -46,7 +57,9 @@ public class MewdekoUserMessage : IUserMessage
     public IReadOnlyCollection<IStickerItem> Stickers { get; set; }
     public MessageFlags? Flags { get; set; }
     public IMessageInteraction Interaction { get; set; }
-    public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null) => throw new NotImplementedException();
+
+    public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null) =>
+        throw new NotImplementedException();
 
     public Task PinAsync(RequestOptions options = null) => throw new NotImplementedException();
 
@@ -61,6 +74,8 @@ public class MewdekoUserMessage : IUserMessage
         TagHandling everyoneHandling = TagHandling.Ignore,
         TagHandling emojiHandling = TagHandling.Name) =>
         throw new NotImplementedException();
+
+    public MessageResolvedData ResolvedData { get; }
 
     public IUserMessage ReferencedMessage { get; set; }
 

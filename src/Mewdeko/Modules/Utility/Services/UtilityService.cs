@@ -5,7 +5,7 @@ using VirusTotalNet.Results;
 
 namespace Mewdeko.Modules.Utility.Services;
 
-public class UtilityService : INService
+public partial class UtilityService : INService
 {
     private readonly DbService db;
     private readonly IDataCache cache;
@@ -234,9 +234,7 @@ public class UtilityService : INService
             var gid = t.Guild;
             if (await GetPLinks(gid.Id) == 1)
             {
-                var linkParser = new Regex(
-                    @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
-                    RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                var linkParser = MyRegex();
                 foreach (Match m in linkParser.Matches(msg.Content))
                 {
                     var e = new Uri(m.Value);
@@ -294,4 +292,9 @@ public class UtilityService : INService
             }
         }
     }
+
+    [GeneratedRegex(
+        @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex MyRegex();
 }

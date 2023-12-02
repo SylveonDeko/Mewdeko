@@ -307,7 +307,7 @@ public class MusicService : INService
         return Task.FromResult(true);
     }
 
-    public LavalinkTrack GetCurrentTrack(LavalinkPlayer player, IGuild guild)
+    private LavalinkTrack GetCurrentTrack(LavalinkPlayer player, IGuild guild)
     {
         var queue = GetQueue(guild.Id);
         return queue.Find(x => x.Identifier == player.CurrentTrack.Identifier);
@@ -334,7 +334,8 @@ public class MusicService : INService
         {
             if (!lastSong.SourceName.Contains("youtube"))
                 return;
-            var recommendById = await googleApi.GetVideoLinksByVideoId(lastSong.TrackIdentifier, setting.AutoPlay);
+            var recommendById = await googleApi.GetVideoLinksByKeywordAsync(
+                lastSong.Title.Replace(" ", "+"));
             foreach (var i in recommendById)
             {
                 var track = await lavaNode.LoadTracksAsync($"https://www.youtube.com/watch?v={i.Id.VideoId}");
