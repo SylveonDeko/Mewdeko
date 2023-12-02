@@ -66,8 +66,8 @@
       <PackageReference Include="Lavalink4NET.Discord.NET" Version="3.0.0"/>
       <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.0.0-rc.2"/>
       <PackageReference Include="MartineApiNet" Version="1.0.14"/>
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0-3.final"/>
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.8.0-3.final"/>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0"/>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.5.0"/>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0"/>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
         <PrivateAssets>all</PrivateAssets>
