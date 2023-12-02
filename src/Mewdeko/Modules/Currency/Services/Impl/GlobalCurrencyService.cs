@@ -2,18 +2,11 @@
 
 namespace Mewdeko.Modules.Currency.Services.Impl;
 
-public class GlobalCurrencyService : ICurrencyService
+public class GlobalCurrencyService(DbService service) : ICurrencyService
 {
-    private readonly DbService dbService;
-
-    public GlobalCurrencyService(DbService dbService)
-    {
-        this.dbService = dbService;
-    }
-
     public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId = null)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
 
         var existingBalance = await uow.GlobalUserBalances
             .FirstOrDefaultAsync(g => g.UserId == userId);
@@ -37,7 +30,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
         return await uow.GlobalUserBalances
             .Where(x => x.UserId == userId)
             .Select(x => x.Balance)
@@ -46,7 +39,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
 
         var transaction = new TransactionHistory
         {
@@ -59,7 +52,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
 
         return await uow.TransactionHistories
             .Where(x => x.UserId == userId && x.GuildId == 0)?
@@ -68,7 +61,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task<string> GetCurrencyEmote(ulong? guildId = null)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
 
         return await uow.OwnerOnly
             .Select(x => x.CurrencyEmote)
@@ -77,7 +70,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
 
         return uow.GlobalUserBalances
             .Select(x => new LbCurrency
@@ -88,7 +81,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task SetReward(int amount, int seconds, ulong? _)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
         var config = await uow.OwnerOnly.FirstOrDefaultAsync();
         config.RewardAmount = amount;
         config.RewardTimeoutSeconds = seconds;
@@ -98,7 +91,7 @@ public class GlobalCurrencyService : ICurrencyService
 
     public async Task<(int, int)> GetReward(ulong? _)
     {
-        await using var uow = dbService.GetDbContext();
+        await using var uow = service.GetDbContext();
         var config = await uow.OwnerOnly.FirstOrDefaultAsync();
         return (config.RewardAmount, config.RewardTimeoutSeconds);
     }

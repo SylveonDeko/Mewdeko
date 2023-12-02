@@ -2,25 +2,13 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Services;
 
-public class GuildSettingsService : INService
+public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot) : INService
 {
-    private readonly DbService db;
-    private readonly BotConfigService bss;
-    private readonly Mewdeko bot;
-
-    public GuildSettingsService(DbService db, BotConfigService bss, Mewdeko bot)
-    {
-        this.db = db;
-        this.bss = bss;
-        this.bot = bot;
-    }
-
     public async Task<string> SetPrefix(IGuild guild, string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
             throw new ArgumentNullException(nameof(prefix));
-        if (guild == null)
-            throw new ArgumentNullException(nameof(guild));
+        ArgumentNullException.ThrowIfNull(guild);
 
         var config = await GetGuildConfig(guild.Id);
         config.Prefix = prefix;
@@ -52,6 +40,7 @@ public class GuildSettingsService : INService
                 await uow.ForGuildId(guildId);
                 toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
             }
+
             configs.Add(toLoad);
             bot.AllGuildConfigs = configs;
             return toLoad;
