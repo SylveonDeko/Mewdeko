@@ -642,6 +642,9 @@ public class CommandHandler : INService
 
         var prefix = await gss.GetPrefix(guild?.Id);
 
+        if (prefix is null /*somehow*/)
+            return;
+
         var startsWithPrefix = messageContent.StartsWith(prefix, StringComparison.InvariantCulture);
         var startsWithBotMention =
             messageContent.StartsWith($"<@{client.CurrentUser.Id}> ", StringComparison.InvariantCulture) ||
