@@ -10,7 +10,7 @@ namespace Mewdeko.Database.Models;
 public class GuildConfig : DbEntity
 {
     public ulong GuildId { get; set; }
-    public string? Prefix { get; set; } = null;
+    public string? Prefix { get; set; } = "";
     public ulong StaffRole { get; set; }
     public ulong GameMasterRole { get; set; }
     public ulong CommandLogChannel { get; set; } = 0;

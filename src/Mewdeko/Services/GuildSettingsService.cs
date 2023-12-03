@@ -1,8 +1,9 @@
 using Mewdeko.Services.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Services;
 
-public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot) : INService
+public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot, IServiceProvider services)
 {
     public async Task<string> SetPrefix(IGuild guild, string prefix)
     {
@@ -20,9 +21,11 @@ public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot
 
     public async Task<string?> GetPrefix(ulong? id)
     {
+        bss = services.GetRequiredService<BotConfigService>();
         if (!id.HasValue)
             return bss.GetSetting("prefix");
-        return (await GetGuildConfig(id.Value)).Prefix ??= bss.GetSetting("prefix");
+        var prefix = (await GetGuildConfig(id.Value)).Prefix;
+        return string.IsNullOrWhiteSpace(prefix) ? bss.GetSetting("prefix") : prefix;
     }
 
     public Task<string?> GetPrefix() => Task.FromResult(bss.GetSetting("prefix"));
