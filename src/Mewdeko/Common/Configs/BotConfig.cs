@@ -16,7 +16,7 @@ public sealed class BotConfig
         ConsoleOutputType = ConsoleOutputType.Normal;
         ForwardMessages = false;
         ForwardToAllOwners = false;
-        DmHelpText = @"{""description"": ""Type `%prefix%h` for help.""}";
+        DmHelpText = """{"description": "Type `%prefix%h` for help."}""";
         HelpText = @"change this in bot.yml";
         Blocked = new BlockedConfig();
         Prefix = ".";
