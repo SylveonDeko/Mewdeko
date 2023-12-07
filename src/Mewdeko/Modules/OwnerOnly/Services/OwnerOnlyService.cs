@@ -124,22 +124,20 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         if (args is not IUserMessage usrMsg)
             return;
-        try
+
+        var api = new OpenAIAPI(bss.Data.ChatGptKey);
+        //todo: hacky fix. this should use proper prefix var not hardcoded solution
+        if (args.Content is ".deletesession" or "deletesession")
         {
-            var api = new OpenAIAPI(bss.Data.ChatGptKey);
-            //todo: hacky fix. this should use proper prefix var not hardcoded solution
-            if (args.Content is ".deletesession" or "deletesession")
+            if (conversations.TryRemove(args.Author.Id, out _))
             {
-                if (conversations.TryRemove(args.Author.Id, out _))
-                {
-                    await usrMsg.SendConfirmReplyAsync("Session deleted");
-                    return;
-                }
-                else
-                {
-                    await usrMsg.SendConfirmReplyAsync("No session to delete");
-                    return;
-                }
+                await usrMsg.SendConfirmReplyAsync("Session deleted");
+                return;
+            }
+            else
+            {
+                await usrMsg.SendConfirmReplyAsync("No session to delete");
+                return;
             }
         }
 
