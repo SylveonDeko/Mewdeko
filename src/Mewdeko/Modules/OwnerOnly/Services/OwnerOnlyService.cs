@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using Amazon.Runtime.Internal.Util;
 using Mewdeko.Common.ModuleBehaviors;
@@ -13,6 +14,7 @@ using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using Serilog;
 using StackExchange.Redis;
+using Embed = Discord.Embed;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
@@ -92,12 +94,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 if (server.OwnerId != this.client.CurrentUser.Id)
                 {
                     await server.LeaveAsync().ConfigureAwait(false);
-                    Log.Information($"Left server {server.Name} [{server.Id}]");
+                    Log.Information("Left server {ServerName} [{ServerId}]", server.Name, server.Id);
                 }
                 else
                 {
                     await server.DeleteAsync().ConfigureAwait(false);
-                    Log.Information($"Deleted server {server.Name} [{server.Id}]");
+                    Log.Information("Deleted server {ServerName} [{ServerId}]", server.Name, server.Id);
                 }
             }
             catch
@@ -120,21 +122,26 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         if (args.Channel.Id != bss.Data.ChatGptChannel)
             return;
-        var api = new OpenAIAPI(bss.Data.ChatGptKey);
         if (args is not IUserMessage usrMsg)
             return;
-        //todo: hacky fix. this should use proper prefix var not hardcoded solution
-        if (args.Content is ".deletesession" or "deletesession")
-            if (conversations.TryRemove(args.Author.Id, out _))
+        try
+        {
+            var api = new OpenAIAPI(bss.Data.ChatGptKey);
+            //todo: hacky fix. this should use proper prefix var not hardcoded solution
+            if (args.Content is ".deletesession" or "deletesession")
             {
-                await usrMsg.SendConfirmReplyAsync("Session deleted");
-                return;
+                if (conversations.TryRemove(args.Author.Id, out _))
+                {
+                    await usrMsg.SendConfirmReplyAsync("Session deleted");
+                    return;
+                }
+                else
+                {
+                    await usrMsg.SendConfirmReplyAsync("No session to delete");
+                    return;
+                }
             }
-            else
-            {
-                await usrMsg.SendConfirmReplyAsync("No session to delete");
-                return;
-            }
+        }
 
         await using var uow = db.GetDbContext();
         (Database.Models.OwnerOnly actualItem, bool added) toUpdate;
@@ -417,9 +424,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (msg.Channel is IDMChannel && bss.Data.ForwardMessages && ownerChannels.Count > 0)
         {
             var title = $"{strings.GetText("dm_from")} [{msg.Author}]({msg.Author.Id})";
-
             var attachamentsTxt = strings.GetText("attachments");
-
             var toSend = msg.Content;
 
             if (msg.Attachments.Count > 0)
@@ -538,7 +543,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 if (rotatingStatuses.Count == 0)
                     continue;
 
-                var playingStatus = currentStatusNum >= rotatingStatuses.Count ? rotatingStatuses[currentStatusNum = 0] : rotatingStatuses[currentStatusNum++];
+                var playingStatus = currentStatusNum >= rotatingStatuses.Count
+                    ? rotatingStatuses[currentStatusNum = 0]
+                    : rotatingStatuses[currentStatusNum++];
 
                 var statusText = rep.Replace(playingStatus.Status);
                 await bot.SetGameAsync(statusText, playingStatus.Type).ConfigureAwait(false);
