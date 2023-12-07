@@ -1113,7 +1113,7 @@
   "slowmodewl_user_start": "Slowmode will now ignore user {0}.",
   "slowmodewl_user_stop": "Slowmode will no longer ignore user {0}.",
   "snipe_not_enabled": "Sniping is not enabled in this server! Please tell an admin to use `{0}snipeset enable` to enable it.",
-  "snipe_request": "Snipe requested by {0} || Message deleted {1} ago || Invite me!",
+  "snipe_request": "Snipe requested by {0} || Message deleted {1} ago",
   "snipe_set": "Sniping is now `{0}`",
   "snipe_slash_not_enabled": "Sniping is not enabled in this server! Please tell an admin to use `/snipe set true` to enable it.",
   "soft_banned_pl": "soft-banned",
