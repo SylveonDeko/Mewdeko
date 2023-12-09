@@ -63,7 +63,7 @@ public class SlashOwnerOnly(
             Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Interaction.Id))
+        _ = Task.Run(() => commandHandler.ExecuteCommandsInChannelAsync(ctx.Interaction.Id))
             .ConfigureAwait(false);
     }
 
@@ -368,44 +368,44 @@ public class SlashOwnerOnly(
 
         [SlashCommand("startupcommandremove", "Removes a startup command"),
          Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
-        public async Task StartupCommandRemove([Remainder] int index)
+        public Task StartupCommandRemove([Remainder] int index)
         {
             if (!Service.RemoveStartupCommand(--index, out _))
-                await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
+                return ReplyErrorLocalizedAsync("scrm_fail");
             else
-                await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("scrm");
         }
 
         [SlashCommand("startupcommandsclear", "Clears all startup commands"),
          Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
-        public async Task StartupCommandsClear()
+        public Task StartupCommandsClear()
         {
             Service.ClearStartupCommands();
 
-            await ReplyConfirmLocalizedAsync("startcmds_cleared").ConfigureAwait(false);
+            return ReplyConfirmLocalizedAsync("startcmds_cleared");
         }
 
         [SlashCommand("forwardmessages", "Toggles whether to forward dms to the bot to owner dms")]
-        public async Task ForwardMessages()
+        public Task ForwardMessages()
         {
             var enabled = Service.ForwardMessages();
 
             if (enabled)
-                await ReplyConfirmLocalizedAsync("fwdm_start").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("fwdm_start");
             else
-                await ReplyConfirmLocalizedAsync("fwdm_stop").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("fwdm_stop");
         }
 
         [SlashCommand("forwardtoall", "Toggles whether to forward dms to the bot to all bot owners")]
-        public async Task ForwardToAll()
+        public Task ForwardToAll()
         {
             var enabled = Service.ForwardToAll();
 
             if (enabled)
-                await ReplyConfirmLocalizedAsync("fwall_start").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("fwall_start");
             else
-                await ReplyConfirmLocalizedAsync("fwall_stop").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("fwall_stop");
         }
 
         [SlashCommand("setname", "Sets the bots name")]
@@ -571,12 +571,12 @@ public class SlashOwnerOnly(
     public class StatusCommands(Mewdeko bot, DiscordSocketClient client) : MewdekoSlashModuleBase<OwnerOnlyService>
     {
         [SlashCommand("rotateplaying", "Toggles rotating playing status")]
-        public async Task RotatePlaying()
+        public Task RotatePlaying()
         {
             if (Service.ToggleRotatePlaying())
-                await ReplyConfirmLocalizedAsync("ropl_enabled").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("ropl_enabled");
             else
-                await ReplyConfirmLocalizedAsync("ropl_disabled").ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("ropl_disabled");
         }
 
         [SlashCommand("addplaying", "Adds a playing status to the rotating status list")]
@@ -588,20 +588,19 @@ public class SlashOwnerOnly(
         }
 
         [SlashCommand("listplaying", "Lists all rotating statuses")]
-        public async Task ListPlaying()
+        public Task ListPlaying()
         {
             var statuses = Service.GetRotatingStatuses();
 
             if (statuses.Count == 0)
             {
-                await ReplyErrorLocalizedAsync("ropl_not_set").ConfigureAwait(false);
+                return ReplyErrorLocalizedAsync("ropl_not_set");
             }
             else
             {
                 var i = 1;
-                await ReplyConfirmLocalizedAsync("ropl_list",
-                        string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")))
-                    .ConfigureAwait(false);
+                return ReplyConfirmLocalizedAsync("ropl_list",
+                    string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")));
             }
         }
 
@@ -712,13 +711,13 @@ public class SlashOwnerOnly(
     }
 
     [SlashCommand("restartshard", "Restarts a shard by its number")]
-    public async Task RestartShard(int shardId)
+    public Task RestartShard(int shardId)
     {
         var success = coord.RestartShard(shardId);
         if (success)
-            await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}")).ConfigureAwait(false);
+            return ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}"));
         else
-            await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
+            return ReplyErrorLocalizedAsync("no_shard_id");
     }
 
     [SlashCommand("leaveserver", "Leaves a server by id or name")]
@@ -848,17 +847,17 @@ public class SlashOwnerOnly(
     }
 
     [SlashCommand("imagesreload", "Recaches and redownloads all images")]
-    public async Task ImagesReload()
+    public Task ImagesReload()
     {
         Service.ReloadImages();
-        await ReplyConfirmLocalizedAsync("images_loading", 0).ConfigureAwait(false);
+        return ReplyConfirmLocalizedAsync("images_loading", 0);
     }
 
     [SlashCommand("stringsreload", "Reloads localized strings")]
-    public async Task StringsReload()
+    public Task StringsReload()
     {
         strings.Reload();
-        await ReplyConfirmLocalizedAsync("bot_strings_reloaded").ConfigureAwait(false);
+        return ReplyConfirmLocalizedAsync("bot_strings_reloaded");
     }
 
     private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
@@ -969,8 +968,8 @@ public class SlashOwnerOnly(
     }
 
     [SlashCommand("eval", "Eval C# code"), OwnerOnly]
-    public async Task Evaluate()
-        => await ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
+    public Task Evaluate()
+        => ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
 
     [ModalInteraction("evalhandle", true)]
     public async Task EvaluateModalInteraction(EvalModal modal)

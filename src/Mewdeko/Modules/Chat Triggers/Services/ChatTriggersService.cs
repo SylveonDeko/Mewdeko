@@ -695,22 +695,22 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    private async Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
+    private Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
     {
         if (maybeGuildId is { } guildId)
             UpdateInternal(guildId, ct);
         else
         {
             _ = pubSub.Pub(gcrEditedKey, ct);
-            return;
+            return Task.CompletedTask;
         }
 
         // handle interaction updates
         if (ct.ApplicationCommandType == CtApplicationCommandType.None)
-            return;
+            return Task.CompletedTask;
 
         var guild = client.GetGuild(guildId);
-        await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
+        return RegisterTriggersToGuildAsync(guild);
     }
 
     private void UpdateInternal(ulong? maybeGuildId, CTModel ct)

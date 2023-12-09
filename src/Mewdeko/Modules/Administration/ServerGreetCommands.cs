@@ -261,11 +261,11 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetHook(string text) => await GreetHook(null, null, null, text).ConfigureAwait(false);
+        public Task GreetHook(string text) => GreetHook(null, null, null, text);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task LeaveHook(string text) => await LeaveHook(null, null, null, text).ConfigureAwait(false);
+        public Task LeaveHook(string text) => LeaveHook(null, null, null, text);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]

@@ -18,9 +18,12 @@ namespace Mewdeko.Modules.Moderation;
 public partial class Moderation : MewdekoModule
 {
     [Group]
-    public class UserPunishCommands(MuteService mute, DbService db,
-            InteractiveService serv,
-            NekosBestApi nekos, BotConfigService config)
+    public class UserPunishCommands(
+        MuteService mute,
+        DbService db,
+        InteractiveService serv,
+        NekosBestApi nekos,
+        BotConfigService config)
         : MewdekoSubmodule<UserPunishService>
     {
         public enum AddRole
@@ -398,13 +401,13 @@ public partial class Moderation : MewdekoModule
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(3), UserPerm(GuildPermission.BanMembers)]
-        public async Task Warnlog(IGuildUser user) => await InternalWarnlog(user.Id);
+        public Task Warnlog(IGuildUser user) => InternalWarnlog(user.Id);
 
-        public async Task Warnlog() => await InternalWarnlog(ctx.User.Id);
+        public Task Warnlog() => InternalWarnlog(ctx.User.Id);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), Priority(1)]
-        public async Task Warnlog(ulong userId) => await InternalWarnlog(userId);
+        public Task Warnlog(ulong userId) => InternalWarnlog(userId);
 
         private async Task InternalWarnlog(ulong userId)
         {
@@ -826,10 +829,10 @@ public partial class Moderation : MewdekoModule
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
-        public async Task BanMsgReset()
+        public Task BanMsgReset()
         {
             Service.SetBanTemplate(Context.Guild.Id, null);
-            await ctx.OkAsync().ConfigureAwait(false);
+            return ctx.OkAsync();
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),

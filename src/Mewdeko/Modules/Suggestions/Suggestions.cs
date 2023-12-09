@@ -19,8 +19,10 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         else
         {
             await Service.SetSuggestionChannelId(ctx.Guild, channel.Id).ConfigureAwait(false);
-            var chn2 = await ctx.Guild.GetTextChannelAsync(await Service.GetSuggestionChannel(ctx.Guild.Id)).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"Your Suggestion channel has been set to {chn2.Mention}").ConfigureAwait(false);
+            var chn2 = await ctx.Guild.GetTextChannelAsync(await Service.GetSuggestionChannel(ctx.Guild.Id))
+                .ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Your Suggestion channel has been set to {chn2.Mention}")
+                .ConfigureAwait(false);
         }
     }
 
@@ -30,7 +32,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         var suggest = (await Service.Suggestions(ctx.Guild.Id, num)).FirstOrDefault();
         if (suggest is null)
         {
-            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.")
+                .ConfigureAwait(false);
             return;
         }
 
@@ -41,7 +44,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         {
             foreach (var i in emotes.Split(","))
             {
-                emoteCount.Add($"{i.ToIEmote()} `{await Service.GetCurrentCount(suggest.MessageId, ++count).ConfigureAwait(false)}`");
+                emoteCount.Add(
+                    $"{i.ToIEmote()} `{await Service.GetCurrentCount(suggest.MessageId, ++count).ConfigureAwait(false)}`");
             }
         }
         else
@@ -61,7 +65,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
                 $"{suggest.Suggestion.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
             .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
             .AddField("Curerent State", (SuggestionsService.SuggestState)suggest.CurrentState)
-            .AddField("Last Changed By", suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
+            .AddField("Last Changed By",
+                suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
             .AddField("State Change Count", suggest.StateChangeCount)
             .AddField("Emote Count", string.Join("\n", emoteCount));
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build()).ConfigureAwait(false);
@@ -77,7 +82,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             return;
         }
 
-        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***", ctx.User.Id).ConfigureAwait(false))
+        if (await PromptUserConfirmAsync("Are you sure you want to clear all suggestions? ***This cannot be undone.***",
+                ctx.User.Id).ConfigureAwait(false))
         {
             await Service.SuggestReset(ctx.Guild).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync("Suggestions cleared.").ConfigureAwait(false);
@@ -100,7 +106,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         if (suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                    $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!")
+                .ConfigureAwait(false);
             msg.DeleteAfter(5);
             return;
         }
@@ -108,7 +115,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         if (suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             var message = await ctx.Channel.SendErrorAsync(
-                $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!").ConfigureAwait(false);
+                    $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!")
+                .ConfigureAwait(false);
             message.DeleteAfter(5);
             return;
         }
@@ -119,25 +127,25 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Deny(ulong sid, [Remainder] string? reason = null) =>
-        await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
+    public Task Deny(ulong sid, [Remainder] string? reason = null) =>
+        Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Accept(ulong sid, [Remainder] string? reason = null) =>
-        await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
+    public Task Accept(ulong sid, [Remainder] string? reason = null) =>
+        Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Implemented(ulong sid, [Remainder] string? reason = null) =>
-        await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
+    public Task Implemented(ulong sid, [Remainder] string? reason = null) =>
+        Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Consider(ulong sid, [Remainder] string? reason = null) =>
-        await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
-            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff()).ConfigureAwait(false);
+    public Task Consider(ulong sid, [Remainder] string? reason = null) =>
+        Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
+            ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 }

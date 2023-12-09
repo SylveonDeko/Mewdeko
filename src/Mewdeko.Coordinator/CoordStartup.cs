@@ -35,10 +35,8 @@ public class CoordStartup
         {
             endpoints.MapGrpcService<CoordinatorService>();
 
-            endpoints.MapGet("/",
-                async context => await context.Response.WriteAsync(
-                        "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909")
-                    .ConfigureAwait(false));
+            endpoints.MapGet("/", context => context.Response.WriteAsync(
+                "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909"));
         });
     }
 }

@@ -30,8 +30,8 @@ public partial class UtilityService : INService
         this.client = client;
     }
 
-    public async Task<List<SnipeStore>> GetSnipes(ulong guildId) =>
-        await cache.GetSnipesForGuild(guildId).ConfigureAwait(false);
+    public Task<List<SnipeStore>> GetSnipes(ulong guildId) =>
+        cache.GetSnipesForGuild(guildId);
 
     public async Task<int> GetPLinks(ulong id) => (await guildSettings.GetGuildConfig(id)).PreviewLinks;
 
@@ -220,10 +220,10 @@ public partial class UtilityService : INService
         }
     }
 
-    public static async Task<UrlReport> UrlChecker(string url)
+    public static Task<UrlReport> UrlChecker(string url)
     {
         var vcheck = new VirusTotal("e49046afa41fdf4e8ca72ea58a5542d0b8fbf72189d54726eed300d2afe5d9a9");
-        return await vcheck.GetUrlReportAsync(url, true).ConfigureAwait(false);
+        return vcheck.GetUrlReportAsync(url, true);
     }
 
     public async Task MsgReciev(IMessage msg)

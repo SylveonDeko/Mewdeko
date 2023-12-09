@@ -43,9 +43,8 @@ public abstract class MewdekoModule : ModuleBase
         return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task<bool> PromptUserConfirmAsync(string message, ulong userid)
-        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid)
-            .ConfigureAwait(false);
+    public Task<bool> PromptUserConfirmAsync(string message, ulong userid)
+        => PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid);
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
@@ -62,7 +61,7 @@ public abstract class MewdekoModule : ModuleBase
         }
         finally
         {
-            _ = Task.Run(async () => await msg.DeleteAsync().ConfigureAwait(false));
+            _ = Task.Run(() => msg.DeleteAsync());
         }
     }
 
@@ -167,9 +166,9 @@ public abstract class MewdekoModule : ModuleBase
             dsc.MessageReceived -= Interaction;
         }
 
-        async Task Interaction(SocketMessage arg)
+        Task Interaction(SocketMessage arg)
         {
-            await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 if (arg.Author.Id != userId || arg.Channel.Id != channelId) return;
                 userInputTask.TrySetResult(arg.Content);
@@ -181,7 +180,7 @@ public abstract class MewdekoModule : ModuleBase
                 {
                     //Exclude
                 }
-            }).ConfigureAwait(false);
+            });
         }
     }
 
@@ -205,9 +204,9 @@ public abstract class MewdekoModule : ModuleBase
             dsc.MessageReceived -= Interaction;
         }
 
-        async Task Interaction(SocketMessage arg)
+        Task Interaction(SocketMessage arg)
         {
-            await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 if (arg.Author.Id != userId || arg.Channel.Id != channelId) return;
                 userInputTask.TrySetResult(arg);
@@ -219,7 +218,7 @@ public abstract class MewdekoModule : ModuleBase
                 {
                     //Exclude
                 }
-            }).ConfigureAwait(false);
+            });
         }
     }
 }

@@ -20,9 +20,12 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     [Group]
-    public class AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi,
-            HttpClient httpClient,
-            BotConfigService config)
+    public class AnimeCommands(
+        InteractiveService service,
+        MartineApi martineApi,
+        NekosBestApi nekosBestApi,
+        HttpClient httpClient,
+        BotConfigService config)
         : MewdekoSubmodule<SearchesService>
     {
         public readonly NekosBestApi NekosBestApi = nekosBestApi;
@@ -77,8 +80,8 @@ public partial class Searches
         }
 
         [Cmd, Aliases]
-        public async Task Ship(IUser user)
-            => await Ship(ctx.User, user);
+        public Task Ship(IUser user)
+            => Ship(ctx.User, user);
 
         [Cmd, Aliases]
         public async Task RandomNeko()

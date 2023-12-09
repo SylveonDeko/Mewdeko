@@ -147,9 +147,9 @@ public class RoleStatesService : INService
         return await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId) ?? null;
     }
 
-    public async Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
+    public Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
     {
-        return await dbService.GetDbContext().UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
+        return dbService.GetDbContext().UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
     }
 
     public async Task UpdateRoleStateSettings(RoleStateSettings roleStateSettings)

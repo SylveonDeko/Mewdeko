@@ -47,11 +47,12 @@ public class StreamRoleService : INService, IUnloadableService
 
     private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
-        _ = Task.Run(async () =>
+        _ = Task.Run(() =>
         {
             //if user wasn't streaming or didn't have a game status at all
             if (guildSettings.TryGetValue(after.Guild.Id, out var setting))
-                await RescanUser(after, setting).ConfigureAwait(false);
+                return RescanUser(after, setting);
+            return Task.CompletedTask;
         });
 
         return Task.CompletedTask;

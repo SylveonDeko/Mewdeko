@@ -45,7 +45,8 @@ public class DbService
             else
             {
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
-                    builder.DataSource = builder.DataSource = folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db";
+                    builder.DataSource = builder.DataSource =
+                        folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db";
                 else
                     builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
             }
@@ -64,10 +65,11 @@ public class DbService
             await context.SaveChangesAsync().ConfigureAwait(false);
 
             var env = Assembly.GetExecutingAssembly();
-            var pmhs = env.GetTypes().Where(t => t.GetInterfaces().Any(i => i == typeof(IPostMigrationHandler))).ToList();
+            var pmhs = env.GetTypes().Where(t => t.GetInterfaces().Any(i => i == typeof(IPostMigrationHandler)))
+                .ToList();
             foreach (var id in toApply)
             {
-                var pmhToRuns = pmhs?.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
+                var pmhToRuns = pmhs.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
                 foreach (var pmh in pmhToRuns)
                 {
                     pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[]

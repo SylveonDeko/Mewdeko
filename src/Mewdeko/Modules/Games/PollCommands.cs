@@ -12,8 +12,8 @@ public partial class Games
     {
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
-        public async Task Poll([Remainder] string input)
-            => await Poll(PollType.SingleAnswer, input);
+        public Task Poll([Remainder] string input)
+            => Poll(PollType.SingleAnswer, input);
 
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]

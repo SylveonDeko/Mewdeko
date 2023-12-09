@@ -88,7 +88,8 @@ public class RepeatRunner
         else
         {
             // if repeater is not running daily, it's initial time is the time it was Added at, plus the interval
-            if (Repeater.DateAdded != null) CalculateInitialInterval(Repeater.DateAdded.Value + TimeSpan.Parse(Repeater.Interval));
+            if (Repeater.DateAdded != null)
+                CalculateInitialInterval(Repeater.DateAdded.Value + TimeSpan.Parse(Repeater.Interval));
         }
 
         // wait at least a minute for the bot to have all data needed in the cache
@@ -148,12 +149,12 @@ public class RepeatRunner
 
     public async Task Trigger()
     {
-        async Task ChannelMissingError()
+        Task ChannelMissingError()
         {
             Log.Warning("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}",
                 Channel?.Id);
             Stop();
-            await mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
+            return mrs.RemoveRepeater(Repeater);
         }
 
         // next execution is interval amount of time after now
@@ -199,9 +200,11 @@ public class RepeatRunner
                 .Build();
 
             IMessage newMsg;
-            if (SmartEmbed.TryParse(rep.Replace(toSend), Channel.GuildId, out var embed, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(toSend), Channel.GuildId, out var embed, out var plainText,
+                    out var components))
             {
-                newMsg = await Channel.SendMessageAsync(plainText ?? "", embeds: embed, components: components?.Build()).ConfigureAwait(false);
+                newMsg = await Channel.SendMessageAsync(plainText ?? "", embeds: embed, components: components?.Build())
+                    .ConfigureAwait(false);
             }
             else
             {

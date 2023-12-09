@@ -19,18 +19,19 @@ public class WaifuInfoStats
 
 public static class WaifuExtensions
 {
-    public static async Task<WaifuInfo> ByWaifuUserId(this DbSet<WaifuInfo> waifus, ulong userId, Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
+    public static Task<WaifuInfo> ByWaifuUserId(this DbSet<WaifuInfo> waifus, ulong userId,
+        Func<DbSet<WaifuInfo>, IQueryable<WaifuInfo>> includes = null)
     {
         if (includes is null)
         {
-            return await waifus.Include(wi => wi.Waifu)
+            return waifus.Include(wi => wi.Waifu)
                 .Include(wi => wi.Affinity)
                 .Include(wi => wi.Claimer)
                 .Include(wi => wi.Items)
                 .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
         }
 
-        return await includes(waifus)
+        return includes(waifus)
             .AsQueryable()
             .FirstOrDefaultAsyncEF(wi => wi.Waifu.UserId == userId);
     }
@@ -67,8 +68,8 @@ public static class WaifuExtensions
             .Where(x => x.ClaimerId != null)
             .SumAsyncLinqToDB(x => x.Price);
 
-    public static async Task<ulong> GetWaifuUserId(this DbSet<WaifuInfo> waifus, ulong ownerId, string name) =>
-        await waifus
+    public static Task<ulong> GetWaifuUserId(this DbSet<WaifuInfo> waifus, ulong ownerId, string name) =>
+        waifus
             .AsQueryable()
             .AsNoTracking()
             .Where(x => x.Claimer.UserId == ownerId

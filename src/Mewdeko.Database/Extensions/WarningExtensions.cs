@@ -32,14 +32,14 @@ public static class WarningExtensions
         return true;
     }
 
-    public static async Task ForgiveAll(this DbSet<Warning> set, ulong guildId, ulong userId, string mod) =>
-        await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+    public static Task ForgiveAll(this DbSet<Warning> set, ulong guildId, ulong userId, string mod) =>
+        set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
             .ForEachAsync(x =>
             {
                 if (x.Forgiven == 1) return;
                 x.Forgiven = 1;
                 x.ForgivenBy = mod;
-            }).ConfigureAwait(false);
+            });
 
     public static async Task<IEnumerable<Warning>> GetForGuild(this DbSet<Warning> set, ulong id)
         => await set.AsQueryable().Where(x => x.GuildId == id).ToArrayAsyncEF();

@@ -19,12 +19,17 @@ using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.Utility;
 
-public partial class Utility(DiscordSocketClient client,
-        IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv,
-        ICoordinator coordinator,
-        GuildSettingsService guildSettings,
-        HttpClient httpClient,
-        BotConfigService config, DbService db)
+public partial class Utility(
+    DiscordSocketClient client,
+    IStatsService stats,
+    IBotCredentials creds,
+    DownloadTracker tracker,
+    InteractiveService serv,
+    ICoordinator coordinator,
+    GuildSettingsService guildSettings,
+    HttpClient httpClient,
+    BotConfigService config,
+    DbService db)
     : MewdekoModuleBase<UtilityService>
 {
     private static readonly SemaphoreSlim Sem = new(1, 1);
@@ -107,8 +112,8 @@ public partial class Utility(DiscordSocketClient client,
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task RolePermList(params GuildPermission[] perms)
-        => await RolePermList(PermissionType.And, perms);
+    public Task RolePermList(params GuildPermission[] perms)
+        => RolePermList(PermissionType.And, perms);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GetJson(ulong id, ITextChannel channel = null)
@@ -132,8 +137,8 @@ public partial class Utility(DiscordSocketClient client,
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
-    public async Task GetJson(ITextChannel channel, ulong messageId)
-        => await GetJson(messageId, channel);
+    public Task GetJson(ITextChannel channel, ulong messageId)
+        => GetJson(messageId, channel);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SaveChat(StoopidTime time, ITextChannel? channel = null)
@@ -1576,7 +1581,7 @@ public partial class Utility(DiscordSocketClient client,
 
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
-    public async Task Say([Remainder] string? message = null) => await Say((ITextChannel)ctx.Channel, message);
+    public Task Say([Remainder] string? message = null) => Say((ITextChannel)ctx.Channel, message);
 
     [Cmd, Aliases]
     public async Task Stats()

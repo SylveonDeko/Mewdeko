@@ -174,11 +174,11 @@ public class SearchesService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    public async Task SetShip(ulong user1, ulong user2, int score)
-        => await cache.SetShip(user1, user2, score);
+    public Task SetShip(ulong user1, ulong user2, int score)
+        => cache.SetShip(user1, user2, score);
 
-    public async Task<ShipCache?> GetShip(ulong user1, ulong user2)
-        => await cache.GetShip(user1, user2);
+    public Task<ShipCache?> GetShip(ulong user1, ulong user2)
+        => cache.GetShip(user1, user2);
 
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
     {

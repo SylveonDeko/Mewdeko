@@ -78,7 +78,8 @@ public class XpService : INService, IUnloadableService
         XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
         XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
         XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
-        excludedChannels = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
+        excludedChannels = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(
+            x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings?.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
@@ -90,6 +91,10 @@ public class XpService : INService, IUnloadableService
 
         excludedServers = new ConcurrentHashSet<ulong>(
             allGuildConfigs.Where(x => x.XpSettings?.ServerExcluded == 1).Select(x => x.GuildId));
+
+        XpImages = new NonBlocking.ConcurrentDictionary<ulong, string>(allGuildConfigs
+            .Where(x => !string.IsNullOrWhiteSpace(x.XpImgUrl))
+            .ToDictionary(x => x.GuildId, x => x.XpImgUrl));
 
         this.cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
@@ -107,6 +112,7 @@ public class XpService : INService, IUnloadableService
     private NonBlocking.ConcurrentDictionary<ulong, int> XpVoiceRates { get; }
     private NonBlocking.ConcurrentDictionary<ulong, int> XpTxtTimeouts { get; }
     private NonBlocking.ConcurrentDictionary<ulong, int> XpVoiceTimeouts { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, string> XpImages { get; }
 
     public Task Unload()
     {
@@ -217,7 +223,8 @@ public class XpService : INService, IUnloadableService
                             if (chan != null)
                             {
                                 await chan.SendConfirmAsync(strings.GetText("level_up_dm", x.Guild.Id, x.User.Mention,
-                                    Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-"))).ConfigureAwait(false);
+                                        Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-")))
+                                    .ConfigureAwait(false);
                             }
                         }
                         else if (x.MessageChannel != null) // channel
@@ -444,7 +451,9 @@ public class XpService : INService, IUnloadableService
     {
         var key = $"{creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
+        var e = GetVoiceXpTimeout(user.Guild.Id) == 0
+            ? xpConfig.Data.VoiceMaxMinutes
+            : GetVoiceXpTimeout(user.Guild.Id);
         if (memoryCache.Get(key) is not null)
             return;
         memoryCache.Set(key, value, TimeSpan.FromMinutes(e));
@@ -725,7 +734,23 @@ public class XpService : INService, IUnloadableService
     private async Task<Stream> GenerateXpImageAsync(FullUserStats stats, Template template)
     {
         // Load the background image
-        await using var xpstream = new MemoryStream(images.XpBackground);
+        await using var xpstream = new MemoryStream();
+        if (XpImages.TryGetValue(stats.FullGuildStats.GuildId, out var bannerUrl))
+        {
+            using var httpClient = new HttpClient();
+            var httpResponse = await httpClient.GetAsync(bannerUrl);
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                await httpResponse.Content.CopyToAsync(xpstream);
+                xpstream.Position = 0;
+            }
+        }
+        else
+        {
+            await xpstream.WriteAsync(images.XpBackground.AsMemory(0, images.XpBackground.Length));
+            xpstream.Position = 0;
+        }
+
         var imgData = SKData.Create(xpstream);
         var img = SKBitmap.Decode(imgData);
         var canvas = new SKCanvas(img);
@@ -741,7 +766,8 @@ public class XpService : INService, IUnloadableService
             var color = SKColor.Parse(template.TemplateUser.TextColor);
             textPaint.Color = color;
             textPaint.TextSize = template.TemplateUser.FontSize;
-            textPaint.Typeface = SKTypeface.FromFamilyName("NotoSans", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright);
+            textPaint.Typeface = SKTypeface.FromFamilyName("NotoSans", SKFontStyleWeight.Bold, SKFontStyleWidth.Normal,
+                SKFontStyleSlant.Upright);
             var username = stats.User.Username;
             canvas.DrawText(username, template.TemplateUser.TextX, template.TemplateUser.TextY, textPaint);
         }
@@ -752,7 +778,8 @@ public class XpService : INService, IUnloadableService
             textPaint.TextSize = template.TemplateGuild.GuildLevelFontSize;
             var color = SKColor.Parse(template.TemplateGuild.GuildLevelColor);
             textPaint.Color = color;
-            canvas.DrawText(stats.Guild.Level.ToString(), template.TemplateGuild.GuildLevelX, template.TemplateGuild.GuildLevelY, textPaint);
+            canvas.DrawText(stats.Guild.Level.ToString(), template.TemplateGuild.GuildLevelX,
+                template.TemplateGuild.GuildLevelY, textPaint);
         }
 
         var guild = stats.Guild;
@@ -781,7 +808,8 @@ public class XpService : INService, IUnloadableService
             textPaint.TextSize = template.TemplateGuild.GuildRankFontSize;
             var color = SKColor.Parse(template.TemplateGuild.GuildRankColor);
             textPaint.Color = color;
-            canvas.DrawText(stats.GuildRanking.ToString(), template.TemplateGuild.GuildRankX, template.TemplateGuild.GuildRankY, textPaint);
+            canvas.DrawText(stats.GuildRanking.ToString(), template.TemplateGuild.GuildRankX,
+                template.TemplateGuild.GuildRankY, textPaint);
         }
 
         // Draw time on level
@@ -810,7 +838,10 @@ public class XpService : INService, IUnloadableService
                     var avatarImg = SKBitmap.Decode(avatarImgData);
 
                     // resize the avatar
-                    var resizedAvatar = avatarImg.Resize(new SKImageInfo(template.TemplateUser.IconSizeX, template.TemplateUser.IconSizeY), SKFilterQuality.High);
+                    var resizedAvatar =
+                        avatarImg.Resize(
+                            new SKImageInfo(template.TemplateUser.IconSizeX, template.TemplateUser.IconSizeY),
+                            SKFilterQuality.High);
 
                     // apply rounded corners
                     var roundedAvatar = ApplyRoundedCorners(resizedAvatar, template.TemplateUser.IconSizeX / 2);
@@ -965,4 +996,53 @@ public class XpService : INService, IUnloadableService
         Server,
         Global
     } // is it a server level-up or global level-up notification
+
+    public async Task SetImageUrl(ulong guildId, string imageUrl)
+    {
+        await using var uow = db.GetDbContext();
+        var set = await uow.ForGuildId(guildId);
+        set.XpImgUrl = imageUrl;
+        uow.GuildConfigs.Update(set);
+        await uow.SaveChangesAsync();
+        if (XpImages.TryGetValue(guildId, out _))
+        {
+            XpImages.TryRemove(guildId, out _);
+            XpImages.TryAdd(guildId, imageUrl);
+        }
+        else
+            XpImages.TryAdd(guildId, imageUrl);
+    }
+
+    public async Task<(string, bool)> ValidateImageUrl(string url)
+    {
+        if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            return ("Malformed URL", false);
+
+        var formatAllowed = url.EndsWith(".png") || url.EndsWith(".jpg");
+        if (!formatAllowed)
+            return ("Must end with png or jpg", false);
+
+        using var httpClient = new HttpClient();
+        var httpRequest = new HttpRequestMessage(HttpMethod.Head, url);
+
+        try
+        {
+            var response = await httpClient.SendAsync(httpRequest);
+            if (!response.IsSuccessStatusCode)
+            {
+                // not a valid URL or couldn't fetch the document
+                return ("Url provided was unreachable", false);
+            }
+
+            var contentLength = response.Content.Headers.ContentLength;
+            var contentLengthMb = contentLength / (1024 * 1024); // convert bytes to MB
+            return ("File is over 20MB", !(contentLengthMb > 20));
+            // File is too large (over 20MB)
+        }
+        catch
+        {
+            // Something went wrong with fetching info about the resource.
+            return ("An unknown error occured while attempting to fetch the image", false);
+        }
+    }
 }

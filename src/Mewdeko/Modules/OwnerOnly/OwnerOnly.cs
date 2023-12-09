@@ -207,7 +207,7 @@ public class OwnerOnly(
             Content = $"{await guildSettings.GetPrefix(ctx.Guild)}{args}", Author = user, Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
+        _ = Task.Run(() => commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
             .ConfigureAwait(false);
     }
 
@@ -221,7 +221,7 @@ public class OwnerOnly(
             Channel = ctx.Channel
         };
         commandHandler.AddCommandToParseQueue(msg);
-        _ = Task.Run(async () => await commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
+        _ = Task.Run(() => commandHandler.ExecuteCommandsInChannelAsync(ctx.Channel.Id))
             .ConfigureAwait(false);
     }
 
@@ -907,8 +907,8 @@ public class OwnerOnly(
     }
 
     [Cmd, Aliases]
-    public async Task Send(ulong whereOrTo, [Remainder] string msg)
-        => await Send(whereOrTo, 0, msg).ConfigureAwait(false);
+    public Task Send(ulong whereOrTo, [Remainder] string msg)
+        => Send(whereOrTo, 0, msg);
 
     [Cmd, Aliases]
     public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)

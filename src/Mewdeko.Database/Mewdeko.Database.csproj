@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
-    <LangVersion>11</LangVersion>
+    <LangVersion>12</LangVersion>
     <RootNamespace>Mewdeko.Database</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>

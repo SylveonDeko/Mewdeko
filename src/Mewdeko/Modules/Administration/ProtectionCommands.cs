@@ -77,13 +77,14 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task AntiRaid(int userThreshold, int seconds,
+        public Task AntiRaid(int userThreshold, int seconds,
             PunishmentAction action, [Remainder] StoopidTime punishTime) =>
-            await InternalAntiRaid(userThreshold, seconds, action, punishTime);
+            InternalAntiRaid(userThreshold, seconds, action, punishTime);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
-        public async Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => await InternalAntiRaid(userThreshold, seconds, action);
+        public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) =>
+            InternalAntiRaid(userThreshold, seconds, action);
 
         private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
             PunishmentAction action = PunishmentAction.Mute, StoopidTime? punishTime = null)
@@ -148,21 +149,22 @@ public partial class Administration
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]
-        public async Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
+        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
         {
             if (action != PunishmentAction.AddRole)
-                return;
+                return Task.CompletedTask;
 
-            await InternalAntiSpam(messageCount, action, null, role);
+            return InternalAntiSpam(messageCount, action, null, role);
         }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) => await InternalAntiSpam(messageCount, action, punishTime);
+        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) =>
+            InternalAntiSpam(messageCount, action, punishTime);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
-        public async Task AntiSpam(int messageCount, PunishmentAction action) => await InternalAntiSpam(messageCount, action);
+        public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
 
         public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
             StoopidTime? timeData = null, IRole? role = null)

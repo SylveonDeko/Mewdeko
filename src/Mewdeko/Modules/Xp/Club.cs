@@ -302,7 +302,7 @@ public partial class Xp
         }
 
         [Cmd, Aliases, Priority(1)]
-        public async Task ClubKick([Remainder] IUser user) => await ClubKick(user.ToString()).ConfigureAwait(false);
+        public Task ClubKick([Remainder] IUser user) => ClubKick(user.ToString());
 
         [Cmd, Aliases, Priority(0)]
         public async Task ClubKick([Remainder] string userName)
@@ -319,7 +319,7 @@ public partial class Xp
         }
 
         [Cmd, Aliases, Priority(1)]
-        public async Task ClubBan([Remainder] IUser user) => await ClubBan(user.ToString());
+        public Task ClubBan([Remainder] IUser user) => ClubBan(user.ToString());
 
         [Cmd, Aliases, Priority(0)]
         public async Task ClubBan([Remainder] string userName)
@@ -336,7 +336,7 @@ public partial class Xp
         }
 
         [Cmd, Aliases, Priority(1)]
-        public async Task ClubUnBan([Remainder] IUser user) => await ClubUnBan(user.ToString()).ConfigureAwait(false);
+        public Task ClubUnBan([Remainder] IUser user) => ClubUnBan(user.ToString());
 
         [Cmd, Aliases, Priority(0)]
         public async Task ClubUnBan([Remainder] string userName)

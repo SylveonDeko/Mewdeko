@@ -39,6 +39,7 @@ public static class ChatTriggersExtensions
             .Where(x => x.GuildId == id)
             .ToArrayAsyncEF();
 
-    public static async Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) =>
-        await AsyncExtensions.FirstOrDefaultAsync(crs, x => x.GuildId == guildId && x.Trigger.ToUpper() == input).ConfigureAwait(false);
+    public static Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) =>
+        AsyncExtensions.FirstOrDefaultAsync(crs,
+            x => x.GuildId == guildId && x.Trigger.Equals(input, StringComparison.CurrentCultureIgnoreCase));
 }

@@ -14,13 +14,14 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Help;
 
 [Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
-public class HelpSlashCommand(GlobalPermissionService permissionService,
-        InteractiveService interactivity,
-        IServiceProvider serviceProvider,
-        CommandService cmds,
-        CommandHandler ch,
-        GuildSettingsService guildSettings,
-        BotConfigService config)
+public class HelpSlashCommand(
+    GlobalPermissionService permissionService,
+    InteractiveService interactivity,
+    IServiceProvider serviceProvider,
+    CommandService cmds,
+    CommandHandler ch,
+    GuildSettingsService guildSettings,
+    BotConfigService config)
     : MewdekoSlashModuleBase<HelpService>
 {
     private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
@@ -139,7 +140,7 @@ public class HelpSlashCommand(GlobalPermissionService permissionService,
     }
 
     [SlashCommand("invite", "You should invite me to your server and check all my features!"), CheckPermissions]
-    public async Task Invite()
+    public Task Invite()
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link",
@@ -147,7 +148,7 @@ public class HelpSlashCommand(GlobalPermissionService permissionService,
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", config.Data.SupportServer)
             .WithOkColor();
-        await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
+        return ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
     [SlashCommand("search", "get information on a specific command"), CheckPermissions]
