@@ -145,7 +145,7 @@ public partial class Moderation
         //Purge userid [x]
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public async Task Purge(ulong userId, ulong count = 100, string? parameter = null)
+        public Task Purge(ulong userId, ulong count = 100, string? parameter = null)
         {
             if (userId == ctx.User.Id)
                 count++;
@@ -153,7 +153,7 @@ public partial class Moderation
             switch (count)
             {
                 case < 1:
-                    return;
+                    return Task.CompletedTask;
                 case > 1000:
                     count = 1000;
                     break;
@@ -161,14 +161,13 @@ public partial class Moderation
 
             if (parameter is "-s" or "--safe")
             {
-                await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned)
-                    .ConfigureAwait(false);
+                return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned);
             }
             else
             {
-                await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks).ConfigureAwait(false);
+                return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks);
             }
         }
     }

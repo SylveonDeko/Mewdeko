@@ -725,10 +725,10 @@ public class CommandHandler : INService
     }
 
 
-    private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
+    private Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
-        await ExecuteCommand(context, input[argPos..], multiMatchHandling).ConfigureAwait(false);
+        ExecuteCommand(context, input[argPos..], multiMatchHandling);
 
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
         string input,

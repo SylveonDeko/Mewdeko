@@ -25,9 +25,9 @@ public class WebhookController : ControllerBase
             data.User,
             data.Bot,
             "top.gg");
-        _ = Task.Run(async () =>
+        _ = Task.Run(() =>
         {
-            await Events.InvokeTopGg(data, Request.Headers.Authorization);
+            return Events.InvokeTopGg(data, Request.Headers.Authorization);
         });
         return Task.FromResult<IActionResult>(Ok());
     }

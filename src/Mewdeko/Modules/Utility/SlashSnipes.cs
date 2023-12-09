@@ -12,9 +12,11 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     [Group("snipe", "Snipe edited or delete messages!")]
-    public class SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService,
-            GuildSettingsService guildSettings,
-            BotConfigService config)
+    public class SlashSnipes(
+        DiscordSocketClient client,
+        InteractiveService interactiveService,
+        GuildSettingsService guildSettings,
+        BotConfigService config)
         : MewdekoSlashModuleBase<UtilityService>
     {
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
@@ -198,16 +200,16 @@ public partial class Utility
 
         [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
-        public async Task SnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
+        public Task SnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
         {
-            await SnipeListBase(false, amount, channel, user);
+            return SnipeListBase(false, amount, channel, user);
         }
 
         [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
-        public async Task EditSnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
+        public Task EditSnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
         {
-            await SnipeListBase(true, amount, channel, user);
+            return SnipeListBase(true, amount, channel, user);
         }
 
 

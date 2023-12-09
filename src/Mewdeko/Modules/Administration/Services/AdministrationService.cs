@@ -7,22 +7,21 @@ namespace Mewdeko.Modules.Administration.Services;
 public class AdministrationService : INService
 {
     private readonly DbService db;
-    private readonly LogCommandService logService;
     private readonly GuildSettingsService guildSettings;
 
     public AdministrationService(CommandHandler cmdHandler, DbService db,
-        LogCommandService logService,
         GuildSettingsService guildSettings, Mewdeko bot)
     {
         var allgc = bot.AllGuildConfigs;
         using var uow = db.GetDbContext();
         this.db = db;
-        this.logService = logService;
         this.guildSettings = guildSettings;
 
-        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(allgc.Where(g => g.DeleteMessageOnCommand == 1).Select(g => g.GuildId));
+        DeleteMessagesOnCommand =
+            new ConcurrentHashSet<ulong>(allgc.Where(g => g.DeleteMessageOnCommand == 1).Select(g => g.GuildId));
 
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(allgc.SelectMany(x => x.DelMsgOnCmdChannels)
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(allgc
+            .SelectMany(x => x.DelMsgOnCmdChannels)
             .ToDictionary(x => x.ChannelId, x => x.State == 1)
             .ToConcurrent());
 
@@ -101,7 +100,7 @@ public class AdministrationService : INService
                 {
                     if (state && cmd.Name != "Purge" && cmd.Name != "pick")
                     {
-                        logService.AddDeleteIgnore(msg.Id);
+                        //logService.AddDeleteIgnore(msg.Id);
                         try
                         {
                             await msg.DeleteAsync().ConfigureAwait(false);
@@ -116,7 +115,7 @@ public class AdministrationService : INService
                 else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
                          cmd.Name != "pick")
                 {
-                    logService.AddDeleteIgnore(msg.Id);
+                    //logService.AddDeleteIgnore(msg.Id);
                     try
                     {
                         await msg.DeleteAsync().ConfigureAwait(false);
@@ -225,7 +224,8 @@ public class AdministrationService : INService
             .WithDefault(context)
             .Build();
 
-        if (SmartEmbed.TryParse(rep.Replace(text), context.Guild?.Id, out var embed, out var plainText, out var components))
+        if (SmartEmbed.TryParse(rep.Replace(text), context.Guild?.Id, out var embed, out var plainText,
+                out var components))
         {
             await umsg.ModifyAsync(x =>
             {

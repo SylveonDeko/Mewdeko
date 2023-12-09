@@ -6,8 +6,11 @@ using Swan;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
-public class GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds,
-        GuildSettingsService guildSettings)
+public class GiveawayService(
+    DiscordSocketClient client,
+    DbService db,
+    IBotCredentials creds,
+    GuildSettingsService guildSettings)
     : INService, IReadyExecutor
 {
     public async Task OnReadyAsync()
@@ -61,25 +64,22 @@ public class GiveawayService(DiscordSocketClient client, DbService db, IBotCrede
         await using var uow = db.GetDbContext();
         foreach (var i in g)
         {
-            var toupdate = new Database.Models.Giveaways
-            {
-                When = i.When,
-                BlacklistRoles = i.BlacklistRoles,
-                BlacklistUsers = i.BlacklistUsers,
-                ChannelId = i.ChannelId,
-                Ended = 1,
-                MessageId = i.MessageId,
-                RestrictTo = i.RestrictTo,
-                Item = i.Item,
-                ServerId = i.ServerId,
-                UserId = i.UserId,
-                Winners = i.Winners,
-                Emote = i.Emote
-            };
-            uow.Giveaways.Remove(i);
-            uow.Giveaways.Add(toupdate);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            var toupdate = await uow.Giveaways.FindAsync(i.Id);
+            if (toupdate == null) continue;
+            toupdate.When = i.When;
+            toupdate.BlacklistRoles = i.BlacklistRoles;
+            toupdate.BlacklistUsers = i.BlacklistUsers;
+            toupdate.ChannelId = i.ChannelId;
+            toupdate.Ended = 1;
+            toupdate.MessageId = i.MessageId;
+            toupdate.RestrictTo = i.RestrictTo;
+            toupdate.Item = i.Item;
+            toupdate.UserId = i.UserId;
+            toupdate.Winners = i.Winners;
+            toupdate.Emote = i.Emote;
         }
+
+        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private IEnumerable<Database.Models.Giveaways> GetGiveawaysBeforeAsync(DateTime now)
@@ -434,7 +434,7 @@ public class GiveawayService(DiscordSocketClient client, DbService db, IBotCrede
             {
                 var rand = new Random();
                 var users = (await Task.WhenAll(reacts.Where(x => !x.IsBot)
-                    .Select(async x => await guild.GetUserAsync(x.Id)).Where(x => x is not null))).ToHashSet();
+                    .Select(x => guild.GetUserAsync(x.Id)).Where(x => x is not null))).ToHashSet();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();

@@ -38,14 +38,17 @@ public static class DiscordUserExtensions
         string avatarId)
     {
         await ctx.EnsureUserCreated(userId, username, discrim, avatarId);
-        return await ctx.DiscordUser.Include(x => x.Club).FirstOrDefaultAsyncEF(u => u.UserId == userId).ConfigureAwait(false);
+        return await ctx.DiscordUser.Include(x => x.Club).FirstOrDefaultAsyncEF(u => u.UserId == userId)
+            .ConfigureAwait(false);
     }
 
-    public static async Task<DiscordUser> GetOrCreateUser(this MewdekoContext ctx, IUser original) =>
-        await ctx.GetOrCreateUser(original.Id, original.Username, original.Discriminator, original.AvatarId).ConfigureAwait(false);
+    public static Task<DiscordUser> GetOrCreateUser(this MewdekoContext ctx, IUser original) =>
+        ctx.GetOrCreateUser(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
     public static async Task<int> GetUserGlobalRank(this DbSet<DiscordUser> users, ulong id) =>
-        await users.AsQueryable().CountAsyncEF(x => x.TotalXp > users.AsQueryable().Where(y => y.UserId == id).Select(y => y.TotalXp).FirstOrDefault()).ConfigureAwait(false)
+        await users.AsQueryable().CountAsyncEF(x =>
+                x.TotalXp > users.AsQueryable().Where(y => y.UserId == id).Select(y => y.TotalXp).FirstOrDefault())
+            .ConfigureAwait(false)
         + 1;
 
     public static DiscordUser[] GetUsersXpLeaderboardFor(this DbSet<DiscordUser> users, int page) =>

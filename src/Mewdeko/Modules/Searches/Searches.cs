@@ -25,12 +25,17 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Searches;
 
-public partial class Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory,
-        IMemoryCache cache,
-        GuildTimezoneService tzSvc,
-        InteractiveService serv,
-        MartineApi martineApi, ToneTagService toneTagService,
-        BotConfigService config, INsfwSpy nsfwSpy)
+public partial class Searches(
+    IBotCredentials creds,
+    IGoogleApiService google,
+    IHttpClientFactory factory,
+    IMemoryCache cache,
+    GuildTimezoneService tzSvc,
+    InteractiveService serv,
+    MartineApi martineApi,
+    ToneTagService toneTagService,
+    BotConfigService config,
+    INsfwSpy nsfwSpy)
     : MewdekoModuleBase<SearchesService>
 {
     private static readonly ConcurrentDictionary<string, string> CachedShortenedLinks = new();
@@ -734,14 +739,14 @@ public partial class Searches(IBotCredentials creds, IGoogleApiService google, I
 
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Revav([Remainder] IGuildUser? usr = null)
+    public Task Revav([Remainder] IGuildUser? usr = null)
     {
         usr ??= (IGuildUser)ctx.User;
 
         var av = usr.RealAvatarUrl();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-        await Revimg(av.ToString());
+        return Revimg(av.ToString());
     }
 
 

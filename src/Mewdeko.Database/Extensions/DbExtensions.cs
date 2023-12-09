@@ -6,8 +6,8 @@ namespace Mewdeko.Database.Extensions;
 
 public static class DbExtensions
 {
-    public static async Task<T> GetById<T>(this DbSet<T> set, int id) where T : DbEntity
-        => await set.FirstOrDefaultAsync(x => x.Id == id);
+    public static Task<T> GetById<T>(this DbSet<T> set, int id) where T : DbEntity
+        => set.FirstOrDefaultAsync(x => x.Id == id);
 
     public static IEnumerable<GuildConfig> GetActiveConfigs(this DbSet<GuildConfig> set, IEnumerable<ulong> guildIds)
     {
@@ -23,7 +23,8 @@ public static class DbExtensions
             return $"@p{index}";
         });
 
-        var sqlQuery = $"SELECT * FROM \"GuildConfigs\" WHERE \"GuildId\" = ANY (ARRAY[{string.Join(",", ids)}]::bigint[])";
+        var sqlQuery =
+            $"SELECT * FROM \"GuildConfigs\" WHERE \"GuildId\" = ANY (ARRAY[{string.Join(",", ids)}]::bigint[])";
 
         return set.FromSqlRaw(sqlQuery, parameters.ToArray());
     }

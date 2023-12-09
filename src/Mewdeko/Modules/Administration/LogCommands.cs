@@ -1,17 +1,17 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
-using static Mewdeko.Modules.Administration.Services.LogCommandService;
+using LogType = Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType;
 
 namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
     [Group]
-    public class LogCommands : MewdekoSubmodule<LogCommandService>
+    public class LogCommands : MewdekoSubmodule<NewLogCommandService>
     {
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task LogCategory(LogCategoryTypes type, ITextChannel? channel = null)
+        public async Task LogCategory(NewLogCommandService.LogCategoryTypes type, ITextChannel? channel = null)
         {
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
             if (channel is null)
@@ -23,40 +23,40 @@ public partial class Administration
             await ctx.Channel.SendConfirmAsync(GetText("logging_category_enabled", type, channel.Mention));
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
-        public async Task LogIgnore()
-        {
-            var channel = (ITextChannel)ctx.Channel;
-
-            var removed = await Service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
-
-            if (!removed)
-                await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
-        }
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task LogIgnore(ITextChannel channel)
-        {
-            var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
-
-            if (!removed)
-                await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
-        }
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(2)]
-        public async Task LogIgnore(IVoiceChannel channel)
-        {
-            var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
-
-            if (!removed)
-                await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
-        }
+        // [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
+        // public async Task LogIgnore()
+        // {
+        //     var channel = (ITextChannel)ctx.Channel;
+        //
+        //     var removed = await Service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
+        //
+        //     if (!removed)
+        //         await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
+        //     else
+        //         await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
+        // }
+        //
+        // [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
+        // public async Task LogIgnore(ITextChannel channel)
+        // {
+        //     var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
+        //
+        //     if (!removed)
+        //         await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
+        //     else
+        //         await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
+        // }
+        //
+        // [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(2)]
+        // public async Task LogIgnore(IVoiceChannel channel)
+        // {
+        //     var removed = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
+        //
+        //     if (!removed)
+        //         await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
+        //     else
+        //         await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
+        // }
 
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task LogEvents()
@@ -125,19 +125,19 @@ public partial class Administration
             await ConfirmLocalizedAsync("logging_event_disabled", type);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-        public async Task CommandLogChannel(ITextChannel? channel = null)
-        {
-            if (channel is null)
-            {
-                await ConfirmLocalizedAsync("command_logging_disabled");
-                await Service.UpdateCommandLogChannel(ctx.Guild, 0);
-            }
-            else
-            {
-                await ConfirmLocalizedAsync("command_logging_enabled");
-                await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
-            }
-        }
+        // [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        // public async Task CommandLogChannel(ITextChannel? channel = null)
+        // {
+        //     if (channel is null)
+        //     {
+        //         await ConfirmLocalizedAsync("command_logging_disabled");
+        //         await Service.UpdateCommandLogChannel(ctx.Guild, 0);
+        //     }
+        //     else
+        //     {
+        //         await ConfirmLocalizedAsync("command_logging_enabled");
+        //         await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
+        //     }
+        // }
     }
 }

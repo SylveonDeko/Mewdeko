@@ -10,8 +10,12 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Xp;
 
-public partial class Xp(DownloadTracker tracker, XpConfigService xpconfig, InteractiveService serv,
-        BotConfigService bss, DbService db)
+public partial class Xp(
+    DownloadTracker tracker,
+    XpConfigService xpconfig,
+    InteractiveService serv,
+    BotConfigService bss,
+    DbService db)
     : MewdekoModuleBase<XpService>
 {
     public enum Channel
@@ -39,77 +43,60 @@ public partial class Xp(DownloadTracker tracker, XpConfigService xpconfig, Inter
     private async Task SendXpSettings(ITextChannel chan)
     {
         var list = new List<XpStuffs>();
-        if (Service.GetTxtXpRate(ctx.Guild.Id) == 0)
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "xptextrate", Value = $"{xpconfig.Data.XpPerMessage} (Global Default)"
-            };
-            list.Add(toadd);
-        }
-        else
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "xptextrate", Value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
-            };
-            list.Add(toadd);
-        }
 
-        if (Service.GetVoiceXpRate(ctx.Guild.Id) == 0)
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "voicexprate", Value = $"{xpconfig.Data.VoiceXpPerMinute} (Global Default)"
-            };
-            list.Add(toadd);
-        }
-        else
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "xpvoicerate", Value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
-            };
-            list.Add(toadd);
-        }
-
-        if (Service.GetXpTimeout(ctx.Guild.Id) == 0)
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "txtxptimeout", Value = $"{xpconfig.Data.MessageXpCooldown} (Global Default)"
-            };
-            list.Add(toadd);
-        }
-        else
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "txtxptimeout", Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
-            };
-            list.Add(toadd);
-        }
-
-        if (Service.GetVoiceXpTimeout(ctx.Guild.Id) == 0)
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "voiceminutestimeout", Value = $"{xpconfig.Data.VoiceMaxMinutes} (Global Default)"
-            };
-            list.Add(toadd);
-        }
-        else
-        {
-            var toadd = new XpStuffs
-            {
-                Setting = "voiceminutestimeout", Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
-            };
-            list.Add(toadd);
-        }
+        list.Add(CreateXpStuffs("xptextrate", Service.GetTxtXpRate(ctx.Guild.Id), xpconfig.Data.XpPerMessage));
+        list.Add(CreateXpStuffs("voicexprate", Service.GetVoiceXpRate(ctx.Guild.Id), xpconfig.Data.VoiceXpPerMinute));
+        list.Add(CreateXpStuffs("txtxptimeout", Service.GetXpTimeout(ctx.Guild.Id), xpconfig.Data.MessageXpCooldown));
+        list.Add(CreateXpStuffs("voiceminutestimeout", Service.GetVoiceXpTimeout(ctx.Guild.Id),
+            xpconfig.Data.VoiceMaxMinutes));
 
         var strings = list.Select(i => $"{i.Setting,-25} = {i.Value}\n").ToList();
-
         await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs")).ConfigureAwait(false);
+    }
+
+    private static XpStuffs CreateXpStuffs(string settingName, double xpRate, double defaultValue)
+    {
+        var settingValue = xpRate == 0
+            ? $"{defaultValue} (Global Default)"
+            : $"{xpRate} (Server Set)";
+
+        return new XpStuffs
+        {
+            Setting = settingName, Value = settingValue
+        };
+    }
+
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+    public async Task SetXpImage(string url = null)
+    {
+        if (url is null)
+        {
+            var attachments = Context.Message.Attachments;
+            if (attachments.Count != 0)
+            {
+                var attachment = attachments.FirstOrDefault();
+                if (attachment != null)
+                {
+                    url = attachment.Url;
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("Please provide a valid URL or attachment.").ConfigureAwait(false);
+                return;
+            }
+        }
+
+        var (reason, success) = await Service.ValidateImageUrl(url);
+
+        if (!success)
+        {
+            await ctx.Channel.SendErrorAsync(reason).ConfigureAwait(false);
+            return;
+        }
+
+        await Service.SetImageUrl(Context.Guild.Id, url);
+        await ctx.Channel.SendConfirmAsync("XP image URL has been set.").ConfigureAwait(false);
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), Ratelimit(60)]

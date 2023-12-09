@@ -9,7 +9,7 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly HashSet<StatusRolesTable> statusRoles = new();
+    private readonly HashSet<StatusRolesTable> statusRoles = [];
 
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
@@ -34,141 +34,83 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
-            if (!this.statusRoles.Any())
+            // Early exit if there are no status roles
+            if (this.statusRoles.Count == 0)
                 return;
 
+            // Ensure the incoming user is a guild user
             if (args is not SocketGuildUser user)
                 return;
 
+            // Get the status of the user before and after the event
             var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
-            if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
-            {
+            var afterStatus = args3.Activities?.FirstOrDefault() as CustomStatusGame;
+
+            // Continue only if the event is non-null and status has changed
+            if (afterStatus == null || afterStatus.State == beforeStatus?.State)
                 return;
-            }
 
-            if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
-            {
+            // Update user status in cache only if status has changed
+            var newStatusBase64 = afterStatus.State?.ToBase64() ?? "none";
+            if (!await cache.SetUserStatusCache(args.Id, newStatusBase64))
                 return;
-            }
 
-            if (!await cache.SetUserStatusCache(args.Id,
-                    status.State?.ToBase64() is null ? "none" : status.State.ToBase64()))
-            {
+            // Check for any statusRoles, if there are none, no further actions needed
+            if (statusRoles.Count == 0)
                 return;
-            }
 
-            await using var uow = db.GetDbContext();
-            var statusRolesConfigs = this.statusRoles;
-            if (statusRolesConfigs is null || !statusRolesConfigs.Any())
+            // Fetch role ids of user to local variable
+            var userRoleIds = user.Roles.Select(x => x.Id).ToList();
+
+            // Filter statusRoles for a particular guild
+            var statusRolesTables = statusRoles.Where(x => x.GuildId == user.Guild.Id);
+
+            // Loops through each status role in the guild
+            foreach (var config in statusRolesTables)
             {
-                return;
-            }
+                var toAdd = string.IsNullOrWhiteSpace(config.ToAdd)
+                    ? new List<ulong>()
+                    : config.ToAdd.Split(" ").Select(ulong.Parse).Where(role => !userRoleIds.Contains(role)).ToList();
 
-            var statusRolesTables = statusRolesConfigs.Where(x => x.GuildId == user.Guild.Id).ToList();
+                var toRemove = string.IsNullOrWhiteSpace(config.ToRemove)
+                    ? new List<ulong>()
+                    : config.ToRemove.Split(" ").Select(ulong.Parse).Where(role => userRoleIds.Contains(role)).ToList();
 
-            foreach (var i in statusRolesTables)
-            {
-                var toAdd = new List<ulong>();
-                var toRemove = new List<ulong>();
-                if (!string.IsNullOrWhiteSpace(i.ToAdd))
-                    toAdd = i.ToAdd.Split(" ").Select(ulong.Parse).ToList();
-                if (!string.IsNullOrWhiteSpace(i.ToRemove))
-                    toRemove = i.ToRemove.Split(" ").Select(ulong.Parse).ToList();
-                if (status.State is null || !status.State.Contains(i.Status))
-                {
-                    if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
-                    {
-                        if (i.RemoveAdded == 1)
-                        {
-                            if (toAdd.Any())
-                            {
-                                foreach (var role in toAdd.Where(socketRole =>
-                                             user.Roles.Select(x => x.Id).Contains(socketRole)))
-                                {
-                                    try
-                                    {
-                                        await user.RemoveRoleAsync(role);
-                                    }
-                                    catch
-                                    {
-                                        Log.Error(
-                                            "Unable to remove added role {Role} for {User} in {UserGuild} due to permission issues",
-                                            role, user, user.Guild);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (i.ReaddRemoved == 1)
-                        {
-                            if (toRemove.Any())
-                            {
-                                foreach (var role in toRemove.Where(socketRole =>
-                                             !user.Roles.Select(x => x.Id).Contains(socketRole)))
-                                {
-                                    try
-                                    {
-                                        await user.AddRoleAsync(role);
-                                    }
-                                    catch
-                                    {
-                                        Log.Error(
-                                            $"Unable to add removed role {role} for {user} in {user.Guild} due to permission issues.");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
-                {
+                var channel = user.Guild.GetTextChannel(config.StatusChannelId);
+                // If the StatusEmbed field is empty or channel is null, continue to the next statusRole
+                if (string.IsNullOrWhiteSpace(config.StatusEmbed) || channel == null)
                     continue;
-                }
 
-                if (toRemove.Any())
+                if (afterStatus.State.Contains(config.Status) && beforeStatus?.State != afterStatus.State)
                 {
-                    try
-                    {
-                        await user.RemoveRolesAsync(toRemove);
-                    }
-                    catch
-                    {
-                        Log.Error($"Unable to remove statusroles in {user.Guild} due to permission issues.");
-                    }
-                }
-
-                if (toAdd.Any())
-                {
+                    // On Status Add
                     try
                     {
                         await user.AddRolesAsync(toAdd);
                     }
                     catch
                     {
-                        Log.Error($"Unable to add statusroles in {user.Guild} due to permission issues.");
+                        Log.Error($"Unable to add status roles in {user.Guild} due to permission issues.");
                     }
                 }
-
-                var channel = user.Guild.GetTextChannel(i.StatusChannelId);
-
-                if (channel is null)
+                else if ((beforeStatus?.State.Contains(config.Status) ?? false) &&
+                         beforeStatus?.State != afterStatus.State)
                 {
-                    continue;
-                }
-
-                if (string.IsNullOrWhiteSpace(i.StatusEmbed))
-                {
-                    continue;
+                    // On Status Remove
+                    try
+                    {
+                        await user.RemoveRolesAsync(toRemove);
+                    }
+                    catch
+                    {
+                        Log.Error($"Unable to remove status roles in {user.Guild} due to permission issues.");
+                    }
                 }
 
                 var rep = new ReplacementBuilder().WithDefault(user, channel, user.Guild, client).Build();
 
-                if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), user.Guild.Id, out var embeds, out var plainText,
+                if (SmartEmbed.TryParse(rep.Replace(config.StatusEmbed), user.Guild.Id, out var embeds,
+                        out var plainText,
                         out var components))
                 {
                     await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? Array.Empty<Embed>(),
@@ -176,15 +118,16 @@ public class StatusRolesService : INService, IReadyExecutor
                 }
                 else
                 {
-                    await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
+                    await channel.SendMessageAsync(rep.Replace(config.StatusEmbed));
                 }
             }
         }
         catch (Exception e)
         {
             var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
-            Log.Error("Error in StatusRolesService. After Status: {Status} args: {Args2} args2: {Args3}\n{Exception}",
-                status.State, args2, args3, e);
+            Log.Error(
+                "Error in StatusRolesService: {Exception}, After Status: {Status}, args2: {Args2}, args3: {Args3}",
+                e, status?.State, args2, args3);
         }
     }
 

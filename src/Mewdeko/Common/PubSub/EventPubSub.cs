@@ -24,7 +24,7 @@ public class EventPubSub : IPubSub
         return Task.CompletedTask;
     }
 
-    public async Task Pub<TData>(TypedKey<TData> key, TData data) where TData : notnull
+    public Task Pub<TData>(TypedKey<TData> key, TData data) where TData : notnull
     {
         if (actions.TryGetValue(key.Key, out var dictionary))
         {
@@ -44,8 +44,10 @@ public class EventPubSub : IPubSub
                 }
             }
 
-            await Task.WhenAll(tasks.Select(vt => vt.AsTask()));
+            return Task.WhenAll(tasks.Select(vt => vt.AsTask()));
         }
+
+        return Task.CompletedTask;
     }
 
     public Task Unsub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)

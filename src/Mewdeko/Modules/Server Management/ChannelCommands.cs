@@ -314,22 +314,22 @@ public partial class ServerManagement
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public static async Task Slowmode(StoopidTime time, ITextChannel channel) =>
-            await InternalSlowmode(channel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
+        public static Task Slowmode(StoopidTime time, ITextChannel channel) =>
+            InternalSlowmode(channel, (int)time.Time.TotalSeconds);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public async Task Slowmode(StoopidTime time) =>
-            await InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds).ConfigureAwait(false);
+        public Task Slowmode(StoopidTime time) =>
+            InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public static async Task Slowmode(ITextChannel channel) =>
-            await InternalSlowmode(channel).ConfigureAwait(false);
+        public static Task Slowmode(ITextChannel channel) =>
+            InternalSlowmode(channel);
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public async Task Slowmode() => await InternalSlowmode((ITextChannel)ctx.Channel).ConfigureAwait(false);
+        public Task Slowmode() => InternalSlowmode((ITextChannel)ctx.Channel);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {

@@ -18,6 +18,8 @@ public class GuildConfig : DbEntity
     public string? WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string? AutoAssignRoleId { get; set; } = "0";
+
+    public string XpImgUrl { get; set; }
     public long StatsOptOut { get; set; } = 0;
     public string CurrencyName { get; set; } = "Coins";
 
