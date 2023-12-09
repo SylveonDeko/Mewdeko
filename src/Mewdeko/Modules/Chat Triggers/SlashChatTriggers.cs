@@ -79,8 +79,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     // respond with a modal to support multiline responces.
     [SlashCommand("add", "Add new chat trigger."),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
-        => await RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}").ConfigureAwait(false);
+    public Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
+        => RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}");
 
     [ModalInteraction("chat_trigger_add:*", true),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
@@ -112,10 +112,11 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     {
         var trigger = await Service.GetChatTriggers(ctx.Guild?.Id, id);
         await ctx.Interaction.RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_edit:{id},{regex}", null,
-            x => x
-                .WithTitle("Chat Trigger Edit")
-                .UpdateTextInput("key", textInputBuilder => textInputBuilder.Value = trigger.Trigger)
-                .UpdateTextInput("message", textInputBuilder => textInputBuilder.Value = trigger.Response)).ConfigureAwait(false);
+                x => x
+                    .WithTitle("Chat Trigger Edit")
+                    .UpdateTextInput("key", textInputBuilder => textInputBuilder.Value = trigger.Trigger)
+                    .UpdateTextInput("message", textInputBuilder => textInputBuilder.Value = trigger.Response))
+            .ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
@@ -209,7 +210,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity
+            .SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60))
+            .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -264,7 +267,9 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await interactivity.SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactivity
+                .SendPaginatorAsync(paginator, Context.Interaction as SocketInteraction, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
 
             async Task<PageBuilder> PageFactory(int page)
             {
@@ -281,21 +286,24 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
     [SlashCommand("show", "Shows the responce of a chat trigger."),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task ShowChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
+    public async Task ShowChatTrigger(
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
 
         if (found == null)
             await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
         else
-            await ctx.Interaction.RespondAsync(embed: Service.GetEmbed(found, ctx.Guild?.Id).Build()).ConfigureAwait(false);
+            await ctx.Interaction.RespondAsync(embed: Service.GetEmbed(found, ctx.Guild?.Id).Build())
+                .ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
 
     [SlashCommand("delete", "delete a chat trigger."),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task DeleteChatTrigger([Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
+    public async Task DeleteChatTrigger(
+        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))] int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
 
@@ -376,7 +384,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         await Service.SetCrReactions(ctx.Guild?.Id, id, succ).ConfigureAwait(false);
 
         var text = GetText("ctr_set", Format.Bold(id.ToString()), string.Join(',', succ.Select(x => x.ToString())));
-        await message.ModifyAsync(x => x.Embed = new EmbedBuilder().WithOkColor().WithDescription(text).Build()).ConfigureAwait(false);
+        await message.ModifyAsync(x => x.Embed = new EmbedBuilder().WithOkColor().WithDescription(text).Build())
+            .ConfigureAwait(false);
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
     }
@@ -464,7 +473,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
     [Group("crossposting", "crossposting")]
     public class Crossposting : MewdekoSlashModuleBase<ChatTriggersService>
     {
-        [SlashCommand("webhook", "crosspost triggers using a webhook"), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("webhook", "crosspost triggers using a webhook"), SlashUserPerm(GuildPermission.Administrator),
+         CheckPermissions]
         public async Task CtCpSetWebhook
         (
             [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
@@ -572,7 +582,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                         ? "ct_role_add_enabled"
                         : "ct_role_add_disabled";
 
-            await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString()))
+                .ConfigureAwait(false);
 
             await FollowupWithTriggerStatus().ConfigureAwait(false);
         }
@@ -614,12 +625,14 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                         ? "ct_role_remove_enabled"
                         : "cr_role_remove_disabled";
 
-            await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString())).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync(str, Format.Bold(role.Name), Format.Code(id.ToString()))
+                .ConfigureAwait(false);
 
             await FollowupWithTriggerStatus().ConfigureAwait(false);
         }
 
-        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions, SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions,
+         SlashUserPerm(GuildPermission.Administrator)]
         public async Task ChatTriggerRoleGrantType(
             [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")]
             int id,
@@ -634,7 +647,8 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             }
             else
             {
-                await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build()).ConfigureAwait(false);
+                await RespondAsync(embed: Service.GetEmbed(res, ctx.Guild?.Id, GetText("edited_chat_trig")).Build())
+                    .ConfigureAwait(false);
             }
 
             await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -775,13 +789,15 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
             await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
         }
 
-        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions, SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions,
+         SlashUserPerm(GuildPermission.Administrator)]
         // ReSharper disable once UnusedMember.Local
-        private async Task CtInterErrors()
+        private Task CtInterErrors()
         {
             var errors = Service.GetAcctErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
-            var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/Mewdeko",
+            var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link,
+                url: "https://discord.gg/Mewdeko",
                 emote: Emote.Parse("<:IconInvite:778931752835088426>"));
             if (errors?.Any() ?? false)
             {
@@ -797,7 +813,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
                     .WithDescription(GetText("ct_interaction_errors_none_desc"));
             }
 
-            await RespondAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
+            return RespondAsync(embed: eb.Build(), components: cb.Build());
         }
     }
 
@@ -819,6 +835,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         var values = (Context.Interaction as SocketMessageComponent).Data.Values;
         var i = -1;
         foreach (var n in values)
-            await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction, await Service.GetChatTriggers(guildId, Convert.ToInt32(n)), ++i >= 1);
+            await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction,
+                await Service.GetChatTriggers(guildId, Convert.ToInt32(n)), ++i >= 1);
     }
 }

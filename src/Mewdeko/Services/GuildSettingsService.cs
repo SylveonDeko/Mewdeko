@@ -17,7 +17,7 @@ public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot
         return prefix;
     }
 
-    public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild.Id);
+    public Task<string?> GetPrefix(IGuild? guild) => GetPrefix(guild.Id);
 
     public async Task<string?> GetPrefix(ulong? id)
     {

@@ -6,7 +6,7 @@ namespace Mewdeko.Database.Extensions;
 
 public static class ClubExtensions
 {
-    private static IQueryable<ClubInfo> Include(this DbSet<ClubInfo> clubs)
+    private static IQueryable<ClubInfo> Include(this IQueryable<ClubInfo> clubs)
         => clubs.Include(x => x.Owner)
             .Include(x => x.Applicants)
             .ThenInclude(x => x.User)
@@ -15,15 +15,15 @@ public static class ClubExtensions
             .Include(x => x.Users)
             .AsQueryable();
 
-    public static async Task<ClubInfo> GetByOwner(this DbSet<ClubInfo> clubs, ulong userId)
-        => await Include(clubs).FirstOrDefaultAsync(c => c.Owner.UserId == userId).ConfigureAwait(false);
+    public static Task<ClubInfo> GetByOwner(this DbSet<ClubInfo> clubs, ulong userId)
+        => Include(clubs).FirstOrDefaultAsync(c => c.Owner.UserId == userId);
 
-    public static async Task<ClubInfo> GetByOwnerOrAdmin(this DbSet<ClubInfo> clubs, ulong userId)
-        => await Include(clubs).FirstOrDefaultAsync(c => c.Owner.UserId == userId
-                                                         || c.Users.Any(u => u.UserId == userId && u.IsClubAdmin == 1)).ConfigureAwait(false);
+    public static Task<ClubInfo> GetByOwnerOrAdmin(this DbSet<ClubInfo> clubs, ulong userId)
+        => Include(clubs).FirstOrDefaultAsync(c => c.Owner.UserId == userId
+                                                   || c.Users.Any(u => u.UserId == userId && u.IsClubAdmin == 1));
 
-    public static async Task<ClubInfo> GetByMember(this DbSet<ClubInfo> clubs, ulong userId)
-        => await Include(clubs).FirstOrDefaultAsync(c => c.Users.Any(u => u.UserId == userId)).ConfigureAwait(false);
+    public static Task<ClubInfo> GetByMember(this DbSet<ClubInfo> clubs, ulong userId)
+        => Include(clubs).FirstOrDefaultAsync(c => c.Users.Any(u => u.UserId == userId));
 
     public static ClubInfo GetByName(this DbSet<ClubInfo> clubs, string name, int discrim)
         => Include(clubs).FirstOrDefault(c => c.Name.ToUpper() == name.ToUpper() && c.Discrim == discrim);
@@ -35,8 +35,8 @@ public static class ClubExtensions
             .DefaultIfEmpty()
             .MaxAsync().ConfigureAwait(false) + 1;
 
-    public static async Task<List<ClubInfo>> GetClubLeaderboardPage(this DbSet<ClubInfo> clubs, int page) =>
-        await clubs
+    public static Task<List<ClubInfo>> GetClubLeaderboardPage(this DbSet<ClubInfo> clubs, int page) =>
+        clubs
             .AsNoTracking()
             .OrderByDescending(x => x.Xp)
             .Skip(page * 9)

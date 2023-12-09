@@ -49,17 +49,20 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         if (warnlogChannel == 0)
         {
             await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Your warnlog channel has been set to {channel.Mention}").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Your warnlog channel has been set to {channel.Mention}")
+                .ConfigureAwait(false);
             return;
         }
 
         var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(warnlogChannel).ConfigureAwait(false);
         await Service.SetWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
         await ctx.Interaction.SendConfirmAsync(
-            $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {channel.Mention}").ConfigureAwait(false);
+                $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {channel.Mention}")
+            .ConfigureAwait(false);
     }
 
-    [SlashCommand("timeout", "Time a user out."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers),
+    [SlashCommand("timeout", "Time a user out."), RequireContext(ContextType.Guild),
+     SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers),
      CheckPermissions]
     public async Task Timeout(string inputTime, IGuildUser user, string? reason = null)
     {
@@ -88,10 +91,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         {
             AuditLogReason = reason
         }).ConfigureAwait(false);
-        await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day)).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("timeout_set", user.Mention, time.Time.Humanize(maxUnit: TimeUnit.Day))
+            .ConfigureAwait(false);
     }
 
-    [SlashCommand("untimeout", "Remove a users timeout."), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ModerateMembers),
+    [SlashCommand("untimeout", "Remove a users timeout."), RequireContext(ContextType.Guild),
+     SlashUserPerm(GuildPermission.ModerateMembers),
      BotPerm(GuildPermission.ModerateMembers), CheckPermissions]
     public async Task UnTimeOut(IGuildUser user)
     {
@@ -183,7 +188,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 
     [SlashCommand("setwarnexpire", "Set when warns expire in days"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task WarnExpire(int days, [Summary("todelete", "Set whether warns are deleted instead of cleared.")] bool delete)
+    public async Task WarnExpire(int days,
+        [Summary("todelete", "Set whether warns are deleted instead of cleared.")] bool delete)
     {
         if (days is < 0 or > 366)
             return;
@@ -210,13 +216,14 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     }
 
     [SlashCommand("warnlog", "Check a users warn amount"), RequireContext(ContextType.Guild)]
-    public async Task Warnlog(IGuildUser? user = null)
+    public Task Warnlog(IGuildUser? user = null)
     {
         user ??= (IGuildUser)ctx.User;
         if (ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers)
-            await InternalWarnlog(user.Id);
+            return InternalWarnlog(user.Id);
         else
-            await ctx.Interaction.SendEphemeralErrorAsync("You are missing the permissions to view another user's warns.");
+            return ctx.Interaction.SendEphemeralErrorAsync(
+                "You are missing the permissions to view another user's warns.");
     }
 
     private async Task InternalWarnlog(ulong userId)
@@ -231,7 +238,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
-        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60))
+            .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -285,7 +293,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60))
+            .ConfigureAwait(false);
 
         async Task<PageBuilder> PageFactory(int page)
         {
@@ -317,7 +326,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             return;
         if (!await CheckRoleHierarchy(user))
             return;
-        var success = await Service.WarnClearAsync(ctx.Guild.Id, user.Id, index, ctx.User.ToString()).ConfigureAwait(false);
+        var success = await Service.WarnClearAsync(ctx.Guild.Id, user.Id, index, ctx.User.ToString())
+            .ConfigureAwait(false);
         var userStr = user.ToString();
         if (index == 0)
         {
@@ -401,7 +411,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
-    [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild), CheckPermissions]
+    [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild),
+     CheckPermissions]
     public async Task WarnPunishList()
     {
         var ps = await Service.WarnPunishList(ctx.Guild.Id);
@@ -489,7 +500,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);
 
-                await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithTitle($"⛔️ {GetText("banned_user")}")
+                await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
+                        .WithTitle($"⛔️ {GetText("banned_user")}")
                         .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)).Build())
                     .ConfigureAwait(false);
             }
@@ -515,11 +527,14 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, reason, null).ConfigureAwait(false);
+                    var (embedBuilder, message, components) = await Service
+                        .GetBanUserDmEmbed(Context, user, defaultMessage, reason, null).ConfigureAwait(false);
                     if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components?.Build()).ConfigureAwait(false);
+                        await userChannel
+                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                            .ConfigureAwait(false);
                     }
                 }
                 catch
@@ -550,11 +565,14 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
-                    var (embedBuilder, message, components) = await Service.GetBanUserDmEmbed(ctx, user, defaultMessage, reason, null).ConfigureAwait(false);
+                    var (embedBuilder, message, components) = await Service
+                        .GetBanUserDmEmbed(ctx, user, defaultMessage, reason, null).ConfigureAwait(false);
                     if (embedBuilder is not null || message is not null)
                     {
                         var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                        await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components?.Build()).ConfigureAwait(false);
+                        await userChannel
+                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                            .ConfigureAwait(false);
                     }
                 }
                 catch
@@ -605,8 +623,9 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     }
 
     [SlashCommand("softban", "Bans then unbans a user."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers), CheckPermissions]
-    public async Task Softban(IGuildUser user, string? msg = null) => await SoftbanInternal(user, msg);
+     SlashUserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers),
+     CheckPermissions]
+    public Task Softban(IGuildUser user, string? msg = null) => SoftbanInternal(user, msg);
 
     private async Task SoftbanInternal(IGuildUser user, string? msg = null)
     {
@@ -651,7 +670,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 
     [SlashCommand("kick", "Kicks a user with an optional reason"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers)]
-    public async Task Kick(IGuildUser user, string? msg = null) => await KickInternal(user, msg);
+    public Task Kick(IGuildUser user, string? msg = null) => KickInternal(user, msg);
 
 
     public async Task KickInternal(IGuildUser user, string? msg = null)

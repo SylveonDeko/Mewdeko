@@ -34,7 +34,7 @@ public class AfkService : INService, IReadyExecutor
         eventHandler.MessageReceived += MessageReceived;
         eventHandler.MessageUpdated += MessageUpdated;
         eventHandler.UserIsTyping += UserTyping;
-        _ = Task.Run(async () => await StartTimedAfkLoop());
+        _ = Task.Run(() => StartTimedAfkLoop());
     }
 
     private async Task StartTimedAfkLoop()
@@ -88,14 +88,9 @@ public class AfkService : INService, IReadyExecutor
 
     private async Task TimedAfkFinished(Database.Models.Afk afk)
     {
-        await using var uow = db.GetDbContext();
         if (!IsAfk(afk.GuildId, afk.UserId))
         {
-            var current1 = cache.GetAfkForGuild(afk.GuildId) ?? new List<Database.Models.Afk?>();
-            current1.Remove(afk);
-            await cache.AddAfkToCache(afk.GuildId, current1).ConfigureAwait(false);
-            uow.Afk.Remove(afk);
-            await uow.SaveChangesAsync();
+            await RemoveAfk(afk);
             return;
         }
 
@@ -111,11 +106,7 @@ public class AfkService : INService, IReadyExecutor
             //ignored
         }
 
-        var current = cache.GetAfkForGuild(afk.GuildId) ?? new List<Database.Models.Afk?>();
-        current.Remove(afk);
-        await cache.AddAfkToCache(afk.GuildId, current).ConfigureAwait(false);
-        uow.Afk.Remove(afk);
-        await uow.SaveChangesAsync();
+        await RemoveAfk(afk);
     }
 
     public async Task OnReadyAsync()
@@ -128,9 +119,9 @@ public class AfkService : INService, IReadyExecutor
             var afk = allafk.FirstOrDefault(x => x.GuildId == i);
             if (afk is null)
                 continue;
-            _ = Task.Run(async () =>
+            _ = Task.Run(() =>
             {
-                await cache.CacheAfk(i, allafk.Where(x => x.GuildId == i).ToList()).ConfigureAwait(false);
+                return cache.CacheAfk(i, allafk.Where(x => x.GuildId == i).ToList());
             });
         }
 
@@ -317,7 +308,7 @@ public class AfkService : INService, IReadyExecutor
             ? Array.Empty<IGuildUser>()
             : await cache.GetAfkForGuild(guild.Id).GroupBy(m => m.UserId)
                 .Where(m => !string.IsNullOrEmpty(m.Last().Message))
-                .Select(async m => await guild.GetUserAsync(m.Key).ConfigureAwait(false))
+                .Select(m => guild.GetUserAsync(m.Key))
                 .WhenAll().ConfigureAwait(false);
 
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
@@ -327,17 +318,6 @@ public class AfkService : INService, IReadyExecutor
         gc.AfkMessage = afkMessage;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
-    }
-
-    public async Task TimedAfk(
-        IGuild guild,
-        IUser user,
-        string message,
-        TimeSpan time)
-    {
-        await AfkSet(guild, user as IGuildUser, message, 1).ConfigureAwait(false);
-        await Task.Delay(time.Milliseconds).ConfigureAwait(false);
-        await AfkSet(guild, user as IGuildUser, "", 0).ConfigureAwait(false);
     }
 
     public bool IsAfk(IGuild guild, IGuildUser user)
@@ -480,7 +460,20 @@ public class AfkService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = cache.GetAfkForGuild(guildId) ?? new List<Database.Models.Afk?>();
         current.Add(afk);
+
+
         await cache.AddAfkToCache(guildId, current).ConfigureAwait(false);
+    }
+
+    private async Task RemoveAfk(Database.Models.Afk afk)
+    {
+        var current = cache.GetAfkForGuild(afk.GuildId) ?? new List<Database.Models.Afk?>();
+        current.Remove(afk);
+        await cache.AddAfkToCache(afk.GuildId, current).ConfigureAwait(false);
+
+        await using var uow = db.GetDbContext();
+        uow.Afk.Remove(afk);
+        await uow.SaveChangesAsync();
     }
 
     public IEnumerable<Database.Models.Afk> GetAfkMessage(ulong gid, ulong uid)

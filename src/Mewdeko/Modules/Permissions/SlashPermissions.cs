@@ -922,7 +922,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     [ComponentInteraction("local_perms_reset.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task LocalPermsReset(string commandName)
+    public Task LocalPermsReset(string commandName)
     {
         IList<Permissionv2> perms;
 
@@ -939,12 +939,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out _))
             _ = dpoS.RemoveOverride(ctx.Guild.Id, commandName);
 
-        await UpdateMessageWithPermenu(commandName);
+        return UpdateMessageWithPermenu(commandName);
     }
 
     [ComponentInteraction("cmd_perm_spawner.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermSpawner(string commandName, string[] values) => await (values.First() switch
+    public Task CommandPermSpawner(string commandName, string[] values) => values.First() switch
     {
         "dpo" => CommandPermsDpo(commandName),
         "usr" => CommandPermsUsr(commandName, true, true, ""),
@@ -952,12 +952,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         "chn" => CommandPermsChn(commandName, true, true, ""),
         "cat" => CommandPermsCat(commandName, true, true, ""),
         _ => UpdateMessageWithPermenu(commandName)
-    });
+    };
 
 
     [ComponentInteraction("cmd_perm_spawner_dpo.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermsDpo(string commandName)
+    public Task CommandPermsDpo(string commandName)
     {
         var perms = Enum.GetValues<GuildPermission>();
         List<SelectMenuBuilder> selects = new();
@@ -996,7 +996,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
                 emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
 
-        await (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
     [ComponentInteraction("update_cmd_dpo.*$*", true)]
@@ -1032,7 +1032,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     [ComponentInteraction("command_perm_spawner_usr.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermsUsr(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsUsr(string commandName, bool overwright, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1114,7 +1114,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             placeholder: GetText("perm_quick_options_add_users"), minValues: 1, maxValues: 10,
             type: ComponentType.UserSelect, options: null);
 
-        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
     [ComponentInteraction("perm_quick_options_user_remove.*.*.*$*", true)]
@@ -1205,18 +1205,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
 
     [ComponentInteraction("help_component_restore.*", true)]
-    public async Task HelpComponentRestore(string commandName)
+    public Task HelpComponentRestore(string commandName)
     {
         var cb = new ComponentBuilder()
             .WithButton(GetText("help_run_cmd"), $"runcmd.{commandName}", ButtonStyle.Success)
             .WithButton(GetText("help_permenu_link"), $"permenu_update.{commandName}", ButtonStyle.Primary,
                 Emote.Parse("<:IconPrivacySettings:845090111976636446>"));
-        await (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
     [ComponentInteraction("command_perm_spawner_rol.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermsRol(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsRol(string commandName, bool overwright, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1297,7 +1297,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             placeholder: GetText("perm_quick_options_add_roles"), minValues: 1, maxValues: 10,
             type: ComponentType.RoleSelect, options: null);
 
-        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
     [ComponentInteraction("perm_quick_options_role_remove.*.*.*$*", true)]
@@ -1386,7 +1386,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     [ComponentInteraction("command_perm_spawner_chn.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermsChn(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsChn(string commandName, bool overwright, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1467,7 +1467,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             type: ComponentType.ChannelSelect, options: null,
             channelTypes: Enum.GetValues<ChannelType>().Where(x => x != ChannelType.Category).ToArray());
 
-        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
 
@@ -1560,7 +1560,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
     [ComponentInteraction("command_perm_spawner_cat.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public async Task CommandPermsCat(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsCat(string commandName, bool overwright, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1645,7 +1645,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                 ChannelType.Category
             });
 
-        await (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
+        return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
 

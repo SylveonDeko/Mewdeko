@@ -9,7 +9,6 @@ using Discord.Interactions;
 using Fergun.Interactive;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using SkiaSharp;
 using ModuleInfo = Discord.Commands.ModuleInfo;
@@ -50,55 +49,51 @@ public static partial class Extensions
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
 
-    public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string? message)
-        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build())
-            .ConfigureAwait(false);
+    public static Task SendConfirmAsync(this IDiscordInteraction interaction, string? message)
+        => interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
 
-    public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message)
-        => await interaction
-            .RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true)
-            .ConfigureAwait(false);
+    public static Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message)
+        => interaction
+            .RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
 
-    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string? message)
-        => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
+    public static Task SendErrorAsync(this IDiscordInteraction interaction, string? message)
+        => interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
             components: new ComponentBuilder()
                 .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build()).ConfigureAwait(false);
+                .Build());
 
-    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message)
-        => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
+    public static Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message)
+        => interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
             ephemeral: true, components: new ComponentBuilder()
                 .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build()).ConfigureAwait(false);
+                .Build());
 
-    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction,
+    public static Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction,
         string message)
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build())
-            .ConfigureAwait(false);
+        => interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
 
-    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction,
+    public static Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction,
         string message, ComponentBuilder builder)
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(),
-            components: builder.Build()).ConfigureAwait(false);
+        => interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(),
+            components: builder.Build());
 
-    public static async Task<IUserMessage> SendEphemeralFollowupConfirmAsync(this IDiscordInteraction interaction,
+    public static Task<IUserMessage> SendEphemeralFollowupConfirmAsync(this IDiscordInteraction interaction,
         string message)
-        => await interaction
-            .FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true)
-            .ConfigureAwait(false);
+        => interaction
+            .FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
 
-    public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
+    public static Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
+        => interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
             components: new ComponentBuilder()
                 .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build()).ConfigureAwait(false);
+                .Build());
 
-    public static async Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction,
+    public static Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction,
         string message)
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
+        => interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
             ephemeral: true, components: new ComponentBuilder()
                 .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build()).ConfigureAwait(false);
+                .Build());
 
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
@@ -254,14 +249,13 @@ public static partial class Extensions
             "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
     }
 
-    public static void DeleteAfter(this IUserMessage? msg, int seconds, LogCommandService? logService = null)
+    public static void DeleteAfter(this IUserMessage? msg, int seconds)
     {
         if (msg is null) return;
 
         Task.Run(async () =>
         {
             await Task.Delay(seconds * 1000).ConfigureAwait(false);
-            logService?.AddDeleteIgnore(msg.Id);
             try
             {
                 await msg.DeleteAsync().ConfigureAwait(false);
@@ -273,14 +267,13 @@ public static partial class Extensions
         });
     }
 
-    public static void DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
+    public static void DeleteAfter(this IMessage? msg, int seconds)
     {
         if (msg is null) return;
 
         Task.Run(async () =>
         {
             await Task.Delay(seconds * 1000).ConfigureAwait(false);
-            logService?.AddDeleteIgnore(msg.Id);
             try
             {
                 await msg.DeleteAsync().ConfigureAwait(false);

@@ -118,8 +118,8 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
     }
 
     [ComponentInteraction("recoverykey", true)]
-    public async Task SendRecoveryKeyModal()
-        => await RespondWithModalAsync<RecoveryKeyModal>("recoverykeymodal");
+    public Task SendRecoveryKeyModal()
+        => RespondWithModalAsync<RecoveryKeyModal>("recoverykeymodal");
 
     [ModalInteraction("recoverykeymodal", true)]
     public async Task HandleRecoveryKey(RecoveryKeyModal modal)
@@ -147,8 +147,8 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
     }
 
     [ComponentInteraction("2fa-verify-*", true)]
-    public async Task SendTwoFactorModal(string type)
-        => await RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
+    public Task SendTwoFactorModal(string type)
+        => RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
 
     [ModalInteraction("twofactormodal-*", true)]
     public async Task HandleTwoFactor(string type, TwoFactorModal modal)

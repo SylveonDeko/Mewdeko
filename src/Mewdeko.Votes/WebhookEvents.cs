@@ -15,12 +15,12 @@ public class WebhookEvents
         typedKey = new TypedKey<CompoundVoteModal>("uservoted");
     }
 
-    public async Task InvokeTopGg(VoteModel data, string key)
+    public Task InvokeTopGg(VoteModel data, string key)
     {
         var compoundModel = new CompoundVoteModal
         {
             VoteModel = data, Password = key
         };
-        await pubSub.Pub(typedKey, compoundModel);
+        return pubSub.Pub(typedKey, compoundModel);
     }
 }

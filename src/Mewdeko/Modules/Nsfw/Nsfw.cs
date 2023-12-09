@@ -16,9 +16,13 @@ using Serilog;
 
 namespace Mewdeko.Modules.Nsfw;
 
-public class Nsfw(InteractiveService interactivity, MartineApi martineApi,
-        GuildSettingsService guildSettings, HttpClient client,
-        BotConfigService config, IBotCredentials credentials)
+public class Nsfw(
+    InteractiveService interactivity,
+    MartineApi martineApi,
+    GuildSettingsService guildSettings,
+    HttpClient client,
+    BotConfigService config,
+    IBotCredentials credentials)
     : MewdekoModuleBase<ISearchImagesService>
 {
     private static readonly ConcurrentHashSet<ulong> HentaiBombBlacklist = new();
@@ -199,39 +203,39 @@ public class Nsfw(InteractiveService interactivity, MartineApi martineApi,
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task HentaiGif() => await RedditNsfw("HENTAI_GIF").ConfigureAwait(false);
+    public Task HentaiGif() => RedditNsfw("HENTAI_GIF");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Pussy() => await RedditNsfw("pussy").ConfigureAwait(false);
+    public Task Pussy() => RedditNsfw("pussy");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Anal() => await RedditNsfw("anal").ConfigureAwait(false);
+    public Task Anal() => RedditNsfw("anal");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Porn() => await RedditNsfw("porn").ConfigureAwait(false);
+    public Task Porn() => RedditNsfw("porn");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task Bondage() => await RedditNsfw("bondage").ConfigureAwait(false);
+    public Task Bondage() => RedditNsfw("bondage");
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch([Remainder] string search) =>
-        await InternalNHentaiSearch(search).ConfigureAwait(false);
+    public Task NHentaiSearch([Remainder] string search) =>
+        InternalNHentaiSearch(search);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, [Remainder] string blacklist) =>
-        await InternalNHentaiSearch(search, 1, blacklist).ConfigureAwait(false);
+    public Task NHentaiSearch(string search, [Remainder] string blacklist) =>
+        InternalNHentaiSearch(search, 1, blacklist);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page) =>
-        await InternalNHentaiSearch(search, page).ConfigureAwait(false);
+    public Task NHentaiSearch(string search, int page) =>
+        InternalNHentaiSearch(search, page);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type) =>
-        await InternalNHentaiSearch(search, page, type).ConfigureAwait(false);
+    public Task NHentaiSearch(string search, int page, string type) =>
+        InternalNHentaiSearch(search, page, type);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) =>
-        await InternalNHentaiSearch(search, page, type, blacklist).ConfigureAwait(false);
+    public Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) =>
+        InternalNHentaiSearch(search, page, type, blacklist);
 
     [Cmd, Aliases]
     [RequireNsfw]
@@ -496,11 +500,11 @@ public class Nsfw(InteractiveService interactivity, MartineApi martineApi,
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Boobs() => await RedditNsfw("boobs").ConfigureAwait(false);
+    public Task Boobs() => RedditNsfw("boobs");
 
     [Cmd, Aliases]
     [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Butts() => await RedditNsfw("ass").ConfigureAwait(false);
+    public Task Butts() => RedditNsfw("ass");
 
     [Cmd, Aliases]
     [RequireContext(ContextType.Guild)]

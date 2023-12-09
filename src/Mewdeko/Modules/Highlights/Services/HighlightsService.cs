@@ -59,16 +59,15 @@ public class HighlightsService : INService, IReadyExecutor
             var hlSettings = allHighlightSettings.FirstOrDefault(x => x.GuildId == i.Id);
             if (highlights is not null)
             {
-                _ = Task.Run(async () =>
-                    await cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList())
-                        .ConfigureAwait(false));
+                _ = Task.Run(() =>
+                    cache.CacheHighlights(i.Id, allHighlights.Where(x => x.GuildId == i.Id).ToList()));
             }
 
             if (hlSettings is not null)
             {
-                _ = Task.Run(async () =>
-                    await cache.CacheHighlightSettings(i.Id,
-                        allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()).ConfigureAwait(false));
+                _ = Task.Run(() =>
+                    cache.CacheHighlightSettings(i.Id,
+                        allHighlightSettings.Where(x => x.GuildId == i.Id).ToList()));
             }
         }
 

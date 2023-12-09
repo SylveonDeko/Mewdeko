@@ -12,8 +12,8 @@ using Serilog;
 
 namespace Mewdeko.Modules.Administration;
 
-public partial class Administration
-    (InteractiveService serv, BotConfigService configService) : MewdekoModuleBase<AdministrationService>
+public partial class Administration(InteractiveService serv, BotConfigService configService)
+    : MewdekoModuleBase<AdministrationService>
 {
     public enum Channel
     {
@@ -675,8 +675,8 @@ public partial class Administration
     public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel)ctx.Channel, messageId, time);
 
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) =>
-        await InternalMessageAction(channel, messageId, time).ConfigureAwait(false);
+    public Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) =>
+        InternalMessageAction(channel, messageId, time);
 
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {

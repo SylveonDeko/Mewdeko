@@ -17,8 +17,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
     public DbService DbService { get; set; }
 
     [ComponentInteraction("auth_code.enter", true), RequireDragon]
-    public async Task HandleAuthStepTwo()
-        => await RespondWithModalAsync<AuthHandshakeStepTwoModal>("auth_code.handshake");
+    public Task HandleAuthStepTwo()
+        => RespondWithModalAsync<AuthHandshakeStepTwoModal>("auth_code.handshake");
 
     [ModalInteraction("auth_code.handshake", true)]
     public async Task HandleAuthHandshake(AuthHandshakeStepTwoModal modal)

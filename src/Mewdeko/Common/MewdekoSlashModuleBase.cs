@@ -20,29 +20,28 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 
     protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
 
-    public async Task ErrorLocalizedAsync(string? textKey, params object?[] args)
+    public Task ErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync(text).ConfigureAwait(false);
+        return ctx.Interaction.SendErrorAsync(text);
     }
 
-    public async Task ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
+    public Task ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}").ConfigureAwait(false);
+        return ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task EphemeralReplyErrorLocalizedAsync(string? textKey, params object?[] args)
+    public Task EphemeralReplyErrorLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}")
-            .ConfigureAwait(false);
+        return ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task ConfirmLocalizedAsync(string? textKey, params object?[] args)
+    public Task ConfirmLocalizedAsync(string? textKey, params object?[] args)
     {
         var text = GetText(textKey, args);
-        await ctx.Interaction.SendConfirmAsync(text).ConfigureAwait(false);
+        return ctx.Interaction.SendConfirmAsync(text);
     }
 
     public Task ReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
@@ -57,10 +56,9 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         return ctx.Interaction.SendEphemeralConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public async Task<bool>
+    public Task<bool>
         PromptUserConfirmAsync(string text, ulong uid, bool ephemeral = false, bool delete = true) =>
-        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid, ephemeral, delete)
-            .ConfigureAwait(false);
+        PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid, ephemeral, delete);
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid, bool ephemeral = false,
         bool delete = true)
@@ -81,7 +79,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         finally
         {
             if (delete)
-                _ = Task.Run(async () => await msg.DeleteAsync().ConfigureAwait(false));
+                _ = Task.Run(() => msg.DeleteAsync());
         }
     }
 
