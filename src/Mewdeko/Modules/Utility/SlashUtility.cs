@@ -233,6 +233,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             "bybit" => "https://docs.tealstreet.io/docs/connect/bybit",
             "bybitv5" => "https://docs.tealstreet.io/docs/connect/bybitv5",
             "bingx" => "https://docs.tealstreet.io/docs/connect/bingx",
+            "cli" or "console" => "https://docs.tealstreet.io/docs/webhooks/cli",
             "okx" or "okex" => "https://docs.tealstreet.io/docs/connect/okex",
             "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
             "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
@@ -245,7 +246,8 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             "runbot" => "https://docs.tealstreet.io/docs/webhooks/runbot",
             "copytrade" or "copytrading" or "copy-trade" => "https://docs.tealstreet.io/docs/copy-trade",
             "webhook" or "webhooks" => "https://docs.tealstreet.io/docs/webhooks/",
-            "FAQ" => "https://docs.tealstreet.io/docs/FAQ",
+            "faq" => "https://docs.tealstreet.io/docs/FAQ",
+            "twap" => "https://docs.tealstreet.io/docs/trade/beta-features#twap-orders",
             "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",
 
             // default case

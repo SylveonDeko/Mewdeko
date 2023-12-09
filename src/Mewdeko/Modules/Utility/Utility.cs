@@ -1505,6 +1505,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "bybit" => "https://docs.tealstreet.io/docs/connect/bybit",
             "bybitv5" => "https://docs.tealstreet.io/docs/connect/bybitv5",
             "bingx" => "https://docs.tealstreet.io/docs/connect/bingx",
+            "cli" or "console" => "https://docs.tealstreet.io/docs/webhooks/cli",
             "okx" or "okex" => "https://docs.tealstreet.io/docs/connect/okex",
             "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
             "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
