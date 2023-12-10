@@ -79,7 +79,7 @@ void MigrateData(string sourcePath, string targetPath, string clientId)
 
     if (!File.Exists($"{targetPath}/Mewdeko.db"))
     {
-        File.Copy(Path.Combine(sourcePath, "Mewdeko.db"), Path.Combine(targetPath, "Mewdeko.db"));
+        File.Copy(sourcePath, Path.Combine(targetPath, "Mewdeko.db"));
         try
         {
             File.Copy(Path.Combine(sourcePath, "Mewdeko.db-wal"), Path.Combine(targetPath, "Mewdeko.db-wal"));
