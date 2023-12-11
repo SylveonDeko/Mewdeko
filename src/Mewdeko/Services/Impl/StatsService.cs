@@ -18,7 +18,7 @@ public class StatsService : IStatsService, IReadyExecutor
     public readonly ICoordinator Coord;
     private readonly IDataCache cache;
     private readonly HttpClient http;
-    public const string BotVersion = "7.2.1";
+    public const string BotVersion = "7.2.2";
 
     private readonly DateTime started;
 

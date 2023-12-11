@@ -151,7 +151,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             
             //horribly bad hackfix to separate handling of nightly vs stable
 #if !DEBUG
-            if (!args.Content.StartsWith("!frog") &&-
+            if (!args.Content.StartsWith("!frog") &&
                 !args.Content.StartsWith("!frogbot"))
                 return;
 #endif
