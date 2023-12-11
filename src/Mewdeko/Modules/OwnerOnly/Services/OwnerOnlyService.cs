@@ -218,9 +218,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         });
 
         var finalResponse = responseBuilder.ToString();
-        if (conversation.MostResentAPIResult.Usage != null)
+        if (conversation.MostRecentApiResult.Usage != null)
         {
-            toUpdate.actualItem.GptTokensUsed += conversation.MostResentAPIResult.Usage.TotalTokens;
+            toUpdate.actualItem.GptTokensUsed += conversation.MostRecentApiResult.Usage.TotalTokens;
         }
 
         if (toUpdate.added)
@@ -252,7 +252,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             if (partIndex + length == response.Length)
                 embedBuilder.WithFooter(
-                    $"Requested by {requester.Username} | Response Tokens: {conversation.MostResentAPIResult.Usage?.TotalTokens} | Total Used: {totalTokensUsed}");
+                    $"Requested by {requester.Username} | Response Tokens: {conversation.MostRecentApiResult.Usage?.TotalTokens} | Total Used: {totalTokensUsed}");
 
             embeds.Add(embedBuilder.Build());
             partIndex += length;
