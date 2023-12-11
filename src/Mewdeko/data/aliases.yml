@@ -12,6 +12,7 @@ acrophobia:
   - acro
 docs:
   - docs
+  - doc
 exportcommandsjson:
   - exportcommandsjson
   - exportcommands
