@@ -1493,7 +1493,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases]
     public async Task Docs(string platform = "")
     {
-        var link = platform.ToLower() switch
+        var originalPlatform = platform; // Save the original platform
+        platform = platform.ToLower(); // Use this for switch and keep the original value intact
+
+        var link = platform switch
         {
             "windows" or "win" => "https://docs.tealstreet.io/docs/desktopclient/windows",
             "linux" or "nix" => "https://docs.tealstreet.io/docs/desktopclient/linux",
@@ -1530,9 +1533,14 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             _ => "https://docs.tealstreet.io/" // This is like the default case in traditional switch.
         };
 
+        if (link == "https://docs.tealstreet.io/")
+        {
+            originalPlatform = ""; // Reset to empty if default case was hit
+        }
+
         await ctx.Channel.EmbedAsync(
             new EmbedBuilder().WithOkColor()
-            .AddField("Tealstreet Docs: " + platform.ToString(), link))
+            .AddField("Tealstreet Docs: " + originalPlatform, link))
             .ConfigureAwait(false);
     }
 
