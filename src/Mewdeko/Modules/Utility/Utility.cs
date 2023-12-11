@@ -1520,6 +1520,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "webhook" or "webhooks" => "https://docs.tealstreet.io/docs/webhooks/",
             "faq" => "https://docs.tealstreet.io/docs/FAQ",
             "twap" => "https://docs.tealstreet.io/docs/trade/beta-features#twap-orders",
+            "orders" or "placing-orders" => "https://docs.tealstreet.io/docs/trade/placing-orders",
+            "stops" or "stop-orders" or "stoploss" => "https://docs.tealstreet.io/docs/trade/placing-orders#stop-orders",
+            "trailingstop" or "trailing-stop" or "trailing" => "https://docs.tealstreet.io/docs/trade/placing-orders#trailing-stop-orders",
             "mobile" or "phone" => "https://docs.tealstreet.io/docs/trade/mobile",
 
             // default case
