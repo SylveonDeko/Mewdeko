@@ -153,24 +153,26 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             
             //horribly bad hackfix to separate handling of nightly vs stable
 #if !DEBUG
-            if (!args.Content.StartsWith("!frog") && !args.Content.StartsWith("!frogbot"))
+            if (!args.Content.StartsWith("!frog"))
                 return;
 #endif
 #if DEBUG
-            if (!args.Content.StartsWith("@frog") && !args.Content.StartsWith("@frogbot"))
+            if (!args.Content.StartsWith("@frog"))
                 return;
 #endif
 
             // prompt (text string)
             // model (model for this req. defaults to dall-e2
             // size: size of the generated images (256x256, 512x512, or 1024x1024)
+            // * dall-e3 cannot use images below 1024x1024
+            // numImages: dall-e2 can provide multiple images, e3 does not support this currently
             // quality: by default images are generated at standard, but on e3 you can use HD
             // user: author / user name, this can be used to help openai detect abuse and rule breaking
             // responseFormat: the format the images can be returned as. must be url or b64_json
-            if (args.Content.Contains("generateImage") || args.Content.Contains("genImage"))
+            if (args.Content.Contains("image"))
             {
                 var authorName = args.Author.ToString();
-                var prompt = args.Content.Substring("generateImage".Length).Trim();
+                var prompt = args.Content.Substring("frog image".Length).Trim();
                 if (string.IsNullOrEmpty(prompt))
                 {
                     await usrMsg.Channel.SendMessageAsync("Please provide a prompt for the image.");
@@ -192,6 +194,25 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         User = authorName,
                         ResponseFormat = ImageResponseFormat.Url
                     });
+
+                    /*
+                    // if dall-e3 ever supports more then 1 image can use this code block instead
+                    // Update the placeholder message with the images
+                    if (images.Data.Count > 0)
+                    {
+                        var embeds = images.Data.Select(image => new EmbedBuilder().WithImageUrl(image.Url).Build()).ToArray(); // Convert to array
+
+                        await placeholderMessage.ModifyAsync(msg =>
+                        {
+                            msg.Content = ""; // Clearing the content
+                            msg.Embeds = new Optional<Embed[]>(embeds); // Wrap the array in an Optional
+                        });
+                    }
+                    else
+                    {
+                        await placeholderMessage.ModifyAsync(msg => msg.Content = "No images were generated.");
+                    }
+                    */
 
                     // Update the placeholder message with the image
                     if (images.Data.Count > 0)
