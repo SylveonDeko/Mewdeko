@@ -1133,7 +1133,7 @@ public class OwnerOnly(
                 "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
                 "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
                 "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
-                "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
+                "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules", "Mewdeko.Modules.Games",
                 "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
                 "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management")
             .WithReferences(AppDomain.CurrentDomain.GetAssemblies()
