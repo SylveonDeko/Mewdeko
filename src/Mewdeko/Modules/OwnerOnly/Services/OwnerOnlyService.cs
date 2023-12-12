@@ -153,13 +153,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             
             //horribly bad hackfix to separate handling of nightly vs stable
 #if !DEBUG
-            if (!args.Content.StartsWith("!frog") &&
-                !args.Content.StartsWith("!frogbot"))
+            if (!args.Content.StartsWith("!frog") && !args.Content.StartsWith("!frogbot"))
                 return;
 #endif
 #if DEBUG
-            if (!args.Content.StartsWith("@frog") &&
-                !args.Content.StartsWith("@frogbot"))
+            if (!args.Content.StartsWith("@frog") && !args.Content.StartsWith("@frogbot"))
                 return;
 #endif
 
@@ -202,12 +200,17 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         var embed = new EmbedBuilder()
                             .WithImageUrl(imageUrl)
                             .Build();
-                        await placeholderMessage.ModifyAsync(msg => msg.Embed = embed);
+                        await placeholderMessage.ModifyAsync(msg =>
+                        {
+                            msg.Content = ""; // Clearing the content
+                            msg.Embed = embed;
+                        });
                     }
                     else
                     {
-                        await placeholderMessage.ModifyAsync(msg => msg.Content = $"{bss.Data.LoadingEmote} No image generated.");
+                        await placeholderMessage.ModifyAsync(msg => msg.Content = "No image generated.");
                     }
+
                 }
                 catch (Exception ex)
                 {
