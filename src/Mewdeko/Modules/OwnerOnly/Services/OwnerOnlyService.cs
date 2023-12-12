@@ -181,18 +181,38 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
                 try
                 {
+                    // Post a placeholder message
+                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
+                    var placeholderMessage = await webhook.SendMessageAsync(text: $"{bss.Data.LoadingEmote} Generating image...");
+
+                    // Generate the image
                     var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
                     {
                         Prompt = prompt,
                         NumOfImages = 1,
-                        Size = ImageSize._1024,
+                        Size = ImageSize._1792x1024,
                         Model = Model.DALLE3,
                         User = authorName,
                         ResponseFormat = ImageResponseFormat.Url
                     });
 
-                    // Assuming images is a collection or an object with a URL property
-                    await usrMsg.Channel.SendMessageAsync(images.Data[0].Url);
+                    // Update the placeholder message with the image
+                    if (images.Data.Count > 0)
+                    {
+                        var imageUrl = images.Data[0].Url; // Assuming images.Data[0] contains the URL
+                        var embed = new EmbedBuilder()
+                            .WithImageUrl(imageUrl)
+                            .Build();
+                        await webhook.ModifyMessageAsync(placeholderMessage.Id, properties =>
+                        {
+                            properties.Embeds = new[] { embed };
+                            properties.Content = ""; // Clear the initial loading text
+                        });
+                    }
+                    else
+                    {
+                        await webhook.ModifyMessageAsync(placeholderMessage.Id, $"{bss.Data.LoadingEmote} No image generated.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -201,6 +221,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 }
                 return;
             }
+
             if (!conversations.TryGetValue(args.Author.Id, out var conversation))
             {
                 conversation = StartNewConversation(args.Author, api);
