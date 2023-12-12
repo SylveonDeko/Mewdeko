@@ -175,15 +175,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 var prompt = args.Content.Substring("generateImage".Length).Trim();
                 if (string.IsNullOrEmpty(prompt))
                 {
-                    await usrMsg.SendErrorReplyAsync("Please provide a prompt for the image.");
+                    await usrMsg.Channel.SendMessageAsync("Please provide a prompt for the image.");
                     return;
                 }
 
                 try
                 {
-                    // Post a placeholder message
-                    var webhook = new DiscordWebhookClient(bss.Data.ChatGptWebhook);
-                    var placeholderMessage = await webhook.SendMessageAsync(text: $"{bss.Data.LoadingEmote} Generating image...");
+                    // Send a placeholder message directly using the bot's client
+                    var placeholderMessage = await usrMsg.Channel.SendMessageAsync($"{bss.Data.LoadingEmote} Generating image...");
 
                     // Generate the image
                     var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
@@ -203,19 +202,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         var embed = new EmbedBuilder()
                             .WithImageUrl(imageUrl)
                             .Build();
-                        await webhook.ModifyMessageAsync(placeholderMessage, properties =>
-                        {
-                            properties.Embeds = new[] { embed };
-                            properties.Content = ""; // Clear the initial loading text
-                        });
+                        await placeholderMessage.ModifyAsync(msg => msg.Embed = embed);
                     }
                     else
                     {
-                        await webhook.ModifyMessageAsync(placeholderMessage, properties =>
-                        {
-                            properties.Content = $"{bss.Data.LoadingEmote} No image generated.";
-                            properties.Embeds = null; // Clear any existing embeds if there are any
-                        });
+                        await placeholderMessage.ModifyAsync(msg => msg.Content = $"{bss.Data.LoadingEmote} No image generated.");
                     }
                 }
                 catch (Exception ex)
@@ -225,7 +216,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 }
                 return;
             }
-
 
             if (!conversations.TryGetValue(args.Author.Id, out var conversation))
             {
