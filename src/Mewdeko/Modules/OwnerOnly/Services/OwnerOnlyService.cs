@@ -183,6 +183,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         var modelToUse = bss.Data.ChatGptModel switch
         {
+            "gpt4-turbo" => Model.GPT4_Turbo,
             "gpt-4-0613" => Model.GPT4_32k_Context,
             "gpt4" or "gpt-4" => Model.GPT4,
             "gpt3" => Model.ChatGPTTurbo,
