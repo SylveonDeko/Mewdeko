@@ -15,6 +15,7 @@ using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
 using Serilog;
+using StackExchange.Redis;
 using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.Utility;
@@ -1503,6 +1504,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             "mac" or "macos" => "https://docs.tealstreet.io/docs/desktopclient/mac",
             "binance" or "nance" => "https://docs.tealstreet.io/docs/connect/binance",
             "encryption" => "https://docs.tealstreet.io/docs/connect/api-encryption",
+            "brackets" or "bracketorders" or "bracket-orders" => "https://docs.tealstreet.io/docs/trade/bracket-orders",
             "bitget" or "bg" => "https://docs.tealstreet.io/docs/connect/bitget",
             "bitmex" or "bmex" => "https://docs.tealstreet.io/docs/connect/bitmex",
             "bybit" => "https://docs.tealstreet.io/docs/connect/bybit",

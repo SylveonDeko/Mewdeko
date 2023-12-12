@@ -233,11 +233,34 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     }
 
                 }
+                catch (HttpRequestException httpEx)
+                {
+                    // Assuming you've got the content of the exception in a variable named 'content'
+                    var content = httpEx.Message;
+
+                    // Parse the content to obtain the error code and message
+                    var errorResponse = JsonConvert.DeserializeObject<OpenAiErrorResponse>(content);
+
+                    string userFriendlyMessage;
+
+                    if (errorResponse.Error.Code == "content_policy_violation")
+                    {
+                        userFriendlyMessage = "Your request was rejected due to a content policy violation. Please ensure your prompts do not contain any inappropriate content.";
+                    }
+                    else
+                    {
+                        // Handle other codes or a general error message
+                        userFriendlyMessage = "An error occurred while processing your image generation request. Please try again later.";
+                    }
+
+                    await usrMsg.SendErrorReplyAsync(userFriendlyMessage);
+                }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Error generating image");
-                    await usrMsg.SendErrorReplyAsync($"Failed to generate image. Please try again later. \n error code: {ex.GetTypeCode}");
+                    await usrMsg.SendErrorReplyAsync($"Failed to generate image. Please try again later. \n error code: **{ex.GetTypeCode}**");
                 }
+
                 return;
             }
 
@@ -258,6 +281,22 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
         }
     }
+
+    public class OpenAiErrorResponse
+    {
+        [JsonProperty("error")]
+        public OpenAiError Error { get; set; }
+    }
+
+    public class OpenAiError
+    {
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("message")]
+        public string Message { get; set; }
+    }
+
 
     private Conversation StartNewConversation(SocketUser user, IOpenAIAPI api, SocketMessage args = null)
     {
