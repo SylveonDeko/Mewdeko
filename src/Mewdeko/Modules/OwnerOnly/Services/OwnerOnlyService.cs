@@ -10,9 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OpenAI_API;
 using OpenAI_API.Chat;
+using OpenAI_API.Images;
 using OpenAI_API.Models;
 using Serilog;
 using StackExchange.Redis;
+using TwitchLib.Api.Helix;
 using Embed = Discord.Embed;
 using Image = Discord.Image;
 
@@ -161,6 +163,44 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 return;
 #endif
 
+            // prompt (text string)
+            // model (model for this req. defaults to dall-e2
+            // size: size of the generated images (256x256, 512x512, or 1024x1024)
+            // quality: by default images are generated at standard, but on e3 you can use HD
+            // user: author / user name, this can be used to help openai detect abuse and rule breaking
+            // responseFormat: the format the images can be returned as. must be url or b64_json
+            if (args.Content.Contains("generateImage") || args.Content.Contains("genImage"))
+            {
+                var authorName = args.Author.ToString();
+                var prompt = args.Content.Substring("generateImage".Length).Trim();
+                if (string.IsNullOrEmpty(prompt))
+                {
+                    await usrMsg.SendErrorReplyAsync("Please provide a prompt for the image.");
+                    return;
+                }
+
+                try
+                {
+                    var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
+                    {
+                        Prompt = prompt,
+                        NumOfImages = 1,
+                        Size = ImageSize._1024,
+                        Model = Model.DALLE3,
+                        User = authorName,
+                        ResponseFormat = ImageResponseFormat.Url
+                    });
+
+                    // Assuming images is a collection or an object with a URL property
+                    await usrMsg.Channel.SendMessageAsync(images.Data[0].Url);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error generating image");
+                    await usrMsg.SendErrorReplyAsync("Failed to generate image. Please try again later.");
+                }
+                return;
+            }
             if (!conversations.TryGetValue(args.Author.Id, out var conversation))
             {
                 conversation = StartNewConversation(args.Author, api);
@@ -179,7 +219,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
     }
 
-    private Conversation StartNewConversation(SocketUser user, IOpenAIAPI api)
+    private Conversation StartNewConversation(SocketUser user, IOpenAIAPI api, SocketMessage args = null)
     {
         var modelToUse = bss.Data.ChatGptModel switch
         {
