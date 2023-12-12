@@ -203,7 +203,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                         var embed = new EmbedBuilder()
                             .WithImageUrl(imageUrl)
                             .Build();
-                        await webhook.ModifyMessageAsync(placeholderMessage.Id, properties =>
+                        await webhook.ModifyMessageAsync(placeholderMessage, properties =>
                         {
                             properties.Embeds = new[] { embed };
                             properties.Content = ""; // Clear the initial loading text
@@ -211,16 +211,21 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     }
                     else
                     {
-                        await webhook.ModifyMessageAsync(placeholderMessage.Id, $"{bss.Data.LoadingEmote} No image generated.");
+                        await webhook.ModifyMessageAsync(placeholderMessage, properties =>
+                        {
+                            properties.Content = $"{bss.Data.LoadingEmote} No image generated.";
+                            properties.Embeds = null; // Clear any existing embeds if there are any
+                        });
                     }
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Error generating image");
-                    await usrMsg.SendErrorReplyAsync("Failed to generate image. Please try again later.");
+                    await usrMsg.SendErrorReplyAsync($"Failed to generate image. Please try again later. \n error code: {ex.GetTypeCode}");
                 }
                 return;
             }
+
 
             if (!conversations.TryGetValue(args.Author.Id, out var conversation))
             {
