@@ -234,7 +234,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             "brackets" or "bracketorders" or "bracket-orders" => "https://docs.tealstreet.io/docs/trade/bracket-orders",
             "bybitv5" => "https://docs.tealstreet.io/docs/connect/bybitv5",
             "bingx" => "https://docs.tealstreet.io/docs/connect/bingx",
-            "cli" or "console" => "https://docs.tealstreet.io/docs/webhooks/cli",
+            "cli" or "console" or "commandline" => "https://docs.tealstreet.io/docs/cli",
             "okx" or "okex" => "https://docs.tealstreet.io/docs/connect/okex",
             "phm" or "phemex" => "https://docs.tealstreet.io/docs/connect/phemex",
             "woo" or "woox" => "https://docs.tealstreet.io/docs/connect/woo",
