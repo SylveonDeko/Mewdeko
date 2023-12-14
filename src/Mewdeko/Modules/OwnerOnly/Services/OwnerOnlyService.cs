@@ -157,18 +157,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 return;
 #endif
 #if DEBUG
-            if (!args.Content.StartsWith("@frog"))
+            if (!args.Content.StartsWith("#frog"))
                 return;
 #endif
-
-            // prompt (text string)
-            // model (model for this req. defaults to dall-e2
-            // size: size of the generated images (256x256, 512x512, or 1024x1024)
-            // * dall-e3 cannot use images below 1024x1024
-            // numImages: dall-e2 can provide multiple images, e3 does not support this currently
-            // quality: by default images are generated at standard, but on e3 you can use HD
-            // user: author / user name, this can be used to help openai detect abuse and rule breaking
-            // responseFormat: the format the images can be returned as. must be url or b64_json
+            
             if (args.Content.Contains("image"))
             {
                 var authorName = args.Author.ToString();
@@ -187,12 +179,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     // Generate the image
                     var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
                     {
-                        Prompt = prompt,
-                        NumOfImages = 1,
-                        Size = ImageSize._1792x1024,
-                        Model = Model.DALLE3,
-                        User = authorName,
-                        ResponseFormat = ImageResponseFormat.Url
+                        Prompt = prompt,  // prompt (text string)
+                        NumOfImages = 1, // dall-e2 can provide multiple images, e3 does not support this currently
+                        Size = ImageSize._1792x1024, // resolution of the generated images (256x256 | 512x512 | 1024x1024 | 1792x1024) dall-e3 cannot use images below 1024x1024
+                        Model = Model.DALLE3, // model (model for this req. defaults to dall-e2
+                        User = authorName, // user: author of post, this can be used to help openai detect abuse and rule breaking
+                        ResponseFormat = ImageResponseFormat.Url // the format the images can be returned as. must be url or b64_json
+                        // quality: by default images are generated at standard, but on e3 you can use HD
                     });
 
                     /*
@@ -235,31 +228,21 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 }
                 catch (HttpRequestException httpEx)
                 {
-                    // Assuming you've got the content of the exception in a variable named 'content'
-                    var content = httpEx.Message;
+                    string content = httpEx.Message; // This is not the response content, but the exception message.
+                    Log.Information("Exception message: {Message}", content);
 
-                    // Parse the content to obtain the error code and message
-                    var errorResponse = JsonConvert.DeserializeObject<OpenAiErrorResponse>(content);
+                    // Log the full exception details for debugging
+                    Log.Error(httpEx, "HttpRequestException occurred while processing the request.");
 
-                    string userFriendlyMessage;
-
-                    if (errorResponse.Error.Code == "content_policy_violation")
-                    {
-                        userFriendlyMessage = "Your request was rejected due to a content policy violation. Please ensure your prompts do not contain any inappropriate content.";
-                    }
-                    else
-                    {
-                        // Handle other codes or a general error message
-                        userFriendlyMessage = "An error occurred while processing your image generation request. Please try again later.";
-                    }
-
-                    await usrMsg.SendErrorReplyAsync(userFriendlyMessage);
+                    // Notify the user of a generic error message
+                    await usrMsg.SendErrorReplyAsync("An error occurred while processing your request. Please try again later.");
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Error generating image");
-                    await usrMsg.SendErrorReplyAsync($"Failed to generate image. Please try again later. \n error code: **{ex.GetTypeCode}**");
+                    await usrMsg.SendErrorReplyAsync($"Failed to generate image due to an unexpected error. Please try again later. Error code: **{ex.HResult}**");
                 }
+
 
                 return;
             }
