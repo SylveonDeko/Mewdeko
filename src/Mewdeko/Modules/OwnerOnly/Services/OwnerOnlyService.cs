@@ -160,7 +160,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (!args.Content.StartsWith("#frog"))
                 return;
 #endif
-            
+
+            Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
+
             if (args.Content.Contains("image"))
             {
                 var authorName = args.Author.ToString();
