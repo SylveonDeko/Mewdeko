@@ -357,7 +357,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             if (partIndex + length == response.Length)
                 embedBuilder.WithFooter(
-                    $"Requested by {requester.Username} | Response Tokens: {conversation.MostRecentApiResult.Usage?.TotalTokens} | Total Used: {totalTokensUsed}");
+                    $"Requested by {requester.Username}");
+                    //$"Requested by {requester.Username} | Response Tokens: {conversation.MostRecentApiResult.Usage?.TotalTokens} | Total Used: {totalTokensUsed}");
 
             embeds.Add(embedBuilder.Build());
             partIndex += length;
