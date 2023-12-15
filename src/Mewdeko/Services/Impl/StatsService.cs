@@ -39,6 +39,37 @@ public class StatsService : IStatsService, IReadyExecutor
 
     public string Library => $"Discord.Net {DllVersionChecker.GetDllVersion()} ";
 
+    // Define a delegate that matches the GetDllVersions method signature
+    public delegate Dictionary<string, string?> GetVersionsDelegate(List<string> dllNames);
+
+    public class LibraryInfo
+    {
+        private GetVersionsDelegate versionChecker;
+
+        public LibraryInfo(GetVersionsDelegate versionChecker)
+        {
+            versionChecker = versionChecker;
+        }
+
+        public string Library
+        {
+            get
+            {
+                var versions = versionChecker.Invoke(new List<string> { "Discord.Net.WebSocket.dll" });
+                return $"Discord.Net {versions["Discord.Net.WebSocket.dll"] ?? "Version not found"}";
+            }
+        }
+
+        public string OpenAILib
+        {
+            get
+            {
+                var versions = versionChecker.Invoke(new List<string> { "OpenAI_API.dll" });
+                return $"OpenAI_API {versions["OpenAI_API.dll"] ?? "Version not found"}";
+            }
+        }
+    }
+
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
 

@@ -588,6 +588,7 @@
   "level_x": "Level {0}",
   "level": "Level",
   "lgp_none": "No blocked commands or modules.",
+  "library":  "Library",
   "likes": "Likes",
   "link_filter_channel_off": "Link filtering disabled on this channel.",
   "link_filter_channel_on": "Link filtering enabled on this channel.",

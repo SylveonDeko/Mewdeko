@@ -10,6 +10,7 @@ using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
+using static Mewdeko.Services.Impl.StatsService;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -204,12 +205,15 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
         var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
         var user = await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
+        var libraryInfo = new LibraryInfo(DllVersionChecker.GetDllVersions);
+
         await ctx.Interaction.RespondAsync(embed:
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    .AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
+                    //.AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
-                    .AddField("Library", stats.Library)
+                    //.AddField("Library", stats.Library)
+                    .AddField(GetText("library"), $"{libraryInfo.Library} \n {libraryInfo.OpenAILib}")
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
                     .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
                     .AddField(GetText("memory"), $"{stats.Heap} MB")

@@ -16,6 +16,7 @@ using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using static Mewdeko.Services.Impl.StatsService;
 using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.Utility;
@@ -1477,12 +1478,15 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             await client.Rest.GetUserAsync(170185463200481280).ConfigureAwait(false), await client.Rest.GetUserAsync(224188029324099584).ConfigureAwait(false),
         };
+        var libraryInfo = new LibraryInfo(DllVersionChecker.GetDllVersions);
+
         await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}", client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
                     //.AddField(GetText("authors"), $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
-                    .AddField("Library", stats.Library)
+                    //.AddField("Library", stats.Library)
+                    .AddField(GetText("library"), $"{libraryInfo.Library} \n {libraryInfo.OpenAILib}")
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
                     .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
                     .AddField(GetText("memory"), $"{stats.Heap} MB")

@@ -25,4 +25,28 @@ public class DllVersionChecker
             return null;
         }
     }
+    public static Dictionary<string, string?> GetDllVersions(List<string> dllNames)
+    {
+        var versions = new Dictionary<string, string?>();
+        var dllPath = Convert.ToString(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+        foreach (var dllName in dllNames)
+        {
+            try
+            {
+                var testPath = $"{dllPath}/{dllName}";
+                var myFileVersionInfo = FileVersionInfo.GetVersionInfo(testPath);
+                var version =
+                    $"{myFileVersionInfo.FileMajorPart}.{myFileVersionInfo.FileMinorPart}.{myFileVersionInfo.FileBuildPart}";
+                versions.Add(dllName, version);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unable to find version number for {dllName}: {ex.Message}");
+                versions.Add(dllName, null);
+            }
+        }
+
+        return versions;
+    }
 }
