@@ -22,6 +22,8 @@ public class MewdekoUserMessage : IUserMessage
 
     public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit, RequestOptions options = null) => throw new NotImplementedException();
 
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit, RequestOptions options = null, ReactionType type = ReactionType.Normal) => throw new NotImplementedException();
+
     public MessageType Type => MessageType.Default;
     public MessageSource Source => MessageSource.User;
     public bool IsTTS => false;
@@ -69,4 +71,6 @@ public class MewdekoUserMessage : IUserMessage
     public IThreadChannel Thread => throw new NotImplementedException();
 
     public MessageRoleSubscriptionData RoleSubscriptionData => throw new NotImplementedException();
+
+    public MessageResolvedData ResolvedData => throw new NotImplementedException();
 }
