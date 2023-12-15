@@ -44,18 +44,18 @@ public class StatsService : IStatsService, IReadyExecutor
 
     public class LibraryInfo
     {
-        private GetVersionsDelegate versionChecker;
+        private GetVersionsDelegate _versionChecker;
 
         public LibraryInfo(GetVersionsDelegate versionChecker)
         {
-            versionChecker = versionChecker;
+            _versionChecker = versionChecker;
         }
 
         public string Library
         {
             get
             {
-                var versions = versionChecker.Invoke(new List<string> { "Discord.Net.WebSocket.dll" });
+                var versions = _versionChecker.Invoke(new List<string> { "Discord.Net.WebSocket.dll" });
                 return $"Discord.Net {versions["Discord.Net.WebSocket.dll"] ?? "Version not found"}";
             }
         }
@@ -64,7 +64,7 @@ public class StatsService : IStatsService, IReadyExecutor
         {
             get
             {
-                var versions = versionChecker.Invoke(new List<string> { "OpenAI_API.dll" });
+                var versions = _versionChecker.Invoke(new List<string> { "OpenAI_API.dll" });
                 return $"OpenAI_API {versions["OpenAI_API.dll"] ?? "Version not found"}";
             }
         }
