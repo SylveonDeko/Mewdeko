@@ -163,7 +163,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
 
-            if (args.Content.Contains("image"))
+            var loweredContents = args.Content.ToLower();
+
+            //todo: dalle not responding / replying to users like regular non-streaming gpt did
+            // useful for creating 'chained' messages in an active chat forum thats moving quickly
+            if (loweredContents.Contains("image"))
             {
                 var authorName = args.Author.ToString();
                 var prompt = args.Content.Substring("frog image".Length).Trim();
@@ -255,7 +259,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 conversations.TryAdd(args.Author.Id, conversation);
             }
 
-            conversation.AppendUserInput(args.Content);
+            conversation.AppendUserInput(loweredContents);
 
             var loadingMsg = await usrMsg.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Awaiting response...");
             await StreamResponseAndUpdateEmbedAsync(conversation, loadingMsg, uow, toUpdate, args.Author);

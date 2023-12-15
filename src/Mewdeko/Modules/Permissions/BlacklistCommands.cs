@@ -36,6 +36,8 @@ public partial class Permissions
             await Service.SendManualCheck();
         }
 
+        //todo: adding user to blacklist works however trying to remove seems to not work? start here i guess
+        // ie: .ubl rem 123456789012345678 <reason>    <--- does not result in actually unblacklisting user
         private async Task Blacklist(AddRemove action, ulong id, BlacklistType type, string? reason)
         {
             switch (action)
