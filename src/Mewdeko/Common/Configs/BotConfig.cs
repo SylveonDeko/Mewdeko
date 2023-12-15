@@ -109,6 +109,9 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("ChatGPT Channel ID")]
     public ulong ChatGptChannel { get; set; }
 
+    [Comment("ChatGPT Channel 2 ID")]
+    public ulong ChatGptChannel2 { get; set; }
+
     [Comment("ChatGPT Init Prompt. Used to set how chatgpt will act.")]
     public string ChatGptInitPrompt { get; set; }
 

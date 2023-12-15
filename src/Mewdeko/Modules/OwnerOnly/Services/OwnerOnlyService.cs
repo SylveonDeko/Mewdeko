@@ -122,7 +122,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         if (args.Author.IsBot)
             return;
-        if (args.Channel.Id != bss.Data.ChatGptChannel)
+        if (args.Channel.Id != bss.Data.ChatGptChannel && args.Channel.Id != bss.Data.ChatGptChannel2)
             return;
         if (args is not IUserMessage usrMsg)
             return;
@@ -282,7 +282,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         public string Message { get; set; }
     }
 
-
     private Conversation StartNewConversation(SocketUser user, IOpenAIAPI api, SocketMessage args = null)
     {
         var modelToUse = bss.Data.ChatGptModel switch
@@ -366,7 +365,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         return embeds;
     }
-
 
     public async Task ClearUsedTokens()
     {
