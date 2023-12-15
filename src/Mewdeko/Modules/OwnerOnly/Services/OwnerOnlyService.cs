@@ -261,7 +261,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             conversation.AppendUserInput(loweredContents);
 
-            var loadingMsg = await usrMsg.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Awaiting response...");
+            var loadingMsg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} Awaiting response...");
             await StreamResponseAndUpdateEmbedAsync(conversation, loadingMsg, uow, toUpdate, args.Author);
         }
         catch (Exception e)
@@ -314,6 +314,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var responseBuilder = new StringBuilder();
         var lastUpdate = DateTimeOffset.UtcNow;
 
+        
         await conversation.StreamResponseFromChatbotAsync(async partialResponse =>
         {
             responseBuilder.Append(partialResponse);
