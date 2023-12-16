@@ -1397,6 +1397,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             }
             else
                 try
+
                 {
                     await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build(),
                             allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)

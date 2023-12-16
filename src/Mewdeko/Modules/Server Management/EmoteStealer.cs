@@ -39,7 +39,6 @@ public class EmoteStealer : MewdekoSlashCommandModule
             await ctx.Interaction.SendEphemeralFollowupErrorAsync("No emotes in this message!").ConfigureAwait(false);
             return;
         }
-
         var errored = new List<string>();
         var emotes = new List<string>();
         var msg = await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
