@@ -17,6 +17,13 @@ docs:
   args:
     - "windows"
     - "bybit"
+    - "webhooks"
+    - "cli"
+    - "beta"
+    - "binance"
+    - "copytrade"
+    - "twap"
+    - "mobile"
     - ""
   desc: "Link to the terminal documentation. Supply an argument to goto a more specific page."
 exportrolelist:
@@ -3638,7 +3645,10 @@ stats:
 steal:
   args:
     - emote emote emote
-  desc: 'Steals one or more emotes you mention. '
+    - emote custom_name
+  desc: >-
+    Steals one or more emotes you mention. Alternatively If only one emote is
+    stolen you can provide a custom name for it.
 steam:
   args:
     - Sakura Agent

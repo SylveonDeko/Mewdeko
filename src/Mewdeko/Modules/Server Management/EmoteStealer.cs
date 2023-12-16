@@ -47,27 +47,27 @@ public class EmoteStealer : MewdekoSlashCommandModule
         {
             var emoteName = i.Name; // Default to the emote name
 
-            // Define a pattern to extract the optional name from the users message if one is provided
-            var pattern = $"<:{i.Name}:[0-9]+>"; // pattern to find the emote in the msg
+            // Define a pattern to find the emote in the message
+            var pattern = $"<:{i.Name}:[0-9]+>";
             var match = Regex.Match(message.Content, pattern);
 
             if (match.Success)
             {
-                // find the index immediately after the emote-match
-                var index = match.Index + match.Length;
+                // Find the index immediately after the emote match
+                var indexAfterEmote = match.Index + match.Length;
 
-                // get the substring from the message that comes after the emote
-                var potentialName = message.Content.Substring(index).Trim();
+                // Get the substring from the message that comes after the emote
+                var potentialNamePart = message.Content.Substring(indexAfterEmote).Trim();
 
-                // split the remaining message by spaces and take the first word if one is provided
-                var parts = potentialName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length > 0)
+                // Split the remaining message by spaces and take the first word if any
+                var parts = potentialNamePart.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Use the provided name only if there is exactly one emote and one potential name
+                if (parts.Length > 0 && tags.Count() == 1)
                 {
-                    emoteName = parts[0]; // hopefully the arg provided by the user
+                    emoteName = parts[0]; // Custom name provided by the user
                 }
             }
-            else
-                Log.Information($"failed to match an acceptable custom name argument. iName: {i.Name}");
 
             using var http = httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
