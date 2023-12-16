@@ -1,4 +1,4 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -170,6 +170,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         Reload();
     }
 
+    //todo: adding user to blacklist works however trying to remove seems to not work? start here i guess
+    // ie: .ubl rem 123456789012345678 <reason>    <--- does not result in actually unblacklisting user
     public void UnBlacklist(BlacklistType type, ulong id)
     {
         using var uow = db.GetDbContext();

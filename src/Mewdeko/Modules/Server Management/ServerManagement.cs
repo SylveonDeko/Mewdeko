@@ -6,7 +6,6 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
 using Serilog;
-using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -252,9 +251,9 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
                 }
                 catch (HttpException httpEx) when (httpEx.HttpCode == System.Net.HttpStatusCode.BadRequest)
                 {
+                    // check if the error is 30008
                     if (httpEx.DiscordCode.HasValue && httpEx.DiscordCode.Value == (DiscordErrorCode)30008)
                     {
-                        // check if the error is 30008
                         errored.Add($"Unable to add '{i.Name}'. Discord server reports no free emoji slots.");
                     }
                     else

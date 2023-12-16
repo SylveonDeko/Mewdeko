@@ -1464,7 +1464,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         return (attachments, message, streams);
     }
 
-
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task Say([Remainder] string? message = null) => await Say((ITextChannel)ctx.Channel, message);
 
