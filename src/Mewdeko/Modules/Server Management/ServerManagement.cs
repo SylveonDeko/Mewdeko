@@ -1,9 +1,12 @@
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using Discord.Commands;
 using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
+using Serilog;
+using TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
 using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -211,6 +214,30 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         foreach (var i in tags)
         {
+            var emoteName = i.Name; // Default to the emote name
+
+            // Define a pattern to extract the optional name from the users message if one is provided
+            var pattern = $"<:{i.Name}:[0-9]+>"; // pattern to find the emote in the msg
+            var match = Regex.Match(ctx.Message.Content, pattern);
+
+            if (match.Success)
+            {
+                // find the index immediately after the emote-match
+                var index = match.Index + match.Length;
+
+                // get the substring from the message that comes after the emote
+                var potentialName = ctx.Message.Content.Substring(index).Trim();
+
+                // split the remaining message by spaces and take the first word if one is provided
+                var parts = potentialName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 0)
+                {
+                    emoteName = parts[0]; // hopefully the arg provided by the user
+                }
+            }
+            else
+                Log.Information($"failed to match an acceptable custom name argument. iName: {i.Name}");
+
             using var http = httpFactory.CreateClient();
             using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
                 .ConfigureAwait(false);
@@ -220,11 +247,26 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream)).ConfigureAwait(false);
+                    var emote = await ctx.Guild.CreateEmoteAsync(emoteName, new Image(imgStream)).ConfigureAwait(false);
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
-                catch (Exception)
+                catch (HttpException httpEx) when (httpEx.HttpCode == System.Net.HttpStatusCode.BadRequest)
                 {
+                    if (httpEx.DiscordCode.HasValue && httpEx.DiscordCode.Value == (DiscordErrorCode)30008)
+                    {
+                        // check if the error is 30008
+                        errored.Add($"Unable to add '{i.Name}'. Discord server reports no free emoji slots.");
+                    }
+                    else
+                    {
+                        // other HttpExceptions
+                        Log.Information($"Failed to add emotes. Message: {httpEx.Message}");
+                        errored.Add($"{i.Name}\n{i.Url}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Information($"Failed to add emotes. Message: {ex.Message}");
                     errored.Add($"{i.Name}\n{i.Url}");
                 }
             }
@@ -271,8 +313,9 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
                     var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list).ConfigureAwait(false);
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Log.Information($"Failed to add emotes. Message: {ex.Message}");
                     errored.Add($"{i.Name}\n{i.Url}");
                 }
             }
