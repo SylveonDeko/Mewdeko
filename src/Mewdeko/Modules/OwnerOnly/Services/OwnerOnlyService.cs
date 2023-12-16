@@ -164,8 +164,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
             var loweredContents = args.Content.ToLower();
 
-            //todo: dalle not responding / replying to users like regular non-streaming gpt did
-            // useful for creating 'chained' messages in an active chat forum thats moving quickly
             if (loweredContents.Contains("image"))
             {
                 var authorName = args.Author.ToString();
