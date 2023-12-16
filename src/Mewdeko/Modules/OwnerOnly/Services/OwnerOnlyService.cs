@@ -162,7 +162,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 #endif
 
             Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
-
             var loweredContents = args.Content.ToLower();
 
             //todo: dalle not responding / replying to users like regular non-streaming gpt did
@@ -180,7 +179,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 try
                 {
                     // Send a placeholder message directly using the bot's client
-                    var placeholderMessage = await usrMsg.Channel.SendMessageAsync($"{bss.Data.LoadingEmote} Generating image...");
+                    var placeholderMessage = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} Generating image...");
 
                     // Generate the image
                     var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
@@ -314,7 +313,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var responseBuilder = new StringBuilder();
         var lastUpdate = DateTimeOffset.UtcNow;
 
-        
         await conversation.StreamResponseFromChatbotAsync(async partialResponse =>
         {
             responseBuilder.Append(partialResponse);
