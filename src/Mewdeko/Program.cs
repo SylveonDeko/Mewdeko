@@ -65,7 +65,7 @@ string ExtractToken(string token)
 // Migrate database
 void MigrateDatabase(string clientId, string folderPath)
 {
-    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db");
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/");
     MigrateData(dbPath, folderPath + $"/.local/share/Mewdeko/{clientId}/data", clientId);
 }
 
