@@ -106,10 +106,10 @@ public class HelpService : ILateExecutor, INService
             .WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
         embed.WithOkColor();
         embed.WithDescription(
-            GetText("command_help_description", guild, prefix +
-                                                       $"\n{GetText("module_help_description", guild, prefix)}" +
-                                                       "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
-                                                       $"[Documentation](https://mewdeko.tech) | [Support Server]({bss.Data.SupportServer}) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)"));
+            GetText("command_help_description", guild, prefix) +
+            $"\n{GetText("module_help_description", guild, prefix)}" +
+            "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
+            $"[Documentation](https://mewdeko.tech) | [Support Server]({bss.Data.SupportServer}) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
         var modules = cmds.Commands.Select(x => x.Module)
             .Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
         var count = 0;

@@ -683,20 +683,18 @@ public partial class Moderation : MewdekoModule
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
-        public async Task Ban(ulong userId, [Remainder] string? msg = null)
+        public async Task Ban(IUser? user, [Remainder] string? msg = null)
         {
-            var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
-                userId).ConfigureAwait(false);
             if (user is null)
             {
-                await ctx.Guild.AddBanAsync(userId, 7, options: new RequestOptions
+                await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
                 {
                     AuditLogReason = $"{ctx.User} | {msg}"
                 }).ConfigureAwait(false);
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle($"⛔️ {GetText("banned_user")}")
-                        .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)))
+                        .AddField(efb => efb.WithName("ID").WithValue(user.Id).WithIsInline(true)))
                     .ConfigureAwait(false);
             }
             else
@@ -707,7 +705,7 @@ public partial class Moderation : MewdekoModule
 
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
-        public async Task Ban(StoopidTime time, ulong userId, [Remainder] string? msg = null)
+        public async Task Ban(StoopidTime time, IUser userId, [Remainder] string? msg = null)
         {
             await ctx.Guild.AddBanAsync(userId, time.Time.Days, options: new RequestOptions
             {
