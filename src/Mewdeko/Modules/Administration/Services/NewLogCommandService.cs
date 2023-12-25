@@ -1,4 +1,5 @@
-﻿using Mewdeko.Modules.Moderation.Services;
+﻿using Discord.Rest;
+using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -76,14 +77,13 @@ public class NewLogCommandService : INService
         handler.MessageDeleted += OnMessageDeleted;
         handler.UserJoined += OnUserJoined;
         handler.UserLeft += OnUserLeft;
-        handler.UserBanned += OnUserBanned;
-        handler.UserUnbanned += OnUserUnbanned;
         handler.UserUpdated += OnUserUpdated;
         handler.ChannelCreated += OnChannelCreated;
         handler.ChannelDestroyed += OnChannelDestroyed;
         handler.ChannelUpdated += OnChannelUpdated;
         handler.UserVoiceStateUpdated += OnVoicePresence;
         handler.UserVoiceStateUpdated += OnVoicePresenceTts;
+        handler.AuditLogCreated += OnAuditLogCreated;
         muteService.UserMuted += OnUserMuted;
         muteService.UserUnmuted += OnUserUnmuted;
 
@@ -99,6 +99,21 @@ public class NewLogCommandService : INService
         GuildLogSettings = configs
             .ToDictionary(g => g.GuildId, g => g.LogSetting)
             .ToConcurrent();
+    }
+
+    private async Task OnAuditLogCreated(SocketAuditLogEntry args, SocketGuild arsg2)
+    {
+        if (args.Action == ActionType.Ban)
+        {
+            var data = args.Data as BanAuditLogData;
+            await OnUserBanned(data.Target, arsg2, args.User);
+        }
+
+        if (args.Action == ActionType.Unban)
+        {
+            var data = args.Data as UnbanAuditLogData;
+            await OnUserUnbanned(data.Target, arsg2, args.User);
+        }
     }
 
 
@@ -843,7 +858,7 @@ public class NewLogCommandService : INService
         }
     }
 
-    private async Task OnUserBanned(SocketUser args, SocketGuild arsg2)
+    private async Task OnUserBanned(IUser args, SocketGuild arsg2, SocketUser bannedBy)
     {
         if (args is not SocketGuildUser usr) return;
         if (GuildLogSettings.TryGetValue(arsg2.Id, out var logSetting))
@@ -856,10 +871,6 @@ public class NewLogCommandService : INService
             if (channel is null)
                 return;
 
-            var auditLogs = await arsg2.GetAuditLogsAsync(1, actionType: ActionType.Ban).FlattenAsync();
-
-            var entry = auditLogs.FirstOrDefault();
-
             var eb = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle("User Banned")
@@ -870,7 +881,7 @@ public class NewLogCommandService : INService
                     $"`Account Created:` {args.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Joined Server:` {usr.JoinedAt:dd/MM/yyyy}\n" +
                     $"`Roles:` {string.Join(", ", usr.Roles.Select(x => x.Mention))}\n" +
-                    $"`Banned By:` {entry.User.Mention} | {entry.User.Id}")
+                    $"`Banned By:` {bannedBy.Mention} | {bannedBy.Id}")
                 .WithThumbnailUrl(args.RealAvatarUrl().ToString());
 
             var component = new ComponentBuilder().WithButton("View User (May not work)", style: ButtonStyle.Link,
@@ -880,7 +891,7 @@ public class NewLogCommandService : INService
         }
     }
 
-    private async Task OnUserUnbanned(SocketUser args, SocketGuild arsg2)
+    private async Task OnUserUnbanned(IUser args, SocketGuild arsg2, SocketUser unbannedBy)
     {
         if (GuildLogSettings.TryGetValue(arsg2.Id, out var logSetting))
         {
@@ -892,9 +903,6 @@ public class NewLogCommandService : INService
             if (channel is null)
                 return;
 
-            var auditLogs = await arsg2.GetAuditLogsAsync(1, actionType: ActionType.Unban).FlattenAsync();
-
-            var entry = auditLogs.FirstOrDefault();
 
             var eb = new EmbedBuilder()
                 .WithOkColor()
@@ -904,7 +912,7 @@ public class NewLogCommandService : INService
                     $"`User Id:` {args.Id}" +
                     $"`User Global Name:` {args.GlobalName ?? args.Username}" +
                     $"`Account Created:` {args.CreatedAt:dd/MM/yyyy}\n" +
-                    $"`Unbanned By:` {entry.User.Mention} | {entry.User.Id}")
+                    $"`Unbanned By:` {unbannedBy.Mention} | {unbannedBy.Id}")
                 .WithThumbnailUrl(args.RealAvatarUrl().ToString());
 
             var component = new ComponentBuilder().WithButton("View User (May not work)", style: ButtonStyle.Link,
