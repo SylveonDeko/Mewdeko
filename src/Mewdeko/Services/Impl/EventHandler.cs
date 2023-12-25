@@ -7,9 +7,11 @@ public class EventHandler
 
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs>(TEventArgs args, TArgs arsg2);
 
-    public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3);
+    public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2,
+        TEvent args3);
 
-    public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2, TEvent args3, TArgs2 args4);
+    public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2,
+        TEvent args3, TArgs2 args4);
 
     // Actual events
     public event AsyncEventHandler<SocketMessage>? MessageReceived;
@@ -22,7 +24,10 @@ public class EventHandler
     public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
     public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
     public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
-    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>? MessagesBulkDeleted;
+
+    public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>?
+        MessagesBulkDeleted;
+
     public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
     public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
     public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
@@ -31,8 +36,13 @@ public class EventHandler
     public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
     public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
     public event AsyncEventHandler<SocketRole>? RoleDeleted;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionAdded;
-    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>? ReactionRemoved;
+
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>?
+        ReactionAdded;
+
+    public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>?
+        ReactionRemoved;
+
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
     public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
     public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
@@ -43,6 +53,7 @@ public class EventHandler
     public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>>? ThreadDeleted;
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberJoined;
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberLeft;
+    public event AsyncEventHandler<SocketAuditLogEntry, SocketGuild>? AuditLogCreated;
     public event AsyncEventHandler<DiscordSocketClient>? Ready;
 
     private readonly DiscordSocketClient client;
@@ -82,7 +93,15 @@ public class EventHandler
         client.ThreadDeleted += ClientOnThreadDeleted;
         client.ThreadMemberJoined += ClientOnThreadMemberJoined;
         client.ThreadMemberLeft += ClientOnThreadMemberLeft;
+        client.AuditLogCreated += ClientOnAuditLogCreated;
         client.Ready += ClientOnReady;
+    }
+
+    private Task ClientOnAuditLogCreated(SocketAuditLogEntry arg1, SocketGuild arg2)
+    {
+        if (AuditLogCreated is not null)
+            _ = AuditLogCreated(arg1, arg2);
+        return Task.CompletedTask;
     }
 
     private Task ClientOnReady()
@@ -130,7 +149,7 @@ public class EventHandler
 
     private Task ClientOnJoinedGuild(SocketGuild arg)
     {
-        if (PresenceUpdated is not null)
+        if (JoinedGuild is not null)
             _ = JoinedGuild(arg);
         return Task.CompletedTask;
     }
@@ -162,14 +181,16 @@ public class EventHandler
         return Task.CompletedTask;
     }
 
-    private Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private Task ClientOnReactionRemoved(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2,
+        SocketReaction arg3)
     {
         if (ReactionRemoved is not null)
             _ = ReactionRemoved(arg1, arg2, arg3);
         return Task.CompletedTask;
     }
 
-    private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private Task ClientOnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2,
+        SocketReaction arg3)
     {
         if (ReactionAdded is not null)
             _ = ReactionAdded(arg1, arg2, arg3);
@@ -232,7 +253,8 @@ public class EventHandler
         return Task.CompletedTask;
     }
 
-    private Task ClientOnMessagesBulkDeleted(IReadOnlyCollection<Cacheable<IMessage, ulong>> arg1, Cacheable<IMessageChannel, ulong> arg2)
+    private Task ClientOnMessagesBulkDeleted(IReadOnlyCollection<Cacheable<IMessage, ulong>> arg1,
+        Cacheable<IMessageChannel, ulong> arg2)
     {
         if (MessagesBulkDeleted is not null)
             _ = MessagesBulkDeleted(arg1, arg2);
