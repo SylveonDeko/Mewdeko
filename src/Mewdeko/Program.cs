@@ -4,96 +4,105 @@ using Figgle;
 using Mewdeko.Services.Impl;
 using Serilog;
 
-// Setup and Initialization
-Console.WriteLine(FiggleFonts.Ogre.Render("Mewdeko v8"));
-
-var shardId = ExtractArgument(args, 0, "shard id");
-if (shardId < 0)
+namespace Mewdeko
 {
-    Console.WriteLine("Please provide a valid shard id as an argument. Exiting...");
-    return;
-}
-
-LogSetup.SetupLogger(shardId);
-
-var credentials = new BotCredentials();
-if (string.IsNullOrEmpty(credentials.Token))
-{
-    throw new ArgumentException("No token provided. Exiting...");
-}
-
-var clientId = ExtractToken(credentials.Token);
-
-// Database Migration
-var folderPath = Environment.OSVersion.Platform == PlatformID.Unix
-    ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
-    : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-MigrateDatabase(clientId, folderPath);
-
-// Final Steps
-Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
-Log.Information($"Pid: {Environment.ProcessId}");
-
-await new Mewdeko.Mewdeko(shardId).RunAndBlockAsync().ConfigureAwait(false);
-return;
-
-// Extract and check arguments
-int ExtractArgument(IReadOnlyList<string> args, int index, string argName)
-{
-    if (args.Count <= index || !int.TryParse(args[index], out var arg))
+    internal class Program
     {
-        return 0;
-    }
-
-    return arg;
-}
-
-// Extract Token
-string ExtractToken(string token)
-{
-    var tokenPart = token.Split(".")[0];
-    var paddingNeeded = 28 - tokenPart.Length;
-    if (paddingNeeded > 0 && tokenPart.Length % 4 != 0)
-    {
-        tokenPart = tokenPart.PadRight(28, '=');
-    }
-
-    return Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
-}
-
-// Migrate database
-void MigrateDatabase(string clientId, string folderPath)
-{
-    var dbPath = Path.Combine(AppContext.BaseDirectory, "data/");
-    MigrateData(dbPath, folderPath + $"/.local/share/Mewdeko/{clientId}/data", clientId);
-}
-
-// Create directories and copy database files
-void MigrateData(string sourcePath, string targetPath, string clientId)
-{
-    if (!Directory.Exists(targetPath))
-    {
-        Directory.CreateDirectory(targetPath);
-    }
-
-    if (!File.Exists($"{targetPath}/Mewdeko.db"))
-    {
-        File.Copy(sourcePath, Path.Combine(targetPath, "Mewdeko.db"));
-        try
+        private static async Task Main(string[] args)
         {
-            File.Copy(Path.Combine(sourcePath, "Mewdeko.db-wal"), Path.Combine(targetPath, "Mewdeko.db-wal"));
-            File.Copy(Path.Combine(sourcePath, "Mewdeko.db-shm"), Path.Combine(targetPath, "Mewdeko.db-shm"));
-        }
-        catch
-        {
-            // ignored, used if the bot didn't shut down properly and left behind db files
+            // Display startup message
+            Console.WriteLine(FiggleFonts.Ogre.Render("Mewdeko v8"));
+
+            // Extract and validate shard ID
+            var shardId = ExtractArgument(args, 0, "shard id");
+            if (shardId < 0)
+            {
+                if (shardId is -1)
+                    shardId = 0;
+                else
+                {
+                    Console.WriteLine("Please provide a valid shard id as an argument. Exiting...");
+                    return;
+                }
+            }
+
+            // Setup logger
+            LogSetup.SetupLogger(shardId);
+
+            // Load credentials and validate
+            var credentials = new BotCredentials();
+            if (string.IsNullOrEmpty(credentials.Token))
+            {
+                throw new ArgumentException("No token provided. Exiting...");
+            }
+
+            var clientId = ExtractClientId(credentials.Token);
+            var dbFilePath = BuildDbPath(clientId);
+
+            // Perform database migration
+            MigrateDatabase(dbFilePath);
+
+            // Setup environment variables and logging
+            Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
+            Log.Information($"Pid: {Environment.ProcessId}");
+
+            // Start the bot and block until the bot is closed
+            await new Mewdeko(shardId).RunAndBlockAsync().ConfigureAwait(false);
         }
 
-        Log.Information("Mewdeko folder created! Your database has been migrated to {TargetPath}", targetPath);
-    }
-    else
-    {
-        Log.Information("Mewdeko db already exists!");
+        private static int ExtractArgument(IReadOnlyList<string> args, int index, string argName)
+        {
+            if (args.Count <= index || !int.TryParse(args[index], out var arg))
+            {
+                return -1; // return -1 for invalid argument
+            }
+
+            return arg;
+        }
+
+        private static string ExtractClientId(string token)
+        {
+            var tokenPart = token.Split('.')[0];
+            var paddingNeeded = 4 - tokenPart.Length % 4;
+            if (paddingNeeded > 0 && paddingNeeded < 4)
+            {
+                tokenPart = tokenPart.PadRight(tokenPart.Length + paddingNeeded, '=');
+            }
+
+            return Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
+        }
+
+        private static string BuildDbPath(string clientId)
+        {
+            var folderPath = Environment.GetFolderPath(Environment.OSVersion.Platform == PlatformID.Unix
+                ? Environment.SpecialFolder.UserProfile
+                : Environment.SpecialFolder.ApplicationData);
+
+            return Path.Combine(folderPath, Environment.OSVersion.Platform == PlatformID.Unix
+                ? $".local/share/Mewdeko/{clientId}/data/Mewdeko.db"
+                : $"Mewdeko/{clientId}/data/Mewdeko.db");
+        }
+
+        private static void MigrateDatabase(string dbFilePath)
+        {
+            var targetPath = Path.GetDirectoryName(dbFilePath);
+            var sourcePath = Path.Combine(AppContext.BaseDirectory, "data", "Mewdeko.db");
+
+            if (!Directory.Exists(targetPath))
+            {
+                Directory.CreateDirectory(targetPath);
+            }
+
+            if (!File.Exists(dbFilePath))
+            {
+                File.Copy(sourcePath, dbFilePath);
+
+                Log.Information("Database migrated to {DbFilePath}", dbFilePath);
+            }
+            else
+            {
+                Log.Information("Database already exists at {DbFilePath}", dbFilePath);
+            }
+        }
     }
 }

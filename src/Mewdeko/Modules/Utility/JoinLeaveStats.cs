@@ -13,8 +13,8 @@ public partial class Utility
         {
             try
             {
-                var averageJoinsPerGuild = await Service.GenerateJoinGraphAsync(ctx.Guild.Id);
-                await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "join.png");
+                var (stream, embed) = await Service.GenerateJoinGraphAsync(ctx.Guild.Id);
+                await ctx.Channel.SendFileAsync(stream, "joingraph.png", embed: embed);
             }
             catch (Exception e)
             {
@@ -27,8 +27,8 @@ public partial class Utility
         {
             try
             {
-                var averageJoinsPerGuild = await Service.GenerateLeaveGraphAsync(ctx.Guild.Id);
-                await ctx.Channel.SendFileAsync(averageJoinsPerGuild, "leave.png");
+                var (stream, embed) = await Service.GenerateLeaveGraphAsync(ctx.Guild.Id);
+                await ctx.Channel.SendFileAsync(stream, "leavegraph.png", embed: embed);
             }
             catch (Exception e)
             {
