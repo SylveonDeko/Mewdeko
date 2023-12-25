@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SkiaSharp;
 using StackExchange.Redis;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -79,7 +80,7 @@ public class JoinLeaveLoggerService : INService
         return joinEventsCount / allEvents.Length;
     }
 
-    public async Task<Stream> GenerateJoinGraphAsync(ulong guildId)
+    public async Task<Tuple<Stream, Embed>> GenerateJoinGraphAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
@@ -203,10 +204,29 @@ public class JoinLeaveLoggerService : INService
         }
 
         imageStream.Position = 0;
-        return imageStream;
+        var embedBuilder = new EmbedBuilder()
+            .WithTitle("Join Stats Over the Last 10 Days")
+            .WithOkColor() // Assuming JoinGraphColor is a valid color
+            .WithCurrentTimestamp();
+
+        // Calculate statistics for the embed
+        var totalJoins = past10DaysData.Sum(data => data.Count);
+        var peakDay = past10DaysData.OrderByDescending(data => data.Count).First();
+        var averageJoins = totalJoins / past10DaysData.Count;
+
+        // Add fields to the embed
+        embedBuilder.AddField("Total Joins", totalJoins, true);
+        embedBuilder.AddField("Average Joins/Day", $"{averageJoins:N2}", true);
+        embedBuilder.AddField("Peak Day", $"{peakDay.Date:dd/MM} ({peakDay.Count} joins)", true);
+
+        // If you have a link for the graph image or it's saved as a file, set the URL
+        embedBuilder.WithImageUrl("attachment://joingraph.png");
+
+        // Return the image stream and the built embed
+        return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
     }
 
-    public async Task<Stream> GenerateLeaveGraphAsync(ulong guildId)
+    public async Task<Tuple<Stream, Embed>> GenerateLeaveGraphAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
@@ -330,7 +350,22 @@ public class JoinLeaveLoggerService : INService
         }
 
         imageStream.Position = 0;
-        return imageStream;
+
+        var embedBuilder = new EmbedBuilder()
+            .WithTitle("Leave Stats Over the Last 10 Days")
+            .WithOkColor()
+            .WithCurrentTimestamp();
+
+        var totalLeaves = past10DaysData.Sum(data => data.Count);
+        var peakDay = past10DaysData.OrderByDescending(data => data.Count).First();
+        var averageLeaves = totalLeaves / past10DaysData.Count;
+
+        embedBuilder.AddField("Total Leaves", totalLeaves, true);
+        embedBuilder.AddField("Average Leaves/Day", averageLeaves.ToString("N2"), true);
+        embedBuilder.AddField("Peak Day", $"{peakDay.Date:dd/MM} ({peakDay.Count} leaves)", true);
+        embedBuilder.WithImageUrl("attachment://leavegraph.png");
+
+        return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
     }
 
     private async Task<List<JoinLeaveLogs>> GetJoinLeaveLogsAsync(IDatabase redisDatabase, string redisKey)
