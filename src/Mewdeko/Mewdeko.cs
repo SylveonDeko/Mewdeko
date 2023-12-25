@@ -88,116 +88,125 @@ public class Mewdeko
 
     private async Task AddServices()
     {
-        var sw = Stopwatch.StartNew();
-        var gs2 = Stopwatch.StartNew();
-        var bot = Client.CurrentUser;
-        await using var uow = db.GetDbContext();
-        AllGuildConfigs =
-            new ConcurrentHashSet<GuildConfig>(
-                uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id).ToList()));
-        await uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
-        gs2.Stop();
-        Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
+        try
+        {
+            var sw = Stopwatch.StartNew();
+            var gs2 = Stopwatch.StartNew();
+            var bot = Client.CurrentUser;
+            await using var uow = db.GetDbContext();
+            AllGuildConfigs =
+                new ConcurrentHashSet<GuildConfig>(
+                    uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id).ToList()));
+            await uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
+            gs2.Stop();
+            Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
 
-        var s = new ServiceCollection()
-            .AddScoped<INsfwSpy, NsfwSpy>()
-            .AddSingleton<FontProvider>()
-            .AddSingleton<IBotCredentials>(Credentials)
-            .AddSingleton(db)
-            .AddSingleton(Client)
-            .AddSingleton(new EventHandler(Client))
-            .AddSingleton(CommandService)
-            .AddSingleton(this)
-            .AddSingleton(Cache)
-            .AddSingleton(new MartineApi())
-            .AddSingleton(Cache.Redis)
-            .AddTransient<ISeria, JsonSeria>()
-            .AddTransient<IPubSub, RedisPubSub>()
-            .AddTransient<IConfigSeria, YamlSeria>()
-            .AddSingleton(new InteractiveService(Client, new InteractiveConfig
+            var s = new ServiceCollection()
+                .AddScoped<INsfwSpy, NsfwSpy>()
+                .AddSingleton<FontProvider>()
+                .AddSingleton<IBotCredentials>(Credentials)
+                .AddSingleton(db)
+                .AddSingleton(Client)
+                .AddSingleton(new EventHandler(Client))
+                .AddSingleton(CommandService)
+                .AddSingleton(this)
+                .AddSingleton(Cache)
+                .AddSingleton(new MartineApi())
+                .AddSingleton(Cache.Redis)
+                .AddTransient<ISeria, JsonSeria>()
+                .AddTransient<IPubSub, RedisPubSub>()
+                .AddTransient<IConfigSeria, YamlSeria>()
+                .AddSingleton(new InteractiveService(Client, new InteractiveConfig
+                {
+                    ReturnAfterSendingPaginator = true
+                }))
+                .AddSingleton(new NekosBestApi())
+                .AddSingleton<InteractionService>()
+                .AddSingleton<Localization>()
+                .AddSingleton<MusicService>()
+                .AddSingleton<BotConfigService>()
+                .AddConfigServices()
+                .AddBotStringsServices(Credentials.TotalShards)
+                .AddMemoryCache()
+                .AddTransient<IDiscordClientWrapper, DiscordClientWrapper>()
+                .AddTransient<IAudioService, LavalinkNode>()
+                .AddSingleton<LavalinkNode>()
+                .AddSingleton(new LavalinkNodeOptions
+                {
+                    Password = "Hope4a11",
+                    WebSocketUri = "ws://127.0.0.1:2333",
+                    RestUri = "http://127.0.0.1:2333",
+                    DisconnectOnStop = false
+                })
+                .AddScoped<ISearchImagesService, SearchImagesService>()
+                .AddSingleton<ToneTagService>()
+                .AddSingleton<GuildSettingsService>();
+            if (Credentials.UseGlobalCurrency)
             {
-                ReturnAfterSendingPaginator = true
-            }))
-            .AddSingleton(new NekosBestApi())
-            .AddSingleton<InteractionService>()
-            .AddSingleton<Localization>()
-            .AddSingleton<MusicService>()
-            .AddSingleton<BotConfigService>()
-            .AddConfigServices()
-            .AddBotStringsServices(Credentials.TotalShards)
-            .AddMemoryCache()
-            .AddTransient<IDiscordClientWrapper, DiscordClientWrapper>()
-            .AddTransient<IAudioService, LavalinkNode>()
-            .AddSingleton<LavalinkNode>()
-            .AddSingleton(new LavalinkNodeOptions
+                s.AddTransient<ICurrencyService, GlobalCurrencyService>();
+            }
+            else
             {
-                Password = "Hope4a11",
-                WebSocketUri = "ws://127.0.0.1:2333",
-                RestUri = "http://127.0.0.1:2333",
-                DisconnectOnStop = false
-            })
-            .AddScoped<ISearchImagesService, SearchImagesService>()
-            .AddSingleton<ToneTagService>()
-            .AddSingleton<GuildSettingsService>();
-        if (Credentials.UseGlobalCurrency)
-        {
-            s.AddTransient<ICurrencyService, GlobalCurrencyService>();
+                s.AddTransient<ICurrencyService, GuildCurrencyService>();
+            }
+
+
+            Log.Information("Passed Singletons");
+
+            s.AddHttpClient();
+            s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false
+            });
+            if (Credentials.TotalShards <= 1 &&
+                Environment.GetEnvironmentVariable($"{Client.CurrentUser.Id}_IS_COORDINATED") != "1")
+            {
+                s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
+            }
+            else
+            {
+                s.AddSingleton<RemoteGrpcCoordinator>()
+                    .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
+                    .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+            }
+
+            Log.Information("Passed Coord");
+
+            s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
+                .AddClasses(classes => classes.AssignableToAny(
+                    // services
+                    typeof(INService),
+                    // behaviours
+                    typeof(IEarlyBehavior),
+                    typeof(ILateBlocker),
+                    typeof(IInputTransformer),
+                    typeof(ILateExecutor)))
+                .AsSelfWithInterfaces()
+                .WithSingletonLifetime()
+            );
+
+            Log.Information("Passed Interface Scanner");
+            //initialize Services
+            Services = s.BuildServiceProvider();
+            var commandHandler = Services.GetService<CommandHandler>();
+            commandHandler.AddServices(s);
+            _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
+            var cache = Services.GetService<IDataCache>();
+            var sub = cache.Redis.GetSubscriber();
+            await sub.SubscribeAsync($"{Credentials.RedisKey()}_configsupdate", async (_, _) =>
+            {
+                await GuildConfigsUpdated();
+            });
+
+            sw.Stop();
+            Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
-        else
+        catch (ArgumentNullException ex)
         {
-            s.AddTransient<ICurrencyService, GuildCurrencyService>();
+            Log.Error(ex,
+                "Unable to connect to redis! Please make sure it is installed. Otherwise show the support server this error!");
+            Helpers.ReadErrorAndExit(69);
         }
-
-
-        Log.Information("Passed Singletons");
-
-        s.AddHttpClient();
-        s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-        {
-            AllowAutoRedirect = false
-        });
-        if (Credentials.TotalShards <= 1 &&
-            Environment.GetEnvironmentVariable($"{Client.CurrentUser.Id}_IS_COORDINATED") != "1")
-        {
-            s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
-        }
-        else
-        {
-            s.AddSingleton<RemoteGrpcCoordinator>()
-                .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
-                .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
-        }
-
-        Log.Information("Passed Coord");
-
-        s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
-            .AddClasses(classes => classes.AssignableToAny(
-                // services
-                typeof(INService),
-                // behaviours
-                typeof(IEarlyBehavior),
-                typeof(ILateBlocker),
-                typeof(IInputTransformer),
-                typeof(ILateExecutor)))
-            .AsSelfWithInterfaces()
-            .WithSingletonLifetime()
-        );
-
-        Log.Information("Passed Interface Scanner");
-        //initialize Services
-        Services = s.BuildServiceProvider();
-        var commandHandler = Services.GetService<CommandHandler>();
-        commandHandler.AddServices(s);
-        _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
-        var cache = Services.GetService<IDataCache>();
-        var sub = cache.Redis.GetSubscriber();
-        await sub.SubscribeAsync($"{Credentials.RedisKey()}_configsupdate", async (_, _) =>
-        {
-            await GuildConfigsUpdated();
-        });
-
-        sw.Stop();
-        Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
     }
 
     private IEnumerable<object> LoadTypeReaders(Assembly assembly)
