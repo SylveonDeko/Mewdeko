@@ -162,9 +162,15 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 #endif
 
             Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
+
+            // lower any capitalization in message content
             var loweredContents = args.Content.ToLower();
 
-            if (loweredContents.Contains("image"))
+            // Split the message content into words and take only the first two for checking.
+            var words = args.Content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Take(2).ToList();
+            var scannedWords = words.Select(w => w.ToLower()).ToList();
+
+            if (scannedWords.Contains("image"))
             {
                 var authorName = args.Author.ToString();
                 var prompt = args.Content.Substring("frog image".Length).Trim();
