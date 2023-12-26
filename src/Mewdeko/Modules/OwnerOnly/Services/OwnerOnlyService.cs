@@ -174,10 +174,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     return;
                 }
 
+                IUserMessage placeholderMessage = null;
                 try
                 {
                     // Send a placeholder message directly using the bot's client
-                    var placeholderMessage = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} Generating image...");
+                    placeholderMessage = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} Generating image...");
 
                     // Generate the image
                     var images = await api.ImageGenerations.CreateImageAsync(new ImageGenerationRequest
@@ -227,26 +228,36 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     {
                         await placeholderMessage.ModifyAsync(msg => msg.Content = "No image generated.");
                     }
-
                 }
                 catch (HttpRequestException httpEx)
                 {
-                    string content = httpEx.Message; // This is not the response content, but the exception message.
+                    var content = httpEx.Message; // This is not the response content, but the exception message.
                     Log.Information("Exception message: {Message}", content);
 
                     // Log the full exception details for debugging
                     Log.Error(httpEx, "HttpRequestException occurred while processing the request.");
+
+                    // Clean up the placeholder message if it was assigned
+                    if (placeholderMessage != null)
+                    {
+                        await placeholderMessage.DeleteAsync();
+                    }
 
                     // Notify the user of a generic error message
                     await usrMsg.SendErrorReplyAsync("An error occurred while processing your request. Please try again later.");
                 }
                 catch (Exception ex)
                 {
+                    // Log the error
                     Log.Error(ex, "Error generating image");
+
+                    // Clean up the placeholder message if it was assigned
+                    if (placeholderMessage != null)
+                    {
+                        await placeholderMessage.DeleteAsync();
+                    }
                     await usrMsg.SendErrorReplyAsync($"Failed to generate image due to an unexpected error. Please try again later. Error code: **{ex.HResult}**");
                 }
-
-
                 return;
             }
 
