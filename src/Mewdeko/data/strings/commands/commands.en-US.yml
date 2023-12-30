@@ -13,6 +13,27 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+karutaeventchannel:
+  args:
+    - channel
+  desc: Sets the channel used for the bot to repost karuta competition images to vote on.
+karutabuttontext:
+  args:
+    - 1 text
+  desc: Used to set what the label for each competition button is.
+karutaeventleaderboard:
+  args:
+    - ""
+    - "1"
+  desc: "Used to show the top 8 for each question set on the buttons. Specify a number to show that question individually."
+clearkarutaevent:
+  args:
+    - ""
+  desc: Used to clear all entries and votes. ***Cannot be undone.***
+removeevententry:
+  args:
+    - 1
+  desc: Removes an entry, deletes the message and it's votes.
 update:
   args:
     - ""
