@@ -2,6 +2,25 @@ accept:
   - accept
   - suggestaccept
   - acceptsuggest
+karutaeventchannel:
+  - karutaeventchannel
+  - keventchannel
+  - kec
+karutabuttontext:
+  - karutabuttontext
+  - kbuttontext
+  - kbt
+clearkarutaevent:
+  - clearkarutaevent
+  - ckarutaevent
+  - ckv
+karutaeventleaderboard:
+  - karutaeventleaderboard
+  - keventleaderboard
+  - klb
+removeevententry:
+  - removeevententry
+  - ree
 acceptchannel:
   - acceptchannel
 gpingrole:
