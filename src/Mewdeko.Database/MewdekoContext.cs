@@ -5,6 +5,9 @@ namespace Mewdeko.Database;
 
 public class MewdekoContext : DbContext
 {
+    public DbSet<KarutaEventEntry> KarutaEventEntry { get; set; }
+    public DbSet<KarutaButtonOptions> KarutaButtonOptions { get; set; }
+    public DbSet<KarutaEventVotes> KarutaEventVotes { get; set; }
     public DbSet<GlobalUserBalance> GlobalUserBalances { get; set; }
     public DbSet<GuildUserBalance> GuildUserBalances { get; set; }
     public DbSet<TransactionHistory> TransactionHistories { get; set; }
