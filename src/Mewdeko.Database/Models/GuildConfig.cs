@@ -26,6 +26,7 @@ public class GuildConfig : DbEntity
     public string CurrencyEmoji { get; set; } = "💰";
     public int RewardAmount { get; set; } = 200;
     public int RewardTimeoutSeconds { get; set; } = 86400;
+    public ulong KarutaEventChannel { get; set; }
 
     public string GiveawayBanner { get; set; } = "";
     public string GiveawayEmbedColor { get; set; } = "";
