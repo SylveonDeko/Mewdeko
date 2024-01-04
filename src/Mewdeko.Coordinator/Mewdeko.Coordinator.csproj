@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Commands" Version="3.10.0" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.10.0" />
+    <PackageReference Include="Discord.Net.Commands" Version="3.13.0" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.13.0" />
     <PackageReference Include="Google.Protobuf" Version="3.22.3" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.53.0-pre1" />
     <PackageReference Include="Grpc.Tools" Version="2.54.0">
