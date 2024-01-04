@@ -218,7 +218,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             var emoteName = i.Name; // Default to the emote name
 
             // Define a pattern to find the emote in the message
-            var pattern = $"<:{i.Name}:[0-9]+>";
+            var pattern = $"<a:{i.Name}:[0-9]+>";
             var match = Regex.Match(ctx.Message.Content, pattern);
 
             if (match.Success)
