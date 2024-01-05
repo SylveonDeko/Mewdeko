@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Threading;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -107,7 +107,8 @@ public partial class Gambling
                 }
 
                 Interlocked.Add(ref totalBet, amount.Value);
-                using var bgImage = Image.Load<Rgba32>(images.SlotBackground, out var format);
+                using var bgImage = Image.Load<Rgba32>(images.SlotBackground);
+                var format = bgImage.Metadata.DecodedImageFormat;
                 var result = SlotMachine.Pull();
                 var numbers = result.Numbers;
 

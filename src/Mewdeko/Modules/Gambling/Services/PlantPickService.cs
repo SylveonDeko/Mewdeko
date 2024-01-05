@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Impl;
@@ -121,8 +121,9 @@ public class PlantPickService : INService
         if (string.IsNullOrWhiteSpace(pass))
         {
             // determine the extension
-            using (Image.Load(curImg, out var format))
+            using (var image = Image.Load(curImg))
             {
+                var format = image.Metadata.DecodedImageFormat;
                 extension = format.FileExtensions.FirstOrDefault() ?? "png";
             }
 
@@ -148,13 +149,15 @@ public class PlantPickService : INService
     {
         // draw lower, it looks better
         pass = pass.TrimTo(10, true).ToLowerInvariant();
-        using var img = Image.Load<Rgba32>(curImg, out var format);
+        using var img = Image.Load<Rgba32>(curImg);
+        var format = img.Metadata.DecodedImageFormat;
+
         // choose font size based on the image height, so that it's visible
         var font = fonts.NotoSans.CreateFont(img.Height / 12, FontStyle.Bold);
         img.Mutate(x =>
         {
             // measure the size of the text to be drawing
-            var size = TextMeasurer.Measure(pass, new TextOptions(font));
+            var size = TextMeasurer.MeasureSize(pass, new TextOptions(font));
 
             // fill the background with black, add 5 pixels on each side to make it look better
             x.FillPolygon(Color.ParseHex("00000080"),

@@ -773,18 +773,20 @@ public class XpService : INService, IUnloadableService
 
     private async Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
     {
-        var img = Image.Load<Rgba32>(images.XpBackground, out var format);
+        var img = Image.Load<Rgba32>(images.XpBackground);
+        var format = img.Metadata.DecodedImageFormat;
+
         if (template.User.Name.Show)
         {
             var username = stats.User.Username;
             var fontSize = (int)(template.User.Name.FontSize * 0.9);
-            var size = TextMeasurer.Measure($"{username}", new TextOptions(fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
+            var size = TextMeasurer.MeasureSize($"{username}", new TextOptions(fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)));
             var scale = 400f / size.Width;
             var font = scale >= 1
                 ? fonts.NotoSans.CreateFont(fontSize, FontStyle.Bold)
                 : fonts.NotoSans.CreateFont(template.User.Name.FontSize * scale, FontStyle.Bold);
 
-            var options = new TextOptions(font)
+            var options = new RichTextOptions(font)
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -802,7 +804,7 @@ public class XpService : INService, IUnloadableService
                 new PointF(template.User.GuildLevel.Pos.X, template.User.GuildLevel.Pos.Y)));
         }
 
-        var pen = new Pen(Color.Black, 1);
+        var pen = new SolidPen(Color.Black, 1);
 
         var guild = stats.Guild;
 
@@ -886,7 +888,7 @@ public class XpService : INService, IUnloadableService
                 }
 
                 using var toDraw = Image.Load(data);
-                if (toDraw.Size() != new Size(template.User.Icon.Size.X, template.User.Icon.Size.Y))
+                if (toDraw.Size != new Size(template.User.Icon.Size.X, template.User.Icon.Size.Y))
                     toDraw.Mutate(x => x.Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y));
 
                 img.Mutate(x => x.DrawImage(toDraw, new Point(template.User.Icon.Pos.X, template.User.Icon.Pos.Y), 1));
