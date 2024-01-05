@@ -1,4 +1,4 @@
-﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.Formats.Png;
@@ -23,7 +23,7 @@ public static class Rgba32Extensions
                 var frame = t.Frames.CloneFrame(frameNumber % t.Frames.Count);
                 var offset = xOffset;
                 imgFrame.Mutate(x => x.DrawImage(frame, new Point(offset, 0), new GraphicsOptions()));
-                xOffset += t.Bounds().Width;
+                xOffset += t.Bounds.Width;
             }
         }
 
