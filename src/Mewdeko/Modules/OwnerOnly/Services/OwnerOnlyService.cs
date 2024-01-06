@@ -113,6 +113,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private async Task OnMessageReceived(SocketMessage args)
     {
+        var isDebugMode = false;
         if (args.Channel is not IGuildChannel guildChannel)
             return;
         var prefix = await guildSettings.GetPrefix(guildChannel.GuildId);
@@ -126,10 +127,30 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         if (args is not IUserMessage usrMsg)
             return;
+
+        //bad hackfix to separate handling of nightly vs stable
+#if DEBUG
+        isDebugMode = true;
+#endif
+
         try
         {
             var api = new OpenAIAPI(bss.Data.ChatGptKey);
-            if (args.Content is ".deletesession" or "deletesession")
+
+            if (args.Content is ".deletesession" && !isDebugMode)
+            {
+                if (conversations.TryRemove(args.Author.Id, out _))
+                {
+                    await usrMsg.SendConfirmReplyAsync("Session deleted");
+                    return;
+                }
+                else
+                {
+                    await usrMsg.SendConfirmReplyAsync("No session to delete");
+                    return;
+                }
+            }
+            else if (args.Content is ",deletesesssion" && isDebugMode)
             {
                 if (conversations.TryRemove(args.Author.Id, out _))
                 {
@@ -150,21 +171,22 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     {
                         GptTokensUsed = 0
                     }, true);
-            
-            //horribly bad hackfix to separate handling of nightly vs stable
-#if !DEBUG
-            if (!args.Content.StartsWith("!frog"))
+
+
+            if (!args.Content.StartsWith("!frog") && !isDebugMode)
                 return;
-#endif
-#if DEBUG
-            if (!args.Content.StartsWith("#frog"))
+
+            if (!args.Content.StartsWith("#frog") && isDebugMode)
                 return;
-#endif
+
 
             Log.Information("ChatGPT request from {Author}: | ({AuthorId}): | {Content}", args.Author, args.Author.Id, args.Content);
 
             // lower any capitalization in message content
             var loweredContents = args.Content.ToLower();
+
+            // Remove the prefix from the message content being sent to gpt
+            var gptprompt = loweredContents.Substring("frog ".Length).Trim();
 
             // Split the message content into words and take only the first two for checking.
             var words = args.Content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Take(2).ToList();
@@ -173,7 +195,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (scannedWords.Contains("image"))
             {
                 var authorName = args.Author.ToString();
-                var prompt = args.Content.Substring("frog image".Length).Trim();
+                var prompt = args.Content.Substring("frog image ".Length).Trim();
                 if (string.IsNullOrEmpty(prompt))
                 {
                     await usrMsg.Channel.SendMessageAsync("Please provide a prompt for the image.");
@@ -273,7 +295,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 conversations.TryAdd(args.Author.Id, conversation);
             }
 
-            conversation.AppendUserInput(loweredContents);
+            conversation.AppendUserInput(gptprompt);
 
             var loadingMsg = await usrMsg.SendConfirmReplyAsync($"{bss.Data.LoadingEmote} Awaiting response...");
             await StreamResponseAndUpdateEmbedAsync(conversation, loadingMsg, uow, toUpdate, args.Author);
