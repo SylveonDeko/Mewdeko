@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Reactive.Joins;
 using System.Text.RegularExpressions;
 using Discord.Commands;
 using Discord.Net;
@@ -218,11 +219,16 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             var emoteName = i.Name; // Default to the emote name
 
             // Define a pattern to find the emote in the message
-            var pattern = $"<a:{i.Name}:[0-9]+>";
-            var match = Regex.Match(ctx.Message.Content, pattern);
+            var patternStatic = $"<:{i.Name}:[0-9]+>";
+            var patternAnimated = $"<a:{i.Name}:[0-9]+>";
+            var matchStatic = Regex.Match(ctx.Message.Content, patternStatic);
+            var matchAnimated = Regex.Match(ctx.Message.Content, patternAnimated);
 
-            if (match.Success)
+            if (matchStatic.Success || matchAnimated.Success)
             {
+                // Lets create a temp var to handle the match
+                var match = matchStatic.Success ? matchStatic : matchAnimated;
+
                 // Find the index immediately after the emote match
                 var indexAfterEmote = match.Index + match.Length;
 
