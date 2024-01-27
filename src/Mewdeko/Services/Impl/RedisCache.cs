@@ -2,6 +2,7 @@
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
+using Serilog;
 using StackExchange.Redis;
 
 // ReSharper disable CollectionNeverQueried.Local
@@ -55,15 +56,32 @@ public class RedisCache : IDataCache
         return (x != null, x);
     }
 
-    public Task CacheAfk(ulong id, List<Afk> objectList)
+    public async Task CacheAfk(ulong guildId, ulong userId, Afk afk)
     {
-        _ = Task.Run(() => new RedisDictionary<ulong, List<Afk>>($"{redisKey}_afk", Redis)
+        try
         {
-            {
-                id, objectList
-            }
-        }).ConfigureAwait(false);
-        return Task.CompletedTask;
+            var db = Redis.GetDatabase();
+            await db.StringSetAsync($"{redisKey}_{guildId}_{userId}_afk", JsonConvert.SerializeObject(afk),
+                flags: CommandFlags.FireAndForget);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "An error occured while setting afk");
+        }
+    }
+
+    public async Task<Afk?> RetrieveAfk(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        var afkJson = await db.StringGetAsync($"{redisKey}_{guildId}_{userId}_afk");
+        return afkJson.HasValue ? JsonConvert.DeserializeObject<Afk>(afkJson) : null;
+    }
+
+    public async Task ClearAfk(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        await db.KeyDeleteAsync($"{redisKey}_{guildId}_{userId}_afk",
+            CommandFlags.FireAndForget);
     }
 
     public async Task SetStatusRoleCache(List<StatusRolesTable> statusRoles)

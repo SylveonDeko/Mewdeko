@@ -30,11 +30,10 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
 
         if (message == null)
         {
-            var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
-            var enumerable = afkmsg as string[] ?? afkmsg.ToArray();
-            if (enumerable.Length == 0 || enumerable.Last()?.Length == 0)
+            var afkmsg = await Service.GetAfk(ctx.Guild.Id, ctx.User.Id);
+            if (string.IsNullOrEmpty(afkmsg?.Message))
             {
-                await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0).ConfigureAwait(false);
+                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _", 0).ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("afk_enabled_no_message").ConfigureAwait(false);
                 try
                 {
@@ -53,7 +52,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "", 0).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("afk_disabled").ConfigureAwait(false);
             try
             {
@@ -76,7 +75,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         try
         {
@@ -153,7 +152,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, ctx.User as IGuildUser, message, 1, DateTime.UtcNow + time.Time);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, 1, DateTime.UtcNow + time.Time);
         await ConfirmLocalizedAsync("afk_timed_set",
             TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + time.Time, TimestampTagStyles.Relative), message);
     }
@@ -182,7 +181,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
         }
 
         var afks = await Service.GetAfkUsers(ctx.Guild).ConfigureAwait(false);
-        if (afks.Length == 0)
+        if (afks.Count == 0)
         {
             await ErrorLocalizedAsync("afk_users_none").ConfigureAwait(false);
             return;
@@ -219,13 +218,13 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        if (!Service.IsAfk(user.Guild, user))
+        if (!await Service.IsAfk(user.Guild.Id, user.Id))
         {
             await ErrorLocalizedAsync("afk_user_none").ConfigureAwait(false);
             return;
         }
 
-        var msg = Service.GetAfkMessage(user.Guild.Id, user.Id).Last();
+        var msg = await Service.GetAfk(user.Guild.Id, user.Id);
         await ConfirmLocalizedAsync("afk_user", user, msg.Message);
     }
 
@@ -438,7 +437,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
         var erroredusers = 0;
         foreach (var i in user)
         {
-            var curafk = Service.IsAfk(ctx.Guild, i);
+            var curafk = await Service.IsAfk(ctx.Guild.Id, i.Id);
             if (!curafk)
                 continue;
 
@@ -448,7 +447,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
                 continue;
             }
 
-            await Service.AfkSet(ctx.Guild, i, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, i.Id, "", 0).ConfigureAwait(false);
             users++;
             try
             {
@@ -488,13 +487,13 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        if (!Service.IsAfk(ctx.Guild, user))
+        if (!await Service.IsAfk(ctx.Guild.Id, user.Id))
         {
             await ReplyErrorLocalizedAsync("afk_rm_fail_noafk").ConfigureAwait(false);
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, user, "", 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, user.Id, "", 0).ConfigureAwait(false);
         try
         {
             await user.ModifyAsync(x => x.Nickname = user.Nickname.Replace("[AFK]", "")).ConfigureAwait(false);
@@ -504,7 +503,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             //ignored
         }
 
-        await Service.AfkSet(ctx.Guild, user, "", 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, user.Id, "", 0).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_rm_success", user.Mention).ConfigureAwait(false);
     }
 }

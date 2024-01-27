@@ -148,91 +148,104 @@ namespace Mewdeko.Modules.Currency
                 $"Daily reward set to {amount} {await Service.GetCurrencyEmote(Context.Guild.Id)} every {time.Time.Seconds} seconds.");
         }
 
-        [Cmd, Aliases]
-        public async Task SpinWheel()
+        [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+        public async Task SpinWheel(long betAmount = 0)
         {
             var balance = await Service.GetUserBalanceAsync(Context.User.Id, Context.Guild.Id);
-            if (balance is <= 0)
+            if (balance <= 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"You either have no {Service.GetCurrencyEmote(Context.Guild.Id)} or are negative. Please do dailyreward and try again.");
                 return;
             }
 
-            string[] segments =
+            if (betAmount > balance)
             {
-                "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
-            };
-            int[] weights =
-            {
-                2, 2, 1, 1, 1, 2
-            };
-            var rand = new Random();
-            var winningSegment = GenerateWeightedRandomSegment();
+                await ctx.Channel.SendErrorAsync(
+                    $"You don't have enough {Service.GetCurrencyEmote(Context.Guild.Id)} to place that bet.");
+                return;
+            }
 
+            string[] segments =
+            [
+                "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
+            ];
+            int[] weights =
+            [
+                2, 2, 1, 1, 1, 2
+            ];
+            var rand = new Random();
+            var winningSegment = GenerateWeightedRandomSegment(segments.Length, weights, rand);
+
+            // Prepare the wheel image
             using var bitmap = new SKBitmap(500, 500);
             using var canvas = new SKCanvas(bitmap);
-            DrawWheel(canvas, segments.Length, segments, winningSegment + 2);
+            DrawWheel(canvas, segments.Length, segments, winningSegment + 2); // Adjust the index as needed
 
             using var stream = new MemoryStream();
             bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
             stream.Seek(0, SeekOrigin.Begin);
 
-            var balanceChange = await ComputeBalanceChange(segments[winningSegment]);
+            var balanceChange = await ComputeBalanceChange(segments[winningSegment], betAmount);
+            if (segments[winningSegment].StartsWith("+"))
+            {
+                balanceChange += betAmount;
+            }
+            else if (segments[winningSegment].StartsWith("-"))
+            {
+                balanceChange = betAmount - Math.Abs(balanceChange);
+            }
+
+            // Update user balance
             await Service.AddUserBalanceAsync(Context.User.Id, balanceChange, Context.Guild.Id);
             await Service.AddTransactionAsync(Context.User.Id, balanceChange,
                 $"Wheel Spin {(segments[winningSegment].Contains('-') ? "Loss" : "Win")}", Context.Guild.Id);
+
             var eb = new EmbedBuilder()
+                .WithTitle(balanceChange > 0 ? "You won!" : "You lost!")
+                .WithDescription(
+                    $"Result: {segments[winningSegment]}. Your balance changed by {balanceChange} {Service.GetCurrencyEmote(Context.Guild.Id)}")
+                .WithColor(balanceChange > 0 ? Color.Green : Color.Red)
                 .WithImageUrl("attachment://wheelResult.png");
 
-            switch (balanceChange)
-            {
-                case > 0:
-                    eb.WithTitle("You won!");
-                    eb.WithDescription($"You won {balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
-                    eb.WithOkColor();
-                    break;
-                case < 0:
-                    eb.WithTitle("You lost!");
-                    eb.WithDescription(
-                        $"You lost {-balanceChange} {await Service.GetCurrencyEmote(Context.Guild.Id)}!");
-                    eb.WithErrorColor();
-                    break;
-            }
-
+            // Send the image and embed as a message to the channel
             await Context.Channel.SendFileAsync(stream, "wheelResult.png", embed: eb.Build());
 
-            int GenerateWeightedRandomSegment()
+            // Helper method to generate weighted random segment
+            int GenerateWeightedRandomSegment(int segmentCount, int[] segmentWeights, Random random)
             {
-                var totalWeight = weights.Sum();
-                var randomNumber = rand.Next(totalWeight);
+                var totalWeight = segmentWeights.Sum();
+                var randomNumber = random.Next(totalWeight);
 
                 var accumulatedWeight = 0;
-                for (var i = 0; i < segments.Length; i++)
+                for (var i = 0; i < segmentCount; i++)
                 {
-                    accumulatedWeight += weights[i];
+                    accumulatedWeight += segmentWeights[i];
                     if (randomNumber < accumulatedWeight)
                         return i;
                 }
 
-                return segments.Length - 1;
+                return segmentCount - 1; // Return the last segment as a fallback
             }
 
-
-            async Task<long> ComputeBalanceChange(string segment)
+            // Helper method to compute balance change
+            async Task<long> ComputeBalanceChange(string segment, long betAmount)
             {
-                var currentBalance = await Service.GetUserBalanceAsync(Context.User.Id, Context.Guild.Id);
+                long balanceChange = 0;
 
-                if (!segment.EndsWith("%"))
+                if (segment.EndsWith("%"))
+                {
+                    var percent = int.Parse(segment.Substring(1, segment.Length - 2));
+                    var portion = (long)Math.Ceiling(betAmount * (percent / 100.0));
+                    balanceChange = segment.StartsWith("-") ? -portion : portion;
+                }
+                else
                 {
                     var val = int.Parse(segment.Replace("$", "").Replace("+", "").Replace("-", ""));
-                    return segment.StartsWith("-") ? -val : val;
+                    balanceChange = segment.StartsWith("-") ? -val : val;
                 }
 
-                var percent = int.Parse(segment.Substring(1, segment.Length - 2));
-                var amount = (long)Math.Ceiling(currentBalance * (percent / 100.0));
-
-                return segment.StartsWith("-") ? -amount : amount;
+                return balanceChange;
             }
         }
 

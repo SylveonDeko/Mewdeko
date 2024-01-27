@@ -110,11 +110,11 @@ public class JoinLeaveLoggerService : INService
             })
             .ToList();
 
-        var width = 800;
-        var height = 400;
-        var padding = 50;
-        var widthWithPadding = width - 2 * padding;
-        var heightWithPadding = height - 2 * padding;
+        const int width = 800;
+        const int height = 400;
+        const int padding = 50;
+        const int widthWithPadding = width - 2 * padding;
+        const int heightWithPadding = height - 2 * padding;
 
         using var bitmap = new SKBitmap(width, height);
         using var canvas = new SKCanvas(bitmap);
