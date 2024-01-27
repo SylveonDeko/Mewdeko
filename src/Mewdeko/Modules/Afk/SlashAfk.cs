@@ -32,10 +32,10 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
         if (message == null)
         {
-            var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
-            if (!afkmsg.Any() || afkmsg.Last()?.Length == 0)
+            var afkmsg = (await Service.GetAfk(ctx.Guild.Id, ctx.User.Id))?.Message;
+            if (string.IsNullOrEmpty(afkmsg))
             {
-                await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0).ConfigureAwait(false);
+                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _", 0).ConfigureAwait(false);
                 await EphemeralReplyErrorLocalizedAsync("afk_msg_enabled").ConfigureAwait(false);
                 try
                 {
@@ -54,7 +54,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "", 0).ConfigureAwait(false);
             await EphemeralReplyConfirmLocalizedAsync("afk_msg_disabled");
             try
             {
@@ -72,11 +72,12 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
         if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id))
+                .ConfigureAwait(false);
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
     }
@@ -100,12 +101,15 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
         if (message.Length != 0 && message.Length > await Service.GetAfkLength(ctx.Guild.Id))
         {
-            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id)).ConfigureAwait(false);
+            await ReplyErrorLocalizedAsync("afk_message_too_long", Service.GetAfkLength(ctx.Guild.Id))
+                .ConfigureAwait(false);
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, (IGuildUser)ctx.User, message, 1, DateTime.UtcNow + parsedTime.Time);
-        await ConfirmLocalizedAsync("afk_time_set", TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + parsedTime.Time), TimestampTagStyles.Relative, message);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, 1, DateTime.UtcNow + parsedTime.Time);
+        await ConfirmLocalizedAsync("afk_time_set",
+            TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + parsedTime.Time), TimestampTagStyles.Relative,
+            message);
     }
 
     [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), RequireContext(ContextType.Guild),
@@ -139,7 +143,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
 
         var afks = await Service.GetAfkUsers(ctx.Guild).ConfigureAwait(false);
-        if (afks.Length == 0)
+        if (afks.Count == 0)
         {
             await ErrorLocalizedAsync("afk_user_none").ConfigureAwait(false);
             return;
@@ -172,13 +176,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        if (!Service.IsAfk(user.Guild, user))
+        if (!await Service.IsAfk(user.Guild.Id, user.Id))
         {
             await ErrorLocalizedAsync("afk_user_none").ConfigureAwait(false);
             return;
         }
 
-        var msg = Service.GetAfkMessage(user.Guild.Id, user.Id).Last();
+        var msg = await Service.GetAfk(user.Guild.Id, user.Id);
         await ctx.Interaction.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}").ConfigureAwait(false);
     }
 
@@ -434,14 +438,14 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        var msg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
+        var msg = await Service.GetAfk(ctx.Guild.Id, user.Id);
         if (msg is null)
         {
             await EphemeralReplyErrorLocalizedAsync("afk_not_l_bozo").ConfigureAwait(false);
             return;
         }
 
-        await Service.AfkSet(ctx.Guild, user, "", 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, user.Id, "", 0).ConfigureAwait(false);
         await EphemeralReplyErrorLocalizedAsync("afk_noted", user.Mention);
     }
 }

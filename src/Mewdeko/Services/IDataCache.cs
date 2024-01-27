@@ -10,15 +10,18 @@ public interface IDataCache
     IImageCache LocalImages { get; }
     ILocalDataCache LocalData { get; }
 
-    Task CacheAfk(ulong id, List<Afk> objectList);
-    List<Afk?>? GetAfkForGuild(ulong id);
+    // AFK
+    Task CacheAfk(ulong guildId, ulong userId, Afk afk);
+    Task<Afk?> RetrieveAfk(ulong guildId, ulong userId);
+    Task ClearAfk(ulong guildId, ulong userId);
+
+    // StatusRoles
     Task<bool> SetUserStatusCache(ulong id, string base64);
+
+    // Highlights
     Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
     Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
-    Task AddAfkToCache(ulong id, List<Afk?> newAfk);
     Task CacheHighlights(ulong id, List<Highlights> highlights);
-    Task<bool> AddProcessingUser(ulong id);
-    Task RemoveProcessingUser(ulong id);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight);
     Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight);
@@ -31,10 +34,6 @@ public interface IDataCache
     Task SetGuildSettingInt(ulong guildId, string setting, int value);
     Task<int> GetGuildSettingInt(ulong guildId, string setting);
     Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);
-    Task SetGuildSettingString(ulong guildId, string setting, string value);
-    Task<string> GetGuildSettingString(ulong guildId, string setting);
-    Task SetGuildSettingBool(ulong guildId, string setting, bool value);
-    Task<bool> GetGuildSettingBool(ulong guildId, string setting);
     Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key);
     Task SetImageDataAsync(Uri key, byte[] data);
     TimeSpan? AddTimelyClaim(ulong id, int period);
