@@ -860,14 +860,36 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
+        // Send a placeholder message directly using the bot's client
+        //var placeholderMessage = await ctx.Channel.SendConfirmAsync($"{config.Data.LoadingEmote} Searching...");
+
         var appId = await Service.GetSteamAppIdByName(query).ConfigureAwait(false);
         if (appId == -1)
         {
             await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
             return;
         }
+        else
+        {
+            // this impl tells user a search is occuring incase it lags
+            // unfortunately it seems modifyasync wont parse url content properly like a replyasync will
+            // todo: bug with discord.net impl?
+            //await placeholderMessage.ModifyAsync(x =>
+            //{
+            //    x.Embed = new EmbedBuilder()
+            //        .WithOkColor()
+            //        .WithTitle(query)
+            //        .WithUrl($"https://store.steampowered.com/app/{appId}")
+            //        .WithImageUrl($"https://cdn.cloudflare.steamstatic.com/steam/apps/{appId}/header.jpg")
+            //        .WithDescription("Loading...")
+            //        .Build();
+            //    x.Content = $"https://store.steampowered.com/app/{appId}";
+            //    }).ConfigureAwait(false);
 
-        //var embed = new EmbedBuilder()
+            await ctx.Channel.SendMessageAsync($"https://store.steampowered.com/app/{appId}").ConfigureAwait(false);
+        }
+
+        //var embed = new embedbuilder()
         //    .WithOkColor()
         //    .WithDescription(gameData.ShortDescription)
         //    .WithTitle(gameData.Name)
@@ -877,7 +899,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         //    .AddField(efb => efb.WithName(GetText("price")).WithValue(gameData.IsFree ? GetText("FREE") : game).WithIsInline(true))
         //    .AddField(efb => efb.WithName(GetText("links")).WithValue(gameData.GetGenresString()).WithIsInline(true))
         //    .WithFooter(efb => efb.WithText(GetText("recommendations", gameData.TotalRecommendations)));
-        await ctx.Channel.SendMessageAsync($"https://store.steampowered.com/app/{appId}").ConfigureAwait(false);
     }
 
     [Cmd, Aliases]
