@@ -251,6 +251,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Snipe()
     {
+        //todo: snipe ignores bots (default behavior is ignore bots. do we actually want this?
+        //todo: snipe doesnt capture images if they were the deleted message
         if (!await Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ReplyErrorLocalizedAsync("snipe_not_enabled", await guildSettings.GetPrefix(ctx.Guild)).ConfigureAwait(false);

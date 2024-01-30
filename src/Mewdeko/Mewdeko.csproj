@@ -46,7 +46,7 @@
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.113" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
-        <PackageReference Include="Fergun.Interactive" Version="1.7.1" />
+        <PackageReference Include="Fergun.Interactive" Version="1.7.5" />
         <PackageReference Include="Figgle" Version="0.5.1" />
       <PackageReference Include="Genius.NET" Version="4.0.1" />
         <PackageReference Include="GScraper" Version="1.1.0" />
