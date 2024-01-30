@@ -113,7 +113,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         {
             case "real":
                 var avatarUrl = user.GetAvatarUrl(size: 2048);
-                var componentbuilder = new ComponentBuilder().WithButton("Guild Banner", $"bannertype:guild,{userId}");
+                //var componentbuilder = new ComponentBuilder().WithButton("Guild Banner", $"bannertype:guild,{userId}");
                 var eb = new EmbedBuilder()
                     .WithOkColor()
                     .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
@@ -123,12 +123,12 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                 await componentInteraction.UpdateAsync(x =>
                 {
                     x.Embed = eb.Build();
-                    x.Components = componentbuilder.Build();
+                    //x.Components = componentbuilder.Build();
                 });
                 break;
             case "guild":
                 var avatarUrlGuild = guildUser.GetBannerUrl(size: 2048);
-                var componentbuilderGuild = new ComponentBuilder().WithButton("Real Banner", $"bannertype:real,{userId}");
+                //var componentbuilderGuild = new ComponentBuilder().WithButton("Real Banner", $"bannertype:real,{userId}");
                 var ebGuild = new EmbedBuilder()
                     .WithOkColor()
                     .AddField(efb => efb.WithName("Username").WithValue(user.ToString()).WithIsInline(true))
@@ -138,7 +138,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
                 await componentInteraction.UpdateAsync(x =>
                 {
                     x.Embed = ebGuild.Build();
-                    x.Components = componentbuilderGuild.Build();
+                    //x.Components = componentbuilderGuild.Build();
                 });
                 break;
         }

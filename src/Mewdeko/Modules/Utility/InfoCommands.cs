@@ -287,7 +287,7 @@ public partial class Utility
     public async Task Banner([Remainder] IGuildUser? usr = null)
     {
         usr ??= (IGuildUser)ctx.User;
-        var components = new ComponentBuilder().WithButton("Non-Guild Banner", $"bannertype:real,{usr.Id}");
+        //var components = new ComponentBuilder().WithButton("Non-Guild Banner", $"bannertype:real,{usr.Id}");
         var guildUser = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
         var user = await client.Rest.GetUserAsync(usr.Id);
         if (user.GetBannerUrl(size: 2048) == null && guildUser.GetBannerUrl() == null)
@@ -303,6 +303,7 @@ public partial class Utility
             .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
             .AddField(efb =>
                 efb.WithName($"{(guildUser.BannerId is null ? "" : "Guild")} Banner Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
-            .WithImageUrl(avatarUrl).Build(), components: guildUser.BannerId is null ? null : components.Build()).ConfigureAwait(false);
+            //.WithImageUrl(avatarUrl).Build(), components: guildUser.BannerId is null ? null : components.Build()).ConfigureAwait(false);
+            .WithImageUrl(avatarUrl).Build(), components: guildUser.BannerId is null ? null : null).ConfigureAwait(false);
     }
 }
