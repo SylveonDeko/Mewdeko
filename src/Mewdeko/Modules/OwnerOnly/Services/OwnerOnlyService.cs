@@ -194,6 +194,16 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             if (scannedWords.Contains("image"))
             {
+                try
+                {
+                    await usrMsg.Channel.SendMessageAsync("Dall-E disabled.");
+                    return;
+                }
+                catch
+                {
+                    throw;
+                }
+
                 var authorName = args.Author.ToString();
                 var prompt = args.Content.Substring("frog image ".Length).Trim();
                 if (string.IsNullOrEmpty(prompt))
