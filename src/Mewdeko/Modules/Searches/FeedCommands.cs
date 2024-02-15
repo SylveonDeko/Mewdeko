@@ -138,5 +138,22 @@ public partial class Searches
                 return embed.WithDescription(fs);
             }
         }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        public async Task FeedStart()
+        {
+            if (Service.StartTracking(ctx.Guild.Id))
+                await ReplyConfirmLocalizedAsync("feed_started").ConfigureAwait(false);
+            else
+                await ReplyErrorLocalizedAsync("feed_already_started").ConfigureAwait(false);
+        }
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        public async Task FeedStop()
+        {
+            if (Service.StopTracking(ctx.Guild.Id))
+                await ReplyConfirmLocalizedAsync("feed_stopped").ConfigureAwait(false);
+            else
+                await ReplyErrorLocalizedAsync("feed_already_stopped").ConfigureAwait(false);
+        }
     }
 }

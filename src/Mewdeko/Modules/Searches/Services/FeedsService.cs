@@ -11,6 +11,7 @@ public class FeedsService : INService
 {
     private readonly DiscordSocketClient client;
     private readonly DbService db;
+    private bool isRunning;
 
     private readonly ConcurrentDictionary<string, DateTime> lastPosts = new();
 
@@ -19,6 +20,7 @@ public class FeedsService : INService
     public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
     {
         this.db = db;
+        this.isRunning = true;
 
         using (var uow = db.GetDbContext())
         {
@@ -41,8 +43,7 @@ public class FeedsService : INService
 
     public async Task<EmbedBuilder> TrackFeeds()
     {
-
-        while (true)
+        while (isRunning)
         {
             var allSendTasks = new List<Task>(subs.Count);
             foreach (var (rssUrl, value) in subs)
@@ -251,6 +252,8 @@ public class FeedsService : INService
             }
             await Task.WhenAll(Task.WhenAll(allSendTasks), Task.Delay(180000)).ConfigureAwait(false);
         }
+        await Task.Delay(5000); // Sleep for a bit when not running (5 seconds)
+        return null;
     }
 
     public async Task TestRss(FeedSub sub, ITextChannel channel, bool sendBoth = false)
@@ -490,5 +493,33 @@ public class FeedsService : INService
         uow.SaveChanges();
 
         return true;
+    }
+
+    public bool StartTracking(ulong guildId)
+    {
+        try
+        {
+            isRunning = true;
+            _ = Task.Run(TrackFeeds); // Should we keep a reference to this task?
+            return true;
+        }
+        catch
+        {
+            throw;
+        }
+        return false;
+    }
+    public bool StopTracking(ulong guildId)
+    {
+        try
+        {
+            isRunning = false;
+            return true;
+        }
+        catch
+        {
+            throw;
+        }
+        return false;
     }
 }

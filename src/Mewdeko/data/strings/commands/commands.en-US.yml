@@ -1598,6 +1598,14 @@ feedremove:
   desc: >-
     Stops tracking a feed on the given index. Use `{0}feeds` command to see a
     list of feeds and their indexes.
+feedstart:
+  args:
+    - ''
+  desc: Starts the feed tracking service.
+feedstop:
+  args:
+    - ''
+  desc: Stops the feed tracking service.
 fetch:
   args:
     - ID
