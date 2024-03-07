@@ -29,8 +29,8 @@ public class AdministrationService : INService
     }
 
 
-    public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
-    public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
+    private ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
+    private ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
 
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {
