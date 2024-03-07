@@ -814,8 +814,8 @@ public class NewLogCommandService : INService
                     $"`User:` {guildUser.Mention} | {guildUser.Id}\n" +
                     $"`Account Created:` {guildUser.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Joined Server:` {guildUser.JoinedAt:dd/MM/yyyy}\n" +
-                    $"`User Status:` {guildUser.Status}" +
-                    $"`User Id:` {guildUser.Id}" +
+                    $"`User Status:` {guildUser.Status}\n" +
+                    $"`User Id:` {guildUser.Id}\n" +
                     $"`User Global Name:` {guildUser.GlobalName ?? guildUser.Username}")
                 .WithThumbnailUrl(guildUser.RealAvatarUrl().ToString());
 
@@ -844,7 +844,7 @@ public class NewLogCommandService : INService
                 .WithTitle("User Left")
                 .WithDescription(
                     $"`User:` {usr.Mention} | {usr.Id}\n" +
-                    $"`User Id:` {usr.Id}" +
+                    $"`User Id:` {usr.Id}\n" +
                     $"`User Global Name:` {arsg2.GlobalName ?? arsg2.Username}" +
                     $"`Account Created:` {usr.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Joined Server:` {usr.JoinedAt:dd/MM/yyyy}\n" +
@@ -876,8 +876,8 @@ public class NewLogCommandService : INService
                 .WithTitle("User Banned")
                 .WithDescription(
                     $"`User:` {args.Mention} | {args.Id}\n" +
-                    $"`User Id:` {args.Id}" +
-                    $"`User Global Name:` {args.GlobalName ?? args.Username}" +
+                    $"`User Id:` {args.Id}\n" +
+                    $"`User Global Name:` {args.GlobalName ?? args.Username}\n" +
                     $"`Account Created:` {args.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Joined Server:` {usr.JoinedAt:dd/MM/yyyy}\n" +
                     $"`Roles:` {string.Join(", ", usr.Roles.Select(x => x.Mention))}\n" +
@@ -949,7 +949,7 @@ public class NewLogCommandService : INService
                     .WithTitle("User Global Name Updated")
                     .WithDescription(
                         $"`User:` {args.Mention} | {args.Id}\n" +
-                        $"`User Id:` {args.Id}" +
+                        $"`User Id:` {args.Id}\n" +
                         $"`User Global Name:` {args.GlobalName ?? args.Username}");
 
             await channel.SendMessageAsync(embed: eb.Build());
@@ -1003,7 +1003,7 @@ public class NewLogCommandService : INService
                 .WithTitle("Channel Created")
                 .WithDescription(
                     $"`Channel:` {channel.Name} | {channel.Id}\n" +
-                    $"`Channel Created By:` {entry.User.Mention} | {entry.User.Id}" +
+                    $"`Channel Created By:` {entry.User.Mention} | {entry.User.Id}\n" +
                     $"`Channel Created At:` {channel.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Channel Type:` {createdType}");
 
@@ -1058,7 +1058,7 @@ public class NewLogCommandService : INService
                 .WithTitle("Channel Destroyed")
                 .WithDescription(
                     $"`Channel:` {channel.Name} | {channel.Id}\n" +
-                    $"`Channel Destroyed By:` {entry.User.Mention} | {entry.User.Id}" +
+                    $"`Channel Destroyed By:` {entry.User.Mention} | {entry.User.Id}\n" +
                     $"`Channel Destroyed At:` {DateTime.UtcNow:dd/MM/yyyy}\n" +
                     $"`Channel Type:` {createdType}");
 

@@ -13,7 +13,7 @@ public class CrEmbed
     public string? Thumbnail { get; set; }
     public string? Image { get; set; }
     public CrEmbedField[]? Fields { get; set; }
-    public uint Color { get; set; } = 7458112;
+    private uint Color { get; set; } = 7458112;
     public CrEmbedComponent[]? Components { get; set; }
 
     public bool IsValid =>
@@ -115,7 +115,7 @@ public class CrEmbed
         return cb;
     }
 
-    public static ButtonBuilder GetButton(CrEmbedComponent btn, int pos, ulong guildId)
+    private static ButtonBuilder GetButton(CrEmbedComponent btn, int pos, ulong guildId)
     {
         var bb = new ButtonBuilder();
         if (btn.Url.IsNullOrWhiteSpace() && btn.Id is not null)
@@ -154,7 +154,7 @@ public class CrEmbed
         return bb;
     }
 
-    public static SelectMenuBuilder GetSelectMenu(CrEmbedComponent sel, int pos, ulong guildId)
+    private static SelectMenuBuilder GetSelectMenu(CrEmbedComponent sel, int pos, ulong guildId)
     {
         var sb = new SelectMenuBuilder();
 
@@ -196,7 +196,7 @@ public class CrEmbed
     }
 }
 
-public class CrEmbedField
+public abstract class CrEmbedField
 {
     public string? Name { get; set; }
     public string? Value { get; set; }
@@ -229,7 +229,7 @@ public class CrEmbedAuthor
     public string? Url { get; set; }
 }
 
-public class CrEmbedComponent
+public abstract class CrEmbedComponent
 {
     public string? DisplayName { get; set; }
 
@@ -244,7 +244,7 @@ public class CrEmbedComponent
     public List<CrEmbedSelectOption>? Options { get; set; }
 }
 
-public class CrEmbedSelectOption
+public abstract class CrEmbedSelectOption
 {
     public string Id { get; set; }
     public string Name { get; set; }
