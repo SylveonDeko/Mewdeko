@@ -14,7 +14,7 @@ public class LinkCommands : MewdekoSubmodule<UtilityService>
         switch (await Service.GetPLinks(ctx.Guild.Id))
         {
             case 1:
-                await ctx.Channel.SendConfirmAsync("Link previews are now enabled!").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync("Link  previews are now enabled!").ConfigureAwait(false);
                 break;
             case 0:
                 await ctx.Channel.SendConfirmAsync("Link Previews are now disabled!").ConfigureAwait(false);
