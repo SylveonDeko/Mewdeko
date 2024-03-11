@@ -8,10 +8,7 @@ namespace Mewdeko.Modules.Searches.Common;
 
 public class SearchImageCacher
 {
-    private static readonly List<string> DefaultTagBlacklist = new()
-    {
-        "loli", "lolicon", "shota"
-    };
+    private static readonly List<string> DefaultTagBlacklist = ["loli", "lolicon", "shota"];
 
     private readonly SortedSet<ImageCacherObject> cache;
     private readonly IHttpClientFactory httpFactory;
@@ -22,7 +19,7 @@ public class SearchImageCacher
     {
         httpFactory = http;
         rng = new Random();
-        cache = new SortedSet<ImageCacherObject>();
+        cache = [];
     }
 
     public async Task<ImageCacherObject>? GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
@@ -30,7 +27,7 @@ public class SearchImageCacher
     {
         tags = tags.Select(tag => tag.ToLowerInvariant()).ToArray();
 
-        blacklistedTags ??= new HashSet<string>();
+        blacklistedTags ??= [];
 
         foreach (var item in DefaultTagBlacklist) blacklistedTags.Add(item);
 

@@ -82,7 +82,7 @@ public class VcRoleService : INService
             arg.GuildId,
             set => set.Include(x => x.VcRoleInfos)
         );
-        var _ = InitializeVcRole(configWithVcRole);
+        _ = InitializeVcRole(configWithVcRole);
     }
 
     private Task _client_LeftGuild(SocketGuild arg)
@@ -118,7 +118,8 @@ public class VcRoleService : INService
         {
             var uow = db.GetDbContext();
             await using var _ = uow.ConfigureAwait(false);
-            Log.Warning("Removing {MissingRolesCount} missing roles from {VcRoleServiceName}", missingRoles.Count, nameof(VcRoleService));
+            Log.Warning("Removing {MissingRolesCount} missing roles from {VcRoleServiceName}", missingRoles.Count,
+                nameof(VcRoleService));
             uow.RemoveRange(missingRoles);
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }

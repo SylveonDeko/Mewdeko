@@ -11,8 +11,8 @@ public sealed class GamesConfig
     };
 
     [Comment("List of responses for the .8ball command. A random one will be selected every time")]
-    public List<string> EightBallResponses { get; set; } = new()
-    {
+    public List<string> EightBallResponses { get; set; } =
+    [
         "Most definitely yes.",
         "For sure.",
         "Totally!",
@@ -36,44 +36,51 @@ public sealed class GamesConfig
         "Don't even think about it.",
         "Definitely no.",
         "NO - It may cause disease contraction!"
-    };
+    ];
 
     [Comment("List of animals which will be used for the animal race game (.race)")]
-    public List<RaceAnimal> RaceAnimals { get; set; } = new()
-    {
+    public List<RaceAnimal> RaceAnimals { get; set; } =
+    [
         new RaceAnimal
         {
             Icon = "🐼", Name = "Panda"
         },
+
         new RaceAnimal
         {
             Icon = "🐻", Name = "Bear"
         },
+
         new RaceAnimal
         {
             Icon = "🐧", Name = "Pengu"
         },
+
         new RaceAnimal
         {
             Icon = "🐨", Name = "Koala"
         },
+
         new RaceAnimal
         {
             Icon = "🐬", Name = "Dolphin"
         },
+
         new RaceAnimal
         {
             Icon = "🐞", Name = "Ladybird"
         },
+
         new RaceAnimal
         {
             Icon = "🦀", Name = "Crab"
         },
+
         new RaceAnimal
         {
             Icon = "🦄", Name = "Unicorn"
         }
-    };
+    ];
 }
 
 public sealed class TriviaConfig

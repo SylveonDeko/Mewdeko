@@ -61,10 +61,13 @@ public class StreamNotificationService : IReadyExecutor, INService
 
         var allgc = bot.AllGuildConfigs;
 
-        offlineNotificationServers = new List<ulong>(allgc
-            .Where(gc => gc.NotifyStreamOffline != 0)
-            .Select(x => x.GuildId)
-            .ToList());
+        offlineNotificationServers =
+        [
+            ..allgc
+                .Where(gc => gc.NotifyStreamOffline != 0)
+                .Select(x => x.GuildId)
+                .ToList()
+        ];
 
         var followedStreams = allgc.SelectMany(x => x.FollowedStreams).ToList();
 
@@ -180,10 +183,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             }
             else
             {
-                trackCounter[key] = new HashSet<ulong>
-                {
-                    info.GuildId
-                };
+                trackCounter[key] = [info.GuildId];
             }
         }
 
@@ -481,13 +481,13 @@ public class StreamNotificationService : IReadyExecutor, INService
         {
             if (map.TryGetValue(guildId, out var set))
                 return set;
-            return map[guildId] = new HashSet<FollowedStream>();
+            return map[guildId] = [];
         }
 
         shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
         {
             {
-                guildId, new()
+                guildId, []
             }
         };
         return shardTrackedStreams[key][guildId];

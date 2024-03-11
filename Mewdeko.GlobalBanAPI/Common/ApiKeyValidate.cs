@@ -16,7 +16,7 @@ public class ApiKeyAuthorizeFilter(DbService dbContext) : IActionFilter
 
         if (!context.HttpContext.Request.Headers.TryGetValue("ApiKey", out var extractedApiKey))
         {
-            context.Result = new ContentResult()
+            context.Result = new ContentResult
             {
                 StatusCode = 401, Content = "No API key provided.", ContentType = "text/plain"
             };
@@ -26,7 +26,7 @@ public class ApiKeyAuthorizeFilter(DbService dbContext) : IActionFilter
         var keyExists = uow.Keys.Any(k => k.Key == extractedApiKey.ToString());
         if (!keyExists)
         {
-            context.Result = new ContentResult()
+            context.Result = new ContentResult
             {
                 StatusCode = 403, Content = "Invalid API key.", ContentType = "text/plain"
             };

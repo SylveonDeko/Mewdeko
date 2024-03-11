@@ -60,25 +60,26 @@ public class ConverterService : INService, IUnloadableService
                 var currencyRates = await GetCurrencyRates().ConfigureAwait(false);
                 var baseType = new ConvertUnit
                 {
-                    Triggers = new[]
-                    {
+                    Triggers =
+                    [
                         currencyRates.Base
-                    },
+                    ],
                     Modifier = decimal.One,
                     UnitType = unitTypeString
                 };
                 var range = currencyRates.ConversionRates.Select(u => new ConvertUnit
                 {
-                    Triggers = new[]
-                    {
+                    Triggers =
+                    [
                         u.Key
-                    },
+                    ],
                     Modifier = u.Value,
                     UnitType = unitTypeString
                 }).ToArray();
 
                 var fileData = (JsonConvert.DeserializeObject<ConvertUnit[]>(
-                        await File.ReadAllTextAsync("data/units.json").ConfigureAwait(false)) ?? Array.Empty<ConvertUnit>())
+                                    await File.ReadAllTextAsync("data/units.json").ConfigureAwait(false)) ??
+                                Array.Empty<ConvertUnit>())
                     .Where(x => x.UnitType != "currency");
 
                 var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());

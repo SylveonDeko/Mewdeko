@@ -717,19 +717,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger,
                 "<:perms_warning:1085356999824396308>".ToIEmote());
 
-        cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", new List<SelectMenuOptionBuilder>
-        {
+        cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", [
             new(GetText("cmd_perm_spawner_required_perms"), "dpo", GetText("cmd_perm_spawner_required_perms_desc"),
                 "<:perms_dpo:1085338505464512595>".ToIEmote()),
+
             new(GetText("cmd_perm_spawner_user_perms"), "usr", GetText("cmd_perm_spawner_user_perms_desc"),
                 "<:perms_user_perms:1085426466818359367>".ToIEmote()),
+
             new(GetText("cmd_perm_spawner_role_perms"), "rol", GetText("cmd_perm_spawner_role_perms_desc"),
                 "<:role:808826577785716756>".ToIEmote()),
+
             new(GetText("cmd_perm_spawner_channel_perms"), "chn", GetText("cmd_perm_spawner_channel_perms_desc"),
                 "<:ChannelText:779036156175188001>".ToIEmote()),
+
             new(GetText("cmd_perm_spawner_category_perms"), "cat", GetText("cmd_perm_spawner_category_perms_desc"),
                 GetText("not_an_easter_egg").ToIEmote())
-        }, GetText("advanced_options"));
+        ], GetText("advanced_options"));
 
         await RespondAsync(components: cb.Build(), embeds: quickEmbeds, ephemeral: true);
     }
@@ -771,17 +774,19 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithSelectMenu(
                 $"credperms_m.{((int)perm.PrimaryTarget)}.{perm.PrimaryTargetId}.{((int)perm.SecondaryTarget)}.{perm.SecondaryTargetName}",
-                new List<SelectMenuOptionBuilder>()
-                {
+                [
                     new(GetText("perm_quick_options_redundant_tool_enable"), "enabled",
                         GetText("perm_quick_options_redundant_tool_enabled_description")),
+
                     new(GetText("perm_quick_options_redundant_tool_disable"), "disabled",
                         GetText("perm_quick_options_redundant_tool_disable_description")),
+
                     new(GetText("perm_quick_options_redundant_tool_clear"), "clear",
                         GetText("perm_quick_options_redundant_tool_clear_description")),
+
                     new(GetText("perm_quick_options_redundant_tool_current"), "current",
-                        GetText("perm_quick_options_redundant_tool_current_description")),
-                }, "Action");
+                        GetText("perm_quick_options_redundant_tool_current_description"))
+                ], "Action");
 
         var eb = new EmbedBuilder()
             .WithTitle(GetText("perm_quick_options_redundant"))
@@ -887,7 +892,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         if (sc is null)
         {
-            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2()
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 GuildConfigId = uow.ForGuildId(ctx.Guild.Id).Id,
                 IsCustomCommand = 0,
@@ -960,7 +965,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     public Task CommandPermsDpo(string commandName)
     {
         var perms = Enum.GetValues<GuildPermission>();
-        List<SelectMenuBuilder> selects = new();
+        List<SelectMenuBuilder> selects = [];
 
         dpoS.TryGetOverrides(ctx.Guild.Id, commandName, out var effecting);
 
@@ -970,7 +975,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var basePerms = userPerm is not null
             ? perms.Where(x => (userPerm & x) == x).ToList()
-            : new();
+            : [];
         var truePerms = perms.Where(x => (effecting & x) == x);
 
         if (!truePerms.Any())
@@ -1014,7 +1019,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var basePerms = userPerm is not null
             ? perms.Where(x => (userPerm & x) == x).ToList()
-            : new();
+            : [];
         var truePerms = perms.Where(x => (effecting & x) == x).ToList();
         // get list of selectable perms
         var selectable = perms.Skip(25 * index).Take(25).ToList();
@@ -1176,7 +1181,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         foreach (var p in needRems)
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
 
-        var trueAdd = needAdd.Select(x => new Permissionv2()
+        var trueAdd = needAdd.Select(x => new Permissionv2
         {
             IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.User,
@@ -1356,7 +1361,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         foreach (var p in needRems)
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
 
-        var trueAdd = needAdd.Select(x => new Permissionv2()
+        var trueAdd = needAdd.Select(x => new Permissionv2
         {
             IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Role,
@@ -1530,7 +1535,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         foreach (var p in needRems)
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
 
-        var trueAdd = needAdd.Select(x => new Permissionv2()
+        var trueAdd = needAdd.Select(x => new Permissionv2
         {
             IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Channel,
@@ -1640,10 +1645,10 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         cb.WithSelectMenu(
             $"perm_quick_options_category_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
             placeholder: GetText("perm_quick_options_add_categories"), minValues: 1, maxValues: 10,
-            type: ComponentType.ChannelSelect, options: null, channelTypes: new[]
-            {
+            type: ComponentType.ChannelSelect, options: null, channelTypes:
+            [
                 ChannelType.Category
-            });
+            ]);
 
         return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
@@ -1708,7 +1713,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         foreach (var p in needRems)
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
 
-        var trueAdd = needAdd.Select(x => new Permissionv2()
+        var trueAdd = needAdd.Select(x => new Permissionv2
         {
             IsCustomCommand = 0,
             PrimaryTarget = PrimaryPermissionType.Category,

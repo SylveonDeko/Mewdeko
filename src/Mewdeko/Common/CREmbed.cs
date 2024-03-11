@@ -160,10 +160,7 @@ public class CrEmbed
 
         var error = new SelectMenuBuilder()
             .WithDisabled(true)
-            .WithOptions(new()
-            {
-                new("a", "a")
-            });
+            .WithOptions([new("a", "a")]);
 
         if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))
             sb = error.WithPlaceholder("MinOptions and MaxOptions must be less than 25 and more than 0");

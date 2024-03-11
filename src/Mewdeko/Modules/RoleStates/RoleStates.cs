@@ -110,7 +110,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
                 await Task.CompletedTask.ConfigureAwait(false);
 
                 var eb = new PageBuilder()
-                    .WithTitle($"User Role States")
+                    .WithTitle("User Role States")
                     .WithOkColor();
 
                 var roleStatesToShow = userRoleStates.Skip(5 * page).Take(3).ToList();

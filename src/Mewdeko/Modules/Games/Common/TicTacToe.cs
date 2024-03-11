@@ -12,9 +12,9 @@ public class TicTacToe
     private readonly SemaphoreSlim moveLock;
 
     private readonly string[] numbers =
-    {
+    [
         ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"
-    };
+    ];
 
     private readonly Options options;
     private readonly int?[,] state;
@@ -36,10 +36,10 @@ public class TicTacToe
         this.client = client;
         this.options = options;
 
-        users = new[]
-        {
+        users =
+        [
             firstUser, null
-        };
+        ];
         state = new int?[,]
         {
             {
@@ -59,7 +59,8 @@ public class TicTacToe
 
     public event Action<TicTacToe> OnEnded;
 
-    private string? GetText(string? key, params object?[] replacements) => strings.GetText(key, channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) =>
+        strings.GetText(key, channel.GuildId, replacements);
 
     public string GetState()
     {

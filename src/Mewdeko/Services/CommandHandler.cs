@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
+using ParseResult = Discord.Commands.ParseResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
 
 namespace Mewdeko.Services;
@@ -760,7 +761,7 @@ public class CommandHandler : INService
             return (false, bestCandidate.Value.ErrorReason, commands[0].Command);
         }
 
-        var parseResultsDict = new Dictionary<CommandMatch, Discord.Commands.ParseResult>();
+        var parseResultsDict = new Dictionary<CommandMatch, ParseResult>();
         foreach (var pair in successfulPreconditions)
         {
             var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services)
@@ -775,7 +776,7 @@ public class CommandHandler : INService
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
                         IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
                             .Select(x => x.Values.MaxBy(y => y.Score)).ToImmutableArray();
-                        parseResult = Discord.Commands.ParseResult.FromSuccess(argList, paramList);
+                        parseResult = ParseResult.FromSuccess(argList, paramList);
                         break;
                 }
             }
@@ -831,7 +832,7 @@ public class CommandHandler : INService
         return (true, null, cmd);
 
         // Calculates the 'score' of a command given a parse result
-        static float CalculateScore(CommandMatch match, Discord.Commands.ParseResult parseResult)
+        static float CalculateScore(CommandMatch match, ParseResult parseResult)
         {
             float argValuesScore = 0, paramValuesScore = 0;
 

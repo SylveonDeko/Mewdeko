@@ -17,14 +17,14 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
 
         SearchType = type;
         Rating = obj.Rating;
-        Tags = new HashSet<string>((obj?.Tags ?? obj.TagString).Split(' '));
+        Tags = [..(obj?.Tags ?? obj.TagString).Split(' ')];
     }
 
     public ImageCacherObject(string url, DapiSearchType type, string tags, string rating)
     {
         SearchType = type;
         FileUrl = url;
-        Tags = new HashSet<string>(tags.Split(' '));
+        Tags = [..tags.Split(' ')];
         Rating = rating;
     }
 
@@ -33,7 +33,8 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
     public HashSet<string> Tags { get; }
     public string Rating { get; }
 
-    public int CompareTo(ImageCacherObject? other) => string.Compare(FileUrl, other?.FileUrl, StringComparison.InvariantCulture);
+    public int CompareTo(ImageCacherObject? other) =>
+        string.Compare(FileUrl, other?.FileUrl, StringComparison.InvariantCulture);
 
     public override string ToString() => FileUrl;
 }

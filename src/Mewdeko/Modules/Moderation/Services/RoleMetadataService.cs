@@ -10,13 +10,14 @@ public class RoleMetadataService(DbService dbService, DiscordSocketClient client
 {
     private IBotCredentials botCredentials = botCredentials;
 
-    private readonly List<RoleConnectionMetadataProperties> props = new()
-    {
+    private readonly List<RoleConnectionMetadataProperties> props =
+    [
         new(RoleConnectionMetadataType.IntegerGreaterOrEqual, "total_cmds", "Total Commands",
             "The total commands a user has run since we started keeping track"),
+
         new(RoleConnectionMetadataType.DateTimeGreaterOrEqual, "earliest_use", "First Command",
             "Days since this user's first command after we started keeping track")
-    };
+    ];
 
     public async Task OnReadyAsync()
     {
@@ -49,7 +50,7 @@ public class RoleMetadataService(DbService dbService, DiscordSocketClient client
     {
         var val = await uow.AuthCodes.GetById(tokenId);
         var resp = await client.PostAsync("https://discord.com/api/v10/oauth2/token",
-            new FormUrlEncodedContent(new Dictionary<string, string>()
+            new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 {
                     "client_id", clientId.ToString()

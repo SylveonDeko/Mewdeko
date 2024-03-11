@@ -171,8 +171,8 @@ public class OwnerOnly(
                     {
                         FileName = shell,
                         Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                            ? $"/c git pull"
-                            : $"-c git pull",
+                            ? "/c git pull"
+                            : "-c git pull",
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                         CreateNoWindow = true
@@ -1090,7 +1090,7 @@ public class OwnerOnly(
                     await Task.CompletedTask;
                     return new PageBuilder()
                         .WithOkColor()
-                        .WithAuthor($"Bash Output")
+                        .WithAuthor("Bash Output")
                         .AddField("Input", message)
                         .WithDescription($"```{(isLinux ? "bash" : "powershell")}\n{stringList[page]}```");
                 }

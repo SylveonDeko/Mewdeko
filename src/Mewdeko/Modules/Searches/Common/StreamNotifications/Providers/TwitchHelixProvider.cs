@@ -63,10 +63,7 @@ public class TwitchHelixProvider : Provider
 
     public override async Task<StreamData?> GetStreamDataAsync(string login)
     {
-        var data = await GetStreamDataAsync(new List<string>
-        {
-            login
-        }).ConfigureAwait(false);
+        var data = await GetStreamDataAsync([login]).ConfigureAwait(false);
 
         return data.FirstOrDefault();
     }
@@ -82,7 +79,8 @@ public class TwitchHelixProvider : Provider
 
         if (token is null)
         {
-            Log.Warning("Twitch client ID and Secret are incorrect! Please go to https://dev.twitch.tv and create an application!");
+            Log.Warning(
+                "Twitch client ID and Secret are incorrect! Please go to https://dev.twitch.tv and create an application!");
             return Array.Empty<StreamData>();
         }
 
@@ -102,7 +100,8 @@ public class TwitchHelixProvider : Provider
             try
             {
                 var str = await http.GetStringAsync(
-                    $"https://api.twitch.tv/helix/users?{chunk.Select(x => $"login={x}").Join('&')}&first=100").ConfigureAwait(false);
+                        $"https://api.twitch.tv/helix/users?{chunk.Select(x => $"login={x}").Join('&')}&first=100")
+                    .ConfigureAwait(false);
 
                 var resObj = JsonSerializer.Deserialize<HelixUsersResponse>(str);
 
@@ -137,7 +136,8 @@ public class TwitchHelixProvider : Provider
             try
             {
                 var str = await http.GetStringAsync(
-                    $"https://api.twitch.tv/helix/streams?{chunk.Select(x => $"user_login={x}").Join('&')}&first=100").ConfigureAwait(false);
+                        $"https://api.twitch.tv/helix/streams?{chunk.Select(x => $"user_login={x}").Join('&')}&first=100")
+                    .ConfigureAwait(false);
 
                 var res = JsonSerializer.Deserialize<HelixStreamsResponse>(str);
 
