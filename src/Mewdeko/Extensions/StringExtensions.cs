@@ -8,10 +8,13 @@ namespace Mewdeko.Extensions;
 
 public static partial class StringExtensions
 {
-    private static readonly HashSet<char> LettersAndDigits = new(Enumerable.Range(48, 10)
-        .Concat(Enumerable.Range(65, 26))
-        .Concat(Enumerable.Range(97, 26))
-        .Select(x => (char)x));
+    private static readonly HashSet<char> LettersAndDigits =
+    [
+        ..Enumerable.Range(48, 10)
+            .Concat(Enumerable.Range(65, 26))
+            .Concat(Enumerable.Range(97, 26))
+            .Select(x => (char)x)
+    ];
 
     private static readonly Regex FilterRegex =
         MyRegex1();
@@ -513,10 +516,9 @@ public static partial class StringExtensions
 
     public static string ToTitleCase(this string str)
     {
-        var tokens = str.Split(new[]
-        {
+        var tokens = str.Split([
             " "
-        }, StringSplitOptions.RemoveEmptyEntries);
+        ], StringSplitOptions.RemoveEmptyEntries);
         for (var i = 0; i < tokens.Length; i++)
         {
             var token = tokens[i];

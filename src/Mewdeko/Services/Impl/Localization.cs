@@ -116,10 +116,10 @@ public class Localization : ILocalization
             {
                 Cmd = key,
                 Desc = key,
-                Usage = new[]
-                {
+                Usage =
+                [
                     key
-                }
+                ]
             };
         }
 

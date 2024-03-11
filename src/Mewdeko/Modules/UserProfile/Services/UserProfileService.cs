@@ -19,8 +19,8 @@ public partial class UserProfileService : INService
     {
         this.db = db;
         this.http = http;
-        zodiacList = new List<string>
-        {
+        zodiacList =
+        [
             "Aries",
             "Taurus",
             "Gemini",
@@ -33,7 +33,7 @@ public partial class UserProfileService : INService
             "Capricorn",
             "Aquarius",
             "Pisces"
-        };
+        ];
     }
 
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
@@ -41,7 +41,8 @@ public partial class UserProfileService : INService
         await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
-        var result = await http.GetStringAsync(@$"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}").ConfigureAwait(false);
+        var result = await http.GetStringAsync($"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}")
+            .ConfigureAwait(false);
         var pronouns = JsonConvert.DeserializeObject<PronounDbResult>(result);
         // if (pronouns.Pronouns != "unspecified")
         // {
@@ -83,7 +84,9 @@ public partial class UserProfileService : INService
         if (string.IsNullOrWhiteSpace(user.ZodiacSign))
             return (false, null);
         var client = new HttpClient();
-        var response = await client.PostAsync($"https://aztro.sameerkumar.website/?sign={user.ZodiacSign.ToLower()}&day=today", null);
+        var response =
+            await client.PostAsync($"https://aztro.sameerkumar.website/?sign={user.ZodiacSign.ToLower()}&day=today",
+                null);
         return (true, JsonConvert.DeserializeObject<ZodiacResult>(await response.Content.ReadAsStringAsync()));
     }
 

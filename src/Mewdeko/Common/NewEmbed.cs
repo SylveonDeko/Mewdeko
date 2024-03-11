@@ -226,10 +226,7 @@ public class NewEmbed
 
         var error = new SelectMenuBuilder()
             .WithDisabled(true)
-            .WithOptions(new()
-            {
-                new("a", "a")
-            })
+            .WithOptions([new("a", "a")])
             .WithCustomId(pos.ToString());
 
         if ((sel.MaxOptions, sel.MinOptions) is ((> 25) or (< 0), (> 25) or (< 0)))

@@ -116,7 +116,7 @@ public class UserPunishService2 : INService
                     {
                         await guild.AddBanAsync(user, options: new RequestOptions
                         {
-                            AuditLogReason = $"Warned too many times"
+                            AuditLogReason = "Warned too many times"
                         }).ConfigureAwait(false);
                     }
                     else
@@ -250,7 +250,8 @@ public class UserPunishService2 : INService
         switch (config.WarnExpireAction)
         {
             case WarnExpireAction.Clear:
-                var warningsToForgive = uow.Warnings2.Where(w => w.GuildId == guildId && w.Forgiven == 0 && w.DateAdded < expiryDate);
+                var warningsToForgive =
+                    uow.Warnings2.Where(w => w.GuildId == guildId && w.Forgiven == 0 && w.DateAdded < expiryDate);
                 foreach (var warning in warningsToForgive)
                 {
                     warning.Forgiven = 1;
@@ -312,7 +313,8 @@ public class UserPunishService2 : INService
         return toReturn;
     }
 
-    public async Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
+    public async Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time,
+        IRole? role = null)
     {
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
@@ -328,7 +330,10 @@ public class UserPunishService2 : INService
 
         ps.Add(new WarningPunishment2
         {
-            Count = number, Punishment = punish, Time = (int?)time?.Time.TotalMinutes ?? 0, RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
+            Count = number,
+            Punishment = punish,
+            Time = (int?)time?.Time.TotalMinutes ?? 0,
+            RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
         });
         await uow.SaveChangesAsync().ConfigureAwait(false);
 

@@ -21,7 +21,8 @@ public class BotStrings : IBotStrings
         this.stringsProvider = stringsProvider;
     }
 
-    public string? GetText(string? key, ulong? guildId = null, params object?[] data) => GetText(key, localization.GetCultureInfo(guildId), data);
+    public string? GetText(string? key, ulong? guildId = null, params object?[] data) =>
+        GetText(key, localization.GetCultureInfo(guildId), data);
 
     public string? GetText(string? key, CultureInfo? cultureInfo, params object?[] data)
     {
@@ -44,7 +45,8 @@ public class BotStrings : IBotStrings
         }
     }
 
-    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) => GetCommandStrings(commandName, localization.GetCultureInfo(guildId));
+    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) =>
+        GetCommandStrings(commandName, localization.GetCultureInfo(guildId));
 
     public CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
     {
@@ -65,10 +67,10 @@ public class BotStrings : IBotStrings
 
         return new CommandStrings
         {
-            Args = new[]
-            {
+            Args =
+            [
                 ""
-            },
+            ],
             Desc = "?"
         };
     }

@@ -17,7 +17,7 @@ public sealed class BotConfig
         ForwardMessages = false;
         ForwardToAllOwners = false;
         DmHelpText = """{"description": "Type `%prefix%h` for help."}""";
-        HelpText = @"change this in bot.yml";
+        HelpText = "change this in bot.yml";
         Blocked = new BlockedConfig();
         Prefix = ".";
         RotateStatuses = false;
@@ -36,7 +36,7 @@ public sealed class BotConfig
         QuarantineNotification = true;
     }
 
-    [Comment(@"DO NOT CHANGE")]
+    [Comment("DO NOT CHANGE")]
     public int Version { get; set; }
 
     [Comment(@"Most commands, when executed, have a small colored line
@@ -58,13 +58,13 @@ Allowed values: Simple, Normal, None")]
     Allowed values: Release, Commit, None")]
     public UpdateCheckType CheckForUpdates { get; set; }
 
-    [Comment(@"How often will the bot check for updates, in hours")]
+    [Comment("How often will the bot check for updates, in hours")]
     public int CheckUpdateInterval { get; set; }
 
     [Comment("Set which branch to check for updates")]
     public string UpdateBranch { get; set; }
 
-    [Comment(@"Do you want any messages sent by users in Bot's DM to be forwarded to the owner(s)?")]
+    [Comment("Do you want any messages sent by users in Bot's DM to be forwarded to the owner(s)?")]
     public bool ForwardMessages { get; set; }
 
     [Comment(
@@ -77,13 +77,13 @@ they will receive this message. Leave empty for no response. The string which wi
 Supports embeds. How it looks: https://puu.sh/B0BLV.png"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string? DmHelpText { get; set; }
 
-    [Comment(@"This is the response for the .h command"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
+    [Comment("This is the response for the .h command"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string HelpText { get; set; }
 
-    [Comment(@"List of modules and commands completely blocked on the bot")]
+    [Comment("List of modules and commands completely blocked on the bot")]
     public BlockedConfig? Blocked { get; set; }
 
-    [Comment(@"Which string will be used to recognize the commands")]
+    [Comment("Which string will be used to recognize the commands")]
     public string Prefix { get; set; }
 
     [Comment(@"Toggles whether your bot will group greet/bye messages into a single message every 5 seconds.
@@ -102,7 +102,7 @@ This setting can be changed via .rots command.
 See RotatingStatuses submodule in Administration.")]
     public bool RotateStatuses { get; set; }
 
-    [Comment(@"Used for global command logs")]
+    [Comment("Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
 
     [Comment("Enable or disable youtube support")]
@@ -120,7 +120,7 @@ See RotatingStatuses submodule in Administration.")]
     [Comment("Max tokens that chatgpt can output")]
     public int ChatGptMaxTokens { get; set; }
 
-    [Comment(@"Used to enable or disable showing the invite button on some commands")]
+    [Comment("Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
 
     [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
@@ -133,7 +133,7 @@ See RotatingStatuses submodule in Administration.")]
     public string ChatGptModel { get; set; }
 
     [Comment(
-        @"The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
+        "The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
     [Comment("Used to set the error emote used across the bot.")]
@@ -177,13 +177,13 @@ public class ColorConfig
         Pending = SKColor.Parse("faa61a");
     }
 
-    [Comment(@"Color used for embed responses when command successfully executes")]
+    [Comment("Color used for embed responses when command successfully executes")]
     public SKColor Ok { get; set; }
 
-    [Comment(@"Color used for embed responses when command has an error")]
+    [Comment("Color used for embed responses when command has an error")]
     public SKColor Error { get; set; }
 
-    [Comment(@"Color used for embed responses while command is doing work or is in progress")]
+    [Comment("Color used for embed responses while command is doing work or is in progress")]
     public SKColor Pending { get; set; }
 }
 

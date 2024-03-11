@@ -63,7 +63,7 @@ public class TypingGame
         {
             await Channel
                 .SendConfirmAsync(
-                    $@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.")
+                    $":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.")
                 .ConfigureAwait(false);
 
             var time = options.StartTime;
@@ -89,7 +89,9 @@ public class TypingGame
                 }
             } while (time > 2);
 
-            await msg.ModifyAsync(m => m.Content = CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).ConfigureAwait(false);
+            await msg.ModifyAsync(m =>
+                    m.Content = CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture))
+                .ConfigureAwait(false);
             sw.Start();
             HandleAnswers();
 

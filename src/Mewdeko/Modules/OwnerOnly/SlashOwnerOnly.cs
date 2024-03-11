@@ -21,6 +21,7 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
@@ -204,7 +205,7 @@ public class SlashOwnerOnly(
         }
 
         [SlashCommand("startupcommandadd", "Adds a command to run in the current channel on startup"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+         Discord.Interactions.RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task StartupCommandAdd([Remainder] string cmdText)
         {
@@ -239,7 +240,7 @@ public class SlashOwnerOnly(
         }
 
         [SlashCommand("autocommandadd", "Adds a command to run at a set interval"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+         Discord.Interactions.RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
         {
@@ -287,7 +288,7 @@ public class SlashOwnerOnly(
         }
 
         [SlashCommand("startupcommandslist", "Lists the current startup commands"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+         Discord.Interactions.RequireContext(ContextType.Guild)]
         public async Task StartupCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -319,7 +320,7 @@ public class SlashOwnerOnly(
         }
 
         [SlashCommand("autocommandslist", "Lists all auto commands"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+         Discord.Interactions.RequireContext(ContextType.Guild)]
         public async Task AutoCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -353,7 +354,7 @@ public class SlashOwnerOnly(
         private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
 
         [SlashCommand("autocommandremove", "Removes an auto command"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+         Discord.Interactions.RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandRemove([Remainder] int index)
         {
@@ -363,21 +364,20 @@ public class SlashOwnerOnly(
                 return;
             }
 
-            await ctx.Interaction.SendConfirmAsync($"Auto Command Removed.").ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync("Auto Command Removed.").ConfigureAwait(false);
         }
 
         [SlashCommand("startupcommandremove", "Removes a startup command"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild)]
+         Discord.Interactions.RequireContext(ContextType.Guild)]
         public Task StartupCommandRemove([Remainder] int index)
         {
             if (!Service.RemoveStartupCommand(--index, out _))
                 return ReplyErrorLocalizedAsync("scrm_fail");
-            else
-                return ReplyConfirmLocalizedAsync("scrm");
+            return ReplyConfirmLocalizedAsync("scrm");
         }
 
         [SlashCommand("startupcommandsclear", "Clears all startup commands"),
-         Discord.Interactions.RequireContext(Discord.Interactions.ContextType.Guild),
+         Discord.Interactions.RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
         public Task StartupCommandsClear()
         {
@@ -393,8 +393,7 @@ public class SlashOwnerOnly(
 
             if (enabled)
                 return ReplyConfirmLocalizedAsync("fwdm_start");
-            else
-                return ReplyConfirmLocalizedAsync("fwdm_stop");
+            return ReplyConfirmLocalizedAsync("fwdm_stop");
         }
 
         [SlashCommand("forwardtoall", "Toggles whether to forward dms to the bot to all bot owners")]
@@ -404,8 +403,7 @@ public class SlashOwnerOnly(
 
             if (enabled)
                 return ReplyConfirmLocalizedAsync("fwall_start");
-            else
-                return ReplyConfirmLocalizedAsync("fwall_stop");
+            return ReplyConfirmLocalizedAsync("fwall_stop");
         }
 
         [SlashCommand("setname", "Sets the bots name")]
@@ -575,8 +573,7 @@ public class SlashOwnerOnly(
         {
             if (Service.ToggleRotatePlaying())
                 return ReplyConfirmLocalizedAsync("ropl_enabled");
-            else
-                return ReplyConfirmLocalizedAsync("ropl_disabled");
+            return ReplyConfirmLocalizedAsync("ropl_disabled");
         }
 
         [SlashCommand("addplaying", "Adds a playing status to the rotating status list")]
@@ -596,12 +593,10 @@ public class SlashOwnerOnly(
             {
                 return ReplyErrorLocalizedAsync("ropl_not_set");
             }
-            else
-            {
-                var i = 1;
-                return ReplyConfirmLocalizedAsync("ropl_list",
-                    string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")));
-            }
+
+            var i = 1;
+            return ReplyConfirmLocalizedAsync("ropl_list",
+                string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")));
         }
 
         [SlashCommand("removeplaying", "Removes a status from the rotating status list")]
@@ -716,8 +711,7 @@ public class SlashOwnerOnly(
         var success = coord.RestartShard(shardId);
         if (success)
             return ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}"));
-        else
-            return ReplyErrorLocalizedAsync("no_shard_id");
+        return ReplyErrorLocalizedAsync("no_shard_id");
     }
 
     [SlashCommand("leaveserver", "Leaves a server by id or name")]
@@ -948,7 +942,7 @@ public class SlashOwnerOnly(
 
                     return new PageBuilder()
                         .WithOkColor()
-                        .WithAuthor($"Bash Output")
+                        .WithAuthor("Bash Output")
                         .AddField("Input", message)
                         .WithDescription($"```{(isLinux ? "bash" : "powershell")}\n{stringList[page]}```");
                 }

@@ -52,10 +52,7 @@ public class Permissionv2 : DbEntity, IIndexed
     };
 
     public static List<Permissionv2> GetDefaultPermlist =>
-        new()
-        {
-            AllowAllPerm
-        };
+        [AllowAllPerm];
 
     public int Index { get; set; }
 }

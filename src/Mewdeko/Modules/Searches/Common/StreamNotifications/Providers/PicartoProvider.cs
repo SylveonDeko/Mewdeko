@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class PicartoProvider : Provider
 {
-    private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
+    private static Regex Regex { get; } = new("picarto.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     public override FollowedStream.FType Platform
@@ -41,10 +41,7 @@ public class PicartoProvider : Provider
     public override async Task<StreamData?> GetStreamDataAsync(string login)
 #pragma warning restore CS8609
     {
-        var data = await GetStreamDataAsync(new List<string>
-        {
-            login
-        }).ConfigureAwait(false);
+        var data = await GetStreamDataAsync([login]).ConfigureAwait(false);
 
         return data.FirstOrDefault();
     }
@@ -68,7 +65,8 @@ public class PicartoProvider : Provider
                     continue;
 
                 var userData =
-                    JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync().ConfigureAwait(false))!;
+                    JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false))!;
 
                 toReturn.Add(ToStreamData(userData));
                 FailingStreams.TryRemove(login, out _);

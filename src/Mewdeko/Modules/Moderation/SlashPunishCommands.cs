@@ -189,7 +189,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     [SlashCommand("setwarnexpire", "Set when warns expire in days"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task WarnExpire(int days,
-        [Summary("todelete", "Set whether warns are deleted instead of cleared.")] bool delete)
+        [Summary("todelete", "Set whether warns are deleted instead of cleared.")]
+        bool delete)
     {
         if (days is < 0 or > 366)
             return;
@@ -221,9 +222,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         user ??= (IGuildUser)ctx.User;
         if (ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers)
             return InternalWarnlog(user.Id);
-        else
-            return ctx.Interaction.SendEphemeralErrorAsync(
-                "You are missing the permissions to view another user's warns.");
+        return ctx.Interaction.SendEphemeralErrorAsync(
+            "You are missing the permissions to view another user's warns.");
     }
 
     private async Task InternalWarnlog(ulong userId)

@@ -42,13 +42,14 @@ public partial class Xp(
 
     private async Task SendXpSettings(ITextChannel chan)
     {
-        var list = new List<XpStuffs>();
-
-        list.Add(CreateXpStuffs("xptextrate", Service.GetTxtXpRate(ctx.Guild.Id), xpconfig.Data.XpPerMessage));
-        list.Add(CreateXpStuffs("voicexprate", Service.GetVoiceXpRate(ctx.Guild.Id), xpconfig.Data.VoiceXpPerMinute));
-        list.Add(CreateXpStuffs("txtxptimeout", Service.GetXpTimeout(ctx.Guild.Id), xpconfig.Data.MessageXpCooldown));
-        list.Add(CreateXpStuffs("voiceminutestimeout", Service.GetVoiceXpTimeout(ctx.Guild.Id),
-            xpconfig.Data.VoiceMaxMinutes));
+        var list = new List<XpStuffs>
+        {
+            CreateXpStuffs("xptextrate", Service.GetTxtXpRate(ctx.Guild.Id), xpconfig.Data.XpPerMessage),
+            CreateXpStuffs("voicexprate", Service.GetVoiceXpRate(ctx.Guild.Id), xpconfig.Data.VoiceXpPerMinute),
+            CreateXpStuffs("txtxptimeout", Service.GetXpTimeout(ctx.Guild.Id), xpconfig.Data.MessageXpCooldown),
+            CreateXpStuffs("voiceminutestimeout", Service.GetVoiceXpTimeout(ctx.Guild.Id),
+                xpconfig.Data.VoiceMaxMinutes)
+        };
 
         var strings = list.Select(i => $"{i.Setting,-25} = {i.Value}\n").ToList();
         await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs")).ConfigureAwait(false);
@@ -681,7 +682,7 @@ public partial class Xp(
 
                 if (subPropertyInfo.Name is "Id" or "DateAdded" or "GuildId")
                 {
-                    await ctx.Channel.SendErrorAsync($"No.");
+                    await ctx.Channel.SendErrorAsync("No.");
                     return;
                 }
 
@@ -702,7 +703,7 @@ public partial class Xp(
                 // No subproperty is specified, user wants to set a property of Template directly
                 if (propertyInfo.Name is "Id" or "DateAdded" or "GuildId")
                 {
-                    await ctx.Channel.SendErrorAsync($"No.");
+                    await ctx.Channel.SendErrorAsync("No.");
                     return;
                 }
 

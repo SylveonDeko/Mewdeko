@@ -26,7 +26,8 @@ public static class GuildConfigExtensions
             .ThenInclude(x => x.ReactionRoles)
             .FirstOrDefault(x => x.GuildId == guildId)?.ReactionRoleMessages;
 
-    public static async Task<GuildConfig> ForGuildId(this MewdekoContext ctx, ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
+    public static async Task<GuildConfig> ForGuildId(this MewdekoContext ctx, ulong guildId,
+        Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
     {
         GuildConfig config;
 
@@ -46,7 +47,10 @@ public static class GuildConfigExtensions
         {
             await ctx.GuildConfigs.AddAsync(config = new GuildConfig
             {
-                GuildId = guildId, Permissions = Permissionv2.GetDefaultPermlist, WarningsInitialized = 1, WarnPunishments = DefaultWarnPunishments
+                GuildId = guildId,
+                Permissions = Permissionv2.GetDefaultPermlist,
+                WarningsInitialized = 1,
+                WarnPunishments = DefaultWarnPunishments
             });
             await ctx.SaveChangesAsync();
         }
@@ -58,7 +62,8 @@ public static class GuildConfigExtensions
         return config;
     }
 
-    public static IEnumerable<GuildConfig> Permissionsv2ForAll(this DbSet<GuildConfig> configs, int totalShards, int shardId)
+    public static IEnumerable<GuildConfig> Permissionsv2ForAll(this DbSet<GuildConfig> configs, int totalShards,
+        int shardId)
     {
         var query = configs
             .Include(gc => gc.Permissions)
@@ -141,7 +146,10 @@ public static class GuildConfigExtensions
         {
             await ctx.AddAsync(config = new GuildConfig
             {
-                GuildId = guildId, Permissions = Permissionv2.GetDefaultPermlist, WarningsInitialized = 1, WarnPunishments = DefaultWarnPunishments
+                GuildId = guildId,
+                Permissions = Permissionv2.GetDefaultPermlist,
+                WarningsInitialized = 1,
+                WarnPunishments = DefaultWarnPunishments
             });
             await ctx.SaveChangesAsync();
         }
@@ -154,17 +162,17 @@ public static class GuildConfigExtensions
     }
 
     private static List<WarningPunishment> DefaultWarnPunishments =>
-        new()
+    [
+        new WarningPunishment
         {
-            new WarningPunishment
-            {
-                Count = 3, Punishment = PunishmentAction.Kick
-            },
-            new WarningPunishment
-            {
-                Count = 5, Punishment = PunishmentAction.Ban
-            }
-        };
+            Count = 3, Punishment = PunishmentAction.Kick
+        },
+
+        new WarningPunishment
+        {
+            Count = 5, Punishment = PunishmentAction.Ban
+        }
+    ];
 
     public static ulong GetCleverbotChannel(this DbSet<GuildConfig> set, ulong guildid) =>
         set.AsQueryable()

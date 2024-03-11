@@ -164,11 +164,9 @@ public partial class Moderation
                 return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                     m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks && !m.IsPinned);
             }
-            else
-            {
-                return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
-                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks);
-            }
+
+            return Service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < TwoWeeks);
         }
     }
 }

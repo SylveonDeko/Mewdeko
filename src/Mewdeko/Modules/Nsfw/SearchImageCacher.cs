@@ -35,7 +35,7 @@ public class SearchImageCacher : INService
         foreach (var type in Enum.GetValues<Booru>())
         {
             typeLocks[type] = new object();
-            usedTags[type] = new HashSet<string>();
+            usedTags[type] = [];
         }
     }
 
@@ -126,10 +126,10 @@ public class SearchImageCacher : INService
                 if (usedTags.TryGetValue(type, out var allTags)
                     && allTags.Count > 0)
                 {
-                    tags = new[]
-                    {
+                    tags =
+                    [
                         allTags.ToList()[rng.Next(0, allTags.Count)]
-                    };
+                    ];
                 }
                 else
                 {
@@ -309,13 +309,13 @@ public class SearchImageCacher : INService
         catch (Exception ex)
         {
             if (ex is OperationCanceledException or TaskCanceledException)
-                return new List<ImageData>();
+                return [];
             Log.Error(ex, "Error downloading an image:\nTags: {0}\nType: {1}\nPage: {2}\nMessage: {3}",
                 string.Join(", ", tags),
                 type,
                 page,
                 ex.Message);
-            return new List<ImageData>();
+            return [];
         }
     }
 }

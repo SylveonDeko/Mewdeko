@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
+using Color = System.Drawing.Color;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -44,7 +45,7 @@ public partial class Utility
                 await ErrorLocalizedAsync("color_invalid");
             }
 
-            var color = (uint)System.Drawing.Color.FromArgb(r, g, b).ToArgb();
+            var color = (uint)Color.FromArgb(r, g, b).ToArgb();
             await Service.SetJoinColor(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
@@ -52,7 +53,7 @@ public partial class Utility
         [Cmd, Aliases, RequireDragon]
         public async Task JoinStatsColor()
         {
-            var color = (uint)System.Drawing.Color.FromArgb(255, 215, 0).ToArgb();
+            var color = (uint)Color.FromArgb(255, 215, 0).ToArgb();
             await Service.SetJoinColor(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
@@ -65,7 +66,7 @@ public partial class Utility
                 await ErrorLocalizedAsync("color_invalid");
             }
 
-            var color = (uint)System.Drawing.Color.FromArgb(r, g, b).ToArgb();
+            var color = (uint)Color.FromArgb(r, g, b).ToArgb();
             await Service.SetLeaveColor(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
@@ -73,7 +74,7 @@ public partial class Utility
         [Cmd, Aliases, RequireDragon]
         public async Task LeaveStatsColor()
         {
-            var color = (uint)System.Drawing.Color.FromArgb(255, 215, 0).ToArgb();
+            var color = (uint)Color.FromArgb(255, 215, 0).ToArgb();
             await Service.SetLeaveColor(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }

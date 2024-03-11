@@ -8,10 +8,8 @@ public class TriviaQuestion
     public const int MaxStringLength = 22;
 
     //represents the min size to judge levDistance with
-    private static readonly HashSet<Tuple<int, int>> Strictness = new()
-    {
-        new Tuple<int, int>(9, 0), new Tuple<int, int>(14, 1), new Tuple<int, int>(19, 2), new Tuple<int, int>(22, 3)
-    };
+    private static readonly HashSet<Tuple<int, int>> Strictness =
+        [new Tuple<int, int>(9, 0), new Tuple<int, int>(14, 1), new Tuple<int, int>(19, 2), new Tuple<int, int>(22, 3)];
 
     private string? cleanAnswer;
 
