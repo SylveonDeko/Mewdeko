@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using NpgsqlTypes;
 
 namespace Mewdeko.Database.Extensions;
 
@@ -15,7 +16,7 @@ public static class DbExtensions
         var ids = guildIds.Select((id, index) =>
         {
             // Safe only if id is guaranteed to be less than 9223372036854775808 (long.MaxValue)
-            var parameter = new NpgsqlParameter($"@p{index}", NpgsqlTypes.NpgsqlDbType.Bigint)
+            var parameter = new NpgsqlParameter($"@p{index}", NpgsqlDbType.Bigint)
             {
                 Value = unchecked((long)id)
             };

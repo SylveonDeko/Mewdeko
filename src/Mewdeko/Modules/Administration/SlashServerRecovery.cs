@@ -3,6 +3,7 @@ using Discord.Interactions;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Administration.Services;
 using OtpNet;
+using QRCoder;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -64,16 +65,16 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
             var otpauth =
                 $"otpauth://totp/{ctx.User.Username}?secret={Base32Encoding.ToString(secretKey)}&issuer={ctx.Client.CurrentUser.Username}";
 
-            var qrGenerator = new QRCoder.QRCodeGenerator();
-            var qrCodeData = qrGenerator.CreateQrCode(otpauth, QRCoder.QRCodeGenerator.ECCLevel.Q);
-            var qrCode = new QRCoder.PngByteQRCode(qrCodeData);
+            var qrGenerator = new QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode(otpauth, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new PngByteQRCode(qrCodeData);
             var qrCodeImage = qrCode.GetGraphic(20);
             var secureString = StringExtensions.GenerateSecureString(30);
 
             await db.StringSetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", base32Secret);
             await db.StringSetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", secureString);
 
-            var component = new ComponentBuilder().WithButton("Click to enter 2fa", customId: $"2fa-verify-setup")
+            var component = new ComponentBuilder().WithButton("Click to enter 2fa", customId: "2fa-verify-setup")
                 .WithButton("Download Authy (iOS)", style: ButtonStyle.Link,
                     url: "https://apps.apple.com/us/app/twilio-authy/id494168017")
                 .WithButton("Download Authy (Android)", style: ButtonStyle.Link,

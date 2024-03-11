@@ -27,8 +27,8 @@ public class SuggestionsService : INService
     {
         perms = permserv;
         this.guildSettings = guildSettings;
-        repostChecking = new List<ulong>();
-        spamCheck = new List<ulong>();
+        repostChecking = [];
+        spamCheck = [];
         Adminserv = aserv;
         Client = client;
         eventHandler.MessageReceived += MessageRecieved;
@@ -2540,9 +2540,9 @@ public class SuggestionsService : INService
 
         var builder = new ComponentBuilder();
         IEmote[] reacts =
-        {
+        [
             tup, tdown
-        };
+        ];
         if (await GetEmoteMode(guild) == 1)
         {
             var count = 0;

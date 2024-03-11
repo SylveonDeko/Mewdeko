@@ -9,8 +9,11 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Giveaways;
 
-public partial class Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService,
-        GuildSettingsService guildSettings)
+public partial class Giveaways(
+    DbService db,
+    IServiceProvider servs,
+    InteractiveService interactiveService,
+    GuildSettingsService guildSettings)
     : MewdekoModuleBase<GiveawayService>
 {
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
@@ -76,7 +79,7 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
         gc.GiveawayBanner = banner;
         await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
         await ctx.Channel.SendConfirmAsync(
-                $"Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.")
+                "Giveaway banner set! Just keep in mind this doesn't update until the next giveaway.")
             .ConfigureAwait(false);
     }
 
@@ -96,7 +99,7 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
             gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Channel.SendConfirmAsync(
-                    $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
+                    "Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
                 .ConfigureAwait(false);
         }
         else
@@ -124,7 +127,7 @@ public partial class Giveaways(DbService db, IServiceProvider servs, Interactive
             gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Channel.SendConfirmAsync(
-                    $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
+                    "Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
                 .ConfigureAwait(false);
         }
         else

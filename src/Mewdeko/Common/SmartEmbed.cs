@@ -111,10 +111,10 @@ public class SmartEmbed
             if (crembed is { IsValid: false })
                 return false;
 
-            embeds = new[]
-            {
+            embeds =
+            [
                 crembed.ToEmbed().Build()
-            };
+            ];
             plainText = crembed.PlainText;
             components = crembed.GetComponents(guildId);
             return true;

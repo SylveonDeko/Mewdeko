@@ -304,12 +304,11 @@ public class Mewdeko
             {
                 var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false);
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]", false,
-                    new[]
-                    {
-                        new EmbedFieldBuilder().WithName("Total Guilds")
-                            .WithValue(Services.GetRequiredService<ICoordinator>()
-                                .GetGuildCount().ToString())
-                    }).ConfigureAwait(false);
+                [
+                    new EmbedFieldBuilder().WithName("Total Guilds")
+                        .WithValue(Services.GetRequiredService<ICoordinator>()
+                            .GetGuildCount().ToString())
+                ]).ConfigureAwait(false);
             }
             catch
             {

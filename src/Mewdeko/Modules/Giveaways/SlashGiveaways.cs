@@ -76,7 +76,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Interaction.SendConfirmAsync(
-                    $"Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
+                    "Giveaway win embed color set! Just keep in mind this doesn't update until the next giveaway.")
                 .ConfigureAwait(false);
         }
         else
@@ -105,7 +105,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             gc.GiveawayEmbedColor = colorVal;
             await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
             await ctx.Interaction.SendConfirmAsync(
-                    $"Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
+                    "Giveaway embed color set! Just keep in mind this doesn't update until the next giveaway.")
                 .ConfigureAwait(false);
         }
         else
