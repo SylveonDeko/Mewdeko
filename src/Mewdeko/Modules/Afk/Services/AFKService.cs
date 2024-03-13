@@ -112,30 +112,37 @@ public class AfkService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         await using var uow = db.GetDbContext();
-        var guilds = client.Guilds.Select(x => x.Id).ToList();
-        var allafk = await uow.Afk.ToListAsyncEF();
+        var allafk = await uow.Afk.OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
 
         var latestAfkPerUserPerGuild =
             new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>>();
 
-        Parallel.ForEach(guilds, guildId =>
+        var guildIdsWithAfk = allafk.Select(afk => afk.GuildId).Distinct();
+
+        var tasks = guildIdsWithAfk.Select(async guildId =>
         {
             var latestAfkPerUser = new ConcurrentDictionary<ulong, Database.Models.Afk>();
 
-            foreach (var afk in allafk.Where(afk => afk.GuildId == guildId))
+            var afkEntriesForGuild = allafk.Where(afk => afk.GuildId == guildId)
+                .GroupBy(afk => afk.UserId)
+                .Select(g => g.First());
+
+            foreach (var afk in afkEntriesForGuild)
             {
-                latestAfkPerUser.AddOrUpdate(afk.UserId, afk,
-                    (key, existingVal) => existingVal.When < afk.When ? afk : existingVal);
+                latestAfkPerUser.TryAdd(afk.UserId, afk);
             }
 
-            latestAfkPerUserPerGuild[guildId] = latestAfkPerUser;
+            latestAfkPerUserPerGuild.TryAdd(guildId, latestAfkPerUser);
         });
+
+        await Task.WhenAll(tasks);
 
         CacheLatestAfks(latestAfkPerUserPerGuild);
 
         Environment.SetEnvironmentVariable($"AFK_CACHED_{client.ShardId}", "1");
         Log.Information("AFK Cached");
     }
+
 
     private async void CacheLatestAfks(
         ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>> latestAfks)
@@ -146,7 +153,8 @@ public class AfkService : INService, IReadyExecutor
             {
                 if (string.IsNullOrEmpty(userAfk.Value.Message))
                     await cache.ClearAfk(guild.Key, userAfk.Key);
-                await cache.CacheAfk(guild.Key, userAfk.Key, userAfk.Value);
+                else
+                    await cache.CacheAfk(guild.Key, userAfk.Key, userAfk.Value);
             }
         }
     }

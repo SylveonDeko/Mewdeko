@@ -56,7 +56,7 @@ public partial class Utility(
                                  $"`Embed Count:` ***{embeds?.Length}***\n" +
                                  $"`Component Count:` ***{comps?.Components.Count}")
                 .WithFooter($"Execution Time: {watch.Elapsed}");
-            await ctx.Channel.SendMessageAsync(embedText, embeds: embeds, components: comps);
+            await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: comps);
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
         catch (Exception e)
