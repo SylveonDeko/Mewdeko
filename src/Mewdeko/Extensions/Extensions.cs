@@ -39,15 +39,6 @@ public static partial class Extensions
     //     throw new FormatException($"The value '{value}' is not a valid boolean representation.");
     // }
 
-    public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
-        bool sanitizeAll = false)
-    {
-        var plainText = sanitizeAll
-            ? crEmbed.PlainText?.SanitizeAllMentions() ?? ""
-            : crEmbed.PlainText?.SanitizeMentions() ?? "";
-
-        return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
-    }
 
     public static Task SendConfirmAsync(this IDiscordInteraction interaction, string? message)
         => interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
