@@ -41,7 +41,7 @@ public partial class Utility(
     }
 
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task DebugEmbed(string embedText)
+    public async Task DebugEmbed([Remainder] string embedText)
     {
         var watch = Stopwatch.StartNew();
         try
