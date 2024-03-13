@@ -13,6 +13,10 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+debugembed:
+  args:
+    - embedcode
+  desc: Allows you to see what is failing with an embed, and any stats you need to see with the embed.
 update:
   args:
     - ""

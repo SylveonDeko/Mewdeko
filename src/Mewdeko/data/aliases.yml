@@ -2,6 +2,9 @@ accept:
   - accept
   - suggestaccept
   - acceptsuggest
+debugembed:
+  - debugembed
+  - embeddebug
 acceptchannel:
   - acceptchannel
 gpingrole:

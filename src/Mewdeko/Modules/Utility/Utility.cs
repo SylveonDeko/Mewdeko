@@ -40,6 +40,34 @@ public partial class Utility(
         Or
     }
 
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    public async Task DebugEmbed(string embedText)
+    {
+        var watch = Stopwatch.StartNew();
+        try
+        {
+            SmartEmbed.TryParse(embedText, ctx.Guild.Id, out var embeds, out var plainText, out var components);
+            var comps = components?.Build();
+            watch.Stop();
+            var eb = new EmbedBuilder()
+                .WithTitle("Embed Successfully Parsed")
+                .WithOkColor()
+                .WithDescription($"`PlainText Length:` ***{plainText.Length}***\n" +
+                                 $"`Embed Count:` ***{embeds?.Length}***\n" +
+                                 $"`Component Count:` ***{comps?.Components.Count}")
+                .WithFooter($"Execution Time: {watch.Elapsed}");
+            await ctx.Channel.SendMessageAsync(embedText, embeds: embeds, components: comps);
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        catch (Exception e)
+        {
+            var eb = new EmbedBuilder()
+                .WithTitle("Error Parsing Embed")
+                .WithDescription(e.ToString());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+    }
+
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RolePermList(PermissionType searchType = PermissionType.And, params GuildPermission[] perms)
     {
