@@ -6,6 +6,7 @@ using Discord.Interactions;
 using Discord.Net;
 using Discord.Rest;
 using Fergun.Interactive;
+using Figgle;
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
 using MartineApiNet;
@@ -290,6 +291,8 @@ public class Mewdeko
         Client.JoinedGuild += Client_JoinedGuild;
         Client.LeftGuild += Client_LeftGuild;
         Log.Information("Shard {0} logged in", Client.ShardId);
+        Log.Information("Logged in as:");
+        Console.WriteLine(FiggleFonts.Digital.Render(Client.CurrentUser.Username));
 
 #if !DEBUG
         Client.Log -= Client_Log;
