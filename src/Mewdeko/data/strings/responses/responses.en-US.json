@@ -39,6 +39,7 @@
   "word_publish_max_length": "Max length reached. Please keep blacklisted word under 40 characters.",
   "auto_publish_set": "Messages in {0} will now be auto published.",
   "auto_publish_not_set": "{0} is not an auto publish channel.",
+  "missing_manage_messages": "I am missing permissions to Manage Messages in {0}!",
   "none": "none",
   "auto_publish_removed": "Messages in {0} will no longer be auto published.",
   "channel_not_news_channel": "That channel is not an announcement channel. Please make sure its set as an announcement channel and try again.",

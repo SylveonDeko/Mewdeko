@@ -13,6 +13,12 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
      SlashUserPerm(GuildPermission.Administrator)]
     public async Task AddAutoPublish(INewsChannel channel)
     {
+        if (!await Service.PermCheck(channel))
+        {
+            await ReplyErrorLocalizedAsync("missing_managed_messages");
+            return;
+        }
+
         var added = await Service.AddAutoPublish(ctx.Guild.Id, channel.Id);
         if (!added)
             await ReplyErrorLocalizedAsync("auto_publish_already_set", channel.Mention);
@@ -31,6 +37,12 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
             return;
         }
 
+        if (!await Service.PermCheck(channel))
+        {
+            await ReplyErrorLocalizedAsync("missing_managed_messages");
+            return;
+        }
+
         var added = await Service.AddUserToBlacklist(channel.Id, user.Id);
         if (!added)
             await ReplyErrorLocalizedAsync("user_already_blacklisted_autopub", user.Mention);
@@ -46,6 +58,12 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
         if (await Service.CheckIfExists(channel.Id))
         {
             await ReplyErrorLocalizedAsync("channel_not_auto_publish");
+            return;
+        }
+
+        if (!await Service.PermCheck(channel))
+        {
+            await ReplyErrorLocalizedAsync("missing_managed_messages");
             return;
         }
 
