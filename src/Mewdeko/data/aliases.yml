@@ -16,6 +16,22 @@ gdmmmessage:
 update:
   - update
   - upd
+addautopublish:
+  - addautopublish
+  - addautopub
+  - aap
+addpublishblacklist:
+  - addpublishblacklist
+  - addpubbl
+getautopublishes:
+  - getautopublishes
+  - getaps
+removeautopublish:
+  - removeautopublish
+  - removeautopub
+removepublishblacklist:
+  - removepublishblacklist
+  - removepubbl
 gbanner:
   - gbanner
   - giveawaybanner
