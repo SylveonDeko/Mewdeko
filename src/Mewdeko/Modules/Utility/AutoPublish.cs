@@ -13,9 +13,15 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AddAutoPublish(ITextChannel channel)
         {
-            if (channel is not INewsChannel)
+            if (channel is not INewsChannel chan)
             {
                 await ReplyErrorLocalizedAsync("channel_not_news_channel");
+                return;
+            }
+
+            if (!await Service.PermCheck(chan))
+            {
+                await ReplyErrorLocalizedAsync("missing_managed_messages");
                 return;
             }
 
@@ -35,6 +41,18 @@ public partial class Utility
                 return;
             }
 
+            if (channel is not INewsChannel chan)
+            {
+                await ReplyErrorLocalizedAsync("channel_not_news_channel");
+                return;
+            }
+
+            if (!await Service.PermCheck(chan))
+            {
+                await ReplyErrorLocalizedAsync("missing_managed_messages");
+                return;
+            }
+
             var added = await Service.AddUserToBlacklist(channel.Id, user.Id);
             if (!added)
                 await ReplyErrorLocalizedAsync("user_already_blacklisted_autopub", user.Mention);
@@ -48,6 +66,18 @@ public partial class Utility
             if (await Service.CheckIfExists(channel.Id))
             {
                 await ReplyErrorLocalizedAsync("channel_not_auto_publish");
+                return;
+            }
+
+            if (channel is not INewsChannel chan)
+            {
+                await ReplyErrorLocalizedAsync("channel_not_news_channel");
+                return;
+            }
+
+            if (!await Service.PermCheck(chan))
+            {
+                await ReplyErrorLocalizedAsync("missing_managed_messages");
                 return;
             }
 

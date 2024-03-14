@@ -6,9 +6,11 @@ namespace Mewdeko.Modules.Utility.Services;
 public class AutoPublishService : INService
 {
     private readonly DbService dbService;
+    private readonly DiscordSocketClient client;
 
-    public AutoPublishService(DbService service, EventHandler handler)
+    public AutoPublishService(DbService service, EventHandler handler, DiscordSocketClient client)
     {
+        this.client = client;
         dbService = service;
         handler.MessageReceived += AutoPublish;
     }
@@ -20,6 +22,15 @@ public class AutoPublishService : INService
 
         if (args is not IUserMessage msg)
             return;
+
+        var curuser = await channel.GetUserAsync(client.CurrentUser.Id);
+
+        var perms = curuser.GetPermissions(channel);
+
+        if (!perms.Has(ChannelPermission.ManageMessages) &&
+            curuser.GuildPermissions.Has(GuildPermission.ManageMessages))
+            return;
+
 
         await using var uow = dbService.GetDbContext();
         var autoPublish = await uow.AutoPublish.FirstAsyncEF(x => x.ChannelId == channel.Id);
@@ -87,6 +98,16 @@ public class AutoPublishService : INService
                 let userBlacklists = uow.PublishUserBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
                 let wordBlacklists = uow.PublishWordBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
                 select (i, userBlacklists, wordBlacklists)).ToList();
+    }
+
+    public async Task<bool> PermCheck(INewsChannel channel)
+    {
+        var curuser = await channel.GetUserAsync(client.CurrentUser.Id);
+
+        var perms = curuser.GetPermissions(channel);
+
+        return perms.Has(ChannelPermission.ManageMessages) ||
+               !curuser.GuildPermissions.Has(GuildPermission.ManageMessages);
     }
 
     public async Task<bool> RemoveAutoPublish(ulong guildId, ulong channelId)
