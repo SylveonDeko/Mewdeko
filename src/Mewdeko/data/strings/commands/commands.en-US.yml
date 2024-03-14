@@ -25,6 +25,28 @@ gdmmessage:
   args:
     - "message"
   desc: "Sets the message to DM to a giveaway winner. Supports custom embed code! https://eb.mewdeko.tech"
+addautopublish:
+  args:
+    - "#announcechannel"
+  desc: "Adds an announcement channel to auto have its messages published."
+addpublishblacklist:
+  args:
+    - "user"
+    - "word"
+  desc: "Adds a user or word that makes auto publish ignore the message in the announcement channel."
+getautopublishes:
+  args:
+    - ""
+  desc: "Lists all auto publishes as well as their respective blacklists"
+removeautopublish:
+  args:
+    - "#announcechannel"
+  desc: "Removes a channel from the auto publish list. Does not clear blacklists."
+removepublishblacklist:
+  args:
+    - "@user"
+    - "word"
+  desc: "Removes a user or phrase from the blacklist."
 gdm:
   args:
     - ""
