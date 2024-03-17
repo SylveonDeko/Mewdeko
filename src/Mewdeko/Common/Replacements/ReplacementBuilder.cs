@@ -24,16 +24,19 @@ public partial class ReplacementBuilder
         WithRngRegex();
     }
 
-    public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g, DiscordSocketClient socketClient) =>
+    public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g,
+        DiscordSocketClient socketClient) =>
         WithUser(usr)
             .WithChannel(ch)
             .WithServer(socketClient, g)
             .WithClient(socketClient)
             .WithGifs();
 
-    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
+    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel,
+        ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
-    public ReplacementBuilder WithDefault(IInteractionContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
+    public ReplacementBuilder WithDefault(IInteractionContext ctx) => WithDefault(ctx.User, ctx.Channel,
+        ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
     public ReplacementBuilder WithClient(DiscordSocketClient socketClient)
     {
@@ -81,6 +84,7 @@ public partial class ReplacementBuilder
         reps.TryAdd("%server.icon%", () => g == null ? "DM" : $"{g.IconUrl}?size=2048");
         reps.TryAdd("%server.id%", () => g == null ? "DM" : g.Id.ToString());
         reps.TryAdd("%server.name%", () => g == null ? "DM" : g.Name.EscapeWeirdStuff());
+        reps.TryAdd("%server.banner%", () => g == null ? "DM" : g.BannerUrl);
         reps.TryAdd("%server.boostlevel%", () =>
         {
             var e = g.PremiumTier.ToString();
@@ -163,11 +167,14 @@ public partial class ReplacementBuilder
         reps.TryAdd("%crygif%", () => nekosBestApi.ActionsApi.Cry().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%cuddlegif%", () => nekosBestApi.ActionsApi.Cuddle().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%dancegif%", () => nekosBestApi.ActionsApi.Dance().GetAwaiter().GetResult().Results.First().Url);
-        reps.TryAdd("%facepalmgif%", () => nekosBestApi.ActionsApi.Facepalm().GetAwaiter().GetResult().Results.First().Url);
+        reps.TryAdd("%facepalmgif%",
+            () => nekosBestApi.ActionsApi.Facepalm().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%feedgif", () => nekosBestApi.ActionsApi.Feed().GetAwaiter().GetResult().Results.First().Url);
-        reps.TryAdd("%handholdgif%", () => nekosBestApi.ActionsApi.Handhold().GetAwaiter().GetResult().Results.First().Url);
+        reps.TryAdd("%handholdgif%",
+            () => nekosBestApi.ActionsApi.Handhold().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%happygif%", () => nekosBestApi.ActionsApi.Happy().GetAwaiter().GetResult().Results.First().Url);
-        reps.TryAdd("%highfivegif%", () => nekosBestApi.ActionsApi.Highfive().GetAwaiter().GetResult().Results.First().Url);
+        reps.TryAdd("%highfivegif%",
+            () => nekosBestApi.ActionsApi.Highfive().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%huggif%", () => nekosBestApi.ActionsApi.Hug().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%kickgif%", () => nekosBestApi.ActionsApi.Kick().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%kissgif%", () => nekosBestApi.ActionsApi.Kiss().GetAwaiter().GetResult().Results.First().Url);
@@ -184,7 +191,8 @@ public partial class ReplacementBuilder
         reps.TryAdd("%smuggif%", () => nekosBestApi.ActionsApi.Smug().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%staregif%", () => nekosBestApi.ActionsApi.Stare().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%thinkgif%", () => nekosBestApi.ActionsApi.Think().GetAwaiter().GetResult().Results.First().Url);
-        reps.TryAdd("%thumbsupgif%", () => nekosBestApi.ActionsApi.Thumbsup().GetAwaiter().GetResult().Results.First().Url);
+        reps.TryAdd("%thumbsupgif%",
+            () => nekosBestApi.ActionsApi.Thumbsup().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%ticklegif%", () => nekosBestApi.ActionsApi.Tickle().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%wavegif%", () => nekosBestApi.ActionsApi.Wave().GetAwaiter().GetResult().Results.First().Url);
         reps.TryAdd("%winkgif%", () => nekosBestApi.ActionsApi.Wink().GetAwaiter().GetResult().Results.First().Url);
@@ -229,11 +237,13 @@ public partial class ReplacementBuilder
         reps.TryAdd("%uid%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         /*NEW*/
         reps.TryAdd("%user.mention%", () => string.Join(" ", users.Select(user => user.Mention)));
-        reps.TryAdd("%user.fullname%", () => string.Join(" ", users.Select(user => user.ToString().EscapeWeirdStuff())));
+        reps.TryAdd("%user.fullname%",
+            () => string.Join(" ", users.Select(user => user.ToString().EscapeWeirdStuff())));
         reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username.EscapeWeirdStuff())));
         reps.TryAdd("%user.banner%",
             () => string.Join(" ",
-                users.Select(async user => (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048))));
+                users.Select(async user =>
+                    (await client.Rest.GetUserAsync(user.Id).ConfigureAwait(false)).GetBannerUrl(size: 2048))));
         reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         reps.TryAdd("%user.avatar%",
             () => string.Join(" ", users.Select(user => user.RealAvatarUrl().ToString())));
@@ -297,8 +307,8 @@ public partial class ReplacementBuilder
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
     {
         foreach (var provider in phProviders)
-            foreach (var ovr in provider.GetPlaceholders())
-                reps.TryAdd(ovr.Name, ovr.Func);
+        foreach (var ovr in provider.GetPlaceholders())
+            reps.TryAdd(ovr.Name, ovr.Func);
 
         return this;
     }
