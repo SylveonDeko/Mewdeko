@@ -1550,7 +1550,9 @@ public partial class Utility(
             else
                 try
                 {
-                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                    await channel.SendMessageAsync(message, allowedMentions: !canMention
+                        ? new AllowedMentions(AllowedMentionTypes.Users)
+                        : AllowedMentions.All);
                 }
                 catch (Exception ex)
                 {
