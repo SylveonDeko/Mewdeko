@@ -738,6 +738,8 @@ public class NewLogCommandService : INService
         var oldMessage = cacheable.Value;
         if (args3 is not SocketTextChannel guildChannel)
             return;
+        if (cacheable.Value.Content.Equals(args2.Content))
+            return;
         if (GuildLogSettings.TryGetValue(guildChannel.Guild.Id, out var logSetting))
         {
             if (logSetting.MessageUpdatedId is null or 0)
