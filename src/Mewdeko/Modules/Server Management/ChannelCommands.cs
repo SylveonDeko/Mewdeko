@@ -1,7 +1,6 @@
 using System.Net.Http;
 using Discord.Commands;
 using Humanizer;
-using Humanizer.Localisation;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;

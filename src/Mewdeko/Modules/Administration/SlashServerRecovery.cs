@@ -100,7 +100,7 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
                     .WithDescription(secureString);
                 await ctx.User.SendMessageAsync(embed: dmEmbed.Build());
             }
-            catch (Exception e)
+            catch
             {
                 await ctx.Interaction.SendErrorFollowupAsync("cant_dm");
             }

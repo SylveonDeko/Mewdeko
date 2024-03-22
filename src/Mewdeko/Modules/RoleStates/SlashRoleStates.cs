@@ -8,17 +8,9 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.RoleStates;
 
 [Group("rolestates", "Manage roles for users when they leave and rejoin!")]
-public class SlashRoleStates : MewdekoSlashModuleBase<RoleStatesService>
+public class SlashRoleStates(BotConfigService bss, InteractiveService interactivity)
+    : MewdekoSlashModuleBase<RoleStatesService>
 {
-    private readonly BotConfigService bss;
-    private readonly InteractiveService interactivity;
-
-    public SlashRoleStates(BotConfigService bss, InteractiveService interactivity)
-    {
-        this.bss = bss;
-        this.interactivity = interactivity;
-    }
-
     [SlashCommand("toggle", "Toggle whether RoleStates are enabled"), SlashUserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStates()
     {

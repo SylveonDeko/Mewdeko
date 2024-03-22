@@ -3,8 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
 
+/// <summary>
+/// The service for managing self-assigned roles.
+/// </summary>
 public class SelfAssignedRolesService : INService
 {
+    /// <summary>
+    /// Enum representing the possible results of an assign operation.
+    /// </summary>
     public enum AssignResult
     {
         Assigned, // successfully removed
@@ -14,6 +20,9 @@ public class SelfAssignedRolesService : INService
         ErrLvlReq // you are not required level (error)
     }
 
+    /// <summary>
+    /// Enum representing the possible results of a remove operation.
+    /// </summary>
     public enum RemoveResult
     {
         Removed, // successfully removed
@@ -22,10 +31,24 @@ public class SelfAssignedRolesService : INService
         ErrNotPerms // bot doesn't have perms (error)
     }
 
+    /// <summary>
+    /// The database service.
+    /// </summary>
     private readonly DbService db;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SelfAssignedRolesService"/> class.
+    /// </summary>
+    /// <param name="db">The database service.</param>
     public SelfAssignedRolesService(DbService db) => this.db = db;
 
+    /// <summary>
+    /// Adds a new self-assignable role to a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to add the role to.</param>
+    /// <param name="role">The role to add.</param>
+    /// <param name="group">The group number for the role.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> AddNew(ulong guildId, IRole role, int group)
     {
         await using var uow = db.GetDbContext();
@@ -41,6 +64,11 @@ public class SelfAssignedRolesService : INService
         return true;
     }
 
+    /// <summary>
+    /// Toggles the auto-deletion of self-assigned role messages for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to toggle the setting for.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.</returns>
     public async Task<bool> ToggleAdSarm(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -58,7 +86,12 @@ public class SelfAssignedRolesService : INService
         return newVal;
     }
 
-
+    /// <summary>
+    /// Assigns a self-assignable role to a guild user.
+    /// </summary>
+    /// <param name="guildUser">The guild user to assign the role to.</param>
+    /// <param name="role">The role to assign.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of the operation, a boolean indicating whether auto-deletion is enabled, and an extra object containing additional information about the operation.</returns>
     public async Task<(AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
     {
         LevelStats userLevelData;
@@ -115,6 +148,13 @@ public class SelfAssignedRolesService : INService
         return (AssignResult.Assigned, autoDelete, null);
     }
 
+    /// <summary>
+    /// Sets the name of a self-assignable role group in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to set the name for.</param>
+    /// <param name="group">The group number to set the name for.</param>
+    /// <param name="name">The new name for the group.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> SetNameAsync(ulong guildId, int group, string name)
     {
         var set = false;
@@ -146,6 +186,12 @@ public class SelfAssignedRolesService : INService
         return set;
     }
 
+    /// <summary>
+    /// Removes a self-assignable role from a guild user.
+    /// </summary>
+    /// <param name="guildUser">The guild user to remove the role from.</param>
+    /// <param name="role">The role to remove.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of the operation and a boolean indicating whether auto-deletion is enabled.</returns>
     public async Task<(RemoveResult Result, bool AutoDelete)> Remove(IGuildUser guildUser, IRole role)
     {
         var (autoDelete, _, roles) = await GetAdAndRoles(guildUser.Guild.Id);
@@ -165,6 +211,12 @@ public class SelfAssignedRolesService : INService
         return (RemoveResult.Removed, autoDelete);
     }
 
+    /// <summary>
+    /// Removes a self-assignable role from a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to remove the role from.</param>
+    /// <param name="roleId">The ID of the role to remove.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> RemoveSar(ulong guildId, ulong roleId)
     {
         await using var uow = db.GetDbContext();
@@ -174,6 +226,11 @@ public class SelfAssignedRolesService : INService
         return success;
     }
 
+    /// <summary>
+    /// Retrieves the auto-delete, exclusive, and self-assignable roles for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to retrieve the information for.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether auto-deletion is enabled, a boolean indicating whether exclusive self-assignable roles are enabled, and a collection of self-assignable roles.</returns>
     public async Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)> GetAdAndRoles(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -185,6 +242,13 @@ public class SelfAssignedRolesService : INService
         return (autoDelete, exclusive, roles);
     }
 
+    /// <summary>
+    /// Sets the level requirement for a self-assignable role in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to set the level requirement in.</param>
+    /// <param name="role">The role to set the level requirement for.</param>
+    /// <param name="level">The new level requirement.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> SetLevelReq(ulong guildId, IRole role, int level)
     {
         await using var uow = db.GetDbContext();
@@ -203,6 +267,11 @@ public class SelfAssignedRolesService : INService
         return true;
     }
 
+    /// <summary>
+    /// Toggles the exclusive self-assignable roles setting for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to toggle the setting for.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.</returns>
     public async Task<bool> ToggleEsar(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -217,8 +286,15 @@ public class SelfAssignedRolesService : INService
         return config.ExclusiveSelfAssignedRoles != 0;
     }
 
-
-    public async Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)> GetRoles(IGuild guild)
+    /// <summary>
+    /// Retrieves the exclusive setting, self-assignable roles, and group names for a guild.
+    /// </summary>
+    /// <param name="guild">The guild to retrieve the information for.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether exclusive self-assignable roles are enabled, a collection of tuples containing self-assignable role models and their corresponding roles, and a dictionary mapping group numbers to their names.</returns>
+    public async
+        Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string>
+            GroupNames)>
+        GetRoles(IGuild guild)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));

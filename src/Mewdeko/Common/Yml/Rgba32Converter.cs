@@ -6,16 +6,22 @@ using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Yml;
 
+/// <summary>
+/// YamlDotNet type converter for serializing and deserializing SKColor objects.
+/// </summary>
 public class SkColorConverter : IYamlTypeConverter
 {
+    /// <inheritdoc/>
     public bool Accepts(Type type) => type == typeof(SKColor);
 
+    /// <inheritdoc/>
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
         return SKColor.Parse(scalar.Value);
     }
 
+    /// <inheritdoc/>
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
         var color = (SKColor)value;
@@ -24,16 +30,22 @@ public class SkColorConverter : IYamlTypeConverter
     }
 }
 
+/// <summary>
+/// YamlDotNet type converter for serializing and deserializing CultureInfo objects.
+/// </summary>
 public class CultureInfoConverter : IYamlTypeConverter
 {
+    /// <inheritdoc/>
     public bool Accepts(Type type) => type == typeof(CultureInfo);
 
+    /// <inheritdoc/>
     public object ReadYaml(IParser parser, Type type)
     {
         var scalar = parser.Consume<Scalar>();
         return new CultureInfo(scalar.Value);
     }
 
+    /// <inheritdoc/>
     public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
         var ci = (CultureInfo)value;

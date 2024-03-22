@@ -2,19 +2,31 @@
 
 // ReSharper disable UnusedTypeParameter
 
-namespace Mewdeko.Common.TypeReaders;
-
-public abstract class MewdekoTypeReader<T> : TypeReader
+namespace Mewdeko.Common.TypeReaders
 {
-    // ReSharper disable once NotAccessedField.Local
-    private readonly DiscordSocketClient client;
-
-    // ReSharper disable once NotAccessedField.Local
-    private readonly CommandService cmds;
-
-    protected MewdekoTypeReader(DiscordSocketClient client, CommandService cmds)
+    /// <summary>
+    /// Abstract base class for implementing custom type readers.
+    /// </summary>
+    /// <typeparam name="T">The type that the type reader converts input to.</typeparam>
+    public abstract class MewdekoTypeReader<T> : TypeReader
     {
-        this.client = client;
-        this.cmds = cmds;
+        // DiscordSocketClient instance (unused field)
+        // ReSharper disable once NotAccessedField.Local
+        private readonly DiscordSocketClient client;
+
+        // CommandService instance (unused field)
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CommandService cmds;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MewdekoTypeReader{T}"/> class.
+        /// </summary>
+        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="cmds">The CommandService instance.</param>
+        protected MewdekoTypeReader(DiscordSocketClient client, CommandService cmds)
+        {
+            this.client = client;
+            this.cmds = cmds;
+        }
     }
 }

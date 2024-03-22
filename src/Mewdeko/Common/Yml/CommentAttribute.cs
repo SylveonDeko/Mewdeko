@@ -1,8 +1,20 @@
-﻿namespace Mewdeko.Common.Yml;
-
-public class CommentAttribute : Attribute
+﻿namespace Mewdeko.Common.Yml
 {
-    public CommentAttribute(string? comment) => Comment = comment;
+    /// <summary>
+    /// Attribute used to add comments to properties when serializing to YAML.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class CommentAttribute : Attribute
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentAttribute"/> class with the specified comment.
+        /// </summary>
+        /// <param name="comment">The comment text to be associated with the property.</param>
+        public CommentAttribute(string? comment) => Comment = comment;
 
-    public string? Comment { get; }
+        /// <summary>
+        /// Gets the comment associated with the property.
+        /// </summary>
+        public string? Comment { get; }
+    }
 }

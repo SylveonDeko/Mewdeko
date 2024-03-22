@@ -27,16 +27,12 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     {
         channel ??= ctx.Channel as ITextChannel;
         var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
-        switch (added)
+        return added switch
         {
-            case true:
-                return ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!");
-                break;
-            case false:
-                return ctx.Interaction.SendErrorAsync(
-                    "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again");
-                break;
-        }
+            true => ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!"),
+            false => ctx.Interaction.SendErrorAsync(
+                "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again")
+        };
     }
 
     [SlashCommand("remove", "Remove a channel from MultiGreets"), RequireContext(ContextType.Guild),
@@ -81,7 +77,8 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
      SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task MultiGreetDelete(int id,
-        [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
+        [Summary("Seconds", "After how long in seconds it should delete.")]
+        int howlong)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
