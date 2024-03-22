@@ -12,15 +12,15 @@ namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
-    public class RoleCommands
-        (IServiceProvider services, InteractiveService intserv) : MewdekoSubmodule<RoleCommandsService>
+    public class RoleCommands(IServiceProvider services, InteractiveService intserv)
+        : MewdekoSubmodule<RoleCommandsService>
     {
         public enum Exclude
         {
             Excl
         }
 
-        public async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
+        private async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
         {
             var target = messageId is { } msgId
                 ? await ctx.Channel.GetMessageAsync(msgId).ConfigureAwait(false)

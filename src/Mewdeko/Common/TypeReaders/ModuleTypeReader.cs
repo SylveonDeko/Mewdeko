@@ -1,44 +1,73 @@
 ﻿using Discord.Commands;
 
-namespace Mewdeko.Common.TypeReaders;
-
-public class ModuleTypeReader : MewdekoTypeReader<ModuleInfo>
+namespace Mewdeko.Common.TypeReaders
 {
-    private readonly CommandService cmds;
-
-    public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) => this.cmds = cmds;
-
-    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
+    /// <summary>
+    /// Type reader for parsing module inputs into ModuleInfo objects.
+    /// </summary>
+    public class ModuleTypeReader : MewdekoTypeReader<ModuleInfo>
     {
-        input = input.ToUpperInvariant();
-        var module = cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-            .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
-        return Task.FromResult(module == null ? TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found.") : TypeReaderResult.FromSuccess(module));
-    }
-}
+        private readonly CommandService cmds;
 
-public class ModuleOrCrTypeReader : MewdekoTypeReader<ModuleOrCrInfo>
-{
-    private readonly CommandService cmds;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModuleTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="cmds">The CommandService instance.</param>
+        public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) =>
+            this.cmds = cmds;
 
-    public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) => this.cmds = cmds;
-
-    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
-    {
-        input = input.ToUpperInvariant();
-        var module = cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-            .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
-        if (module == null && input != "ACTUALCUSTOMREACTIONS")
-            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
-
-        return Task.FromResult(TypeReaderResult.FromSuccess(new ModuleOrCrInfo
+        /// <inheritdoc />
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
-            Name = input
-        }));
+            input = input.ToUpperInvariant();
+            var module = cmds.Modules.GroupBy(m => m.GetTopLevelModule())
+                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+            return Task.FromResult(module == null
+                ? TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found.")
+                : TypeReaderResult.FromSuccess(module));
+        }
     }
-}
 
-public class ModuleOrCrInfo
-{
-    public string Name { get; set; }
+    /// <summary>
+    /// Type reader for parsing module or custom reaction inputs into ModuleOrCrInfo objects.
+    /// </summary>
+    public class ModuleOrCrTypeReader : MewdekoTypeReader<ModuleOrCrInfo>
+    {
+        private readonly CommandService cmds;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModuleOrCrTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="cmds">The CommandService instance.</param>
+        public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) =>
+            this.cmds = cmds;
+
+        /// <inheritdoc />
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
+        {
+            input = input.ToUpperInvariant();
+            var module = cmds.Modules.GroupBy(m => m.GetTopLevelModule())
+                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+            if (module == null && input != "ACTUALCUSTOMREACTIONS")
+                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
+
+            return Task.FromResult(TypeReaderResult.FromSuccess(new ModuleOrCrInfo
+            {
+                Name = input
+            }));
+        }
+    }
+
+    /// <summary>
+    /// Represents information about a module or custom reaction.
+    /// </summary>
+    public class ModuleOrCrInfo
+    {
+        /// <summary>
+        /// Gets or sets the name of the module or custom reaction.
+        /// </summary>
+        public string? Name { get; set; }
+    }
 }

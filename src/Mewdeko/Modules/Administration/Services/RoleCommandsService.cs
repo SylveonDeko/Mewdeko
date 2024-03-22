@@ -4,11 +4,20 @@ using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
+/// <summary>
+/// Service for managing role commands.
+/// </summary>
 public class RoleCommandsService : INService
 {
     private readonly DbService db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> models;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RoleCommandsService"/> class.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="eventHandler">The event handler.</param>
+    /// <param name="bot">The bot.</param>
     public RoleCommandsService(DbService db, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;
@@ -20,6 +29,12 @@ public class RoleCommandsService : INService
         eventHandler.ReactionRemoved += _client_ReactionRemoved;
     }
 
+    /// <summary>
+    /// Handles the ReactionAdded event of the client.
+    /// </summary>
+    /// <param name="msg">The message.</param>
+    /// <param name="chan">The channel.</param>
+    /// <param name="reaction">The reaction.</param>
     private async Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
@@ -100,7 +115,14 @@ public class RoleCommandsService : INService
         }
     }
 
-    private async Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
+    /// <summary>
+    /// Handles the ReactionRemoved event of the client.
+    /// </summary>
+    /// <param name="msg">The message.</param>
+    /// <param name="chan">The channel.</param>
+    /// <param name="reaction">The reaction.</param>
+    private async Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg,
+        Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
         try
@@ -145,8 +167,20 @@ public class RoleCommandsService : INService
         }
     }
 
+    /// <summary>
+    /// Gets the reaction role messages for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="rrs">The reaction role messages.</param>
+    /// <returns>A boolean indicating whether the operation was successful.</returns>
     public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => models.TryGetValue(id, out rrs);
 
+    /// <summary>
+    /// Adds a reaction role message to a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="rrm">The reaction role message.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
         await using var uow = db.GetDbContext();
@@ -162,6 +196,12 @@ public class RoleCommandsService : INService
         return true;
     }
 
+    /// <summary>
+    /// Removes a reaction role message from a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="index">The index of the reaction role message to remove.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Remove(ulong id, int index)
     {
         await using var uow = db.GetDbContext();

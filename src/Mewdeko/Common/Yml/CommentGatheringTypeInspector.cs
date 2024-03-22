@@ -2,61 +2,80 @@
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.TypeInspectors;
 
-namespace Mewdeko.Common.Yml;
-
-public class CommentGatheringTypeInspector : TypeInspectorSkeleton
+namespace Mewdeko.Common.Yml
 {
-    private readonly ITypeInspector innerTypeDescriptor;
-
-    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) =>
-        this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
-
-    public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container) =>
-        innerTypeDescriptor
-            .GetProperties(type, container)
-            .Select(d => new CommentsPropertyDescriptor(d));
-
-    private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
+    /// <summary>
+    /// Type inspector that gathers comments associated with properties during YAML serialization.
+    /// </summary>
+    public class CommentGatheringTypeInspector : TypeInspectorSkeleton
     {
-        private readonly IPropertyDescriptor baseDescriptor;
+        private readonly ITypeInspector innerTypeDescriptor;
 
-        public CommentsPropertyDescriptor(IPropertyDescriptor baseDescriptor)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentGatheringTypeInspector"/> class.
+        /// </summary>
+        /// <param name="innerTypeDescriptor">The inner type inspector to decorate.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="innerTypeDescriptor"/> is null.</exception>
+        public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) =>
+            this.innerTypeDescriptor =
+                innerTypeDescriptor ?? throw new ArgumentNullException(nameof(innerTypeDescriptor));
+
+        /// <inheritdoc/>
+        public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container) =>
+            innerTypeDescriptor
+                .GetProperties(type, container)
+                .Select(d => new CommentsPropertyDescriptor(d));
+
+        private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
         {
-            this.baseDescriptor = baseDescriptor;
-            Name = baseDescriptor.Name;
-        }
+            private readonly IPropertyDescriptor baseDescriptor;
 
-        public string Name { get; }
+            public CommentsPropertyDescriptor(IPropertyDescriptor baseDescriptor)
+            {
+                this.baseDescriptor = baseDescriptor;
+                Name = baseDescriptor.Name;
+            }
 
-        public Type Type => baseDescriptor.Type;
+            /// <inheritdoc/>
+            public string Name { get; }
 
-        public Type? TypeOverride
-        {
-            get => baseDescriptor.TypeOverride;
-            set => baseDescriptor.TypeOverride = value;
-        }
+            /// <inheritdoc/>
+            public Type Type => baseDescriptor.Type;
 
-        public int Order { get; set; }
+            /// <inheritdoc/>
+            public Type? TypeOverride
+            {
+                get => baseDescriptor.TypeOverride;
+                set => baseDescriptor.TypeOverride = value;
+            }
 
-        public ScalarStyle ScalarStyle
-        {
-            get => baseDescriptor.ScalarStyle;
-            set => baseDescriptor.ScalarStyle = value;
-        }
+            /// <inheritdoc/>
+            public int Order { get; set; }
 
-        public bool CanWrite => baseDescriptor.CanWrite;
+            /// <inheritdoc/>
+            public ScalarStyle ScalarStyle
+            {
+                get => baseDescriptor.ScalarStyle;
+                set => baseDescriptor.ScalarStyle = value;
+            }
 
-        public void Write(object target, object? value) => baseDescriptor.Write(target, value);
+            /// <inheritdoc/>
+            public bool CanWrite => baseDescriptor.CanWrite;
 
-        public T GetCustomAttribute<T>() where T : Attribute => baseDescriptor.GetCustomAttribute<T>();
+            /// <inheritdoc/>
+            public void Write(object target, object? value) => baseDescriptor.Write(target, value);
 
-        public IObjectDescriptor Read(object target)
-        {
-            var comment = baseDescriptor.GetCustomAttribute<CommentAttribute>();
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            return comment is not null
-                ? new CommentsObjectDescriptor(baseDescriptor.Read(target), comment.Comment)
-                : baseDescriptor.Read(target);
+            /// <inheritdoc/>
+            public T GetCustomAttribute<T>() where T : Attribute => baseDescriptor.GetCustomAttribute<T>();
+
+            /// <inheritdoc/>
+            public IObjectDescriptor Read(object target)
+            {
+                var comment = baseDescriptor.GetCustomAttribute<CommentAttribute>();
+                return comment is not null
+                    ? new CommentsObjectDescriptor(baseDescriptor.Read(target), comment.Comment)
+                    : baseDescriptor.Read(target);
+            }
         }
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Mewdeko.Extensions;
 
+/// <summary>
+/// Represents a result from the Moe API.
+/// </summary>
 public class Result
 {
     [JsonProperty("anilist")]
@@ -29,6 +32,9 @@ public class Result
     public string Image { get; set; }
 }
 
+/// <summary>
+/// Represents a response from the Moe API.
+/// </summary>
 public class MoeResponse
 {
     [JsonProperty("frameCount")]

@@ -1,22 +1,41 @@
 ﻿using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Common.Yml;
-
-public sealed class CommentsObjectDescriptor : IObjectDescriptor
+namespace Mewdeko.Common.Yml
 {
-    private readonly IObjectDescriptor innerDescriptor;
-
-    public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
+    /// <summary>
+    /// Represents an object descriptor with associated comments during YAML serialization.
+    /// </summary>
+    public sealed class CommentsObjectDescriptor : IObjectDescriptor
     {
-        this.innerDescriptor = innerDescriptor;
-        Comment = comment;
+        private readonly IObjectDescriptor innerDescriptor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsObjectDescriptor"/> class.
+        /// </summary>
+        /// <param name="innerDescriptor">The inner object descriptor.</param>
+        /// <param name="comment">The comment associated with the object.</param>
+        public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
+        {
+            this.innerDescriptor = innerDescriptor;
+            Comment = comment;
+        }
+
+        /// <summary>
+        /// Gets the comment associated with the object.
+        /// </summary>
+        public string Comment { get; }
+
+        /// <inheritdoc/>
+        public object Value => innerDescriptor.Value;
+
+        /// <inheritdoc/>
+        public Type Type => innerDescriptor.Type;
+
+        /// <inheritdoc/>
+        public Type StaticType => innerDescriptor.StaticType;
+
+        /// <inheritdoc/>
+        public ScalarStyle ScalarStyle => innerDescriptor.ScalarStyle;
     }
-
-    public string Comment { get; }
-
-    public object Value => innerDescriptor.Value;
-    public Type Type => innerDescriptor.Type;
-    public Type StaticType => innerDescriptor.StaticType;
-    public ScalarStyle ScalarStyle => innerDescriptor.ScalarStyle;
 }

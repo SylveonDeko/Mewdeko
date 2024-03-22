@@ -1,7 +1,12 @@
 // ReSharper disable NotNullMemberIsNotInitialized
 
+// ReSharper disable UnassignedGetOnlyAutoProperty
+
 namespace Mewdeko.Common.DiscordImplementations;
 
+/// <summary>
+/// Class used for faking messages for commands like Sudo
+/// </summary>
 public class MewdekoUserMessage : IUserMessage
 {
     public ulong Id => 0;
@@ -78,6 +83,7 @@ public class MewdekoUserMessage : IUserMessage
     public MessageResolvedData ResolvedData { get; }
 
     public IUserMessage ReferencedMessage { get; set; }
+    public IMessageInteractionMetadata InteractionMetadata { get; }
 
     public IThreadChannel Thread => throw new NotImplementedException();
 
