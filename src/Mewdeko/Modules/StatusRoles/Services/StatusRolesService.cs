@@ -234,12 +234,12 @@ public class StatusRolesService : INService, IReadyExecutor
         }
     }
 
-    public async Task<HashSet<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
+    public Task<HashSet<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
     {
-        if (!statusRoles.Any())
-            return new HashSet<StatusRolesTable>();
+        if (statusRoles.Count == 0)
+            return Task.FromResult(new HashSet<StatusRolesTable>());
         var statusList = statusRoles.Where(x => x.GuildId == guildId).ToHashSet();
-        return statusList.Any() ? statusList : new HashSet<StatusRolesTable>();
+        return Task.FromResult(statusList.Count != 0 ? statusList : []);
     }
 
 

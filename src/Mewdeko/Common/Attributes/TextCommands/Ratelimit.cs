@@ -5,19 +5,35 @@ using Swan;
 
 namespace Mewdeko.Common.Attributes.TextCommands;
 
+/// <summary>
+/// Attribute to define a rate limit for a command or method.
+/// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class RatelimitAttribute : PreconditionAttribute
 {
+    /// <summary>
+    /// Initializes a new instance of the RatelimitAttribute class.
+    /// </summary>
+    /// <param name="seconds">The rate limit in seconds.</param>
     public RatelimitAttribute(int seconds)
     {
-        if (seconds <= 0)
-            throw new ArgumentOutOfRangeException(nameof(seconds));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(seconds);
 
         Seconds = seconds;
     }
 
+    /// <summary>
+    /// Gets the rate limit in seconds.
+    /// </summary>
     public int Seconds { get; }
 
+    /// <summary>
+    /// Checks the permissions of the command or method before execution.
+    /// </summary>
+    /// <param name="context">The command context.</param>
+    /// <param name="command">The command being executed.</param>
+    /// <param name="services">The service provider.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the precondition result.</returns>
     public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
         IServiceProvider services)
     {

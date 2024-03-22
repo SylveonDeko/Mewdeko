@@ -1,20 +1,36 @@
 using Discord.Commands;
 
-namespace Mewdeko.Common.TypeReaders;
-
-public class UlongArrayTypeReader : MewdekoTypeReader<ulong[]>
+namespace Mewdeko.Common.TypeReaders
 {
-    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
+    /// <summary>
+    /// Type reader for parsing input strings into arrays of ulong values.
+    /// </summary>
+    public class UlongArrayTypeReader : MewdekoTypeReader<ulong[]>
     {
-        var inputs = input.Split(' ', ',', '.', ':', '-');
-        var data = inputs.Where(x => !x.IsNullOrWhiteSpace()).Select(x => Convert.ToUInt64(x)).ToList();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UlongArrayTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="cmds">The CommandService instance.</param>
+        public UlongArrayTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+        {
+        }
 
-        return Task.FromResult(data != null
-            ? TypeReaderResult.FromSuccess(data)
-            : TypeReaderResult.FromError(CommandError.ParseFailed, "obonobo"));
-    }
+        /// <inheritdoc />
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
+        {
+            // Split input string into an array of substrings based on delimiters
+            var inputs = input.Split(' ', ',', '.', ':', '-');
 
-    public UlongArrayTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
-    {
+            // Filter out empty substrings and convert each valid substring to ulong, then store in a list
+            var data = inputs.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => Convert.ToUInt64(x)).ToList();
+
+            // Return a TypeReaderResult indicating success with the parsed ulong array,
+            // or an error if parsing fails
+            return Task.FromResult(data != null
+                ? TypeReaderResult.FromSuccess(data)
+                : TypeReaderResult.FromError(CommandError.ParseFailed,
+                    "Failed to parse input as an array of ulong values."));
+        }
     }
 }

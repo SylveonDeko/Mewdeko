@@ -229,7 +229,7 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
 
         // Helper method to compute balance change
-        async Task<long> ComputeBalanceChange(string segment, long betAmount)
+        Task<long> ComputeBalanceChange(string segment, long betAmount)
         {
             long balanceChange = 0;
 
@@ -245,7 +245,7 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
                 balanceChange = segment.StartsWith("-") ? -val : val;
             }
 
-            return balanceChange;
+            return Task.FromResult(balanceChange);
         }
     }
 

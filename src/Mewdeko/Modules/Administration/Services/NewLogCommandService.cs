@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
 
+/// <summary>
+/// Service for managing log commands.
+/// </summary>
 public class NewLogCommandService : INService
 {
     private readonly DbService db;
@@ -11,6 +14,9 @@ public class NewLogCommandService : INService
     private readonly DiscordSocketClient client;
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
+    /// <summary>
+    /// Dictionary of log types.
+    /// </summary>
     public enum LogType
     {
         Other,
@@ -41,6 +47,9 @@ public class NewLogCommandService : INService
         UserMuted
     }
 
+    /// <summary>
+    /// Log category types.
+    /// </summary>
     public enum LogCategoryTypes
     {
         All,
@@ -55,12 +64,22 @@ public class NewLogCommandService : INService
     }
 
 
+    /// <summary>
+    /// Constructs a new instance of the NewLogCommandService.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="cache">The data cache.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="handler">The event handler.</param>
+    /// <param name="muteService">The mute service.</param>
     public NewLogCommandService(DbService db, IDataCache cache, DiscordSocketClient client, EventHandler handler,
         MuteService muteService)
     {
         this.db = db;
         this.cache = cache;
         this.client = client;
+
+        // Register event handlers
         handler.EventCreated += OnEventCreated;
         handler.RoleUpdated += OnRoleUpdated;
         handler.RoleCreated += OnRoleCreated;
@@ -87,6 +106,7 @@ public class NewLogCommandService : INService
         muteService.UserMuted += OnUserMuted;
         muteService.UserUnmuted += OnUserUnmuted;
 
+        // Load guild configurations from the database
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
         var configs = uow.GuildConfigs
@@ -96,11 +116,18 @@ public class NewLogCommandService : INService
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
 
+        // Store the log settings in a concurrent dictionary for fast access
         GuildLogSettings = configs
             .ToDictionary(g => g.GuildId, g => g.LogSetting)
             .ToConcurrent();
     }
 
+    /// <summary>
+    /// Handles the creation of audit logs.
+    /// </summary>
+    /// <param name="args">The audit log entry.</param>
+    /// <param name="arsg2">The guild where the audit log was created.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnAuditLogCreated(SocketAuditLogEntry args, SocketGuild arsg2)
     {
         if (args.Action == ActionType.Ban)
@@ -116,7 +143,11 @@ public class NewLogCommandService : INService
         }
     }
 
-
+    /// <summary>
+    /// Handles the creation of a role.
+    /// </summary>
+    /// <param name="args">The role that was created.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnRoleCreated(SocketRole args)
     {
         if (GuildLogSettings.TryGetValue(args.Guild.Id, out var logSetting))
@@ -150,6 +181,12 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a guild is updated.
+    /// </summary>
+    /// <param name="args">The updated guild.</param>
+    /// <param name="arsg2">The original guild before the update.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnGuildUpdated(SocketGuild args, SocketGuild arsg2)
     {
         if (GuildLogSettings.TryGetValue(args.Id, out var logSetting))
@@ -347,23 +384,34 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a role is deleted in a guild.
+    /// </summary>
+    /// <param name="args">The role that was deleted.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnRoleDeleted(SocketRole args)
     {
+        // Try to get the log settings for the guild
         if (GuildLogSettings.TryGetValue(args.Guild.Id, out var logSetting))
         {
+            // If no log setting for role deletion, return
             if (logSetting.RoleDeletedId is null or 0)
                 return;
 
+            // Get the text channel for logging
             var channel = args.Guild.GetTextChannel(logSetting.RoleDeletedId.Value);
 
+            // If the channel is null, return
             if (channel is null)
                 return;
 
+            // Wait for a short period to ensure all events are processed
             await Task.Delay(500);
 
+            // Get the audit logs for the guild
             var auditLogs = await args.Guild.GetAuditLogsAsync(1, actionType: ActionType.GuildUpdated).FlattenAsync();
 
-
+            // Create an embed builder for the message
             var eb = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle("Role Deleted")
@@ -372,10 +420,17 @@ public class NewLogCommandService : INService
                                  $"`Deleted At:` {DateTime.UtcNow}\n" +
                                  $"`Members:` {args.Members.Count()}");
 
+            // Send the message to the channel
             await channel.SendMessageAsync(embed: eb.Build());
         }
     }
 
+    /// <summary>
+    /// Handles the event when a role is updated in a guild.
+    /// </summary>
+    /// <param name="args">The updated role.</param>
+    /// <param name="arsg2">The original role before the update.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnRoleUpdated(SocketRole args, SocketRole arsg2)
     {
         if (GuildLogSettings.TryGetValue(args.Guild.Id, out var logSetting))
@@ -479,18 +534,28 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a new event is created in a guild.
+    /// </summary>
+    /// <param name="args">The event that was created.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnEventCreated(SocketGuildEvent args)
     {
+        // Try to get the log settings for the guild
         if (GuildLogSettings.TryGetValue(args.Guild.Id, out var logSetting))
         {
+            // If no log setting for event creation, return
             if (logSetting.EventCreatedId is null or 0)
                 return;
 
+            // Get the text channel for logging
             var channel = args.Guild.GetTextChannel(logSetting.EventCreatedId.Value);
 
+            // If the channel is null, return
             if (channel is null)
                 return;
 
+            // Create an embed builder for the message
             var eb = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle("Event Created")
@@ -505,10 +570,15 @@ public class NewLogCommandService : INService
                                  $"`Event Id:` {args.Id}")
                 .WithImageUrl(args.GetCoverImageUrl());
 
+            // Send the message to the channel
             await channel.SendMessageAsync(embed: eb.Build());
         }
     }
 
+    /// <summary>
+    /// Handles logging for when a thread is created.
+    /// </summary>
+    /// <param name="socketThreadChannel">The created thread channel.</param>
     private async Task OnThreadCreated(SocketThreadChannel socketThreadChannel)
     {
         if (GuildLogSettings.TryGetValue(socketThreadChannel.Guild.Id, out var logSetting))
@@ -534,6 +604,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user has a role added to them.
+    /// </summary>
+    /// <param name="cacheable">The user before the event fired</param>
+    /// <param name="arsg2">The user after the event was fired</param>
     private async Task OnUserRoleAdded(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser arsg2)
     {
         if (GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting))
@@ -565,6 +640,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event where a user has a role removed.
+    /// </summary>
+    /// <param name="cacheable">The user before the removal</param>
+    /// <param name="arsg2">The user after the removal</param>
     private async Task OnUserRoleRemoved(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser arsg2)
     {
         if (GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting))
@@ -595,6 +675,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user updates their username.
+    /// </summary>
+    /// <param name="args">The user before they updated their username.</param>
+    /// <param name="arsg2">The user after they updated their username.</param>
     private async Task OnUsernameUpdated(SocketUser args, SocketUser arsg2)
     {
         if (args is not SocketGuildUser user)
@@ -623,6 +708,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user updates their nickname.
+    /// </summary>
+    /// <param name="cacheable">The user before they updated their nickname</param>
+    /// <param name="arsg2">The user after they updated their nickname</param>
     private async Task OnNicknameUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser arsg2)
     {
         if (!cacheable.HasValue) return;
@@ -655,6 +745,10 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a thread gets deleted.
+    /// </summary>
+    /// <param name="args">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
     private async Task OnThreadDeleted(Cacheable<SocketThreadChannel, ulong> args)
     {
         if (!args.HasValue) return;
@@ -685,6 +779,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a thread is updated.
+    /// </summary>
+    /// <param name="cacheable">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="arsg2">The updated thread.</param>
     private async Task OnThreadUpdated(Cacheable<SocketThreadChannel, ulong> cacheable, SocketThreadChannel arsg2)
     {
         if (!cacheable.HasValue) return;
@@ -731,6 +830,12 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a message is updated.
+    /// </summary>
+    /// <param name="cacheable">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="args2">The new message</param>
+    /// <param name="args3">The channel where the message was updated</param>
     private async Task OnMessageUpdated(Cacheable<IMessage, ulong> cacheable, SocketMessage args2,
         ISocketMessageChannel args3)
     {
@@ -767,6 +872,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a message is deleted.
+    /// </summary>
+    /// <param name="args">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="arsg2">The channel where the message was deleted</param>
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> args, Cacheable<IMessageChannel, ulong> arsg2)
     {
         if (!args.HasValue) return;
@@ -797,6 +907,10 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user joins a guild.
+    /// </summary>
+    /// <param name="guildUser">The user that joined the guild.</param>
     private async Task OnUserJoined(IGuildUser guildUser)
     {
         if (GuildLogSettings.TryGetValue(guildUser.Guild.Id, out var logSetting))
@@ -828,6 +942,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user leaves a guild.
+    /// </summary>
+    /// <param name="guild">The guild the user left.</param>
+    /// <param name="arsg2">The user that left the guild.</param>
     private async Task OnUserLeft(IGuild guild, IUser arsg2)
     {
         if (arsg2 is not SocketGuildUser usr) return;
@@ -860,6 +979,12 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user is banned from a guild.
+    /// </summary>
+    /// <param name="args">The user that was banned.</param>
+    /// <param name="arsg2">The guild the user was banned from.</param>
+    /// <param name="bannedBy">The user that banned the user.</param>
     private async Task OnUserBanned(IUser args, SocketGuild arsg2, SocketUser bannedBy)
     {
         if (args is not SocketGuildUser usr) return;
@@ -893,6 +1018,12 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user is unbanned from a guild.
+    /// </summary>
+    /// <param name="args">The user that was unbanned.</param>
+    /// <param name="arsg2">The guild the user was unbanned from.</param>
+    /// <param name="unbannedBy">The user that unbanned the user.</param>
     private async Task OnUserUnbanned(IUser args, SocketGuild arsg2, SocketUser unbannedBy)
     {
         if (GuildLogSettings.TryGetValue(arsg2.Id, out var logSetting))
@@ -924,6 +1055,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user is updated.
+    /// </summary>
+    /// <param name="args">The user before the update.</param>
+    /// <param name="arsg2">The user after the update.</param>
     private async Task OnUserUpdated(SocketUser args, SocketUser arsg2)
     {
         if (args is not SocketGuildUser usr) return;
@@ -958,6 +1094,10 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a channel is created in a guild.
+    /// </summary>
+    /// <param name="args">The channel that was created.</param>
     private async Task OnChannelCreated(SocketChannel args)
     {
         if (args is not SocketGuildChannel channel) return;
@@ -1013,6 +1153,10 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a channel is destroyed/deleted in a guild.
+    /// </summary>
+    /// <param name="args">The channel that was destroyed.</param>
     private async Task OnChannelDestroyed(SocketChannel args)
     {
         if (args is not SocketGuildChannel channel) return;
@@ -1068,6 +1212,11 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a channel is updated in a guild.
+    /// </summary>
+    /// <param name="args">The channel before the update.</param>
+    /// <param name="arsg2">The channel after the update.</param>
     private async Task OnChannelUpdated(SocketChannel args, SocketChannel arsg2)
     {
         if (args is not SocketGuildChannel channel || arsg2 is not SocketGuildChannel channel2) return;
@@ -1183,6 +1332,12 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when voice state is updated.
+    /// </summary>
+    /// <param name="args">The user that had their voice state updated.</param>
+    /// <param name="args2">The voice state before the update.</param>
+    /// <param name="args3">The voice state after the update.</param>
     private async Task OnVoicePresence(SocketUser args, SocketVoiceState args2, SocketVoiceState args3)
     {
         if (args.IsBot)
@@ -1251,21 +1406,50 @@ public class NewLogCommandService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the event when a user says something using tts in a channel. Currently unimplemented.
+    /// </summary>
+    /// <param name="args">The user that used tts.</param>
+    /// <param name="args2">The voice state before the update.</param>
+    /// <param name="args3">The voice state after the update.</param>
+    /// <exception cref="NotImplementedException"></exception>
     private async Task OnVoicePresenceTts(SocketUser args, SocketVoiceState args2, SocketVoiceState args3)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Handles the event when a user is muted in a guild. Currently unimplemented.
+    /// </summary>
+    /// <param name="guildUser">The user that was muted.</param>
+    /// <param name="args2">The user that muted the user.</param>
+    /// <param name="args3">Type of mute. <see cref="MuteType"/></param>
+    /// <param name="args4">The reason the user was muted.</param>
+    /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserMuted(IGuildUser guildUser, IUser args2, MuteType args3, string args4)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Handles the event when a user is unmuted in a guild. Currently unimplemented.
+    /// </summary>
+    /// <param name="args">The user that was unmuted.</param>
+    /// <param name="args2">The user that unmuted the user.</param>
+    /// <param name="args3">Type of mute. <see cref="MuteType"/></param>
+    /// <param name="args4">The reason the user was unmuted.</param>
+    /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserUnmuted(IGuildUser args, IUser args2, MuteType args3, string args4)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Sets the log channel for a specific type of log.
+    /// </summary>
+    /// <param name="guildId">The guildId to set the log setting for.</param>
+    /// <param name="channelId">The channelId to set the log channel to.</param>
+    /// <param name="type">The type of log to set the channel for.</param>
     public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
         await using var uow = db.GetDbContext();
@@ -1354,6 +1538,12 @@ public class NewLogCommandService : INService
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 
+    /// <summary>
+    /// Allows you to set the log channel for a specific category of logs.
+    /// </summary>
+    /// <param name="guildId">The guildId to set the logs for.</param>
+    /// <param name="channelId">The channelId to set the logs to.</param>
+    /// <param name="categoryTypes">The category of logs to set the channel for.</param>
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var uow = db.GetDbContext();

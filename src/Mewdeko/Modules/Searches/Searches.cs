@@ -366,7 +366,7 @@ public partial class Searches(
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
                         // ignored because 403s
                     }
@@ -413,7 +413,7 @@ public partial class Searches(
                         }
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     // ignored because 403s
                 }

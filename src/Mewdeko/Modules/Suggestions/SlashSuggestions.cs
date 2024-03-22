@@ -60,23 +60,14 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
     public Task HandleStateModal(string state, string suggestId, SuggestStateModal modal)
     {
         ulong.TryParse(suggestId, out var sugId);
-        switch (state)
+        return state switch
         {
-            case "accept":
-                return Accept(sugId, modal.Reason.EscapeWeirdStuff());
-                break;
-            case "deny":
-                return Deny(sugId, modal.Reason.EscapeWeirdStuff());
-                break;
-            case "consider":
-                return Consider(sugId, modal.Reason.EscapeWeirdStuff());
-                break;
-            case "implement":
-                return Implemented(sugId, modal.Reason.EscapeWeirdStuff());
-                break;
-        }
-
-        return Task.CompletedTask;
+            "accept" => Accept(sugId, modal.Reason.EscapeWeirdStuff()),
+            "deny" => Deny(sugId, modal.Reason.EscapeWeirdStuff()),
+            "consider" => Consider(sugId, modal.Reason.EscapeWeirdStuff()),
+            "implement" => Implemented(sugId, modal.Reason.EscapeWeirdStuff()),
+            _ => Task.CompletedTask
+        };
     }
 
     [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions]

@@ -119,7 +119,7 @@ public class AfkService : INService, IReadyExecutor
 
         var guildIdsWithAfk = allafk.Select(afk => afk.GuildId).Distinct();
 
-        var tasks = guildIdsWithAfk.Select(async guildId =>
+        var tasks = guildIdsWithAfk.Select(guildId =>
         {
             var latestAfkPerUser = new ConcurrentDictionary<ulong, Database.Models.Afk>();
 
@@ -133,6 +133,7 @@ public class AfkService : INService, IReadyExecutor
             }
 
             latestAfkPerUserPerGuild.TryAdd(guildId, latestAfkPerUser);
+            return Task.CompletedTask;
         });
 
         await Task.WhenAll(tasks);

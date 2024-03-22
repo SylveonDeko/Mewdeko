@@ -72,7 +72,8 @@ public class SlashOwnerOnly(
     public async Task RedisExec([Remainder] string command)
     {
         var result = await cache.ExecuteRedisCommand(command).ConfigureAwait(false);
-        var eb = new EmbedBuilder().WithOkColor().WithTitle(result.Type.ToString()).WithDescription(result.ToString());
+        var eb = new EmbedBuilder().WithOkColor().WithTitle(result.Resp2Type.ToString())
+            .WithDescription(result.ToString());
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 

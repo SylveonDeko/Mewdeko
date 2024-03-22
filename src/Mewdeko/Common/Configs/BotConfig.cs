@@ -34,6 +34,8 @@ public sealed class BotConfig
         ChatGptMaxTokens = 1000;
         ChatGptTemperature = 0.9;
         QuarantineNotification = true;
+        UpdateBranch = "main";
+        CheckForUpdates = UpdateCheckType.None;
     }
 
     [Comment("DO NOT CHANGE")]

@@ -4,8 +4,8 @@ namespace Mewdeko.Database.Models;
 
 public class CommandStats : DbEntity
 {
-    public string NameOrId { get; set; }
-    public string Module { get; set; } = null;
+    public string NameOrId { get; set; } = "";
+    public string Module { get; set; } = "";
     public long IsSlash { get; set; } = 0;
     public long Trigger { get; set; } = 0;
     public ulong GuildId { get; set; }

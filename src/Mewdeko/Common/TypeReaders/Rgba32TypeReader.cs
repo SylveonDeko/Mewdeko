@@ -1,28 +1,38 @@
 ﻿using Discord.Commands;
 using SkiaSharp;
 
-namespace Mewdeko.Common.TypeReaders;
-
-public class SkColorTypeReader : MewdekoTypeReader<SKColor>
+namespace Mewdeko.Common.TypeReaders
 {
-    public SkColorTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+    /// <summary>
+    /// Type reader for parsing SKColor inputs into SKColor objects.
+    /// </summary>
+    public class SkColorTypeReader : MewdekoTypeReader<SKColor>
     {
-    }
-
-    public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-        IServiceProvider services)
-    {
-        await Task.Yield();
-
-        input = input.Replace("#", "", StringComparison.InvariantCulture);
-        try
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkColorTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="cmds">The CommandService instance.</param>
+        public SkColorTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
-            return TypeReaderResult.FromSuccess(SKColor.Parse(input));
         }
-        catch
+
+        /// <inheritdoc />
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+            IServiceProvider services)
         {
-            return TypeReaderResult.FromError(CommandError.ParseFailed,
-                "Parameter is not a valid color hex or name.");
+            await Task.Yield(); // Forces the method to run asynchronously
+
+            input = input.Replace("#", "", StringComparison.InvariantCulture); // Removes '#' symbol from input
+            try
+            {
+                return TypeReaderResult.FromSuccess(SKColor.Parse(input)); // Parses input string and returns SKColor
+            }
+            catch
+            {
+                return TypeReaderResult.FromError(CommandError.ParseFailed,
+                    "Parameter is not a valid color hex or name."); // Returns error message if parsing fails
+            }
         }
     }
 }

@@ -6,8 +6,16 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.RoleStates;
 
+/// <summary>
+///
+/// </summary>
+/// <param name="bss">The BotConfigService instance.</param>
+/// <param name="interactivity">The InteractiveService instance.</param>
 public class RoleStates(BotConfigService bss, InteractiveService interactivity) : MewdekoModuleBase<RoleStatesService>
 {
+    /// <summary>
+    /// Toggles the role states feature on or off.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStates()
     {
@@ -17,6 +25,9 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States are now disabled!");
     }
 
+    /// <summary>
+    /// Toggles whether bots should be ignored by the role states feature.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStatesIgnoreBots()
     {
@@ -34,6 +45,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Role States will not ignore bots!");
     }
 
+
+    /// <summary>
+    /// Toggles whether role states should be cleared when a user is banned.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ToggleRoleStatesClearOnBan()
     {
@@ -51,7 +66,9 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} Role states will not clear on ban!");
     }
 
-
+    /// <summary>
+    /// Displays the current settings for the role states feature.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ViewRoleStatesSettings()
     {
@@ -82,6 +99,9 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
     }
 
+    /// <summary>
+    /// Displays the role states for all users.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ViewUserRoleStates()
     {
@@ -130,6 +150,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
     }
 
+    /// <summary>
+    /// Deletes the role state for a specific user.
+    /// </summary>
+    /// <param name="user">The user whose role state should be deleted.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task DeleteUserRoleState(IGuildUser user)
     {
@@ -142,6 +166,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
     }
 
+    /// <summary>
+    /// Adds roles to the deny list for the role states feature.
+    /// </summary>
+    /// <param name="roles">The roles to be added to the deny list.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesAddDenyRole(params IRole[] roles)
     {
@@ -174,6 +202,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             $"{bss.Data.SuccessEmote} Successfully added {addedCount} role(s) to the deny list.");
     }
 
+    /// <summary>
+    /// Removes roles from the deny list for the role states feature.
+    /// </summary>
+    /// <param name="roles">The roles to be removed from the deny list.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesRemoveDenyRole(params IRole[] roles)
     {
@@ -206,6 +238,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             $"{bss.Data.SuccessEmote} Successfully removed {removedCount} role(s) from the deny list.");
     }
 
+    /// <summary>
+    /// Adds users to the deny list for the role states feature.
+    /// </summary>
+    /// <param name="users">The users to be added to the deny list.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesAddDenyUser(params IGuildUser[] users)
     {
@@ -238,6 +274,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             $"{bss.Data.SuccessEmote} Successfully added {addedCount} user(s) to the deny list.");
     }
 
+    /// <summary>
+    /// Removes users from the deny list for the role states feature.
+    /// </summary>
+    /// <param name="users">The users to be removed from the deny list.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task RoleStatesRemoveDenyUser(params IGuildUser[] users)
     {
@@ -270,6 +310,11 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             $"{bss.Data.SuccessEmote} Successfully removed {removedCount} user(s) from the deny list.");
     }
 
+    /// <summary>
+    /// Sets the role state for a specific user.
+    /// </summary>
+    /// <param name="user">The user whose role state should be set.</param>
+    /// <param name="roles">The roles to be included in the user's role state.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task SetUserRoleState(IGuildUser user, params IRole[] roles)
     {
@@ -281,6 +326,11 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
             $"{bss.Data.SuccessEmote} Successfully set the role state for user {user.Mention} with the specified roles.");
     }
 
+    /// <summary>
+    /// Removes roles from a user's role state.
+    /// </summary>
+    /// <param name="user">The user whose role state should be modified.</param>
+    /// <param name="roles">The roles to be removed from the user's role state.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task RemoveRolesFromRoleState(IUser user, params IRole[] roles)
     {
@@ -292,6 +342,11 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
                 $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
+    /// <summary>
+    /// Adds roles to a user's role state.
+    /// </summary>
+    /// <param name="user">The user whose role state should be modified.</param>
+    /// <param name="roles">The roles to be added to the user's role state.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AddRolesToRoleState(IUser user, params IRole[] roles)
     {
@@ -303,6 +358,10 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
                 $"{bss.Data.SuccessEmote} Successfully removed those roles from {user}'s Role State!.");
     }
 
+    /// <summary>
+    /// Deletes the role state for a specific user.
+    /// </summary>
+    /// <param name="user">The user whose role state should be deleted.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task DeleteUserRoleState(IUser user)
     {

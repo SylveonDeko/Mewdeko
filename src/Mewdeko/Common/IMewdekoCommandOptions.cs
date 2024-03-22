@@ -1,6 +1,13 @@
-﻿namespace Mewdeko.Common;
-
-public interface IMewdekoCommandOptions
+﻿namespace Mewdeko.Common
 {
-    void NormalizeOptions();
+    /// <summary>
+    /// Represents options for Mewdeko commands.
+    /// </summary>
+    public interface IMewdekoCommandOptions
+    {
+        /// <summary>
+        /// Normalizes the command options.
+        /// </summary>
+        void NormalizeOptions();
+    }
 }

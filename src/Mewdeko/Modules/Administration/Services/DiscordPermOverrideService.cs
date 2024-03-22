@@ -7,13 +7,25 @@ using RequireUserPermissionAttribute = Discord.Commands.RequireUserPermissionAtt
 
 namespace Mewdeko.Modules.Administration.Services;
 
+/// <summary>
+/// Service for managing Discord permission overrides.
+/// </summary>
 public class DiscordPermOverrideService : INService, ILateBlocker
 {
     private readonly DbService db;
 
+    /// <summary>
+    /// A dictionary of Discord permission overrides.
+    /// </summary>
     private readonly ConcurrentDictionary<(ulong, string), DiscordPermOverride> overrides;
+
     private readonly IServiceProvider services;
 
+    /// <summary>
+    /// Constructs a new instance of the DiscordPermOverrideService.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="services">The service provider.</param>
     public DiscordPermOverrideService(DbService db, IServiceProvider services)
     {
         this.db = db;
@@ -25,8 +37,19 @@ public class DiscordPermOverrideService : INService, ILateBlocker
             .ToConcurrent();
     }
 
+    /// <summary>
+    /// The priority of the service.
+    /// </summary>
     public int Priority { get; } = int.MaxValue;
 
+    /// <summary>
+    /// Tries to block a command based on the permission overrides.
+    /// </summary>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="context">The command context.</param>
+    /// <param name="moduleName">The name of the module.</param>
+    /// <param name="command">The command to block.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the command was blocked.</returns>
     public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
         CommandInfo command)
     {
@@ -36,6 +59,13 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return !result.IsSuccess;
     }
 
+    /// <summary>
+    /// Tries to block a command based on the permission overrides for interaction context.
+    /// </summary>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="context">The interaction context.</param>
+    /// <param name="command">The command to block.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the command was blocked.</returns>
     public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
         ICommandInfo command)
     {
@@ -43,10 +73,18 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         var result = await new Discord.Interactions.RequireUserPermissionAttribute(perm)
             .CheckRequirementsAsync(context, command, services).ConfigureAwait(false);
         if (!result.IsSuccess)
-            await context.Interaction.SendEphemeralErrorAsync($"You need `{perm}` to use this command.").ConfigureAwait(false);
+            await context.Interaction.SendEphemeralErrorAsync($"You need `{perm}` to use this command.")
+                .ConfigureAwait(false);
         return !result.IsSuccess;
     }
 
+    /// <summary>
+    /// Tries to get the permission overrides for a specific command in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="commandName">The name of the command.</param>
+    /// <param name="perm">The permission override for the command, if it exists.</param>
+    /// <returns>A boolean indicating whether a permission override was found for the command.</returns>
     public bool TryGetOverrides(ulong guildId, string commandName, out GuildPermission perm)
     {
         commandName = commandName.ToLowerInvariant();
@@ -60,6 +98,14 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return false;
     }
 
+    /// <summary>
+    /// Executes the permission overrides for a specific command in a command context.
+    /// </summary>
+    /// <param name="ctx">The command context.</param>
+    /// <param name="command">The command to execute the overrides for.</param>
+    /// <param name="perms">The permissions to check.</param>
+    /// <param name="services">The service provider.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result of the permission check.</returns>
     public static Task<PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
         GuildPermission perms, IServiceProvider services)
     {
@@ -67,13 +113,29 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return rupa.CheckPermissionsAsync(ctx, command, services);
     }
 
-    public static Task<Discord.Interactions.PreconditionResult> ExecuteOverrides(IInteractionContext ctx, ICommandInfo command,
+    /// <summary>
+    /// Executes the permission overrides for a specific command in an interaction context.
+    /// </summary>
+    /// <param name="ctx">The interaction context.</param>
+    /// <param name="command">The command to execute the overrides for.</param>
+    /// <param name="perms">The permissions to check.</param>
+    /// <param name="services">The service provider.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result of the permission check.</returns>
+    public static Task<Discord.Interactions.PreconditionResult> ExecuteOverrides(IInteractionContext ctx,
+        ICommandInfo command,
         GuildPermission perms, IServiceProvider services)
     {
         var rupa = new Discord.Interactions.RequireUserPermissionAttribute(perms);
         return rupa.CheckRequirementsAsync(ctx, command, services);
     }
 
+    /// <summary>
+    /// Adds a permission override for a specific command in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="commandName">The name of the command.</param>
+    /// <param name="perm">The permission to override with.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddOverride(ulong guildId, string commandName, GuildPermission perm)
     {
         commandName = commandName.ToLowerInvariant();
@@ -100,6 +162,11 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Clears all permission overrides for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ClearAllOverrides(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -114,6 +181,12 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         foreach (var over in discordPermOverrides) this.overrides.TryRemove((guildId, over.Command), out _);
     }
 
+    /// <summary>
+    /// Removes a permission override for a specific command in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="commandName">The name of the command.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task RemoveOverride(ulong guildId, string commandName)
     {
         commandName = commandName.ToLowerInvariant();
@@ -133,6 +206,11 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         overrides.TryRemove((guildId, commandName), out _);
     }
 
+    /// <summary>
+    /// Retrieves all permission overrides for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>An enumerable of DiscordPermOverride objects representing all permission overrides for the guild.</returns>
     public IEnumerable<DiscordPermOverride> GetAllOverrides(ulong guildId)
     {
         using var uow = db.GetDbContext();

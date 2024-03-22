@@ -2,21 +2,28 @@
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Common.Yml;
-
-public class UriConverter : IYamlTypeConverter
+namespace Mewdeko.Common.Yml
 {
-    public bool Accepts(Type type) => type == typeof(Uri);
-
-    public object ReadYaml(IParser parser, Type type)
+    /// <summary>
+    /// YamlDotNet type converter for serializing and deserializing Uri objects.
+    /// </summary>
+    public class UriConverter : IYamlTypeConverter
     {
-        var scalar = parser.Consume<Scalar>();
-        return new Uri(scalar.Value);
-    }
+        /// <inheritdoc/>
+        public bool Accepts(Type type) => type == typeof(Uri);
 
-    public void WriteYaml(IEmitter emitter, object? value, Type type)
-    {
-        var uri = (Uri)value;
-        emitter.Emit(new Scalar(uri.ToString()));
+        /// <inheritdoc/>
+        public object ReadYaml(IParser parser, Type type)
+        {
+            var scalar = parser.Consume<Scalar>();
+            return new Uri(scalar.Value);
+        }
+
+        /// <inheritdoc/>
+        public void WriteYaml(IEmitter emitter, object? value, Type type)
+        {
+            var uri = (Uri)value;
+            emitter.Emit(new Scalar(uri.ToString()));
+        }
     }
 }
