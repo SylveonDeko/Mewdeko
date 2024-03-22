@@ -966,7 +966,7 @@ public class NewLogCommandService : INService
                 .WithDescription(
                     $"`User:` {usr.Mention} | {usr.Id}\n" +
                     $"`User Id:` {usr.Id}\n" +
-                    $"`User Global Name:` {arsg2.GlobalName ?? arsg2.Username}" +
+                    $"`User Global Name:` {arsg2.GlobalName ?? arsg2.Username}\n" +
                     $"`Account Created:` {usr.CreatedAt:dd/MM/yyyy}\n" +
                     $"`Joined Server:` {usr.JoinedAt:dd/MM/yyyy}\n" +
                     $"`Roles:` {string.Join(", ", usr.Roles.Select(x => x.Mention))}")
