@@ -1,98 +1,133 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Modules.Currency.Services.Impl;
-
-public class GlobalCurrencyService(DbService service) : ICurrencyService
+namespace Mewdeko.Modules.Currency.Services.Impl
 {
-    public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId = null)
+    /// <summary>
+    /// Implementation of the currency service for managing global user balances and transactions.
+    /// </summary>
+    public class GlobalCurrencyService : ICurrencyService
     {
-        await using var uow = service.GetDbContext();
+        private readonly DbService service;
 
-        var existingBalance = await uow.GlobalUserBalances
-            .FirstOrDefaultAsync(g => g.UserId == userId);
-
-        if (existingBalance != null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GlobalCurrencyService"/> class.
+        /// </summary>
+        /// <param name="service">The database service.</param>
+        public GlobalCurrencyService(DbService service)
         {
-            existingBalance.Balance += amount;
-            uow.GlobalUserBalances.Update(existingBalance);
+            this.service = service;
         }
-        else
+
+        /// <inheritdoc/>
+        public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId = null)
         {
-            var globalBalance = new GlobalUserBalance
+            await using var uow = service.GetDbContext();
+
+            // Check if the user already has a balance entry
+            var existingBalance = await uow.GlobalUserBalances
+                .FirstOrDefaultAsync(g => g.UserId == userId);
+
+            if (existingBalance != null)
             {
-                UserId = userId, Balance = amount
+                // Update the existing balance
+                existingBalance.Balance += amount;
+                uow.GlobalUserBalances.Update(existingBalance);
+            }
+            else
+            {
+                // Create a new balance entry
+                var globalBalance = new GlobalUserBalance
+                {
+                    UserId = userId, Balance = amount
+                };
+                uow.GlobalUserBalances.Add(globalBalance);
+            }
+
+            // Save changes to the database
+            await uow.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
+        {
+            await using var uow = service.GetDbContext();
+            // Retrieve user balance from the database
+            return await uow.GlobalUserBalances
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Balance)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
+        {
+            await using var uow = service.GetDbContext();
+
+            // Create a new transaction entry
+            var transaction = new TransactionHistory
+            {
+                UserId = userId, Amount = amount, Description = description
             };
-            uow.GlobalUserBalances.Add(globalBalance);
+
+            // Add transaction to the database
+            uow.TransactionHistories.Add(transaction);
+            await uow.SaveChangesAsync();
         }
 
-        await uow.SaveChangesAsync();
-    }
-
-    public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
-    {
-        await using var uow = service.GetDbContext();
-        return await uow.GlobalUserBalances
-            .Where(x => x.UserId == userId)
-            .Select(x => x.Balance)
-            .FirstOrDefaultAsync();
-    }
-
-    public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
-    {
-        await using var uow = service.GetDbContext();
-
-        var transaction = new TransactionHistory
+        /// <inheritdoc/>
+        public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
         {
-            UserId = userId, Amount = amount, Description = description
-        };
+            await using var uow = service.GetDbContext();
 
-        uow.TransactionHistories.Add(transaction);
-        await uow.SaveChangesAsync();
-    }
+            // Retrieve user transactions from the database
+            return await uow.TransactionHistories
+                .Where(x => x.UserId == userId && x.GuildId == 0)?
+                .ToListAsync();
+        }
 
-    public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
-    {
-        await using var uow = service.GetDbContext();
+        /// <inheritdoc/>
+        public async Task<string> GetCurrencyEmote(ulong? guildId = null)
+        {
+            await using var uow = service.GetDbContext();
 
-        return await uow.TransactionHistories
-            .Where(x => x.UserId == userId && x.GuildId == 0)?
-            .ToListAsync();
-    }
+            // Retrieve currency emote from the database
+            return await uow.OwnerOnly
+                .Select(x => x.CurrencyEmote)
+                .FirstOrDefaultAsync();
+        }
 
-    public async Task<string> GetCurrencyEmote(ulong? guildId = null)
-    {
-        await using var uow = service.GetDbContext();
+        /// <inheritdoc/>
+        public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
+        {
+            await using var uow = service.GetDbContext();
 
-        return await uow.OwnerOnly
-            .Select(x => x.CurrencyEmote)
-            .FirstOrDefaultAsync();
-    }
+            // Retrieve all user balances from the database
+            return uow.GlobalUserBalances
+                .Select(x => new LbCurrency
+                {
+                    UserId = x.UserId, Balance = x.Balance
+                }).ToList();
+        }
 
-    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
-    {
-        await using var uow = service.GetDbContext();
+        /// <inheritdoc/>
+        public async Task SetReward(int amount, int seconds, ulong? _)
+        {
+            await using var uow = service.GetDbContext();
+            // Update reward configuration in the database
+            var config = await uow.OwnerOnly.FirstOrDefaultAsync();
+            config.RewardAmount = amount;
+            config.RewardTimeoutSeconds = seconds;
+            uow.OwnerOnly.Update(config);
+            await uow.SaveChangesAsync();
+        }
 
-        return uow.GlobalUserBalances
-            .Select(x => new LbCurrency
-            {
-                UserId = x.UserId, Balance = x.Balance
-            }).ToList();
-    }
-
-    public async Task SetReward(int amount, int seconds, ulong? _)
-    {
-        await using var uow = service.GetDbContext();
-        var config = await uow.OwnerOnly.FirstOrDefaultAsync();
-        config.RewardAmount = amount;
-        config.RewardTimeoutSeconds = seconds;
-        uow.OwnerOnly.Update(config);
-        await uow.SaveChangesAsync();
-    }
-
-    public async Task<(int, int)> GetReward(ulong? _)
-    {
-        await using var uow = service.GetDbContext();
-        var config = await uow.OwnerOnly.FirstOrDefaultAsync();
-        return (config.RewardAmount, config.RewardTimeoutSeconds);
+        /// <inheritdoc/>
+        public async Task<(int, int)> GetReward(ulong? _)
+        {
+            await using var uow = service.GetDbContext();
+            // Retrieve reward configuration from the database
+            var config = await uow.OwnerOnly.FirstOrDefaultAsync();
+            return (config.RewardAmount, config.RewardTimeoutSeconds);
+        }
     }
 }

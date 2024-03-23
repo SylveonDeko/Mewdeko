@@ -11,6 +11,11 @@ using Serilog;
 
 namespace Mewdeko.Modules.Administration;
 
+/// <summary>
+/// Class for the Administration Module.
+/// </summary>
+/// <param name="serv">The interactivity service by Fergun.Interactive</param>
+/// <param name="configService">The bot config service that uses yml from data/</param>
 public partial class Administration(InteractiveService serv, BotConfigService configService)
     : MewdekoModuleBase<AdministrationService>
 {
@@ -40,6 +45,10 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         Inherit
     }
 
+    /// <summary>
+    /// Allows you to opt the entire guild out of stats tracking.
+    /// </summary>
+    /// <example>.guildstatsoptout</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task GuildStatsOptOut()
     {
@@ -50,6 +59,10 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             await ctx.Channel.SendConfirmAsync(GetText("command_stats_disabled"));
     }
 
+    /// <summary>
+    /// Allows you to delete all stats data for the guild.
+    /// </summary>
+    /// <example>.deletestatsdata</example>
     [Cmd, Aliases, Ratelimit(3600), UserPerm(GuildPermission.Administrator)]
     public async Task DeleteGuildStatsData()
     {
@@ -62,6 +75,12 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+    /// <summary>
+    /// Lets you set the nickname for a mentioned user. If no user is mentioned it defaults to setting a nickname for the bot.
+    /// </summary>
+    /// <param name="gu">The target user.</param>
+    /// <param name="newNick">The new nickname. Provide none to reset.</param>
+    /// <example>.setnick @user newNick</example>
     [Cmd, BotPerm(GuildPermission.ManageNicknames), UserPerm(GuildPermission.ManageNicknames), Priority(1)]
     public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
@@ -78,6 +97,11 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Overload for setting the bot's nickname.
+    /// </summary>
+    /// <param name="newNick">The new nickname you want to set.</param>
+    /// <example>.setnick newNick</example>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageNicknames), BotPerm(GuildPermission.ChangeNickname), Priority(0)]
     public async Task SetNick([Remainder] string? newNick = null)
     {
@@ -89,6 +113,12 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Allows you to ban users with a specific name. This command will show a preview of the users that will be banned. Takes a regex pattern as well.
+    /// </summary>
+    /// <param name="name">The name or regex pattern you want to use.</param>
+    /// <example>.nameban name</example>
+    /// <example>.nameban ^[a-z]{3,16}$</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task NameBan([Remainder] string name)
     {
@@ -179,6 +209,15 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+    /// <summary>
+    /// Allows you to ban users that have been in the server for a certain amount of time.
+    /// </summary>
+    /// <param name="time">The amount of time. Formatted as {0}mo{1}d{2}h{3}m{4}s</param>
+    /// <param name="option">Allows you to specify -accage to check account age rather than server age, or -p to preview the users to ban.</param>
+    /// <param name="time1">Allows you to specify a time range.</param>
+    /// <example>.banunder 1mo</example>
+    /// <example>.banunder 1mo -accage 1d</example>
+    /// <example>.banunder 1mo -p</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
@@ -262,6 +301,16 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+    /// <summary>
+    /// Kicks users who have been in the server for less than a specified time.
+    /// </summary>
+    /// <param name="time">Time duration in a custom format</param>
+    /// <param name="option">Optional parameter to preview users to be kicked</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.KickMembers.
+    /// </remarks>
+    /// <example>.kickunder 1mo</example>
+    /// <example>.kickunder 1mo -p</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.KickMembers)]
     public async Task KickUnder(StoopidTime time, string? option = null)
     {
@@ -327,6 +376,17 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await message.ModifyAsync(x => x.Embed = eb.Build()).ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Prunes members from the server based on their activity or inactivity.
+    /// </summary>
+    /// <param name="time">Time duration in a custom format</param>
+    /// <param name="e">Optional parameter indicating whether to include users with specific roles</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.ManageGuild.
+    /// </remarks>
+    /// <example>.prunemembers 30d</example>
+    /// <example>.prunemembers 30d yes</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      BotPerm(GuildPermission.ManageGuild)]
     public async Task PruneMembers(StoopidTime time, string e = "no")
@@ -406,6 +466,15 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+
+    /// <summary>
+    /// Sets the member role for the server. Currently unused.
+    /// </summary>
+    /// <param name="role">The role that members will have.</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator.
+    /// </remarks>
+    /// <example>.memberrole @Member</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task MemberRole(IRole? role)
     {
@@ -443,6 +512,15 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+
+    /// <summary>
+    /// Sets or updates the role assigned to staff members.
+    /// </summary>
+    /// <param name="role">The role to be assigned to staff members</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator.
+    /// </remarks>
+    /// <example>.staffrole @Staff</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task StaffRole([Remainder] IRole? role = null)
     {
@@ -480,6 +558,14 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
+
+    /// <summary>
+    /// Disables the role assigned to staff members.
+    /// </summary>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator.
+    /// </remarks>
+    /// <example>.staffroledisable</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task StaffRoleDisable()
     {
@@ -495,8 +581,16 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(2)]
+
+    /// <summary>
+    /// Displays the status of deleting messages on command execution.
+    /// </summary>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delmsgoncmd</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     BotPerm(GuildPermission.ManageMessages), Priority(2)]
     public async Task Delmsgoncmd(List _)
     {
         var guild = (SocketGuild)ctx.Guild;
@@ -524,8 +618,17 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(1)]
+
+    /// <summary>
+    /// Toggles the deletion of messages on command execution for the server.
+    /// </summary>
+    /// <param name="_">Unused parameter</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delmsgoncmd</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     BotPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Delmsgoncmd(Server _ = Server.Server)
     {
         if (await Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
@@ -538,12 +641,36 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
-    [Cmd, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(0)]
+
+    /// <summary>
+    /// Sets the state of deleting messages on command execution for a specific channel.
+    /// </summary>
+    /// <param name="_">Unused parameter</param>
+    /// <param name="s">The state to set for deleting messages on command execution</param>
+    /// <param name="ch">The channel where the state should be applied</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delmsgoncmd enable #channel</example>
+    /// <example>.delmsgoncmd disable #channel</example>
+    [Cmd, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     BotPerm(GuildPermission.ManageMessages), Priority(0)]
     public Task Delmsgoncmd(Channel _, State s, ITextChannel ch) => Delmsgoncmd(_, s, ch.Id);
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageMessages), Priority(1)]
+
+    /// <summary>
+    /// Sets the state of deleting messages on command execution for a specific channel.
+    /// </summary>
+    /// <param name="_">Unused parameter</param>
+    /// <param name="s">The state to set for deleting messages on command execution</param>
+    /// <param name="chId">Optional channel ID where the state should be applied</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.Administrator and the bot to have GuildPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delmsgoncmd enable #channel</example>
+    /// <example>.delmsgoncmd disable #channel</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     BotPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
     {
         var actualChId = chId ?? ctx.Channel.Id;
@@ -563,56 +690,115 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.DeafenMembers), BotPerm(GuildPermission.DeafenMembers)]
+
+    /// <summary>
+    /// Deafens specified users in the guild.
+    /// </summary>
+    /// <param name="users">The users to deafen</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.DeafenMembers and the bot to have GuildPermission.DeafenMembers.
+    /// </remarks>
+    /// <example>.deafen @User1 @User2</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.DeafenMembers),
+     BotPerm(GuildPermission.DeafenMembers)]
     public async Task Deafen(params IGuildUser[] users)
     {
         await AdministrationService.DeafenUsers(true, users).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.DeafenMembers), BotPerm(GuildPermission.DeafenMembers)]
+    /// <summary>
+    /// Undeafens specified users in the guild.
+    /// </summary>
+    /// <param name="users">The users to undeafen</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.DeafenMembers and the bot to have GuildPermission.DeafenMembers.
+    /// </remarks>
+    /// <example>.undeafen @User1 @User2</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.DeafenMembers),
+     BotPerm(GuildPermission.DeafenMembers)]
     public async Task UnDeafen(params IGuildUser[] users)
     {
         await AdministrationService.DeafenUsers(false, users).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("undeafen").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+
+    /// <summary>
+    /// Deletes the specified voice channel.
+    /// </summary>
+    /// <param name="voiceChannel">The voice channel to delete</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.delvoich VoiceChannelName</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task DelVoiChanl([Remainder] IVoiceChannel voiceChannel)
     {
         await voiceChannel.DeleteAsync().ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("delvoich", Format.Bold(voiceChannel.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Creates a new voice channel with the specified name.
+    /// </summary>
+    /// <param name="channelName">The name of the voice channel to create</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.creatvoich VoiceChannelName</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task CreatVoiChanl([Remainder] string channelName)
     {
         var ch = await ctx.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Deletes the specified text channel.
+    /// </summary>
+    /// <param name="toDelete">The text channel to delete</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.deltxtchan TextChannelName</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task DelTxtChanl([Remainder] ITextChannel toDelete)
     {
         await toDelete.DeleteAsync().ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("deltextchan", Format.Bold(toDelete.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+
+    /// <summary>
+    /// Creates a new text channel with the specified name.
+    /// </summary>
+    /// <param name="channelName">The name of the text channel to create</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.createtxtchan TextChannelName</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task CreaTxtChanl([Remainder] string channelName)
     {
         var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Sets the topic of the current text channel.
+    /// </summary>
+    /// <param name="topic">The topic to set for the text channel</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.settopic NewTopic</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task SetTopic([Remainder] string? topic = null)
     {
         var channel = (ITextChannel)ctx.Channel;
@@ -621,8 +807,16 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Sets the name of the current text channel.
+    /// </summary>
+    /// <param name="name">The name to set for the text channel</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.setchannelname NewChannelName</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task SetChanlName([Remainder] string name)
     {
         var channel = (ITextChannel)ctx.Channel;
@@ -630,8 +824,15 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await ReplyConfirmLocalizedAsync("set_channel_name").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Toggles the NSFW setting of the current text channel.
+    /// </summary>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels and the bot to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.nsfwtoggle</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels),
+     BotPerm(GuildPermission.ManageChannels)]
     public async Task NsfwToggle()
     {
         var channel = (ITextChannel)ctx.Channel;
@@ -645,10 +846,16 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             await ReplyConfirmLocalizedAsync("nsfw_set_true").ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(ChannelPermission.ManageMessages), Priority(0)]
-    public Task Edit(ulong messageId, [Remainder] string? text) => Edit((ITextChannel)ctx.Channel, messageId, text);
-
+    /// <summary>
+    /// Edits a message in the specified text channel.
+    /// </summary>
+    /// <param name="channel">The text channel where the message is located</param>
+    /// <param name="messageId">The ID of the message to edit</param>
+    /// <param name="text">The new text for the message</param>
+    /// <remarks>
+    /// This command requires the caller to have ChannelPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.edit 123456789012345678 NewMessageText</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Edit(ITextChannel channel, ulong messageId, [Remainder] string? text)
     {
@@ -669,14 +876,39 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await AdministrationService.EditMessage(ctx, channel, messageId, text).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages)]
+    /// <summary>
+    /// Deletes a message by its ID in the current text channel.
+    /// </summary>
+    /// <param name="messageId">The ID of the message to delete</param>
+    /// <param name="time">Optional time duration after which the message should be deleted</param>
+    /// <remarks>
+    /// This command requires the caller to have ChannelPermission.ManageMessages and the bot to have ChannelPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delete 123456789012345678</example>
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(ChannelPermission.ManageMessages),
+     BotPerm(ChannelPermission.ManageMessages)]
     public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel)ctx.Channel, messageId, time);
 
+    /// <summary>
+    /// Deletes a message by its ID in the specified text channel.
+    /// </summary>
+    /// <param name="channel">The text channel where the message is located</param>
+    /// <param name="messageId">The ID of the message to delete</param>
+    /// <param name="time">Optional time duration after which the message should be deleted</param>
+    /// <remarks>
+    /// This command requires the caller to have ChannelPermission.ManageMessages.
+    /// </remarks>
+    /// <example>.delete #channel 123456789012345678</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) =>
         InternalMessageAction(channel, messageId, time);
 
+    /// <summary>
+    /// Internal handler for message deletion.
+    /// </summary>
+    /// <param name="channel">The target channel</param>
+    /// <param name="messageId">The target message ID</param>
+    /// <param name="time">Time to delete, if any.</param>
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {
         var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
@@ -721,6 +953,15 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         await ctx.OkAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Renames the specified channel.
+    /// </summary>
+    /// <param name="channel">The channel to rename</param>
+    /// <param name="name">The new name for the channel</param>
+    /// <remarks>
+    /// This command requires the caller to have GuildPermission.ManageChannels.
+    /// </remarks>
+    /// <example>.renamechannel #channel NewChannelName</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
     public async Task RenameChannel(IGuildChannel channel, [Remainder] string name)
     {

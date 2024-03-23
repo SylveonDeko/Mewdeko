@@ -9,6 +9,8 @@
         <Nullable>annotations</Nullable>
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
+      <GenerateDocumentationFile>True</GenerateDocumentationFile>
+      <WarningsAsErrors>CS1591</WarningsAsErrors>
     </PropertyGroup>
 
 

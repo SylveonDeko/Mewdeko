@@ -17,12 +17,12 @@ namespace Mewdeko.Common
         /// <summary>
         /// Gets or sets the string resources provider for the current module.
         /// </summary>
-        public IBotStrings? Strings { get; set; }
+        public IBotStrings Strings { get; set; }
 
         /// <summary>
         /// Gets or sets the localization service for the current module.
         /// </summary>
-        public ILocalization? Localization { get; set; }
+        public ILocalization Localization { get; set; }
 
         // ReSharper disable once InconsistentNaming
         protected ICommandContext ctx => Context;
@@ -39,7 +39,7 @@ namespace Mewdeko.Common
         /// </summary>
         /// <param name="key">The key identifying the text string.</param>
         /// <returns>The localized text string.</returns>
-        protected string? GetText(string? key) => Strings.GetText(key, CultureInfo);
+        protected string GetText(string? key) => Strings.GetText(key, CultureInfo);
 
         /// <summary>
         /// Retrieves a formatted localized text string using the specified key and arguments.
@@ -47,7 +47,7 @@ namespace Mewdeko.Common
         /// <param name="key">The key identifying the text string.</param>
         /// <param name="args">The arguments to format into the text string.</param>
         /// <returns>The formatted localized text string.</returns>
-        protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
+        protected string GetText(string? key, params object?[] args) => Strings.GetText(key, CultureInfo, args);
 
         /// <summary>
         /// Sends an error message to the channel with localized text.
