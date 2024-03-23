@@ -1,9 +1,27 @@
 ﻿namespace Mewdeko.Modules.Confessions.Services;
 
-public class ConfessionService(DbService db, DiscordSocketClient client,
-        GuildSettingsService guildSettings)
+/// <summary>
+/// Service for managing confessions.
+/// </summary>
+/// <param name="db"></param>
+/// <param name="client"></param>
+/// <param name="guildSettings"></param>
+public class ConfessionService(
+    DbService db,
+    DiscordSocketClient client,
+    GuildSettingsService guildSettings)
     : INService
 {
+    /// <summary>
+    /// Sends a confession message to the confession channel.
+    /// </summary>
+    /// <param name="serverId">The ID of the server where the confession is sent.</param>
+    /// <param name="user">The user who confessed.</param>
+    /// <param name="confession">The confession message.</param>
+    /// <param name="currentChannel">The current message channel.</param>
+    /// <param name="ctx">The interaction context, if available.</param>
+    /// <param name="imageUrl">The URL of the image, if any.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SendConfession(
         ulong serverId,
         IUser user,
@@ -186,51 +204,92 @@ public class ConfessionService(DbService db, DiscordSocketClient client,
         }
     }
 
+    /// <summary>
+    /// Sets the confession channel for a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the confession channel for.</param>
+    /// <param name="channelId">The ID of the confession channel.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ConfessionChannel = channelId;
+        var guildConfig = await uow.ForGuildId(guild.Id, set => set);
+        guildConfig.ConfessionChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
+    /// <summary>
+    /// Gets the confession channel for a guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The ID of the confession channel.</returns>
     public async Task<ulong> GetConfessionChannel(ulong id)
         => (await guildSettings.GetGuildConfig(id)).ConfessionChannel;
 
+    /// <summary>
+    /// Toggles the user blacklist asynchronously.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="roleId">The ID of the role to toggle the blacklist for.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
         await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set);
-        var blacklists = gc.GetConfessionBlacklists();
+        var guildConfig = await uow.ForGuildId(guildId, set => set);
+        var blacklists = guildConfig.GetConfessionBlacklists();
         if (!blacklists.Remove(roleId))
             blacklists.Add(roleId);
 
-        gc.SetConfessionBlacklists(blacklists);
+        guildConfig.SetConfessionBlacklists(blacklists);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guildId, gc);
+        await guildSettings.UpdateGuildConfig(guildId, guildConfig);
     }
 
+    /// <summary>
+    /// Sets the confession log channel for a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the confession log channel for.</param>
+    /// <param name="channelId">The ID of the confession log channel.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ConfessionLogChannel = channelId;
+        var guildConfig = await uow.ForGuildId(guild.Id, set => set);
+        guildConfig.ConfessionLogChannel = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
+    /// <summary>
+    /// Gets the confession log channel for a guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The ID of the confession log channel.</returns>
     public async Task<ulong> GetConfessionLogChannel(ulong id)
         => (await guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
 }
 
+/// <summary>
+/// Extension methods for <see cref="GuildConfig"/>, and <see cref="ConfessionService"/> related classes.
+/// </summary>
 public static class ConfessionExtensions
 {
+    /// <summary>
+    /// Gets the confession blacklists from the guild configuration.
+    /// </summary>
+    /// <param name="gc">The guild configuration.</param>
+    /// <returns>The list of role IDs that are blacklisted for confessions.</returns>
     public static List<ulong> GetConfessionBlacklists(this GuildConfig gc)
         => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist)
             ? new List<ulong>()
             : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
 
+    /// <summary>
+    /// Sets the confession blacklists in the guild configuration.
+    /// </summary>
+    /// <param name="gc">The guild configuration.</param>
+    /// <param name="blacklists">The list of role IDs to set as blacklisted for confessions.</param>
     public static void SetConfessionBlacklists(this GuildConfig gc, IEnumerable<ulong> blacklists) =>
         gc.ConfessionBlacklist = blacklists.JoinWith(' ');
 }

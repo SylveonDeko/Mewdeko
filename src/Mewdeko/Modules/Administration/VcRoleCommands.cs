@@ -6,9 +6,16 @@ namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
+    /// <summary>
+    /// Module for managing voice channel roles.
+    /// </summary>
     [Group]
     public class VcRoleCommands : MewdekoSubmodule<VcRoleService>
     {
+        /// <summary>
+        /// Unbinds a role from a voice channel.
+        /// </summary>
+        /// <param name="vcId">The voice channel id</param>
         [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRoleRm(ulong vcId)
@@ -24,6 +31,11 @@ public partial class Administration
             }
         }
 
+        /// <summary>
+        /// Adds or removes a role from a voice channel.
+        /// </summary>
+        /// <param name="vchan">The channel you want to manage a role for</param>
+        /// <param name="role">The role you want to set for that voice channel (optional)</param>
         [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole(SocketGuildChannel vchan, [Remainder] IRole? role = null)
@@ -51,6 +63,10 @@ public partial class Administration
             }
         }
 
+        /// <summary>
+        /// Binds or unbinds a role from a voice channel while in a voice channel.
+        /// </summary>
+        /// <param name="role">The role to bind to the voice channel.</param>
         [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole([Remainder] IRole? role = null)
@@ -78,6 +94,10 @@ public partial class Administration
             }
         }
 
+        /// <summary>
+        /// List all voice channel roles for this guild.
+        /// </summary>
+        /// <example>.vcrolelist</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task VcRoleList()
         {

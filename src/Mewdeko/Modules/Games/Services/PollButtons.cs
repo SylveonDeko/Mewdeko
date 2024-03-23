@@ -1,41 +1,53 @@
 ﻿using Discord.Interactions;
 
-namespace Mewdeko.Modules.Games.Services;
-
-public class PollButtons : MewdekoSlashCommandModule
+namespace Mewdeko.Modules.Games.Services
 {
-    private readonly PollService pollService;
-
-    public PollButtons(PollService pollService)
-        => this.pollService = pollService;
-
-    [ComponentInteraction("pollbutton:*")]
-    public async Task Pollbutton(string num)
+    /// <summary>
+    /// Handles interaction with poll buttons for voting.
+    /// </summary>
+    public class PollButtons : MewdekoSlashCommandModule
     {
-        var (allowed, type) = await pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User);
-        switch (type)
+        private readonly PollService pollService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PollButtons"/> class.
+        /// </summary>
+        /// <param name="pollService">The poll service to handle voting.</param>
+        public PollButtons(PollService pollService)
+            => this.pollService = pollService;
+
+        /// <summary>
+        /// Handles interaction with poll buttons for voting.
+        /// </summary>
+        /// <param name="num">The number representing the option selected.</param>
+        [ComponentInteraction("pollbutton:*")]
+        public async Task Pollbutton(string num)
         {
-            case PollType.PollEnded:
-                await ctx.Interaction.SendEphemeralErrorAsync("That poll has already ended!");
-                break;
-            case PollType.SingleAnswer:
-                if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("You can't change your vote!");
-                else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Voted!");
-                break;
-            case PollType.AllowChange:
-                if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("That's already your vote!");
-                else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote changed.");
-                break;
-            case PollType.MultiAnswer:
-                if (!allowed)
-                    await ctx.Interaction.SendEphemeralErrorAsync("Removed that vote!");
-                else
-                    await ctx.Interaction.SendEphemeralConfirmAsync("Vote added!");
-                break;
+            var (allowed, type) = await pollService.TryVote(ctx.Guild, int.Parse(num) - 1, ctx.User);
+            switch (type)
+            {
+                case PollType.PollEnded:
+                    await ctx.Interaction.SendEphemeralErrorAsync("That poll has already ended!");
+                    break;
+                case PollType.SingleAnswer:
+                    if (!allowed)
+                        await ctx.Interaction.SendEphemeralErrorAsync("You can't change your vote!");
+                    else
+                        await ctx.Interaction.SendEphemeralConfirmAsync("Voted!");
+                    break;
+                case PollType.AllowChange:
+                    if (!allowed)
+                        await ctx.Interaction.SendEphemeralErrorAsync("That's already your vote!");
+                    else
+                        await ctx.Interaction.SendEphemeralConfirmAsync("Vote changed.");
+                    break;
+                case PollType.MultiAnswer:
+                    if (!allowed)
+                        await ctx.Interaction.SendEphemeralErrorAsync("Removed that vote!");
+                    else
+                        await ctx.Interaction.SendEphemeralConfirmAsync("Vote added!");
+                    break;
+            }
         }
     }
 }
