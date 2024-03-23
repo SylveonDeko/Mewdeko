@@ -6,6 +6,13 @@ using Swan;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
+/// <summary>
+/// Service for handling giveaways.
+/// </summary>
+/// <param name="client">The discord client.</param>
+/// <param name="db">The database.</param>
+/// <param name="creds">The bot credentials.</param>
+/// <param name="guildSettings">Guild Settings Service</param>
 public class GiveawayService(
     DiscordSocketClient client,
     DbService db,
@@ -13,6 +20,11 @@ public class GiveawayService(
     GuildSettingsService guildSettings)
     : INService, IReadyExecutor
 {
+    /// <summary>
+    /// Asynchronous method to handle the execution of the giveaway loop when the bot is ready.
+    /// This method continuously checks for active giveaways and processes them.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task OnReadyAsync()
     {
         Log.Information("Giveaway Loop Started");
@@ -47,6 +59,13 @@ public class GiveawayService(
         }
     }
 
+
+    /// <summary>
+    /// Asynchronously sets the emote to be used for giveaways in the specified guild.
+    /// </summary>
+    /// <param name="guild">The guild where the emote is to be set.</param>
+    /// <param name="emote">The emote to set.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
         await using var uow = db.GetDbContext();
@@ -56,9 +75,19 @@ public class GiveawayService(
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves the emote used for giveaways in the guild with the specified ID.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The emote used for giveaways.</returns>
     public async Task<string> GetGiveawayEmote(ulong id)
         => (await guildSettings.GetGuildConfig(id)).GiveawayEmote;
 
+    /// <summary>
+    /// Asynchronously updates the database with the provided list of giveaways.
+    /// </summary>
+    /// <param name="g">The list of giveaways to update.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = db.GetDbContext();
@@ -82,6 +111,12 @@ public class GiveawayService(
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Retrieves the giveaways that have ended before the specified time asynchronously.
+    /// </summary>
+    /// <param name="now">The current time.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Database.Models.Giveaways"/>.</returns>
     private IEnumerable<Database.Models.Giveaways> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = db.GetDbContext();
@@ -89,6 +124,7 @@ public class GiveawayService(
 
         if (uow.Database.IsNpgsql())
         {
+            // Linq to db queries because npgsql is special, again.
             giveaways = uow.Giveaways
                 .ToLinqToDB()
                 .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
@@ -106,6 +142,24 @@ public class GiveawayService(
         return giveaways;
     }
 
+    /// <summary>
+    /// Initiates a giveaway with specified parameters.
+    /// </summary>
+    /// <param name="chan">The text channel where the giveaway will be initiated.</param>
+    /// <param name="ts">The duration of the giveaway.</param>
+    /// <param name="item">The item or prize being given away.</param>
+    /// <param name="winners">The number of winners for the giveaway.</param>
+    /// <param name="host">The ID of the user hosting the giveaway.</param>
+    /// <param name="serverId">The ID of the server where the giveaway is being hosted.</param>
+    /// <param name="currentChannel">The current text channel where the command is being executed.</param>
+    /// <param name="guild">The guild where the giveaway is being initiated.</param>
+    /// <param name="reqroles">Optional: Roles required to enter the giveaway.</param>
+    /// <param name="blacklistusers">Optional: Users blacklisted from entering the giveaway.</param>
+    /// <param name="blacklistroles">Optional: Roles blacklisted from entering the giveaway.</param>
+    /// <param name="interaction">Optional: The Discord interaction related to the giveaway.</param>
+    /// <param name="banner">Optional: The URL of the banner for the giveaway.</param>
+    /// <param name="pingROle">Optional: The role to ping for the giveaway.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host,
         ulong serverId, ITextChannel currentChannel, IGuild guild, string? reqroles = null,
         string? blacklistusers = null,
@@ -223,6 +277,14 @@ public class GiveawayService(
         }
     }
 
+
+    /// <summary>
+    /// Performs actions for a giveaway, such as selecting winners and notifying participants. Used for ending and rerolling giveaways.
+    /// </summary>
+    /// <param name="r">The giveaway to perform actions for.</param>
+    /// <param name="inputguild">The guild where the giveaway is being conducted.</param>
+    /// <param name="inputchannel">The text channel where the giveaway is being conducted.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task GiveawayTimerAction(Database.Models.Giveaways r, IGuild? inputguild = null,
         ITextChannel? inputchannel = null)
     {

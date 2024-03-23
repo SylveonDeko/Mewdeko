@@ -9,11 +9,19 @@ namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
+    /// <summary>
+    /// Commands for managing the Anti-Alt, Anti-Raid, and Anti-Spam protection settings.
+    /// </summary>
     [Group]
     public class ProtectionCommands : MewdekoSubmodule<ProtectionService>
     {
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        /// <summary>
+        /// Disables the Anti-Alt protection for the guild.
+        /// </summary>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt()
         {
             if (await Service.TryStopAntiAlt(ctx.Guild.Id).ConfigureAwait(false))
@@ -25,8 +33,17 @@ public partial class Administration
             await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Alt").ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+
+        /// <summary>
+        /// Configures the Anti-Alt protection for the guild, setting the minimum account age and punishment action.
+        /// </summary>
+        /// <param name="minAge">The minimum age (in minutes) for accounts to be considered as alts.</param>
+        /// <param name="action">The punishment action to be taken against detected alts. <see cref="PunishmentAction"/></param>
+        /// <param name="punishTime">Optional: The duration of the punishment, if applicable.</param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
             [Remainder] StoopidTime? punishTime = null)
         {
@@ -45,14 +62,23 @@ public partial class Administration
                     return;
             }
 
-            await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
-                (int?)punishTime?.Time.TotalMinutes ?? 0).ConfigureAwait(false);
+            await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, punishTimeMinutes)
+                .ConfigureAwait(false);
 
             await ctx.OkAsync().ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+
+        /// <summary>
+        /// Configures the Anti-Alt protection for the guild, setting the minimum account age and punishment action with a role-based punishment.
+        /// </summary>
+        /// <param name="minAge">The minimum age (in minutes) for accounts to be considered as alts.</param>
+        /// <param name="action">The punishment action to be taken against detected alts. <see cref="PunishmentAction"/></param>
+        /// <param name="role">The role to be assigned to detected alts as punishment.</param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Remainder] IRole role)
         {
             var minAgeMinutes = (int)minAge.Time.TotalMinutes;
@@ -65,8 +91,14 @@ public partial class Administration
             await ctx.OkAsync().ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+
+        /// <summary>
+        /// Disables the Anti-Raid protection for the guild.
+        /// </summary>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AntiRaid()
         {
             if (await Service.TryStopAntiRaid(ctx.Guild.Id))
@@ -75,16 +107,34 @@ public partial class Administration
                 await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(1)]
-        public Task AntiRaid(int userThreshold, int seconds,
-            PunishmentAction action, [Remainder] StoopidTime punishTime) =>
+        /// <summary>
+        /// Configures the Anti-Raid protection for the guild, setting the user threshold, detection time window, punishment action, and optional punishment duration.
+        /// </summary>
+        /// <param name="userThreshold">The threshold of users that triggers the detection of a raid.</param>
+        /// <param name="seconds">The time window (in seconds) to observe user joins.</param>
+        /// <param name="action">The punishment action to be taken against detected raids. <see cref="PunishmentAction"/></param>
+        /// <param name="punishTime">The duration of punishment for the raiders (optional).</param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
+        public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action,
+            [Remainder] StoopidTime punishTime) =>
             InternalAntiRaid(userThreshold, seconds, action, punishTime);
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(2)]
+        /// <summary>
+        /// Configures the Anti-Raid protection for the guild, setting the user threshold, detection time window, and punishment action.
+        /// </summary>
+        /// <param name="userThreshold">The threshold of users that triggers the detection of a raid.</param>
+        /// <param name="seconds">The time window (in seconds) to observe user joins.</param>
+        /// <param name="action">The punishment action to be taken against detected raids. <see cref="PunishmentAction"/></param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(2)]
         public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) =>
             InternalAntiRaid(userThreshold, seconds, action);
+
 
         private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
             PunishmentAction action = PunishmentAction.Mute, StoopidTime? punishTime = null)
@@ -137,8 +187,13 @@ public partial class Administration
                 .ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        /// <summary>
+        /// Disables the Anti-Spam protection for the guild.
+        /// </summary>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AntiSpam()
         {
             if (await Service.TryStopAntiSpam(ctx.Guild.Id))
@@ -147,8 +202,29 @@ public partial class Administration
                 await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(0)]
+        /// <summary>
+        /// Configures the Anti-Spam protection for the guild, setting the message count threshold, punishment action, and optional punishment duration.
+        /// </summary>
+        /// <param name="messageCount">The threshold of messages that triggers the detection of spam.</param>
+        /// <param name="action">The punishment action to be taken against detected spammers. <see cref="PunishmentAction"/></param>
+        /// <param name="punishTime">The duration of punishment for the spammers (optional).</param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
+        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) =>
+            InternalAntiSpam(messageCount, action, punishTime);
+
+        /// <summary>
+        /// Configures the Anti-Spam protection for the guild, setting the message count threshold, punishment action, and the role to add to spammers.
+        /// </summary>
+        /// <param name="messageCount">The threshold of messages that triggers the detection of spam.</param>
+        /// <param name="action">The punishment action to be taken against detected spammers. <see cref="PunishmentAction"/></param>
+        /// <param name="role">The role to add to the spammers.</param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
         public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
         {
             if (action != PunishmentAction.AddRole)
@@ -157,16 +233,29 @@ public partial class Administration
             return InternalAntiSpam(messageCount, action, null, role);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(1)]
-        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) =>
-            InternalAntiSpam(messageCount, action, punishTime);
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(2)]
+        /// <summary>
+        /// Configures the Anti-Spam protection for the guild, setting the message count threshold and punishment action.
+        /// </summary>
+        /// <param name="messageCount">The threshold of messages that triggers the detection of spam.</param>
+        /// <param name="action">The punishment action to be taken against detected spammers. <see cref="PunishmentAction"/></param>
+        /// <remarks>
+        /// This command is restricted to users with Administrator permissions.
+        /// </remarks>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(2)]
         public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
 
-        public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
+
+        /// <summary>
+        /// Configures the Anti-Spam protection for the guild, setting the message count threshold, punishment action, and optional punishment duration.
+        /// </summary>
+        /// <param name="messageCount">The threshold of messages that triggers the detection of spam.</param>
+        /// <param name="action">The punishment action to be taken against detected spammers.</param>
+        /// <param name="timeData">The duration of punishment for the spammers (optional).</param>
+        /// <param name="role">The role to add to the spammers (optional).</param>
+        /// <remarks>
+        /// This method is internally used by the AntiSpam command and is restricted to users with Administrator permissions.
+        /// </remarks>
+        private async Task InternalAntiSpam(int messageCount, PunishmentAction action,
             StoopidTime? timeData = null, IRole? role = null)
         {
             if (messageCount is < 2 or > 10)
@@ -184,6 +273,7 @@ public partial class Administration
             var time = (int?)timeData?.Time.TotalMinutes ?? 0;
             if (time is < 0 or > 60 * 24)
                 return;
+
             switch (action)
             {
                 case PunishmentAction.Timeout when timeData.Time.Days > 28:
@@ -201,8 +291,14 @@ public partial class Administration
                 $"{ctx.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+
+        /// <summary>
+        /// Ignores the current text channel from Anti-Spam protection.
+        /// </summary>
+        /// <remarks>
+        /// This command adds the current text channel to the list of ignored channels for Anti-Spam protection.
+        /// It is restricted to users with Administrator permissions and is used to exclude specific channels from Anti-Spam checks.
+        /// </remarks>
         public async Task AntispamIgnore()
         {
             var added = await Service.AntiSpamIgnoreAsync(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -217,7 +313,13 @@ public partial class Administration
                 .ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        /// <summary>
+        /// Displays the current status of anti-protection settings.
+        /// </summary>
+        /// <remarks>
+        /// This command provides information about the active anti-protection settings in the server, including Anti-Spam, Anti-Raid, and Anti-Alt.
+        /// It does not require any specific permissions to use.
+        /// </remarks>
         public async Task AntiList()
         {
             var (spam, raid, alt) = Service.GetAntiStats(ctx.Guild.Id);
@@ -250,6 +352,7 @@ public partial class Administration
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
+
 
         private string? GetAntiAltString(AntiAltStats alt) =>
             GetText("anti_alt_status",

@@ -7,6 +7,9 @@ using QRCoder;
 
 namespace Mewdeko.Modules.Administration;
 
+/// <summary>
+/// The module for server recovery. Allows you to recover your server access level if th owner account is lost.
+/// </summary>
 [Group("administration", "Server administration stuffs")]
 public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
 {
@@ -19,6 +22,12 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         this.credentials = credentials;
     }
 
+    /// <summary>
+    /// Clears data for server recovery.
+    /// </summary>
+    /// <remarks>
+    /// This command clears data related to server recovery.
+    /// </remarks>
     [SlashCommand("clear-server-recover", "Clears data for server recovery")]
     public async Task ClearServerRecover()
     {
@@ -38,6 +47,13 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         }
     }
 
+
+    /// <summary>
+    /// Initiates a server recovery, or starts recovery setup.
+    /// </summary>
+    /// <remarks>
+    /// This command initiates a server recovery or starts the recovery setup process. If the recovery setup has not been done yet, it generates a random secret key and recovery key, sends the recovery key to the user's DM, and displays a QR code for 2FA setup. Otherwise, it prompts the user to enter the recovery key.
+    /// </remarks>
     [SlashCommand("server-recover", "Initiates a server recovery, or starts recovery setup.")]
     public async Task ServerRecover()
     {
@@ -118,10 +134,20 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         }
     }
 
+
+    /// <summary>
+    /// Handles the interaction when the user clicks on the "Recovery Key" button.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ComponentInteraction("recoverykey", true)]
     public Task SendRecoveryKeyModal()
         => RespondWithModalAsync<RecoveryKeyModal>("recoverykeymodal");
 
+    /// <summary>
+    /// Handles the interaction when the user submits the recovery key modal.
+    /// </summary>
+    /// <param name="modal">The recovery key modal.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ModalInteraction("recoverykeymodal", true)]
     public async Task HandleRecoveryKey(RecoveryKeyModal modal)
     {
@@ -147,10 +173,22 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
         }
     }
 
+    /// <summary>
+    /// Handles the interaction when the user clicks on a 2FA verification button.
+    /// </summary>
+    /// <param name="type">The type of 2FA verification.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ComponentInteraction("2fa-verify-*", true)]
     public Task SendTwoFactorModal(string type)
         => RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
 
+
+    /// <summary>
+    /// Handles the interaction when the user submits the 2FA modal.
+    /// </summary>
+    /// <param name="type">The type of 2FA verification.</param>
+    /// <param name="modal">The 2FA modal.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ModalInteraction("twofactormodal-*", true)]
     public async Task HandleTwoFactor(string type, TwoFactorModal modal)
     {

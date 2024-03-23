@@ -16,6 +16,16 @@ public class ChatterBotService : INService
     private readonly GuildSettingsService guildSettings;
     public List<ulong> LimitUser = new();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatterBotService"/> class.
+    /// </summary>
+    /// <param name="client">The Discord socket client.</param>
+    /// <param name="factory">The HTTP client factory.</param>
+    /// <param name="creds">The bot credentials.</param>
+    /// <param name="db">The database service.</param>
+    /// <param name="blacklistService">The blacklist service.</param>
+    /// <param name="guildSettings">The guild settings service.</param>
+    /// <param name="eventHandler">The event handler.</param>
     public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
         IBotCredentials creds, DbService db,
         BlacklistService blacklistService,
@@ -27,14 +37,30 @@ public class ChatterBotService : INService
         this.client = client;
         this.creds = creds;
         httpFactory = factory;
-        eventHandler.MessageReceived += MessageRecieved;
+        eventHandler.MessageReceived += MessageReceived;
     }
 
+
+    /// <summary>
+    /// Gets the priority of the chatterbot service.
+    /// </summary>
     public static int Priority => -1;
+
+    /// <summary>
+    /// Gets the behavior type of the chatterbot service.
+    /// </summary>
     public static ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
+    /// <summary>
+    /// Dictionary to store the Cleverbot sessions for users.
+    /// </summary>
     public readonly ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
 
+    /// <summary>
+    /// Sets the Cleverbot channel for a guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="id">The ID of the channel.</param>
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
         await using var uow = db.GetDbContext();
@@ -44,9 +70,18 @@ public class ChatterBotService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Gets the Cleverbot channel ID for a guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The Cleverbot channel ID.</returns>
     public async Task<ulong> GetCleverbotChannel(ulong id) => (await guildSettings.GetGuildConfig(id)).CleverbotChannel;
 
-    public async Task MessageRecieved(SocketMessage msg)
+    /// <summary>
+    /// Handles received messages for Cleverbot interactions.
+    /// </summary>
+    /// <param name="msg">The received message.</param>
+    public async Task MessageReceived(SocketMessage msg)
     {
         if (msg.Author.IsBot)
             return;
@@ -74,18 +109,22 @@ public class ChatterBotService : INService
             {
                 Log.Information(
                     $@"CleverBot Executed
-                    Server: {chan.Guild.Name} {chan.Guild.Name}]
-                    Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
-                    UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
-                    Message: {usrMsg.Content}");
+                Server: {chan.Guild.Name} {chan.Guild.Name}]
+                Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
+                UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
+                Message: {usrMsg.Content}");
             }
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, "Error in cleverbot");
+            Log.Warning(ex, "Error in Cleverbot");
         }
     }
 
+    /// <summary>
+    /// Creates a new session for Cleverbot interactions.
+    /// </summary>
+    /// <returns>A new Cleverbot session.</returns>
     public IChatterBotSession CreateSession()
     {
         if (!string.IsNullOrWhiteSpace(creds.CleverbotApiKey))
@@ -93,6 +132,12 @@ public class ChatterBotService : INService
         return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", httpFactory);
     }
 
+
+    /// <summary>
+    /// Prepares the message for Cleverbot interaction.
+    /// </summary>
+    /// <param name="msg">The received message.</param>
+    /// <returns>A tuple containing the message content and the Cleverbot session.</returns>
     private async Task<(string, IChatterBotSession)> PrepareMessage(IMessage? msg)
     {
         if (msg?.Channel is not ITextChannel channel)
@@ -139,6 +184,14 @@ public class ChatterBotService : INService
         return (message, lazyCleverbot.Value);
     }
 
+    /// <summary>
+    /// Tries to ask Cleverbot a question and sends the response.
+    /// </summary>
+    /// <param name="cleverbot">The Cleverbot session.</param>
+    /// <param name="channel">The text channel to send the response to.</param>
+    /// <param name="message">The message to ask Cleverbot.</param>
+    /// <param name="msg">The original user message.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message,
         IUserMessage msg)
     {
