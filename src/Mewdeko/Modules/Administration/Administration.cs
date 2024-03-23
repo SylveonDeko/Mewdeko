@@ -19,31 +19,80 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration(InteractiveService serv, BotConfigService configService)
     : MewdekoModuleBase<AdministrationService>
 {
+    /// <summary>
+    /// Enumerates different variations of the term "channel".
+    /// </summary>
     public enum Channel
     {
+        /// <summary>
+        /// Represents the term "channel".
+        /// </summary>
         Channel,
+
+        /// <summary>
+        /// Represents the abbreviation "ch" for "channel".
+        /// </summary>
         Ch,
+
+        /// <summary>
+        /// Represents the abbreviation "chnl" for "channel".
+        /// </summary>
         Chnl,
+
+        /// <summary>
+        /// Represents the abbreviation "chan" for "channel".
+        /// </summary>
         Chan
     }
 
+    /// <summary>
+    /// Enumerates different variations of the term "list".
+    /// </summary>
     public enum List
     {
+        /// <summary>
+        /// Represents the term "list".
+        /// </summary>
         List = 0,
+
+        /// <summary>
+        /// Represents the abbreviation "ls" for "list".
+        /// </summary>
         Ls = 0
     }
 
+    /// <summary>
+    /// Enumerates different variations of the term "server".
+    /// </summary>
     public enum Server
     {
+        /// <summary>
+        /// Represents the term "server".
+        /// </summary>
         Server
     }
 
+    /// <summary>
+    /// Enumerates different states such as enable, disable, or inherit.
+    /// </summary>
     public enum State
     {
+        /// <summary>
+        /// Represents the state of being enabled.
+        /// </summary>
         Enable,
+
+        /// <summary>
+        /// Represents the state of being disabled.
+        /// </summary>
         Disable,
+
+        /// <summary>
+        /// Represents the state of being inherited.
+        /// </summary>
         Inherit
     }
+
 
     /// <summary>
     /// Allows you to opt the entire guild out of stats tracking.

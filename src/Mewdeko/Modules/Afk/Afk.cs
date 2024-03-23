@@ -15,13 +15,32 @@ namespace Mewdeko.Modules.Afk;
 /// <param name="client">The discord client.</param>
 public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoModuleBase<AfkService>
 {
+    /// <summary>
+    /// Enumerates different types of AFK (Away From Keyboard) settings.
+    /// </summary>
     public enum AfkTypeEnum
     {
+        /// <summary>
+        /// Indicates self-disable AFK.
+        /// </summary>
         SelfDisable = 1,
+
+        /// <summary>
+        /// Indicates AFK removed on receiving a message.
+        /// </summary>
         OnMessage = 2,
+
+        /// <summary>
+        /// Indicates AFK removed on typing.
+        /// </summary>
         OnType = 3,
+
+        /// <summary>
+        /// Indicates AFK removed either by receiving a message or typing.
+        /// </summary>
         Either = 4
     }
+
 
     /// <summary>
     /// Sets the user's AFK status with an optional message.

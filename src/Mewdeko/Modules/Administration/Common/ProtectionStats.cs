@@ -8,9 +8,24 @@ namespace Mewdeko.Modules.Administration.Common
     /// </summary>
     public enum ProtectionType
     {
+        /// <summary>
+        /// Protection against raiding.
+        /// </summary>
         Raiding,
+
+        /// <summary>
+        /// Protection against spamming.
+        /// </summary>
         Spamming,
+
+        /// <summary>
+        /// Protection against alting.
+        /// </summary>
         Alting,
+
+        /// <summary>
+        /// Protection against mass mention.
+        /// </summary>
         MassMention
     }
 

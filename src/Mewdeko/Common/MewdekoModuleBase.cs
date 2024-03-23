@@ -25,6 +25,9 @@ namespace Mewdeko.Common
         public ILocalization Localization { get; set; }
 
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// Gets the command context for the current module.
+        /// </summary>
         protected ICommandContext ctx => Context;
 
         /// <summary>

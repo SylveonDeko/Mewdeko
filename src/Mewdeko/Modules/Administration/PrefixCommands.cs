@@ -12,10 +12,17 @@ public partial class Administration
     [Group]
     public class PrefixCommands(GuildSettingsService guildSettings) : MewdekoSubmodule
     {
+        /// <summary>
+        /// Enumerates different variations of the term "set". Used for idiots that try to do .prefix set !.
+        /// </summary>
         public enum Set
         {
+            /// <summary>
+            /// Represents the term "set".
+            /// </summary>
             Set
         }
+
 
         /// <summary>
         /// Displays the current command prefix for the guild.

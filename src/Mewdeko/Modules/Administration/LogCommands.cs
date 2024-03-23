@@ -7,6 +7,9 @@ namespace Mewdeko.Modules.Administration;
 
 public partial class Administration
 {
+    /// <summary>
+    /// Module for logging commands.
+    /// </summary>
     [Group]
     public class LogCommands : MewdekoSubmodule<NewLogCommandService>
     {

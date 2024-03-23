@@ -3,6 +3,9 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Common.PubSub;
 
+/// <summary>
+/// Class for handling Redis PubSub.
+/// </summary>
 public sealed class RedisPubSub : IPubSub
 {
     /// <summary>

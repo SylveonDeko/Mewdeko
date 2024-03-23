@@ -12,6 +12,10 @@ public class NewLogCommandService : INService
     private readonly DbService db;
     private readonly IDataCache cache;
     private readonly DiscordSocketClient client;
+
+    /// <summary>
+    /// Dictionary of log settings for each guild.
+    /// </summary>
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     /// <summary>
@@ -19,31 +23,134 @@ public class NewLogCommandService : INService
     /// </summary>
     public enum LogType
     {
+        /// <summary>
+        /// The log type is custom, like user banned due to antiraid or other anti measures in the bot.
+        /// </summary>
         Other,
+
+        /// <summary>
+        /// An event was created in the guild.
+        /// </summary>
         EventCreated,
+
+        /// <summary>
+        /// A role was updated in the guild.
+        /// </summary>
         RoleUpdated,
+
+        /// <summary>
+        /// A role was created in the guild.
+        /// </summary>
         RoleCreated,
+
+        /// <summary>
+        /// A role was deleted in the guild.
+        /// </summary>
         RoleDeleted,
+
+        /// <summary>
+        /// The guild was updated.
+        /// </summary>
         ServerUpdated,
+
+        /// <summary>
+        /// A thread was created in the guild.
+        /// </summary>
         ThreadCreated,
+
+        /// <summary>
+        /// A user had a role added to them.
+        /// </summary>
         UserRoleAdded,
+
+        /// <summary>
+        /// A user had a role removed from them.
+        /// </summary>
         UserRoleRemoved,
+
+        /// <summary>
+        /// A user's username was updated.
+        /// </summary>
         UsernameUpdated,
+
+        /// <summary>
+        /// A user's nickname was updated.
+        /// </summary>
         NicknameUpdated,
+
+        /// <summary>
+        /// A thread was deleted in the guild.
+        /// </summary>
         ThreadDeleted,
+
+        /// <summary>
+        /// A thread was updated in the guild.
+        /// </summary>
         ThreadUpdated,
+
+        /// <summary>
+        /// A message was updated in the guild.
+        /// </summary>
         MessageUpdated,
+
+        /// <summary>
+        /// A message was deleted in the guild.
+        /// </summary>
         MessageDeleted,
+
+        /// <summary>
+        /// A user joined the guild.
+        /// </summary>
         UserJoined,
+
+        /// <summary>
+        /// A user left the guild.
+        /// </summary>
         UserLeft,
+
+        /// <summary>
+        /// A user was updated.
+        /// </summary>
         UserBanned,
+
+        /// <summary>
+        /// A user was unbanned.
+        /// </summary>
         UserUnbanned,
+
+        /// <summary>
+        /// A user was updated.
+        /// </summary>
         UserUpdated,
+
+        /// <summary>
+        /// A channel was created in the guild.
+        /// </summary>
         ChannelCreated,
+
+        /// <summary>
+        /// A channel was destroyed in the guild.
+        /// </summary>
         ChannelDestroyed,
+
+        /// <summary>
+        /// A channel was updated in the guild.
+        /// </summary>
         ChannelUpdated,
+
+        /// <summary>
+        /// A user's voice presence was updated.
+        /// </summary>
         VoicePresence,
+
+        /// <summary>
+        /// A user's used TTS in a voice channel.
+        /// </summary>
         VoicePresenceTts,
+
+        /// <summary>
+        /// A user was muted.
+        /// </summary>
         UserMuted
     }
 
@@ -52,14 +159,49 @@ public class NewLogCommandService : INService
     /// </summary>
     public enum LogCategoryTypes
     {
+        /// <summary>
+        /// All events.
+        /// </summary>
         All,
+
+        /// <summary>
+        /// All events related to users.
+        /// </summary>
         Users,
+
+        /// <summary>
+        /// All events related to threads.
+        /// </summary>
         Threads,
+
+        /// <summary>
+        /// All events related to roles.
+        /// </summary>
         Roles,
+
+        /// <summary>
+        /// All events related to the server.
+        /// </summary>
         Server,
+
+        /// <summary>
+        /// All events related to messages.
+        /// </summary>
         Channel,
+
+        /// <summary>
+        /// All events related to messages.
+        /// </summary>
         Messages,
+
+        /// <summary>
+        /// All events related to moderation.
+        /// </summary>
         Moderation,
+
+        /// <summary>
+        /// Sets all events to none.
+        /// </summary>
         None
     }
 

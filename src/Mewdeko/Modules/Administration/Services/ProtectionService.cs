@@ -65,6 +65,9 @@ public class ProtectionService : INService
     }
 
 
+    /// <summary>
+    /// An event that is triggered when the anti-protection is triggered.
+    /// </summary>
     public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
         = delegate { return Task.CompletedTask; };
 

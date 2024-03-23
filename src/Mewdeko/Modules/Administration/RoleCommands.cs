@@ -20,8 +20,14 @@ public partial class Administration
     public class RoleCommands(IServiceProvider services, InteractiveService intserv)
         : MewdekoSubmodule<RoleCommandsService>
     {
+        /// <summary>
+        /// Enumerates different variations of the term "exclude". Sets whether roles are exclusive.
+        /// </summary>
         public enum Exclude
         {
+            /// <summary>
+            /// Represents the term "excl".
+            /// </summary>
             Excl
         }
 
@@ -129,7 +135,7 @@ public partial class Administration
         /// Assigns reaction roles based on the provided input, excluding certain roles.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to manage reaction roles in the server while excluding certain roles.
+        /// This command allows administrators to manage reaction roles in the server while making all roles exclusive.
         /// It requires the Manage Roles permission for the user and the Manage Roles permission for the bot.
         /// </remarks>
         /// <param name="messageId">The ID of the message to which reactions will be added.</param>
@@ -144,7 +150,7 @@ public partial class Administration
         /// Assigns reaction roles based on the provided input, excluding certain roles.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to manage reaction roles in the server while excluding certain roles.
+        /// This command allows administrators to manage reaction roles in the server while making all roles exclusive.
         /// It requires the Manage Roles permission for the user and the Manage Roles permission for the bot.
         /// </remarks>
         /// <param name="messageId">The ID of the message to which reactions will be added.</param>
@@ -173,7 +179,7 @@ public partial class Administration
         /// Assigns reaction roles based on the provided input, excluding certain roles.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to manage reaction roles in the server while excluding certain roles.
+        /// This command allows administrators to manage reaction roles in the server while making all roles exclusive.
         /// It requires the Manage Roles permission for the user and the Manage Roles permission for the bot.
         /// </remarks>
         /// <param name="input">The roles and emojis to be associated with reactions.</param>

@@ -8,8 +8,16 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Currency;
 
+/// <summary>
+/// Module for managing currency.
+/// </summary>
+/// <param name="interactive"></param>
 public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurrencyService>
 {
+    /// <summary>
+    /// Checks the current balance of the user.
+    /// </summary>
+    /// <example>.$</example>
     [Cmd, Aliases]
     public async Task Cash()
     {
@@ -21,6 +29,12 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         await ReplyAsync(embed: eb.Build());
     }
 
+    /// <summary>
+    /// Allows the user to flip a coin with a specified bet amount and guess.
+    /// </summary>
+    /// <param name="betAmount">The amount to bet.</param>
+    /// <param name="guess">The user's guess ("heads" or "tails").</param>
+    /// <example>.coinflip 100 heads</example>
     [Cmd, Aliases]
     public async Task CoinFlip(long betAmount, string guess)
     {
@@ -48,6 +62,10 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
     }
 
+    /// <summary>
+    /// Allows the user to claim their daily reward.
+    /// </summary>
+    /// <example>.dailyreward</example>
     [Cmd, Aliases]
     public async Task DailyReward()
     {
@@ -80,14 +98,19 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
     }
 
 
+    /// <summary>
+    /// Allows the user to guess whether the next number is higher or lower than the current number.
+    /// </summary>
+    /// <param name="guess">The user's guess ("higher" or "lower").</param>
+    /// <example>.highlow higher</example>
     [Cmd, Aliases]
     public async Task HighLow(string guess)
     {
         var currentNumber = new Random().Next(1, 11);
         var nextNumber = new Random().Next(1, 11);
 
-        if (guess.Equals("higher", StringComparison.OrdinalIgnoreCase) && nextNumber > currentNumber
-            || guess.Equals("lower", StringComparison.OrdinalIgnoreCase) && nextNumber < currentNumber)
+        if ((guess.Equals("higher", StringComparison.OrdinalIgnoreCase) && nextNumber > currentNumber)
+            || (guess.Equals("lower", StringComparison.OrdinalIgnoreCase) && nextNumber < currentNumber))
         {
             await Service.AddUserBalanceAsync(Context.User.Id, 100, Context.Guild.Id);
             await ReplyAsync(
@@ -101,6 +124,10 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
     }
 
+    /// <summary>
+    /// Displays the leaderboard of users with the highest balances.
+    /// </summary>
+    /// <example>.leaderboard</example>
     [Cmd, Aliases]
     public async Task Leaderboard()
     {
@@ -140,6 +167,12 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
     }
 
+    /// <summary>
+    /// Sets the daily reward amount and cooldown time for the guild.
+    /// </summary>
+    /// <param name="amount">The amount of the daily reward.</param>
+    /// <param name="time">The cooldown time for claiming the daily reward.</param>
+    /// <example>.setdaily 100 1d</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task SetDaily(int amount, StoopidTime time)
     {
@@ -148,6 +181,11 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
             $"Daily reward set to {amount} {await Service.GetCurrencyEmote(Context.Guild.Id)} every {time.Time.Seconds} seconds.");
     }
 
+    /// <summary>
+    /// Allows the user to spin the wheel for a chance to win or lose credits.
+    /// </summary>
+    /// <param name="betAmount">The amount of credits the user wants to bet.</param>
+    /// <example>.spinwheel 100</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task SpinWheel(long betAmount = 0)
     {
@@ -167,13 +205,13 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
 
         string[] segments =
-        [
+        {
             "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
-        ];
+        };
         int[] weights =
-        [
+        {
             2, 2, 1, 1, 1, 2
-        ];
+        };
         var rand = new Random();
         var winningSegment = GenerateWeightedRandomSegment(segments.Length, weights, rand);
 
@@ -250,6 +288,11 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
     }
 
 
+    /// <summary>
+    /// Retrieves and displays the transactions for a specified user or the current user.
+    /// </summary>
+    /// <param name="user">The user whose transactions are to be displayed. Defaults to the current user.</param>
+    /// <example>.transactions @user</example>
     [Cmd, Aliases]
     public async Task Transactions(IUser user = null)
     {
@@ -287,6 +330,13 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
     }
 
+    /// <summary>
+    /// Draws a wheel with the specified number of segments and their corresponding labels, highlighting the winning segment.
+    /// </summary>
+    /// <param name="canvas">The canvas on which to draw the wheel.</param>
+    /// <param name="numSegments">The number of segments in the wheel.</param>
+    /// <param name="segments">An array containing the labels for each segment.</param>
+    /// <param name="winningSegment">The index of the winning segment (0-based).</param>
     private static void DrawWheel(SKCanvas canvas, int numSegments, string[] segments, int winningSegment)
     {
         var pastelColor = GeneratePastelColor();
@@ -358,11 +408,20 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
     }
 
 
+    /// <summary>
+    /// Converts degrees to radians.
+    /// </summary>
+    /// <param name="degrees">The angle in degrees.</param>
+    /// <returns>The angle in radians.</returns>
     private static float DegreesToRadians(float degrees)
     {
         return degrees * (float)Math.PI / 180;
     }
 
+    /// <summary>
+    /// Generates a random pastel color.
+    /// </summary>
+    /// <returns>The generated pastel color.</returns>
     private static SKColor GeneratePastelColor()
     {
         var rand = new Random();

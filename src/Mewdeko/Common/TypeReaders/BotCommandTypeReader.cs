@@ -10,6 +10,11 @@ namespace Mewdeko.Common.TypeReaders
     /// </summary>
     public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The discord client</param>
+        /// <param name="cmds">The command service</param>
         public CommandTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
         }
@@ -50,6 +55,11 @@ namespace Mewdeko.Common.TypeReaders
         private readonly DiscordSocketClient client;
         private readonly CommandService cmds;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandOrCrTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The discord client</param>
+        /// <param name="cmds">The command service</param>
         public CommandOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
             this.client = client;
@@ -96,7 +106,14 @@ namespace Mewdeko.Common.TypeReaders
         /// </summary>
         public enum Type
         {
+            /// <summary>
+            /// Indicates a normal command.
+            /// </summary>
             Normal,
+
+            /// <summary>
+            /// Indicates a chat trigger.
+            /// </summary>
             Custom
         }
 
