@@ -1,7 +1,18 @@
-﻿namespace Mewdeko.Modules.Games.Common.ChatterBot;
-
-public class ChatterBotResponse
+﻿namespace Mewdeko.Modules.Games.Common.ChatterBot
 {
-    public string ConvoId { get; set; }
-    public string BotSay { get; set; }
+    /// <summary>
+    /// Represents a response from a ChatterBot.
+    /// </summary>
+    public class ChatterBotResponse
+    {
+        /// <summary>
+        /// Gets or sets the conversation ID associated with the response.
+        /// </summary>
+        public string ConvoId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the response from the ChatterBot.
+        /// </summary>
+        public string BotSay { get; set; }
+    }
 }

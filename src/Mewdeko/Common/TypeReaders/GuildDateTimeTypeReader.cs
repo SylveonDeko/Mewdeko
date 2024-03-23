@@ -9,6 +9,11 @@ namespace Mewdeko.Common.TypeReaders
     /// </summary>
     public class GuildDateTimeTypeReader : MewdekoTypeReader<GuildDateTime>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuildDateTimeTypeReader"/> class.
+        /// </summary>
+        /// <param name="client">The discord client</param>
+        /// <param name="cmds">The command service</param>
         public GuildDateTimeTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
         }

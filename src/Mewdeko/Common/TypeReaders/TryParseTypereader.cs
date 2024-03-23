@@ -8,6 +8,10 @@ namespace Mewdeko.Common.TypeReaders
     /// <typeparam name="T">The type of object to parse.</typeparam>
     public class TryParseTypeReader<T> : TypeReader
     {
+        /// <summary>
+        /// Represents a delegate for the custom TryParse method.
+        /// </summary>
+        /// <typeparam name="TA">The type of object to parse.</typeparam>
         public delegate bool TryParseDelegate<TA>(string input, out TA result);
 
         private readonly TryParseDelegate<T> tryParse;

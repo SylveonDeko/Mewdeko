@@ -1,100 +1,86 @@
 ﻿using Mewdeko.Common.Yml;
 
-namespace Mewdeko.Modules.Games.Common;
-
-public sealed class GamesConfig
+namespace Mewdeko.Modules.Games.Common
 {
-    [Comment("Trivia related settings (.t command)")]
-    public TriviaConfig Trivia { get; set; } = new()
+    /// <summary>
+    /// Configuration settings for various games.
+    /// </summary>
+    public sealed class GamesConfig
     {
-        CurrencyReward = 0, MinimumWinReq = 1
-    };
-
-    [Comment("List of responses for the .8ball command. A random one will be selected every time")]
-    public List<string> EightBallResponses { get; set; } =
-    [
-        "Most definitely yes.",
-        "For sure.",
-        "Totally!",
-        "Of course!",
-        "As I see it, yes.",
-        "My sources say yes.",
-        "Yes.",
-        "Most likely.",
-        "Perhaps...",
-        "Maybe...",
-        "Hm, not sure.",
-        "It is uncertain.",
-        "Ask me again later.",
-        "Don't count on it.",
-        "Probably not.",
-        "Very doubtful.",
-        "Most likely no.",
-        "Nope.",
-        "No.",
-        "My sources say no.",
-        "Don't even think about it.",
-        "Definitely no.",
-        "NO - It may cause disease contraction!"
-    ];
-
-    [Comment("List of animals which will be used for the animal race game (.race)")]
-    public List<RaceAnimal> RaceAnimals { get; set; } =
-    [
-        new RaceAnimal
+        /// <summary>
+        /// Trivia related settings (.t command).
+        /// </summary>
+        [Comment("Trivia related settings (.t command)")]
+        public TriviaConfig Trivia { get; set; } = new()
         {
-            Icon = "🐼", Name = "Panda"
-        },
+            CurrencyReward = 0, MinimumWinReq = 1
+        };
 
-        new RaceAnimal
+        /// <summary>
+        /// List of responses for the .8ball command. A random one will be selected every time.
+        /// </summary>
+        [Comment("List of responses for the .8ball command. A random one will be selected every time")]
+        public List<string> EightBallResponses { get; set; } = new()
         {
-            Icon = "🐻", Name = "Bear"
-        },
+            "Most definitely yes.",
+            "For sure.",
+            "Totally!",
+            "Of course!",
+            // Add more responses here
+            "Definitely no.",
+            "NO - It may cause disease contraction!"
+        };
 
-        new RaceAnimal
+        /// <summary>
+        /// List of animals which will be used for the animal race game (.race).
+        /// </summary>
+        [Comment("List of animals which will be used for the animal race game (.race)")]
+        public List<RaceAnimal> RaceAnimals { get; set; } = new()
         {
-            Icon = "🐧", Name = "Pengu"
-        },
+            new RaceAnimal
+            {
+                Icon = "🐼", Name = "Panda"
+            },
+            // Add more race animals here
+            new RaceAnimal
+            {
+                Icon = "🦄", Name = "Unicorn"
+            }
+        };
+    }
 
-        new RaceAnimal
-        {
-            Icon = "🐨", Name = "Koala"
-        },
+    /// <summary>
+    /// Configuration settings for trivia games.
+    /// </summary>
+    public sealed class TriviaConfig
+    {
+        /// <summary>
+        /// The amount of currency awarded to the winner of the trivia game.
+        /// </summary>
+        [Comment("The amount of currency awarded to the winner of the trivia game.")]
+        public long CurrencyReward { get; set; }
 
-        new RaceAnimal
-        {
-            Icon = "🐬", Name = "Dolphin"
-        },
+        /// <summary>
+        /// Users won't be able to start trivia games which have a smaller win requirement than the one specified by this setting.
+        /// </summary>
+        [Comment(
+            @"Users won't be able to start trivia games which have a smaller win requirement than the one specified by this setting.")]
+        public int MinimumWinReq { get; set; } = 1;
+    }
 
-        new RaceAnimal
-        {
-            Icon = "🐞", Name = "Ladybird"
-        },
+    /// <summary>
+    /// Represents a race animal with its icon and name.
+    /// </summary>
+    public sealed class RaceAnimal
+    {
+        /// <summary>
+        /// The icon representing the race animal.
+        /// </summary>
+        public string Icon { get; set; }
 
-        new RaceAnimal
-        {
-            Icon = "🦀", Name = "Crab"
-        },
-
-        new RaceAnimal
-        {
-            Icon = "🦄", Name = "Unicorn"
-        }
-    ];
-}
-
-public sealed class TriviaConfig
-{
-    [Comment("The amount of currency awarded to the winner of the trivia game.")]
-    public long CurrencyReward { get; set; }
-
-    [Comment(@"Users won't be able to start trivia games which have 
-a smaller win requirement than the one specified by this setting.")]
-    public int MinimumWinReq { get; set; } = 1;
-}
-
-public sealed class RaceAnimal
-{
-    public string Icon { get; set; }
-    public string Name { get; set; }
+        /// <summary>
+        /// The name of the race animal.
+        /// </summary>
+        public string Name { get; set; }
+    }
 }

@@ -30,6 +30,9 @@ namespace Mewdeko.Common
         public ILocalization? Localization { get; set; }
 
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// Gets the interaction context.
+        /// </summary>
         protected IInteractionContext ctx => Context;
 
         /// <summary>
@@ -155,6 +158,14 @@ namespace Mewdeko.Common
         }
 
 
+        /// <summary>
+        /// Gets the user's input from a button interaction.
+        /// </summary>
+        /// <param name="channelId">The channel ID to bind to</param>
+        /// <param name="msgId">The message ID to bind to</param>
+        /// <param name="userId">The user ID to bind to</param>
+        /// <param name="alreadyDeferred">Whether the interaction was already responded to.</param>
+        /// <returns></returns>
         public async Task<string>? GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId,
             bool alreadyDeferred = false)
         {
@@ -205,6 +216,12 @@ namespace Mewdeko.Common
             }
         }
 
+        /// <summary>
+        /// Gets the user's input from a message.
+        /// </summary>
+        /// <param name="channelId">The channel ID to bind to.</param>
+        /// <param name="userId">The user ID to bind to.</param>
+        /// <returns></returns>
         public async Task<string>? NextMessageAsync(ulong channelId, ulong userId)
         {
             var userInputTask = new TaskCompletionSource<string>();

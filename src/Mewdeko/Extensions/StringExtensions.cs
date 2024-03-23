@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Mewdeko.Extensions;
 
+/// <summary>
+/// Extension methods for many, MANY things used in the bot related to strings.
+/// </summary>
 public static partial class StringExtensions
 {
     /// <summary>

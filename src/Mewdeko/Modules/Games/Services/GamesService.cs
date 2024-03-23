@@ -53,12 +53,39 @@ namespace Mewdeko.Modules.Games.Services
         public List<TypingArticle> TypingArticles { get; }
 
         //channelId, game
+        /// <summary>
+        /// Represents a collection of Acrophobia games.
+        /// </summary>
         public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new();
+
+        /// <summary>
+        /// Represents a collection of Hangman games.
+        /// </summary>
         public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new();
+
+        /// <summary>
+        /// Represents the term pool for Hangman games.
+        /// </summary>
         public TermPool TermPool { get; } = new();
+
+        /// <summary>
+        /// Represents a collection of running Trivia games.
+        /// </summary>
         public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new();
+
+        /// <summary>
+        /// Represents a collection of TicTacToe games.
+        /// </summary>
         public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new();
+
+        /// <summary>
+        /// Represents a collection of running Typing contests.
+        /// </summary>
         public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new();
+
+        /// <summary>
+        /// Represents a collection of Nunchi games.
+        /// </summary>
         public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new();
 
         /// <summary>

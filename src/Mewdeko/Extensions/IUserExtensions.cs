@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Mewdeko.Extensions;
 
+/// <summary>
+/// Contains extension methods for the IUser interface.
+/// </summary>
 public static partial class UserExtensions
 {
     /// <summary>

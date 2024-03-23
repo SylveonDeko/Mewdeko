@@ -5,9 +5,16 @@ using Serilog;
 
 namespace Mewdeko.Modules.Games.Common;
 
+/// <summary>
+/// Represents a typing game.
+/// </summary>
 public class TypingGame
 {
+    /// <summary>
+    /// The value of a word in the typing game.
+    /// </summary>
     public const float WordValue = 4.5f;
+
     private readonly DiscordSocketClient client;
     private readonly GamesService games;
     private readonly Options options;
@@ -15,6 +22,14 @@ public class TypingGame
     private readonly List<ulong> finishedUserIds;
     private readonly Stopwatch sw;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TypingGame"/> class.
+    /// </summary>
+    /// <param name="games">The games service for config grabbing</param>
+    /// <param name="client">The discord client</param>
+    /// <param name="channel">The channel the game will start in</param>
+    /// <param name="prefix">The bots prefix</param>
+    /// <param name="options">Options along with starting the game</param>
     public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel,
         string? prefix, Options options)
     {
@@ -26,13 +41,28 @@ public class TypingGame
         Channel = channel;
         IsActive = false;
         sw = new Stopwatch();
-        finishedUserIds = new List<ulong>();
+        finishedUserIds = [];
     }
 
+    /// <summary>
+    /// Gets the text channel associated with the typing game.
+    /// </summary>
     public ITextChannel? Channel { get; }
+
+    /// <summary>
+    /// Gets or sets the current sentence being typed in the typing game.
+    /// </summary>
     public string? CurrentSentence { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the typing game is active.
+    /// </summary>
     public bool IsActive { get; private set; }
 
+    /// <summary>
+    /// Stops the typing game.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation. The task result contains a boolean indicating whether the game was successfully stopped.</returns>
     public async Task<bool> Stop()
     {
         if (!IsActive) return false;
@@ -53,9 +83,13 @@ public class TypingGame
         return true;
     }
 
+    /// <summary>
+    /// Starts the typing game.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task Start()
     {
-        if (IsActive) return; // can't start running game
+        if (IsActive) return; // Can't start running game
         IsActive = true;
         CurrentSentence = GetRandomSentence();
         var i = (int)(CurrentSentence.Length / WordValue * 1.7f);
@@ -113,12 +147,17 @@ public class TypingGame
         }
     }
 
+    /// <summary>
+    /// Retrieves a random sentence for the typing game.
+    /// </summary>
+    /// <returns>A random sentence for typing, or a message indicating no typing articles were found.</returns>
     public string? GetRandomSentence()
     {
         if (games.TypingArticles.Count > 0)
             return games.TypingArticles[new MewdekoRandom().Next(0, games.TypingArticles.Count)].Text;
         return $"No typing articles found. Use {prefix}typeadd command to add a new article for typing.";
     }
+
 
     private void HandleAnswers() => client.MessageReceived += AnswerReceived;
 
@@ -172,12 +211,21 @@ public class TypingGame
 
     private static bool Judge(int errors, int textLength) => errors <= textLength / 25;
 
+    /// <summary>
+    /// Represents the options for the typing game.
+    /// </summary>
     public class Options : IMewdekoCommandOptions
     {
+        /// <summary>
+        /// Gets or sets the time in seconds for the race to start.
+        /// </summary>
         [Option('s', "start-time", Default = 5, Required = false,
             HelpText = "How long does it take for the race to start. Default 5.")]
         public int StartTime { get; set; } = 5;
 
+        /// <summary>
+        /// Normalizes the options, ensuring valid values.
+        /// </summary>
         public void NormalizeOptions()
         {
             if (StartTime is < 3 or > 30)

@@ -13,10 +13,29 @@ public class SelfAssignedRolesService : INService
     /// </summary>
     public enum AssignResult
     {
+        /// <summary>
+        /// The role was successfully assigned.
+        /// </summary>
         Assigned, // successfully removed
+
+        /// <summary>
+        /// The role is not assignable.
+        /// </summary>
         ErrNotAssignable, // not assignable (error)
+
+        /// <summary>
+        /// The user already has the role.
+        /// </summary>
         ErrAlreadyHave, // you already have that role (error)
+
+        /// <summary>
+        /// The bot doesn't have the necessary permissions.
+        /// </summary>
         ErrNotPerms, // bot doesn't have perms (error)
+
+        /// <summary>
+        /// The user does not meet the level requirement.
+        /// </summary>
         ErrLvlReq // you are not required level (error)
     }
 
@@ -25,9 +44,24 @@ public class SelfAssignedRolesService : INService
     /// </summary>
     public enum RemoveResult
     {
+        /// <summary>
+        /// The role was successfully removed.
+        /// </summary>
         Removed, // successfully removed
+
+        /// <summary>
+        /// The role is not assignable.
+        /// </summary>
         ErrNotAssignable, // not assignable (error)
+
+        /// <summary>
+        /// The user does not have the role.
+        /// </summary>
         ErrNotHave, // you don't have a role you want to remove (error)
+
+        /// <summary>
+        /// The bot doesn't have the necessary permissions.
+        /// </summary>
         ErrNotPerms // bot doesn't have perms (error)
     }
 

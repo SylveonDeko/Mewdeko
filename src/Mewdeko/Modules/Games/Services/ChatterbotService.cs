@@ -6,6 +6,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Games.Services;
 
+/// <summary>
+/// Represents a service for interacting with the Cleverbot API.
+/// </summary>
 public class ChatterBotService : INService
 {
     private readonly DiscordSocketClient client;
@@ -14,7 +17,6 @@ public class ChatterBotService : INService
     private readonly DbService db;
     private readonly IHttpClientFactory httpFactory;
     private readonly GuildSettingsService guildSettings;
-    public List<ulong> LimitUser = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatterBotService"/> class.

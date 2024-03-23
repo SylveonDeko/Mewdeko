@@ -8,11 +8,20 @@ namespace Mewdeko.Modules.Games;
 
 public partial class Games
 {
+    /// <summary>
+    /// A module containing TicTacToe commands.
+    /// </summary>
+    /// <param name="client"></param>
     [Group]
     public class TicTacToeCommands(DiscordSocketClient client) : MewdekoSubmodule<GamesService>
     {
         private readonly SemaphoreSlim sem = new(1, 1);
 
+        /// <summary>
+        /// Starts a game of TicTacToe.
+        /// </summary>
+        /// <param name="args">Options for ttt</param>
+        /// <example>.ttt</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(TicTacToe.Options))]
         public async Task TicTacToe(params string[] args)
