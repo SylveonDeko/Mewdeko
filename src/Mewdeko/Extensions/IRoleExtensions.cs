@@ -1,5 +1,8 @@
 namespace Mewdeko.Extensions
 {
+    /// <summary>
+    /// Extension methods for the IRole interface.
+    /// </summary>
     public static class RoleExtensions
     {
         /// <summary>

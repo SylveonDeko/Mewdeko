@@ -7,16 +7,34 @@ namespace Mewdeko.Modules.Games;
 
 public partial class Games
 {
+    /// <summary>
+    /// A module containing Trivia commands.
+    /// </summary>
+    /// <param name="client">The discord client</param>
+    /// <param name="cache">Redis cache</param>
+    /// <param name="gamesConfig">Games service for fetching game configs</param>
+    /// <param name="guildSettings">The guild settings service</param>
     [Group]
-    public class TriviaCommands(DiscordSocketClient client, IDataCache cache,
-            GamesConfigService gamesConfig,
-            GuildSettingsService guildSettings)
+    public class TriviaCommands(
+        DiscordSocketClient client,
+        IDataCache cache,
+        GamesConfigService gamesConfig,
+        GuildSettingsService guildSettings)
         : MewdekoSubmodule<GamesService>
     {
+        /// <summary>
+        /// Starts a trivia game.
+        /// </summary>
+        /// <param name="args">Optional arguments for trivia</param>
+        /// <example>.trivia</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0),
          MewdekoOptions(typeof(TriviaOptions))]
         public Task Trivia(params string[] args) => InternalTrivia(args);
 
+        /// <summary>
+        /// Internal trivia handler.
+        /// </summary>
+        /// <param name="args">Optional arguments for trivia</param>
         public async Task InternalTrivia(params string[] args)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -46,6 +64,10 @@ public partial class Games
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Shows the current trivia leaderboard.
+        /// </summary>
+        /// <example>.tl</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tl()
         {
@@ -61,6 +83,10 @@ public partial class Games
             await ReplyErrorLocalizedAsync("trivia_none").ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Stops the current trivia game.
+        /// </summary>
+        /// <example>.tq</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tq()
         {

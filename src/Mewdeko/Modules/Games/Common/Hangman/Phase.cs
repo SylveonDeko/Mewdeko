@@ -1,7 +1,18 @@
-﻿namespace Mewdeko.Modules.Games.Common.Hangman;
-
-public enum Phase
+﻿namespace Mewdeko.Modules.Games.Common.Hangman
 {
-    Active,
-    Ended
+    /// <summary>
+    /// Represents the phase of a hangman game.
+    /// </summary>
+    public enum Phase
+    {
+        /// <summary>
+        /// Represents the active phase of the game where guesses can be made.
+        /// </summary>
+        Active,
+
+        /// <summary>
+        /// Represents the ended phase of the game where no more guesses can be made.
+        /// </summary>
+        Ended
+    }
 }

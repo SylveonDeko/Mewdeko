@@ -7,6 +7,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 
+/// <summary>
+/// Represents a trivia game.
+/// </summary>
 public class TriviaGame
 {
     private readonly DiscordSocketClient client;
@@ -20,6 +23,16 @@ public class TriviaGame
 
     private CancellationTokenSource triviaCancelSource;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TriviaGame"/> class.
+    /// </summary>
+    /// <param name="strings">Localization Strings</param>
+    /// <param name="client">The discord client</param>
+    /// <param name="cache">Redis cache</param>
+    /// <param name="guild">The guild the game is running in</param>
+    /// <param name="channel">The channel the game is running in</param>
+    /// <param name="options">Options when the game was started.</param>
+    /// <param name="quitCommand">If the quit command was activated this round</param>
     public TriviaGame(IBotStrings strings, DiscordSocketClient client,
         IDataCache cache, IGuild guild, ITextChannel channel,
         TriviaOptions options, string? quitCommand)
@@ -34,19 +47,47 @@ public class TriviaGame
         Channel = channel;
     }
 
+    /// <summary>
+    /// Gets the guild where the trivia game is taking place.
+    /// </summary>
     public IGuild Guild { get; }
+
+    /// <summary>
+    /// Gets the text channel where the trivia game is being conducted.
+    /// </summary>
     public ITextChannel Channel { get; }
 
+    /// <summary>
+    /// Gets or sets the current trivia question.
+    /// </summary>
     public TriviaQuestion CurrentQuestion { get; private set; }
+
+    /// <summary>
+    /// Gets the set of old trivia questions asked during the game.
+    /// </summary>
     public HashSet<TriviaQuestion> OldQuestions { get; } = new();
 
+    /// <summary>
+    /// Gets the dictionary of users participating in the trivia game and their scores.
+    /// </summary>
     public ConcurrentDictionary<IGuildUser, int> Users { get; } = new();
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the trivia game is active.
+    /// </summary>
     public bool GameActive { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the trivia game should be stopped.
+    /// </summary>
     public bool ShouldStopGame { get; private set; }
 
-    private string? GetText(string? key, params object?[] replacements) => strings.GetText(key, Channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements) =>
+        strings.GetText(key, Channel.GuildId, replacements);
 
+    /// <summary>
+    /// Starts the trivia game.
+    /// </summary>
     public async Task StartGame()
     {
         var showHowToQuit = false;
@@ -85,7 +126,8 @@ public class TriviaGame
 
                 questionMessage = await Channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
             }
-            catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound or HttpStatusCode.Forbidden or HttpStatusCode.BadRequest)
+            catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound or HttpStatusCode.Forbidden
+                                               or HttpStatusCode.BadRequest)
             {
                 return;
             }
@@ -117,7 +159,8 @@ public class TriviaGame
                                         .WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
                                 .ConfigureAwait(false);
                         }
-                        catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound or HttpStatusCode.Forbidden)
+                        catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound
+                                                           or HttpStatusCode.Forbidden)
                         {
                             break;
                         }
@@ -167,6 +210,9 @@ public class TriviaGame
         }
     }
 
+    /// <summary>
+    /// Ensures the trivia game is stopped.
+    /// </summary>
     public async Task EnsureStopped()
     {
         ShouldStopGame = true;
@@ -177,6 +223,9 @@ public class TriviaGame
             .WithDescription(GetLeaderboard())).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Stops the trivia game.
+    /// </summary>
     public async Task StopGame()
     {
         var old = ShouldStopGame;
@@ -268,6 +317,10 @@ public class TriviaGame
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Retrieves the leaderboard of the trivia game.
+    /// </summary>
+    /// <returns>The leaderboard string.</returns>
     public string? GetLeaderboard()
     {
         if (Users.Count == 0)

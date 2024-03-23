@@ -17,6 +17,11 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     private readonly InteractiveService interactivity;
     private readonly DiscordSocketClient client;
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="SlashAfk"/>.
+    /// </summary>
+    /// <param name="serv">The interactivity service used for embed pagination.</param>
+    /// <param name="client">The discord client.</param>
     public SlashAfk(InteractiveService serv, DiscordSocketClient client)
     {
         interactivity = serv;

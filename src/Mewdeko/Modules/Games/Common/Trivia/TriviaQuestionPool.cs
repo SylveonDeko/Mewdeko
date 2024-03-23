@@ -1,25 +1,38 @@
-namespace Mewdeko.Modules.Games.Common.Trivia;
-
-public class TriviaQuestionPool
+namespace Mewdeko.Modules.Games.Common.Trivia
 {
-    private readonly IDataCache cache;
-
-    private readonly MewdekoRandom rng = new();
-
-    public TriviaQuestionPool(IDataCache cache) => this.cache = cache;
-
-    private TriviaQuestion[] Pool => cache.LocalData.TriviaQuestions;
-
-    public TriviaQuestion? GetRandomQuestion(HashSet<TriviaQuestion> exclude)
+    /// <summary>
+    /// Represents a pool of trivia questions.
+    /// </summary>
+    public class TriviaQuestionPool
     {
-        if (Pool.Length == 0)
-            return null;
+        private readonly IDataCache cache;
 
-        TriviaQuestion randomQuestion;
-        while (exclude.Contains(randomQuestion = Pool[rng.Next(0, Pool.Length)]))
+        private readonly MewdekoRandom rng = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriviaQuestionPool"/> class.
+        /// </summary>
+        /// <param name="cache">The data cache.</param>
+        public TriviaQuestionPool(IDataCache cache) => this.cache = cache;
+
+        private TriviaQuestion[] Pool => cache.LocalData.TriviaQuestions;
+
+        /// <summary>
+        /// Gets a random question from the pool, excluding those specified.
+        /// </summary>
+        /// <param name="exclude">The set of questions to exclude.</param>
+        /// <returns>A random trivia question.</returns>
+        public TriviaQuestion? GetRandomQuestion(HashSet<TriviaQuestion> exclude)
         {
-        }
+            if (Pool.Length == 0)
+                return null;
 
-        return randomQuestion;
+            TriviaQuestion randomQuestion;
+            while (exclude.Contains(randomQuestion = Pool[rng.Next(0, Pool.Length)]))
+            {
+            }
+
+            return randomQuestion;
+        }
     }
 }

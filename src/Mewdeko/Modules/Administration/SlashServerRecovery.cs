@@ -16,6 +16,11 @@ public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
     private readonly IDataCache cache;
     private readonly IBotCredentials credentials;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SlashServerRecovery"/> class.
+    /// </summary>
+    /// <param name="cache"></param>
+    /// <param name="credentials"></param>
     public SlashServerRecovery(IDataCache cache, IBotCredentials credentials)
     {
         this.cache = cache;
