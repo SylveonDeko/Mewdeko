@@ -2,6 +2,9 @@
 
 namespace Mewdeko.Modules.Moderation.Services;
 
+/// <summary>
+/// Service for purging messages.
+/// </summary>
 public class PurgeService : INService
 {
     //channelids where Purges are currently occuring
@@ -9,7 +12,16 @@ public class PurgeService : INService
 
     private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
-    public async Task PurgeWhere(ITextChannel channel, ulong amount, Func<IMessage, bool> predicate, ulong messageId = 0)
+    /// <summary>
+    /// Purges messages from a channel using a predicate
+    /// </summary>
+    /// <param name="channel">The channel to purge messages from</param>
+    /// <param name="amount">The amount of messages to purge</param>
+    /// <param name="predicate">The predicate to filter messages</param>
+    /// <param name="messageId">The message id to start purging from</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public async Task PurgeWhere(ITextChannel channel, ulong amount, Func<IMessage, bool> predicate,
+        ulong messageId = 0)
     {
         channel.ThrowIfNull(nameof(channel));
         if (amount <= 0 && messageId is 0)

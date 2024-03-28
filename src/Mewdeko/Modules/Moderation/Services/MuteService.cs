@@ -5,19 +5,50 @@ using Serilog;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
+/// <summary>
+/// Represents the type of mute.
+/// </summary>
 public enum MuteType
 {
+    /// <summary>
+    /// Voice mute.
+    /// </summary>
     Voice,
+
+    /// <summary>
+    /// Chat mute.
+    /// </summary>
     Chat,
+
+    /// <summary>
+    /// Mute in both voice and chat.
+    /// </summary>
     All
 }
 
+/// <summary>
+/// Service for managing mutes.
+/// </summary>
 public class MuteService : INService
 {
+    /// <summary>
+    /// The type of timer for punishment.
+    /// </summary>
     public enum TimerType
     {
+        /// <summary>
+        /// Mute
+        /// </summary>
         Mute,
+
+        /// <summary>
+        /// Yeet
+        /// </summary>
         Ban,
+
+        /// <summary>
+        /// Add role
+        /// </summary>
         AddRole
     }
 
@@ -27,9 +58,22 @@ public class MuteService : INService
 
     private readonly DiscordSocketClient client;
     private readonly DbService db;
+
+    /// <summary>
+    /// Roles to remove on mute.
+    /// </summary>
     public string[] Uroles = Array.Empty<string>();
+
     private readonly GuildSettingsService guildSettings;
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="MuteService"/>.
+    /// </summary>
+    /// <param name="client">The discord client</param>
+    /// <param name="db">The database provider</param>
+    /// <param name="guildSettings">Service for retrieving guildconfigs</param>
+    /// <param name="eventHandler">Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)</param>
+    /// <param name="bot">The bot</param>
     public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings,
         EventHandler eventHandler, Mewdeko bot)
     {
@@ -109,13 +153,30 @@ public class MuteService : INService
         UserUnmuted += OnUserUnmuted;
     }
 
+    /// <summary>
+    /// Guild mute roles cache.
+    /// </summary>
     public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+
+    /// <summary>
+    /// Muted users cache.
+    /// </summary>
     public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
 
+    /// <summary>
+    /// Unmute timers cache.
+    /// </summary>
     public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
         = new();
 
+    /// <summary>
+    /// Event for when a user is muted.
+    /// </summary>
     public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserMuted;
+
+    /// <summary>
+    /// Event for when a user is unmuted.
+    /// </summary>
     public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserUnmuted;
 
     private static async Task OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
@@ -160,6 +221,11 @@ public class MuteService : INService
         }
     }
 
+    /// <summary>
+    /// Sets the mute role for a guild.
+    /// </summary>
+    /// <param name="guildId">The id of the guild to set the role in</param>
+    /// <param name="name">The name of the role (What in your right fucking mind possessed you to make it this way kwoth???)</param>
     public async Task SetMuteRoleAsync(ulong guildId, string name)
     {
         await using var uow = db.GetDbContext();
@@ -169,6 +235,14 @@ public class MuteService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Flow for muting a user
+    /// </summary>
+    /// <param name="usr">The user to mute </param>
+    /// <param name="mod">The mod who muted the user</param>
+    /// <param name="type">The type of mute</param>
+    /// <param name="reason">The mute reason</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public async Task MuteUser(IGuildUser usr, IUser mod, MuteType type = MuteType.All, string reason = "")
     {
         switch (type)
@@ -243,9 +317,19 @@ public class MuteService : INService
         }
     }
 
+    /// <summary>
+    /// gets whether roles should be removed on mute
+    /// </summary>
+    /// <param name="id">The server id</param>
+    /// <returns></returns>
     public async Task<int> GetRemoveOnMute(ulong id)
         => (await guildSettings.GetGuildConfig(id)).removeroles;
 
+    /// <summary>
+    /// Sets whether roles should be removed on mute
+    /// </summary>
+    /// <param name="guild">The server to set this setting</param>
+    /// <param name="yesnt">nosnt</param>
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
         var yesno = -1;
@@ -263,6 +347,14 @@ public class MuteService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Flow for unmuting a user
+    /// </summary>
+    /// <param name="guildId">The guildId where the user is unmooted</param>
+    /// <param name="usrId">The user to unmoot </param>
+    /// <param name="mod">The mod who unmooted the user</param>
+    /// <param name="type">The type of moot</param>
+    /// <param name="reason">The unmoot reason reason</param>
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,
         string reason = "")
     {
@@ -370,10 +462,15 @@ public class MuteService : INService
         }
     }
 
+    /// <summary>
+    /// Gets the mute role for a guild.
+    /// </summary>
+    /// <param name="guild">The guildid to get the mute role from</param>
+    /// <returns>The mute <see cref="IRole"/></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public async Task<IRole> GetMuteRole(IGuild guild)
     {
-        if (guild == null)
-            throw new ArgumentNullException(nameof(guild));
+        ArgumentNullException.ThrowIfNull(guild);
 
         const string defaultMuteRoleName = "Mewdeko-mute";
 
@@ -422,6 +519,14 @@ public class MuteService : INService
         return muteRole;
     }
 
+    /// <summary>
+    /// Mutes a user for a specified amount of time.
+    /// </summary>
+    /// <param name="user">The user to mute</param>
+    /// <param name="mod">The mod who muted the user</param>
+    /// <param name="after">The time to mute the user for</param>
+    /// <param name="muteType">The type of mute</param>
+    /// <param name="reason">The reason for the mute</param>
     public async Task TimedMute(IGuildUser user, IUser mod, TimeSpan after, MuteType muteType = MuteType.All,
         string reason = "")
     {
@@ -441,6 +546,14 @@ public class MuteService : INService
         StartUn_Timer(user.GuildId, user.Id, after, TimerType.Mute); // start the timer
     }
 
+    /// <summary>
+    /// Bans a user for a specified amount of time.
+    /// </summary>
+    /// <param name="guild">The guild to ban the user from</param>
+    /// <param name="user">The user to ban</param>
+    /// <param name="after">The time to ban the user for</param>
+    /// <param name="reason">The reason for the ban</param>
+    /// <param name="todelete">The time to delete the ban message</param>
     public async Task TimedBan(IGuild guild, IUser user, TimeSpan after, string reason, TimeSpan todelete = default)
     {
         await guild.AddBanAsync(user.Id, todelete.Days, options: new RequestOptions
@@ -461,6 +574,13 @@ public class MuteService : INService
         StartUn_Timer(guild.Id, user.Id, after, TimerType.Ban); // start the timer
     }
 
+    /// <summary>
+    /// Adds a role to a user for a specified amount of time.
+    /// </summary>
+    /// <param name="user">The user to add the role to</param>
+    /// <param name="after">The time to add the role for</param>
+    /// <param name="reason">The reason for adding the role</param>
+    /// <param name="role">The role to add</param>
     public async Task TimedRole(IGuildUser user, TimeSpan after, string reason, IRole role)
     {
         await user.AddRoleAsync(role).ConfigureAwait(false);
@@ -478,6 +598,14 @@ public class MuteService : INService
         StartUn_Timer(user.GuildId, user.Id, after, TimerType.AddRole, role.Id); // start the timer
     }
 
+    /// <summary>
+    /// Starts a timer to unmute a user.
+    /// </summary>
+    /// <param name="guildId">The guildId where the user is unmuted</param>
+    /// <param name="userId">The user to unmute</param>
+    /// <param name="after">The time to unmute the user after</param>
+    /// <param name="type">The type of timer</param>
+    /// <param name="roleId">The role to remove</param>
     public void StartUn_Timer(ulong guildId, ulong userId, TimeSpan after, TimerType type, ulong? roleId = null)
     {
         //load the unmute timers for this guild
@@ -547,6 +675,12 @@ public class MuteService : INService
         });
     }
 
+    /// <summary>
+    /// Stops a timer for a user.
+    /// </summary>
+    /// <param name="guildId">The guildId where the timer is stopped</param>
+    /// <param name="userId">The user to stop the timer for</param>
+    /// <param name="type">The type of timer</param>
     public void StopTimer(ulong guildId, ulong userId, TimerType type)
     {
         if (!UnTimers.TryGetValue(guildId, out var userTimer))

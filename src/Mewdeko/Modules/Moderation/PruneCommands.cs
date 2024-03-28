@@ -7,11 +7,19 @@ namespace Mewdeko.Modules.Moderation;
 
 public partial class Moderation
 {
+    /// <summary>
+    /// Module for purging messages.
+    /// </summary>
+    /// <param name="client"></param>
     [Group]
     public class PurgeCommands(DiscordSocketClient client) : MewdekoSubmodule<PurgeService>
     {
         private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
 
+        /// <summary>
+        /// Purges messages from the current channel.
+        /// </summary>
+        /// <param name="parameter">The parameters to use</param>
         [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Purge(string? parameter = null)
@@ -34,6 +42,24 @@ public partial class Moderation
         }
 
         // Purge x
+        /// <summary>
+        /// Purges messages from the current channel with the specific amount and parameters.
+        ///
+        /// The options are:
+        /// <code>
+        /// -s, --safe: Purge messages that are not pinned
+        /// -nb, --nobots: Purge messages that are not from bots
+        /// -ob, --onlybots: Purge messages that are from bots
+        /// -b, --before: Purge messages before a specific time
+        /// -a, --after: Purge messages after a specific time
+        /// -he, --hasembed: Purge messages that have an embed
+        /// -ne, --noembed: Purge messages that do not have an embed
+        /// -c, --contains: Purge messages that contain a specific string
+        /// </code>
+        /// </summary>
+        /// <param name="count">The amount of messages to purge</param>
+        /// <param name="parameter">The parameter to use</param>
+        /// <param name="input">The extra input for a parameter if needed</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
         public async Task Purge(ulong count, string? parameter = null, string? input = null)
@@ -133,16 +159,36 @@ public partial class Moderation
         }
 
         //Purge @user [x]
+        /// <summary>
+        /// Purges messages from the current channel with the specific user and amount.
+        /// </summary>
+        /// <param name="user">The user to purge messages from</param>
+        /// <param name="count">The amount of messages to purge</param>
+        /// <param name="parameter">The parameter to use</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
         public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null) =>
             Purge(user.Id, count, parameter);
 
+        /// <summary>
+        /// Purges messages from the current channel with the specific parameters.
+        /// </summary>
+        /// <param name="parameter">The parameter to use</param>
+        /// <param name="input">The extra input for a parameter if needed</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
         public Task Purge(string? parameter = null, string input = null) => Purge(0, parameter, input);
 
         //Purge userid [x]
+        /// <summary>
+        /// Purges messages from the current channel with the specific user id and amount.
+        /// </summary>
+        /// <param name="userId">The user id to purge messages from</param>
+        /// <param name="count">The amount of messages to purge</param>
+        /// <param name="parameter">The parameter to use</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
         public Task Purge(ulong userId, ulong count = 100, string? parameter = null)
