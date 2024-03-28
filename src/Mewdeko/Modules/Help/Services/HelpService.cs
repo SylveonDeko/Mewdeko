@@ -12,6 +12,9 @@ using MoreLinq;
 
 namespace Mewdeko.Modules.Help.Services;
 
+/// <summary>
+/// A service for handling help commands.
+/// </summary>
 public class HelpService : ILateExecutor, INService
 {
     private readonly BlacklistService blacklistService;
@@ -27,6 +30,21 @@ public class HelpService : ILateExecutor, INService
     private readonly IBotStrings strings;
 
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="HelpService"/>.
+    /// </summary>
+    /// <param name="strings">Bot localization strings</param>
+    /// <param name="dpos">Permission override service for commands</param>
+    /// <param name="bss">Settings service for yml based configs</param>
+    /// <param name="client">The discord client</param>
+    /// <param name="bot">The bot itself</param>
+    /// <param name="blacklistService">The user/server blacklist service</param>
+    /// <param name="cmds">The command service</param>
+    /// <param name="perms">The global permissions service</param>
+    /// <param name="nPerms">The per server permission service</param>
+    /// <param name="interactionService">The discord interaction service</param>
+    /// <param name="guildSettings">Service to get guild configs</param>
+    /// <param name="eventHandler">The event handler Sylveon made because the events in dnet were single threaded.</param>
     public HelpService(
         IBotStrings strings,
         DiscordPermOverrideService dpos,
@@ -55,6 +73,13 @@ public class HelpService : ILateExecutor, INService
         this.guildSettings = guildSettings;
     }
 
+    /// <summary>
+    /// Executes the help text when someone attempts to dm the bot with a bad command
+    /// </summary>
+    /// <param name="discordSocketClient">The client</param>
+    /// <param name="guild">The guild (hopefully null otherwise this method is useless)</param>
+    /// <param name="msg">The message of the user</param>
+    /// <returns></returns>
     public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild? guild, IUserMessage msg)
     {
         var settings = bss.Data;
@@ -69,6 +94,13 @@ public class HelpService : ILateExecutor, INService
             : msg.Channel.SendMessageAsync(settings.DmHelpText);
     }
 
+    /// <summary>
+    /// Builds the select menus for the modules
+    /// </summary>
+    /// <param name="guild">The guild the help menu was executed in, may be null if in dm</param>
+    /// <param name="user">The user that executed the help menu</param>
+    /// <param name="descriptions">Whether descriptions are on or off</param>
+    /// <returns>A <see cref="ComponentBuilder"/> instance with the bots modules in it</returns>
     public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
     {
         var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
@@ -98,6 +130,14 @@ public class HelpService : ILateExecutor, INService
     }
 
 
+    /// <summary>
+    /// Builds the help embed for the help menu
+    /// </summary>
+    /// <param name="description">Whether descriptions for each module are on or off</param>
+    /// <param name="guild">The guild where the help menu was executed</param>
+    /// <param name="channel">The channel where the help menu was executed</param>
+    /// <param name="user">The user who executed the help menu</param>
+    /// <returns></returns>
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
         var prefix = await guildSettings.GetPrefix(guild);
@@ -191,6 +231,13 @@ public class HelpService : ILateExecutor, INService
         await e.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets the help for a command
+    /// </summary>
+    /// <param name="com">The command in question</param>
+    /// <param name="guild">The guild where this was executed</param>
+    /// <param name="user">The user who executed the command</param>
+    /// <returns>A tuple containing a <see cref="ComponentBuilder"/> and <see cref="EmbedBuilder"/></returns>
     public async Task<(EmbedBuilder, ComponentBuilder)> GetCommandHelp(CommandInfo com, IGuild guild, IGuildUser user)
     {
         if (com.Attributes.Any(x => x is HelpDisabled))

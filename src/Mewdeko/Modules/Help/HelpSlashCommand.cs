@@ -13,6 +13,16 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Help;
 
+/// <summary>
+/// Slash command module for help commands.
+/// </summary>
+/// <param name="permissionService">The server permission service</param>
+/// <param name="interactivity">The service for embed pagination</param>
+/// <param name="serviceProvider">Service provider</param>
+/// <param name="cmds">The command service</param>
+/// <param name="ch">The command handler (yes they are different now shut up)</param>
+/// <param name="guildSettings">The service to retrieve guildconfigs</param>
+/// <param name="config">Service to retrieve yml based configs</param>
 [Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
 public class HelpSlashCommand(
     GlobalPermissionService permissionService,
@@ -26,6 +36,9 @@ public class HelpSlashCommand(
 {
     private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
 
+    /// <summary>
+    /// Shows all modules as well as additional information.
+    /// </summary>
     [SlashCommand("help", "Shows help on how to use the bot"), CheckPermissions]
     public async Task Modules()
     {
@@ -34,6 +47,11 @@ public class HelpSlashCommand(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handles select menus for the help menu.
+    /// </summary>
+    /// <param name="unused">Literally unused</param>
+    /// <param name="selected">The selected module</param>
     [ComponentInteraction("helpselect:*", true)]
     public async Task HelpSlash(string unused, string[] selected)
     {
@@ -139,18 +157,26 @@ public class HelpSlashCommand(
         }
     }
 
+    /// <summary>
+    /// Shows the invite link for the bot.
+    /// </summary>
+    /// <returns></returns>
     [SlashCommand("invite", "You should invite me to your server and check all my features!"), CheckPermissions]
     public Task Invite()
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link",
-                "[Anime](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Non Anime](https://discord.com/oauth2/authorize?client_id=733370438175948891&scope=bot&permissions=66186303)")
+                "[Mewdeko](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Mewdeko Nightly](https://discord.com/oauth2/authorize?client_id=964590728397344868&scope=bot&permissions=66186303)")
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", config.Data.SupportServer)
             .WithOkColor();
         return ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
+    /// <summary>
+    /// ALlows you to search for a command using the autocompleter. Can also show help for the command thats chosen from autocomplete.
+    /// </summary>
+    /// <param name="command">The command to search for or to get help for</param>
     [SlashCommand("search", "get information on a specific command"), CheckPermissions]
     public async Task SearchCommand
     (
@@ -170,6 +196,10 @@ public class HelpSlashCommand(
         await RespondAsync(embed: embed.Build(), components: comp.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Allows you to run a command from the commands help.
+    /// </summary>
+    /// <param name="command">The command in question</param>
     [ComponentInteraction("runcmd.*", true)]
     public async Task RunCmd(string command)
     {
@@ -187,6 +217,11 @@ public class HelpSlashCommand(
         await RespondWithModalAsync<CommandModal>($"runcmdmodal.{command}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// A modal that displays if the command has any arguments.
+    /// </summary>
+    /// <param name="command">The command to run</param>
+    /// <param name="modal">The modal itself</param>
     [ModalInteraction("runcmdmodal.*", true)]
     public async Task RunModal(string command, CommandModal modal)
     {
@@ -201,6 +236,11 @@ public class HelpSlashCommand(
         _ = Task.Run(() => ch.ExecuteCommandsInChannelAsync(ctx.Channel.Id)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles module descriptions in help.
+    /// </summary>
+    /// <param name="sDesc">Bool thats parsed to either true or false to show the descriptions</param>
+    /// <param name="sId">The server id the button is ran in</param>
     [ComponentInteraction("toggle-descriptions:*,*", true)]
     public async Task ToggleHelpDescriptions(string sDesc, string sId)
     {
