@@ -7,10 +7,20 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Giveaways;
 
+/// <summary>
+/// Slash commands for giveaways.
+/// </summary>
+/// <param name="db">The database service</param>
+/// <param name="interactiveService">The service used to make paginated embeds</param>
+/// <param name="guildSettings">Service for getting guild configs</param>
 [Group("giveaways", "Create or manage giveaways!")]
 public class SlashGiveaways(DbService db, InteractiveService interactiveService, GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
+    /// <summary>
+    /// Sets the giveaway emote
+    /// </summary>
+    /// <param name="maybeEmote">The emote to set</param>
     [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEmote(string maybeEmote)
     {
@@ -41,6 +51,10 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the giveaway banner
+    /// </summary>
+    /// <param name="banner">The url of the banner to set</param>
     [SlashCommand("banner", "Allows you to set a banner for giveaways!"), SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GBanner(string banner)
     {
@@ -59,6 +73,10 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             await ctx.Interaction.SendConfirmAsync("Giveaway banner set!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the giveaway embed color for winning users
+    /// </summary>
+    /// <param name="color">The color in hex</param>
     [SlashCommand("winembedcolor", "Allows you to set the win embed color!"),
      SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
@@ -88,6 +106,10 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         }
     }
 
+    /// <summary>
+    /// Sets the giveaway embed color
+    /// </summary>
+    /// <param name="color">The color in hex</param>
     [SlashCommand("embedcolor", "Allows you to set the regular embed color!"),
      SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
@@ -117,6 +139,9 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         }
     }
 
+    /// <summary>
+    /// Toggles whether winners get dmed
+    /// </summary>
     [SlashCommand("dm", "Toggles whether winners get dmed!"), SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GDm()
     {
@@ -128,6 +153,10 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Rerolls a giveaway
+    /// </summary>
+    /// <param name="messageid">The messageid of the giveaway to reroll</param>
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
@@ -151,6 +180,9 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         await ctx.Interaction.SendConfirmAsync("Giveaway Rerolled!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// View giveaway stats
+    /// </summary>
     [SlashCommand("stats", "View giveaway stats!"), CheckPermissions]
     public async Task GStats()
     {
@@ -184,6 +216,16 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         }
     }
 
+    /// <summary>
+    /// Starts a giveaway faster than just .gstart
+    /// </summary>
+    /// <param name="chan">The channel to start the giveaway in</param>
+    /// <param name="time">The amount of time the giveaway should last</param>
+    /// <param name="winners">The number of winners</param>
+    /// <param name="what">The item being given away</param>
+    /// <param name="pingRole">The role to ping when starting the giveaway</param>
+    /// <param name="attachment">The banner to use for the giveaway</param>
+    /// <param name="host">The host of the giveaway</param>
     [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null,
         IAttachment attachment = null, IUser host = null)
@@ -223,6 +265,9 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// View current giveaways
+    /// </summary>
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
@@ -264,6 +309,10 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         return message.GetJumpUrl();
     }
 
+    /// <summary>
+    /// End a giveaway
+    /// </summary>
+    /// <param name="messageid"></param>
     [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)

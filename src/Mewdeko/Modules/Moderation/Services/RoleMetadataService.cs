@@ -5,6 +5,12 @@ using Mewdeko.Common.ModuleBehaviors;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
+/// <summary>
+/// Service for managing role connection metadata.
+/// </summary>
+/// <param name="dbService">The database service</param>
+/// <param name="client">The Discord client</param>
+/// <param name="botCredentials">The bot credentials</param>
 public class RoleMetadataService(DbService dbService, DiscordSocketClient client, IBotCredentials botCredentials)
     : INService, IReadyExecutor
 {
@@ -19,6 +25,9 @@ public class RoleMetadataService(DbService dbService, DiscordSocketClient client
             "Days since this user's first command after we started keeping track")
     ];
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="RoleMetadataService"/>.
+    /// </summary>
     public async Task OnReadyAsync()
     {
         // keys
@@ -45,6 +54,15 @@ public class RoleMetadataService(DbService dbService, DiscordSocketClient client
         }
     }
 
+    /// <summary>
+    /// Updates the role connection data for a user.
+    /// </summary>
+    /// <param name="tokenId">The token id</param>
+    /// <param name="clientId">The client id</param>
+    /// <param name="clientSecret">The client secret</param>
+    /// <param name="client">The HTTP client</param>
+    /// <param name="uow">The unit of work service</param>
+    /// <returns></returns>
     public static async Task<string> RefreshUserToken(int tokenId, ulong clientId, string clientSecret,
         HttpClient client, MewdekoContext uow)
     {
@@ -75,6 +93,15 @@ public class RoleMetadataService(DbService dbService, DiscordSocketClient client
         return data.access_token;
     }
 
+    /// <summary>
+    /// Updates the role connection data for a user.
+    /// </summary>
+    /// <param name="userId">The user id</param>
+    /// <param name="tokenId">The token id</param>
+    /// <param name="uow">The unit of work service</param>
+    /// <param name="clientId">The client id</param>
+    /// <param name="clientSecret">The client secret</param>
+    /// <param name="client">The HTTP client</param>
     public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, MewdekoContext uow, ulong clientId,
         string clientSecret, HttpClient client)
     {

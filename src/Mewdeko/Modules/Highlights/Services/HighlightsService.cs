@@ -4,12 +4,21 @@ using Serilog;
 
 namespace Mewdeko.Modules.Highlights.Services;
 
+/// <summary>
+/// The service for handling highlights.
+/// </summary>
 public class HighlightsService : INService, IReadyExecutor
 {
     private readonly DiscordSocketClient client;
     private readonly IDataCache cache;
     private readonly DbService db;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HighlightsService"/> class.
+    /// </summary>
+    /// <param name="client">The discord client</param>
+    /// <param name="cache">Redis cache</param>
+    /// <param name="db">The database provider</param>
     public HighlightsService(DiscordSocketClient client, IDataCache cache, DbService db)
     {
         this.client = client;
@@ -48,6 +57,10 @@ public class HighlightsService : INService, IReadyExecutor
         await cache.TryAddHighlightStagger(user.GuildId, user.Id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Caches highlights and settings on bot ready.
+    /// </summary>
+    /// <returns></returns>
     public Task OnReadyAsync()
     {
         using var uow = db.GetDbContext();
@@ -172,6 +185,12 @@ public class HighlightsService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Adds a highlight word to the database.
+    /// </summary>
+    /// <param name="guildId">The guild to watch the highlight in</param>
+    /// <param name="userId">The user that added the highlight</param>
+    /// <param name="word">The word or regex to watch for</param>
     public async Task AddHighlight(ulong guildId, ulong userId, string word)
     {
         var toadd = new Database.Models.Highlights
@@ -186,6 +205,12 @@ public class HighlightsService : INService, IReadyExecutor
         await cache.AddHighlightToCache(guildId, current).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles highlights on or off for a user.
+    /// </summary>
+    /// <param name="guildId">The guild to toggle highlights in</param>
+    /// <param name="userId">The user that wants to toggle highlights</param>
+    /// <param name="enabled">Whether its enabled or disabled</param>
     public async Task ToggleHighlights(ulong guildId, ulong userId, bool enabled)
     {
         await using var uow = db.GetDbContext();
@@ -215,6 +240,13 @@ public class HighlightsService : INService, IReadyExecutor
         await cache.AddHighlightSettingToCache(guildId, current).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles a channel to be ignored or not.
+    /// </summary>
+    /// <param name="guildId">The guild to toggle highlights in</param>
+    /// <param name="userId">The user that wants to toggle highlights</param>
+    /// <param name="channelId">The channel to toggle</param>
+    /// <returns></returns>
     public async Task<bool> ToggleIgnoredChannel(ulong guildId, ulong userId, string channelId)
     {
         var ignored = true;
@@ -261,6 +293,13 @@ public class HighlightsService : INService, IReadyExecutor
         return ignored;
     }
 
+    /// <summary>
+    /// Toggles a user to be ignored or not.
+    /// </summary>
+    /// <param name="guildId">The guild to toggle highlights in</param>
+    /// <param name="userId">The user that wants to toggle highlights</param>
+    /// <param name="userToIgnore">The user to toggle</param>
+    /// <returns></returns>
     public async Task<bool> ToggleIgnoredUser(ulong guildId, ulong userId, string userToIgnore)
     {
         var ignored = true;
@@ -307,6 +346,10 @@ public class HighlightsService : INService, IReadyExecutor
         return ignored;
     }
 
+    /// <summary>
+    /// Removes a highlight word from the database.
+    /// </summary>
+    /// <param name="toremove">The db record to remove</param>
     public async Task RemoveHighlight(Database.Models.Highlights? toremove)
     {
         await using var uow = db.GetDbContext();

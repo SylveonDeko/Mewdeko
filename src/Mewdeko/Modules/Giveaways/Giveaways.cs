@@ -9,6 +9,13 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Giveaways;
 
+/// <summary>
+/// Module containing commands for giveaways.
+/// </summary>
+/// <param name="db"></param>
+/// <param name="servs"></param>
+/// <param name="interactiveService"></param>
+/// <param name="guildSettings"></param>
 public partial class Giveaways(
     DbService db,
     IServiceProvider servs,
@@ -16,6 +23,10 @@ public partial class Giveaways(
     GuildSettingsService guildSettings)
     : MewdekoModuleBase<GiveawayService>
 {
+    /// <summary>
+    /// Sets the dm message sent to users when they win a giveaway.
+    /// </summary>
+    /// <param name="message"></param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GdmMessage([Remainder] string message = null)
     {
@@ -66,6 +77,10 @@ public partial class Giveaways(
     }
 
 
+    /// <summary>
+    /// Sets the default giveaway banner.
+    /// </summary>
+    /// <param name="banner"></param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GBanner(string banner)
     {
@@ -83,6 +98,10 @@ public partial class Giveaways(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the color for the winning embed.
+    /// </summary>
+    /// <param name="color">The color in hex.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
     {
@@ -111,6 +130,10 @@ public partial class Giveaways(
         }
     }
 
+    /// <summary>
+    /// Sets the color of the embed for giveaways.
+    /// </summary>
+    /// <param name="color">The color in hex.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
     {
@@ -139,6 +162,9 @@ public partial class Giveaways(
         }
     }
 
+    /// <summary>
+    /// Sets whether to DM the winner of a giveaway.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GDm()
     {
@@ -150,6 +176,10 @@ public partial class Giveaways(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the emote used for giveaways.
+    /// </summary>
+    /// <param name="emote">The emote to set it to.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmote(IEmote emote)
     {
@@ -171,6 +201,10 @@ public partial class Giveaways(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Rerolls a giveaway.
+    /// </summary>
+    /// <param name="messageid">The messageid of a giveaway</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
@@ -194,6 +228,9 @@ public partial class Giveaways(
         await ctx.Channel.SendConfirmAsync("Giveaway Rerolled!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Shows the stats for giveaways.
+    /// </summary>
     [Cmd, Aliases]
     public async Task GStats()
     {
@@ -227,6 +264,13 @@ public partial class Giveaways(
         }
     }
 
+    /// <summary>
+    /// Quick start a giveaway.
+    /// </summary>
+    /// <param name="chan">The channel to start the giveaway in</param>
+    /// <param name="time">The amount of time the giveaway should go on</param>
+    /// <param name="winners">The amount of winners</param>
+    /// <param name="what">The item to be given away</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
     {
@@ -261,6 +305,9 @@ public partial class Giveaways(
             ctx.Channel as ITextChannel, ctx.Guild).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// More detailed giveaway starting, lets you set a banner, ping role, and more.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
@@ -514,6 +561,9 @@ public partial class Giveaways(
             ctx.Guild, reqroles, pingROle: pingrole, banner: banner).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Lists all active giveaways.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
@@ -555,6 +605,10 @@ public partial class Giveaways(
         return message.GetJumpUrl();
     }
 
+    /// <summary>
+    /// Ends a giveaway.
+    /// </summary>
+    /// <param name="messageid">The messageid of the giveaway to end</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
