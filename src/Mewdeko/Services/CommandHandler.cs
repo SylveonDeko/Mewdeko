@@ -354,7 +354,6 @@ public class CommandHandler : INService
 
     private async Task TryRunInteraction(SocketInteraction interaction)
     {
-        await Task.Delay(2500);
         var blacklistService = services.GetService<BlacklistService>();
         var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
             url: "https://discord.gg/mewdeko").Build();
