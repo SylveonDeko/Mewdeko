@@ -753,34 +753,34 @@ public class NewLogCommandService : INService
     /// <param name="arsg2">The user after the event was fired</param>
     private async Task OnUserRoleAdded(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser arsg2)
     {
-        if (GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting))
-        {
-            if (!cacheable.HasValue) return;
-            if (logSetting.UserRoleAddedId is null or 0)
-                return;
+        if (!GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting) || !cacheable.HasValue)
+            return;
 
-            var channel = arsg2.Guild.GetTextChannel(logSetting.UserRoleAddedId.Value);
+        if (logSetting.UserRoleAddedId is null or 0)
+            return;
 
-            if (channel is null)
-                return;
+        var channel = arsg2.Guild.GetTextChannel(logSetting.UserRoleAddedId.Value);
+        if (channel is null) return;
 
-            await Task.Delay(500);
-            var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated)
-                .FlattenAsync();
+        await Task.Delay(500);
+        var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated)
+            .FlattenAsync();
 
-            var added = arsg2.Roles.Except(cacheable.Value.Roles);
-            if (!added.Any())
-                return;
+        var addedRoles = arsg2.Roles.Except(cacheable.Value.Roles);
+        if (!addedRoles.Any()) return;
 
-            var eb = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle("User Role(s) Added")
-                .WithDescription($"`Role(s):` {string.Join(",", added.Select(x => $"{x.Mention}"))}\n" +
-                                 $"`Added By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
+        var auditLog = auditLogs.LastOrDefault();
+        if (auditLog == null) return;
 
-            await channel.SendMessageAsync(embed: eb.Build());
-        }
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle("User Role(s) Added")
+            .WithDescription($"`Role(s):` {string.Join(", ", addedRoles.Select(x => x.Mention))}\n" +
+                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}");
+
+        await channel.SendMessageAsync(embed: eb.Build());
     }
+
 
     /// <summary>
     /// Handles the event where a user has a role removed.
@@ -789,33 +789,35 @@ public class NewLogCommandService : INService
     /// <param name="arsg2">The user after the removal</param>
     private async Task OnUserRoleRemoved(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser arsg2)
     {
-        if (GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting))
-        {
-            if (!cacheable.HasValue) return;
-            if (logSetting.UserRoleRemovedId is null or 0)
-                return;
+        if (!GuildLogSettings.TryGetValue(arsg2.Guild.Id, out var logSetting) || !cacheable.HasValue)
+            return;
 
-            var channel = arsg2.Guild.GetTextChannel(logSetting.UserRoleRemovedId.Value);
+        if (logSetting.UserRoleRemovedId is null or 0)
+            return;
 
-            if (channel is null)
-                return;
+        var channel = arsg2.Guild.GetTextChannel(logSetting.UserRoleRemovedId.Value);
+        if (channel is null) return;
 
-            await Task.Delay(500);
-            var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated)
-                .FlattenAsync();
+        await Task.Delay(500);
+        var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated)
+            .FlattenAsync();
 
-            var removed = arsg2.Roles.Except(cacheable.Value.Roles);
-            if (!removed.Any()) return;
+        var auditLog = auditLogs.LastOrDefault();
+        if (auditLog == null) return;
 
-            var eb = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle("User Role(s) Removed")
-                .WithDescription($"`Role(s):` {string.Join(",", removed.Select(x => $"{x.Mention}"))}\n" +
-                                 $"`Added By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
+        var removedRoles = cacheable.Value.Roles.Except(arsg2.Roles);
+        if (!removedRoles.Any()) return;
 
-            await channel.SendMessageAsync(embed: eb.Build());
-        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle("User Role(s) Removed")
+            .WithDescription($"`Role(s):` {string.Join(", ", removedRoles.Select(x => x.Mention))}\n" +
+                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}");
+
+        await channel.SendMessageAsync(embed: eb.Build());
     }
+
 
     /// <summary>
     /// Handles the event when a user updates their username.
