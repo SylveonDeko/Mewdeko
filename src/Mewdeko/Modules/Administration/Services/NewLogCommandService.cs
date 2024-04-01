@@ -606,7 +606,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithColor(arsg2.Color)
                     .WithTitle("Role Color Updated")
-                    .WithDescription($"`New Role Color:` {arsg2.Color}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Color:` {arsg2.Color}\n" +
                                      $"`Old Role Color:` {args.Color}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -616,7 +617,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Property Hoisted Updated")
-                    .WithDescription($"`New Role Hoisted:` {arsg2.IsHoisted}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Hoisted:` {arsg2.IsHoisted}\n" +
                                      $"`Old Role Hoisted:` {args.IsHoisted}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -626,7 +628,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Property Mentionable Updated")
-                    .WithDescription($"`New Role Mentionable:` {arsg2.IsMentionable}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Mentionable:` {arsg2.IsMentionable}\n" +
                                      $"`Old Role Mentionable:` {args.IsMentionable}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -636,7 +639,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Property Managed Updated")
-                    .WithDescription($"`New Role Managed:` {arsg2.IsManaged}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Managed:` {arsg2.IsManaged}\n" +
                                      $"`Old Role Managed:` {args.IsManaged}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -646,7 +650,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Position Updated")
-                    .WithDescription($"`New Role Position:` {arsg2.Position}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Position:` {arsg2.Position}\n" +
                                      $"`Old Role Position:` {args.Position}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -656,7 +661,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Permissions Updated")
-                    .WithDescription($"`New Role Permissions:` {arsg2.Permissions}\n" +
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`New Role Permissions:` {arsg2.Permissions}\n" +
                                      $"`Old Role Permissions:` {args.Permissions}\n" +
                                      $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}");
             }
@@ -666,8 +672,8 @@ public class NewLogCommandService : INService
                 eb = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Role Icon Updated")
-                    .WithDescription(
-                        $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}")
+                    .WithDescription($"`Role:` {args.Mention} | {args.Id}" +
+                                     $"`Updated By:` {auditLogs.FirstOrDefault().User.Mention} | {auditLogs.FirstOrDefault().User.Id}")
                     .WithThumbnailUrl(args.GetIconUrl())
                     .WithImageUrl(arsg2.GetIconUrl());
             }
@@ -776,7 +782,8 @@ public class NewLogCommandService : INService
             .WithOkColor()
             .WithTitle("User Role(s) Added")
             .WithDescription($"`Role(s):` {string.Join(", ", addedRoles.Select(x => x.Mention))}\n" +
-                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}");
+                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}" +
+                             $"\n`Added To:` {arsg2.Mention} | {arsg2.Id}");
 
         await channel.SendMessageAsync(embed: eb.Build());
     }
@@ -813,7 +820,8 @@ public class NewLogCommandService : INService
             .WithOkColor()
             .WithTitle("User Role(s) Removed")
             .WithDescription($"`Role(s):` {string.Join(", ", removedRoles.Select(x => x.Mention))}\n" +
-                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}");
+                             $"`Added By:` {auditLog.User.Mention} | {auditLog.User.Id}" +
+                             $"\n`Removed From:` {arsg2.Mention} | {arsg2.Id}");
 
         await channel.SendMessageAsync(embed: eb.Build());
     }
@@ -1391,85 +1399,85 @@ public class NewLogCommandService : INService
 
             if (channel.Position != channel2.Position)
                 eb.WithTitle("Channel Position Updated")
-                    .WithDescription(
-                        $"`Old Position:` {channel.Position}\n" +
-                        $"`New Position:` {channel2.Position}\n" +
-                        $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                    .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                     $"`Old Position:` {channel.Position}\n" +
+                                     $"`New Position:` {channel2.Position}\n" +
+                                     $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
             if (channel is SocketTextChannel textChannel && channel2 is SocketTextChannel textChannel2)
             {
                 if (textChannel.Topic != textChannel2.Topic)
                     eb.WithTitle("Channel Topic Updated")
-                        .WithDescription(
-                            $"`Old Topic:` {textChannel.Topic}\n" +
-                            $"`New Topic:` {textChannel2.Topic}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Topic:` {textChannel.Topic}\n" +
+                                         $"`New Topic:` {textChannel2.Topic}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (textChannel.IsNsfw != textChannel2.IsNsfw)
                     eb.WithTitle("Channel NSFW Updated")
-                        .WithDescription(
-                            $"`Old NSFW:` {textChannel.IsNsfw}\n" +
-                            $"`New NSFW:` {textChannel2.IsNsfw}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old NSFW:` {textChannel.IsNsfw}\n" +
+                                         $"`New NSFW:` {textChannel2.IsNsfw}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (textChannel.SlowModeInterval != textChannel2.SlowModeInterval)
                     eb.WithTitle("Channel Slowmode Interval Updated")
-                        .WithDescription(
-                            $"`Old Slowmode Interval:` {textChannel.SlowModeInterval}\n" +
-                            $"`New Slowmode Interval:` {textChannel2.SlowModeInterval}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Slowmode Interval:` {textChannel.SlowModeInterval}\n" +
+                                         $"`New Slowmode Interval:` {textChannel2.SlowModeInterval}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (textChannel.CategoryId != textChannel2.CategoryId)
                     eb.WithTitle("Channel Category Updated")
-                        .WithDescription(
-                            $"`Old Category:` {textChannel.Category}\n" +
-                            $"`New Category:` {textChannel2.Category}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Category:` {textChannel.Category}\n" +
+                                         $"`New Category:` {textChannel2.Category}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
             }
 
             if (channel is SocketVoiceChannel voiceChannel && channel2 is SocketVoiceChannel voiceChannel2)
             {
                 if (voiceChannel.Bitrate != voiceChannel2.Bitrate)
                     eb.WithTitle("Channel Bitrate Updated")
-                        .WithDescription(
-                            $"`Old Bitrate:` {voiceChannel.Bitrate}\n" +
-                            $"`New Bitrate:` {voiceChannel2.Bitrate}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Bitrate:` {voiceChannel.Bitrate}\n" +
+                                         $"`New Bitrate:` {voiceChannel2.Bitrate}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (voiceChannel.UserLimit != voiceChannel2.UserLimit)
                     eb.WithTitle("Channel User Limit Updated")
-                        .WithDescription(
-                            $"`Old User Limit:` {voiceChannel.UserLimit}\n" +
-                            $"`New User Limit:` {voiceChannel2.UserLimit}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old User Limit:` {voiceChannel.UserLimit}\n" +
+                                         $"`New User Limit:` {voiceChannel2.UserLimit}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (voiceChannel.CategoryId != voiceChannel2.CategoryId)
                     eb.WithTitle("Channel Category Updated")
-                        .WithDescription(
-                            $"`Old Category:` {voiceChannel.Category}\n" +
-                            $"`New Category:` {voiceChannel2.Category}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Category:` {voiceChannel.Category}\n" +
+                                         $"`New Category:` {voiceChannel2.Category}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (voiceChannel.Position != voiceChannel2.Position)
                     eb.WithTitle("Channel Position Updated")
-                        .WithDescription(
-                            $"`Old Position:` {voiceChannel.Position}\n" +
-                            $"`New Position:` {voiceChannel2.Position}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Position:` {voiceChannel.Position}\n" +
+                                         $"`New Position:` {voiceChannel2.Position}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (voiceChannel.VideoQualityMode != voiceChannel2.VideoQualityMode)
                     eb.WithTitle("Channel Video Quality Mode Updated")
-                        .WithDescription(
-                            $"`Old Video Quality Mode:` {voiceChannel.VideoQualityMode}\n" +
-                            $"`New Video Quality Mode:` {voiceChannel2.VideoQualityMode}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old Video Quality Mode:` {voiceChannel.VideoQualityMode}\n" +
+                                         $"`New Video Quality Mode:` {voiceChannel2.VideoQualityMode}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
 
                 if (voiceChannel.RTCRegion != voiceChannel2.RTCRegion)
                     eb.WithTitle("Channel RTC Region Updated")
-                        .WithDescription(
-                            $"`Old RTC Region:` {voiceChannel.RTCRegion}\n" +
-                            $"`New RTC Region:` {voiceChannel2.RTCRegion}\n" +
-                            $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
+                        .WithDescription($"`Channel:` {channel2.Name} | {channel2.Id}" +
+                                         $"`Old RTC Region:` {voiceChannel.RTCRegion}\n" +
+                                         $"`New RTC Region:` {voiceChannel2.RTCRegion}\n" +
+                                         $"`Channel Updated By:` {entry.User.Mention} | {entry.User.Id}");
             }
 
             await logChannel.SendMessageAsync(embed: eb.Build());
