@@ -12,6 +12,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Permissions.Services;
 
+/// <summary>
+/// Provides services for filtering messages in guilds based on predefined rules, including word filters, link filters, and invite filters.
+/// </summary>
 public class FilterService : IEarlyBehavior, INService
 {
     private readonly CultureInfo? cultureInfo = new("en-US");
@@ -20,11 +23,23 @@ public class FilterService : IEarlyBehavior, INService
 
     private readonly TypedKey<HashSet<AutoBanEntry>> blPubKey = new("autobanword.reload");
     private readonly DiscordSocketClient client;
+
+    /// <summary>
+    /// HashSet of banned words for auto-banning.
+    /// </summary>
     public HashSet<AutoBanEntry> Blacklist;
-    public readonly AdministrationService Ass;
-    public readonly UserPunishService Upun;
+
+    private readonly AdministrationService ass;
+    private readonly UserPunishService upun;
     private readonly GuildSettingsService gss;
 
+    /// <summary>
+    /// Initializes a new instance of the FilterService with necessary dependencies for filtering operations.
+    /// </summary>
+    /// <remarks>
+    /// On initialization, this service loads filtering configurations from the database and subscribes to necessary events
+    /// for real-time monitoring and filtering of messages across all guilds the bot is part of.
+    /// </remarks>
     public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
         GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot)
@@ -32,11 +47,11 @@ public class FilterService : IEarlyBehavior, INService
         this.db = db;
         this.client = client;
         this.pubSub = pubSub;
-        Upun = upun2;
+        upun = upun2;
         Strings = strng;
         Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
-        Ass = ass;
+        this.ass = ass;
         this.gss = gss;
         var allgc = bot.AllGuildConfigs;
 
@@ -74,24 +89,66 @@ public class FilterService : IEarlyBehavior, INService
         };
     }
 
+    /// <summary>
+    /// Stores localized strings for bot messages.
+    /// </summary>
     public IBotStrings Strings { get; set; }
+
+    /// <summary>
+    /// A collection of channel IDs that have invite filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> InviteFilteringChannels { get; }
+
+    /// <summary>
+    /// A collection of channel IDs that have invite filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> InviteFilteringServers { get; }
 
     //serverid, filteredwords
+    /// <summary>
+    /// Manages the collection of word filters across different guilds, organized by guild ID.
+    /// </summary>
     public ConcurrentDictionary<ulong, ConcurrentHashSet<string>> ServerFilteredWords { get; }
 
+    /// <summary>
+    /// A collection of channel IDs that have word filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> WordFilteringChannels { get; }
+
+    /// <summary>
+    /// A collection of server IDs that have word filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> WordFilteringServers { get; }
 
+    /// <summary>
+    /// A collection of channel IDs that have link filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> LinkFilteringChannels { get; }
+
+    /// <summary>
+    /// A collection of server IDs that have link filtering enabled.
+    /// </summary>
     public ConcurrentHashSet<ulong> LinkFilteringServers { get; }
 
+    /// <summary>
+    /// Specifies the execution priority of this behavior in the pipeline.
+    /// </summary>
     public int Priority => -50;
+
+    /// <summary>
+    /// Indicates the type of behavior this service represents.
+    /// </summary>
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
+    /// <summary>
+    /// Orchestrates various filters, applying them to messages based on guild-specific configurations and global blacklist settings.
+    /// </summary>
+    /// <param name="socketClient">The Discord client for interacting with the API.</param>
+    /// <param name="guild">The guild where the message was posted.</param>
+    /// <param name="msg">The user message to be checked against the filters.</param>
+    /// <returns>A task that resolves to true if the message was acted upon due to a filter match; otherwise, false.</returns>
     public async Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage msg) =>
-        msg.Author is IGuildUser gu && !gu.RoleIds.Contains(await Ass.GetStaffRole(guild.Id)) &&
+        msg.Author is IGuildUser gu && !gu.RoleIds.Contains(await ass.GetStaffRole(guild.Id)) &&
         !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
                                                || await FilterWords(guild, msg).ConfigureAwait(false)
                                                || await FilterLinks(guild, msg).ConfigureAwait(false)
@@ -103,6 +160,10 @@ public class FilterService : IEarlyBehavior, INService
         return default;
     }
 
+    /// <summary>
+    /// Reloads the blacklist from the database and optionally publishes the updated list to subscribed components.
+    /// </summary>
+    /// <param name="publish">Whether to publish the updated blacklist to other components.</param>
     public void Reload(bool publish = true)
     {
         using var uow = db.GetDbContext();
@@ -111,6 +172,11 @@ public class FilterService : IEarlyBehavior, INService
         if (publish) pubSub.Pub(blPubKey, toPublish);
     }
 
+    /// <summary>
+    /// Adds a word to the blacklist for a specified guild.
+    /// </summary>
+    /// <param name="id">The word to add to the blacklist.</param>
+    /// <param name="id2">The ID of the guild for which the word is blacklisted.</param>
     public void WordBlacklist(string id, ulong id2)
     {
         using var uow = db.GetDbContext();
@@ -124,6 +190,11 @@ public class FilterService : IEarlyBehavior, INService
         Reload();
     }
 
+    /// <summary>
+    /// Removes a word from the blacklist for a specified guild.
+    /// </summary>
+    /// <param name="id">The word to remove from the blacklist.</param>
+    /// <param name="id2">The ID of the guild from which the word is removed.</param>
     public void UnBlacklist(string id, ulong id2)
     {
         using var uow = db.GetDbContext();
@@ -138,6 +209,12 @@ public class FilterService : IEarlyBehavior, INService
         Reload();
     }
 
+    /// <summary>
+    /// Retrieves the set of filtered words for a specific channel within a guild.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel.</param>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A set of filtered words for the channel, or null if no filters are set.</returns>
     public ConcurrentHashSet<string?>? FilteredWordsForChannel(ulong channelId, ulong guildId)
     {
         var words = new ConcurrentHashSet<string>();
@@ -146,8 +223,18 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
+    /// <summary>
+    /// Retrieves the number of warnings a guild has set for invite violations.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The number of warnings set for invite violations in the guild.</returns>
     public async Task<int> GetInvWarn(ulong id) => (await gss.GetGuildConfig(id)).invwarn;
 
+    /// <summary>
+    /// Sets the number of warnings for invite violations in a guild.
+    /// </summary>
+    /// <param name="guild">The guild for which to set the warning count.</param>
+    /// <param name="yesnt">The warning count to set.</param>
     public async Task InvWarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
@@ -171,8 +258,18 @@ public class FilterService : IEarlyBehavior, INService
         }
     }
 
+    /// <summary>
+    /// Retrieves the number of warnings a guild has set for filtered word violations.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The number of warnings set for filtered word violations in the guild.</returns>
     public async Task<int> GetFw(ulong id) => (await gss.GetGuildConfig(id)).fwarn;
 
+    /// <summary>
+    /// Sets the number of warnings for filtered word violations in a guild.
+    /// </summary>
+    /// <param name="guild">The guild for which to set the warning count.</param>
+    /// <param name="yesnt">The warning count to set.</param>
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
@@ -196,6 +293,10 @@ public class FilterService : IEarlyBehavior, INService
         }
     }
 
+    /// <summary>
+    /// Clears all filtered words for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which to clear filtered words.</param>
     public async Task ClearFilteredWords(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -215,6 +316,11 @@ public class FilterService : IEarlyBehavior, INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Retrieves the set of filtered words for an entire server.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A set of filtered words for the server, or null if no filters are set.</returns>
     public ConcurrentHashSet<string>? FilteredWordsForServer(ulong guildId)
     {
         var words = new ConcurrentHashSet<string>();
@@ -223,8 +329,14 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    protected string? GetText(string? key, params object?[] args) => Strings.GetText(key, cultureInfo, args);
+    private string? GetText(string? key, params object?[] args) => Strings.GetText(key, cultureInfo, args);
 
+    /// <summary>
+    /// Filters messages containing banned words and takes appropriate action.
+    /// </summary>
+    /// <param name="guild">The guild in which the message was posted.</param>
+    /// <param name="msg">The message to check for banned words.</param>
+    /// <returns>True if the message contained banned words and was acted upon; otherwise, false.</returns>
     public async Task<bool> FilterBannedWords(IGuild? guild, IUserMessage? msg)
     {
         if (guild is null)
@@ -248,6 +360,7 @@ public class FilterService : IEarlyBehavior, INService
                 Blacklist.Remove(i);
                 return false;
             }
+
             var match = regex.Match(msg.Content.ToLower()).Value;
             if (!regex.IsMatch(msg.Content.ToLower())) continue;
             try
@@ -255,7 +368,7 @@ public class FilterService : IEarlyBehavior, INService
                 await msg.DeleteAsync().ConfigureAwait(false);
                 var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
                     $"Banned for saying autoban word {i}");
-                var embed = await Upun.GetBanUserDmEmbed(client, guild as SocketGuild,
+                var embed = await upun.GetBanUserDmEmbed(client, guild as SocketGuild,
                     await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false), msg.Author as IGuildUser,
                     defaultMessage,
                     $"Banned for saying autoban word {match}", null).ConfigureAwait(false);
@@ -289,6 +402,12 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
+    /// <summary>
+    /// Filters messages containing specified words and takes appropriate action.
+    /// </summary>
+    /// <param name="guild">The guild in which the message was posted.</param>
+    /// <param name="usrMsg">The message to check for specified words.</param>
+    /// <returns>True if the message contained specified words and was acted upon; otherwise, false.</returns>
     public async Task<bool> FilterWords(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)
@@ -323,13 +442,14 @@ public class FilterService : IEarlyBehavior, INService
                     toremove.TryRemove(word);
                     return false;
                 }
+
                 if (!regex.IsMatch(usrMsg.Content.ToLower())) continue;
                 try
                 {
                     await usrMsg.DeleteAsync().ConfigureAwait(false);
                     if (await GetFw(guild.Id) != 0)
                     {
-                        await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
+                        await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
                             "Warned for Filtered Word").ConfigureAwait(false);
                         var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
                         await user.SendErrorAsync(
@@ -356,7 +476,7 @@ public class FilterService : IEarlyBehavior, INService
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
                 if (await GetFw(guild.Id) != 0)
                 {
-                    await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
+                    await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
                         "Warned for Filtered Word").ConfigureAwait(false);
                     var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
                     await user.SendErrorAsync(
@@ -376,6 +496,12 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
+    /// <summary>
+    /// Filters messages containing invites and takes appropriate action.
+    /// </summary>
+    /// <param name="guild">The guild in which the message was posted.</param>
+    /// <param name="usrMsg">The message to check for invites.</param>
+    /// <returns>True if the message contained invites and was acted upon; otherwise, false.</returns>
     public async Task<bool> FilterInvites(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)
@@ -391,7 +517,7 @@ public class FilterService : IEarlyBehavior, INService
             {
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
                 if (await GetInvWarn(guild.Id) == 0) return true;
-                await Upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite")
+                await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite")
                     .ConfigureAwait(false);
                 var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
                 await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!")
@@ -410,6 +536,12 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
+    /// <summary>
+    /// Filters messages containing links and takes appropriate action.
+    /// </summary>
+    /// <param name="guild">The guild in which the message was posted.</param>
+    /// <param name="usrMsg">The message to check for links.</param>
+    /// <returns>True if the message contained links and was acted upon; otherwise, false.</returns>
     public async Task<bool> FilterLinks(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)

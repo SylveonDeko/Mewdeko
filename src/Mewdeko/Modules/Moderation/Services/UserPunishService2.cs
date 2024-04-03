@@ -315,7 +315,7 @@ public class UserPunishService2 : INService
     /// <param name="guildId">The guild ID</param>
     /// <param name="days">The number of days</param>
     /// <param name="delete">Whether to delete the warnings</param>
-    public async Task WarnExpireAsync(ulong guildId, int days, bool delete)
+    public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction delete)
     {
         var uow = db.GetDbContext();
         await using (uow.ConfigureAwait(false))
@@ -323,7 +323,7 @@ public class UserPunishService2 : INService
             var config = await uow.ForGuildId(guildId, inc => inc);
 
             config.WarnExpireHours = days * 24;
-            config.WarnExpireAction = delete ? WarnExpireAction.Delete : WarnExpireAction.Clear;
+            config.WarnExpireAction = delete;
             await uow.SaveChangesAsync().ConfigureAwait(false);
 
             // no need to check for warn expires

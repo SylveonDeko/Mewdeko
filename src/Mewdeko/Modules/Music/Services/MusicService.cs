@@ -7,6 +7,9 @@ using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music.Services;
 
+/// <summary>
+/// Service for music playback.
+/// </summary>
 public class MusicService : INService
 {
     private readonly ConcurrentDictionary<ulong, List<LavalinkTrack?>> Queues;
@@ -18,6 +21,16 @@ public class MusicService : INService
     private readonly DiscordSocketClient client;
     private readonly BotConfigService config;
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="MusicService"/>.
+    /// </summary>
+    /// <param name="lavaNode">The Lavalink node</param>
+    /// <param name="creds">The bot credentials</param>
+    /// <param name="db">The database service</param>
+    /// <param name="eventHandler">The event handler</param>
+    /// <param name="googleApi">The Google API service</param>
+    /// <param name="client">The Discord client</param>
+    /// <param name="config">The bot configuration service</param>
     public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler,
         IGoogleApiService googleApi,
         DiscordSocketClient client,
@@ -34,6 +47,12 @@ public class MusicService : INService
         eventHandler.UserVoiceStateUpdated += HandleDisconnect;
     }
 
+    /// <summary>
+    /// Gets pretty information about the current track.
+    /// </summary>
+    /// <param name="player">The player</param>
+    /// <param name="guild">The guild to get information from</param>
+    /// <returns></returns>
     public async Task<string> GetPrettyInfo(LavalinkPlayer player, IGuild guild)
     {
         var currentTrack = player.CurrentTrack;
@@ -43,6 +62,11 @@ public class MusicService : INService
             $@"{player.Position.Position:hh\:mm\:ss}/{currentTrack.Duration:hh\:mm\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | Vol: {musicSettings.Volume} | Loop: {musicSettings.PlayerRepeat} | {GetQueue(guild.Id).Count} tracks in queue";
     }
 
+    /// <summary>
+    /// Updates the default playlist for a user.
+    /// </summary>
+    /// <param name="user">The user to update the playlist for</param>
+    /// <param name="mpl">The playlist to update</param>
     public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
     {
         await using var uow = db.GetDbContext();
@@ -76,6 +100,14 @@ public class MusicService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Adds a song to the current queue.
+    /// </summary>
+    /// <param name="guildId">The guild id to queue tracks for</param>
+    /// <param name="user">The user who queued the track</param>
+    /// <param name="lavaTracks">The tracks to queue</param>
+    /// <param name="queuedPlatform">The platform the tracks are queued from</param>
+    /// <returns></returns>
     public Task Enqueue(
         ulong guildId,
         IUser user,
@@ -92,6 +124,14 @@ public class MusicService : INService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds a song to the current queue.
+    /// </summary>
+    /// <param name="guildId">The guild id to queue tracks for</param>
+    /// <param name="user">The user who queued the track</param>
+    /// <param name="lavaTrack">The track to queue</param>
+    /// <param name="queuedPlatform">The platform the track is queued from</param>
+    /// <returns></returns>
     public Task Enqueue(
         ulong guildId,
         IUser user,
@@ -104,6 +144,14 @@ public class MusicService : INService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Service for trying to queue a spotify playlist, album or track.
+    /// </summary>
+    /// <param name="guild">The guild to queue the track for</param>
+    /// <param name="user">The user who queued the track</param>
+    /// <param name="chan">The channel to send messages to</param>
+    /// <param name="player">The player to queue the track for</param>
+    /// <param name="uri">The uri to queue</param>
     public async Task SpotifyQueue(
         IGuild guild,
         IUser user,
@@ -288,6 +336,13 @@ public class MusicService : INService
         }
     }
 
+    /// <summary>
+    /// Moves a song in the queue.
+    /// </summary>
+    /// <param name="guildId">The guild id to move the song in</param>
+    /// <param name="index">The index of the song to move</param>
+    /// <param name="newIndex">The new index of the song</param>
+    /// <returns></returns>
     public Task<bool> MoveSong(ulong guildId, int index, int newIndex)
     {
         var queue = Queues.GetOrAdd(guildId, new List<LavalinkTrack>());
@@ -313,6 +368,10 @@ public class MusicService : INService
         return queue.Find(x => x.Identifier == player.CurrentTrack.Identifier);
     }
 
+    /// <summary>
+    /// Attempts to add songs to the queue based on the current song.
+    /// </summary>
+    /// <param name="guildId">The guild id to add songs to</param>
     public async Task AutoPlay(ulong guildId)
     {
         var guild = this.client.GetGuild(guildId) as IGuild;
@@ -374,6 +433,12 @@ public class MusicService : INService
         }
     }
 
+    /// <summary>
+    /// Removes a song from the queue.
+    /// </summary>
+    /// <param name="guild">The guild to remove the song from</param>
+    /// <param name="trackNum">The track number to remove</param>
+    /// <returns></returns>
     public async Task<bool> RemoveSong(IGuild guild, int trackNum)
     {
         var queue = GetQueue(guild.Id);
@@ -393,6 +458,11 @@ public class MusicService : INService
         return true;
     }
 
+    /// <summary>
+    /// Gets the current queue.
+    /// </summary>
+    /// <param name="guildid">The guild id to get the queue for</param>
+    /// <returns></returns>
     public List<LavalinkTrack?> GetQueue(ulong guildid) =>
         !Queues.Select(x => x.Key).Contains(guildid)
             ? new List<LavalinkTrack>
@@ -410,6 +480,14 @@ public class MusicService : INService
         return new SpotifyClient(spotifyClientConfig.WithToken(response.AccessToken));
     }
 
+    /// <summary>
+    /// Skips a song in the queue.
+    /// </summary>
+    /// <param name="guild">The guild to skip the song in</param>
+    /// <param name="chan">The channel to send messages to</param>
+    /// <param name="player">The player to skip the song in</param>
+    /// <param name="ctx">The interaction context (if executed from a slash command, otherwise null)</param>
+    /// <param name="num">The number of songs to skip</param>
     public async Task Skip(IGuild guild, ITextChannel? chan, LavalinkPlayer player, IInteractionContext? ctx = null,
         int num = 1)
     {
@@ -469,9 +547,18 @@ public class MusicService : INService
         }
     }
 
+    /// <summary>
+    /// Shuffles the current queue.
+    /// </summary>
+    /// <param name="guild">The guild to shuffle the queue for</param>
     public void Shuffle(IGuild guild) =>
         Queues[guild.Id] = Queues[guild.Id].Shuffle().ToList();
 
+    /// <summary>
+    /// Clears the current queue.
+    /// </summary>
+    /// <param name="guildid">The guild id to clear the queue for</param>
+    /// <returns></returns>
     public Task QueueClear(ulong guildid)
     {
         if (!Queues.TryGetValue(guildid, out var queue)) return Task.CompletedTask;
@@ -479,15 +566,30 @@ public class MusicService : INService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Gets the current volume.
+    /// </summary>
+    /// <param name="guildid">The guild id to get the volume for</param>
+    /// <returns></returns>
     public async Task<int> GetVolume(ulong guildid) =>
         (await GetSettingsInternalAsync(guildid).ConfigureAwait(false)).Volume;
 
+    /// <summary>
+    /// Gets the default playlist for a user.
+    /// </summary>
+    /// <param name="user">The user to get the default playlist for</param>
+    /// <returns></returns>
     public async Task<MusicPlaylist?> GetDefaultPlaylist(IUser user)
     {
         await using var uow = db.GetDbContext();
         return await uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
     }
 
+    /// <summary>
+    /// Gets the playlists for a user.
+    /// </summary>
+    /// <param name="user">The user to get the playlists for</param>
+    /// <returns></returns>
     public IEnumerable<MusicPlaylist?> GetPlaylists(IUser user)
     {
         using var uow = db.GetDbContext();
@@ -495,6 +597,11 @@ public class MusicService : INService
         return a.ToList();
     }
 
+    /// <summary>
+    /// Gets the music player settings for a guild.
+    /// </summary>
+    /// <param name="guildId">The guild id to get the settings for</param>
+    /// <returns>A <see cref="MusicPlayerSettings"/> object</returns>
     public async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
     {
         if (this.settings.TryGetValue(guildId, out var musicPlayerSettings))
@@ -508,6 +615,13 @@ public class MusicService : INService
         return toReturn;
     }
 
+    /// <summary>
+    /// Modifies the music player settings for a guild.
+    /// </summary>
+    /// <param name="guildId">The guild id to modify the settings for</param>
+    /// <param name="action">The action to perform on the settings</param>
+    /// <param name="state">The state to pass to the action</param>
+    /// <typeparam name="TState"></typeparam>
     public async Task ModifySettingsInternalAsync<TState>(
         ulong guildId,
         Action<MusicPlayerSettings, TState> action,

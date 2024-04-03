@@ -13,6 +13,21 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+autobanroleadd:
+  args:
+    - "roleid"
+    - "@role"
+  desc: "Adds a role to be autobanned when a user adds the role to themselves in onboarding or another method. Usually used to fight join bots."
+autobanroleremove:
+  args:
+    - "roleid"
+    - "@role"
+  desc: "Removes a role from being autobanned when a user adds the role to themselves in onboarding or another method."
+baninrole:
+  args:
+    - "roleid"
+    - "@role"
+  desc: "Bans all users in a role"
 debugembed:
   args:
     - embedcode

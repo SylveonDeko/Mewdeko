@@ -147,6 +147,54 @@ public partial class Administration(InteractiveService serv, BotConfigService co
     }
 
     /// <summary>
+    /// Allows you to ban users with a specific role.
+    /// </summary>
+    /// <param name="role">The role to ban users in</param>
+    /// <param name="reason">The reason for the ban, optional</param>
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    public async Task BanInRole(IRole role, [Remainder] string reason = null)
+    {
+        var users = await ctx.Guild.GetUsersAsync();
+        var usersToBan = users.Where(x => x.RoleIds.Contains(role.Id)).ToList();
+        if (usersToBan.Count == 0)
+        {
+            await ctx.Channel.SendErrorAsync(GetText("no_users_found")).ConfigureAwait(false);
+            return;
+        }
+
+        if (!await PromptUserConfirmAsync(GetText("ban_in_role_confirm", usersToBan.Count, role.Mention), ctx.User.Id))
+        {
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_cancelled")).ConfigureAwait(false);
+            return;
+        }
+
+        var failedUsers = 0;
+        foreach (var i in usersToBan)
+        {
+            try
+            {
+                await ctx.Guild.AddBanAsync(i, 0, reason ?? $"{ctx.User} | {ctx.User.Id} used baninrole")
+                    .ConfigureAwait(false);
+            }
+            catch
+            {
+                failedUsers++;
+            }
+        }
+
+        if (failedUsers == 0)
+            await ctx.Channel.SendConfirmAsync(GetText("ban_in_role_done", usersToBan.Count, role.Mention))
+                .ConfigureAwait(false);
+        else if (failedUsers == usersToBan.Count)
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_fail", users.Count, role.Mention))
+                .ConfigureAwait(false);
+        else
+            await ctx.Channel
+                .SendConfirmAsync(GetText("ban_in_role_failed_some", usersToBan.Count - failedUsers, role.Mention,
+                    failedUsers)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Overload for setting the bot's nickname.
     /// </summary>
     /// <param name="newNick">The new nickname you want to set.</param>
