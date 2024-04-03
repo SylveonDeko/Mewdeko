@@ -7,6 +7,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Nsfw;
 
+/// <summary>
+/// Caches images from various boorus.
+/// </summary>
 public class SearchImageCacher : INService
 {
     private readonly IHttpClientFactory httpFactory;
@@ -25,6 +28,11 @@ public class SearchImageCacher : INService
     private readonly Dictionary<Booru, HashSet<string>> usedTags = new();
     private readonly IMemoryCache cache;
 
+    /// <summary>
+    /// Initializes a new instance of the SearchImageCacher class.
+    /// </summary>
+    /// <param name="httpFactory">The factory to create HttpClient instances.</param>
+    /// <param name="cache">The memory cache implementation for caching search results.</param>
     public SearchImageCacher(IHttpClientFactory httpFactory, IMemoryCache cache)
     {
         this.httpFactory = httpFactory;
@@ -195,6 +203,17 @@ public class SearchImageCacher : INService
         }
     }
 
+    /// <summary>
+    /// Asynchronously retrieves a new image based on the provided tags, preferences, and booru type.
+    /// </summary>
+    /// <param name="tags">An array of tags to search for.</param>
+    /// <param name="forceExplicit">A boolean indicating whether to force explicit content.</param>
+    /// <param name="type">The type of booru to search in.</param>
+    /// <param name="blacklistedTags">A set of blacklisted tags.</param>
+    /// <param name="cancel">A cancellation token to cancel the operation.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result is either the retrieved image data or null if no image is found.
+    /// </returns>
     public async Task<ImageData?> GetImageNew(string?[] tags, bool forceExplicit, Booru type,
         HashSet<string> blacklistedTags, CancellationToken cancel)
     {
@@ -233,6 +252,14 @@ public class SearchImageCacher : INService
 
     private readonly ConcurrentDictionary<(Booru, string), int> maxPages = new();
 
+    /// <summary>
+    /// Asynchronously downloads images based on the provided tags, preferences, and booru type.
+    /// </summary>
+    /// <param name="tags">An array of tags to search for.</param>
+    /// <param name="isExplicit">A boolean indicating whether explicit content is allowed.</param>
+    /// <param name="type">The type of booru to search in.</param>
+    /// <param name="cancel">A cancellation token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result is a list of downloaded image data.</returns>
     public async Task<List<ImageData?>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type,
         CancellationToken cancel)
     {

@@ -7,11 +7,22 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Music.Services;
 
-public class MusicPlayer(DiscordSocketClient client,
-        MusicService musicService,
-        BotConfigService config)
+/// <summary>
+/// Music player service.
+/// </summary>
+/// <param name="client">The Discord client</param>
+/// <param name="musicService">The music service</param>
+/// <param name="config">The bot configuration service</param>
+public class MusicPlayer(
+    DiscordSocketClient client,
+    MusicService musicService,
+    BotConfigService config)
     : LavalinkPlayer
 {
+    /// <summary>
+    /// Handles the track started event.
+    /// </summary>
+    /// <param name="args">The event arguments</param>
     public override async Task OnTrackStartedAsync(TrackStartedEventArgs args)
     {
         var queue = musicService.GetQueue(args.Player.GuildId);
@@ -65,6 +76,10 @@ public class MusicPlayer(DiscordSocketClient client,
         }
     }
 
+    /// <summary>
+    /// Handles the track end event.
+    /// </summary>
+    /// <param name="args">The event arguments</param>
     public override async Task OnTrackEndAsync(TrackEndEventArgs args)
     {
         var queue = musicService.GetQueue(args.Player.GuildId);

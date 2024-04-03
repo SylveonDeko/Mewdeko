@@ -9,6 +9,7 @@ public class MewdekoContext : DbContext
     public DbSet<GuildUserBalance> GuildUserBalances { get; set; }
     public DbSet<TransactionHistory> TransactionHistories { get; set; }
     public DbSet<AutoPublish> AutoPublish { get; set; }
+    public DbSet<AutoBanRoles> AutoBanRoles { get; set; }
     public DbSet<PublishWordBlacklist> PublishWordBlacklists { get; set; }
     public DbSet<PublishUserBlacklist> PublishUserBlacklists { get; set; }
     public DbSet<JoinLeaveLogs> JoinLeaveLogs { get; set; }

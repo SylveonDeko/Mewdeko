@@ -439,7 +439,7 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="days">The number of days before warnings expire.</param>
     /// <param name="delete">Indicates whether to delete warnings after expiry.</param>
-    public async Task WarnExpireAsync(ulong guildId, int days, bool delete)
+    public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction action)
     {
         try
         {
@@ -449,7 +449,7 @@ WHERE ""GuildId"" in (SELECT ""GuildId"" FROM ""GuildConfigs"" WHERE ""WarnExpir
                 var config = await uow.ForGuildId(guildId, inc => inc);
 
                 config.WarnExpireHours = days * 24;
-                config.WarnExpireAction = delete ? WarnExpireAction.Delete : WarnExpireAction.Clear;
+                config.WarnExpireAction = action;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
 
                 // no need to check for warn expires

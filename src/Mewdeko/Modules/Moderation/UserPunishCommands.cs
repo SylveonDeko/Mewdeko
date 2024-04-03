@@ -1,4 +1,3 @@
-using CommandLine;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -16,6 +15,14 @@ namespace Mewdeko.Modules.Moderation;
 
 public partial class Moderation : MewdekoModule
 {
+    /// <summary>
+    /// Module for user punishment commands.
+    /// </summary>
+    /// <param name="mute">The mute service</param>
+    /// <param name="db">The database service</param>
+    /// <param name="serv">The service used to handle embed pagination</param>
+    /// <param name="nekos">The NekosBest API</param>
+    /// <param name="config">The bot config service used for yml based configs</param>
     [Group]
     public class UserPunishCommands(
         MuteService mute,
@@ -25,12 +32,21 @@ public partial class Moderation : MewdekoModule
         BotConfigService config)
         : MewdekoSubmodule<UserPunishService>
     {
+        /// <summary>
+        /// The thing used for addrole in commands to be able to parse it
+        /// </summary>
         public enum AddRole
         {
+            /// <summary>
+            /// Add role
+            /// </summary>
             AddRole
         }
 
 
+        /// <summary>
+        /// Gets progress for a mass nickname operation.
+        /// </summary>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MassNickProgress()
         {
@@ -53,6 +69,9 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Stops a mass nickname operation.
+        /// </summary>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task MassNickStop()
         {
@@ -68,6 +87,10 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Dehoists all users in the guild by replacing special characters in their nicknames.
+        /// </summary>
+        /// <param name="onlyDehoistNicks">Whether to only dehoist nicknames</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames),
          BotPerm(GuildPermission.Administrator)]
         public async Task DehoistAll(bool onlyDehoistNicks = false)
@@ -141,6 +164,9 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Sanitizes all users in the guild by replacing special characters in their usernames.
+        /// </summary>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames),
          BotPerm(GuildPermission.Administrator)]
         public async Task SanitizeAll()
@@ -202,6 +228,10 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Dehoists a user by replacing special characters in their username.
+        /// </summary>
+        /// <param name="user">The user to dehoist</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames),
          BotPerm(GuildPermission.ManageNicknames)]
         public async Task Dehoist(IGuildUser user)
@@ -222,6 +252,10 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Sanitizes a user by replacing special characters in their username.
+        /// </summary>
+        /// <param name="user">The user to sanitize</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageNicknames),
          BotPerm(GuildPermission.ManageNicknames)]
         public async Task Sanitize(IGuildUser user)
@@ -232,6 +266,10 @@ public partial class Moderation : MewdekoModule
                 $"{config.Data.SuccessEmote} User {user.Mention} has been sanitized. Their new nickname is: `{newName}`");
         }
 
+        /// <summary>
+        /// Sets the warnlog channel for the guild.
+        /// </summary>
+        /// <param name="channel"></param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task SetWarnChannel([Remainder] ITextChannel channel)
         {
@@ -258,6 +296,12 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Timeouts a user for a specified amount of time.
+        /// </summary>
+        /// <param name="time">The time to timeout the user</param>
+        /// <param name="user">The user to timeout</param>
+        /// <param name="reason">The reason for the timeout</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers),
          BotPerm(GuildPermission.ModerateMembers)]
         public async Task Timeout(StoopidTime time, IGuildUser user, [Remainder] string? reason = null)
@@ -279,6 +323,10 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Removes a timeout from a user.
+        /// </summary>
+        /// <param name="user">The user to remove the timeout from</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ModerateMembers),
          BotPerm(GuildPermission.ModerateMembers)]
         public async Task UnTimeOut(IGuildUser user)
@@ -292,6 +340,11 @@ public partial class Moderation : MewdekoModule
             await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Warns a user with an optional reason.
+        /// </summary>
+        /// <param name="user">The user to warn</param>
+        /// <param name="reason">The reason for the warn</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string? reason = null)
@@ -369,25 +422,28 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Sets the expiration time for warnings.
+        /// </summary>
+        /// <param name="days">The number of days until warnings expire</param>
+        /// <param name="args">
         [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), MewdekoOptions(typeof(WarnExpireOptions)), Priority(2)]
-        public async Task WarnExpire(int days, params string[] args)
+         UserPerm(GuildPermission.Administrator), Priority(2)]
+        public async Task WarnExpire(int days, WarnExpireAction options)
         {
             if (days is < 0 or > 366)
                 return;
 
-            var opts = OptionsParser.ParseFrom<WarnExpireOptions>(args);
-
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            await Service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
+            await Service.WarnExpireAsync(ctx.Guild.Id, days, options).ConfigureAwait(false);
             if (days == 0)
             {
                 await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
                 return;
             }
 
-            if (opts.Delete)
+            if (options == WarnExpireAction.Delete)
             {
                 await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
                     .ConfigureAwait(false);
@@ -399,11 +455,25 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Gets the warnlog for a user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(3), UserPerm(GuildPermission.BanMembers)]
         public Task Warnlog(IGuildUser user) => InternalWarnlog(user.Id);
 
+        /// <summary>
+        /// Gets the warnlog for the user who invoked the command.
+        /// </summary>
+        /// <returns></returns>
         public Task Warnlog() => InternalWarnlog(ctx.User.Id);
 
+        /// <summary>
+        /// Gets the warnlog for a user by their ID.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), Priority(1)]
         public Task Warnlog(ulong userId) => InternalWarnlog(userId);
@@ -459,6 +529,9 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Gets how many warnings each user has.
+        /// </summary>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnlogAll()
@@ -498,6 +571,11 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Clears a user's warnings. If an index is provided, clears only that warning.
+        /// </summary>
+        /// <param name="user">The user to clear warnings for</param>
+        /// <param name="index">The index of the warning to clear</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warnclear(IGuildUser user, int index = 0)
@@ -527,6 +605,13 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Sets a punishment for a certain number of warnings.
+        /// </summary>
+        /// <param name="number">The number of warnings</param>
+        /// <param name="_">The addrole keyword</param>
+        /// <param name="role">The role to add</param>
+        /// <param name="time">The time for the punishment</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), Priority(1)]
         public async Task WarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
@@ -552,6 +637,12 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Sets a punishment for a certain number of warnings.
+        /// </summary>
+        /// <param name="number">The number of warnings</param>
+        /// <param name="punish">The punishment to apply</param>
+        /// <param name="time">The time for the punishment</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime? time = null)
@@ -593,6 +684,10 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Removes a punishment for a certain number of warnings.
+        /// </summary>
+        /// <param name="number">The number of warnings</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number)
@@ -603,6 +698,9 @@ public partial class Moderation : MewdekoModule
                 Format.Bold(number.ToString())).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Lists the warn punishments for the guild.
+        /// </summary>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task WarnPunishList()
         {
@@ -626,6 +724,13 @@ public partial class Moderation : MewdekoModule
         }
 
 
+        /// <summary>
+        /// Bans a user for a specified amount of time.
+        /// </summary>
+        /// <param name="pruneTime">The amount of time to prune messages</param>
+        /// <param name="time">The amount of time to ban the user</param>
+        /// <param name="user">The user to ban</param>
+        /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
         public async Task Ban(StoopidTime pruneTime, StoopidTime time, IGuildUser user, [Remainder] string? msg = null)
@@ -680,6 +785,11 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Bans a user.
+        /// </summary>
+        /// <param name="user">The user to ban</param>
+        /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(IUser? user, [Remainder] string? msg = null)
@@ -702,6 +812,12 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Bans a user for a specified amount of time.
+        /// </summary>
+        /// <param name="time">The amount of time to prune messages</param>
+        /// <param name="userId">The ID of the user to ban</param>
+        /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(StoopidTime time, IUser userId, [Remainder] string? msg = null)
@@ -717,6 +833,11 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Bans a user.
+        /// </summary>
+        /// <param name="userId">The ID of the user to ban</param>
+        /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
         public async Task Ban(IGuildUser user, [Remainder] string? msg = null)
@@ -760,6 +881,12 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Bans a user with the specified reason and amount of days to purge messages.
+        /// </summary>
+        /// <param name="time">The amount of time to prune messages</param>
+        /// <param name="user">The user to ban</param>
+        /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
         public async Task Ban(StoopidTime time, IGuildUser user, [Remainder] string? msg = null)
@@ -803,6 +930,10 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Sets the message that users get dmed with when they are banned.
+        /// </summary>
+        /// <param name="message">The message to set, can also be embedcode</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task BanMessage([Remainder] string? message = null)
@@ -824,6 +955,10 @@ public partial class Moderation : MewdekoModule
             await ctx.OkAsync().ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Resets the ban message to the default message.
+        /// </summary>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public Task BanMsgReset()
@@ -832,10 +967,21 @@ public partial class Moderation : MewdekoModule
             return ctx.OkAsync();
         }
 
+        /// <summary>
+        /// Tests the ban message. Use it as a prank!
+        /// </summary>
+        /// <param name="reason">The reason for the ban</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public Task BanMessageTest([Remainder] string? reason = null) => InternalBanMessageTest(reason, null);
 
+        /// <summary>
+        /// Tests the ban message. Use it as a prank!
+        /// </summary>
+        /// <param name="duration">The duration of the ban</param>
+        /// <param name="reason">The reason for the ban</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
         public Task BanMessageTest(StoopidTime duration, [Remainder] string? reason = null) =>
@@ -873,6 +1019,10 @@ public partial class Moderation : MewdekoModule
             }
         }
 
+        /// <summary>
+        /// Unbans a user.
+        /// </summary>
+        /// <param name="user">The user to unban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban([Remainder] string user)
@@ -891,6 +1041,10 @@ public partial class Moderation : MewdekoModule
             await UnbanInternal(bun.User).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Unbans a user.
+        /// </summary>
+        /// <param name="userId">The ID of the user to unban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban(ulong userId)
@@ -913,10 +1067,21 @@ public partial class Moderation : MewdekoModule
             await ReplyConfirmLocalizedAsync("unbanned_user", Format.Bold(user.ToString())).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Softbans a user. Use this to kick a user and delete their messages.
+        /// </summary>
+        /// <param name="user">The user to softban</param>
+        /// <param name="msg">The reason for the softban</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers)]
         public Task Softban(IGuildUser user, [Remainder] string? msg = null) => SoftbanInternal(user, msg);
 
+        /// <summary>
+        /// Softbans a user. Use this to kick a user and delete their messages.
+        /// </summary>
+        /// <param name="userId">The ID of the user to softban</param>
+        /// <param name="msg">The reason for the softban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers)]
         public async Task Softban(ulong userId, [Remainder] string? msg = null)
@@ -970,10 +1135,21 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Kicks a user.
+        /// </summary>
+        /// <param name="user">The user to kick</param>
+        /// <param name="msg">The reason for the kick</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers), Priority(1)]
         public Task Kick(IGuildUser user, [Remainder] string? msg = null) => KickInternal(user, msg);
 
+        /// <summary>
+        /// Kicks a user.
+        /// </summary>
+        /// <param name="userId">The ID of the user to kick</param>
+        /// <param name="msg">The reason for the kick</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers), Priority(0)]
         public async Task Kick(ulong userId, [Remainder] string? msg = null)
@@ -986,6 +1162,10 @@ public partial class Moderation : MewdekoModule
             await KickInternal(user, msg).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Kicks multiple users.
+        /// </summary>
+        /// <param name="usersUnp">The users to kick</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.KickMembers),
          BotPerm(GuildPermission.KickMembers)]
         public async Task MassKick(params IUser[] usersUnp)
@@ -1016,7 +1196,7 @@ public partial class Moderation : MewdekoModule
             await Context.Channel.SendMessageAsync(embed: eb.Build());
         }
 
-        public async Task KickInternal(IGuildUser user, string? msg = null)
+        private async Task KickInternal(IGuildUser user, string? msg = null)
         {
             if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
                 return;
@@ -1047,6 +1227,10 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Massbans users. Use this to ban multiple users at once. Blacklists them from the bot as well.
+        /// </summary>
+        /// <param name="people"></param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), OwnerOnly]
         public async Task MassKill([Remainder] string people)
@@ -1083,16 +1267,6 @@ public partial class Moderation : MewdekoModule
                 .AddField(GetText("invalid", missing), missStr)
                 .WithOkColor()
                 .Build()).ConfigureAwait(false);
-        }
-
-        public class WarnExpireOptions : IMewdekoCommandOptions
-        {
-            [Option('d', "delete", Default = false, HelpText = "Delete warnings instead of clearing them.")]
-            public bool Delete { get; set; } = false;
-
-            public void NormalizeOptions()
-            {
-            }
         }
     }
 }

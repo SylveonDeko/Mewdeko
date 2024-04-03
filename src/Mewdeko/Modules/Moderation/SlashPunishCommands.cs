@@ -12,19 +12,23 @@ using Swan;
 
 namespace Mewdeko.Modules.Moderation;
 
+/// <summary>
+/// Slash commands for moderation.
+/// </summary>
 [Group("moderation", "Do all your moderation stuffs here!"), CheckPermissions]
 public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 {
-    public enum AddRole
-    {
-        AddRole
-    }
-
     private readonly InteractiveService interactivity;
 
     private readonly DbService db;
     private readonly NekosBestApi nekos;
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="SlashPunishCommands"/>.
+    /// </summary>
+    /// <param name="db">The database provider</param>
+    /// <param name="serv">The service used for embed pagination</param>
+    /// <param name="nekos">The service used to get anime gifs from the nekos.best api</param>
     public SlashPunishCommands(DbService db,
         InteractiveService serv,
         NekosBestApi nekos)
@@ -34,6 +38,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         this.db = db;
     }
 
+    /// <summary>
+    /// Sets the channel to log warns in
+    /// </summary>
+    /// <param name="channel">The channel to log warns in</param>
     [SlashCommand("setwarnchannel", "Set the channel where warns are logged!"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task SetWarnChannel(ITextChannel channel)
@@ -60,6 +68,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Times out a user for a specified time
+    /// </summary>
+    /// <param name="inputTime">The time to time the user out for, max of 28d at the current moment</param>
+    /// <param name="user">The user to time out</param>
+    /// <param name="reason">The reason for timing out the user</param>
     [SlashCommand("timeout", "Time a user out."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ModerateMembers), BotPerm(GuildPermission.ModerateMembers),
      CheckPermissions]
@@ -94,6 +108,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Removes a users timeout
+    /// </summary>
+    /// <param name="user">The user to remove the timeout from</param>
     [SlashCommand("untimeout", "Remove a users timeout."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ModerateMembers),
      BotPerm(GuildPermission.ModerateMembers), CheckPermissions]
@@ -108,6 +126,11 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         await ReplyConfirmLocalizedAsync("timeout_removed", user.Mention).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Warns a user with an optional reason
+    /// </summary>
+    /// <param name="user">The user to warn</param>
+    /// <param name="reason">The reason for the warn</param>
     [SlashCommand("warn", "Warn a user with an optional reason"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
     public async Task Warn(IGuildUser user, string? reason = null)
@@ -185,25 +208,30 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Sets the amount of days before warns expire
+    /// </summary>
+    /// <param name="days">The days (max of 366) a warn should expire</param>
+    /// <param name="delete">Whether to delete warns instead of clearing them</param>
     [SlashCommand("setwarnexpire", "Set when warns expire in days"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task WarnExpire(int days,
-        [Summary("todelete", "Set whether warns are deleted instead of cleared.")]
-        bool delete)
+        [Summary("todelete", "Set whether warns are or cleared.")]
+        WarnExpireAction action)
     {
         if (days is < 0 or > 366)
             return;
 
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-        await Service.WarnExpireAsync(ctx.Guild.Id, days, delete).ConfigureAwait(false);
+        await Service.WarnExpireAsync(ctx.Guild.Id, days, action).ConfigureAwait(false);
         if (days == 0)
         {
             await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
             return;
         }
 
-        if (delete)
+        if (action == WarnExpireAction.Delete)
         {
             await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
                 .ConfigureAwait(false);
@@ -215,6 +243,11 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Checks the amount of warns a user has
+    /// </summary>
+    /// <param name="user">The user to check the warns of</param>
+    /// <returns></returns>
     [SlashCommand("warnlog", "Check a users warn amount"), RequireContext(ContextType.Guild)]
     public Task Warnlog(IGuildUser? user = null)
     {
@@ -277,6 +310,9 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Checks the amount of warns all users have
+    /// </summary>
     [SlashCommand("warnlogall", "Show the warn count of all users in the server."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
     public async Task WarnlogAll()
@@ -317,6 +353,11 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Clears all or a specific warn for a user
+    /// </summary>
+    /// <param name="user">The user to clear the warn for</param>
+    /// <param name="index">The index of the warn to clear</param>
     [SlashCommand("warnclear", "Clear all or a specific warn for a user."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
     public async Task Warnclear(IGuildUser user, int index = 0)
@@ -346,6 +387,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Sets what each warn count does
+    /// </summary>
+    /// <param name="number">The number of warns to set the punishment for</param>
+    /// <param name="punish">The punishment to set</param>
+    /// <param name="input">The time to set the punishment for</param>
     [SlashCommand("warnpunish", "Set what each warn count does."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), CheckPermissions]
     public async Task WarnPunish(int number, PunishmentAction punish = PunishmentAction.None, string? input = null)
@@ -410,6 +457,9 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Shows the warn punishment list
+    /// </summary>
     [SlashCommand("warnpunishlist", "See how many warns does what"), RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task WarnPunishList()
@@ -433,6 +483,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     }
 
 
+    /// <summary>
+    /// Bans a user by their ID if they are not in the server
+    /// </summary>
+    /// <param name="userId">The user or user ID to ban</param>
+    /// <param name="msg">The reason for the ban</param>
+    /// <param name="time">The duration of the ban</param>
     [SlashCommand("hackban", "Bans a user by their ID"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
     public async Task Ban(IUser userId, string? msg = null, string time = null)
@@ -458,6 +514,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
     }
 
+    /// <summary>
+    /// Bans a user in the server with an optional time and reason
+    /// </summary>
+    /// <param name="user">The user to ban</param>
+    /// <param name="reason">The reason for the ban</param>
+    /// <param name="time">The duration of the ban</param>
     [SlashCommand("ban", "Bans a user by their ID"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
     public async Task Ban(IGuildUser user, string reason = null, string time = null)
@@ -599,6 +661,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     }
 
 
+    /// <summary>
+    /// Unbans a user by their ID
+    /// </summary>
+    /// <param name="userId">The user ID to unban</param>
     [SlashCommand("unban", "Unban a user."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), CheckPermissions]
     public async Task Unban(ulong userId)
@@ -621,6 +687,12 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         await ReplyConfirmLocalizedAsync("unbanned_user", Format.Bold(user.ToString())).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Bans then unbans a user, usually used to remove messages and just kick the user
+    /// </summary>
+    /// <param name="user">The user to softban</param>
+    /// <param name="msg">The reason for the softban</param>
+    /// <returns></returns>
     [SlashCommand("softban", "Bans then unbans a user."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers),
      CheckPermissions]
@@ -667,12 +739,18 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Kicks a user with an optional reason
+    /// </summary>
+    /// <param name="user">The user to kick</param>
+    /// <param name="msg">The reason for the kick</param>
+    /// <returns></returns>
     [SlashCommand("kick", "Kicks a user with an optional reason"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers)]
     public Task Kick(IGuildUser user, string? msg = null) => KickInternal(user, msg);
 
 
-    public async Task KickInternal(IGuildUser user, string? msg = null)
+    private async Task KickInternal(IGuildUser user, string? msg = null)
     {
         if (!await CheckRoleHierarchy(user).ConfigureAwait(false))
             return;

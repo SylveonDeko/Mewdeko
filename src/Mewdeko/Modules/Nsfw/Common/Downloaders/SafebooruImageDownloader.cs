@@ -2,26 +2,36 @@
 using System.Net.Http.Json;
 using System.Threading;
 
-namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
-
-public class SafebooruImageDownloader(IHttpClientFactory http) : ImageDownloader<SafebooruElement>(Booru.Safebooru,
-    http)
+namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 {
-    public override async Task<List<SafebooruElement>> DownloadImagesAsync(
-        string[] tags,
-        int page,
-        bool isExplicit = false,
-        CancellationToken cancel = default)
+    /// <summary>
+    /// Downloader for images from Safebooru.
+    /// </summary>
+    public class SafebooruImageDownloader : ImageDownloader<SafebooruElement>
     {
-        var tagString = ImageDownloaderHelper.GetTagString(tags);
-        var uri =
-            $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SafebooruImageDownloader"/> class.
+        /// </summary>
+        /// <param name="http">The HTTP client factory.</param>
+        public SafebooruImageDownloader(IHttpClientFactory http) : base(Booru.Safebooru, http) { }
 
-        using var http = Http.CreateClient();
-        var images = await http.GetFromJsonAsync<List<SafebooruElement>>(uri, SerializerOptions, cancel);
-        if (images is null)
-            return new();
+        /// <inheritdoc/>
+        public override async Task<List<SafebooruElement>> DownloadImagesAsync(
+            string[] tags,
+            int page,
+            bool isExplicit = false,
+            CancellationToken cancel = default)
+        {
+            var tagString = ImageDownloaderHelper.GetTagString(tags);
+            var uri =
+                $"https://safebooru.org/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
 
-        return images;
+            using var http = Http.CreateClient();
+            var images = await http.GetFromJsonAsync<List<SafebooruElement>>(uri, SerializerOptions, cancel);
+            if (images is null)
+                return new();
+
+            return images;
+        }
     }
 }

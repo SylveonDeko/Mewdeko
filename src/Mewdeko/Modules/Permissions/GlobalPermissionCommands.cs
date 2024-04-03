@@ -7,9 +7,19 @@ namespace Mewdeko.Modules.Permissions;
 
 public partial class Permissions
 {
+    /// <summary>
+    /// Provides commands for managing global permissions, allowing for the blocking or unblocking of specific commands and modules across all guilds.
+    /// </summary>
     [Group, OwnerOnly]
     public class GlobalPermissionCommands : MewdekoSubmodule<GlobalPermissionService>
     {
+        /// <summary>
+        /// Lists all currently globally blocked modules and commands.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation to send the list of globally blocked modules and commands.</returns>
+        /// <remarks>
+        /// This command is restricted to bot owners. It provides an overview of all modules and commands that have been globally restricted.
+        /// </remarks>
         [Cmd, Aliases]
         public async Task GlobalPermList()
         {
@@ -42,6 +52,13 @@ public partial class Permissions
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Resets all global permissions, clearing all global command and module blocks.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation to reset global permissions.</returns>
+        /// <remarks>
+        /// This command is restricted to bot owners. Use this command with caution as it will remove all global restrictions.
+        /// </remarks>
         [Cmd, Aliases]
         public async Task ResetGlobalPerms()
         {
@@ -49,6 +66,14 @@ public partial class Permissions
             await ReplyConfirmLocalizedAsync("global_perms_reset").ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Toggles a module on or off the global block list.
+        /// </summary>
+        /// <param name="module">The module to toggle.</param>
+        /// <returns>A task representing the asynchronous operation to block or unblock the module globally.</returns>
+        /// <remarks>
+        /// This command is restricted to bot owners. It allows for specifying modules to be globally blocked or unblocked.
+        /// </remarks>
         [Cmd, Aliases]
         public async Task GlobalModule(ModuleOrCrInfo module)
         {
@@ -65,13 +90,23 @@ public partial class Permissions
             await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Toggles a command on or off the global block list.
+        /// </summary>
+        /// <param name="cmd">The command to toggle.</param>
+        /// <returns>A task representing the asynchronous operation to block or unblock the command globally.</returns>
+        /// <remarks>
+        /// This command is restricted to bot owners. Certain commands, like "source", are protected from being globally disabled.
+        /// </remarks>
         [Cmd, Aliases]
         public async Task GlobalCommand(CommandOrCrInfo cmd)
         {
             var commandName = cmd.Name.ToLowerInvariant();
             if (commandName is "source")
             {
-                await ctx.Channel.SendErrorAsync("That command is not allowed to be globally disabled. What are you trying to do?").ConfigureAwait(false);
+                await ctx.Channel
+                    .SendErrorAsync("That command is not allowed to be globally disabled. What are you trying to do?")
+                    .ConfigureAwait(false);
                 return;
             }
 
