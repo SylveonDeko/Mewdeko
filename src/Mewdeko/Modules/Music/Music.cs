@@ -18,24 +18,76 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Music;
 
-public class Music(IAudioService lava, InteractiveService interactive, DbService dbService,
-        DiscordSocketClient client,
-        GuildSettingsService guildSettings,
-        BotConfigService config, IBotCredentials creds)
+/// <summary>
+/// Module for music commands.
+/// </summary>
+/// <param name="lava">The Lavalink service</param>
+/// <param name="interactive">The service used for embed pagination</param>
+/// <param name="dbService">The database service</param>
+/// <param name="client">The Discord client</param>
+/// <param name="guildSettings">The guild settings service</param>
+/// <param name="config">The bot configuration service</param>
+/// <param name="creds">The bot credentials</param>
+public class Music(
+    IAudioService lava,
+    InteractiveService interactive,
+    DbService dbService,
+    DiscordSocketClient client,
+    GuildSettingsService guildSettings,
+    BotConfigService config,
+    IBotCredentials creds)
     : MewdekoModuleBase<MusicService>
 {
+    /// <summary>
+    /// Represents actions that can be performed on a playlist.
+    /// </summary>
     public enum PlaylistAction
     {
+        /// <summary>
+        /// Show the playlist.
+        /// </summary>
         Show,
+
+        /// <summary>
+        /// Delete the playlist.
+        /// </summary>
         Delete,
+
+        /// <summary>
+        /// Create a new playlist.
+        /// </summary>
         Create,
+
+        /// <summary>
+        /// Remove an item from the playlist.
+        /// </summary>
         Remove,
+
+        /// <summary>
+        /// Add an item to the playlist.
+        /// </summary>
         Add,
+
+        /// <summary>
+        /// Load a playlist.
+        /// </summary>
         Load,
+
+        /// <summary>
+        /// Save the playlist.
+        /// </summary>
         Save,
+
+        /// <summary>
+        /// Default action for the playlist.
+        /// </summary>
         Default
     }
 
+    /// <summary>
+    /// Command to remove a song from the playlist.
+    /// </summary>
+    /// <param name="songNum">The number of the song to remove from the playlist.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SongRemove(int songNum)
     {
@@ -46,7 +98,7 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
             var chanUsers = await voiceChannel.GetUsersAsync().FlattenAsync().ConfigureAwait(false);
             if (!chanUsers.Contains(ctx.User as IGuildUser))
             {
-                await ctx.Channel.SendErrorAsync("You are not in the bots music channel!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("You are not in the bot's music channel!").ConfigureAwait(false);
                 return;
             }
 
@@ -62,6 +114,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to set auto-disconnect behavior for the bot.
+    /// </summary>
+    /// <param name="disconnect">The auto-disconnect behavior to set.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AutoDisconnect(AutoDisconnect disconnect)
     {
@@ -71,12 +127,18 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to move a song in the playlist to a new position.
+    /// </summary>
+    /// <param name="index">The current index of the song to move.</param>
+    /// <param name="newIndex">The new index to move the song to.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task MoveSong(int index, int newIndex)
     {
         if (await Service.MoveSong(ctx.Guild.Id, index, newIndex).ConfigureAwait(false))
         {
-            await ctx.Channel.SendConfirmAsync($"Sucessfully moved track {index} to {newIndex}!").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"Successfully moved track {index} to {newIndex}!")
+                .ConfigureAwait(false);
         }
         else
         {
@@ -84,13 +146,16 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to display the user's playlists.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Playlists()
     {
         var plists = Service.GetPlaylists(ctx.User);
         if (!plists.Any())
         {
-            await ctx.Channel.SendErrorAsync("You dont have any saved playlists!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You don't have any saved playlists!").ConfigureAwait(false);
             return;
         }
 
@@ -116,6 +181,11 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to manage playlists.
+    /// </summary>
+    /// <param name="action">The action to perform on the playlist.</param>
+    /// <param name="playlistOrSongName">The name of the playlist or song to use.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Playlist(PlaylistAction action, [Remainder] string? playlistOrSongName = null)
     {
@@ -616,6 +686,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Gets the lyrics of a song.
+    /// </summary>
+    /// <param name="name">The name of the song to get the lyrics of. Leave blank to get the lyrics of the current song</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Lyrics([Remainder] string? name = null)
     {
@@ -710,6 +784,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to make the bot join the user's voice channel.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Join()
     {
@@ -737,13 +814,16 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
             }
             catch
             {
-                //
+                // Handle exceptions here if needed
             }
         }
 
         await ctx.Channel.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to make the bot leave the voice channel it's currently connected to.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Leave()
     {
@@ -766,6 +846,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await Service.QueueClear(ctx.Guild.Id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to play a song from the queue.
+    /// </summary>
+    /// <param name="number">The number of the song in the queue to play.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Play(int number)
     {
@@ -808,6 +892,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Play a song using a search query or a URL.
+    /// </summary>
+    /// <param name="searchQuery">The search query or URL to play.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     // ReSharper disable once MemberCanBePrivate.Global
     public async Task Play([Remainder] string? searchQuery = null)
@@ -1112,6 +1200,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to pause the music player.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Pause()
     {
@@ -1142,6 +1233,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to shuffle the music queue.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Shuffle()
     {
@@ -1176,6 +1270,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to stop the music player and clear the queue.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Stop()
     {
@@ -1191,6 +1288,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await ctx.Channel.SendConfirmAsync("Stopped the player and cleared the queue!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to skip a specified number of songs in the queue.
+    /// </summary>
+    /// <param name="num">The number of songs to skip. Default is 1.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Skip(int num = 1)
     {
@@ -1210,6 +1311,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, num: num).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to seek to a specific position in the currently playing track.
+    /// </summary>
+    /// <param name="timeSpan">The position to seek to.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Seek(TimeSpan timeSpan)
     {
@@ -1241,6 +1346,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to clear the music queue.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ClearQueue()
     {
@@ -1256,6 +1364,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await ctx.Channel.SendConfirmAsync("Cleared the queue!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the loop type for the music player.
+    /// </summary>
+    /// <param name="reptype">The loop type to set. Default is PlayerRepeatType.None.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
     {
@@ -1264,6 +1376,10 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await ctx.Channel.SendConfirmAsync($"Loop has now been set to {reptype}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the volume of the music player.
+    /// </summary>
+    /// <param name="volume">The volume level to set. Should be between 0 and 100.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Volume(ushort volume)
     {
@@ -1286,6 +1402,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await ctx.Channel.SendConfirmAsync($"Set the volume to {volume}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the music channel for receiving music events.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SetMusicChannel()
     {
@@ -1295,9 +1414,13 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         await Service
             .ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.MusicChannelId = ctx.Channel.Id,
                 ctx.Channel.Id).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync("Set this channel to recieve music events.").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync("Set this channel to receive music events.").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the autoplay behavior for adding songs to the queue.
+    /// </summary>
+    /// <param name="autoPlayNum">The number of songs to attempt to add to the queue when the last song is reached. Use 0 to disable autoplay.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AutoPlay(int autoPlayNum)
     {
@@ -1335,6 +1458,9 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         }
     }
 
+    /// <summary>
+    /// Command to display information about the currently playing track.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task NowPlaying()
     {
@@ -1355,33 +1481,27 @@ public class Music(IAudioService lava, InteractiveService interactive, DbService
         var track = player.CurrentTrack;
         var artService = new ArtworkService();
         var info = await artService.ResolveAsync(track).ConfigureAwait(false);
-
-        try
-        {
-            var eb = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
-                .WithDescription($"Now Playing {track.Title} by {track.Author}")
-                .WithThumbnailUrl(info?.AbsoluteUri)
-                .WithFooter(
-                    await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
-            await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-                components: config.Data.ShowInviteButton
-                    ? new ComponentBuilder()
-                        .WithButton(style: ButtonStyle.Link,
-                            url:
-                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                            label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                    : null).ConfigureAwait(false);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle($"Track #{qcount.IndexOf(track) + 1}")
+            .WithDescription($"Now Playing {track.Title} by {track.Author}")
+            .WithThumbnailUrl(info?.AbsoluteUri)
+            .WithFooter(
+                await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
+        await ctx.Channel.SendMessageAsync(embed: eb.Build(),
+            components: config.Data.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(style: ButtonStyle.Link,
+                        url:
+                        "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                        label: "Invite Me!",
+                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to display the current music queue.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Queue()
     {

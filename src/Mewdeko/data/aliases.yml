@@ -2,6 +2,14 @@ accept:
   - accept
   - suggestaccept
   - acceptsuggest
+autobanroleadd:
+  - autobanroleadd
+  - abra
+autobanroleremove:
+  - autobanroleremove
+  - abrr
+baninrole:
+  - baninrole
 debugembed:
   - debugembed
   - embeddebug

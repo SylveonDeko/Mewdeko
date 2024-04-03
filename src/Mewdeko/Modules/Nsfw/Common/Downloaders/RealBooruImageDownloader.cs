@@ -2,23 +2,33 @@
 using System.Net.Http.Json;
 using System.Threading;
 
-namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
-
-public class RealbooruImageDownloader(IHttpClientFactory http) : ImageDownloader<RealBooruElement>(Booru.Realbooru,
-    http)
+namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 {
-    public override async Task<List<RealBooruElement>> DownloadImagesAsync(
-        string[] tags,
-        int page,
-        bool isExplicit = false,
-        CancellationToken cancel = default)
+    /// <summary>
+    /// Downloader for images from Realbooru.
+    /// </summary>
+    public class RealbooruImageDownloader : ImageDownloader<RealBooruElement>
     {
-        var tagString = ImageDownloaderHelper.GetTagString(tags);
-        var uri =
-            $"https://realbooru.com/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealbooruImageDownloader"/> class.
+        /// </summary>
+        /// <param name="http">The HTTP client factory.</param>
+        public RealbooruImageDownloader(IHttpClientFactory http) : base(Booru.Realbooru, http) { }
 
-        using var http = Http.CreateClient();
-        var images = await http.GetFromJsonAsync<List<RealBooruElement>>(uri, SerializerOptions, cancel);
-        return images ?? new List<RealBooruElement>();
+        /// <inheritdoc/>
+        public override async Task<List<RealBooruElement>> DownloadImagesAsync(
+            string[] tags,
+            int page,
+            bool isExplicit = false,
+            CancellationToken cancel = default)
+        {
+            var tagString = ImageDownloaderHelper.GetTagString(tags);
+            var uri =
+                $"https://realbooru.com/index.php?page=dapi&s=post&q=index&limit=200&tags={tagString}&json=1&pid={page}";
+
+            using var http = Http.CreateClient();
+            var images = await http.GetFromJsonAsync<List<RealBooruElement>>(uri, SerializerOptions, cancel);
+            return images ?? new List<RealBooruElement>();
+        }
     }
 }

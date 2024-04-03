@@ -21,25 +21,77 @@ using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Music;
 
+/// <summary>
+/// Slash commands for music.
+/// </summary>
+/// <param name="lava">The Lavalink service</param>
+/// <param name="interactive">The service used for embed pagination</param>
+/// <param name="dbService">The database service</param>
+/// <param name="client">The Discord client</param>
+/// <param name="guildSettings">The guild settings service</param>
+/// <param name="config">The bot configuration service</param>
+/// <param name="creds">The bot credentials</param>
 [Discord.Interactions.Group("music", "Play Music!")]
-public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbService dbService,
-        DiscordSocketClient client,
-        GuildSettingsService guildSettings,
-        BotConfigService config, IBotCredentials creds)
+public class SlashMusic(
+    LavalinkNode lava,
+    InteractiveService interactive,
+    DbService dbService,
+    DiscordSocketClient client,
+    GuildSettingsService guildSettings,
+    BotConfigService config,
+    IBotCredentials creds)
     : MewdekoSlashModuleBase<MusicService>
 {
+    /// <summary>
+    /// Represents actions that can be performed on a playlist.
+    /// </summary>
     public enum PlaylistAction
     {
+        /// <summary>
+        /// Show the playlist.
+        /// </summary>
         Show,
+
+        /// <summary>
+        /// Delete the playlist.
+        /// </summary>
         Delete,
+
+        /// <summary>
+        /// Create a new playlist.
+        /// </summary>
         Create,
+
+        /// <summary>
+        /// Remove an item from the playlist.
+        /// </summary>
         Remove,
+
+        /// <summary>
+        /// Add an item to the playlist.
+        /// </summary>
         Add,
+
+        /// <summary>
+        /// Load a playlist.
+        /// </summary>
         Load,
+
+        /// <summary>
+        /// Save the playlist.
+        /// </summary>
         Save,
+
+        /// <summary>
+        /// Default action for the playlist.
+        /// </summary>
         Default
     }
 
+    /// <summary>
+    /// Command to remove a song from the playlist.
+    /// </summary>
+    /// <param name="songNum">The number of the song to remove from the playlist.</param>
     [SlashCommand("remove", "Removes a song from the queue using its number"),
      Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
@@ -69,6 +121,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Command to set auto-disconnect behavior for the bot.
+    /// </summary>
+    /// <param name="disconnect">The auto-disconnect behavior to set.</param>
     [SlashCommand("autodisconnect", "Set the autodisconnect type"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AutoDisconnect(AutoDisconnect disconnect)
@@ -79,6 +135,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to display the user's playlists.
+    /// </summary>
     [SlashCommand("playlists", "Lists your playlists"), Discord.Interactions.RequireContext(ContextType.Guild)]
     public async Task Playlists()
     {
@@ -113,6 +172,11 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Command to manage playlists.
+    /// </summary>
+    /// <param name="action">The action to perform on the playlist.</param>
+    /// <param name="playlistOrSongName">The name of the playlist or song to use.</param>
     [SlashCommand("playlist", "Create or manage your playlists"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Playlist(PlaylistAction action, string? playlistOrSongName = null)
@@ -629,6 +693,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Gets the lyrics of a song.
+    /// </summary>
+    /// <param name="name">The name of the song to get the lyrics of. Leave blank to get the lyrics of the current song</param>
     [SlashCommand("lyrics", "Get lyrics for the currently playing or mentioned song"),
      Discord.Interactions.RequireContext(ContextType.Guild)]
     public async Task Lyrics([Remainder] string? name = null)
@@ -724,6 +792,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Command to make the bot join the user's voice channel.
+    /// </summary>
     [SlashCommand("join", "Join your current voice channel."), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Join()
@@ -759,6 +830,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to make the bot leave the voice channel it's currently connected to.
+    /// </summary>
     [SlashCommand("leave", "Leave your current voice channel"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Leave()
@@ -783,6 +857,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await Service.QueueClear(ctx.Guild.Id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to play a song from the queue.
+    /// </summary>
+    /// <param name="number">The number of the song in the queue to play.</param>
     [SlashCommand("queueplay", "Plays a song from a number in queue"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Play(int number)
@@ -826,6 +904,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Play a song using a search query or a URL.
+    /// </summary>
+    /// <param name="searchQuery">The search query or URL to play.</param>
     [SlashCommand("play", "play a song using the name or a link"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     // ReSharper disable once MemberCanBePrivate.Global
@@ -1116,6 +1198,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Command to pause the music player.
+    /// </summary>
     [SlashCommand("pause", "Pauses the current track"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Pause()
@@ -1140,6 +1225,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to shuffle the music queue.
+    /// </summary>
     [SlashCommand("shuffle", "Shuffles the current queue"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Shuffle()
@@ -1168,6 +1256,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync("Successfully shuffled the queue!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to stop the music player and clear the queue.
+    /// </summary>
     [SlashCommand("stop", "Stops the player and clears all current songs"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Stop()
@@ -1184,6 +1275,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync("Stopped the player and cleared the queue!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to skip a specified number of songs in the queue.
+    /// </summary>
+    /// <param name="num">The number of songs to skip. Default is 1.</param>
     [SlashCommand("skip", "Skip to the next song, if there is one"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Skip(int num = 1)
@@ -1204,6 +1299,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, ctx, num).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to seek to a specific position in the currently playing track.
+    /// </summary>
+    /// <param name="input">The position to seek to.</param>
     [SlashCommand("seek", "Seek to a certain time in the current song"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Seek(string input)
@@ -1240,6 +1339,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to clear the music queue.
+    /// </summary>
     [SlashCommand("clearqueue", "Clears the current queue"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task ClearQueue()
@@ -1256,6 +1358,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync("Cleared the queue!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the music channel for receiving music events.
+    /// </summary>
     [SlashCommand("channel", "Set the channel where music events go"),
      Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
@@ -1269,6 +1374,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync("Set this channel to recieve music events.").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to set the autoplay behavior for adding songs to the queue.
+    /// </summary>
+    /// <param name="autoPlayNum">The number of songs to attempt to add to the queue when the last song is reached. Use 0 to disable autoplay.</param>
     [SlashCommand("autoplay", "Set the amount of songs to add at the end of the queue."),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AutoPlay(int autoPlayNum)
@@ -1291,6 +1400,10 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         }
     }
 
+    /// <summary>
+    /// Command to set the loop type for the music player.
+    /// </summary>
+    /// <param name="reptype">The loop type to set. Default is PlayerRepeatType.None.</param>
     [SlashCommand("loop", "Sets the loop type"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
@@ -1300,6 +1413,11 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync($"Loop has now been set to {reptype}").ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Command to set the volume of the music player.
+    /// </summary>
+    /// <param name="volume">The volume level to set. Should be between 0 and 100.</param>
     [SlashCommand("volume", "Sets the current volume"), Discord.Interactions.RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Volume(int volume)
@@ -1323,6 +1441,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.SendConfirmAsync($"Set the volume to {volume}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to display information about the currently playing track.
+    /// </summary>
     [SlashCommand("nowplaying", "Shows the currently playing song"),
      Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task NowPlaying()
@@ -1354,6 +1475,9 @@ public class SlashMusic(LavalinkNode lava, InteractiveService interactive, DbSer
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Command to display the current music queue.
+    /// </summary>
     [SlashCommand("queue", "Lists all songs"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Queue()
     {
