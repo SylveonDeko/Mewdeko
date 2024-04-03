@@ -31,7 +31,14 @@ public class AutoBanRoleService : INService
         var roles = autoBanRoles.Select(x => x.RoleId).ToHashSet();
         if (!addedRoles.Any(x => roles.Contains(x.Id))) return;
 
-        await arsg2.Guild.AddBanAsync(arsg2, 0, "Auto-ban role");
+        try
+        {
+            await arsg2.Guild.AddBanAsync(arsg2, 0, "Auto-ban role");
+        }
+        catch
+        {
+            //ignored
+        }
     }
 
     /// <summary>
