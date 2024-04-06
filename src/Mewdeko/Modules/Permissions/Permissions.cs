@@ -12,11 +12,20 @@ namespace Mewdeko.Modules.Permissions;
 public partial class Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
     : MewdekoModuleBase<PermissionService>
 {
+    /// <summary>
+    /// Used with the permrole command to reset the permission role.
+    /// </summary>
     public enum Reset
     {
+        /// <summary>
+        /// Resets the permission role.
+        /// </summary>
         Reset
     }
 
+    /// <summary>
+    /// Resets the permissions for the guild.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task ResetPerms()
@@ -25,6 +34,10 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets whether commands should throw an error based on what the issue is when using a command.
+    /// </summary>
+    /// <param name="action">Just a true or false thing. Kinda useless since its a toggle anyway.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction? action = null)
     {
@@ -44,6 +57,10 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
             await ReplyConfirmLocalizedAsync("verbose_false").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the role that will be used for permissions. If no role is provided, it will show the current permission role.
+    /// </summary>
+    /// <param name="role">The role, if any, to set as the permissions role</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), Priority(0)]
     public async Task PermRole([Remainder] IRole? role = null)
@@ -80,6 +97,10 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Resets the permission role.
+    /// </summary>
+    /// <param name="_"></param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
@@ -96,6 +117,9 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Lists the permissions for the guild.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ListPerms()
     {
@@ -127,6 +151,10 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Removes a permission from the list based on its index.
+    /// </summary>
+    /// <param name="index">The perm to remove</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RemovePerm(int index)
     {
@@ -159,6 +187,11 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Moves a permission higher in the heirarchy.
+    /// </summary>
+    /// <param name="from">Initial Index</param>
+    /// <param name="to">Replacement index</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task MovePerm(int from, int to)
     {
@@ -214,6 +247,11 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         await ReplyErrorLocalizedAsync("perm_out_of_range").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Enables or disables a command in the server.
+    /// </summary>
+    /// <param name="command">The command to run an action on</param>
+    /// <param name="action">Whether to disable or enable the command</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
     {
@@ -241,6 +279,14 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes server-level permissions for a specific module.
+    /// </summary>
+    /// <param name="module">The module to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular module at the server level.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
     {
@@ -267,6 +313,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes user-specific permissions for a specific command.
+    /// </summary>
+    /// <param name="command">The command to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="user">The user to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular command for a specific user.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
     {
@@ -296,6 +351,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes user-specific permissions for a specific module.
+    /// </summary>
+    /// <param name="module">The module to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="user">The user to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular module for a specific user.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
     {
@@ -324,6 +388,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes role-specific permissions for a specific command.
+    /// </summary>
+    /// <param name="command">The command to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="role">The role to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular command for a specific role.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IRole role)
     {
@@ -356,6 +429,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes role-specific permissions for a specific module.
+    /// </summary>
+    /// <param name="module">The module to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="role">The role to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular module for a specific role.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IRole role)
     {
@@ -387,6 +469,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes channel-specific permissions for a specific command.
+    /// </summary>
+    /// <param name="command">The command to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The channel to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular command for a specific channel.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
     {
@@ -416,6 +507,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes channel-specific permissions for a specific module.
+    /// </summary>
+    /// <param name="module">The module to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The channel to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular module for a specific channel.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
     {
@@ -444,6 +544,14 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes permissions for all modules in a specific channel.
+    /// </summary>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The channel to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for all modules in a specific channel.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
     {
@@ -468,6 +576,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes command-specific permissions for a specific category.
+    /// </summary>
+    /// <param name="command">The command to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The category to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular command for a specific category.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
@@ -497,6 +614,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes module-specific permissions for a specific category.
+    /// </summary>
+    /// <param name="module">The module to set permissions for.</param>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The category to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for a particular module for a specific category.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
@@ -525,6 +651,14 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes permissions for all modules in a specific category.
+    /// </summary>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="chnl">The category to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for all modules in a specific category.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllCatMdls(PermissionAction action, [Remainder] ICategoryChannel chnl)
     {
@@ -549,6 +683,14 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes permissions for all modules for a specific role.
+    /// </summary>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="role">The role to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for all modules for a specific role.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
     {
@@ -576,6 +718,14 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes permissions for all modules for a specific user.
+    /// </summary>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <param name="user">The user to set permissions for.</param>
+    /// <remarks>
+    /// This method allows setting permissions for all modules for a specific user.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
     {
@@ -600,6 +750,13 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         }
     }
 
+    /// <summary>
+    /// Adds or removes permissions for all modules for the entire server.
+    /// </summary>
+    /// <param name="action">The action to perform (enable/disable).</param>
+    /// <remarks>
+    /// This method allows setting permissions for all modules for all users in the server.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task AllSrvrMdls(PermissionAction action)
     {

@@ -3,8 +3,14 @@ using SkiaSharp;
 
 namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Provides fonts for the application.
+/// </summary>
 public class FontProvider
 {
+    /// <summary>
+    /// Initializes a new instance of the FontProvider class.
+    /// </summary>
     public FontProvider()
     {
         var fontsFolder = "data/fonts";
@@ -40,14 +46,23 @@ public class FontProvider
         };
     }
 
+    /// <summary>
+    /// Gets the UniSans font.
+    /// </summary>
     public SKTypeface UniSans { get; }
 
+    /// <summary>
+    /// Gets the NotoSans font.
+    /// </summary>
     public SKTypeface NotoSans { get; }
 
     /// <summary>
-    ///     Font used for .rip command
+    /// Gets the font used for the .rip command.
     /// </summary>
     public SKPaint RipFont { get; }
 
+    /// <summary>
+    /// Gets the list of fallback fonts.
+    /// </summary>
     public List<SKTypeface> FallBackFonts { get; }
 }
