@@ -14,27 +14,61 @@ using TextUserPermAttribute = Mewdeko.Common.Attributes.TextCommands.UserPermAtt
 
 namespace Mewdeko.Modules.Permissions;
 
+/// <summary>
+/// The permissions slash commands.
+/// </summary>
 [Discord.Interactions.Group("permissions", "Change or view command permissions.")]
 public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 {
     private readonly GuildSettingsService guildSettings;
 
+    /// <summary>
+    /// Enum for permission control.
+    /// </summary>
     public enum PermissionSlash
     {
+        /// <summary>
+        /// Grants permission.
+        /// </summary>
         Allow = 1,
+
+        /// <summary>
+        /// Revokes permission.
+        /// </summary>
         Deny = 0
     }
 
+    /// <summary>
+    /// Enum for indicating a reset operation.
+    /// </summary>
     public enum Reset
     {
+        /// <summary>
+        /// Specifies a reset.
+        /// </summary>
         Reset
     }
+
 
     private readonly DbService db;
     private readonly InteractiveService interactivity;
     private readonly DiscordPermOverrideService dpoS;
     private readonly CommandService cmdServe;
 
+    /// <summary>
+    /// Initializes a new instance of the SlashPermissions class.
+    /// </summary>
+    /// <param name="db">Database service instance for database operations.</param>
+    /// <param name="inter">Interactive service for managing interactive commands.</param>
+    /// <param name="guildSettings">Service for accessing and modifying guild settings.</param>
+    /// <param name="dpoS">Discord permissions override service for custom permission handling.</param>
+    /// <param name="cmdServe">Command service for Discord bot commands management.</param>
+    /// <remarks>
+    /// This constructor is responsible for setting up the necessary services required for
+    /// managing slash command permissions, interactive commands, guild settings, and command execution.
+    /// Each service parameter provided plays a crucial role in the operation and customization
+    /// of the bot's functionality, especially in the context of permissions and settings management.
+    /// </remarks>
     public SlashPermissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings,
         DiscordPermOverrideService dpoS, CommandService cmdServe)
     {
@@ -45,6 +79,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         this.cmdServe = cmdServe;
     }
 
+    /// <summary>
+    /// Resets command permissions for the guild.
+    /// </summary>
+    /// <remarks>
+    /// This slash command resets all custom command permissions back to their default states within the guild.
+    /// Requires the user to have Administrator permissions to execute.
+    /// After resetting permissions, a confirmation message is sent to the command invoker.
+    /// </remarks>
     [SlashCommand("resetperms", "Reset Command Permissions"), Discord.Interactions.RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator)]
     public async Task ResetPerms()
@@ -53,6 +95,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Enables or disables verbose command error messages.
+    /// </summary>
+    /// <param name="action">Optional parameter to enable (Allow) or disable (Deny) verbose permissions.</param>
+    /// <remarks>
+    /// This command toggles the verbosity of command error messages, providing detailed feedback when enabled.
+    /// It requires a specific role checked by PermRoleCheck to execute. If no action is specified, the command defaults to disabling verbose errors.
+    /// </remarks>
     [SlashCommand("verbose", "Enables or Disables command errors"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task Verbose(PermissionSlash? action = null)
@@ -72,6 +122,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await ReplyConfirmLocalizedAsync("verbose_false").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets or resets a role that can change command permissions without requiring admin rights.
+    /// </summary>
+    /// <param name="role">The role to set as the permission role. If null, resets the permission role.</param>
+    /// <remarks>
+    /// This command allows for setting a specific role to manage command permissions, providing a way to delegate permissions management without granting full Administrator rights.
+    /// If the command is invoked without specifying a role, or if the @everyone role is selected, it will reset the permission role to its default state.
+    /// Requires Administrator permissions to execute. Confirmation is sent upon changing the permission role.
+    /// </remarks>
     [SlashCommand("permrole", "Sets a role to change command permissions without admin"),
      Discord.Interactions.RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), Priority(0)]
@@ -89,18 +148,28 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             Service.UpdateCache(config);
             await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
         }
-
-        await using (uow.ConfigureAwait(false))
+        else
         {
-            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
-            config.PermissionRole = role.Id.ToString();
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            Service.UpdateCache(config);
-        }
+            await using (uow.ConfigureAwait(false))
+            {
+                var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                config.PermissionRole = role.Id.ToString();
+                await uow.SaveChangesAsync().ConfigureAwait(false);
+                Service.UpdateCache(config);
+            }
 
-        await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
+        }
     }
 
+    /// <summary>
+    /// Lists currently set permissions for commands in the guild.
+    /// </summary>
+    /// <remarks>
+    /// This command fetches and displays a list of all custom command permissions that have been configured in the guild.
+    /// It presents the permissions in a paginated format, allowing users to navigate through the list.
+    /// The command checks for permission roles before execution. If no custom permissions are set, it will display the default permissions list.
+    /// </remarks>
     [SlashCommand("listperms", "List currently set permissions"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task ListPerms()
@@ -137,6 +206,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Removes a specified permission based on its list number.
+    /// </summary>
+    /// <param name="perm">The number of the permission to remove, as displayed in the listperms command.</param>
+    /// <remarks>
+    /// This command allows for the removal of a specific command permission by its number.
+    /// The command validates the provided number and ensures that the default permission (index 0) cannot be removed.
+    /// Upon successful removal, a confirmation message is displayed. If the specified permission number does not exist, an error message is shown.
+    /// Requires permission role check for execution.
+    /// </remarks>
     [SlashCommand("removeperm", "Remove a permission based on its number"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task RemovePerm(
@@ -177,6 +256,17 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a specific command server-wide.
+    /// </summary>
+    /// <param name="command">The command to set permissions on.</param>
+    /// <param name="action">The action to apply, either Allow (enable) or Deny (disable).</param>
+    /// <remarks>
+    /// This command changes the permission state of a specified command across the entire server.
+    /// It allows for granular control over command availability, enhancing server customization and security.
+    /// The change is immediate, affecting all users within the server based on the specified action.
+    /// Requires the executing user to have a role with permission management capabilities.
+    /// </remarks>
     [SlashCommand("servercommand", "Enable or disable a command in the server"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task ServerCmd(
@@ -209,6 +299,17 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a module server-wide.
+    /// </summary>
+    /// <param name="module">The module to set permissions on.</param>
+    /// <param name="action">The action to apply, either Allow (enable) or Deny (disable).</param>
+    /// <remarks>
+    /// This command allows administrators to manage the availability of entire modules within their server,
+    /// enabling or disabling sets of functionality in one action. It's particularly useful for customizing the server experience
+    /// and managing access to groups of commands.
+    /// Execution requires the user to have a role designated for permission management.
+    /// </remarks>
     [SlashCommand("servermodule", "Enable or disable a Module in the server"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task SrvrMdl(
@@ -240,6 +341,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a command for a specific user in the guild.
+    /// </summary>
+    /// <param name="command">The command to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the command.</param>
+    /// <param name="user">The user for whom the command permission will be set.</param>
+    /// <remarks>
+    /// This command modifies the accessibility of a specified command for an individual user,
+    /// allowing for precise control over command usage. Useful for granting or restricting command access on a per-user basis.
+    /// </remarks>
     [SlashCommand("usercommand", "Enable or disable a command for a user"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task UsrCmd(
@@ -274,6 +385,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a module for a specific user in the guild.
+    /// </summary>
+    /// <param name="module">The module to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the module.</param>
+    /// <param name="user">The user for whom the module permission will be set.</param>
+    /// <remarks>
+    /// Similar to command permissions, this allows fine-grained control over module access for individual users,
+    /// enhancing the customization of user experiences within the server.
+    /// </remarks>
     [SlashCommand("usermodule", "Enable or disable a module for a user"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task UsrMdl(
@@ -307,6 +428,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a command for a specific role in the guild.
+    /// </summary>
+    /// <param name="command">The command to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the command.</param>
+    /// <param name="role">The role for which the command permission will be set.</param>
+    /// <remarks>
+    /// This command facilitates role-based command permission management, allowing or disallowing command use for entire groups of users.
+    /// It cannot be applied to the @everyone role, ensuring that some level of command access remains universal.
+    /// </remarks>
     [SlashCommand("rolecommand", "Enable or disable a command for a role"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task RoleCmd(

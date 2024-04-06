@@ -1,42 +1,69 @@
 ﻿using System.Globalization;
 using SkiaSharp;
 
-namespace Mewdeko.Services.Settings;
-
-/// <summary>
-///     Custom setting value parsers for types which don't have them by default
-/// </summary>
-public static class ConfigParsers
+namespace Mewdeko.Services.Settings
 {
     /// <summary>
-    ///     Default string parser. Passes input to output and returns true.
+    /// Custom setting value parsers for types which don't have them by default
     /// </summary>
-    public static bool String(string input, out string output)
+    public static class ConfigParsers
     {
-        output = input;
-        return true;
-    }
-
-    public static bool Culture(string input, out CultureInfo output)
-    {
-        try
+        /// <summary>
+        /// Default string parser. Passes input to output and returns true.
+        /// </summary>
+        public static bool String(string input, out string output)
         {
-            output = new CultureInfo(input);
+            output = input;
             return true;
         }
-        catch
+
+        /// <summary>
+        /// Parses the input string into a CultureInfo object.
+        /// </summary>
+        /// <param name="input">The input string representing a culture.</param>
+        /// <param name="output">The parsed CultureInfo object.</param>
+        /// <returns>True if parsing is successful, otherwise false.</returns>
+        public static bool Culture(string input, out CultureInfo output)
         {
-            output = null;
-            return false;
+            try
+            {
+                output = new CultureInfo(input);
+                return true;
+            }
+            catch
+            {
+                output = null;
+                return false;
+            }
         }
     }
-}
 
-public static class ConfigPrinters
-{
-    public static string ToString<TAny>(TAny? input) => input?.ToString() ?? "null";
+    /// <summary>
+    /// Custom setting value printers for types which don't have them by default
+    /// </summary>
+    public static class ConfigPrinters
+    {
+        /// <summary>
+        /// Converts the input object to its string representation.
+        /// </summary>
+        /// <typeparam name="TAny">The type of the input object.</typeparam>
+        /// <param name="input">The input object.</param>
+        /// <returns>The string representation of the input object, or "null" if the input is null.</returns>
+        public static string ToString<TAny>(TAny? input) => input?.ToString() ?? "null";
 
-    public static string Culture(CultureInfo culture) => culture.Name;
+        /// <summary>
+        /// Converts the SKColor to its hexadecimal representation.
+        /// </summary>
+        /// <param name="color">The SKColor to convert.</param>
+        /// <returns>The hexadecimal representation of the SKColor.</returns>
+        public static string Color(SKColor color) =>
+            ((uint)((color.Blue << 0) | (color.Green << 8) | (color.Red << 16))).ToString("X6");
 
-    public static string Color(SKColor color) => ((uint)((color.Blue << 0) | (color.Green << 8) | (color.Red << 16))).ToString("X6");
+        /// <summary>
+        /// Converts the CultureInfo to its name.
+        /// </summary>
+        /// <param name="culture">The culture to convert</param>
+        /// <returns>The culture in string form</returns>
+        public static string Culture(CultureInfo culture) => culture.Name;
+    }
 }
