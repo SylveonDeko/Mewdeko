@@ -1,5 +1,4 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
 
@@ -11,8 +10,6 @@ public class GreetSettingsService : INService, IReadyExecutor
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly GuildSettingsService gss;
-
-    private readonly GreetGrouper<IGuildUser> greets = new();
 
     public GreetSettingsService(DiscordSocketClient client, GuildSettingsService gss, DbService db,
         BotConfigService bss, EventHandler eventHandler, Mewdeko bot)
@@ -49,6 +46,8 @@ public class GreetSettingsService : INService, IReadyExecutor
         return await completionSource.Task;
     }
 
+
+    /// <inheritdoc />
     public async Task OnReadyAsync()
     {
         while (true)
@@ -481,34 +480,10 @@ public class GreetSettingsService : INService, IReadyExecutor
                         .ConfigureAwait(false);
                     if (channel != null)
                     {
-                        if (GroupGreets)
+                        await GreetUsers(conf, channel, new[]
                         {
-                            // if group is newly created, greet that user right away,
-                            // but any user which joins in the next 5 seconds will
-                            // be greeted in a group greet
-                            if (greets.CreateOrAdd(user.GuildId, user))
-                            {
-                                // greet single user
-                                await GreetUsers(conf, channel, new[]
-                                {
-                                    user
-                                }).ConfigureAwait(false);
-                                var groupClear = false;
-                                while (!groupClear)
-                                {
-                                    await Task.Delay(5000).ConfigureAwait(false);
-                                    groupClear = greets.ClearGroup(user.GuildId, 5, out var toGreet);
-                                    await GreetUsers(conf, channel, toGreet).ConfigureAwait(false);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            await GreetUsers(conf, channel, new[]
-                            {
-                                user
-                            }).ConfigureAwait(false);
-                        }
+                            user
+                        }).ConfigureAwait(false);
                     }
                 }
 

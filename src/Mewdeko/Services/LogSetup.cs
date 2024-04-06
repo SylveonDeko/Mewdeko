@@ -3,24 +3,32 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Mewdeko.Services;
-
-public static class LogSetup
+namespace Mewdeko.Services
 {
-    public static void SetupLogger(object source)
+    /// <summary>
+    /// Class responsible for setting up the logger configuration.
+    /// </summary>
+    public static class LogSetup
     {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Verbose)
-            .MinimumLevel.Override("System", LogEventLevel.Information)
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Console(LogEventLevel.Information,
-                theme: AnsiConsoleTheme.Code,
-                outputTemplate:
-                "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
-            .Enrich.WithProperty("LogSource", source)
-            .CreateLogger();
+        /// <summary>
+        /// Sets up the logger configuration.
+        /// </summary>
+        /// <param name="source">The source object associated with the logger.</param>
+        public static void SetupLogger(object source)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Verbose)
+                .MinimumLevel.Override("System", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(LogEventLevel.Information,
+                    theme: AnsiConsoleTheme.Code,
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
+                .Enrich.WithProperty("LogSource", source)
+                .CreateLogger();
 
-        Console.OutputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+        }
     }
 }
