@@ -4,18 +4,51 @@ using Mewdeko.Modules.Starboard.Services;
 
 namespace Mewdeko.Modules.Starboard;
 
+/// <summary>
+/// Module for managing starboard settings.
+/// </summary>
 public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<StarboardService>
 {
+    /// <summary>
+    /// Enum representing the mode for whitelisting or blacklisting channels for starboard.
+    /// </summary>
     public enum WhitelistMode
     {
+        /// <summary>
+        /// Whitelist mode. Only whitelisted channels are checked for starboard posts.
+        /// </summary>
         Whitelist = 0,
+
+        /// <summary>
+        /// Alias for Whitelist mode.
+        /// </summary>
         Wl = 0,
+
+        /// <summary>
+        /// Alias for Whitelist mode.
+        /// </summary>
         White = 0,
+
+        /// <summary>
+        /// Blacklist mode. Blacklisted channels are not checked for starboard posts.
+        /// </summary>
         Blacklist = 1,
+
+        /// <summary>
+        /// Alias for Blacklist mode.
+        /// </summary>
         Bl = 1,
+
+        /// <summary>
+        /// Alias for Blacklist mode.
+        /// </summary>
         Black = 1
     }
 
+    /// <summary>
+    /// Sets the starboard channel for the guild.
+    /// </summary>
+    /// <param name="chn">The starboard channel. Pass null to disable starboard.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStarboard(ITextChannel? chn = null)
     {
@@ -30,6 +63,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the repost threshold for starboard posts in the guild.
+    /// </summary>
+    /// <param name="num">The repost threshold. Pass 0 to disable reposting.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetRepostThreshold(int num)
     {
@@ -44,6 +81,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         await ctx.Channel.SendConfirmAsync($"Successfully set the Repost Threshold to {num}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the star count required for a message to be added to the starboard in the guild.
+    /// </summary>
+    /// <param name="num">The star count required.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStars(int num)
     {
@@ -54,6 +95,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the star emote for the starboard in the guild.
+    /// </summary>
+    /// <param name="emote">The star emote. Pass null to view current emote.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStar(IEmote? emote = null)
     {
@@ -87,6 +132,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         await ctx.Channel.SendConfirmAsync($"Successfully set the star to {emote}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles whether a channel is checked for starboard posts.
+    /// </summary>
+    /// <param name="channel">The channel to toggle.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardChToggle([Remainder] ITextChannel channel)
     {
@@ -104,6 +153,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         }
     }
 
+    /// <summary>
+    /// Sets the whitelist/blacklist mode for starboard posts in the guild.
+    /// </summary>
+    /// <param name="mode">The whitelist/blacklist mode.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardWlMode(WhitelistMode mode)
     {
@@ -119,6 +172,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         }
     }
 
+    /// <summary>
+    /// Sets whether to remove starboard posts when reactions are cleared from the original message.
+    /// </summary>
+    /// <param name="enabled">Whether to remove starboard posts on reactions cleared.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnReactionsCleared(bool enabled)
     {
@@ -132,6 +189,10 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
                 .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets whether to remove starboard posts when the original message is deleted.
+    /// </summary>
+    /// <param name="enabled">Whether to remove starboard posts on original message deletion.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnDelete(bool enabled)
     {
@@ -146,7 +207,11 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
                 .ConfigureAwait(false);
     }
 
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    /// <summary>
+    /// Sets whether to remove starboard posts when the star count falls below the threshold.
+    /// </summary>
+    /// <param name="enabled">Whether to remove starboard posts when star count falls below the threshold.</param>
+    [Cmd, Aliases, UserPerm(Discord.GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnBelowThreshold(bool enabled)
     {
         await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled).ConfigureAwait(false);
@@ -162,6 +227,11 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
                 .ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Sets whether to allow bots to be counted for starboard posts in the guild.
+    /// </summary>
+    /// <param name="enabled">Whether to allow bots to be counted.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardAllowBots(bool enabled)
     {

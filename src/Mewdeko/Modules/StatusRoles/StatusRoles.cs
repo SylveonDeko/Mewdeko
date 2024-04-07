@@ -7,8 +7,15 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.StatusRoles;
 
+/// <summary>
+/// Module for managing roles that are assigned based on user status.
+/// </summary>
 public class StatusRoles(BotConfigService bss, InteractiveService interactivity) : MewdekoModuleBase<StatusRolesService>
 {
+    /// <summary>
+    /// Adds a status role configuration.
+    /// </summary>
+    /// <param name="status">The status to add.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task AddStatusRole([Remainder] string status)
     {
@@ -26,6 +33,10 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
             await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!");
     }
 
+    /// <summary>
+    /// Removes a status role configuration.
+    /// </summary>
+    /// <param name="index">The index of the status role to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveStatusRole(int index)
     {
@@ -47,6 +58,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         await ctx.Channel.SendConfirmAsync("StatusRole config removed!");
     }
 
+    /// <summary>
+    /// Sets or previews the embed text for a specific status role.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="embedText">The embed text to set.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task SetStatusRoleEmbed(int index, [Remainder] string embedText = null)
     {
@@ -110,6 +126,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         }
     }
 
+    /// <summary>
+    /// Sets the channel for a specific status role.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="channel">The channel to set.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task SetStatusRoleChannel(int index, ITextChannel channel)
     {
@@ -138,6 +159,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
             $"{bss.Data.SuccessEmote} Succesfully set StatusEmbedChannel to {channel.Mention}!");
     }
 
+    /// <summary>
+    /// Sets the roles to add when a user has the selected status.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="roles">The roles to add.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task SetAddRoles(int index, params IRole[] roles)
     {
@@ -172,6 +198,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         }
     }
 
+    /// <summary>
+    /// Sets the roles to remove when a user has the selected status.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="roles">The roles to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task SetRemoveRoles(int index, params IRole[] roles)
     {
@@ -206,6 +237,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         }
     }
 
+    /// <summary>
+    /// Sets the roles to remove when a user has the selected status.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="roles">The roles to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveAddRoles(int index, params IRole[] roles)
     {
@@ -237,6 +273,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
             $"{bss.Data.SuccessEmote} Succesfully removed the following roles from AddRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
+    /// <summary>
+    /// Removes one or more roles from the roles added when a user has the selected status.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="roles">The roles to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveRemoveRoles(int index, params IRole[] roles)
     {
@@ -268,6 +309,11 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
             $"{bss.Data.SuccessEmote} Succesfully removed the following roles from RemoveRoles\n{string.Join("|", roles.Select(x => x.Mention))}");
     }
 
+    /// <summary>
+    /// Removes one or more roles from the roles removed when a user has the selected status.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
+    /// <param name="roles">The roles to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task ToggleRemoveAdded(int index)
     {
@@ -289,6 +335,10 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} RemoveAdded is now `{returned}`");
     }
 
+    /// <summary>
+    /// Toggles whether added roles are removed when a status is removed.
+    /// </summary>
+    /// <param name="index">The index of the status role.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task ToggleReaddRemoved(int index)
     {
@@ -310,6 +360,9 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         await ctx.Channel.SendConfirmAsync($"{bss.Data.SuccessEmote} ReaddRemoved is now `{returned}`");
     }
 
+    /// <summary>
+    /// Lists all current status roles with their details.
+    /// </summary>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task ListStatusRoles()
     {

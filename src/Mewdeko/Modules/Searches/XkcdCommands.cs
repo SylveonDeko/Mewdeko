@@ -1,17 +1,25 @@
 ﻿using System.Net.Http;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches;
 
 public partial class Searches
 {
+    /// <summary>
+    /// Provides commands for fetching and displaying XKCD comics.
+    /// </summary>
     [Group]
     public class XkcdCommands(IHttpClientFactory factory) : MewdekoSubmodule
     {
         private const string XkcdUrl = "https://xkcd.com";
 
+        /// <summary>
+        /// Fetches and displays an XKCD comic. If 'latest' is specified, fetches the latest comic; otherwise, fetches a random comic.
+        /// </summary>
+        /// <param name="arg">The comic number to fetch or 'latest' for the latest comic.</param>
         [Cmd, Aliases, Priority(0)]
         public async Task Xkcd(string? arg = null)
         {
@@ -54,6 +62,10 @@ public partial class Searches
             await Xkcd(new MewdekoRandom().Next(1, 2607)).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Fetches and displays an XKCD comic by its number.
+        /// </summary>
+        /// <param name="num">The number of the XKCD comic to fetch.</param>
         [Cmd, Aliases, Priority(1)]
         public async Task Xkcd(int num)
         {
@@ -92,20 +104,5 @@ public partial class Searches
                 await ReplyErrorLocalizedAsync("comic_not_found").ConfigureAwait(false);
             }
         }
-    }
-
-    public class XkcdComic
-    {
-        public int Num { get; set; }
-        public string Month { get; set; }
-        public string Year { get; set; }
-
-        [JsonProperty("safe_title")]
-        public string Title { get; set; }
-
-        [JsonProperty("img")]
-        public string ImageLink { get; set; }
-
-        public string Alt { get; set; }
     }
 }

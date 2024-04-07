@@ -4,6 +4,9 @@ using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
 
+/// <summary>
+/// Service responsible for managing status-based roles.
+/// </summary>
 public class StatusRolesService : INService, IReadyExecutor
 {
     private readonly DiscordSocketClient client;
@@ -11,6 +14,13 @@ public class StatusRolesService : INService, IReadyExecutor
     private readonly IDataCache cache;
     private readonly HashSet<StatusRolesTable> statusRoles = new();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
+    /// </summary>
+    /// <param name="client">The Discord socket client.</param>
+    /// <param name="db">The database service.</param>
+    /// <param name="eventHandler">The event handler.</param>
+    /// <param name="cache">The data cache service.</param>
     public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
         this.client = client;
@@ -19,6 +29,7 @@ public class StatusRolesService : INService, IReadyExecutor
         eventHandler.PresenceUpdated += EventHandlerOnPresenceUpdated;
     }
 
+    /// <inheritdoc />
     public async Task OnReadyAsync()
     {
         await using var uow = db.GetDbContext();
@@ -187,6 +198,12 @@ public class StatusRolesService : INService, IReadyExecutor
         }
     }
 
+    /// <summary>
+    /// Adds a new status role configuration for a guild.
+    /// </summary>
+    /// <param name="status">The status for which the role should be added.</param>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>True if the configuration was successfully added; otherwise, false.</returns>
     public async Task<bool> AddStatusRoleConfig(string status, ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -202,6 +219,11 @@ public class StatusRolesService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Removes a status role configuration by its index.
+    /// </summary>
+    /// <param name="index">The index of the status role configuration to remove.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(int index)
     {
         await using var uow = db.GetDbContext();
@@ -216,6 +238,11 @@ public class StatusRolesService : INService, IReadyExecutor
         statusRoles.Add(status);
     }
 
+    /// <summary>
+    /// Removes a status role configuration.
+    /// </summary>
+    /// <param name="status">The status role configuration to remove.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(StatusRolesTable status)
     {
         try
@@ -234,6 +261,11 @@ public class StatusRolesService : INService, IReadyExecutor
         }
     }
 
+    /// <summary>
+    /// Retrieves the status role configurations for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The set of status role configurations for the guild.</returns>
     public Task<HashSet<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
     {
         if (statusRoles.Count == 0)
@@ -242,7 +274,12 @@ public class StatusRolesService : INService, IReadyExecutor
         return Task.FromResult(statusList.Count != 0 ? statusList : []);
     }
 
-
+    /// <summary>
+    /// Sets the roles to be added when a specific status is detected.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <param name="toAdd">The IDs of the roles to add.</param>
+    /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetAddRoles(StatusRolesTable status, string toAdd)
     {
         await using var uow = db.GetDbContext();
@@ -256,6 +293,12 @@ public class StatusRolesService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Sets the roles to be removed when a specific status is detected.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <param name="toRemove">The IDs of the roles to remove.</param>
+    /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toAdd)
     {
         await using var uow = db.GetDbContext();
@@ -269,6 +312,12 @@ public class StatusRolesService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Sets the channel where status-based messages should be sent.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <param name="channelId">The ID of the channel.</param>
+    /// <returns>True if the channel was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusChannel(StatusRolesTable status, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -282,6 +331,12 @@ public class StatusRolesService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Sets the embed text for status-based messages.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <param name="embedText">The embed text to set.</param>
+    /// <returns>True if the embed text was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusEmbed(StatusRolesTable status, string embedText)
     {
         await using var uow = db.GetDbContext();
@@ -295,6 +350,11 @@ public class StatusRolesService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Toggles whether to remove roles that were added based on status.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleRemoveAdded(StatusRolesTable status)
     {
         await using var uow = db.GetDbContext();
@@ -308,6 +368,11 @@ public class StatusRolesService : INService, IReadyExecutor
         return false.ParseBoth(status.RemoveAdded);
     }
 
+    /// <summary>
+    /// Toggles whether to add roles that were removed based on status.
+    /// </summary>
+    /// <param name="status">The status role configuration.</param>
+    /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleAddRemoved(StatusRolesTable status)
     {
         await using var uow = db.GetDbContext();

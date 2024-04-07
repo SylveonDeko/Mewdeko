@@ -6,9 +6,21 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 
+/// <summary>
+/// Slash commands for sending and managing suggestions.
+/// </summary>
 [Group("suggestions", "Send or manage suggestions!")]
-public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
+public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
 {
+    /// <summary>
+    /// Sets the suggestion channel for the guild.
+    /// </summary>
+    /// <param name="channel">The text channel to be set as the suggestion channel. If null, suggestions will be disabled.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command allows guild administrators to designate a specific text channel for suggestions.
+    /// Setting the channel to null will disable the suggestion feature.
+    /// </remarks>
     [SlashCommand("setchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetSuggestChannel(ITextChannel? channel = null)
@@ -28,6 +40,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
     }
 
+    /// <summary>
+    /// Initiates the process for a user to send a suggestion via a modal interaction.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command opens a modal for the user to enter their suggestion, ensuring it adheres to the set character limits.
+    /// </remarks>
     [SlashCommand("suggest", "Sends a suggestion to the suggestion channel, if there is one set.", true),
      RequireContext(ContextType.Guild), CheckPermissions]
     public Task Suggest() => ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
@@ -36,26 +55,65 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             .WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
             .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000))));
 
+    /// <summary>
+    /// Accepts a suggestion.
+    /// </summary>
+    /// <param name="suggestId">The unique identifier of the suggestion to be accepted.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command changes the state of a suggestion to accepted, triggering any configured response or action.
+    /// </remarks>
     [ComponentInteraction("accept:*", true), RequireContext(ContextType.Guild), CheckPermissions,
      SlashUserPerm(ChannelPermission.ManageMessages)]
     public Task Accept(string suggestId)
         => ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:accept.{suggestId}");
 
+    /// <summary>
+    /// Denies a suggestion.
+    /// </summary>
+    /// <param name="suggestId">The unique identifier of the suggestion to be denied.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command changes the state of a suggestion to denied, triggering any configured response or action.
+    /// </remarks>
     [ComponentInteraction("deny:*", true), RequireContext(ContextType.Guild), CheckPermissions,
      SlashUserPerm(ChannelPermission.ManageMessages)]
     public Task Deny(string suggestId)
         => ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:deny.{suggestId}");
 
+    /// <summary>
+    /// Marks a suggestion as considered.
+    /// </summary>
+    /// <param name="suggestId">The unique identifier of the suggestion to be considered.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command changes the state of a suggestion to considered, triggering any configured response or action.
+    /// </remarks>
     [ComponentInteraction("consider:*", true), RequireContext(ContextType.Guild), CheckPermissions,
      SlashUserPerm(ChannelPermission.ManageMessages)]
     public Task Consider(string suggestId)
         => ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:consider.{suggestId}");
 
+    /// <summary>
+    /// Marks a suggestion as implemented.
+    /// </summary>
+    /// <param name="suggestId">The unique identifier of the suggestion to be implemented.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This command changes the state of a suggestion to implemented, triggering any configured response or action.
+    /// </remarks>
     [ComponentInteraction("implement:*", true), RequireContext(ContextType.Guild), CheckPermissions,
      SlashUserPerm(ChannelPermission.ManageMessages)]
     public Task Implemented(string suggestId)
         => ctx.Interaction.RespondWithModalAsync<SuggestStateModal>($"suggeststate:implement.{suggestId}");
 
+    /// <summary>
+    /// Handles the modal interaction for changing the state of a suggestion.
+    /// </summary>
+    /// <param name="state">The new state of the suggestion.</param>
+    /// <param name="suggestId">The unique identifier of the suggestion.</param>
+    /// <param name="modal">The modal containing the state change reason.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ModalInteraction("suggeststate:*.*", true), CheckPermissions, RequireContext(ContextType.Guild)]
     public Task HandleStateModal(string state, string suggestId, SuggestStateModal modal)
     {
@@ -70,6 +128,14 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         };
     }
 
+    /// <summary>
+    /// Handles the modal interaction for sending a suggestion.
+    /// </summary>
+    /// <param name="modal">The modal containing the suggestion.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// Validates the suggestion length against the configured limits before sending.
+    /// </remarks>
     [ModalInteraction("suggest.sendsuggestion", true), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task HandleSuggestion(SuggestionModal modal)
     {
@@ -100,6 +166,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             modal.Suggestion, ctx.Channel as ITextChannel, ctx.Interaction).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Clears all suggestions from the guild.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// This action is irreversible. It deletes all suggestions and their associated data from the guild.
+    /// </remarks>
     [SlashCommand("clear", "Clears all suggestions. Cannot be undone.")]
     public async Task SuggestClear()
     {
@@ -119,6 +192,15 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
     }
 
+    /// <summary>
+    /// Denies a specific suggestion.
+    /// </summary>
+    /// <param name="suggestid">The ID of the suggestion to be denied.</param>
+    /// <param name="reason">The reason for denying the suggestion.</param>
+    /// <returns>A task that represents the asynchronous operation of denying a suggestion.</returns>
+    /// <remarks>
+    /// This command changes the status of a suggestion to denied and notifies the suggestion's author.
+    /// </remarks>
     [SlashCommand("deny", "Denies a suggestion"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public Task Deny(
@@ -127,6 +209,15 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
+    /// <summary>
+    /// Accepts a specific suggestion.
+    /// </summary>
+    /// <param name="suggestid">The ID of the suggestion to be accepted.</param>
+    /// <param name="reason">The reason for accepting the suggestion.</param>
+    /// <returns>A task that represents the asynchronous operation of accepting a suggestion.</returns>
+    /// <remarks>
+    /// This command changes the status of a suggestion to accepted and can trigger additional configured actions or responses.
+    /// </remarks>
     [SlashCommand("accept", "Accepts a suggestion"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public Task Accept(
@@ -135,6 +226,15 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
+    /// <summary>
+    /// Marks a specific suggestion as implemented.
+    /// </summary>
+    /// <param name="suggestid">The ID of the suggestion to be marked as implemented.</param>
+    /// <param name="reason">The reason for marking the suggestion as implemented.</param>
+    /// <returns>A task that represents the asynchronous operation of marking a suggestion as implemented.</returns>
+    /// <remarks>
+    /// This command changes the status of a suggestion to implemented, indicating that the suggestion has been or will be acted upon.
+    /// </remarks>
     [SlashCommand("implement", "Sets a suggestion as implemented"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public Task Implemented(
@@ -143,6 +243,15 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
+    /// <summary>
+    /// Marks a specific suggestion as considered.
+    /// </summary>
+    /// <param name="suggestid">The ID of the suggestion to be considered.</param>
+    /// <param name="reason">The reason for considering the suggestion.</param>
+    /// <returns>A task that represents the asynchronous operation of marking a suggestion as considered.</returns>
+    /// <remarks>
+    /// This command changes the status of a suggestion to considered, indicating that it is under review or discussion.
+    /// </remarks>
     [SlashCommand("consider", "Sets a suggestion as considered"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public Task Consider(

@@ -11,6 +11,9 @@ using Serilog;
 
 namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Google API service.
+/// </summary>
 public class GoogleApiService : IGoogleApiService
 {
     private readonly IBotCredentials creds;
@@ -411,6 +414,11 @@ public class GoogleApiService : IGoogleApiService
 
     private readonly YouTubeService yt;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GoogleApiService"/> class.
+    /// </summary>
+    /// <param name="creds">Bot credentials.</param>
+    /// <param name="factory">HTTP client factory.</param>
     public GoogleApiService(IBotCredentials creds, IHttpClientFactory factory)
     {
         this.creds = creds;
@@ -425,6 +433,12 @@ public class GoogleApiService : IGoogleApiService
         sh = new UrlshortenerService(bcs);
     }
 
+    /// <summary>
+    /// Gets video links by keyword.
+    /// </summary>
+    /// <param name="keywords">The keywords.</param>
+    /// <returns>Array of search results.</returns>
+    /// <exception cref="ArgumentNullException">keywords</exception>
     public async Task<SearchResult[]> GetVideoLinksByKeywordAsync(string keywords)
     {
         await Task.Yield();
@@ -441,7 +455,12 @@ public class GoogleApiService : IGoogleApiService
     }
 
 
-
+    /// <summary>
+    /// Shortens a given url.
+    /// </summary>
+    /// <param name="url">The URL to shorten.</param>
+    /// <returns>The shortened URL.</returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public async Task<string> ShortenUrl(string url)
     {
         await Task.Yield();
@@ -470,8 +489,19 @@ public class GoogleApiService : IGoogleApiService
         }
     }
 
+    /// <summary>
+    /// Gets the list of supported languages.
+    /// </summary>
     public IEnumerable<string?> Languages => languageDictionary.Keys.OrderBy(x => x);
 
+    /// <summary>
+    /// Translates the given text.
+    /// </summary>
+    /// <param name="sourceText">The source text.</param>
+    /// <param name="sourceLanguage">The source language.</param>
+    /// <param name="targetLanguage">The target language.</param>
+    /// <returns>The translated text.</returns>
+    /// <exception cref="ArgumentException"></exception>
     public async Task<string> Translate(string sourceText, string? sourceLanguage, string? targetLanguage)
     {
         await Task.Yield();
@@ -499,19 +529,5 @@ public class GoogleApiService : IGoogleApiService
     {
         languageDictionary.TryGetValue(language, out var mode);
         return mode;
-    }
-
-    public class LiveVideo
-    {
-        public string Title { get; }
-        public string VideoId { get; }
-        public string ChannelTitle { get; }
-
-        public LiveVideo(string title, string videoId, string channelTitle)
-        {
-            Title = title;
-            VideoId = videoId;
-            ChannelTitle = channelTitle;
-        }
     }
 }

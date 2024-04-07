@@ -2,56 +2,184 @@
 using Mewdeko.Modules.Utility.Common;
 using StackExchange.Redis;
 
-namespace Mewdeko.Services;
-
-public interface IDataCache
+namespace Mewdeko.Services
 {
-    ConnectionMultiplexer Redis { get; }
-    IImageCache LocalImages { get; }
-    ILocalDataCache LocalData { get; }
+    /// <summary>
+    /// Represents a data cache interface.
+    /// </summary>
+    public interface IDataCache
+    {
+        #region Properties
 
-    // AFK
-    Task CacheAfk(ulong guildId, ulong userId, Afk afk);
-    Task<Afk?> RetrieveAfk(ulong guildId, ulong userId);
-    Task ClearAfk(ulong guildId, ulong userId);
+        /// <summary>
+        /// Gets the Redis connection multiplexer.
+        /// </summary>
+        ConnectionMultiplexer Redis { get; }
 
-    // StatusRoles
-    Task<bool> SetUserStatusCache(ulong id, string base64);
+        /// <summary>
+        /// Gets the local image cache.
+        /// </summary>
+        IImageCache LocalImages { get; }
 
-    // Highlights
-    Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
-    Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
-    Task CacheHighlights(ulong id, List<Highlights> highlights);
-    Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
-    Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight);
-    Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight);
-    Task<RedisResult> ExecuteRedisCommand(string command);
-    Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlightSetting);
-    Task<bool> TryAddHighlightStaggerUser(ulong id);
-    List<Highlights?>? GetHighlightsForGuild(ulong id);
-    List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id);
-    Task<List<SnipeStore>?> GetSnipesForGuild(ulong id);
-    Task SetGuildSettingInt(ulong guildId, string setting, int value);
-    Task<int> GetGuildSettingInt(ulong guildId, string setting);
-    Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);
-    Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key);
-    Task SetImageDataAsync(Uri key, byte[] data);
-    TimeSpan? AddTimelyClaim(ulong id, int period);
-    TimeSpan? AddVoteClaim(ulong id, int period);
-    TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
-    void RemoveAllTimelyClaims();
-    bool TryAddAffinityCooldown(ulong userId, out TimeSpan? time);
-    bool TryAddDivorceCooldown(ulong userId, out TimeSpan? time);
-    bool TryGetEconomy(out string data);
-    Task SetShip(ulong user1, ulong user2, int score);
-    Task<ShipCache?> GetShip(ulong user1, ulong user2);
-    void SetEconomy(string data);
+        /// <summary>
+        /// Gets the local data cache.
+        /// </summary>
+        ILocalDataCache LocalData { get; }
 
-    Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory, TParam param,
-        TimeSpan expiry) where TOut : class;
+        #endregion
 
-    DateTime GetLastCurrencyDecay();
-    void SetLastCurrencyDecay();
-    Task SetStatusRoleCache(List<StatusRolesTable> statusRoles);
-    Task<List<StatusRolesTable>?> GetStatusRoleCache();
+        #region AFK Methods
+
+        /// <summary>
+        /// Caches AFK status for a user in a guild.
+        /// </summary>
+        Task CacheAfk(ulong guildId, ulong userId, Afk afk);
+
+        /// <summary>
+        /// Retrieves AFK status for a user in a guild.
+        /// </summary>
+        Task<Afk?> RetrieveAfk(ulong guildId, ulong userId);
+
+        /// <summary>
+        /// Clears AFK status for a user in a guild.
+        /// </summary>
+        Task ClearAfk(ulong guildId, ulong userId);
+
+        #endregion
+
+        #region StatusRoles Methods
+
+        /// <summary>
+        /// Sets user status cache.
+        /// </summary>
+        Task<bool> SetUserStatusCache(ulong id, string base64);
+
+        #endregion
+
+        #region Highlights Methods
+
+        /// <summary>
+        /// Tries to add a highlight stagger for a user in a guild.
+        /// </summary>
+        Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
+
+        /// <summary>
+        /// Gets the highlight stagger for a user in a guild.
+        /// </summary>
+        Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
+
+        /// <summary>
+        /// Caches highlights for a guild.
+        /// </summary>
+        Task CacheHighlights(ulong id, List<Highlights> highlights);
+
+        /// <summary>
+        /// Caches highlight settings for a guild.
+        /// </summary>
+        Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
+
+        /// <summary>
+        /// Adds highlights to cache for a guild.
+        /// </summary>
+        Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight);
+
+        /// <summary>
+        /// Removes highlights from cache for a guild.
+        /// </summary>
+        Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight);
+
+        /// <summary>
+        /// Executes a Redis command.
+        /// </summary>
+        Task<RedisResult> ExecuteRedisCommand(string command);
+
+        /// <summary>
+        /// Adds a highlight setting to cache for a guild.
+        /// </summary>
+        Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlightSetting);
+
+        /// <summary>
+        /// Tries to add a highlight stagger for a user.
+        /// </summary>
+        Task<bool> TryAddHighlightStaggerUser(ulong id);
+
+        /// <summary>
+        /// Gets highlights for a guild.
+        /// </summary>
+        List<Highlights?>? GetHighlightsForGuild(ulong id);
+
+        /// <summary>
+        /// Gets highlight settings for a guild.
+        /// </summary>
+        List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id);
+
+        /// <summary>
+        /// Gets snipes for a guild.
+        /// </summary>
+        Task<List<SnipeStore>?> GetSnipesForGuild(ulong id);
+
+        /// <summary>
+        /// Caches snipes for a guild.
+        /// </summary>
+        Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);
+
+        #endregion
+
+        #region Image Methods
+
+        /// <summary>
+        /// Tries to get image data asynchronously.
+        /// </summary>
+        Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key);
+
+        /// <summary>
+        /// Sets image data asynchronously.
+        /// </summary>
+        Task SetImageDataAsync(Uri key, byte[] data);
+
+        #endregion
+
+        #region Ratelimit Methods
+
+        /// <summary>
+        /// Tries to add a ratelimit.
+        /// </summary>
+        TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
+
+        #endregion
+
+        #region Ship Methods
+
+        /// <summary>
+        /// Sets ship cache.
+        /// </summary>
+        Task SetShip(ulong user1, ulong user2, int score);
+
+        /// <summary>
+        /// Gets ship cache.
+        /// </summary>
+        Task<ShipCache?> GetShip(ulong user1, ulong user2);
+
+        #endregion
+
+        #region Cached Data Methods
+
+        /// <summary>
+        /// Gets or adds cached data asynchronously.
+        /// </summary>
+        Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory, TParam param,
+            TimeSpan expiry) where TOut : class;
+
+        /// <summary>
+        /// Sets status role cache.
+        /// </summary>
+        Task SetStatusRoleCache(List<StatusRolesTable> statusRoles);
+
+        /// <summary>
+        /// Gets status role cache.
+        /// </summary>
+        Task<List<StatusRolesTable>?> GetStatusRoleCache();
+
+        #endregion
+    }
 }

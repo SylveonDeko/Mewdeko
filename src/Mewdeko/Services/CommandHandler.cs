@@ -21,6 +21,9 @@ using PreconditionResult = Discord.Commands.PreconditionResult;
 
 namespace Mewdeko.Services;
 
+/// <summary>
+/// Handles command parsing and execution, integrating with various services to process Discord interactions and messages.
+/// </summary>
 public class CommandHandler : INService
 {
     private const int GlobalCommandsCooldown = 750;
@@ -45,9 +48,31 @@ public class CommandHandler : INService
     private readonly IBotCredentials creds;
     private readonly IDataCache cache;
 
+    /// <summary>
+    /// A thread-safe dictionary mapping channel IDs to command parse queues.
+    /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
+
+    /// <summary>
+    /// A thread-safe dictionary indicating whether a command parse lock is active for a channel.
+    /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CommandHandler"/> class.
+    /// </summary>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="db">The database service.</param>
+    /// <param name="commandService">The service for handling commands.</param>
+    /// <param name="bss">The bot configuration service.</param>
+    /// <param name="bot">The bot instance.</param>
+    /// <param name="services">The service provider for dependency injection.</param>
+    /// <param name="strngs">The strings resources service.</param>
+    /// <param name="interactionService">The service for handling interactions.</param>
+    /// <param name="gss">The guild settings service.</param>
+    /// <param name="eventHandler">The event handler for discord events.</param>
+    /// <param name="creds">The bot credentials.</param>
+    /// <param name="cache">The data cache service.</param>
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
@@ -64,11 +89,7 @@ public class CommandHandler : INService
         this.bot = bot;
         this.db = db;
         this.services = services;
-        client.InteractionCreated += x =>
-        {
-            Task.Run(() => TryRunInteraction(x));
-            return Task.CompletedTask;
-        };
+        eventHandler.InteractionCreated += TryRunInteraction;
         this.interactionService.SlashCommandExecuted += HandleCommands;
         this.interactionService.ContextCommandExecuted += HandleContextCommands;
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
@@ -78,13 +99,22 @@ public class CommandHandler : INService
 
     private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
+    /// <summary>
+    /// Event that occurs when a command is executed.
+    /// </summary>
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
+    /// <summary>
+    /// Event that occurs when a command is errored.w
+    /// </summary>
     public event Func<CommandInfo, ITextChannel, string, IUser?, Task> CommandErrored = delegate
     {
         return Task.CompletedTask;
     };
 
+    /// <summary>
+    /// Used for xp, for some reason.
+    /// </summary>
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
     private Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result)
@@ -401,6 +431,10 @@ public class CommandHandler : INService
     }
 
 
+    /// <summary>
+    /// Adds services to the handler for command processing.
+    /// </summary>
+    /// <param name="services">The collection of service descriptors.</param>
     public void AddServices(IServiceCollection services)
     {
         lateBlockers = services
@@ -425,6 +459,13 @@ public class CommandHandler : INService
             .ToArray();
     }
 
+    /// <summary>
+    /// Executes an external command within a specific guild and channel context.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="channelId">The ID of the channel.</param>
+    /// <param name="commandText">The text of the command to execute.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ExecuteExternal(ulong? guildId, ulong channelId, string commandText)
     {
         if (guildId != null)
@@ -558,6 +599,10 @@ public class CommandHandler : INService
         }
     }
 
+    /// <summary>
+    /// Adds a command to the parse queue for a given channel.
+    /// </summary>
+    /// <param name="usrMsg">The user message to add to the queue.</param>
     public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
         _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage>
         {
@@ -568,6 +613,11 @@ public class CommandHandler : INService
             return y;
         });
 
+    /// <summary>
+    /// Attempts to execute commands in the parse queue for a given channel.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel.</param>
+    /// <returns>A task that represents the asynchronous operation, returning true if commands were executed.</returns>
     public async Task<bool> ExecuteCommandsInChannelAsync(ulong channelId)
     {
         if (CommandParseLock.GetValueOrDefault(channelId, false) ||
