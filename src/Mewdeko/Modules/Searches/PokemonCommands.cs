@@ -10,11 +10,19 @@ namespace Mewdeko.Modules.Searches;
 
 public partial class Searches
 {
+    /// <summary>
+    /// Module for retrieving Pokémon information.
+    /// </summary>
+    /// <param name="interactivity">The interactive service.</param>
     [Group]
     public class PokemonCommands(InteractiveService interactivity) : MewdekoSubmodule
     {
         private readonly PokeApiClient pokeClient = new();
 
+        /// <summary>
+        /// Retrieves information about a Pokémon.
+        /// </summary>
+        /// <param name="name">The name of the Pokémon.</param>
         [Cmd, Aliases]
         public async Task Pokemon([Remainder] string name)
         {

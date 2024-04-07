@@ -9,16 +9,35 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications;
 
+/// <summary>
+/// Checks for online and offline stream notifications across multiple streaming platforms.
+/// </summary>
 public class NotifChecker
 {
+    /// <summary>
+    /// Occurs when streams become offline.
+    /// </summary>
     public event Func<List<StreamData>, Task> OnStreamsOffline = _ => Task.CompletedTask;
+
+    /// <summary>
+    /// Occurs when streams become online.
+    /// </summary>
     public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
+
     private readonly ConnectionMultiplexer multi;
     private readonly string key;
 
     private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
     private readonly HashSet<(FollowedStream.FType, string)> offlineBuffer;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NotifChecker"/> class.
+    /// </summary>
+    /// <param name="httpClientFactory">The HTTP client factory.</param>
+    /// <param name="credsProvider">The credentials provider.</param>
+    /// <param name="multi">The Redis connection multiplexer.</param>
+    /// <param name="uniqueCacheKey">The unique cache key for storing data.</param>
+    /// <param name="isMaster">if set to <c>true</c> clears all data at start.</param>
     public NotifChecker(
         IHttpClientFactory httpClientFactory,
         IBotCredentials credsProvider,
@@ -50,7 +69,12 @@ public class NotifChecker
             CacheClearAllData();
     }
 
-    // gets all streams which have been failing for more than the provided timespan
+    /// <summary>
+    /// Gets all streams that have been failing for more than the provided timespan.
+    /// </summary>
+    /// <param name="duration">The duration to check for failing streams.</param>
+    /// <param name="remove">if set to <c>true</c> removes the failing streams from tracking.</param>
+    /// <returns>A collection of stream data keys representing failing streams.</returns>
     public IEnumerable<StreamDataKey> GetFailingStreams(TimeSpan duration, bool remove = false)
     {
         var toReturn = streamProviders
@@ -67,6 +91,10 @@ public class NotifChecker
         return toReturn;
     }
 
+    /// <summary>
+    /// Runs the notification checker loop asynchronously.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task RunAsync()
         => Task.Run(async () =>
         {
@@ -173,6 +201,13 @@ public class NotifChecker
             }
         });
 
+    /// <summary>
+    /// Adds or updates stream data in the cache.
+    /// </summary>
+    /// <param name="streamDataKey">The stream data key.</param>
+    /// <param name="data">The stream data.</param>
+    /// <param name="replace">if set to <c>true</c> replaces existing data.</param>
+    /// <returns><c>true</c> if data was successfully added or updated; otherwise, <c>false</c>.</returns>
     public bool CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
     {
         var db = multi.GetDatabase();
@@ -182,18 +217,30 @@ public class NotifChecker
             replace ? When.Always : When.NotExists);
     }
 
+
+    /// <summary>
+    /// Deletes stream data from the cache.
+    /// </summary>
+    /// <param name="streamdataKey">The stream data key.</param>
     public void CacheDeleteData(StreamDataKey streamdataKey)
     {
         var db = multi.GetDatabase();
         db.HashDelete(this.key, JsonConvert.SerializeObject(streamdataKey));
     }
 
+    /// <summary>
+    /// Clears all stream data from the cache.
+    /// </summary>
     public void CacheClearAllData()
     {
         var db = multi.GetDatabase();
         db.KeyDelete(key);
     }
 
+    /// <summary>
+    /// Gets all stream data from the cache.
+    /// </summary>
+    /// <returns>A dictionary containing all cached stream data.</returns>
     public Dictionary<StreamDataKey, StreamData?> CacheGetAllData()
     {
         var db = multi.GetDatabase();
@@ -201,11 +248,17 @@ public class NotifChecker
             return new Dictionary<StreamDataKey, StreamData?>();
 
         return db.HashGetAll(key)
-            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name), Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
+            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name),
+                Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
             .Where(keyValuePair => keyValuePair.Key.Name is not null)
             .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
     }
 
+    /// <summary>
+    /// Retrieves stream data by its URL asynchronously.
+    /// </summary>
+    /// <param name="url">The URL of the stream.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the stream data.</returns>
     public async Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         // loop through all providers and see which regex matches
@@ -223,10 +276,10 @@ public class NotifChecker
     }
 
     /// <summary>
-    ///     Return currently available stream data, get new one if none available, and start tracking the stream.
+    /// Ensures a stream is being tracked and returns its current data.
     /// </summary>
-    /// <param name="url">Url of the stream</param>
-    /// <returns>Stream data, if any</returns>
+    /// <param name="url">The URL of the stream to track.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the stream data.</returns>
     public async Task<StreamData?> TrackStreamByUrlAsync(string url)
     {
         var data = await GetStreamDataByUrlAsync(url).ConfigureAwait(false);
@@ -234,11 +287,7 @@ public class NotifChecker
         return data;
     }
 
-    /// <summary>
-    ///     Make sure a stream is tracked using its stream data.
-    /// </summary>
-    /// <param name="data">Data to try to track if not already tracked</param>
-    /// <returns>Whether it's newly added</returns>
+
     private void EnsureTracked(StreamData? data)
     {
         // something failed, don't add anything to cache
@@ -251,6 +300,10 @@ public class NotifChecker
 
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
     // because stream will be checked and events will fire in a loop. We don't want to override old state
+    /// <summary>
+    /// Removes a stream from tracking.
+    /// </summary>
+    /// <param name="streamDataKey">The stream data key.</param>
     public void UntrackStreamByKey(in StreamDataKey streamDataKey)
         => CacheDeleteData(streamDataKey);
 }

@@ -475,6 +475,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a module for a specific role within the guild.
+    /// </summary>
+    /// <param name="module">The name of the module to set permissions for.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the module for the specified role.</param>
+    /// <param name="role">The role for which the module permission will be set. The @everyone role is exempt from this command.</param>
+    /// <remarks>
+    /// This command offers a nuanced control over module accessibility on a role-by-role basis, enhancing the server's ability to customize module usage.
+    /// Using this command, server administrators can tailor the bot's functionality to suit the needs and privileges of different user groups within their community.
+    /// </remarks>
     [SlashCommand("rolemodule", "Enable or disable a module for a role"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task RoleMdl(
@@ -511,6 +521,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a command for a specific channel in the guild.
+    /// </summary>
+    /// <param name="command">The command to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the command in the specified channel.</param>
+    /// <param name="chnl">The channel for which the command permission will be set.</param>
+    /// <remarks>
+    /// This command allows server administrators to control the availability of specific commands within individual channels,
+    /// providing a way to customize the bot's interaction based on the channel's context or purpose. This ensures that commands are only used where they are most appropriate.
+    /// </remarks>
     [SlashCommand("channelcommand", "Enable or disable a command for a channel"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task ChnlCmd(
@@ -545,6 +565,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a module for a specific channel within the guild.
+    /// </summary>
+    /// <param name="module">The module to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the module in the specified channel.</param>
+    /// <param name="chnl">The channel for which the module permission will be set.</param>
+    /// <remarks>
+    /// By controlling module access at the channel level, this command provides granular control over where certain functionalities of the bot can be accessed within the guild.
+    /// It's useful for restricting module usage to channels dedicated to specific topics or activities, thereby keeping the server organized and focused.
+    /// </remarks>
     [SlashCommand("channelmodule", "Enable or disable a module for a channel"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task ChnlMdl(
@@ -578,6 +608,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables all modules for a specified channel within the guild.
+    /// </summary>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) all modules in the channel.</param>
+    /// <param name="chnl">The text channel for which all module permissions will be set.</param>
+    /// <remarks>
+    /// This command provides a quick way to modify access to all bot modules for a particular channel,
+    /// either granting full access or restricting it entirely. Useful for configuring channels with specific purposes
+    /// without adjusting permissions for each module individually.
+    /// </remarks>
     [SlashCommand("allchannelmodules", "Enable or disable all modules in a channel"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task AllChnlMdls(PermissionSlash action, ITextChannel chnl)
@@ -603,6 +643,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables commands for a specific category within the guild.
+    /// </summary>
+    /// <param name="command">The command to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the command for the category.</param>
+    /// <param name="chnl">The category channel for which the command permission will be set.</param>
+    /// <remarks>
+    /// Managing command permissions at the category level allows for uniform command availability across all channels within that category,
+    /// streamlining the permission management process for large guilds.
+    /// </remarks>
     [SlashCommand("categorycommand", "Enable or disable commands for a category"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task CatCmd(
@@ -637,6 +687,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables a module for a specific category within the guild.
+    /// </summary>
+    /// <param name="module">The module to set permissions on.</param>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) the module for the specified category.</param>
+    /// <param name="chnl">The category channel for which the module permission will be set.</param>
+    /// <remarks>
+    /// This command allows for nuanced control over which modules are accessible in channels within a specific category,
+    /// facilitating tailored functionality across different parts of a guild.
+    /// </remarks>
     [SlashCommand("categorymodule", "Enable or disable a module for a category"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task CatMdl(
@@ -670,6 +730,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables all modules within a specific category.
+    /// </summary>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) all modules for the category.</param>
+    /// <param name="chnl">The category channel for which all module permissions will be set.</param>
+    /// <remarks>
+    /// Offers a convenient way to quickly enable or disable all bot functionality within a category,
+    /// useful for managing areas of the guild dedicated to specific types of interactions.
+    /// </remarks>
     [SlashCommand("allcategorymodules", "Enable or disable all modules in a category"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task AllCatMdls(PermissionSlash action, ICategoryChannel chnl)
@@ -695,6 +764,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables all modules for a specific role in the guild.
+    /// </summary>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) all modules for the role.</param>
+    /// <param name="role">The role for which all module permissions will be set. The @everyone role is excluded.</param>
+    /// <remarks>
+    /// This command provides a straightforward approach to control the access level of entire groups of users
+    /// by adjusting their role's permissions regarding the bot's modules, streamlining the permission management process.
+    /// </remarks>
     [SlashCommand("allrolemodules", "Enable or disable all modules for a role"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task AllRoleMdls(PermissionSlash action, IRole role)
@@ -723,6 +801,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables all modules for a specific user within the guild.
+    /// </summary>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) all modules for the user.</param>
+    /// <param name="user">The user for whom all module permissions will be set.</param>
+    /// <remarks>
+    /// This command is especially useful for quickly adjusting a single user's access to the bot's functionalities,
+    /// allowing for personalized control over the bot's interaction with individual members.
+    /// </remarks>
     [SlashCommand("allusermodules", "Enable or disable all modules for a user"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task AllUsrMdls(PermissionSlash action, IUser user)
@@ -748,6 +835,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
+    /// <summary>
+    /// Enables or disables all modules for the entire server.
+    /// </summary>
+    /// <param name="action">Specifies whether to enable (Allow) or disable (Deny) all modules server-wide.</param>
+    /// <remarks>
+    /// This command allows administrators to quickly toggle the availability of all bot modules within the server,
+    /// effectively turning all bot functionalities on or off. This is particularly useful for managing bot permissions
+    /// during specific server events or maintenance periods.
+    /// </remarks>
     [SlashCommand("allservermodules", "Enable or disable all modules in the server"),
      Discord.Interactions.RequireContext(ContextType.Guild), PermRoleCheck]
     public async Task AllSrvrMdls(PermissionSlash action)
@@ -780,6 +876,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await ReplyConfirmLocalizedAsync("asm_disable").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Updates the permission menu message for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to update the permission menu for.</param>
+    /// <remarks>
+    /// This method is triggered via a component interaction. It updates the permission menu message to reflect
+    /// current permissions or to offer quick adjustments for the specified command's permissions.
+    /// </remarks>
     [ComponentInteraction("permenu_update.*", true)]
     [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
@@ -868,6 +972,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await RespondAsync(components: cb.Build(), embeds: quickEmbeds, ephemeral: true);
     }
 
+    /// <summary>
+    /// Clears redundant permissions for a specified command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to clear redundant permissions for.</param>
+    /// <remarks>
+    /// Identifies and removes redundant permission entries for a command across all permission targets (e.g., roles, users, channels).
+    /// This helps maintain a clean and efficient permissions setup by eliminating unnecessary or conflicting permission entries.
+    /// </remarks>
     [ComponentInteraction("credperms.*", true)]
     [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
@@ -939,6 +1051,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         });
     }
 
+    /// <summary>
+    /// Resolves permission configurations through a menu-based interface.
+    /// </summary>
+    /// <param name="primaryTargetType">The type of the primary permission target.</param>
+    /// <param name="primaryTargetIdRaw">The ID of the primary permission target.</param>
+    /// <param name="secondaryTargetType">The type of the secondary permission target.</param>
+    /// <param name="secondaryTargetId">The ID or name of the secondary permission target.</param>
+    /// <remarks>
+    /// Allows administrators to resolve permission configurations, such as enabling, disabling, or clearing permissions,
+    /// for a given command or module through a user-friendly menu interface. This method simplifies permission management
+    /// by providing actionable options in response to identified permission issues or requirements.
+    /// </remarks>
     [ComponentInteraction("credperms_m.*.*.*.*", true)]
     [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
@@ -994,6 +1118,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await ClearRedundantPerms(secondaryTargetId);
     }
 
+    /// <summary>
+    /// Toggles the disabled state of a command server-wide.
+    /// </summary>
+    /// <param name="commandName">The name of the command to toggle the disabled state for.</param>
+    /// <remarks>
+    /// Enables or disables a command for the entire server. This command is particularly useful for quickly
+    /// disabling commands that may be causing issues or that need to be temporarily restricted server-wide.
+    /// </remarks>
     [ComponentInteraction("command_toggle_disable.*", true)]
     [Discord.Interactions.RequireUserPermission(GuildPermission.Administrator)]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
@@ -1056,6 +1188,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await UpdateMessageWithPermenu(commandName);
     }
 
+    /// <summary>
+    /// Resets local permissions for a specific command within the guild.
+    /// </summary>
+    /// <param name="commandName">The name of the command to reset permissions for.</param>
+    /// <remarks>
+    /// This method removes all custom permissions set for a given command within the guild,
+    /// reverting them back to the default or global permission settings. It's particularly useful
+    /// for administrators to quickly normalize command permissions across the server.
+    /// </remarks>
     [ComponentInteraction("local_perms_reset.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
     public Task LocalPermsReset(string commandName)
@@ -1078,6 +1219,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         return UpdateMessageWithPermenu(commandName);
     }
 
+    /// <summary>
+    /// Initiates a permission configuration process for a specific command.
+    /// </summary>
+    /// <param name="commandName">The command name for which to spawn permission configurations.</param>
+    /// <param name="values">The actions or types of permissions to configure for the command.</param>
+    /// <remarks>
+    /// This method serves as an entry point for configuring detailed permissions for a command,
+    /// allowing for the selection among different permission types like direct user permissions, role-based permissions,
+    /// channel-specific permissions, etc. It facilitates granular control over who can use the command.
+    /// </remarks>
     [ComponentInteraction("cmd_perm_spawner.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
     public Task CommandPermSpawner(string commandName, string[] values) => values.First() switch
@@ -1090,7 +1241,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         _ => UpdateMessageWithPermenu(commandName)
     };
 
-
+    /// <summary>
+    /// Configures permissions for a command based on Discord's built-in permissions.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which to set permissions.</param>
+    /// <remarks>
+    /// Allows setting permissions for a command based on Discord's predefined permissions,
+    /// offering a way to quickly align command access with Discord's role permissions.
+    /// This method aids in maintaining a consistent permission structure across the server.
+    /// </remarks>
     [ComponentInteraction("cmd_perm_spawner_dpo.*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
     public Task CommandPermsDpo(string commandName)
@@ -1135,6 +1294,16 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         return (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
+    /// <summary>
+    /// Updates Discord's built-in permissions for a specific command.
+    /// </summary>
+    /// <param name="commandName">The command name for which permissions are being updated.</param>
+    /// <param name="index">The index of the permission set to update.</param>
+    /// <param name="values">The new permission values to apply.</param>
+    /// <remarks>
+    /// This method applies the selected Discord permissions to the specified command,
+    /// allowing server administrators to customize which built-in permissions are required to use the command.
+    /// </remarks>
     [ComponentInteraction("update_cmd_dpo.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
     public async Task UpdateCommandDpo(string commandName, int index, string[] values)
@@ -1166,9 +1335,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await CommandPermsDpo(commandName);
     }
 
+    /// <summary>
+    /// Configures user-specific permissions for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to configure.</param>
+    /// <param name="overwrite">Indicates if the permission should overwrite existing permissions.</param>
+    /// <param name="allow">Determines if the permission allows or denies command access.</param>
+    /// <param name="_">A placeholder parameter, currently not used.</param>
+    /// <remarks>
+    /// This method manages user-specific permissions for a command,
+    /// enabling detailed access control on a per-user basis.
+    /// </remarks>
     [ComponentInteraction("command_perm_spawner_usr.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public Task CommandPermsUsr(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsUsr(string commandName, bool overwrite, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1188,7 +1368,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
 #endif
-        // get perm overwrights targeting users
+        // get perm overwrites targeting users
         IList<Permissionv2> perms;
 
         if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
@@ -1213,20 +1393,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
                 emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"),
+            .WithButton(GetText("perm_quick_options_overwrite"),
                 $"command_perm_spawner_usr.{commandName}.{true}.{allow}$1",
-                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+                overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_overwrite:1085421377798029393>".ToIEmote(), disabled: overwrite)
             .WithButton(GetText("perm_quick_options_fallback"),
                 $"command_perm_spawner_usr.{commandName}.{false}.{allow}$2",
-                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+                !overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwrite)
             .WithButton(GetText("perm_quick_options_allow"),
-                $"command_perm_spawner_usr.{commandName}.{overwright}.{true}$3",
+                $"command_perm_spawner_usr.{commandName}.{overwrite}.{true}$3",
                 allow ? ButtonStyle.Success : ButtonStyle.Secondary,
                 "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
             .WithButton(GetText("perm_quick_options_deny"),
-                $"command_perm_spawner_usr.{commandName}.{overwright}.{false}$4",
+                $"command_perm_spawner_usr.{commandName}.{overwrite}.{false}$4",
                 !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
                 "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
@@ -1239,22 +1419,34 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                 .Select(x => new SelectMenuOptionBuilder(x.user?.ToString() ?? "Unknown#0000", x.x.Id.ToString(),
                     GetText($"perms_quick_options_user_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId),
                     "<:perms_user_perms:1085426466818359367>".ToIEmote(), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_user_remove.{commandName}.{overwright}.{allow}${i}",
+            var sb = new SelectMenuBuilder($"perm_quick_options_user_remove.{commandName}.{overwrite}.{allow}${i}",
                 options.ToList(), GetText("perms_quick_options_user_remove"),
                 options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
         cb.WithSelectMenu(
-            $"perm_quick_options_user_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            $"perm_quick_options_user_add.{commandName}.{overwrite}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
             placeholder: GetText("perm_quick_options_add_users"), minValues: 1, maxValues: 10,
             type: ComponentType.UserSelect, options: null);
 
         return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
+    /// <summary>
+    /// Removes user-specific overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to remove overrides for.</param>
+    /// <param name="overwrite">Specifies whether the operation should overwrite existing permissions.</param>
+    /// <param name="allow">Indicates if the override being removed is an allow or deny permission.</param>
+    /// <param name="index">The index within the batch of permissions being processed.</param>
+    /// <param name="values">The user IDs for which to remove the permission overrides.</param>
+    /// <remarks>
+    /// Facilitates the removal of specific user permission overrides, cleaning up any custom configurations
+    /// that are no longer needed or desired for the given command.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_user_remove.*.*.*$*", true)]
-    public async Task RemoveUserOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    public async Task RemoveUserOveride(string commandName, bool overwrite, bool allow, int index, string[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1285,11 +1477,23 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
         }
 
-        await CommandPermsUsr(commandName, overwright, allow, "");
+        await CommandPermsUsr(commandName, overwrite, allow, "");
     }
 
+    /// <summary>
+    /// Adds user-specific overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to add overrides for.</param>
+    /// <param name="overwrite">Indicates whether to overwrite existing permissions.</param>
+    /// <param name="allow">Determines if the override should allow or deny access to the command.</param>
+    /// <param name="_">A placeholder parameter, currently not used.</param>
+    /// <param name="values">The users for whom to add the permission overrides.</param>
+    /// <remarks>
+    /// Enables the addition of permission overrides on a per-user basis for a command,
+    /// allowing for precise control over command access among server members.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_user_add.*.*.*$*", true)]
-    public async Task AddUserOveride(string commandName, bool overwright, bool allow, string _, IUser[] values)
+    public async Task AddUserOveride(string commandName, bool overwrite, bool allow, string _, IUser[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1323,9 +1527,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
-        if (!overwright)
+        if (!overwrite)
         {
-            await CommandPermsUsr(commandName, overwright, allow, "");
+            await CommandPermsUsr(commandName, overwrite, allow, "");
             return;
         }
 
@@ -1336,10 +1540,17 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         for (i = 0; i < needAdd.Count(); i++)
             await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
-        await CommandPermsUsr(commandName, overwright, allow, "");
+        await CommandPermsUsr(commandName, overwrite, allow, "");
     }
 
-
+    /// <summary>
+    /// Restores the help component for a specific command.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which the help component is being restored.</param>
+    /// <remarks>
+    /// This method dynamically generates interactive buttons for command help,
+    /// facilitating user access to command usage information and permission settings.
+    /// </remarks>
     [ComponentInteraction("help_component_restore.*", true)]
     public Task HelpComponentRestore(string commandName)
     {
@@ -1350,9 +1561,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         return (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
+    /// <summary>
+    /// Configures permissions for a command targeted at roles.
+    /// </summary>
+    /// <param name="commandName">The name of the command to configure permissions for.</param>
+    /// <param name="overwrite">Indicates if permissions should overwrite existing settings.</param>
+    /// <param name="allow">Determines if the role should be allowed or denied permission to use the command.</param>
+    /// <param name="_">A placeholder for future use.</param>
+    /// <remarks>
+    /// Offers a streamlined way to manage command permissions on a role basis,
+    /// either granting or restricting access to commands within the guild.
+    /// </remarks>
     [ComponentInteraction("command_perm_spawner_rol.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public Task CommandPermsRol(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsRol(string commandName, bool overwrite, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1372,7 +1594,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
 #endif
-        // get perm overwrights targeting roles
+        // get perm overwrites targeting roles
         IList<Permissionv2> perms;
 
         if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
@@ -1397,20 +1619,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
                 emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"),
+            .WithButton(GetText("perm_quick_options_overwrite"),
                 $"command_perm_spawner_rol.{commandName}.{true}.{allow}$1",
-                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+                overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_overwrite:1085421377798029393>".ToIEmote(), disabled: overwrite)
             .WithButton(GetText("perm_quick_options_fallback"),
                 $"command_perm_spawner_rol.{commandName}.{false}.{allow}$2",
-                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+                !overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwrite)
             .WithButton(GetText("perm_quick_options_allow"),
-                $"command_perm_spawner_rol.{commandName}.{overwright}.{true}$3",
+                $"command_perm_spawner_rol.{commandName}.{overwrite}.{true}$3",
                 allow ? ButtonStyle.Success : ButtonStyle.Secondary,
                 "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
             .WithButton(GetText("perm_quick_options_deny"),
-                $"command_perm_spawner_rol.{commandName}.{overwright}.{false}$4",
+                $"command_perm_spawner_rol.{commandName}.{overwrite}.{false}$4",
                 !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
                 "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
@@ -1422,22 +1644,33 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                 .Select(x => new SelectMenuOptionBuilder(x.role?.ToString() ?? "Deleted Role", x.x.Id.ToString(),
                     GetText($"perms_quick_options_role_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId),
                     "<:role:808826577785716756>".ToIEmote(), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_role_remove.{commandName}.{overwright}.{allow}${i}",
+            var sb = new SelectMenuBuilder($"perm_quick_options_role_remove.{commandName}.{overwrite}.{allow}${i}",
                 options.ToList(), GetText("perms_quick_options_role_remove"),
                 options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
         cb.WithSelectMenu(
-            $"perm_quick_options_role_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            $"perm_quick_options_role_add.{commandName}.{overwrite}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
             placeholder: GetText("perm_quick_options_add_roles"), minValues: 1, maxValues: 10,
             type: ComponentType.RoleSelect, options: null);
 
         return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
+    /// <summary>
+    /// Removes role-specific permission overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to modify permissions for.</param>
+    /// <param name="overwrite">Indicates whether to overwrite existing permissions.</param>
+    /// <param name="allow">Specifies if the permission to be removed is an allow or deny type.</param>
+    /// <param name="index">The index in the permission configuration list being modified.</param>
+    /// <param name="values">The roles from which to remove permission overrides.</param>
+    /// <remarks>
+    /// Enables administrators to clean up permission configurations by removing outdated or unnecessary role-specific overrides.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_role_remove.*.*.*$*", true)]
-    public async Task RemoveRoleOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    public async Task RemoveRoleOveride(string commandName, bool overwrite, bool allow, int index, string[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1468,11 +1701,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
         }
 
-        await CommandPermsRol(commandName, overwright, allow, "");
+        await CommandPermsRol(commandName, overwrite, allow, "");
     }
 
+    /// <summary>
+    /// Adds role-specific permission overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to add permission overrides for.</param>
+    /// <param name="overwrite">Indicates whether these permissions should overwrite existing ones.</param>
+    /// <param name="allow">Determines whether the command is allowed or denied for the specified roles.</param>
+    /// <param name="_">A placeholder parameter for future expansion.</param>
+    /// <param name="values">The roles to which the permission overrides will be applied.</param>
+    /// <remarks>
+    /// Facilitates granular control over command access, allowing for the specification of command permissions on a per-role basis.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_role_add.*.*.*$*", true)]
-    public async Task AddRoleOveride(string commandName, bool overwright, bool allow, string _, IRole[] values)
+    public async Task AddRoleOveride(string commandName, bool overwrite, bool allow, string _, IRole[] values)
     {
         IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache)
             ? permCache.Permissions.Source.ToList()
@@ -1503,9 +1747,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
-        if (!overwright)
+        if (!overwrite)
         {
-            await CommandPermsRol(commandName, overwright, allow, "");
+            await CommandPermsRol(commandName, overwrite, allow, "");
             return;
         }
 
@@ -1516,13 +1760,23 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         for (i = 0; i < needAdd.Count(); i++)
             await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
-        await CommandPermsRol(commandName, overwright, allow, "");
+        await CommandPermsRol(commandName, overwrite, allow, "");
     }
 
-
+    /// <summary>
+    /// Configures permissions for a command targeted at channels.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which to configure permissions.</param>
+    /// <param name="overwrite">Specifies whether to overwrite existing permission settings.</param>
+    /// <param name="allow">Indicates whether the permission should allow or deny command execution in the channel.</param>
+    /// <param name="_">A placeholder parameter for future use.</param>
+    /// <remarks>
+    /// This method allows for detailed command permission configurations on a per-channel basis,
+    /// enhancing command access control within the guild.
+    /// </remarks>
     [ComponentInteraction("command_perm_spawner_chn.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public Task CommandPermsChn(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsChn(string commandName, bool overwrite, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1542,7 +1796,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
 #endif
-        // get perm overwrights targeting users
+        // get perm overwrites targeting users
 
         IList<Permissionv2> perms = Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache)
             ? permCache.Permissions.Source.ToList()
@@ -1565,20 +1819,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
                 emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"),
+            .WithButton(GetText("perm_quick_options_overwrite"),
                 $"command_perm_spawner_chn.{commandName}.{true}.{allow}$1",
-                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+                overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_overwrite:1085421377798029393>".ToIEmote(), disabled: overwrite)
             .WithButton(GetText("perm_quick_options_fallback"),
                 $"command_perm_spawner_chn.{commandName}.{false}.{allow}$2",
-                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+                !overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwrite)
             .WithButton(GetText("perm_quick_options_allow"),
-                $"command_perm_spawner_chn.{commandName}.{overwright}.{true}$3",
+                $"command_perm_spawner_chn.{commandName}.{overwrite}.{true}$3",
                 allow ? ButtonStyle.Success : ButtonStyle.Secondary,
                 "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
             .WithButton(GetText("perm_quick_options_deny"),
-                $"command_perm_spawner_chn.{commandName}.{overwright}.{false}$4",
+                $"command_perm_spawner_chn.{commandName}.{overwrite}.{false}$4",
                 !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
                 "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
@@ -1591,14 +1845,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                 .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(),
                     GetText($"perms_quick_options_channel_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId),
                     GetChannelEmote(x.channel), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_channel_remove.{commandName}.{overwright}.{allow}${i}",
+            var sb = new SelectMenuBuilder($"perm_quick_options_channel_remove.{commandName}.{overwrite}.{allow}${i}",
                 options.ToList(),
                 GetText("perms_quick_options_channel_remove"), options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
         cb.WithSelectMenu(
-            $"perm_quick_options_channel_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            $"perm_quick_options_channel_add.{commandName}.{overwrite}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
             placeholder: GetText("perm_quick_options_add_channels"), minValues: 1, maxValues: 10,
             type: ComponentType.ChannelSelect, options: null,
             channelTypes: Enum.GetValues<ChannelType>().Where(x => x != ChannelType.Category).ToArray());
@@ -1607,8 +1861,19 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
 
+    /// <summary>
+    /// Removes channel-specific permission overrides for a given command.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which to remove permissions.</param>
+    /// <param name="overwrite">Indicates if the action should overwrite existing permission settings. This parameter is not directly used but reflects a potential future extension for handling permission updates.</param>
+    /// <param name="allow">Specifies whether the permissions being removed were initially set to allow or deny the command. Similar to overwrite, this parameter is for future use and contextual consistency.</param>
+    /// <param name="index">The index representing the chunk of permissions being targeted for removal within a paginated setup.</param>
+    /// <param name="values">An array of channel IDs from which the command's permission overrides will be removed.</param>
+    /// <remarks>
+    /// This method facilitates the dynamic management of command permissions on a per-channel basis, allowing administrators to refine access control with precision. The implementation respects pagination, enabling scalable permission management across numerous channels.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_channel_remove.*.*.*$*", true)]
-    public async Task RemoveChannelOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    public async Task RemoveChannelOveride(string commandName, bool overwrite, bool allow, int index, string[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1639,11 +1904,23 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
         }
 
-        await CommandPermsChn(commandName, overwright, allow, "");
+        await CommandPermsChn(commandName, overwrite, allow, "");
     }
 
+    /// <summary>
+    /// Adds channel-specific permission overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to configure permissions for.</param>
+    /// <param name="overwrite">Indicates whether to overwrite existing permissions.</param>
+    /// <param name="allow">Specifies whether the command is allowed or denied within the channel.</param>
+    /// <param name="_">A placeholder parameter for future expansion.</param>
+    /// <param name="values">The channels to which the permission overrides will be applied.</param>
+    /// <remarks>
+    /// This method supports precise permission management by allowing specific command permissions
+    /// to be set or overridden in individual channels.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_channel_add.*.*.*$*", true)]
-    public async Task AddChannelOveride(string commandName, bool overwright, bool allow, string _, IChannel[] values)
+    public async Task AddChannelOveride(string commandName, bool overwrite, bool allow, string _, IChannel[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1677,9 +1954,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
-        if (!overwright)
+        if (!overwrite)
         {
-            await CommandPermsChn(commandName, overwright, allow, "");
+            await CommandPermsChn(commandName, overwrite, allow, "");
             return;
         }
 
@@ -1690,13 +1967,22 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         for (i = 0; i < needAdd.Count(); i++)
             await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
-        await CommandPermsChn(commandName, overwright, allow, "");
+        await CommandPermsChn(commandName, overwrite, allow, "");
     }
 
-
+    /// <summary>
+    /// Configures permissions for a command targeted at categories.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which to set permissions.</param>
+    /// <param name="overwrite">Indicates if existing permission settings should be overwritten.</param>
+    /// <param name="allow">Determines if the permission should enable or disable command use in the category.</param>
+    /// <param name="_">A placeholder parameter for potential future use.</param>
+    /// <remarks>
+    /// Enables fine-tuned control over command permissions within category channels, enhancing customization of command access.
+    /// </remarks>
     [ComponentInteraction("command_perm_spawner_cat.*.*.*$*", true)]
     [SlashUserPerm(GuildPermission.Administrator)]
-    public Task CommandPermsCat(string commandName, bool overwright, bool allow, string _)
+    public Task CommandPermsCat(string commandName, bool overwrite, bool allow, string _)
     {
         // perm testing code, quickly add dummy allow or deny objects to the end of the perm list
         // please do not remove or enable without dissabling before commiting
@@ -1716,7 +2002,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         await Service.AddPermissions(Context.Guild.Id, nperms.ToArray());
 #endif
-        // get perm overwrights targeting users
+        // get perm overwrites targeting users
         IList<Permissionv2> perms;
 
         if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
@@ -1741,20 +2027,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
                 emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote())
-            .WithButton(GetText("perm_quick_options_overwright"),
+            .WithButton(GetText("perm_quick_options_overwrite"),
                 $"command_perm_spawner_cat.{commandName}.{true}.{allow}$1",
-                overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_overwright:1085421377798029393>".ToIEmote(), disabled: overwright)
+                overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_overwrite:1085421377798029393>".ToIEmote(), disabled: overwrite)
             .WithButton(GetText("perm_quick_options_fallback"),
                 $"command_perm_spawner_cat.{commandName}.{false}.{allow}$2",
-                !overwright ? ButtonStyle.Primary : ButtonStyle.Secondary,
-                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwright)
+                !overwrite ? ButtonStyle.Primary : ButtonStyle.Secondary,
+                "<:perms_fallback:1085421376032231444>".ToIEmote(), disabled: !overwrite)
             .WithButton(GetText("perm_quick_options_allow"),
-                $"command_perm_spawner_cat.{commandName}.{overwright}.{true}$3",
+                $"command_perm_spawner_cat.{commandName}.{overwrite}.{true}$3",
                 allow ? ButtonStyle.Success : ButtonStyle.Secondary,
                 "<:perms_check:1085356998247317514>".ToIEmote(), disabled: allow)
             .WithButton(GetText("perm_quick_options_deny"),
-                $"command_perm_spawner_cat.{commandName}.{overwright}.{false}$4",
+                $"command_perm_spawner_cat.{commandName}.{overwrite}.{false}$4",
                 !allow ? ButtonStyle.Danger : ButtonStyle.Secondary,
                 "<:perms_disabled:1085358511900327956>".ToIEmote(), disabled: !allow);
 
@@ -1767,14 +2053,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
                 .Select(x => new SelectMenuOptionBuilder(x.channel?.ToString() ?? "Deleted Channel", x.x.Id.ToString(),
                     GetText($"perms_quick_options_category_remove_{(allow ? "allow" : "deny")}", x.x.PrimaryTargetId),
                     GetChannelEmote(x.channel), true));
-            var sb = new SelectMenuBuilder($"perm_quick_options_category_remove.{commandName}.{overwright}.{allow}${i}",
+            var sb = new SelectMenuBuilder($"perm_quick_options_category_remove.{commandName}.{overwrite}.{allow}${i}",
                 options.ToList(),
                 GetText("perms_quick_options_category_remove"), options.Count(), 0);
             cb.WithSelectMenu(sb);
         }
 
         cb.WithSelectMenu(
-            $"perm_quick_options_category_add.{commandName}.{overwright}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
+            $"perm_quick_options_category_add.{commandName}.{overwrite}.{allow}${Random.Shared.NextInt64(i, long.MaxValue)}",
             placeholder: GetText("perm_quick_options_add_categories"), minValues: 1, maxValues: 10,
             type: ComponentType.ChannelSelect, options: null, channelTypes:
             [
@@ -1784,9 +2070,20 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         return (Context.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
 
-
+    /// <summary>
+    /// Removes category-specific permission overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command for which to remove permissions.</param>
+    /// <param name="overwrite">Specifies whether the permission change should overwrite existing permissions.</param>
+    /// <param name="allow">Indicates whether the permission being removed was an allow or deny permission.</param>
+    /// <param name="index">The index within the configuration list from which to remove permissions.</param>
+    /// <param name="values">The categories from which to remove permission overrides.</param>
+    /// <remarks>
+    /// Assists in cleaning up and streamlining permission configurations by removing specific category overrides
+    /// that are no longer required.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_category_remove.*.*.*$*", true)]
-    public async Task RemoveCategoryOveride(string commandName, bool overwright, bool allow, int index, string[] values)
+    public async Task RemoveCategoryOveride(string commandName, bool overwrite, bool allow, int index, string[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1817,11 +2114,23 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.RemovePerm(ctx.Guild.Id, p.Index - ++i);
         }
 
-        await CommandPermsChn(commandName, overwright, allow, "");
+        await CommandPermsChn(commandName, overwrite, allow, "");
     }
 
+    /// <summary>
+    /// Adds category-specific permission overrides for a command.
+    /// </summary>
+    /// <param name="commandName">The name of the command to add permission overrides for.</param>
+    /// <param name="overwrite">Specifies if the permission addition should overwrite existing permissions.</param>
+    /// <param name="allow">Determines whether the added permission is an allow or deny permission for the category.</param>
+    /// <param name="_">A placeholder parameter for future expansion.</param>
+    /// <param name="values">The categories to which the permission overrides will be applied.</param>
+    /// <remarks>
+    /// This method allows for detailed permission management, enabling or restricting command usage
+    /// in specific categories as needed.
+    /// </remarks>
     [ComponentInteraction("perm_quick_options_category_add.*.*.*$*", true)]
-    public async Task AddCategoryOveride(string commandName, bool overwright, bool allow, string _, IChannel[] values)
+    public async Task AddCategoryOveride(string commandName, bool overwrite, bool allow, string _, IChannel[] values)
     {
         IList<Permissionv2> perms;
 
@@ -1855,9 +2164,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
-        if (!overwright)
+        if (!overwrite)
         {
-            await CommandPermsCat(commandName, overwright, allow, "");
+            await CommandPermsCat(commandName, overwrite, allow, "");
             return;
         }
 
@@ -1867,10 +2176,18 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         for (i = 0; i < needAdd.Count(); i++)
             await Service.UnsafeMovePerm(ctx.Guild.Id, perms.Last().Index, 1);
-        await CommandPermsCat(commandName, overwright, allow, "");
+        await CommandPermsCat(commandName, overwrite, allow, "");
     }
 
-    public async Task<IUser?> TryGetUser(ulong id)
+    /// <summary>
+    /// Attempts to retrieve a user by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the user.</param>
+    /// <returns>A task that represents the asynchronous operation, with the user if found; otherwise, null.</returns>
+    /// <remarks>
+    /// This method encapsulates error handling for user retrieval, returning null if the user cannot be found or an error occurs.
+    /// </remarks>
+    private async Task<IUser?> TryGetUser(ulong id)
     {
         try
         {
@@ -1882,9 +2199,25 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
-    public IRole? TryGetRole(ulong id) => Context.Guild.Roles.FirstOrDefault(x => x.Id == id);
+    /// <summary>
+    /// Attempts to retrieve a role by its unique identifier within the guild context.
+    /// </summary>
+    /// <param name="id">The unique identifier of the role.</param>
+    /// <returns>The role if found; otherwise, null.</returns>
+    /// <remarks>
+    /// Utilizes the guild's role collection to find a role, ensuring the role is relevant to the current guild context.
+    /// </remarks>
+    private IRole? TryGetRole(ulong id) => Context.Guild.Roles.FirstOrDefault(x => x.Id == id);
 
-    public async Task<IChannel?> TryGetChannel(ulong id)
+    /// <summary>
+    /// Attempts to retrieve a channel by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the channel.</param>
+    /// <returns>A task that represents the asynchronous operation, with the channel if found; otherwise, null.</returns>
+    /// <remarks>
+    /// This method encapsulates error handling for channel retrieval, returning null if the channel cannot be found or an error occurs.
+    /// </remarks>
+    private async Task<IChannel?> TryGetChannel(ulong id)
     {
         try
         {
@@ -1896,7 +2229,15 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
     }
 
-    public IEmote GetChannelEmote(IChannel channel)
+    /// <summary>
+    /// Retrieves an emote corresponding to the type of a given channel.
+    /// </summary>
+    /// <param name="channel">The channel for which to retrieve the emote.</param>
+    /// <returns>An emote that visually represents the type of the given channel.</returns>
+    /// <remarks>
+    /// This method allows for visual differentiation of channel types in user interfaces through the use of specific emotes.
+    /// </remarks>
+    private IEmote GetChannelEmote(IChannel channel)
     {
         return channel switch
         {
