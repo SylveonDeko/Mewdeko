@@ -205,13 +205,13 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         }
 
         string[] segments =
-        {
+        [
             "-$10", "-10%", "+$10", "+30%", "+$30", "-5%"
-        };
+        ];
         int[] weights =
-        {
+        [
             2, 2, 1, 1, 1, 2
-        };
+        ];
         var rand = new Random();
         var winningSegment = GenerateWeightedRandomSegment(segments.Length, weights, rand);
 

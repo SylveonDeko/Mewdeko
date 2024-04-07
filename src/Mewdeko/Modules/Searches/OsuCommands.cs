@@ -9,9 +9,24 @@ namespace Mewdeko.Modules.Searches;
 
 public partial class Searches
 {
+    /// <summary>
+    /// Module for interacting with osu! APIs and retrieving user data.
+    /// </summary>
     [Group]
     public class OsuCommands(IBotCredentials creds, IHttpClientFactory factory) : MewdekoSubmodule
     {
+        /// <summary>
+        /// Retrieves osu! user profile information.
+        /// </summary>
+        /// <remarks>
+        /// This command retrieves osu! user profile information from the osu! API and displays it in an embed.
+        /// </remarks>
+        /// <param name="user">The osu! username to retrieve information for.</param>
+        /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve information for (optional).</param>
+        /// <example>
+        /// <code>.osu username</code>
+        /// <code>.osu username mode</code>
+        /// </example>
         [Cmd, Aliases]
         public async Task Osu(string user, [Remainder] string? mode = null)
         {
@@ -70,6 +85,18 @@ public partial class Searches
             }
         }
 
+        /// <summary>
+        /// Retrieves osu!Gatari user profile information.
+        /// </summary>
+        /// <remarks>
+        /// This command retrieves osu!Gatari user profile information from the Gatari API and displays it in an embed.
+        /// </remarks>
+        /// <param name="user">The osu!Gatari username to retrieve information for.</param>
+        /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve information for (optional).</param>
+        /// <example>
+        /// <code>.gatari username</code>
+        /// <code>.gatari username mode</code>
+        /// </example>
         [Cmd, Aliases]
         public async Task Gatari(string user, [Remainder] string? mode = null)
         {
@@ -111,6 +138,18 @@ public partial class Searches
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Retrieves the top 5 osu! plays for a user.
+        /// </summary>
+        /// <remarks>
+        /// This command retrieves the top 5 osu! plays for a user from the osu! API and displays them in an embed.
+        /// </remarks>
+        /// <param name="user">The osu! username to retrieve plays for.</param>
+        /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve plays for (optional).</param>
+        /// <example>
+        /// <code>.osu5 username</code>
+        /// <code>.osu5 username mode</code>
+        /// </example>
         [Cmd, Aliases]
         public async Task Osu5(string user, [Remainder] string? mode = null)
         {

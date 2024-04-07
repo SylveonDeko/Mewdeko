@@ -13,6 +13,9 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Searches.Services;
 
+/// <summary>
+/// Service responsible for managing and tracking online stream notifications.
+/// </summary>
 public class StreamNotificationService : IReadyExecutor, INService
 {
     private readonly DbService db;
@@ -36,6 +39,17 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly TypedKey<FollowStreamPubData> streamFollowKey;
     private readonly TypedKey<FollowStreamPubData> streamUnfollowKey;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StreamNotificationService"/> class.
+    /// </summary>
+    /// <param name="db">The database service instance.</param>
+    /// <param name="client">The Discord client instance.</param>
+    /// <param name="strings">The bot string service instance.</param>
+    /// <param name="redis">The Redis connection multiplexer.</param>
+    /// <param name="creds">The bot credentials.</param>
+    /// <param name="httpFactory">The HTTP client factory.</param>
+    /// <param name="bot">The bot instance.</param>
+    /// <param name="pubSub">The pub/sub service instance.</param>
     public StreamNotificationService(
         DbService db,
         DiscordSocketClient client,
@@ -117,6 +131,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         client.LeftGuild += ClientOnLeftGuild;
     }
 
+    /// <inheritdoc />
     public async Task OnReadyAsync()
     {
         if (client.ShardId != 0)
@@ -320,6 +335,11 @@ public class StreamNotificationService : IReadyExecutor, INService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Clears all followed streams for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The number of streams removed.</returns>
     public async Task<int> ClearAllStreams(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -334,6 +354,12 @@ public class StreamNotificationService : IReadyExecutor, INService
         return removedCount;
     }
 
+    /// <summary>
+    /// Unfollows a stream for a guild and removes it from the tracked streams.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="index">The index of the stream to unfollow.</param>
+    /// <returns>The unfollowed stream data if successful, otherwise <see langword="null"/>.</returns>
     public async Task<FollowedStream?> UnfollowStreamAsync(ulong guildId, int index)
     {
         FollowedStream fs;
@@ -383,6 +409,13 @@ public class StreamNotificationService : IReadyExecutor, INService
                 Key = fs.CreateKey(), GuildId = fs.GuildId
             });
 
+    /// <summary>
+    /// Follows a stream for a guild and adds it to the tracked streams.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="channelId">The ID of the channel.</param>
+    /// <param name="url">The URL of the stream.</param>
+    /// <returns>The stream data if successful, otherwise <see langword="null"/>.</returns>
     public async Task<StreamData?> FollowStream(ulong guildId, ulong channelId, string url)
     {
         var data = await streamTracker.GetStreamDataByUrlAsync(url).ConfigureAwait(false);
@@ -423,6 +456,12 @@ public class StreamNotificationService : IReadyExecutor, INService
         return data;
     }
 
+    /// <summary>
+    /// Gets the embed for a stream status.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="status">The stream status data.</param>
+    /// <returns></returns>
     public EmbedBuilder GetEmbed(ulong guildId, StreamData status)
     {
         var embed = new EmbedBuilder()
@@ -455,6 +494,11 @@ public class StreamNotificationService : IReadyExecutor, INService
     private string GetText(ulong guildId, string key, params object[] replacements)
         => strings.GetText(key, guildId, replacements);
 
+    /// <summary>
+    /// Toggles the notification for offline streams for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns><see langword="true"/> if notifications are enabled, <see langword="false"/> otherwise.</returns>
     public async Task<bool> ToggleStreamOffline(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -471,7 +515,11 @@ public class StreamNotificationService : IReadyExecutor, INService
         return newValue == 1L;
     }
 
-
+    /// <summary>
+    /// Retrieves stream data for a given URL.
+    /// </summary>
+    /// <param name="url">The URL of the stream.</param>
+    /// <returns>The stream data if available, otherwise <see langword="null"/>.</returns>
     public Task<StreamData?> GetStreamDataAsync(string url)
         => streamTracker.GetStreamDataByUrlAsync(url);
 
@@ -493,6 +541,14 @@ public class StreamNotificationService : IReadyExecutor, INService
         return shardTrackedStreams[key][guildId];
     }
 
+    /// <summary>
+    /// Sets a custom message for a followed stream.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="index">The index of the stream to set the message for.</param>
+    /// <param name="message">The custom message to set.</param>
+    /// <param name="fs">The followed stream object if successful, otherwise <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if the message was successfully set, <see langword="false"/> otherwise.</returns>
     public bool SetStreamMessage(
         ulong guildId,
         int index,
@@ -525,6 +581,12 @@ public class StreamNotificationService : IReadyExecutor, INService
         return true;
     }
 
+    /// <summary>
+    /// Sets a custom message for all followed streams in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="message">The custom message to set.</param>
+    /// <returns>The number of streams for which the message was set.</returns>
     public int SetStreamMessageForAll(ulong guildId, string message)
     {
         using var uow = db.GetDbContext();
@@ -541,9 +603,19 @@ public class StreamNotificationService : IReadyExecutor, INService
         return all.Count;
     }
 
+    /// <summary>
+    /// Retrieves the followed streams for a guild.
+    /// </summary>
     public sealed class FollowStreamPubData
     {
+        /// <summary>
+        /// Gets or sets the key of the stream data.
+        /// </summary>
         public StreamDataKey Key { get; init; }
+
+        /// <summary>
+        /// Gets or sets the ID of the guild.
+        /// </summary>
         public ulong GuildId { get; init; }
     }
 }

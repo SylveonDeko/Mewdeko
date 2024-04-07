@@ -7,6 +7,7 @@ using TwitchLib.Api;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
+/// <inheritdoc />
 public class TwitchHelixProvider : Provider
 {
     private readonly IHttpClientFactory httpClientFactory;
@@ -14,12 +15,14 @@ public class TwitchHelixProvider : Provider
     private static Regex Regex { get; } = new(@"twitch.tv/(?<name>[\w\d\-_]+)/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    /// <inheritdoc />
     public override FollowedStream.FType Platform
         => FollowedStream.FType.Twitch;
 
     private readonly Lazy<TwitchAPI> api;
     private readonly string clientId;
 
+    /// <inheritdoc />
     public TwitchHelixProvider(IHttpClientFactory httpClientFactory, IBotCredentials credsProvider)
     {
         this.httpClientFactory = httpClientFactory;
@@ -42,6 +45,7 @@ public class TwitchHelixProvider : Provider
     private async Task<string?> EnsureTokenValidAsync()
         => await api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
 
+    /// <inheritdoc />
     public override Task<bool> IsValidUrl(string url)
     {
         var match = Regex.Match(url);
@@ -53,6 +57,7 @@ public class TwitchHelixProvider : Provider
         return Task.FromResult(true);
     }
 
+    /// <inheritdoc />
     public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         var match = Regex.Match(url);
@@ -61,6 +66,7 @@ public class TwitchHelixProvider : Provider
         return GetStreamDataAsync(name);
     }
 
+    /// <inheritdoc />
     public override async Task<StreamData?> GetStreamDataAsync(string login)
     {
         var data = await GetStreamDataAsync([login]).ConfigureAwait(false);
@@ -68,6 +74,7 @@ public class TwitchHelixProvider : Provider
         return data.FirstOrDefault();
     }
 
+    /// <inheritdoc />
     public override async Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> logins)
     {
         if (logins.Count == 0)

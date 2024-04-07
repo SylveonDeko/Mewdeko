@@ -20,8 +20,8 @@ namespace Mewdeko.Modules.Games.Common
         /// List of responses for the .8ball command. A random one will be selected every time.
         /// </summary>
         [Comment("List of responses for the .8ball command. A random one will be selected every time")]
-        public List<string> EightBallResponses { get; set; } = new()
-        {
+        public List<string> EightBallResponses { get; set; } =
+        [
             "Most definitely yes.",
             "For sure.",
             "Totally!",
@@ -29,24 +29,25 @@ namespace Mewdeko.Modules.Games.Common
             // Add more responses here
             "Definitely no.",
             "NO - It may cause disease contraction!"
-        };
+        ];
 
         /// <summary>
         /// List of animals which will be used for the animal race game (.race).
         /// </summary>
         [Comment("List of animals which will be used for the animal race game (.race)")]
-        public List<RaceAnimal> RaceAnimals { get; set; } = new()
-        {
+        public List<RaceAnimal> RaceAnimals { get; set; } =
+        [
             new RaceAnimal
             {
                 Icon = "🐼", Name = "Panda"
             },
             // Add more race animals here
+
             new RaceAnimal
             {
                 Icon = "🦄", Name = "Unicorn"
             }
-        };
+        ];
     }
 
     /// <summary>
