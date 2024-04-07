@@ -8,9 +8,15 @@ using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
 
-public partial class ServerManagement
-    (IHttpClientFactory factory, BotConfigService config) : MewdekoModuleBase<ServerManagementService>
+/// <summary>
+/// Contains commands related to server management.
+/// </summary>
+public partial class ServerManagement(IHttpClientFactory factory, BotConfigService config)
+    : MewdekoModuleBase<ServerManagementService>
 {
+    /// <summary>
+    /// Displays the list of allowed permissions for the invoking user.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task PermView()
     {
@@ -24,6 +30,10 @@ public partial class ServerManagement
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Displays the list of allowed permissions for the specified user.
+    /// </summary>
+    /// <param name="user">The user whose permissions will be displayed.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
     public async Task PermView(IGuildUser user)
     {
@@ -37,6 +47,10 @@ public partial class ServerManagement
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Displays the list of allowed permissions for the specified role.
+    /// </summary>
+    /// <param name="user">The role whose permissions will be displayed.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task PermView(IRole user)
     {
@@ -50,6 +64,10 @@ public partial class ServerManagement
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the splash image of the server.
+    /// </summary>
+    /// <param name="img">The URL of the new splash image.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task SetSplash(string img)
@@ -65,6 +83,10 @@ public partial class ServerManagement
         await ctx.Channel.SendConfirmAsync("New splash image has been set!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the icon of the server.
+    /// </summary>
+    /// <param name="img">The URL of the new server icon.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task SetIcon(string img)
@@ -80,6 +102,10 @@ public partial class ServerManagement
         await ctx.Channel.SendConfirmAsync("New server icon has been set!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the banner of the server.
+    /// </summary>
+    /// <param name="img">The URL of the new server banner.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task SetBanner(string img)
@@ -95,6 +121,10 @@ public partial class ServerManagement
         await ctx.Channel.SendConfirmAsync("New server banner has been set!").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the name of the server.
+    /// </summary>
+    /// <param name="name">The new name for the server.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task SetServerName([Remainder] string name)
@@ -104,6 +134,11 @@ public partial class ServerManagement
         await ctx.Channel.SendConfirmAsync($"Succesfuly set server name to {name}").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Adds a new emote to the server.
+    /// </summary>
+    /// <param name="name">The name of the emote.</param>
+    /// <param name="url">The URL of the emote image. If not provided, the image will be taken from the message attachments.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(0)]
     public async Task AddEmote(string name, string? url = null)
@@ -145,6 +180,10 @@ public partial class ServerManagement
         }
     }
 
+    /// <summary>
+    /// Removes an emote from the server.
+    /// </summary>
+    /// <param name="_">Placeholder parameter to satisfy command signature requirements.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageEmojisAndStickers),
      BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
     public async Task RemoveEmote(string _)
@@ -163,6 +202,11 @@ public partial class ServerManagement
         }
     }
 
+    /// <summary>
+    /// Renames an existing emote on the server.
+    /// </summary>
+    /// <param name="emote">The existing emote to rename.</param>
+    /// <param name="name">The new name for the emote.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageEmojisAndStickers),
      BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
     public async Task RenameEmote(string emote, string name)
@@ -191,6 +235,10 @@ public partial class ServerManagement
         }
     }
 
+    /// <summary>
+    /// Steals emotes from a message and adds them to the server.
+    /// </summary>
+    /// <param name="e">The message containing the emotes to steal.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(1)]
     public async Task StealEmotes([Remainder] string e)
@@ -234,6 +282,11 @@ public partial class ServerManagement
         await msg.ModifyAsync(x => x.Embed = b.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Steals emotes from a message and locks them to a specified role.
+    /// </summary>
+    /// <param name="role">The role to add the emotes to.</param>
+    /// <param name="e">The message containing the emotes to steal.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(0)]
     public async Task StealForRole(IRole role, [Remainder] string e)

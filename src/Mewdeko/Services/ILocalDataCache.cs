@@ -1,8 +1,15 @@
 ﻿using Mewdeko.Modules.Games.Common.Trivia;
 
-namespace Mewdeko.Services;
-
-public interface ILocalDataCache
+namespace Mewdeko.Services
 {
-    TriviaQuestion[] TriviaQuestions { get; }
+    /// <summary>
+    /// Represents a cache for local data.
+    /// </summary>
+    public interface ILocalDataCache
+    {
+        /// <summary>
+        /// Gets the array of trivia questions.
+        /// </summary>
+        TriviaQuestion[] TriviaQuestions { get; }
+    }
 }

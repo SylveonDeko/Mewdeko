@@ -3,12 +3,22 @@ using Serilog;
 
 namespace Mewdeko.Modules.Starboard.Services;
 
+/// <summary>
+/// Service responsible for managing the starboard feature in a Discord server.
+/// </summary>
 public class StarboardService : INService, IReadyExecutor
 {
     private readonly DiscordSocketClient client;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StarboardService"/> class.
+    /// </summary>
+    /// <param name="client">The Discord socket client.</param>
+    /// <param name="db">The database service.</param>
+    /// <param name="bot">The guild settings service.</param>
+    /// <param name="eventHandler">The event handler.</param>
     public StarboardService(DiscordSocketClient client, DbService db,
         GuildSettingsService bot, EventHandler eventHandler)
     {
@@ -23,13 +33,14 @@ public class StarboardService : INService, IReadyExecutor
 
     private List<StarboardPosts> starboardPosts = new();
 
+    /// <inheritdoc />
     public Task OnReadyAsync()
     {
         _ = Task.Run(async () =>
         {
             await using var uow = db.GetDbContext();
             var all = (await uow.Starboard.All()).ToList();
-            starboardPosts = all.Any() ? all : new List<StarboardPosts>();
+            starboardPosts = all.Any() ? all : [];
             Log.Information("Starboard Posts Cached");
         });
         return Task.CompletedTask;
@@ -70,6 +81,12 @@ public class StarboardService : INService, IReadyExecutor
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the starboard channel for a guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="channel">The ID of the starboard channel.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
         await using var uow = db.GetDbContext();
@@ -79,6 +96,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether bots are allowed to be starred on the starboard.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="enabled">A value indicating whether bots are allowed.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
     {
         await using var uow = db.GetDbContext();
@@ -88,6 +111,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether to remove starred messages on deletion of the original message.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="removeOnDelete">A value indicating whether to remove starred messages on deletion.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
     {
         await using var uow = db.GetDbContext();
@@ -97,6 +126,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether to remove starred messages on clearing all reactions from the original message.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="removeOnClear">A value indicating whether to remove starred messages on reactions clear.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnClear(IGuild guild, bool removeOnClear)
     {
         await using var uow = db.GetDbContext();
@@ -106,6 +141,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether to remove starred messages when they fall below the star count threshold.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="removeOnBelowThreshold">A value indicating whether to remove starred messages below threshold.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnBelowThreshold(IGuild guild, bool removeOnBelowThreshold)
     {
         await using var uow = db.GetDbContext();
@@ -115,6 +156,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether to use blacklist mode for checking starboard channels.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="checkmode">A value indicating whether to use blacklist mode.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetCheckMode(IGuild guild, bool checkmode)
     {
         await using var uow = db.GetDbContext();
@@ -124,7 +171,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-
+    /// <summary>
+    /// Toggles the starboard check for a specific channel in the guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="id">The ID of the channel to toggle.</param>
+    /// <returns><c>true</c> if the channel is added to the check list; otherwise, <c>false</c>.</returns>
     public async Task<bool> ToggleChannel(IGuild guild, string id)
     {
         await using var uow = db.GetDbContext();
@@ -150,6 +202,12 @@ public class StarboardService : INService, IReadyExecutor
         return true;
     }
 
+    /// <summary>
+    /// Sets the star count required to trigger starboard for the guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="num">The number of stars required.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarCount(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
@@ -159,15 +217,35 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Gets the star count required to trigger starboard for the guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The number of stars required.</returns>
     public async Task<int> GetStarCount(ulong id)
         => (await guildSettings.GetGuildConfig(id)).Stars;
 
+    /// <summary>
+    /// Gets the list of channels where starboard is enabled for the guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>A string containing the list of channel IDs.</returns>
     public async Task<string> GetCheckedChannels(ulong id)
         => (await guildSettings.GetGuildConfig(id)).StarboardCheckChannels;
 
+    /// <summary>
+    /// Gets whether bots are allowed to trigger starboard for the guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns><c>true</c> if bots are allowed to trigger starboard; otherwise, <c>false</c>.</returns>
     public async Task<bool> GetAllowBots(ulong id)
         => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardAllowBots.ToString());
 
+    /// <summary>
+    /// Gets the current check mode for starboard channels in the guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns><c>true</c> if blacklist mode is enabled; otherwise, <c>false</c>.</returns>
     public async Task<bool> GetCheckMode(ulong id)
         => false.ParseBoth((await guildSettings.GetGuildConfig(id)).UseStarboardBlacklist.ToString());
 
@@ -183,6 +261,11 @@ public class StarboardService : INService, IReadyExecutor
     private async Task<bool> GetRemoveOnReactionsClear(ulong id)
         => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardRemoveOnReactionsClear.ToString());
 
+    /// <summary>
+    /// Sets the star emote for the guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="emote">The emote to use as a star.</param>
     public async Task SetStar(IGuild guild, string emote)
     {
         await using var uow = db.GetDbContext();
@@ -192,6 +275,12 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the starboard channel for the guild.
+    /// </summary>
+    /// <param name="guild">The guild.</param>
+    /// <param name="channel">The ID of the starboard channel.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {
         await using var uow = db.GetDbContext();
@@ -201,6 +290,11 @@ public class StarboardService : INService, IReadyExecutor
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Gets the star emote for the guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns></returns>
     public async Task<string> GetStar(ulong id)
         => (await guildSettings.GetGuildConfig(id)).Star2;
 
@@ -640,11 +734,5 @@ public class StarboardService : INService, IReadyExecutor
 
         await starboardChannel.DeleteMessageAsync(maybePost.PostId).ConfigureAwait(false);
         await RemoveStarboardPost(msg.Id).ConfigureAwait(false);
-    }
-
-    public async Task<StarboardPosts> GetMessage(ulong id)
-    {
-        await using var uow = db.GetDbContext();
-        return await uow.Starboard.ForMsgId(id);
     }
 }

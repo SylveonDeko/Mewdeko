@@ -9,10 +9,21 @@ namespace Mewdeko.Modules.Searches;
 
 public partial class Searches
 {
+    /// <summary>
+    /// Contains commands for managing stream notifications within a Discord guild.
+    /// </summary>
     [Group]
-    public class StreamNotificationCommands
-        (DbService db, InteractiveService serv) : MewdekoSubmodule<StreamNotificationService>
+    public class StreamNotificationCommands(DbService db, InteractiveService serv)
+        : MewdekoSubmodule<StreamNotificationService>
     {
+        /// <summary>
+        /// Adds a new stream to the notification list for the current guild.
+        /// </summary>
+        /// <param name="link">The link to the stream to be added.</param>
+        /// <remarks>
+        /// This command allows users with the "Manage Messages" permission to add a stream link to the guild's notification list.
+        /// When the stream goes live, the guild will be notified. This feature supports various streaming platforms.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamAdd(string link)
         {
@@ -27,6 +38,14 @@ public partial class Searches
             await ctx.Channel.EmbedAsync(embed, GetText("stream_tracked")).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Removes a stream from the notification list based on its index.
+        /// </summary>
+        /// <param name="index">The 1-based index of the stream in the notification list to be removed.</param>
+        /// <remarks>
+        /// Users with the "Manage Messages" permission can remove streams from the guild's notification list.
+        /// This command requires specifying the index of the stream, which can be obtained through the stream list command.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(1)]
         public async Task StreamRemove(int index)
@@ -47,6 +66,13 @@ public partial class Searches
                 fs.Type).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Clears all streams from the guild's notification list.
+        /// </summary>
+        /// <remarks>
+        /// This command allows administrators to remove all stream links from the guild's notification list.
+        /// It is intended for use in situations where a complete reset of stream notifications is necessary.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task StreamsClear()
         {
@@ -54,6 +80,13 @@ public partial class Searches
             await ReplyConfirmLocalizedAsync("streams_cleared", count).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Lists all streams currently followed by the guild.
+        /// </summary>
+        /// <remarks>
+        /// Provides a paginated list of all streams the guild is following for notifications.
+        /// This list includes each stream's username, type, and the channel where notifications are sent.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task StreamList()
         {
@@ -117,6 +150,13 @@ public partial class Searches
             }
         }
 
+        /// <summary>
+        /// Toggles the setting for notifying the guild when a followed stream goes offline.
+        /// </summary>
+        /// <remarks>
+        /// Users with the "Manage Messages" permission can toggle notifications for when any of the followed streams go offline.
+        /// This setting is helpful for guilds that wish to track stream status closely.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamOffline()
         {
@@ -127,6 +167,15 @@ public partial class Searches
                 await ReplyConfirmLocalizedAsync("stream_off_disabled").ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Sets a custom notification message for a specific stream in the guild's notification list.
+        /// </summary>
+        /// <param name="index">The 1-based index of the stream to set the message for.</param>
+        /// <param name="message">The custom message to be sent when the stream goes live. An empty message will reset it to default.</param>
+        /// <remarks>
+        /// This command allows customization of the notification message for specific streams.
+        /// It is useful for adding personalized or additional information to stream notifications.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamMessage(int index, [Remainder] string message)
         {
@@ -151,6 +200,14 @@ public partial class Searches
             }
         }
 
+        /// <summary>
+        /// Checks the live status of a stream by its URL.
+        /// </summary>
+        /// <param name="url">The URL of the stream to check.</param>
+        /// <remarks>
+        /// This command is useful for manually checking the live status of a stream.
+        /// It provides immediate feedback on whether the stream is currently live and, if so, the number of viewers.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task StreamCheck(string url)
         {

@@ -8,16 +8,28 @@ using Serilog;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
+/// <summary>
+/// Manages suggestion operations within a Discord server, facilitating suggestion creation, tracking, and status updates.
+/// </summary>
 public class SuggestionsService : INService
 {
     private readonly DbService db;
     private readonly PermissionService perms;
-    public readonly DiscordSocketClient Client;
-    public readonly AdministrationService Adminserv;
+    private readonly DiscordSocketClient client;
+    private readonly AdministrationService adminserv;
     private readonly List<ulong> repostChecking;
     private readonly List<ulong> spamCheck;
     private readonly GuildSettingsService guildSettings;
 
+    /// <summary>
+    /// Initializes a new instance of the SuggestionsService class.
+    /// </summary>
+    /// <param name="db">Database service for data persistence.</param>
+    /// <param name="client">The Discord client instance.</param>
+    /// <param name="aserv">Service for administration tasks.</param>
+    /// <param name="permserv">Service for managing permissions.</param>
+    /// <param name="guildSettings">Service for guild-specific settings.</param>
+    /// <param name="eventHandler">Event handler for Discord client events.</param>
     public SuggestionsService(
         DbService db,
         DiscordSocketClient client,
@@ -29,8 +41,8 @@ public class SuggestionsService : INService
         this.guildSettings = guildSettings;
         repostChecking = [];
         spamCheck = [];
-        Adminserv = aserv;
-        Client = client;
+        adminserv = aserv;
+        this.client = client;
         eventHandler.MessageReceived += MessageRecieved;
         eventHandler.ReactionAdded += UpdateCountOnReact;
         eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
@@ -38,12 +50,34 @@ public class SuggestionsService : INService
         this.db = db;
     }
 
+    /// <summary>
+    /// Used to track the state of a suggestion.
+    /// </summary>
     public enum SuggestState
     {
+        /// <summary>
+        /// The suggestion is suggested.
+        /// </summary>
         Suggested = 0,
+
+        /// <summary>
+        /// The suggestion is accepted.
+        /// </summary>
         Accepted = 1,
+
+        /// <summary>
+        /// The suggestion is denied.
+        /// </summary>
         Denied = 2,
+
+        /// <summary>
+        /// The suggestion is considered.
+        /// </summary>
         Considered = 3,
+
+        /// <summary>
+        /// The suggestion is implemented.
+        /// </summary>
         Implemented = 4
     }
 
@@ -318,7 +352,7 @@ public class SuggestionsService : INService
                 return;
             }
 
-            if (guser.RoleIds.Contains(await Adminserv.GetStaffRole(guser.Guild.Id)))
+            if (guser.RoleIds.Contains(await adminserv.GetStaffRole(guser.Guild.Id)))
             {
                 spamCheck.Remove(chan.Id);
                 return;
@@ -378,7 +412,7 @@ public class SuggestionsService : INService
                 return;
             }
 
-            await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel)
+            await SendSuggestion(chan.Guild, msg.Author as IGuildUser, client, msg.Content, msg.Channel as ITextChannel)
                 .ConfigureAwait(false);
             spamCheck.Remove(chan.Id);
             try
@@ -395,12 +429,41 @@ public class SuggestionsService : INService
             spamCheck.Remove(chan.Id);
     }
 
+    /// <summary>
+    /// Gets the current suggestion number for a guild.
+    /// </summary>
+    /// <param name="id">The unique identifier of the guild.</param>
+    /// <returns>The current suggestion number.</returns>
     public async Task<ulong> GetSNum(ulong id) => (await guildSettings.GetGuildConfig(id)).sugnum;
+
+    /// <summary>
+    /// Gets the maximum length allowed for suggestions in a guild.
+    /// </summary>
+    /// <param name="id">The unique identifier of the guild.</param>
+    /// <returns>The maximum length of suggestions.</returns>
     public async Task<int> GetMaxLength(ulong id) => (await guildSettings.GetGuildConfig(id)).MaxSuggestLength;
+
+    /// <summary>
+    /// Gets the minimum length allowed for suggestions in a guild.
+    /// </summary>
+    /// <param name="id">The unique identifier of the guild.</param>
+    /// <returns>The minimum length of suggestions.</returns>
     public async Task<int> GetMinLength(ulong id) => (await guildSettings.GetGuildConfig(id)).MinSuggestLength;
 
+    /// <summary>
+    /// Retrieves the custom emotes set for suggestions in a guild.
+    /// </summary>
+    /// <param name="id">The unique identifier of the guild.</param>
+    /// <returns>A string representing custom emotes.</returns>
     public async Task<string> GetEmotes(ulong id) => (await guildSettings.GetGuildConfig(id)).SuggestEmotes;
 
+    /// <summary>
+    /// Sets the button style for suggestion interaction buttons within the guild.
+    /// </summary>
+    /// <param name="guild">The guild where the setting is to be applied.</param>
+    /// <param name="buttonId">The identifier for the specific button to modify.</param>
+    /// <param name="color">The color code to set for the button.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
         await using var uow = db.GetDbContext();
@@ -428,6 +491,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Gets the message and channel IDs for a reposted suggestion, based on its current state.
+    /// </summary>
+    /// <param name="suggestions">The suggestions model containing the current state.</param>
+    /// <param name="guild">The guild from which to retrieve the settings.</param>
+    /// <returns>A tuple containing the message ID and channel ID.</returns>
     public async Task<(ulong, ulong)> GetRepostedMessageAndChannel(SuggestionsModel suggestions, IGuild guild)
     {
         (ulong, ulong) toreturn = suggestions.CurrentState switch
@@ -441,6 +510,12 @@ public class SuggestionsService : INService
         return toreturn;
     }
 
+    /// <summary>
+    /// Sets the custom emotes used for suggestions in the guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="parsedEmotes">A string representation of the custom emotes.</param>
+    /// <returns>A task that represents the asynchronous operation of updating the suggestion emotes.</returns>
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
         await using var uow = db.GetDbContext();
@@ -450,6 +525,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the color for the suggestion button in the guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="colorNum">The color number to set for the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the button color.</returns>
     public async Task SetSuggestButtonColor(IGuild guild, int colorNum)
     {
         await using var uow = db.GetDbContext();
@@ -459,24 +540,28 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Assigns a message ID to the suggestion button for a guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="messageId">The message ID to associate with the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation of updating the button message ID.</returns>
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
     {
-        try
-        {
-            var uow = db.GetDbContext();
-            await using var _ = uow.ConfigureAwait(false);
-            var gc = await uow.ForGuildId(guild.Id, set => set);
-            gc.SuggestButtonMessageId = messageId;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            await guildSettings.UpdateGuildConfig(guild.Id, gc);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var uow = db.GetDbContext();
+        await using var _ = uow.ConfigureAwait(false);
+        var gc = await uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestButtonMessageId = messageId;
+        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel ID for suggestions in the guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="channel">The channel ID where suggestions will be posted.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the suggestion channel ID.</returns>
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
         await using var uow = db.GetDbContext();
@@ -486,6 +571,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the minimum length for suggestions in the guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="minLength">The minimum length allowed for suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the minimum suggestion length.</returns>
     public async Task SetMinLength(IGuild guild, int minLength)
     {
         await using var uow = db.GetDbContext();
@@ -495,6 +586,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the maximum length for suggestions in the guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure.</param>
+    /// <param name="maxLength">The maximum length allowed for suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the maximum suggestion length.</returns>
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
         await using var uow = db.GetDbContext();
@@ -504,6 +601,11 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Generates a ComponentBuilder for the suggestion button with custom settings from the guild.
+    /// </summary>
+    /// <param name="guild">The guild to retrieve settings from.</param>
+    /// <returns>A ComponentBuilder for creating interactive components.</returns>
     public async Task<ComponentBuilder> GetSuggestButton(IGuild guild)
     {
         string buttonLabel;
@@ -523,6 +625,11 @@ public class SuggestionsService : INService
         return builder;
     }
 
+    /// <summary>
+    /// Resets the suggestion counter and removes all suggestions in the guild.
+    /// </summary>
+    /// <param name="guild">The guild where the reset will occur.</param>
+    /// <returns>A task that represents the asynchronous operation of resetting suggestions.</returns>
     public async Task SuggestReset(IGuild guild)
     {
         await using var uow = db.GetDbContext();
@@ -533,6 +640,13 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Updates the message content or embed of the suggestion button in a guild. It allows bypassing the channel check and directly updating or creating a new message if the original message is not found.
+    /// </summary>
+    /// <param name="guild">The guild to update the suggestion button message in.</param>
+    /// <param name="code">The new content or embed code for the suggestion button message.</param>
+    /// <param name="bypasschannelcheck">Determines whether to bypass the check for the suggestion button channel setting.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateSuggestionButtonMessage(IGuild guild, string? code, bool bypasschannelcheck = false)
     {
         var toGet = await GetSuggestButtonChannel(guild);
@@ -623,6 +737,12 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Sets a new message for the suggestion button in a guild. This could be an instruction or information related to making suggestions.
+    /// </summary>
+    /// <param name="guild">The guild to set the suggestion button message in.</param>
+    /// <param name="message">The new message for the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestButtonMessage(IGuild guild, string? message)
     {
         await using var uow = db.GetDbContext();
@@ -632,6 +752,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the label for the suggestion button in a guild. This label is displayed on the button itself.
+    /// </summary>
+    /// <param name="guild">The guild to set the suggestion button label in.</param>
+    /// <param name="message">The new label for the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestButtonLabel(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -641,6 +767,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets a new default message that is used when users submit suggestions in a guild. This message can contain placeholders that are replaced with suggestion-specific data.
+    /// </summary>
+    /// <param name="guild">The guild to set the new default suggestion message in.</param>
+    /// <param name="message">The new default message for suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -650,6 +782,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets a new default message that is displayed when a suggestion is accepted in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the new default accept message in.</param>
+    /// <param name="message">The new default message for when suggestions are accepted.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetAcceptMessage(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -659,6 +797,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets a new default message that is displayed when a suggestion is denied in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the new default deny message in.</param>
+    /// <param name="message">The new default message for when suggestions are denied.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetDenyMessage(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -668,6 +812,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets a new default message that is displayed when a suggestion is implemented in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the new default implement message in.</param>
+    /// <param name="message">The new default message for when suggestions are implemented.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetImplementMessage(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -677,6 +827,13 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Updates the state of a suggestion, marking it as accepted, denied, considered, or implemented, and records the user responsible for the state change.
+    /// </summary>
+    /// <param name="suggestionsModel">The suggestion model to update.</param>
+    /// <param name="state">The new state of the suggestion.</param>
+    /// <param name="stateChangeId">The ID of the user responsible for the state change.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateSuggestState(SuggestionsModel suggestionsModel, int state, ulong stateChangeId)
     {
         await using var uow = db.GetDbContext();
@@ -687,6 +844,12 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Updates the message ID associated with the state change of a suggestion. This could refer to the message announcing the suggestion's acceptance, denial, consideration, or implementation.
+    /// </summary>
+    /// <param name="suggestionsModel">The suggestion model to update.</param>
+    /// <param name="messageStateId">The new message ID associated with the state change.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateStateMessageId(SuggestionsModel suggestionsModel, ulong messageStateId)
     {
         await using var uow = db.GetDbContext();
@@ -695,6 +858,12 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the type of threads that can be created for discussions on suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the thread type in.</param>
+    /// <param name="num">The thread type number (e.g., 0 for no threads, 1 for public threads).</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
@@ -704,6 +873,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets a new default message that is displayed when a suggestion is under consideration in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the new default consider message in.</param>
+    /// <param name="message">The new default message for when suggestions are under consideration.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
         await using var uow = db.GetDbContext();
@@ -713,6 +888,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Updates the suggestion number counter in a guild, typically after a new suggestion is added.
+    /// </summary>
+    /// <param name="guild">The guild to update the suggestion number in.</param>
+    /// <param name="num">The new suggestion number.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Sugnum(IGuild guild, ulong num)
     {
         await using var uow = db.GetDbContext();
@@ -722,6 +903,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets whether suggestions that are denied should be automatically archived in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to configure the auto-archive setting for denied suggestions.</param>
+    /// <param name="value">True if denied suggestions should be archived; otherwise, false.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetArchiveOnDeny(IGuild guild, bool value)
     {
         await using var uow = db.GetDbContext();
@@ -731,6 +918,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the behavior for archiving suggestions upon acceptance within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the archive behavior for.</param>
+    /// <param name="value">True to archive suggestions on acceptance; false otherwise.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetArchiveOnAccept(IGuild guild, bool value)
     {
         await using var uow = db.GetDbContext();
@@ -740,6 +933,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the behavior for archiving suggestions upon consideration within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the archive behavior for.</param>
+    /// <param name="value">True to archive suggestions on consideration; false otherwise.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetArchiveOnConsider(IGuild guild, bool value)
     {
         await using var uow = db.GetDbContext();
@@ -749,6 +948,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the behavior for archiving suggestions upon implementation within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the archive behavior for.</param>
+    /// <param name="value">True to archive suggestions on implementation; false otherwise.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetArchiveOnImplement(IGuild guild, bool value)
     {
         await using var uow = db.GetDbContext();
@@ -758,7 +963,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-
+    /// <summary>
+    /// Sets the emote mode for suggestions within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the emote mode for.</param>
+    /// <param name="mode">The emote mode to set.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
         await using var uow = db.GetDbContext();
@@ -768,6 +978,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel to be used for accepted suggestions within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the accept channel for.</param>
+    /// <param name="channelId">The channel ID for accepted suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetAcceptChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -777,6 +993,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel to be used for denied suggestions within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the deny channel for.</param>
+    /// <param name="channelId">The channel ID for denied suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetDenyChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -786,6 +1008,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel to be used for suggestions under consideration within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the consider channel for.</param>
+    /// <param name="channelId">The channel ID for suggestions under consideration.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetConsiderChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -795,6 +1023,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel to be used for implemented suggestions within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the implement channel for.</param>
+    /// <param name="channelId">The channel ID for implemented suggestions.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetImplementChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -804,6 +1038,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the channel to be used for the suggestion button within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the suggestion button channel for.</param>
+    /// <param name="channelId">The channel ID for the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestButtonChannel(IGuild guild, ulong channelId)
     {
         await using var uow = db.GetDbContext();
@@ -813,6 +1053,12 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
+    /// <summary>
+    /// Sets the emote to be used on the suggestion button within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the suggestion button emote for.</param>
+    /// <param name="emote">The emote for the suggestion button.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetSuggestButtonEmote(IGuild guild, string emote)
     {
         await using var uow = db.GetDbContext();
@@ -822,15 +1068,13 @@ public class SuggestionsService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public async Task SetSuggestButtonRepostThreshold(IGuild guild, int repostThreshold)
-    {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.SuggestButtonRepostThreshold = repostThreshold;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
-    }
-
+    /// <summary>
+    /// Updates the emote count for a suggestion based on user interactions.
+    /// </summary>
+    /// <param name="messageId">The message ID of the suggestion.</param>
+    /// <param name="emoteNumber">The emote number being updated.</param>
+    /// <param name="negative">Indicates whether to decrement (true) or increment (false) the count.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
         await using var uow = db.GetDbContext();
@@ -887,6 +1131,12 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Retrieves the current count of reactions for a specific emote on a suggestion.
+    /// </summary>
+    /// <param name="messageId">The message ID of the suggestion.</param>
+    /// <param name="emoteNumber">The emote number to retrieve the count for.</param>
+    /// <returns>The current count of the specified emote for the suggestion.</returns>
     public async Task<int> GetCurrentCount(ulong messageId, int emoteNumber)
     {
         await using var uow = db.GetDbContext();
@@ -902,6 +1152,12 @@ public class SuggestionsService : INService
         };
     }
 
+    /// <summary>
+    /// Retrieves the specific emote used for suggestions within a guild.
+    /// </summary>
+    /// <param name="guild">The guild to retrieve the emote for.</param>
+    /// <param name="num">The number identifying the specific emote.</param>
+    /// <returns>The emote used for suggestions in the guild.</returns>
     public async Task<IEmote> GetSuggestMote(IGuild guild, int num)
     {
         var tup = new Emoji("\uD83D\uDC4D");
@@ -915,75 +1171,196 @@ public class SuggestionsService : INService
         return emotes.Split(",")[num - 1].ToIEmote();
     }
 
+    /// <summary>
+    /// Retrieves the ID of the channel designated for suggestions in a guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild.</param>
+    /// <returns>The channel ID designated for suggestions.</returns>
     public async Task<ulong> GetSuggestionChannel(ulong id)
         => (await guildSettings.GetGuildConfig(id)).sugchan;
 
+    /// <summary>
+    /// Retrieves the custom message set for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the message.</param>
+    /// <returns>The custom suggestion message if set; otherwise, null.</returns>
     public async Task<string>? GetSuggestionMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestMessage;
 
+    /// <summary>
+    /// Retrieves the custom accept message for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the accept message.</param>
+    /// <returns>The custom accept message if set; otherwise, null.</returns>
     public async Task<string>? GetAcceptMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).AcceptMessage;
 
+    /// <summary>
+    /// Retrieves the custom deny message for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the deny message.</param>
+    /// <returns>The custom deny message if set; otherwise, null.</returns>
     public async Task<string>? GetDenyMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).DenyMessage;
 
+    /// <summary>
+    /// Retrieves the custom implement message for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the implement message.</param>
+    /// <returns>The custom implement message if set; otherwise, null.</returns>
     public async Task<string>? GetImplementMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).ImplementMessage;
 
+    /// <summary>
+    /// Retrieves the custom consider message for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the consider message.</param>
+    /// <returns>The custom consider message if set; otherwise, null.</returns>
     public async Task<string>? GetConsiderMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).ConsiderMessage;
 
+    /// <summary>
+    /// Retrieves the thread type used for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the thread type.</param>
+    /// <returns>The thread type for suggestions.</returns>
     public async Task<int> GetThreadType(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestionThreadType;
 
+    /// <summary>
+    /// Retrieves the emote mode for suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the emote mode.</param>
+    /// <returns>The emote mode for suggestions.</returns>
     public async Task<int> GetEmoteMode(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).EmoteMode;
 
+    /// <summary>
+    /// Retrieves the channel ID for suggestions under consideration in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the consider channel ID.</param>
+    /// <returns>The consider channel ID.</returns>
     public async Task<ulong> GetConsiderChannel(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).ConsiderChannel;
 
+    /// <summary>
+    /// Retrieves the channel ID for accepted suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the accept channel ID.</param>
+    /// <returns>The accept channel ID.</returns>
     public async Task<ulong> GetAcceptChannel(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).AcceptChannel;
 
+    /// <summary>
+    /// Retrieves the channel ID for implemented suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the implement channel ID.</param>
+    /// <returns>The implement channel ID.</returns>
     public async Task<ulong> GetImplementChannel(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).ImplementChannel;
 
+    /// <summary>
+    /// Retrieves the channel ID for denied suggestions in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the deny channel ID.</param>
+    /// <returns>The deny channel ID.</returns>
     public async Task<ulong> GetDenyChannel(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).DenyChannel;
 
+    /// <summary>
+    /// Determines whether suggestions are archived upon denial in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to check the archive setting for.</param>
+    /// <returns>True if suggestions are archived upon denial; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnDeny(IGuild guild)
         => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny.ToString());
 
+    /// <summary>
+    /// Determines whether suggestions are archived upon acceptance in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to check the archive setting for.</param>
+    /// <returns>True if suggestions are archived upon acceptance; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnAccept(IGuild guild)
         => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept.ToString());
 
+    /// <summary>
+    /// Determines whether suggestions are archived upon consideration in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to check the archive setting for.</param>
+    /// <returns>True if suggestions are archived upon consideration; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnConsider(IGuild guild)
         => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider.ToString());
 
+    /// <summary>
+    /// Determines whether suggestions are archived upon implementation in a guild.
+    /// </summary>
+    /// <param name="guild">The guild to check the archive setting for.</param>
+    /// <returns>True if suggestions are archived upon implementation; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnImplement(IGuild guild)
         => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement.ToString());
 
+    /// <summary>
+    /// Retrieves the name of the suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button name.</param>
+    /// <returns>The name of the suggest button.</returns>
     public async Task<string> GetSuggestButtonName(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonName;
 
+    /// <summary>
+    /// Retrieves the channel ID where the suggest button is located in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button channel ID.</param>
+    /// <returns>The suggest button channel ID.</returns>
     public async Task<ulong> GetSuggestButtonChannel(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonChannel;
 
+    /// <summary>
+    /// Retrieves the custom emote for the suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button emote.</param>
+    /// <returns>The custom emote for the suggest button; otherwise, null if not set.</returns>
     public async Task<string> GetSuggestButtonEmote(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonEmote;
 
+    /// <summary>
+    /// Retrieves the custom message for the suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button message.</param>
+    /// <returns>The custom message for the suggest button if set; otherwise, null.</returns>
     public async Task<string>? GetSuggestButtonMessage(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessage;
 
+    /// <summary>
+    /// Retrieves the repost threshold for the suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button repost threshold.</param>
+    /// <returns>The repost threshold for the suggest button.</returns>
     public async Task<int> GetSuggestButtonRepost(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonRepostThreshold;
 
+    /// <summary>
+    /// Retrieves the message ID of the suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button message ID.</param>
+    /// <returns>The suggest button message ID.</returns>
     public async Task<ulong> GetSuggestButtonMessageId(IGuild guild)
         => (await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonMessageId;
 
+    /// <summary>
+    /// Retrieves the color of a suggest button in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the suggest button color.</param>
+    /// <returns>The color of the suggest button.</returns>
     public async Task<ButtonStyle> GetSuggestButtonColor(IGuild guild)
         => (ButtonStyle)(await guildSettings.GetGuildConfig(guild.Id)).SuggestButtonColor;
 
+    /// <summary>
+    /// Retrieves the style of a specific button based on its ID in a guild.
+    /// </summary>
+    /// <param name="guild">The guild from which to retrieve the button style.</param>
+    /// <param name="id">The ID of the button to retrieve the style for.</param>
+    /// <returns>The button style.</returns>
     public async Task<ButtonStyle> GetButtonStyle(IGuild guild, int id) =>
         id switch
         {
@@ -995,6 +1372,19 @@ public class SuggestionsService : INService
             _ => ButtonStyle.Secondary
         };
 
+    /// <summary>
+    /// Sends a denial embed for a suggestion in a guild. This method handles fetching the suggestion,
+    /// checking if it exists, and then sending a customized embed based on whether a custom deny message
+    /// is set. It also handles archiving the suggestion thread if necessary.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is made.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="user">The user who denied the suggestion.</param>
+    /// <param name="suggestion">The ID of the suggestion being denied.</param>
+    /// <param name="channel">The text channel where the denial message will be sent.</param>
+    /// <param name="reason">The reason for denial. Optional.</param>
+    /// <param name="interaction">The interaction context, if available. Optional.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task SendDenyEmbed(
         IGuild guild,
         DiscordSocketClient client,
@@ -1381,6 +1771,18 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Sends a consideration embed for a suggestion in a guild. Similar to denial, it sends an embed indicating
+    /// the suggestion is under consideration, with customized messages if set, and handles archiving.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is made.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="user">The user considering the suggestion.</param>
+    /// <param name="suggestion">The ID of the suggestion being considered.</param>
+    /// <param name="channel">The channel where the consideration message will be sent.</param>
+    /// <param name="reason">The reason for consideration. Optional.</param>
+    /// <param name="interaction">The interaction context, if available. Optional.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task SendConsiderEmbed(
         IGuild guild,
         DiscordSocketClient client,
@@ -1754,6 +2156,19 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Sends an implementation embed for a suggestion in a guild. This method handles the entire process
+    /// of marking a suggestion as implemented, including sending a customized embed message, and managing
+    /// the suggestion's thread.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is made.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="user">The user who implemented the suggestion.</param>
+    /// <param name="suggestion">The ID of the suggestion being implemented.</param>
+    /// <param name="channel">The channel where the implementation message will be sent.</param>
+    /// <param name="reason">The reason for implementation. Optional.</param>
+    /// <param name="interaction">The interaction context, if available. Optional.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task SendImplementEmbed(
         IGuild guild,
         DiscordSocketClient client,
@@ -2127,6 +2542,18 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Sends an acceptance embed for a suggestion in a guild. It manages sending a custom embed for suggestions
+    /// marked as accepted, archiving the thread if set, and notifying the suggestion's author.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is made.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="user">The user who accepted the suggestion.</param>
+    /// <param name="suggestion">The ID of the suggestion being accepted.</param>
+    /// <param name="channel">The channel where the acceptance message will be sent.</param>
+    /// <param name="reason">The reason for acceptance. Optional.</param>
+    /// <param name="interaction">The interaction context, if available. Optional.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task SendAcceptEmbed(
         IGuild guild,
         DiscordSocketClient client,
@@ -2501,6 +2928,17 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Submits a suggestion in a guild, handling the creation of suggestion messages with reactions or buttons
+    /// based on configuration, and potentially starting a thread for discussion.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is submitted.</param>
+    /// <param name="user">The user submitting the suggestion.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="suggestion">The text of the suggestion being submitted.</param>
+    /// <param name="channel">The channel where the suggestion submission confirmation will be sent.</param>
+    /// <param name="interaction">The interaction context, if available. Optional.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task SendSuggestion(
         IGuild guild,
         IGuildUser user,
@@ -2659,6 +3097,15 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Records a new suggestion in the database.
+    /// </summary>
+    /// <param name="guild">The guild where the suggestion is made.</param>
+    /// <param name="suggestId">The suggestion number within the guild.</param>
+    /// <param name="messageId">The ID of the message containing the suggestion.</param>
+    /// <param name="userId">The ID of the user who made the suggestion.</param>
+    /// <param name="suggestion">The content of the suggestion.</param>
+    /// <returns>A Task representing the asynchronous operation to save the suggestion.</returns>
     public async Task Suggest(
         IGuild guild,
         ulong suggestId,
@@ -2691,30 +3138,58 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Retrieves suggestions by guild and suggestion ID, primarily for operations involving a specific suggestion.
+    /// </summary>
+    /// <param name="gid">The guild ID where the suggestion was made.</param>
+    /// <param name="sid">The suggestion ID to retrieve.</param>
+    /// <returns>An array of <see cref="SuggestionsModel"/> matching the criteria or null if not found.</returns>
     public async Task<SuggestionsModel[]?> Suggestions(ulong gid, ulong sid)
     {
         await using var uow = db.GetDbContext();
         return await uow.Suggestions.ForId(gid, sid);
     }
 
+    /// <summary>
+    /// Lists all suggestions made in a guild, useful for overview or management purposes.
+    /// </summary>
+    /// <param name="gid">The guild ID to retrieve suggestions for.</param>
+    /// <returns>A list of all <see cref="SuggestionsModel"/> in the specified guild.</returns>
     public List<SuggestionsModel> Suggestions(ulong gid)
     {
         using var uow = db.GetDbContext();
         return uow.Suggestions.Where(x => x.GuildId == gid).ToList();
     }
 
+    /// <summary>
+    /// Retrieves a suggestion based on its associated message ID, useful for operations triggered by message interactions.
+    /// </summary>
+    /// <param name="msgId">The message ID linked to the suggestion.</param>
+    /// <returns>The <see cref="SuggestionsModel"/> associated with the message ID.</returns>
     public async Task<SuggestionsModel> GetSuggestByMessage(ulong msgId)
     {
         await using var uow = db.GetDbContext();
         return await uow.Suggestions.FirstOrDefaultAsyncEF(x => x.MessageId == msgId);
     }
 
+    /// <summary>
+    /// Retrieves all suggestions made by a specific user in a guild, useful for personal suggestion tracking or management.
+    /// </summary>
+    /// <param name="guildId">The guild ID where the suggestions were made.</param>
+    /// <param name="userId">The user ID to retrieve suggestions for.</param>
+    /// <returns>An array of <see cref="SuggestionsModel"/> made by the specified user in the specified guild.</returns>
     public async Task<SuggestionsModel[]> ForUser(ulong guildId, ulong userId)
     {
         await using var uow = db.GetDbContext();
         return await uow.Suggestions.ForUser(guildId, userId);
     }
 
+    /// <summary>
+    /// Determines the emote chosen by a user for a specific suggestion, useful for tallying reactions or votes.
+    /// </summary>
+    /// <param name="messageId">The message ID of the suggestion being voted on.</param>
+    /// <param name="userId">The user ID of the voter.</param>
+    /// <returns>The ID of the emote chosen by the user, or 0 if no vote was found.</returns>
     public async Task<int> GetPickedEmote(ulong messageId, ulong userId)
     {
         await using var uow = db.GetDbContext();
@@ -2722,6 +3197,14 @@ public class SuggestionsService : INService
         return toreturn?.EmotePicked ?? 0;
     }
 
+    /// <summary>
+    /// Updates the emote picked by a user for a specific suggestion message. If the user has not previously
+    /// picked an emote for this message, a new vote record is created. Otherwise, the existing vote is updated.
+    /// </summary>
+    /// <param name="messageId">The ID of the message the vote is associated with.</param>
+    /// <param name="userId">The ID of the user casting or changing their vote.</param>
+    /// <param name="emotePicked">The ID of the emote picked by the user.</param>
+    /// <returns>A Task representing the asynchronous operation of updating or adding the vote.</returns>
     public async Task UpdatePickedEmote(ulong messageId, ulong userId, int emotePicked)
     {
         await using var uow = db.GetDbContext();
@@ -2743,6 +3226,13 @@ public class SuggestionsService : INService
         }
     }
 
+    /// <summary>
+    /// Adds a new thread channel association with a suggestion message. This is used to track thread channels
+    /// that are created for discussing specific suggestions.
+    /// </summary>
+    /// <param name="messageId">The message ID of the suggestion.</param>
+    /// <param name="threadChannelId">The thread channel ID created for the suggestion's discussion.</param>
+    /// <returns>A Task representing the asynchronous operation of adding the thread channel association.</returns>
     public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
     {
         await using var uow = db.GetDbContext();
@@ -2753,6 +3243,12 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Retrieves the ID of the thread channel associated with a specific suggestion message. This is used to
+    /// find the discussion thread for a suggestion.
+    /// </summary>
+    /// <param name="messageId">The message ID of the suggestion.</param>
+    /// <returns>The ID of the thread channel associated with the message, or 0 if no association exists.</returns>
     public async Task<ulong> GetThreadByMessage(ulong messageId)
     {
         await using var uow = db.GetDbContext();

@@ -53,6 +53,11 @@ public class Sens
     /// <summary>
     /// Gets or sets a list of examples for the sense.
     /// </summary>
+    public List<Example?>? Examples { get; set; }
+
+    /// <summary>
+    /// Gets or sets a list of examples for the sense.
+    /// </summary>
     [JsonProperty("gramatical_info")]
     public GramaticalInfo GramaticalInfo { get; set; }
 }

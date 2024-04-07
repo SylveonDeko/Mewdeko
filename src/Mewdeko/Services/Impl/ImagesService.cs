@@ -7,6 +7,9 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Service for caching images in Redis.
+/// </summary>
 public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 {
     private readonly ConnectionMultiplexer con;
@@ -19,60 +22,11 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     private const string BasePath = "data/";
     private const string CardsPath = "data/images/cards";
 
-    public ImageUrls ImageUrls { get; private set; }
-
-    public enum ImageKeys
-    {
-        CoinHeads,
-        CoinTails,
-        Dice,
-        SlotBg,
-        SlotEmojis,
-        Currency,
-        RipOverlay,
-        RipBg,
-        XpBg
-    }
-
-    public IReadOnlyList<byte[]> Heads
-        => GetByteArrayData(ImageKeys.CoinHeads);
-
-    public IReadOnlyList<byte[]> Tails
-        => GetByteArrayData(ImageKeys.CoinTails);
-
-    public IReadOnlyList<byte[]> Dice
-        => GetByteArrayData(ImageKeys.Dice);
-
-    public IReadOnlyList<byte[]> SlotEmojis
-        => GetByteArrayData(ImageKeys.SlotEmojis);
-
-    public IReadOnlyList<byte[]> Currency
-        => GetByteArrayData(ImageKeys.Currency);
-
-    public byte[] SlotBackground
-        => GetByteData(ImageKeys.SlotBg);
-
-    public byte[] XpBackground
-        => GetByteData(ImageKeys.XpBg);
-
-    public byte[] Rip
-        => GetByteData(ImageKeys.RipBg);
-
-    public byte[] RipOverlay
-        => GetByteData(ImageKeys.RipOverlay);
-
-    public byte[] GetCard(string key) =>
-        // since cards are always local for now, don't cache them
-        File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
-
-    public async Task OnReadyAsync()
-    {
-        if (await AllKeysExist().ConfigureAwait(false))
-            return;
-
-        await Reload().ConfigureAwait(false);
-    }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RedisImagesCache"/> class.
+    /// </summary>
+    /// <param name="con">The Redis connection multiplexer.</param>
+    /// <param name="creds">The bot credentials.</param>
     public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
     {
         this.con = con;
@@ -82,6 +36,130 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
         ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(imagesPath));
     }
 
+    /// <summary>
+    /// Image URLs.
+    /// </summary>
+    public ImageUrls ImageUrls { get; private set; }
+
+    /// <summary>
+    /// Enum representing the keys for the images. Used to retrieve images from the cache.
+    /// </summary>
+    public enum ImageKeys
+    {
+        /// <summary>
+        /// Coin heads image key.
+        /// </summary>
+        CoinHeads,
+
+        /// <summary>
+        /// Coin tails image key.
+        /// </summary>
+        CoinTails,
+
+        /// <summary>
+        /// Dice image key.
+        /// </summary>
+        Dice,
+
+        /// <summary>
+        /// Slot machine background image key.
+        /// </summary>
+        SlotBg,
+
+        /// <summary>
+        /// Slot machine emojis image key.
+        /// </summary>
+        SlotEmojis,
+
+        /// <summary>
+        /// Currency image key.
+        /// </summary>
+        Currency,
+
+        /// <summary>
+        /// Rip overlay image key.
+        /// </summary>
+        RipOverlay,
+
+        /// <summary>
+        /// Rip background image key.
+        /// </summary>
+        RipBg,
+
+        /// <summary>
+        /// XP background image key.
+        /// </summary>
+        XpBg
+    }
+
+    /// <summary>
+    /// Retrieves a list of byte arrays representing images of coin heads.
+    /// </summary>
+    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKeys.CoinHeads);
+
+    /// <summary>
+    /// Retrieves a list of byte arrays representing images of coin tails.
+    /// </summary>
+    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKeys.CoinTails);
+
+    /// <summary>
+    /// Retrieves a list of byte arrays representing dice images.
+    /// </summary>
+    public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKeys.Dice);
+
+    /// <summary>
+    /// Retrieves a list of byte arrays representing slot machine emojis.
+    /// </summary>
+    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKeys.SlotEmojis);
+
+    /// <summary>
+    /// Retrieves a list of byte arrays representing currency symbols.
+    /// </summary>
+    public IReadOnlyList<byte[]> Currency => GetByteArrayData(ImageKeys.Currency);
+
+    /// <summary>
+    /// Retrieves a byte array representing the background image for the slot machine.
+    /// </summary>
+    public byte[] SlotBackground => GetByteData(ImageKeys.SlotBg);
+
+    /// <summary>
+    /// Retrieves a byte array representing the background image for the XP system.
+    /// </summary>
+    public byte[] XpBackground => GetByteData(ImageKeys.XpBg);
+
+    /// <summary>
+    /// Retrieves a byte array representing the RIP background image.
+    /// </summary>
+    public byte[] Rip => GetByteData(ImageKeys.RipBg);
+
+    /// <summary>
+    /// Retrieves a byte array representing the RIP overlay image.
+    /// </summary>
+    public byte[] RipOverlay => GetByteData(ImageKeys.RipOverlay);
+
+    /// <summary>
+    /// Retrieves a card image byte array based on the provided key.
+    /// </summary>
+    /// <param name="key">The key of the card image.</param>
+    /// <returns>The byte array representing the card image.</returns>
+    public byte[] GetCard(string key) =>
+        // since cards are always local for now, don't cache them
+        File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
+
+    /// <summary>
+    /// Called when the bot is ready. Checks if all required keys exist in the cache and reloads them if necessary.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        if (await AllKeysExist().ConfigureAwait(false))
+            return;
+
+        await Reload().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Reloads all image data from the specified sources.
+    /// </summary>
     public async Task Reload()
     {
         ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(imagesPath)

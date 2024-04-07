@@ -10,10 +10,17 @@ using Serilog;
 
 namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Represents the bot's credentials. This class is used to load the bot's credentials from a JSON file.
+/// </summary>
 public class BotCredentials : IBotCredentials
 {
     private readonly string credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BotCredentials"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public BotCredentials()
     {
         try
@@ -69,7 +76,7 @@ public class BotCredentials : IBotCredentials
         watcher.Changed += UpdateCredentials;
     }
 
-    public void UpdateCredentials(object ae, FileSystemEventArgs _)
+    private void UpdateCredentials(object ae, FileSystemEventArgs _)
     {
         try
         {
@@ -89,8 +96,6 @@ public class BotCredentials : IBotCredentials
 
             OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
                 .ToImmutableArray();
-            OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => ulong.Parse(c.Value))
-                .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
             UsePsql = false.ParseBoth(data[nameof(UsePsql)] ?? "false");
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
@@ -99,11 +104,9 @@ public class BotCredentials : IBotCredentials
             CfClearance = data[nameof(CfClearance)];
             MashapeKey = data[nameof(MashapeKey)];
             OsuApiKey = data[nameof(OsuApiKey)];
-            PatreonAccessToken = data[nameof(PatreonAccessToken)];
             TwitchClientId = data[nameof(TwitchClientId)];
             TwitchClientSecret = data[nameof(TwitchClientSecret)];
             TrovoClientId = data[nameof(TrovoClientId)];
-            PatreonCampaignId = data[nameof(PatreonCampaignId)] ?? "334038";
             ShardRunCommand = data[nameof(ShardRunCommand)];
             ShardRunArguments = data[nameof(ShardRunArguments)];
             ShardRunPort = data[nameof(ShardRunPort)] ?? "3444";
@@ -181,63 +184,210 @@ public class BotCredentials : IBotCredentials
         }
     }
 
+    //// <summary>
+    /// Gets or sets the bot's token.
+    /// </summary>
     public string Token { get; set; }
-    public string ClientSecret { get; set; }
-
-    public string ShardRunPort { get; set; }
-    public string GoogleApiKey { get; set; }
-    public string SpotifyClientId { get; set; }
-    public string SpotifyClientSecret { get; set; }
-    public string MashapeKey { get; set; }
-    public string StatcordKey { get; set; }
-    public string CfClearance { get; set; }
-    public string UserAgent { get; set; }
-    public string CsrfToken { get; set; }
-
-    public ImmutableArray<ulong> OwnerIds { get; set; }
-    public ImmutableArray<ulong> OfficialMods { get; set; }
-
-    public string OsuApiKey { get; set; }
-    public string CleverbotApiKey { get; set; }
-    public RestartConfig RestartCommand { get; set; }
-    public int TotalShards { get; set; }
-    public string CarbonKey { get; set; }
-    public string ChatSavePath { get; set; }
-    public string PatreonAccessToken { get; set; }
-    public string ShardRunCommand { get; set; }
-    public string ShardRunArguments { get; set; }
-
-    public bool UsePsql { get; set; }
-    public string PsqlConnectionString { get; set; }
-
-    public string PatreonCampaignId { get; set; }
-
-    public string TwitchClientId { get; set; }
-    public bool UseGlobalCurrency { get; set; }
-    public string TwitchClientSecret { get; set; }
-    public string TrovoClientId { get; set; }
-
-    public string VotesUrl { get; set; }
-    public string VotesToken { get; set; }
-    public string BotListToken { get; set; }
-    public string RedisOptions { get; set; }
-    public string LocationIqApiKey { get; set; }
-    public string TimezoneDbApiKey { get; set; }
-    public string CoinmarketcapApiKey { get; set; }
-
-    public ulong DebugGuildId { get; set; }
-    public string GeniusKey { get; set; }
-    public ulong GuildJoinsChannelId { get; set; }
-    public ulong ConfessionReportChannelId { get; set; }
-    public ulong GlobalBanReportChannelId { get; set; }
-    public ulong PronounAbuseReportChannelId { get; set; }
-
-    public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
-
-    public bool IsOfficialMod(IUser u) => OfficialMods.Contains(u.Id);
 
     /// <summary>
-    ///     No idea why this thing exists
+    /// Gets or sets the bot's client secret.
+    /// </summary>
+    public string ClientSecret { get; set; }
+
+    /// <summary>
+    /// Gets or sets the port the client coordinator is running on.
+    /// </summary>
+    public string ShardRunPort { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Google API key.
+    /// </summary>
+    public string GoogleApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Spotify client ID.
+    /// </summary>
+    public string SpotifyClientId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Spotify client secret.
+    /// </summary>
+    public string SpotifyClientSecret { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Mashape key.
+    /// </summary>
+    public string MashapeKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Statcord key.
+    /// </summary>
+    public string StatcordKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's clearance cookie for Cloudflare.
+    /// </summary>
+    public string CfClearance { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's user agent used for bypassing Cloudflare.
+    /// </summary>
+    public string UserAgent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's CSRF token used for bypassing Cloudflare.
+    /// </summary>
+    public string CsrfToken { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's owner IDs.
+    /// </summary>
+    public ImmutableArray<ulong> OwnerIds { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's osu! API key.
+    /// </summary>
+    public string OsuApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the key used for the bot's Cleverbot integration.
+    /// </summary>
+    public string CleverbotApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the command used to restart the bot.
+    /// </summary>
+    public RestartConfig RestartCommand { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's total number of shards.
+    /// </summary>
+    public int TotalShards { get; set; }
+
+    /// <summary>
+    /// Gets or sets the bot's Carbon key.
+    /// </summary>
+    public string CarbonKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets where the bot should save chat logs.
+    /// </summary>
+    public string ChatSavePath { get; set; }
+
+    /// <summary>
+    /// Gets or sets the command used to run a shard.
+    /// </summary>
+    public string ShardRunCommand { get; set; }
+
+    /// <summary>
+    /// Gets or sets the arguments used to run a shard.
+    /// </summary>
+    public string ShardRunArguments { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bot should use PostgreSQL.
+    /// </summary>
+    public bool UsePsql { get; set; }
+
+    /// <summary>
+    /// Gets or sets the PostgreSQL connection string.
+    /// </summary>
+    public string PsqlConnectionString { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Twitch client ID.
+    /// </summary>
+    public string TwitchClientId { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bot should use global currency.
+    /// </summary>
+    public bool UseGlobalCurrency { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Twitch client secret.
+    /// </summary>
+    public string TwitchClientSecret { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Trovo client ID.
+    /// </summary>
+    public string TrovoClientId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the URL for votes.
+    /// </summary>
+    public string VotesUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets the token for votes.
+    /// </summary>
+    public string VotesToken { get; set; }
+
+    /// <summary>
+    /// Gets or sets the token for bot lists.
+    /// </summary>
+    public string BotListToken { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Redis options.
+    /// </summary>
+    public string RedisOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the API key for LocationIQ.
+    /// </summary>
+    public string LocationIqApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the API key for TimezoneDB.
+    /// </summary>
+    public string TimezoneDbApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the API key for Coinmarketcap.
+    /// </summary>
+    public string CoinmarketcapApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the debug guild.
+    /// </summary>
+    public ulong DebugGuildId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Genius API key.
+    /// </summary>
+    public string GeniusKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the channel where guild joins are reported.
+    /// </summary>
+    public ulong GuildJoinsChannelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the channel where confession reports are sent.
+    /// </summary>
+    public ulong ConfessionReportChannelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the channel where global ban reports are sent.
+    /// </summary>
+    public ulong GlobalBanReportChannelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the channel where pronoun abuse reports are sent.
+    /// </summary>
+    public ulong PronounAbuseReportChannelId { get; set; }
+
+    /// <summary>
+    /// Checks if the specified user is an owner of the bot.
+    /// </summary>
+    /// <param name="u">The user to check.</param>
+    /// <returns>True if the user is an owner; otherwise, false.</returns>
+    public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
+
+    /// <summary>
+    ///  Used for creating a new credentials.json file.
     /// </summary>
     private class CredentialsModel : IBotCredentials
     {
@@ -299,9 +449,6 @@ public class BotCredentials : IBotCredentials
 
         [JsonIgnore]
         ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
-
-        [JsonIgnore]
-        ImmutableArray<ulong> IBotCredentials.OfficialMods { get; }
 
         [JsonIgnore]
         RestartConfig IBotCredentials.RestartCommand { get; }

@@ -34,10 +34,18 @@ using TypeReader = Discord.Commands.TypeReader;
 
 namespace Mewdeko;
 
+/// <summary>
+/// The main class for Mewdeko, responsible for initializing services, handling events, and managing the bot's lifecycle.
+/// </summary>
 public class Mewdeko
 {
     private readonly DbService db;
 
+    /// <summary>
+    /// Initializes a new instance of the Mewdeko bot with a specific shard ID.
+    /// </summary>
+    /// <param name="shardId">The ID of the shard this instance will operate on. If set to nothing it will act as if its unsharded.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if the shard ID is negative.</exception>
     public Mewdeko(int shardId)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(shardId);
@@ -71,19 +79,44 @@ public class Mewdeko
         });
     }
 
+    /// <summary>
+    /// Gets the credentials used by the bot.
+    /// </summary>
     public BotCredentials Credentials { get; }
+
+    /// <summary>
+    /// Gets the Discord client used by the bot.
+    /// </summary>
     public DiscordSocketClient Client { get; }
+
     private CommandService CommandService { get; }
+
+    /// <summary>
+    /// Gets the collection of all guild configurations. Is somehow better than redis.
+    /// </summary>
     public ConcurrentHashSet<GuildConfig> AllGuildConfigs;
 
+    /// <summary>
+    /// Gets the color used for successful operations.
+    /// </summary>
     public static Color OkColor { get; set; }
+
+    /// <summary>
+    /// Gets the color used for error operations.
+    /// </summary>
     public static Color ErrorColor { get; set; }
 
+    /// <summary>
+    /// Used to tell other services in the bot if its done initializing.
+    /// </summary>
     public TaskCompletionSource<bool> Ready { get; } = new();
 
     private IServiceProvider Services { get; set; }
     private IDataCache Cache { get; }
 
+    /// <summary>
+    /// Occurs when the bot joins a guild.
+    /// </summary>
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
@@ -439,6 +472,9 @@ public class Mewdeko
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Runs the bot and blocks the calling thread until the bot is stopped.
+    /// </summary>
     public async Task RunAndBlockAsync()
     {
         await RunAsync().ConfigureAwait(false);
@@ -485,6 +521,11 @@ public class Mewdeko
         }, CommandFlags.FireAndForget);
     }
 
+    /// <summary>
+    /// Sets the bot's status to the specified game.
+    /// </summary>
+    /// <param name="game">The name of the game to set.</param>
+    /// <param name="type">The type of activity.</param>
     public async Task SetGameAsync(string? game, ActivityType type)
     {
         var obj = new
@@ -496,7 +537,10 @@ public class Mewdeko
             .ConfigureAwait(false);
     }
 
-    public async Task GuildConfigsUpdated()
+    /// <summary>
+    /// Updates te guild configs hashset to whatever the db has right now. Will probably used by the api.
+    /// </summary>
+    private async Task GuildConfigsUpdated()
     {
         await using var uow = db.GetDbContext();
         AllGuildConfigs =
