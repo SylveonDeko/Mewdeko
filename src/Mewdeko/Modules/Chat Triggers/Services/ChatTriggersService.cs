@@ -594,7 +594,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             await using var uow = db.GetDbContext();
 
             // Initialize a list to store CTModel objects representing chat triggers
-            List<CTModel> triggers = new List<CTModel>();
+            List<CTModel> triggers = [];
             foreach (var (trigger, value) in data)
             {
                 // Convert exported triggers to CTModel objects and add them to the list
@@ -607,7 +607,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             // Check if the user has permission to manage all roles involved in the import
-            List<ulong> roles = new List<ulong>();
+            List<ulong> roles = [];
             triggers.ForEach(x => roles.AddRange(x.GetGrantedRoles()));
             triggers.ForEach(x => roles.AddRange(x.GetRemovedRoles()));
 
@@ -1945,13 +1945,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             // Check if the trigger name is valid
             if (!IsValidName(trigger.ApplicationCommandType, trigger.RealName))
             {
-                errors.Add(new ChatTriggersInteractionError("invalid_name", new[]
-                {
+                errors.Add(new ChatTriggersInteractionError("invalid_name", [
                     trigger.Id
-                }, new[]
-                {
+                ], [
                     trigger.RealName
-                }));
+                ]));
             }
 
             // Check for duplicate trigger names and subcommand matching parent triggers
@@ -1961,38 +1959,32 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
                 if (trigger.RealName == newTrigger.RealName)
                 {
-                    errors.Add(new ChatTriggersInteractionError("duplicate", new[]
-                        {
+                    errors.Add(new ChatTriggersInteractionError("duplicate", [
                             trigger.Id, newTrigger.Id
-                        },
-                        new[]
-                        {
+                        ],
+                        [
                             trigger.RealName, newTrigger.RealName
-                        }));
+                        ]));
                 }
 
                 switch (triggerDepth)
                 {
                     case 1 when newTriggerDepth == 2 && newTrigger.RealName.Split(' ')[0] == trigger.RealName:
-                        errors.Add(new ChatTriggersInteractionError("subcommand_match_parent", new[]
-                            {
+                        errors.Add(new ChatTriggersInteractionError("subcommand_match_parent", [
                                 trigger.Id, newTrigger.Id
-                            },
-                            new[]
-                            {
+                            ],
+                            [
                                 trigger.RealName, newTrigger.RealName
-                            }));
+                            ]));
                         break;
                     case 2 when newTriggerDepth == 3 &&
                                 string.Join(' ', newTrigger.RealName.Split(' ').Take(2)) == trigger.RealName:
-                        errors.Add(new ChatTriggersInteractionError("subcommand_match_parent", new[]
-                            {
+                        errors.Add(new ChatTriggersInteractionError("subcommand_match_parent", [
                                 trigger.Id, newTrigger.Id
-                            },
-                            new[]
-                            {
+                            ],
+                            [
                                 trigger.RealName, newTrigger.RealName
-                            }));
+                            ]));
                         break;
                 }
             }

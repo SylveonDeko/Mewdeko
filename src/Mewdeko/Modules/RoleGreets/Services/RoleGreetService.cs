@@ -3,11 +3,20 @@ using Serilog;
 
 namespace Mewdeko.Modules.RoleGreets.Services;
 
+/// <summary>
+/// Provides functionalities related to greeting users with specific roles in a guild.
+/// </summary>
 public class RoleGreetService : INService
 {
     private readonly DbService db;
     private readonly DiscordSocketClient client;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RoleGreetService"/> class.
+    /// </summary>
+    /// <param name="db">The database service for accessing role greet configurations.</param>
+    /// <param name="client">The Discord socket client to interact with the Discord API.</param>
+    /// <param name="eventHandler">The event handler to subscribe to guild member update events.</param>
     public RoleGreetService(DbService db, DiscordSocketClient client, EventHandler eventHandler)
     {
         this.client = client;
@@ -15,12 +24,27 @@ public class RoleGreetService : INService
         eventHandler.GuildMemberUpdated += DoRoleGreet;
     }
 
-    public async Task<RoleGreet[]> GetGreets(ulong roleId) => await db.GetDbContext().RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
+    /// <summary>
+    /// Retrieves an array of <see cref="RoleGreet"/> configurations for a specific role.
+    /// </summary>
+    /// <param name="roleId">The unique identifier of the role.</param>
+    /// <returns>An array of <see cref="RoleGreet"/> objects.</returns>
+    public async Task<RoleGreet[]> GetGreets(ulong roleId) =>
+        await db.GetDbContext().RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
 
-    // ReSharper disable once ReturnTypeCanBeNotNullable
+    /// <summary>
+    /// Retrieves a list of <see cref="RoleGreet"/> configurations for a specific guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>An array of <see cref="RoleGreet"/> objects if any are found; otherwise, null.</returns>
     public RoleGreet[]? GetListGreets(ulong guildId) =>
         db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
+    /// <summary>
+    /// Handles the role greet functionality when a guild member's roles are updated.
+    /// </summary>
+    /// <param name="cacheable">A cacheable representation of the updated guild member.</param>
+    /// <param name="socketGuildUser">The updated guild member.</param>
     private async Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
         var user = await cacheable.GetOrDownloadAsync().ConfigureAwait(false);
@@ -35,7 +59,8 @@ public class RoleGreetService : INService
         {
             var greets = await GetGreets(i.Id);
             if (greets.Length == 0) return;
-            var webhooks = greets.Where(x => x.WebhookUrl is not null).Select(x => new DiscordWebhookClient(x.WebhookUrl));
+            var webhooks = greets.Where(x => x.WebhookUrl is not null)
+                .Select(x => new DiscordWebhookClient(x.WebhookUrl));
             if (greets.Length > 0)
             {
                 async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user).ConfigureAwait(false);
@@ -52,12 +77,19 @@ public class RoleGreetService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the sending of greet messages through channel for roles added to a user.
+    /// </summary>
+    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet"/> configurations.</param>
+    /// <param name="role">The role that was added to the user.</param>
+    /// <param name="user">The user who received the role.</param>
     private async Task HandleChannelGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
     {
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
         if (!checkGreets.Any())
             return;
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild)
+            .Build();
         foreach (var i in checkGreets)
         {
             if (i.Disabled == 1)
@@ -76,25 +108,30 @@ public class RoleGreetService : INService
             var content = replacer.Replace(i.Message);
             try
             {
-                if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText, out var components))
+                if (SmartEmbed.TryParse(content, user.Guild?.Id, out var embedData, out var plainText,
+                        out var components))
                 {
                     if (embedData is not null && plainText is not "")
                     {
-                        var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await channel
+                            .SendMessageAsync(plainText, embeds: embedData, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
                             msg.DeleteAfter(i.DeleteTime);
                     }
 
                     if (embedData is null && plainText is not null)
                     {
-                        var msg = await channel.SendMessageAsync(plainText, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await channel.SendMessageAsync(plainText, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
                             msg.DeleteAfter(i.DeleteTime);
                     }
 
                     if (embedData is not null && plainText is "")
                     {
-                        var msg = await channel.SendMessageAsync(embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await channel.SendMessageAsync(embeds: embedData, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
                             msg.DeleteAfter(i.DeleteTime);
                     }
@@ -117,12 +154,19 @@ public class RoleGreetService : INService
         }
     }
 
+    /// <summary>
+    /// Handles the sending of greet messages through webhooks for roles added to a user.
+    /// </summary>
+    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet"/> configurations.</param>
+    /// <param name="role">The role that was added to the user.</param>
+    /// <param name="user">The user who received the role.</param>
     private async Task HandleWebhookGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
     {
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
         if (!checkGreets.Any())
             return;
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild)
+            .Build();
         foreach (var i in checkGreets)
         {
             if (i.WebhookUrl == null)
@@ -144,34 +188,43 @@ public class RoleGreetService : INService
             var content = replacer.Replace(i.Message);
             try
             {
-                if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText, out var components))
+                if (SmartEmbed.TryParse(content, channel.Guild?.Id, out var embedData, out var plainText,
+                        out var components))
                 {
                     if (embedData is not null && plainText is not "")
                     {
-                        var msg = await webhook.SendMessageAsync(plainText, embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await webhook
+                            .SendMessageAsync(plainText, embeds: embedData, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
-                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false))
+                                .DeleteAfter(i.DeleteTime);
                     }
 
                     if (embedData is null && plainText is not null)
                     {
-                        var msg = await webhook.SendMessageAsync(plainText, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await webhook.SendMessageAsync(plainText, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
-                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false))
+                                .DeleteAfter(i.DeleteTime);
                     }
 
                     if (embedData is not null && plainText is "")
                     {
-                        var msg = await webhook.SendMessageAsync(embeds: embedData, components: components?.Build()).ConfigureAwait(false);
+                        var msg = await webhook.SendMessageAsync(embeds: embedData, components: components?.Build())
+                            .ConfigureAwait(false);
                         if (i.DeleteTime > 0)
-                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                            (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false))
+                                .DeleteAfter(i.DeleteTime);
                     }
                 }
                 else
                 {
                     var msg = await webhook.SendMessageAsync(content).ConfigureAwait(false);
                     if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false)).DeleteAfter(i.DeleteTime);
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).ConfigureAwait(false))
+                            .DeleteAfter(i.DeleteTime);
                 }
             }
             catch (HttpException ex)
@@ -185,6 +238,13 @@ public class RoleGreetService : INService
         }
     }
 
+    /// <summary>
+    /// Adds a new role greet configuration.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="channelId">The unique identifier of the channel.</param>
+    /// <param name="roleId">The unique identifier of the role.</param>
+    /// <returns>True if the configuration was added successfully; otherwise, false.</returns>
     public async Task<bool> AddRoleGreet(ulong guildId, ulong channelId, ulong roleId)
     {
         if ((await GetGreets(guildId)).Length == 10)
@@ -199,6 +259,11 @@ public class RoleGreetService : INService
         return true;
     }
 
+    /// <summary>
+    /// Updates the message content of a role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to update.</param>
+    /// <param name="code">The new message content.</param>
     public async Task ChangeMgMessage(RoleGreet greet, string code)
     {
         var uow = db.GetDbContext();
@@ -207,6 +272,11 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Enables or disables a role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to update.</param>
+    /// <param name="disabled">Specifies whether the greet should be disabled.</param>
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
         var uow = db.GetDbContext();
@@ -215,6 +285,11 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Updates the deletion time for messages sent by a role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to update.</param>
+    /// <param name="howlong">The time in seconds after which the greet message should be deleted.</param>
     public async Task ChangeRgDelete(RoleGreet greet, int howlong)
     {
         var uow = db.GetDbContext();
@@ -223,6 +298,11 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Updates the webhook URL of a role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to update.</param>
+    /// <param name="webhookurl">The new webhook URL.</param>
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
         var uow = db.GetDbContext();
@@ -231,6 +311,11 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Enables or disables greeting bots for a role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to update.</param>
+    /// <param name="enabled">Specifies whether bots should be greeted.</param>
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
         var uow = db.GetDbContext();
@@ -239,6 +324,10 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Removes a specific role greet configuration.
+    /// </summary>
+    /// <param name="greet">The role greet configuration to remove.</param>
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
     {
         var uow = db.GetDbContext();
@@ -246,6 +335,10 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Removes multiple role greet configurations.
+    /// </summary>
+    /// <param name="greet">An array of role greet configurations to remove.</param>
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
         var uow = db.GetDbContext();

@@ -591,10 +591,10 @@ public static partial class Extensions
             x.Type is ApplicationCommandOptionType.SubCommand or ApplicationCommandOptionType.SubCommandGroup);
 
         if (!sgs.Any())
-            return new[]
-            {
+            return
+            [
                 baseName
-            };
+            ];
 
         var ctNames = new List<string>();
         foreach (var sg in sgs)

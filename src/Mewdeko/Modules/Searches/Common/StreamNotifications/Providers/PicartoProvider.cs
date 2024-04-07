@@ -8,19 +8,23 @@ using Serilog;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
+/// <inheritdoc />
 public class PicartoProvider : Provider
 {
     private static Regex Regex { get; } = new("picarto.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    /// <inheritdoc />
     public override FollowedStream.FType Platform
         => FollowedStream.FType.Picarto;
 
     private readonly IHttpClientFactory httpClientFactory;
 
+    /// <inheritdoc />
     public PicartoProvider(IHttpClientFactory httpClientFactory)
         => this.httpClientFactory = httpClientFactory;
 
+    /// <inheritdoc />
     public override Task<bool> IsValidUrl(string url)
     {
         var match = Regex.Match(url);
@@ -29,6 +33,7 @@ public class PicartoProvider : Provider
         // var username = match.Groups["name"].Value;
     }
 
+    /// <inheritdoc />
     public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         var match = Regex.Match(url);
@@ -37,6 +42,7 @@ public class PicartoProvider : Provider
         return GetStreamDataAsync(name);
     }
 
+    /// <inheritdoc />
 #pragma warning disable CS8609
     public override async Task<StreamData?> GetStreamDataAsync(string login)
 #pragma warning restore CS8609
@@ -46,6 +52,7 @@ public class PicartoProvider : Provider
         return data.FirstOrDefault();
     }
 
+    /// <inheritdoc />
     public override async Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> logins)
     {
         if (logins.Count == 0)

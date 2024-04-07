@@ -5,6 +5,9 @@ using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Searches.Services;
 
+/// <summary>
+/// Service for tracking RSS feeds and sending updates to subscribed channels.
+/// </summary>
 public class FeedsService : INService
 {
     private readonly DiscordSocketClient client;
@@ -15,6 +18,12 @@ public class FeedsService : INService
 
     private readonly ConcurrentDictionary<string, HashSet<FeedSub>> subs;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FeedsService"/> class.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="bot">The bot instance.</param>
     public FeedsService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.db = db;
@@ -31,7 +40,12 @@ public class FeedsService : INService
         _ = Task.Run(TrackFeeds);
     }
 
-    public async Task<EmbedBuilder> TrackFeeds()
+
+    /// <summary>
+    /// Tracks RSS feeds for updates and sends notifications to subscribed channels.
+    /// </summary>
+    /// <returns>An asynchronous task representing the operation.</returns>
+    private async Task<EmbedBuilder> TrackFeeds()
     {
         while (true)
         {
@@ -180,6 +194,13 @@ public class FeedsService : INService
         }
     }
 
+
+    /// <summary>
+    /// Tests an RSS feed subscription by sending an update to the specified channel.
+    /// </summary>
+    /// <param name="sub">The feed subscription to test.</param>
+    /// <param name="channel">The channel to send the test update to.</param>
+    /// <returns>An asynchronous task representing the operation.</returns>
     public async Task TestRss(FeedSub sub, ITextChannel channel)
     {
         var feed = await FeedReader.ReadAsync(sub.Url);
@@ -267,6 +288,12 @@ public class FeedsService : INService
             ? Task.FromResult((embed, content, components))
             : Task.FromResult<(Embed[], string, ComponentBuilder)>((Array.Empty<Embed>(), message, null));
 
+
+    /// <summary>
+    /// Retrieves all feed subscriptions for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A list of feed subscriptions.</returns>
     public List<FeedSub?> GetFeeds(ulong guildId)
     {
         using var uow = db.GetDbContext();
@@ -277,6 +304,13 @@ public class FeedsService : INService
             .ToList();
     }
 
+    /// <summary>
+    /// Adds a new RSS feed subscription to a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="channelId">The ID of the channel to receive updates.</param>
+    /// <param name="rssFeed">The URL of the RSS feed.</param>
+    /// <returns><c>true</c> if the feed subscription was successfully added; otherwise, <c>false</c>.</returns>
     public async Task<bool> AddFeed(ulong guildId, ulong channelId, string rssFeed)
     {
         rssFeed.ThrowIfNull(nameof(rssFeed));
@@ -307,6 +341,13 @@ public class FeedsService : INService
         return true;
     }
 
+    /// <summary>
+    /// Adds or updates the message template for a feed subscription.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="index">The index of the feed subscription.</param>
+    /// <param name="message">The message template to set.</param>
+    /// <returns><c>true</c> if the message template was successfully updated; otherwise, <c>false</c>.</returns>
     public async Task<bool> AddFeedMessage(ulong guildId, int index, string message)
     {
         if (index < 0)
@@ -333,6 +374,12 @@ public class FeedsService : INService
         return true;
     }
 
+    /// <summary>
+    /// Removes a feed subscription from a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="index">The index of the feed subscription to remove.</param>
+    /// <returns><c>true</c> if the feed subscription was successfully removed; otherwise, <c>false</c>.</returns>
     public bool RemoveFeed(ulong guildId, int index)
     {
         if (index < 0)

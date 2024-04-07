@@ -27,10 +27,9 @@ namespace Mewdeko.Common.Yml
                 if (!string.IsNullOrEmpty(value))
                 {
                     // Determine if the string value contains any multi-line characters.
-                    var isMultiLine = value.IndexOfAny(new[]
-                    {
+                    var isMultiLine = value.IndexOfAny([
                         '\r', '\n', '\x85', '\x2028', '\x2029'
-                    }) >= 0;
+                    ]) >= 0;
                     if (isMultiLine)
                     {
                         // Emit the scalar event in literal style for multi-line values.

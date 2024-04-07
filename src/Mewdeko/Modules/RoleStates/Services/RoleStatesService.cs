@@ -3,10 +3,18 @@ using Serilog;
 
 namespace Mewdeko.Modules.RoleStates.Services;
 
+/// <summary>
+/// Provides services for managing user role states within a guild. This includes saving roles before a user leaves or is banned, and optionally restoring them upon rejoining.
+/// </summary>
 public class RoleStatesService : INService
 {
     private readonly DbService dbService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RoleStatesService"/> class.
+    /// </summary>
+    /// <param name="dbService">The database service to interact with stored data.</param>
+    /// <param name="eventHandler">The event handler to subscribe to guild member events.</param>
     public RoleStatesService(DbService dbService, EventHandler eventHandler)
     {
         this.dbService = dbService;
@@ -113,7 +121,11 @@ public class RoleStatesService : INService
         await db.SaveChangesAsync();
     }
 
-
+    /// <summary>
+    /// Toggles the role state feature on or off for a guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating the operation success.</returns>
     public async Task<bool> ToggleRoleStates(ulong guildId)
     {
         await using var db = this.dbService.GetDbContext();
@@ -135,23 +147,44 @@ public class RoleStatesService : INService
         return !false.ParseBoth(roleStateSettings.Enabled);
     }
 
+    /// <summary>
+    /// Retrieves the role state settings for a guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the <see cref="RoleStateSettings"/> or null if not found.</returns>
     public async Task<RoleStateSettings?> GetRoleStateSettings(ulong guildId)
     {
         await using var db = dbService.GetDbContext();
         return await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ?? null;
     }
 
+    /// <summary>
+    /// Retrieves a user's saved role state within a guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the <see cref="UserRoleStates"/> or null if not found.</returns>
     public async Task<UserRoleStates?> GetUserRoleState(ulong guildId, ulong userId)
     {
         await using var db = dbService.GetDbContext();
         return await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId) ?? null;
     }
 
+    /// <summary>
+    /// Retrieves all user role states within a guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a list of <see cref="UserRoleStates"/>.</returns>
     public Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
     {
         return dbService.GetDbContext().UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
     }
 
+    /// <summary>
+    /// Updates the role state settings for a guild.
+    /// </summary>
+    /// <param name="roleStateSettings">The <see cref="RoleStateSettings"/> to be updated.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateRoleStateSettings(RoleStateSettings roleStateSettings)
     {
         await using var db = dbService.GetDbContext();
@@ -159,7 +192,11 @@ public class RoleStatesService : INService
         await db.SaveChangesAsync();
     }
 
-
+    /// <summary>
+    /// Toggles the option to ignore bots when saving and restoring roles.
+    /// </summary>
+    /// <param name="roleStateSettings">The <see cref="RoleStateSettings"/> to be updated.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if bots are now ignored.</returns>
     public async Task<bool> ToggleIgnoreBots(RoleStateSettings roleStateSettings)
     {
         await using var db = dbService.GetDbContext();
@@ -173,7 +210,11 @@ public class RoleStatesService : INService
         return false.ParseBoth(newIgnoreBotsValue);
     }
 
-
+    /// <summary>
+    /// Toggles the option to clear saved roles upon a user's ban.
+    /// </summary>
+    /// <param name="roleStateSettings">The <see cref="RoleStateSettings"/> to be updated.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if roles are cleared on ban.</returns>
     public async Task<bool> ToggleClearOnBan(RoleStateSettings roleStateSettings)
     {
         await using var db = dbService.GetDbContext();
@@ -187,7 +228,13 @@ public class RoleStatesService : INService
         return false.ParseBoth(roleStateSettings.ClearOnBan);
     }
 
-
+    /// <summary>
+    /// Adds roles to a user's saved role state.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <param name="roleIds">The roles to be added.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a tuple with a boolean indicating success and an optional error message.</returns>
     public async Task<(bool, string)> AddRolesToUserRoleState(ulong guildId, ulong userId, IEnumerable<ulong> roleIds)
     {
         await using var db = dbService.GetDbContext();
@@ -220,6 +267,13 @@ public class RoleStatesService : INService
         return (true, "");
     }
 
+    /// <summary>
+    /// Removes roles from a user's saved role state.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <param name="roleIds">The roles to be removed.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a tuple with a boolean indicating success and an optional error message.</returns>
     public async Task<(bool, string)> RemoveRolesFromUserRoleState(ulong guildId, ulong userId,
         IEnumerable<ulong> roleIds)
     {
@@ -253,7 +307,12 @@ public class RoleStatesService : INService
         return (true, "");
     }
 
-
+    /// <summary>
+    /// Deletes a user's role state.
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> DeleteUserRoleState(ulong userId, ulong guildId)
     {
         await using var db = dbService.GetDbContext();
@@ -265,6 +324,13 @@ public class RoleStatesService : INService
         return true;
     }
 
+    /// <summary>
+    /// Applies the saved role state from one user to another.
+    /// </summary>
+    /// <param name="sourceUserId">The source user's unique identifier.</param>
+    /// <param name="targetUser">The target <see cref="IGuildUser"/>.</param>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> ApplyUserRoleStateToAnotherUser(ulong sourceUserId, IGuildUser targetUser, ulong guildId)
     {
         await using var db = dbService.GetDbContext();
@@ -291,6 +357,13 @@ public class RoleStatesService : INService
         return true;
     }
 
+    /// <summary>
+    /// Sets a user's role state manually.
+    /// </summary>
+    /// <param name="user">The <see cref="IUser"/> whose role state is to be set.</param>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="roles">The roles to be saved.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetRoleStateManually(IUser user, ulong guildId, IEnumerable<ulong> roles)
     {
         await using var db = dbService.GetDbContext();

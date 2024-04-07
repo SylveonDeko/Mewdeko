@@ -1,9 +1,24 @@
-﻿namespace Mewdeko.Modules.Searches.Common;
-
-public class WoWJoke
+﻿namespace Mewdeko.Modules.Searches.Common
 {
-    public string? Question { get; set; }
-    public string? Answer { get; set; }
+    /// <summary>
+    /// Represents a World of Warcraft joke.
+    /// </summary>
+    public class WoWJoke
+    {
+        /// <summary>
+        /// Gets or sets the question part of the joke.
+        /// </summary>
+        public string? Question { get; set; }
 
-    public override string ToString() => $"`{Question}`\n\n**{Answer}**";
+        /// <summary>
+        /// Gets or sets the answer part of the joke.
+        /// </summary>
+        public string? Answer { get; set; }
+
+        /// <summary>
+        /// Generates a formatted string representation of the joke.
+        /// </summary>
+        /// <returns>A formatted string containing the question and answer of the joke.</returns>
+        public override string ToString() => $"`{Question}`\n\n**{Answer}**";
+    }
 }
