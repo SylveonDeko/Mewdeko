@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Mewdeko.Modules.Searches.Services;
+﻿using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using Serilog;
@@ -9,22 +8,23 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Service for caching data in Redis.
+/// </summary>
 public class RedisCache : IDataCache
 {
-    private EndPoint redisEndpoint;
-
     private string redisKey;
 
-    private readonly object timelyLock = new();
-    private readonly object voteLock = new();
-    private readonly int shardId;
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RedisCache"/> class.
+    /// </summary>
+    /// <param name="creds">The bot credentials.</param>
+    /// <param name="shardId">The shard ID.</param>
     public RedisCache(IBotCredentials creds, int shardId)
     {
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
         conf.SocketManager = new SocketManager("Main", true);
         LoadRedis(conf, creds, shardId).ConfigureAwait(false);
-        this.shardId = shardId;
     }
 
 
@@ -33,15 +33,24 @@ public class RedisCache : IDataCache
         options.AsyncTimeout = 20000;
         options.SyncTimeout = 20000;
         Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
-        redisEndpoint = Redis.GetEndPoints().First();
         LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
         redisKey = creds.RedisKey();
     }
 
+    /// <summary>
+    /// The Redis connection multiplexer.
+    /// </summary>
     public ConnectionMultiplexer Redis { get; set; }
 
+    /// <summary>
+    /// The local image cache.
+    /// </summary>
     public IImageCache LocalImages { get; set; }
+
+    /// <summary>
+    /// The local data cache.
+    /// </summary>
     public ILocalDataCache LocalData { get; set; }
 
 
@@ -49,6 +58,17 @@ public class RedisCache : IDataCache
     // because it's a good thing if different bots
     // which are hosted on the same PC
     // can re-use the same image/anime data
+    /// <summary>
+    /// Tries to get image data from the cache.
+    /// </summary>
+    /// <param name="key">The key to get the image data for.</param>
+    /// <returns>A tuple containing a boolean indicating whether the operation was successful and the image data.</returns>
+    /// <remarks>
+    /// things here so far don't need the bot id
+    /// because it's a good thing if different bots
+    /// which are hosted on the same PC
+    /// can re-use the same image/anime data
+    /// </remarks>
     public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key)
     {
         var db = Redis.GetDatabase();
@@ -56,6 +76,12 @@ public class RedisCache : IDataCache
         return (x != null, x);
     }
 
+    /// <summary>
+    /// Caaches a users afk status.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="afk">The afk status.</param>
     public async Task CacheAfk(ulong guildId, ulong userId, Afk afk)
     {
         try
@@ -70,6 +96,12 @@ public class RedisCache : IDataCache
         }
     }
 
+    /// <summary>
+    /// Retrieves a users afk status.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <returns>The afk status.</returns>
     public async Task<Afk?> RetrieveAfk(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
@@ -77,6 +109,11 @@ public class RedisCache : IDataCache
         return afkJson.HasValue ? JsonConvert.DeserializeObject<Afk>(afkJson) : null;
     }
 
+    /// <summary>
+    /// Clears a users afk status.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
     public async Task ClearAfk(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
@@ -84,12 +121,20 @@ public class RedisCache : IDataCache
             CommandFlags.FireAndForget);
     }
 
+    /// <summary>
+    /// Caches all status roles.
+    /// </summary>
+    /// <param name="statusRoles">The status roles to cache.</param>
     public async Task SetStatusRoleCache(List<StatusRolesTable> statusRoles)
     {
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"{redisKey}_statusroles", JsonConvert.SerializeObject(statusRoles));
     }
 
+    /// <summary>
+    /// Retrieves all status roles.
+    /// </summary>
+    /// <returns>The status roles.</returns>
     public async Task<List<StatusRolesTable>> GetStatusRoleCache()
     {
         var db = Redis.GetDatabase();
@@ -99,22 +144,12 @@ public class RedisCache : IDataCache
             : new List<StatusRolesTable>();
     }
 
-    public async Task<bool> AddProcessingUser(ulong id)
-    {
-        var db = Redis.GetDatabase();
-        if ((await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue)
-            return false;
-        await db.StringSetAsync($"{redisKey}_processingstatus_{id}_{shardId}", true, flags: CommandFlags.FireAndForget);
-        return true;
-    }
-
-    public async Task RemoveProcessingUser(ulong id)
-    {
-        var db = Redis.GetDatabase();
-        if (!(await db.StringGetAsync($"{redisKey}_processingstatus_{id}_{shardId}")).HasValue) return;
-        await db.KeyDeleteAsync($"{redisKey}_processingstatus_{id}_{shardId}", flags: CommandFlags.FireAndForget);
-    }
-
+    /// <summary>
+    /// Sets a users status cache.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="base64">The base64 string of users status.</param>
+    /// <returns></returns>
     public async Task<bool> SetUserStatusCache(ulong id, string base64)
     {
         var db = Redis.GetDatabase();
@@ -132,6 +167,12 @@ public class RedisCache : IDataCache
         return true;
     }
 
+    /// <summary>
+    /// Caches highlights for a user.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="objectList">The list of highlights.</param>
+    /// <returns></returns>
     public Task CacheHighlights(ulong id, List<Highlights> objectList)
     {
         _ = Task.Run(() => new RedisDictionary<ulong, List<Highlights>>($"{redisKey}_Highlights", Redis)
@@ -143,6 +184,12 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Caches highlight settings for a user.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="objectList">The list of highlight settings.</param>
+    /// <returns></returns>
     public Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList)
     {
         _ = Task.Run(() => new RedisDictionary<ulong, List<HighlightSettings>>($"{redisKey}_highlightSettings", Redis)
@@ -154,28 +201,26 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
-    public List<Afk?>? GetAfkForGuild(ulong id)
-    {
-        var customers = new RedisDictionary<ulong, List<Afk?>?>($"{redisKey}_afk", Redis);
-        return customers[id];
-    }
-
-    public Task AddAfkToCache(ulong id, List<Afk?> newAfk)
-    {
-        var customers = new RedisDictionary<ulong, List<Afk?>>($"{redisKey}_afk", Redis);
-        customers.Remove(id);
-        customers.Add(id, newAfk);
-        return Task.CompletedTask;
-    }
-
-    public Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk)
+    /// <summary>
+    /// Adds a snipe to the cache
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="newSnipes">The list of snipes.</param>
+    /// <returns></returns>
+    public Task AddSnipeToCache(ulong id, List<SnipeStore> newSnipes)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{redisKey}_snipes", Redis);
         customers.Remove(id);
-        customers.Add(id, newAfk);
+        customers.Add(id, newSnipes);
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds a users highlights to the cache.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="newHighlight">The list of highlights.</param>
+    /// <returns></returns>
     public Task AddHighlightToCache(ulong id, List<Highlights?> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<Highlights?>>($"{redisKey}_highlights", Redis);
@@ -184,33 +229,22 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
-    public Task AddIgnoredChannels(ulong guildId, ulong userId, string ignored)
-    {
-        var db = Redis.GetDatabase();
-        db.StringSet($"{redisKey}_ignoredchannels_{guildId}_{userId}", ignored, flags: CommandFlags.FireAndForget);
-        return Task.CompletedTask;
-    }
-
+    /// <summary>
+    /// Executes a Redis command.
+    /// </summary>
+    /// <param name="command">The command to execute.</param>
+    /// <returns></returns>
     public Task<RedisResult> ExecuteRedisCommand(string command)
     {
         var db = Redis.GetDatabase();
         return db.ExecuteAsync(command);
     }
 
-    public string GetIgnoredChannels(ulong guildId, ulong userId)
-    {
-        var db = Redis.GetDatabase();
-        var value = db.StringGet($"{redisKey}_ignoredchannels_{guildId}_{userId}");
-        return JsonConvert.DeserializeObject<string>(value);
-    }
-
-    public Task AddIgnoredUsers(ulong guildId, ulong userId, string ignored)
-    {
-        var db = Redis.GetDatabase();
-        db.StringSet($"{redisKey}_ignoredchannels_{guildId}_{userId}", ignored, flags: CommandFlags.FireAndForget);
-        return Task.CompletedTask;
-    }
-
+    /// <summary>
+    /// Tries to add a highlight stagger. Used to prevent spamming highlights.
+    /// </summary>
+    /// <param name="userId">The user ID.</param>
+    /// <returns></returns>
     public Task<bool> TryAddHighlightStaggerUser(ulong userId)
     {
         var db = Redis.GetDatabase();
@@ -218,13 +252,12 @@ public class RedisCache : IDataCache
             when: When.NotExists, flags: CommandFlags.FireAndForget));
     }
 
-    public string GetIgnoredUsers(ulong guildId, ulong userId)
-    {
-        var db = Redis.GetDatabase();
-        var value = db.StringGet($"{redisKey}_ignoredchannels_{guildId}_{userId}");
-        return JsonConvert.DeserializeObject<string>(value);
-    }
-
+    /// <summary>
+    /// Removes a highlight from a users cache.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="newHighlight">The list of highlights.</param>
+    /// <returns></returns>
     public Task RemoveHighlightFromCache(ulong id, List<Highlights?> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<Highlights?>>($"{redisKey}_highlights", Redis);
@@ -233,23 +266,12 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
-    public void SetGuildConfigs(List<GuildConfig> configs)
-    {
-        var db = Redis.GetDatabase();
-        var serialized = JsonConvert.SerializeObject(configs, settings: new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        });
-        db.StringSet($"{redisKey}_guildconfigs", serialized, flags: CommandFlags.FireAndForget);
-    }
-
-    public List<GuildConfig> GetGuildConfigs()
-    {
-        var db = Redis.GetDatabase();
-        var value = db.StringGet($"{redisKey}_guildconfigs");
-        return JsonConvert.DeserializeObject<List<GuildConfig>>(value);
-    }
-
+    /// <summary>
+    /// Adds a highlight setting to the cache.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="newHighlight">The list of highlight settings.</param>
+    /// <returns></returns>
     public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings?> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<HighlightSettings?>>($"{redisKey}_highlightSettings", Redis);
@@ -258,102 +280,56 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Gets all snipes for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <returns></returns>
     public Task<List<SnipeStore>?> GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{redisKey}_snipes", Redis);
         return Task.FromResult(customers[id]);
     }
 
+    /// <summary>
+    /// Gets all highlights for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <returns></returns>
     public List<Highlights?>? GetHighlightsForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<Highlights?>?>($"{redisKey}_highlights", Redis);
         return customers[id];
     }
 
+    /// <summary>
+    /// Gets all highlight settings for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <returns></returns>
     public List<HighlightSettings>? GetHighlightSettingsForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<HighlightSettings?>?>($"{redisKey}_highlightSettings", Redis);
         return customers[id];
     }
 
+    /// <summary>
+    /// Sets the image data in the cache.
+    /// </summary>
+    /// <param name="key">The key to set the image data for.</param>
+    /// <param name="data">The image data.</param>
     public async Task SetImageDataAsync(Uri key, byte[] data)
     {
         var db = Redis.GetDatabase();
         await db.StringSetAsync($"image_{key}", data, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 
-    public TimeSpan? AddTimelyClaim(ulong id, int period)
-    {
-        if (period == 0)
-            return null;
-        lock (timelyLock)
-        {
-            var time = TimeSpan.FromHours(period);
-            var db = Redis.GetDatabase();
-            if ((bool?)db.StringGet($"{redisKey}_timelyclaim_{id}") == null)
-            {
-                db.StringSet($"{redisKey}_timelyclaim_{id}", true, time, flags: CommandFlags.FireAndForget);
-                return null;
-            }
-
-            return db.KeyTimeToLive($"{redisKey}_timelyclaim_{id}");
-        }
-    }
-
-    public TimeSpan? AddVoteClaim(ulong id, int period)
-    {
-        if (period == 0)
-            return null;
-        lock (voteLock)
-        {
-            var time = TimeSpan.FromHours(period);
-            var db = Redis.GetDatabase();
-            if ((bool?)db.StringGet($"{redisKey}_voteclaim_{id}") == null)
-            {
-                db.StringSet($"{redisKey}_voteclaim_{id}", true, time, flags: CommandFlags.FireAndForget);
-                return null;
-            }
-
-            return db.KeyTimeToLive($"{redisKey}_voteclaim_{id}");
-        }
-    }
-
-    public void RemoveAllTimelyClaims()
-    {
-        var server = Redis.GetServer(redisEndpoint);
-        var db = Redis.GetDatabase();
-        foreach (var k in server.Keys(pattern: $"{redisKey}_timelyclaim_*"))
-            db.KeyDelete(k, CommandFlags.FireAndForget);
-    }
-
-    public bool TryAddAffinityCooldown(ulong userId, out TimeSpan? time)
-    {
-        var db = Redis.GetDatabase();
-        time = db.KeyTimeToLive($"{redisKey}_affinity_{userId}");
-        if (time == null)
-        {
-            time = TimeSpan.FromMinutes(30);
-            db.StringSet($"{redisKey}_affinity_{userId}", true, time, flags: CommandFlags.FireAndForget);
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool TryAddDivorceCooldown(ulong userId, out TimeSpan? time)
-    {
-        var db = Redis.GetDatabase();
-        time = db.KeyTimeToLive($"{redisKey}_divorce_{userId}");
-        if (time == null)
-        {
-            time = TimeSpan.FromHours(6);
-            db.StringSet($"{redisKey}_divorce_{userId}", true, time);
-            return true;
-        }
-
-        return false;
-    }
-
+    /// <summary>
+    /// Tries to add a highlight stagger. Used to prevent spamming highlights.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <returns></returns>
     public Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
@@ -361,12 +337,25 @@ public class RedisCache : IDataCache
             when: When.NotExists, flags: CommandFlags.FireAndForget));
     }
 
+    /// <summary>
+    /// Gets a highlight stagger.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <returns></returns>
     public Task<bool> GetHighlightStagger(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();
         return Task.FromResult(db.StringGet($"{redisKey}_hstagger_{guildId}_{userId}").HasValue);
     }
 
+    /// <summary>
+    /// Trues to add a rate limit for commands.
+    /// </summary>
+    /// <param name="id">The user ID.</param>
+    /// <param name="name">The name of the command.</param>
+    /// <param name="expireIn">The time the cooldown ends.</param>
+    /// <returns></returns>
     public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
     {
         var db = Redis.GetDatabase();
@@ -378,50 +367,12 @@ public class RedisCache : IDataCache
             : db.KeyTimeToLive($"{redisKey}_ratelimit_{id}_{name}");
     }
 
-    public bool TryGetEconomy(out string data)
-    {
-        var db = Redis.GetDatabase();
-        if ((data = db.StringGet($"{redisKey}_economy")) != null) return true;
-
-        return false;
-    }
-
-    public void SetEconomy(string data)
-    {
-        var db = Redis.GetDatabase();
-        db.StringSet($"{redisKey}_economy",
-            data,
-            TimeSpan.FromMinutes(3), flags: CommandFlags.FireAndForget);
-    }
-
-    public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
-    {
-        var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
-            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
-    }
-
-    public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
-    {
-        var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
-        return JsonConvert.DeserializeObject<bool>(toget);
-    }
-
-    public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
-    {
-        var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
-            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
-    }
-
-    public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
-    {
-        var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
-        return JsonConvert.DeserializeObject<int>(toget);
-    }
-
+    /// <summary>
+    /// Sets ship data in the cache.
+    /// </summary>
+    /// <param name="user1">The first user ID.</param>
+    /// <param name="user2">The second user ID.</param>
+    /// <param name="score">The ship score.</param>
     public async Task SetShip(ulong user1, ulong user2, int score)
     {
         var db = Redis.GetDatabase();
@@ -433,6 +384,12 @@ public class RedisCache : IDataCache
             expiry: TimeSpan.FromHours(12));
     }
 
+    /// <summary>
+    /// Gets ship data from the cache.
+    /// </summary>
+    /// <param name="user1">The first user ID.</param>
+    /// <param name="user2">The second user ID.</param>
+    /// <returns></returns>
     public async Task<ShipCache?> GetShip(ulong user1, ulong user2)
     {
         var db = Redis.GetDatabase();
@@ -440,20 +397,16 @@ public class RedisCache : IDataCache
         return !result.HasValue ? null : JsonConvert.DeserializeObject<ShipCache>(result);
     }
 
-    public async Task SetGuildSettingString(ulong guildId, string setting, string value)
-    {
-        var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value),
-            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
-    }
-
-    public async Task<string> GetGuildSettingString(ulong guildId, string setting)
-    {
-        var db = Redis.GetDatabase();
-        var toget = await db.StringGetAsync($"{redisKey}_{setting}_{guildId}").ConfigureAwait(false);
-        return JsonConvert.DeserializeObject<string>(toget);
-    }
-
+    /// <summary>
+    /// Dynamically gets or adds cached data.
+    /// </summary>
+    /// <param name="key">The key to get the data for.</param>
+    /// <param name="factory">The factory to create the data.</param>
+    /// <param name="param">The parameter to pass to the factory.</param>
+    /// <param name="expiry">The expiry time for the data.</param>
+    /// <typeparam name="TParam">The type of the parameter.</typeparam>
+    /// <typeparam name="TOut">The type of the data.</typeparam>
+    /// <returns></returns>
     public async Task<TOut?> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam?, Task<TOut?>> factory,
         TParam param, TimeSpan expiry) where TOut : class
     {
@@ -470,39 +423,5 @@ public class RedisCache : IDataCache
             expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         return obj;
-    }
-
-    public DateTime GetLastCurrencyDecay()
-    {
-        var db = Redis.GetDatabase();
-
-        var str = (string)db.StringGet($"{redisKey}_last_currency_decay");
-        if (string.IsNullOrEmpty(str))
-            return DateTime.MinValue;
-
-        return JsonConvert.DeserializeObject<DateTime>(str);
-    }
-
-    public void SetLastCurrencyDecay()
-    {
-        var db = Redis.GetDatabase();
-
-        db.StringSet($"{redisKey}_last_currency_decay", JsonConvert.SerializeObject(DateTime.UtcNow),
-            flags: CommandFlags.FireAndForget);
-    }
-
-    public Task SetStreamDataAsync(string url, string data)
-    {
-        var db = Redis.GetDatabase();
-        return db.StringSetAsync($"{redisKey}_stream_{url}", data, TimeSpan.FromHours(6),
-            flags: CommandFlags.FireAndForget);
-    }
-
-    public bool TryGetStreamData(string url, out string dataStr)
-    {
-        var db = Redis.GetDatabase();
-        dataStr = db.StringGet($"{redisKey}_stream_{url}");
-
-        return !string.IsNullOrWhiteSpace(dataStr);
     }
 }

@@ -5,8 +5,19 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 
+/// <summary>
+/// Commands for managing and interacting with suggestions.
+/// </summary>
 public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
+    /// <summary>
+    /// Sets or disables the suggestion channel for the server.
+    /// </summary>
+    /// <param name="channel">The text channel to set as the suggestion channel. If null, disables suggestions.</param>
+    /// <remarks>
+    /// Requires Manage Channels permission. When a channel is set, all future suggestions will be sent to that channel.
+    /// If no channel is provided, the suggestion feature is disabled.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels)]
     public async Task SetSuggestChannel(ITextChannel? channel = null)
@@ -26,6 +37,14 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
     }
 
+    /// <summary>
+    /// Provides detailed information about a specific suggestion.
+    /// </summary>
+    /// <param name="num">The unique number (ID) of the suggestion to retrieve information for.</param>
+    /// <remarks>
+    /// Displays information such as the content of the suggestion, who suggested it, current status, and reaction counts.
+    /// Requires Manage Messages permission.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SuggestInfo(ulong num)
     {
@@ -72,6 +91,13 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build()).ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Clears all suggestions from the server.
+    /// </summary>
+    /// <remarks>
+    /// Requires Administrator permission. This action cannot be undone, and all suggestions will be permanently removed.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task SuggestClear()
     {
@@ -90,6 +116,13 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
     }
 
+    /// <summary>
+    /// Submits a new suggestion to the designated suggestion channel.
+    /// </summary>
+    /// <param name="suggestion">The content of the suggestion to be submitted.</param>
+    /// <remarks>
+    /// The suggestion must meet the minimum and maximum length requirements set for the server.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Suggest([Remainder] string suggestion)
     {
@@ -125,24 +158,56 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
             suggestion, ctx.Channel as ITextChannel).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Denies a suggestion, marking it as rejected.
+    /// </summary>
+    /// <param name="sid">The unique number (ID) of the suggestion to deny.</param>
+    /// <param name="reason">Optional. The reason for denying the suggestion.</param>
+    /// <remarks>
+    /// Requires Manage Messages permission. The reason for denial is communicated to the suggester if provided.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Deny(ulong sid, [Remainder] string? reason = null) =>
         Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
+    /// <summary>
+    /// Accepts a suggestion, marking it as approved.
+    /// </summary>
+    /// <param name="sid">The unique number (ID) of the suggestion to accept.</param>
+    /// <param name="reason">Optional. The reason for accepting the suggestion.</param>
+    /// <remarks>
+    /// Requires Manage Messages permission. The reason for acceptance is communicated to the suggester if provided.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Accept(ulong sid, [Remainder] string? reason = null) =>
         Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
+    /// <summary>
+    /// Marks a suggestion as implemented.
+    /// </summary>
+    /// <param name="sid">The unique number (ID) of the suggestion to mark as implemented.</param>
+    /// <param name="reason">Optional. The reason or details regarding the implementation.</param>
+    /// <remarks>
+    /// Requires Manage Messages permission. This status indicates that the suggestion has been put into effect.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Implemented(ulong sid, [Remainder] string? reason = null) =>
         Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
+    /// <summary>
+    /// Marks a suggestion as being considered.
+    /// </summary>
+    /// <param name="sid">The unique number (ID) of the suggestion to mark as considered.</param>
+    /// <param name="reason">Optional. Comments or reasoning behind considering the suggestion.</param>
+    /// <remarks>
+    /// Requires Manage Messages permission. This status indicates that the suggestion is under review.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Consider(ulong sid, [Remainder] string? reason = null) =>

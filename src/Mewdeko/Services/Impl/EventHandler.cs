@@ -1,64 +1,225 @@
 ﻿namespace Mewdeko.Services.Impl;
 
+/// <summary>
+/// Used to combat discord.nets stupid non async event handlers.
+/// </summary>
 public class EventHandler
 {
-    // Delegates
+    #region Delegates
+
+    /// <summary>
+    /// Represents an asynchronous event handler.
+    /// </summary>
+    /// <typeparam name="TEventArgs">The type of the event arguments.</typeparam>
     public delegate Task AsyncEventHandler<in TEventArgs>(TEventArgs args);
 
+    /// <summary>
+    /// Represents an asynchronous event handler with two arguments.
+    /// </summary>
+    /// <typeparam name="TEventArgs">The type of the event arguments.</typeparam>
+    /// <typeparam name="TArgs">The type of the second event arguments.</typeparam>
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs>(TEventArgs args, TArgs arsg2);
 
+    /// <summary>
+    /// Represents an asynchronous event handler with three arguments.
+    /// </summary>
+    /// <typeparam name="TEventArgs">The type of the event arguments.</typeparam>
+    /// <typeparam name="TArgs">The type of the second event arguments.</typeparam>
+    /// <typeparam name="TEvent">The type of the third event arguments.</typeparam>
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2,
         TEvent args3);
 
+    /// <summary>
+    /// Represents an asynchronous event handler with four arguments.
+    /// </summary>
+    /// <typeparam name="TEventArgs">The type of the event arguments.</typeparam>
+    /// <typeparam name="TArgs">The type of the second event arguments.</typeparam>
+    /// <typeparam name="TEvent">The type of the third event arguments.</typeparam>
+    /// <typeparam name="TArgs2">The type of the fourth event arguments.</typeparam>
     public delegate Task AsyncEventHandler<in TEventArgs, in TArgs, in TEvent, in TArgs2>(TEventArgs args, TArgs args2,
         TEvent args3, TArgs2 args4);
 
-    // Actual events
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when a message is received.
+    /// </summary>
     public event AsyncEventHandler<SocketMessage>? MessageReceived;
+
+    /// <summary>
+    /// Occurs when a guild event is created.
+    /// </summary>
     public event AsyncEventHandler<SocketGuildEvent>? EventCreated;
+
+    /// <summary>
+    /// Occurs when a role is created.
+    /// </summary>
     public event AsyncEventHandler<SocketRole>? RoleCreated;
+
+    /// <summary>
+    /// Occurs when a guild is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketGuild, SocketGuild>? GuildUpdated;
+
+    /// <summary>
+    /// Occurs when a user joins a guild.
+    /// </summary>
     public event AsyncEventHandler<IGuildUser>? UserJoined;
+
+    /// <summary>
+    /// Occurs when a role is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketRole, SocketRole>? RoleUpdated;
+
+    /// <summary>
+    /// Occurs when a user leaves a guild.
+    /// </summary>
     public event AsyncEventHandler<IGuild, IUser>? UserLeft;
+
+    /// <summary>
+    /// Occurs when a message is deleted.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>>? MessageDeleted;
+
+    /// <summary>
+    /// Occurs when a guild member is updated.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<SocketGuildUser, ulong>, SocketGuildUser>? GuildMemberUpdated;
+
+    /// <summary>
+    /// Occurs when a message is updated.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel>? MessageUpdated;
 
+    /// <summary>
+    /// Occurs when a collection of messages are bulk deleted.
+    /// </summary>
     public event AsyncEventHandler<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>>?
         MessagesBulkDeleted;
 
+    /// <summary>
+    /// Occurs when a user is banned.
+    /// </summary>
     public event AsyncEventHandler<SocketUser, SocketGuild>? UserBanned;
+
+    /// <summary>
+    /// Occurs when a user is unbanned.
+    /// </summary>
     public event AsyncEventHandler<SocketUser, SocketGuild>? UserUnbanned;
+
+    /// <summary>
+    /// Occurs when a user's voice state is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketUser, SocketUser>? UserUpdated;
+
+    /// <summary>
+    /// Occurs when a user's voice state is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketUser, SocketVoiceState, SocketVoiceState>? UserVoiceStateUpdated;
+
+    /// <summary>
+    /// Occurs when a channel is created.
+    /// </summary>
     public event AsyncEventHandler<SocketChannel>? ChannelCreated;
+
+    /// <summary>
+    /// Occurs when a channel is destroyed.
+    /// </summary>
     public event AsyncEventHandler<SocketChannel>? ChannelDestroyed;
+
+    /// <summary>
+    /// \Occurs when a channel is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketChannel, SocketChannel>? ChannelUpdated;
+
+    /// <summary>
+    /// Occurs when a role is deleted.
+    /// </summary>
     public event AsyncEventHandler<SocketRole>? RoleDeleted;
 
+    /// <summary>
+    /// Occurs when a reaction is added to a message.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>?
         ReactionAdded;
 
+    /// <summary>
+    /// Occurs when a reaction is removed from a message.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction>?
         ReactionRemoved;
 
+    /// <summary>
+    /// Occurs when reactions are cleared from a message.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>>? ReactionsCleared;
+
+    /// <summary>
+    /// Occurs when an interaction is created.
+    /// </summary>
     public event AsyncEventHandler<SocketInteraction>? InteractionCreated;
+
+    /// <summary>
+    /// Occurs when a user starts typing.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<IUser, ulong>, Cacheable<IMessageChannel, ulong>>? UserIsTyping;
+
+    /// <summary>
+    /// Occurs when a users presence is updated.
+    /// </summary>
     public event AsyncEventHandler<SocketUser, SocketPresence, SocketPresence>? PresenceUpdated;
+
+    /// <summary>
+    /// Occurs when the bot joins a guild.
+    /// </summary>
     public event AsyncEventHandler<IGuild>? JoinedGuild;
+
+    /// <summary>
+    /// Occurs when a thread is created.
+    /// </summary>
     public event AsyncEventHandler<SocketThreadChannel>? ThreadCreated;
+
+    /// <summary>
+    /// Occurs when a thread is updated.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>, SocketThreadChannel>? ThreadUpdated;
+
+    /// <summary>
+    /// Occurs when a thread is deleted.
+    /// </summary>
     public event AsyncEventHandler<Cacheable<SocketThreadChannel, ulong>>? ThreadDeleted;
+
+    /// <summary>
+    /// Occurs when a user joins a thread.
+    /// </summary>
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberJoined;
+
+    /// <summary>
+    /// Occurs when a user leaves a thread.
+    /// </summary>
     public event AsyncEventHandler<SocketThreadUser>? ThreadMemberLeft;
+
+    /// <summary>
+    /// Occurs when an audit log event is created.
+    /// </summary>
     public event AsyncEventHandler<SocketAuditLogEntry, SocketGuild>? AuditLogCreated;
+
+    /// <summary>
+    /// Occurs when the client is ready.
+    /// </summary>
     public event AsyncEventHandler<DiscordSocketClient>? Ready;
+
+    #endregion
 
     private readonly DiscordSocketClient client;
 
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EventHandler"/> class. Used to combat discord.nets stupid non async event handlers.
+    /// </summary>
+    /// <param name="client">The discord client.</param>
     public EventHandler(DiscordSocketClient client)
     {
         this.client = client;
@@ -96,6 +257,8 @@ public class EventHandler
         client.AuditLogCreated += ClientOnAuditLogCreated;
         client.Ready += ClientOnReady;
     }
+
+    #region Event Handlers
 
     private Task ClientOnAuditLogCreated(SocketAuditLogEntry arg1, SocketGuild arg2)
     {
@@ -330,4 +493,6 @@ public class EventHandler
             _ = RoleCreated(args);
         return Task.CompletedTask;
     }
+
+    #endregion
 }
