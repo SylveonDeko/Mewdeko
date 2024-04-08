@@ -25,6 +25,19 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.Searches;
 
+/// <summary>
+/// The Searches module provides commands for searching and retrieving various types of information. It includes commands for searching memes, Reddit posts, weather, and more.
+/// </summary>
+/// <param name="creds">The bot credentials.</param>
+/// <param name="google">The Google API service.</param>
+/// <param name="factory">The HTTP client factory.</param>
+/// <param name="cache">The memory cache service.</param>
+/// <param name="tzSvc">The guild timezone service.</param>
+/// <param name="serv">The interactive service.</param>
+/// <param name="martineApi">The Martine API service.</param>
+/// <param name="toneTagService">The ToneTag service.</param>
+/// <param name="config">The bot configuration service.</param>
+/// <param name="nsfwSpy">The NSFW spy service.</param>
 public partial class Searches(
     IBotCredentials creds,
     IGoogleApiService google,

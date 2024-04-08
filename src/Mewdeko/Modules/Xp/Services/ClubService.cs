@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Xp.Services;
 
-public class ClubService : INService
+/// <summary>
+/// Provides services related to club management within the experience (XP) module.
+/// </summary>
+public class ClubService(DbService db, IHttpClientFactory httpFactory) : INService
 {
-    private readonly DbService db;
-    private readonly IHttpClientFactory httpFactory;
-
-    public ClubService(DbService db, IHttpClientFactory httpFactory)
-    {
-        this.db = db;
-        this.httpFactory = httpFactory;
-    }
-
+    /// <summary>
+    /// Attempts to create a new club with the specified name for the given user.
+    /// </summary>
+    /// <param name="user">The user creating the club.</param>
+    /// <param name="clubName">The desired name for the club.</param>
+    /// <returns>A tuple indicating success status and the created <see cref="ClubInfo"/>, if successful.</returns>
     public async Task<(bool, ClubInfo)> CreateClub(IUser user, string clubName)
     {
         //must be lvl 5 and must not be in a club already
@@ -48,6 +48,12 @@ public class ClubService : INService
         return (true, du.Club);
     }
 
+    /// <summary>
+    /// Transfers club ownership from one user to another.
+    /// </summary>
+    /// <param name="from">The current owner of the club.</param>
+    /// <param name="newOwner">The new owner to transfer the club to.</param>
+    /// <returns>The updated <see cref="ClubInfo"/> with the new owner, or null if the transfer was unsuccessful.</returns>
     public async Task<ClubInfo?> TransferClub(IUser from, IUser newOwner)
     {
         await using var uow = db.GetDbContext();
@@ -69,6 +75,12 @@ public class ClubService : INService
         return club;
     }
 
+    /// <summary>
+    /// Toggles the admin status of a user within a club.
+    /// </summary>
+    /// <param name="owner">The owner of the club.</param>
+    /// <param name="toAdmin">The user to toggle admin status for.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> ToggleAdmin(IUser owner, IUser toAdmin)
     {
         await using var uow = db.GetDbContext();
@@ -90,12 +102,23 @@ public class ClubService : INService
         return false.ParseBoth(newState);
     }
 
+    /// <summary>
+    /// Gets the club information by a member of the club.
+    /// </summary>
+    /// <param name="user">The user whose club information is to be retrieved.</param>
+    /// <returns>The <see cref="ClubInfo"/> of the club the user is a member of, or null if the user is not in a club.</returns>
     public async Task<ClubInfo?> GetClubByMember(IUser user)
     {
         await using var uow = db.GetDbContext();
         return await uow.Clubs.GetByMember(user.Id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the icon for a club owned by the specified user.
+    /// </summary>
+    /// <param name="ownerUserId">The user ID of the club owner.</param>
+    /// <param name="url">The URL of the new club icon.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> SetClubIcon(ulong ownerUserId, Uri? url)
     {
         if (url != null)
@@ -119,6 +142,12 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Retrieves a club by its name.
+    /// </summary>
+    /// <param name="clubName">The name of the club to retrieve.</param>
+    /// <param name="club">Out parameter that contains the retrieved club, if found.</param>
+    /// <returns>True if the club was found, false otherwise.</returns>
     public bool GetClubByName(string clubName, out ClubInfo club)
     {
         club = null;
@@ -142,6 +171,12 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Applies a user to a club.
+    /// </summary>
+    /// <param name="user">The user applying to the club.</param>
+    /// <param name="club">The club to apply to.</param>
+    /// <returns>True if the application was successful, false otherwise.</returns>
     public async Task<bool> ApplyToClub(IUser user, ClubInfo club)
     {
         await using var uow = db.GetDbContext();
@@ -170,6 +205,12 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Accepts an application to a club.
+    /// </summary>
+    /// <param name="clubOwnerUserId">The user ID of the club owner.</param>
+    /// <param name="userName">The name of the user whose application is being accepted.</param>
+    /// <returns>A tuple containing the operation's success status and the <see cref="DiscordUser"/> if the operation was successful.</returns>
     public async Task<(bool, DiscordUser)> AcceptApplication(ulong clubOwnerUserId, string userName)
     {
         await using var uow = db.GetDbContext();
@@ -197,12 +238,22 @@ public class ClubService : INService
         return (true, discordUser);
     }
 
+    /// <summary>
+    /// Retrieves club information along with its bans and applications.
+    /// </summary>
+    /// <param name="ownerUserId">The user ID of the club owner or admin.</param>
+    /// <returns>The <see cref="ClubInfo"/> including bans and applications, or null if not found.</returns>
     public async Task<ClubInfo?> GetClubWithBansAndApplications(ulong ownerUserId)
     {
         await using var uow = db.GetDbContext();
         return await uow.Clubs.GetByOwnerOrAdmin(ownerUserId).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// A member leaves a club.
+    /// </summary>
+    /// <param name="user">The user leaving the club.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> LeaveClub(IUser user)
     {
         await using var uow = db.GetDbContext();
@@ -217,6 +268,12 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Changes the minimum level requirement to join a club.
+    /// </summary>
+    /// <param name="userId">The user ID of the club owner.</param>
+    /// <param name="level">The new minimum level requirement.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> ChangeClubLevelReq(ulong userId, int level)
     {
         if (level < 5)
@@ -233,6 +290,12 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Changes the description of a club.
+    /// </summary>
+    /// <param name="userId">The user ID of the club owner.</param>
+    /// <param name="desc">The new description for the club.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> ChangeClubDescription(ulong userId, string? desc)
     {
         await using var uow = db.GetDbContext();
@@ -246,6 +309,11 @@ public class ClubService : INService
         return true;
     }
 
+    /// <summary>
+    /// Disbands a club.
+    /// </summary>
+    /// <param name="userId">The user ID of the club owner.</param>
+    /// <returns>A tuple containing the operation's success status and the <see cref="ClubInfo"/> of the disbanded club, if successful.</returns>
     public async Task<(bool, ClubInfo)> Disband(ulong userId)
     {
         await using var uow = db.GetDbContext();
@@ -259,6 +327,12 @@ public class ClubService : INService
         return (true, club);
     }
 
+    /// <summary>
+    /// Bans a user from a club.
+    /// </summary>
+    /// <param name="bannerId">The user ID of the person performing the ban.</param>
+    /// <param name="userName">The name of the user to be banned.</param>
+    /// <returns>A tuple indicating success status and the updated <see cref="ClubInfo"/>, if successful.</returns>
     public async Task<(bool, ClubInfo)> Ban(ulong bannerId, string userName)
     {
         await using var uow = db.GetDbContext();
@@ -266,7 +340,8 @@ public class ClubService : INService
         if (club == null)
             return (false, null);
 
-        var usr = club.Users.Find(x => string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))
+        var usr = club.Users.Find(x =>
+                      string.Equals(x.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))
                   ?? club.Applicants.Find(x =>
                       string.Equals(x.User.ToString(), userName, StringComparison.InvariantCultureIgnoreCase))?.User;
         if (usr == null)
@@ -293,6 +368,12 @@ public class ClubService : INService
         return (true, club);
     }
 
+    /// <summary>
+    /// Unbans a user from a club.
+    /// </summary>
+    /// <param name="ownerUserId">The user ID of the club owner or an administrator.</param>
+    /// <param name="userName">The name of the user to be unbanned.</param>
+    /// <returns>A tuple indicating success status and the updated <see cref="ClubInfo"/>, if successful.</returns>
     public async Task<(bool, ClubInfo)> UnBan(ulong ownerUserId, string userName)
     {
         await using var uow = db.GetDbContext();
@@ -309,6 +390,12 @@ public class ClubService : INService
         return (true, club);
     }
 
+    /// <summary>
+    /// Kicks a user from a club.
+    /// </summary>
+    /// <param name="kickerId">The user ID of the person performing the kick.</param>
+    /// <param name="userName">The name of the user to be kicked.</param>
+    /// <returns>A tuple indicating success status and the updated <see cref="ClubInfo"/>, if successful.</returns>
     public async Task<(bool, ClubInfo)> Kick(ulong kickerId, string userName)
     {
         await using var uow = db.GetDbContext();
@@ -331,6 +418,12 @@ public class ClubService : INService
         return (true, club);
     }
 
+    /// <summary>
+    /// Retrieves a page of clubs for the leaderboard display.
+    /// </summary>
+    /// <param name="page">The page number to retrieve.</param>
+    /// <returns>A list of <see cref="ClubInfo"/> objects representing the clubs on the requested leaderboard page.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the provided page number is less than 0.</exception>
     public async Task<List<ClubInfo>> GetClubLeaderboardPage(int page)
     {
         if (page < 0)

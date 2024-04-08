@@ -10,6 +10,18 @@ using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Xp;
 
+/// <summary>
+/// Represents the XP module of the bot, handling various XP-related commands and configurations.
+/// </summary>
+/// <param name="tracker">A service for tracking downloads.</param>
+/// <param name="xpconfig">A service for managing XP configuration settings.</param>
+/// <param name="serv">An interactive service for creating interactive prompts and pagination.</param>
+/// <param name="bss">A service for accessing and managing bot configurations.</param>
+/// <param name="db">A service for interacting with the database.</param>
+/// <remarks>
+/// The XP module includes commands for setting up XP earning rates, managing XP roles and rewards,
+/// adjusting notification settings, excluding users/roles/channels from earning XP, and more.
+/// </remarks>
 public partial class Xp(
     DownloadTracker tracker,
     XpConfigService xpconfig,
@@ -18,25 +30,57 @@ public partial class Xp(
     DbService db)
     : MewdekoModuleBase<XpService>
 {
+    /// <summary>
+    /// Enumerates the possible channels within the context of the XP module.
+    /// </summary>
     public enum Channel
     {
+        /// <summary>
+        /// Represents a channel.
+        /// </summary>
         Channel
     }
 
+    /// <summary>
+    /// Enumerates the places where notifications can be set within the XP module.
+    /// </summary>
     public enum NotifyPlace
     {
+        /// <summary>
+        /// Represents the server context for notifications.
+        /// </summary>
         Server = 0,
+
+        /// <summary>
+        /// Represents the guild context for notifications.
+        /// </summary>
         Guild = 0,
+
+        /// <summary>
+        /// Represents the global context for notifications.
+        /// </summary>
         Global = 1
     }
 
+    /// <summary>
+    /// Enumerates the possible roles within the XP module.
+    /// </summary>
     public enum Role
     {
+        /// <summary>
+        /// Represents a role.
+        /// </summary>
         Role
     }
 
+    /// <summary>
+    /// Enumerates the possible servers within the XP module.
+    /// </summary>
     public enum Server
     {
+        /// <summary>
+        /// Represents a server.
+        /// </summary>
         Server
     }
 
@@ -67,6 +111,15 @@ public partial class Xp(
         };
     }
 
+    /// <summary>
+    /// Sets the XP image for the server.
+    /// </summary>
+    /// <param name="url">The URL of the image to set as the XP image. If null, the method attempts to use an attachment from the message.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the XP image.</returns>
+    /// <remarks>
+    /// This command allows server administrators to set a custom image that is displayed in XP-related messages.
+    /// If a URL is not provided, the command looks for an image attachment in the message.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
     public async Task SetXpImage(string url = null)
     {
@@ -88,7 +141,7 @@ public partial class Xp(
             }
         }
 
-        var (reason, success) = await Service.ValidateImageUrl(url);
+        var (reason, success) = await XpService.ValidateImageUrl(url);
 
         if (!success)
         {
@@ -100,6 +153,14 @@ public partial class Xp(
         await ctx.Channel.SendConfirmAsync("XP image URL has been set.").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Synchronizes the role rewards for the user based on their current XP level.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of syncing XP role rewards.</returns>
+    /// <remarks>
+    /// This command checks the user's current XP level and applies any role rewards they should have based on that level.
+    /// It's useful for ensuring users have all the roles they are entitled to according to their XP level.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Ratelimit(60)]
     public async Task SyncRewards()
     {
@@ -167,6 +228,16 @@ public partial class Xp(
             });
     }
 
+    /// <summary>
+    /// Updates XP settings for the server or displays the current settings if no parameters are specified.
+    /// </summary>
+    /// <param name="setting">The setting to update. Can be null to display current settings.</param>
+    /// <param name="value">The new value for the setting. Use 999999999 as a default placeholder to indicate no change.</param>
+    /// <returns>A task that represents the asynchronous operation of updating or displaying XP settings.</returns>
+    /// <remarks>
+    /// This command allows for the adjustment of various XP-related settings, such as the rate at which XP is earned.
+    /// If no parameters are specified, it displays the current XP settings for the server.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageGuild)]
     public async Task XpSetting(string? setting = null, int value = 999999999)
@@ -265,6 +336,15 @@ public partial class Xp(
         }
     }
 
+    /// <summary>
+    /// Generates and sends an XP image for a specified user.
+    /// </summary>
+    /// <param name="user">The user for whom to generate the XP image. If null, the XP image is generated for the command invoker.</param>
+    /// <returns>A task that represents the asynchronous operation of generating and sending the XP image.</returns>
+    /// <remarks>
+    /// This command creates an image displaying the user's current XP level and other related information,
+    /// then sends this image to the channel where the command was invoked.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Experience([Remainder] IGuildUser? user = null)
     {
@@ -286,6 +366,13 @@ public partial class Xp(
         }
     }
 
+    /// <summary>
+    /// Displays the XP level-up rewards for the server.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of displaying XP level-up rewards.</returns>
+    /// <remarks>
+    /// This command lists all the roles that users can receive as rewards for reaching certain XP levels within the server.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpLevelUpRewards()
     {
@@ -339,6 +426,15 @@ public partial class Xp(
         }
     }
 
+    /// <summary>
+    /// Sets or clears an XP role reward for reaching a specified level.
+    /// </summary>
+    /// <param name="level">The XP level for which to set or clear the reward.</param>
+    /// <param name="role">The role to set as a reward for reaching the specified level. If null, the reward for the level is cleared.</param>
+    /// <returns>A task that represents the asynchronous operation of setting or clearing an XP role reward.</returns>
+    /// <remarks>
+    /// This command allows server administrators to configure roles as rewards for users reaching specific XP levels.
+    /// </remarks>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
     public async Task XpRoleReward(int level, [Remainder] IRole? role = null)
@@ -361,13 +457,22 @@ public partial class Xp(
 
     private string? GetNotifLocationString(XpNotificationLocation loc)
     {
-        if (loc == XpNotificationLocation.Channel) return GetText("xpn_notif_channel");
-
-        if (loc == XpNotificationLocation.Dm) return GetText("xpn_notif_dm");
-
-        return GetText("xpn_notif_disabled");
+        return loc switch
+        {
+            XpNotificationLocation.Channel => GetText("xpn_notif_channel"),
+            XpNotificationLocation.Dm => GetText("xpn_notif_dm"),
+            _ => GetText("xpn_notif_disabled")
+        };
     }
 
+    /// <summary>
+    /// Sets or gets the notification setting for XP level-ups.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of setting or getting the XP notification setting.</returns>
+    /// <remarks>
+    /// Without parameters, this command displays the current notification setting for XP level-ups.
+    /// With parameters, it updates the notification setting to either notify in a server channel, via DM, or disable notifications altogether.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpNotify()
     {
@@ -380,6 +485,16 @@ public partial class Xp(
         await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets the notification setting for XP level-ups.
+    /// </summary>
+    /// <param name="place">The place to set the notification setting for. Can be Server (Guild) or Global.</param>
+    /// <param name="type">The type of notification to set. Can be Server (Guild) or Global.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the XP notification.</returns>
+    /// <remarks>
+    /// This command allows users to set the notification preferences for XP level-ups,
+    /// either for the current server or globally across all servers where the bot is present.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpNotify(NotifyPlace place, XpNotificationLocation type)
     {
@@ -391,6 +506,13 @@ public partial class Xp(
         await ctx.OkAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles whether the server is excluded from earning XP.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of toggling server XP exclusion.</returns>
+    /// <remarks>
+    /// This command allows server administrators to toggle whether the server is excluded from earning XP.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task XpExclude(Server _)
@@ -401,6 +523,14 @@ public partial class Xp(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles whether a role is excluded from earning XP.
+    /// </summary>
+    /// <param name="role">The role to toggle exclusion for.</param>
+    /// <returns>A task that represents the asynchronous operation of toggling role XP exclusion.</returns>
+    /// <remarks>
+    /// This command allows server administrators to toggle whether a specific role is excluded from earning XP.
+    /// </remarks>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageRoles),
      RequireContext(ContextType.Guild)]
     public async Task XpExclude(Role _, [Remainder] IRole role)
@@ -411,6 +541,15 @@ public partial class Xp(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Toggles whether a channel is excluded from earning XP.
+    /// </summary>
+    /// <param name="channel">The channel to toggle exclusion for. If null, the current channel is used.</param>
+    /// <returns>A task that represents the asynchronous operation of toggling channel XP exclusion.</returns>
+    /// <remarks>
+    /// This command allows server administrators to toggle whether a specific channel is excluded from earning XP.
+    /// If no channel is specified, the command applies to the current channel where it was invoked.
+    /// </remarks>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels),
      RequireContext(ContextType.Guild)]
     public async Task XpExclude(Channel _, [Remainder] IChannel? channel = null)
@@ -424,6 +563,13 @@ public partial class Xp(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Displays a list of excluded users, roles, and channels from earning XP.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of displaying the XP exclusion list.</returns>
+    /// <remarks>
+    /// This command lists all users, roles, and channels that are currently excluded from earning XP in the server.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpExclusionList()
     {
@@ -471,6 +617,15 @@ public partial class Xp(
         }
     }
 
+    /// <summary>
+    /// Displays the server leaderboard based on XP levels.
+    /// </summary>
+    /// <param name="args">Arguments for customizing the leaderboard display.</param>
+    /// <returns>A task that represents the asynchronous operation of displaying the server XP leaderboard.</returns>
+    /// <remarks>
+    /// This command shows a leaderboard of users in the server ranked by their XP levels.
+    /// It allows for customization of the leaderboard display using various arguments.
+    /// </remarks>
     [Cmd, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(1),
      RequireContext(ContextType.Guild)]
     public async Task XpLeaderboard(params string[] args)
@@ -545,6 +700,15 @@ public partial class Xp(
         }
     }
 
+    /// <summary>
+    /// Adds a specified amount of XP to a user.
+    /// </summary>
+    /// <param name="amount">The amount of XP to add to the user.</param>
+    /// <param name="userId">The ID of the user to add XP to.</param>
+    /// <returns>A task that represents the asynchronous operation of adding XP to the user.</returns>
+    /// <remarks>
+    /// This command allows server administrators to manually add XP to a user's account.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task XpAdd(int amount, ulong userId)
@@ -559,32 +723,29 @@ public partial class Xp(
             .ConfigureAwait(false);
     }
 
-    // [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    // public async Task XpCurrencyReward(int level, int amount = 0)
-    // {
-    //     if (level < 1 || amount < 0)
-    //         return;
-    //
-    //     Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
-    //     var config = gss.Data;
-    //
-    //     if (amount == 0)
-    //     {
-    //         await ReplyConfirmLocalizedAsync("cur_reward_cleared", level, config.Currency.Sign)
-    //             .ConfigureAwait(false);
-    //     }
-    //     else
-    //     {
-    //         await ReplyConfirmLocalizedAsync("cur_reward_added",
-    //                 level, Format.Bold(amount + config.Currency.Sign))
-    //             .ConfigureAwait(false);
-    //     }
-    // }
-
+    /// <summary>
+    /// Adds a specified amount of XP to a user.
+    /// </summary>
+    /// <param name="amount">The amount of XP to add to the user.</param>
+    /// <param name="user">The user to add XP to.</param>
+    /// <returns>A task that represents the asynchronous operation of adding XP to the user.</returns>
+    /// <remarks>
+    /// This command allows server administrators to manually add XP to a user's account.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);
 
+    /// <summary>
+    /// Updates or displays the template configuration for the server.
+    /// </summary>
+    /// <param name="property">The property to update or display. Can be null to display all properties.</param>
+    /// <param name="subProperty">The subproperty to update within the specified property. Can be null.</param>
+    /// <param name="value">The value to set for the property or subproperty. Can be null if no value is provided.</param>
+    /// <returns>A task that represents the asynchronous operation of updating or displaying the template configuration.</returns>
+    /// <remarks>
+    /// This command allows server administrators to view and modify various configuration settings related to templates.
+    /// </remarks>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task TemplateConfig(string property = null, string subProperty = null, string value = null)

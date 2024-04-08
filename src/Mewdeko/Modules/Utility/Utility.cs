@@ -19,6 +19,19 @@ using StringExtensions = Mewdeko.Extensions.StringExtensions;
 
 namespace Mewdeko.Modules.Utility;
 
+/// <summary>
+/// Contains various utility commands like sniping deleted messages, getting a list of roles with specific permissions, etc.
+/// </summary>
+/// <param name="client"></param>
+/// <param name="stats"></param>
+/// <param name="creds"></param>
+/// <param name="tracker"></param>
+/// <param name="serv"></param>
+/// <param name="coordinator"></param>
+/// <param name="guildSettings"></param>
+/// <param name="httpClient"></param>
+/// <param name="config"></param>
+/// <param name="db"></param>
 public partial class Utility(
     DiscordSocketClient client,
     IStatsService stats,
@@ -34,12 +47,26 @@ public partial class Utility(
 {
     private static readonly SemaphoreSlim Sem = new(1, 1);
 
+    /// <summary>
+    /// Parses the type of permission search.
+    /// </summary>
     public enum PermissionType
     {
+        /// <summary>
+        /// Searches for roles that have all the specified permissions.
+        /// </summary>
         And,
+
+        /// <summary>
+        /// Searches for roles that have any of the specified permissions.
+        /// </summary>
         Or
     }
 
+    /// <summary>
+    /// Debug command to test parsing of embeds.
+    /// </summary>
+    /// <param name="embedText">The text to parse as an embed.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task DebugEmbed([Remainder] string embedText)
     {
@@ -68,6 +95,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Lists all roles that have the specified permissions.
+    /// </summary>
+    /// <param name="searchType">The type of permission search (And or Or).</param>
+    /// <param name="perms">The permissions to search for.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RolePermList(PermissionType searchType = PermissionType.And, params GuildPermission[] perms)
     {
@@ -139,10 +171,20 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Lists all roles that have the specified permissions. Default search type is And.
+    /// </summary>
+    /// <param name="perms">The permissions to search for.</param>
+    /// <returns></returns>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public Task RolePermList(params GuildPermission[] perms)
         => RolePermList(PermissionType.And, perms);
 
+    /// <summary>
+    /// Gets the mewdeko specific json of a message.
+    /// </summary>
+    /// <param name="id">The id of the message to get the json of.</param>
+    /// <param name="channel">The channel of the message.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GetJson(ulong id, ITextChannel channel = null)
     {
@@ -164,10 +206,21 @@ public partial class Utility(
         await writer.DisposeAsync();
     }
 
+    /// <summary>
+    /// Gets the mewdeko specific json of a message.
+    /// </summary>
+    /// <param name="channel">The channel of the message.</param>
+    /// <param name="messageId">The id of the message to get the json of.</param>
+    /// <returns></returns>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public Task GetJson(ITextChannel channel, ulong messageId)
         => GetJson(messageId, channel);
 
+    /// <summary>
+    /// Saves the chat log of a channel. Public mewdeko saves this to the nginx cdn then sends you a link to display it on the cdn
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="channel"></param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task SaveChat(StoopidTime time, ITextChannel? channel = null)
     {
@@ -226,6 +279,10 @@ public partial class Utility(
                 .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets the emotes in a guild. If an emote type is specified, only the emotes of that type will be listed.
+    /// </summary>
+    /// <param name="emotetype">The type of emotes to list (animated or nonanimated).</param>
     [Cmd, Aliases]
     public async Task EmoteList([Remainder] string? emotetype = null)
     {
@@ -274,68 +331,25 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the bots invite link. As well as showing the website, docs, and support server.
+    /// </summary>
     [Cmd, Aliases]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link",
-                "[Anime](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n[Non Anime](https://discord.com/oauth2/authorize?client_id=733370438175948891&scope=bot&permissions=66186303)")
+                "[Invite Link](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)")
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", config.Data.SupportServer)
             .WithOkColor();
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
-    [Cmd, Aliases]
-    public async Task TestSite(string url)
-    {
-        var response = await httpClient.GetAsync(url).ConfigureAwait(false);
-
-        await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var statusCode = response.StatusCode;
-        if (statusCode.ToString() == "Forbidden")
-            await ctx.Channel.SendErrorAsync("Sites down m8").ConfigureAwait(false);
-        else
-            await ctx.Channel.SendConfirmAsync("Sites ok m8").ConfigureAwait(false);
-    }
-
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
-    public async Task ReactChannel(ITextChannel? chan = null)
-    {
-        var e = await Service.GetReactChans(ctx.Guild.Id);
-        if (chan == null)
-        {
-            if (e == 0)
-                return;
-            await Service.SetReactChan(ctx.Guild, 0).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("React Channel Disabled!").ConfigureAwait(false);
-        }
-        else
-        {
-            if (e == 0)
-            {
-                await Service.SetReactChan(ctx.Guild, chan.Id).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync($"Your React Channel has been set to {chan.Mention}!")
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                var chan2 = await ctx.Guild.GetTextChannelAsync(e).ConfigureAwait(false);
-                if (e == chan.Id)
-                {
-                    await ctx.Channel.SendErrorAsync("This is already your React Channel!").ConfigureAwait(false);
-                }
-                else
-                {
-                    await Service.SetReactChan(ctx.Guild, chan.Id).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync(
-                            $"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!")
-                        .ConfigureAwait(false);
-                }
-            }
-        }
-    }
-
+    /// <summary>
+    /// Enables or disables sniping of deleted messages. Default is disabled.
+    /// </summary>
+    /// <param name="value">The value to set.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
     public async Task SnipeSet(PermissionAction value)
@@ -345,6 +359,9 @@ public partial class Utility(
         await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Snipes the last deleted message in the channel.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Snipe()
     {
@@ -396,6 +413,10 @@ public partial class Utility(
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets the last x amount of deleted messages in a channel.
+    /// </summary>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(int amount = 5)
     {
@@ -452,6 +473,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of deleted messages by a user in a channel.
+    /// </summary>
+    /// <param name="user">The user to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(IUser user, int amount = 5)
     {
@@ -508,6 +534,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of deleted messages in a channel.
+    /// </summary>
+    /// <param name="channel">The channel to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(ITextChannel channel, int amount = 5)
     {
@@ -519,7 +550,7 @@ public partial class Utility(
         }
 
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x =>
-            x.ChannelId == ctx.Channel.Id && x.ChannelId == channel.Id && !x.Edited);
+            x.ChannelId == channel.Id && !x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -564,6 +595,12 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of deleted messages by a user in a specified channel.
+    /// </summary>
+    /// <param name="channel">The channel to get the messages of.</param>
+    /// <param name="user">The user to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(ITextChannel channel, IUser user, int amount = 5)
     {
@@ -575,7 +612,7 @@ public partial class Utility(
         }
 
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x =>
-            x.ChannelId == ctx.Channel.Id && x.UserId == user.Id && x.ChannelId == channel.Id && !x.Edited);
+            x.UserId == user.Id && x.ChannelId == channel.Id && !x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -620,6 +657,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of edited messages in the current channel.
+    /// </summary>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(int amount = 5)
     {
@@ -676,6 +717,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of edited messages in a channel by a user.
+    /// </summary>
+    /// <param name="user">The user to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(IUser user, int amount = 5)
     {
@@ -732,6 +778,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of edited messages in a channel.
+    /// </summary>
+    /// <param name="channel">The channel to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(ITextChannel channel, int amount = 5)
     {
@@ -743,7 +794,7 @@ public partial class Utility(
         }
 
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x =>
-            x.ChannelId == ctx.Channel.Id && x.ChannelId == channel.Id && x.Edited);
+            x.ChannelId == channel.Id && x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -788,6 +839,12 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the last x amount of edited messages by a user in a specified channel.
+    /// </summary>
+    /// <param name="channel">The channel to get the messages of.</param>
+    /// <param name="user">The user to get the messages of.</param>
+    /// <param name="amount">The amount of messages to get.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(ITextChannel channel, IUser user, int amount = 5)
     {
@@ -799,7 +856,7 @@ public partial class Utility(
         }
 
         var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).Where(x =>
-            x.ChannelId == ctx.Channel.Id && x.UserId == user.Id && x.ChannelId == channel.Id && x.Edited);
+            x.UserId == user.Id && x.ChannelId == channel.Id && x.Edited);
         {
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
@@ -845,6 +902,10 @@ public partial class Utility(
     }
 
 
+    /// <summary>
+    /// Snipes the last deleted message by a user in the current channel.
+    /// </summary>
+    /// <param name="user1">The user to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Snipe(IUser user1)
     {
@@ -895,6 +956,10 @@ public partial class Utility(
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Checks a url for viruses using the virustotal api.
+    /// </summary>
+    /// <param name="url">The url to check.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task VCheck([Remainder] string? url = null)
     {
@@ -914,6 +979,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Snipes the last deleted message in a specified channel.
+    /// </summary>
+    /// <param name="chan">The channel to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan)
     {
@@ -965,6 +1034,11 @@ public partial class Utility(
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Snipes the last deleted message by a user in a specified channel.
+    /// </summary>
+    /// <param name="chan">The channel to get the message of.</param>
+    /// <param name="user1">The user to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan, IUser user1)
     {
@@ -1019,6 +1093,9 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Snipes the last edited message in the current channel.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipe()
     {
@@ -1072,6 +1149,10 @@ public partial class Utility(
                 : null).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Snipes the last edited message by a user in the current channel.
+    /// </summary>
+    /// <param name="user1">The user to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(IUser user1)
     {
@@ -1126,6 +1207,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Snipes the last edited message in a specified channel.
+    /// </summary>
+    /// <param name="chan">The channel to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan)
     {
@@ -1181,6 +1266,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Snipes the last edited message by a user in a specified channel.
+    /// </summary>
+    /// <param name="chan">The channel to get the message of.</param>
+    /// <param name="user1">The user to get the message of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan, IUser user1)
     {
@@ -1236,6 +1326,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Shows a list of users playing a specified game.
+    /// </summary>
+    /// <param name="game">The game to search for.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task WhosPlaying([Remainder] string? game)
     {
@@ -1287,6 +1381,9 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Shows a link to vote for mewdeko.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Vote() =>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
@@ -1294,6 +1391,10 @@ public partial class Utility(
                     "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"))
             .ConfigureAwait(false);
 
+    /// <summary>
+    /// Shows a list of users in a specified role.
+    /// </summary>
+    /// <param name="role">The role to search for.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRole([Remainder] IRole role)
     {
@@ -1330,6 +1431,11 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Shows a list of users in the specified roles.
+    /// </summary>
+    /// <param name="role">The first role to search for.</param>
+    /// <param name="role2">The second role to search for.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRoles(IRole role, IRole role2)
     {
@@ -1364,6 +1470,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the user id of a specified user.
+    /// </summary>
+    /// <param name="target">The user to get the id of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task UserId([Remainder] IGuildUser? target = null)
     {
@@ -1372,21 +1482,35 @@ public partial class Utility(
             Format.Code(usr.Id.ToString())).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets the role id of a specified role.
+    /// </summary>
+    /// <param name="role">The role to get the id of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleId([Remainder] IRole role) =>
         await ReplyConfirmLocalizedAsync("roleid", "🆔", Format.Bold(role.ToString()),
             Format.Code(role.Id.ToString())).ConfigureAwait(false);
 
+    /// <summary>
+    /// Gets the channel id of the current channel.
+    /// </summary>
     [Cmd, Aliases]
     public async Task ChannelId() =>
         await ReplyConfirmLocalizedAsync("channelid", "🆔", Format.Code(ctx.Channel.Id.ToString()))
             .ConfigureAwait(false);
 
+    /// <summary>
+    /// Gets the server id of the current server.
+    /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ServerId() =>
         await ReplyConfirmLocalizedAsync("serverid", "🆔", Format.Code(ctx.Guild.Id.ToString()))
             .ConfigureAwait(false);
 
+    /// <summary>
+    /// Gets a list of roles in the current server. Shows a user's roles if a user is specified.
+    /// </summary>
+    /// <param name="target">The user to get the roles of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Roles(IGuildUser? target = null)
     {
@@ -1462,6 +1586,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Gets the topic of the current channel. Shows the topic of a specified channel if one is specified.
+    /// </summary>
+    /// <param name="channel">The channel to get the topic of.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChannelTopic([Remainder] ITextChannel? channel = null)
     {
@@ -1474,6 +1602,11 @@ public partial class Utility(
             await ctx.Channel.SendConfirmAsync(GetText("channel_topic"), topic).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Used to say or embed a message as the bot.
+    /// </summary>
+    /// <param name="channel">The channel to send the message to.</param>
+    /// <param name="message">The message to send.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Say(ITextChannel channel, [Remainder] string? message)
     {
@@ -1594,9 +1727,17 @@ public partial class Utility(
     }
 
 
+    /// <summary>
+    /// Used to say or embed a message as the bot.
+    /// </summary>
+    /// <param name="message">The message to send.</param>
+    /// <returns>The task object representing the asynchronous operation.</returns>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public Task Say([Remainder] string? message = null) => Say((ITextChannel)ctx.Channel, message);
 
+    /// <summary>
+    /// Shows the bot's stats.
+    /// </summary>
     [Cmd, Aliases]
     public async Task Stats()
     {
@@ -1624,6 +1765,10 @@ public partial class Utility(
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Enlarges one or more specified emojis.
+    /// </summary>
+    /// <param name="_"></param>
     [Cmd, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
@@ -1637,6 +1782,9 @@ public partial class Utility(
             await ctx.Channel.SendMessageAsync(result.TrimTo(2000)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Shows the bot's ping.
+    /// </summary>
     [Cmd, Ratelimit(30)]
     public async Task Ping()
     {
@@ -1660,6 +1808,10 @@ public partial class Utility(
         }
     }
 
+    /// <summary>
+    /// Rolls a dice with the specified number of sides. Dnd dice are supported.
+    /// </summary>
+    /// <param name="roll">The roll to make.</param>
     [Cmd, Aliases]
     public async Task Roll([Remainder] string roll)
     {
@@ -1703,6 +1855,10 @@ public partial class Utility(
         await serv.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// O-OwoIfy WoIfy's the specified input.
+    /// </summary>
+    /// <param name="input">The input to owoify woify.</param>
     [Cmd, Aliases]
     public async Task OwoIfy([Remainder] string input)
         => await ctx.Channel.SendMessageAsync(OwoServices.OwoIfy(input).SanitizeMentions(true)).ConfigureAwait(false);

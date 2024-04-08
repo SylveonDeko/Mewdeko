@@ -3,11 +3,21 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
+/// <summary>
+/// Provides functionality to automatically publish messages in Discord news channels
+/// according to specific rules, including channel, user, and word blacklists.
+/// </summary>
 public class AutoPublishService : INService
 {
     private readonly DbService dbService;
     private readonly DiscordSocketClient client;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AutoPublishService"/> class.
+    /// </summary>
+    /// <param name="service">The database service for accessing and storing configuration.</param>
+    /// <param name="handler">The event handler for subscribing to message received events.</param>
+    /// <param name="client">The Discord client for interacting with the Discord API.</param>
     public AutoPublishService(DbService service, EventHandler handler, DiscordSocketClient client)
     {
         this.client = client;
@@ -15,6 +25,11 @@ public class AutoPublishService : INService
         handler.MessageReceived += AutoPublish;
     }
 
+    /// <summary>
+    /// Automatically publishes messages in news channels if they meet certain criteria,
+    /// checking against user and word blacklists.
+    /// </summary>
+    /// <param name="args">The message event arguments.</param>
     private async Task AutoPublish(SocketMessage args)
     {
         if (args.Channel is not INewsChannel channel)
@@ -66,7 +81,12 @@ public class AutoPublishService : INService
         }
     }
 
-
+    /// <summary>
+    /// Adds a channel to the list of auto-publish channels.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild where the channel resides.</param>
+    /// <param name="channelId">The ID of the channel to auto-publish.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddAutoPublish(ulong guildId, ulong channelId)
     {
         await using var uow = dbService.GetDbContext();
@@ -86,6 +106,11 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Retrieves the auto-publish configurations for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to retrieve configurations for.</param>
+    /// <returns>A list of configurations for auto-publishing.</returns>
     public async Task<List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>>
         GetAutoPublishes(ulong guildId)
     {
@@ -100,6 +125,11 @@ public class AutoPublishService : INService
                 select (i, userBlacklists, wordBlacklists)).ToList();
     }
 
+    /// <summary>
+    /// Checks if the bot has the necessary permissions to auto-publish in a channel.
+    /// </summary>
+    /// <param name="channel">The news channel to check permissions for.</param>
+    /// <returns>True if the bot has the necessary permissions, false otherwise.</returns>
     public async Task<bool> PermCheck(INewsChannel channel)
     {
         var curuser = await channel.GetUserAsync(client.CurrentUser.Id);
@@ -110,6 +140,12 @@ public class AutoPublishService : INService
                !curuser.GuildPermissions.Has(GuildPermission.ManageMessages);
     }
 
+    /// <summary>
+    /// Removes a channel from the list of auto-publish channels.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild where the channel resides.</param>
+    /// <param name="channelId">The ID of the channel to stop auto-publishing.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveAutoPublish(ulong guildId, ulong channelId)
     {
         await using var uow = dbService.GetDbContext();
@@ -124,6 +160,12 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Adds a user to the blacklist, preventing their messages from being auto-published.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel where the blacklist applies.</param>
+    /// <param name="userId">The ID of the user to blacklist.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddUserToBlacklist(ulong channelId, ulong userId)
     {
         await using var uow = dbService.GetDbContext();
@@ -144,6 +186,12 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Removes a user from the blacklist, allowing their messages to be auto-published again.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel where the blacklist applies.</param>
+    /// <param name="userId">The ID of the user to remove from the blacklist.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveUserFromBlacklist(ulong channelId, ulong userId)
     {
         await using var uow = dbService.GetDbContext();
@@ -160,6 +208,12 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Adds a word to the blacklist, preventing messages containing it from being auto-published.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel where the blacklist applies.</param>
+    /// <param name="word">The word to blacklist.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddWordToBlacklist(ulong channelId, string word)
     {
         await using var uow = dbService.GetDbContext();
@@ -180,6 +234,12 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Removes a word from the blacklist, allowing messages containing it to be auto-published again.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel where the blacklist applies.</param>
+    /// <param name="word">The word to remove from the blacklist.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveWordFromBlacklist(ulong channelId, string word)
     {
         await using var uow = dbService.GetDbContext();
@@ -196,16 +256,14 @@ public class AutoPublishService : INService
         return true;
     }
 
+    /// <summary>
+    /// Checks if an auto-publish configuration exists for a given channel.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel to check.</param>
+    /// <returns>True if an auto-publish configuration exists, false otherwise.</returns>
     public async Task<bool> CheckIfExists(ulong channelId)
     {
         await using var uow = dbService.GetDbContext();
         return (await uow.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId)) is null;
-    }
-
-    public class CustomAutoPublish
-    {
-        public AutoPublish autoPublish { get; set; }
-        public List<PublishWordBlacklist>? wordBlacklist { get; set; }
-        public List<PublishUserBlacklist>? userBlacklist { get; set; }
     }
 }

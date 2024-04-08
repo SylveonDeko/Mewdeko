@@ -8,9 +8,19 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Commands for displaying information about various entities within the guild.
+    /// </summary>
+    /// <param name="client">The Discord client used for fetching information.</param>
+    /// <param name="muteService">The mute service for fetching mute information.</param>
     [Group]
     public class InfoCommands(DiscordSocketClient client, MuteService muteService) : MewdekoSubmodule<UtilityService>
     {
+        /// <summary>
+        /// Displays information about a specified role within the guild.
+        /// </summary>
+        /// <param name="role">The role to gather information about.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
         {
@@ -29,6 +39,11 @@ public partial class Utility
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Displays information about a specified voice channel or the user's current voice channel.
+        /// </summary>
+        /// <param name="channel">The voice channel to gather information about, optional.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task VInfo([Remainder] IVoiceChannel? channel = null)
         {
@@ -79,6 +94,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Fetches and displays information about a user by their Discord ID.
+        /// </summary>
+        /// <param name="id">The Discord ID of the user.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Fetch(ulong id)
         {
@@ -101,6 +121,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Displays detailed information about the server.
+        /// </summary>
+        /// <param name="guildName">Optional. The name of the guild to display information about.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ServerInfo(string? guildName = null)
         {
@@ -151,6 +176,11 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Displays information about a specified text channel or the current channel.
+        /// </summary>
+        /// <param name="channel">Optional. The text channel to gather information about.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChannelInfo(ITextChannel? channel = null)
         {
@@ -169,6 +199,11 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Displays detailed information about a specified user or the command invoker.
+        /// </summary>
+        /// <param name="usr">Optional. The user to gather information about.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task UserInfo(IGuildUser? usr = null)
         {
@@ -233,6 +268,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Displays the avatar of a specified user or the command invoker. Has a button to view the guild avatar if available.
+        /// </summary>
+        /// <param name="usr">Optional. The user whose avatar to display.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Avatar([Remainder] IGuildUser? usr = null)
         {
@@ -263,6 +303,11 @@ public partial class Utility
         }
     }
 
+    /// <summary>
+    /// Displays the banner of a specified user or the command invoker.
+    /// </summary>
+    /// <param name="usr">Optional. The user whose banner to display.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Banner([Remainder] IGuildUser? usr = null)
     {

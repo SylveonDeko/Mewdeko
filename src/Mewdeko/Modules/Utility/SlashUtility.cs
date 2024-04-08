@@ -13,51 +13,24 @@ using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility;
 
+/// <summary>
+/// Contains utility commands such as user and server information retrieval.
+/// </summary>
 [Group("utility", "Utility commands like userinfo")]
-public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
+public class SlashUtility(
+    DiscordSocketClient client,
+    ICoordinator coordinator,
+    StatsService stats,
+    IBotCredentials creds,
+    MuteService muteService,
+    BotConfigService config,
+    DbService db) : MewdekoSlashModuleBase<UtilityService>
 {
-    private readonly DiscordSocketClient client;
-    private readonly ICoordinator coordinator;
-    private readonly StatsService stats;
-    private readonly IBotCredentials creds;
-    private readonly MuteService muteService;
-    private readonly BotConfigService config;
-    private readonly DbService db;
-
-    public SlashUtility(
-        DiscordSocketClient client,
-        ICoordinator coord,
-        StatsService stats,
-        IBotCredentials credentials,
-        MuteService muteService, BotConfigService config, DbService db)
-    {
-        this.client = client;
-        coordinator = coord;
-        this.stats = stats;
-        creds = credentials;
-        this.muteService = muteService;
-        this.config = config;
-        this.db = db;
-    }
-    // scrapped until discord lets me add more application commands than fucking 5
-    // [MessageCommand("Get Json"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages)]
-    // public async Task GetJson(IUserMessage message)
-    // {
-    //     var settings = new JsonSerializerSettings
-    //     {
-    //         ContractResolver = new LowercaseContractResolver(), NullValueHandling = NullValueHandling.Ignore
-    //     };
-    //     var serialized = JsonConvert.SerializeObject(message.GetNewEmbedSource(), Formatting.Indented, settings);
-    //     using var ms = new MemoryStream();
-    //     await using var writer = new StreamWriter(ms);
-    //     await writer.WriteAsync(serialized);
-    //     await writer.FlushAsync();
-    //     ms.Position = 0;
-    //     await ctx.Interaction.RespondWithFileAsync(ms, "EmbedJson.txt", ephemeral: true);
-    //     await ms.DisposeAsync();
-    //     await writer.DisposeAsync();
-    // }
-
+    /// <summary>
+    /// Displays the avatar of a user. This can either be their global Discord avatar or their server-specific avatar if available.
+    /// </summary>
+    /// <param name="avType">The type of avatar to display ("real" for global, "guild" for server-specific).</param>
+    /// <param name="userId">The ID of the user whose avatar is being requested.</param>
     [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Avatar(string avType, ulong userId)
     {
@@ -103,6 +76,13 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// Toggles between displaying a user's real banner and their guild-specific banner.
+    /// </summary>
+    /// <param name="avType">Specifies the type of banner to display. "real" for the user's global Discord banner, "guild" for the guild-specific banner.</param>
+    /// <param name="userId">The ID of the user whose banner is being requested.</param>
+    /// <returns>A task that represents the asynchronous operation of updating the interaction with the requested banner information.</returns>
+    /// <remarks>This method allows users to interactively switch between viewing a user's global banner and a guild-specific banner if available.</remarks>
     [ComponentInteraction("avatartype:*,*", true), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Banner(string avType, ulong userId)
     {
@@ -146,6 +126,12 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     }
 
 
+    /// <summary>
+    /// Retrieves the JSON representation of a specified message. This can be used for debugging or as a template for constructing custom embeds.
+    /// </summary>
+    /// <param name="messageId">The ID of the message to convert to JSON format.</param>
+    /// <param name="channel">The channel from which the message will be fetched. If not specified, uses the current channel.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the message's JSON representation to the requester.</returns>
     [SlashCommand("getjson", "Gets the json from a message to use with our embed builder!"),
      RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GetJson(ulong messageId, ITextChannel channel = null)
@@ -168,15 +154,28 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         await writer.DisposeAsync();
     }
 
+    /// <summary>
+    /// Prompts the user with a modal to send a custom message to a specified channel. This can include text and embeds.
+    /// </summary>
+    /// <param name="channel">The channel to which the message will be sent. If not specified, uses the current channel.</param>
+    /// <returns>A task that represents the asynchronous operation of responding with a modal for message input.</returns>
     [SlashCommand("say", "Send a message to a channel or the current channel"), CheckPermissions,
      SlashUserPerm(ChannelPermission.ManageMessages)]
     public Task Say(
-        [Summary("SendTo", "The channel to send to. Defaults to the current channel.")] ITextChannel channel = null)
+        [Summary("SendTo", "The channel to send to. Defaults to the current channel.")]
+        ITextChannel channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
         return RespondWithModalAsync<SayModal>($"saymodal:{channel.Id}");
     }
 
+    /// <summary>
+    /// Processes a modal submission for sending a message. Allows sending messages with text, embeds, and components.
+    /// </summary>
+    /// <param name="channelId">The ID of the channel where the message will be sent.</param>
+    /// <param name="modal">The modal containing the message to be sent.</param>
+    /// <returns>A task that represents the asynchronous operation of sending a message and confirming its delivery.</returns>
+    /// <remarks>This method handles modal submissions from the "say" command, processing user input and sending the resulting message to the specified channel.</remarks>
     [ModalInteraction("saymodal:*", ignoreGroupNames: true)]
     public async Task SayModal(ulong channelId, SayModal modal)
     {
@@ -207,6 +206,10 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// Displays the bot's current statistics, including memory usage, uptime, and command usage rates.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of displaying bot statistics.</returns>
     [SlashCommand("stats", "Shows the bots current stats"), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Stats()
@@ -214,12 +217,17 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         await using var uow = db.GetDbContext();
         var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
         var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
-        var user = await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false);
+        var users = new[]
+        {
+            await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false),
+            await client.Rest.GetUserAsync(786375627892064257).ConfigureAwait(false),
+        };
         await ctx.Interaction.RespondAsync(embed:
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}",
                         client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    .AddField(GetText("author"), $"{user.Mention} | {user.Username}#{user.Discriminator}")
+                    .AddField(GetText("authors"),
+                        $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
@@ -230,6 +238,11 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Provides detailed information about a specific role within the server, including the number of users with the role and its permissions.
+    /// </summary>
+    /// <param name="role">The role to gather information about.</param>
+    /// <returns>A task that represents the asynchronous operation of displaying role information.</returns>
     [SlashCommand("roleinfo", "Shows info for a role")]
     public async Task RInfo(IRole role)
     {
@@ -245,6 +258,11 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Displays information about a voice channel, including the number of users in the channel, its creation date, bitrate, and user limit.
+    /// </summary>
+    /// <param name="channel">The voice channel to display information about. If null, attempts to use the voice channel the user is currently in.</param>
+    /// <returns>A task that represents the asynchronous operation of sending an embed with voice channel information.</returns>
     [SlashCommand("voiceinfo", "Shows info for a voice channel"), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task VInfo(IVoiceChannel channel = null)
@@ -297,10 +315,16 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// Retrieves and displays detailed information about a user, whether they are part of the server or not, using their Discord ID.
+    /// </summary>
+    /// <param name="userIdstring">The user ID as a string. Must be convertible to an ulong.</param>
+    /// <returns>A task that represents the asynchronous operation of displaying fetched user information.</returns>
     [SlashCommand("fetch", "Gets a user, even if they aren't in the server."), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Fetch(
-        [Summary("userId", "The user's ID. Looks like this: 280835732728184843")] string userIdstring)
+        [Summary("userId", "The user's ID. Looks like this: 280835732728184843")]
+        string userIdstring)
     {
         // Because discord is ass and uses int32 instead of int64
         if (!ulong.TryParse(userIdstring, out var userId))
@@ -324,6 +348,10 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// Provides comprehensive information about the server, including the total number of users, channels, roles, and custom emojis.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of sending an embed with server information.</returns>
     [SlashCommand("serverinfo", "Shows info for this server."), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task ServerInfo()
@@ -371,6 +399,11 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// Displays detailed information about a text channel, such as its ID, creation date, number of users, NSFW status, and more.
+    /// </summary>
+    /// <param name="channel">The text channel to display information about. If null, uses the current channel.</param>
+    /// <returns>A task that represents the asynchronous operation of sending an embed with channel information.</returns>
     [SlashCommand("channelinfo", "Shows info for the current or mentioned channel"), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task ChannelInfo(ITextChannel channel = null)
@@ -387,6 +420,12 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Shows detailed information about a user, including their server roles, activities, join dates, and any server-specific attributes like nicknames.
+    /// </summary>
+    /// <param name="usr">The user to display information about. If null, uses the command invoker.</param>
+    /// <returns>A task that represents the asynchronous operation of displaying user information.</returns>
+    /// <remarks>This command also provides a button for additional, detailed information.</remarks>
     [SlashCommand("userinfo", "Shows info for a mentioned or current user"), CheckPermissions,
      SlashUserPerm(GuildPermission.SendMessages)]
     [UserCommand("User Info")]
@@ -455,17 +494,37 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }
     }
 
+    /// <summary>
+    /// A message command that fetches and displays information for the author of a specific message.
+    /// </summary>
+    /// <param name="message">The message whose author's information will be displayed.</param>
+    /// <returns>A task that represents the asynchronous operation of sending user information.</returns>
     [MessageCommand("User Info"), CheckPermissions, SlashUserPerm(ChannelPermission.SendMessages)]
     public Task UserInfo(IMessage message) => UserInfo(message.Author);
 
+    /// <summary>
+    /// Retrieves and displays the ID of a specified user or the command invoker if no user is specified.
+    /// </summary>
+    /// <param name="user">The user whose ID is to be retrieved. If null, the command invoker's ID is used.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the user's ID.</returns>
     [SlashCommand("userid", "Grabs the ID of a user."), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     [UserCommand("User ID")]
     public Task UserId(IUser user = null) =>
         ctx.Interaction.RespondAsync(user?.Id.ToString() ?? ctx.User.Id.ToString(), ephemeral: true);
 
+    /// <summary>
+    /// A message command that fetches and displays the ID of the author of a specific message.
+    /// </summary>
+    /// <param name="message">The message whose author's ID will be displayed.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the message author's ID.</returns>
     [MessageCommand("User ID"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public Task UserId(IMessage message) => UserId(message.Author);
 
+    /// <summary>
+    /// Displays the avatar of a specified user, with an option to switch between their global Discord avatar and their server-specific avatar.
+    /// </summary>
+    /// <param name="usr">The user whose avatar is to be displayed. If null, the command invoker's avatar is used.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the avatar image.</returns>
     [SlashCommand("avatar", "Shows a user's avatar"), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     [UserCommand("Avatar")]
     public async Task Avatar(IUser usr = null)
@@ -502,6 +561,13 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Converts a local time to a universal Discord timestamp, allowing it to be displayed in the user's local timezone when viewed on Discord.
+    /// </summary>
+    /// <param name="tz">The timezone ID for the time conversion.</param>
+    /// <param name="time">The local time to be converted to a timestamp.</param>
+    /// <param name="format">The format of the timestamp to be generated.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the timestamp.</returns>
     [SlashCommand("timestamp", "Converts your local time to a universal timestamp")]
     public Task GenerateTimestamp
     (
@@ -519,6 +585,10 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         return ctx.Interaction.SendEphemeralConfirmAsync($"{tag} (`{tag}`)");
     }
 
+    /// <summary>
+    /// Provides additional server information on request via a component interaction, including counts of bots, users, channels, roles, and server features.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of updating the original interaction response with more detailed server information.</returns>
     [ComponentInteraction("moresinfo", true)]
     public async Task MoreSInfo()
     {
@@ -543,6 +613,12 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
         }).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Provides additional user information via a component interaction, including roles, voice channel states, and mute status within the server.
+    /// </summary>
+    /// <param name="userId">The ID of the user for whom additional information is being requested.</param>
+    /// <returns>A task that represents the asynchronous operation of updating the original interaction response with detailed user information.</returns>
+    /// <remarks>This method is triggered by an interactive component, allowing users to request more detailed information about a specific user within the server.</remarks>
     [ComponentInteraction("moreuinfo:*", true)]
     public async Task MoreUInfo(ulong userId)
     {

@@ -293,6 +293,16 @@ public class Help(
     [Cmd, Aliases]
     public async Task Source() =>
         await ctx.Channel.SendConfirmAsync("https://github.com/SylveonDeko/Mewdeko").ConfigureAwait(false);
+
+    /// <summary>
+    /// Shows a link to vote for mewdeko.
+    /// </summary>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task Vote() =>
+        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithDescription(
+                    "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"))
+            .ConfigureAwait(false);
 }
 
 /// <summary>

@@ -5,12 +5,26 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Provides commands for managing and displaying quotes within a guild. I dont know why you would use this when chat triggers exist.
+    /// </summary>
     [Group]
     public class QuoteCommands(DbService db) : MewdekoSubmodule
     {
+        /// <summary>
+        /// Lists quotes in the guild. Quotes can be ordered by keyword or date added.
+        /// </summary>
+        /// <param name="order">Determines the order in which quotes are listed.</param>
+        /// <returns>A task that represents the asynchronous operation of listing quotes.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task ListQuotes(OrderType order = OrderType.Keyword) => ListQuotes(1, order);
 
+        /// <summary>
+        /// Lists quotes in the guild on a specific page. Quotes can be ordered by keyword or date added.
+        /// </summary>
+        /// <param name="page">The page number of quotes to display.</param>
+        /// <param name="order">Determines the order in which quotes are listed.</param>
+        /// <returns>A task that represents the asynchronous operation of listing quotes.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
         public async Task ListQuotes(int page = 1, OrderType order = OrderType.Keyword)
         {
@@ -40,6 +54,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Displays a random quote matching the specified keyword.
+        /// </summary>
+        /// <param name="keyword">The keyword to search for in quotes.</param>
+        /// <returns>A task that represents the asynchronous operation of displaying a quote.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuotePrint([Remainder] string keyword)
         {
@@ -75,6 +94,12 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+
+        /// <summary>
+        /// Displays the quote with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the quote to display.</param>
+        /// <returns>A task that represents the asynchronous operation of displaying a quote.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteShow(int id)
         {
@@ -107,6 +132,12 @@ public partial class Utility
                 .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
             ).ConfigureAwait(false);
 
+        /// <summary>
+        /// Searches for and displays a quote that matches both a keyword and a text query.
+        /// </summary>
+        /// <param name="keyword">The keyword to match in the quotes.</param>
+        /// <param name="text">The text to match in the quotes.</param>
+        /// <returns>A task that represents the asynchronous operation of searching for and displaying a quote.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteSearch(string keyword, [Remainder] string text)
         {
@@ -131,6 +162,10 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Displays who added a quote with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the quote to display.</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteId(int id)
         {
@@ -172,6 +207,12 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Adds a new quote with the specified keyword and text.
+        /// </summary>
+        /// <param name="keyword">The keyword associated with the quote.</param>
+        /// <param name="text">The text of the quote.</param>
+        /// <returns>A task that represents the asynchronous operation of adding a new quote.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteAdd(string keyword, [Remainder] string text)
         {
@@ -198,6 +239,11 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Deletes a quote with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the quote to delete.</param>
+        /// <returns>A task that represents the asynchronous operation of deleting a quote.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteDelete(int id)
         {
@@ -229,6 +275,11 @@ public partial class Utility
                 await ctx.Channel.SendErrorAsync(response).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Deletes all quotes associated with the specified keyword.
+        /// </summary>
+        /// <param name="keyword">The keyword whose associated quotes will be deleted.</param>
+        /// <returns>A task that represents the asynchronous operation of deleting quotes.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task DelAllQuotes([Remainder] string keyword)

@@ -9,6 +9,12 @@ using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;
 
+/// <summary>
+/// A module for managing permissions for commands.
+/// </summary>
+/// <param name="db">The database service.</param>
+/// <param name="inter">The interactive service.</param>
+/// <param name="guildSettings">The guild settings service.</param>
 public partial class Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
     : MewdekoModuleBase<PermissionService>
 {

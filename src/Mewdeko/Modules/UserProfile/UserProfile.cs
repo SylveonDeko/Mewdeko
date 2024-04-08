@@ -6,8 +6,15 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.UserProfile;
 
+/// <summary>
+/// Handles text commands for user profiles, providing functionalities to view and manage user profile details.
+/// </summary>
 public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
 {
+    /// <summary>
+    /// Shows the user's profile or another user's profile if specified.
+    /// </summary>
+    /// <param name="user">The user whose profile is to be shown. If null, shows the caller's profile.</param>
     [Cmd, Aliases]
     public async Task Profile(IUser user = null)
     {
@@ -19,6 +26,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             await ctx.Channel.SendMessageAsync(embed: embed);
     }
 
+    /// <summary>
+    /// Sets or updates the biography in the user's profile.
+    /// </summary>
+    /// <param name="bio">The biography text. Must be under 2048 characters.</param>
     [Cmd, Aliases]
     public async Task SetBio([Remainder] string bio)
     {
@@ -32,6 +43,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         await ctx.Channel.SendConfirmAsync($"Your Profile Bio has been set to:\n{bio}");
     }
 
+    /// <summary>
+    /// Sets the zodiac sign in the user's profile.
+    /// </summary>
+    /// <param name="zodiac">The zodiac sign to set.</param>
     [Cmd, Aliases]
     public async Task SetZodiac(string zodiac)
     {
@@ -42,6 +57,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             await ctx.Channel.SendConfirmAsync($"Your Zodiac has been set to:\n`{zodiac}`");
     }
 
+    /// <summary>
+    /// Sets the profile color based on an SKColor input.
+    /// </summary>
+    /// <param name="input">The SKColor representing the desired profile color.</param>
     [Cmd, Aliases]
     public async Task SetProfileColor(SKColor input)
     {
@@ -50,6 +69,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         await ctx.Channel.SendConfirmAsync($"Your Profile Color has been set to:\n`{input}`");
     }
 
+    /// <summary>
+    /// Sets the birthday in the user's profile.
+    /// </summary>
+    /// <param name="dateTime">The birthday date.</param>
     [Cmd, Aliases]
     public async Task SetBirthday([Remainder] DateTime dateTime)
     {
@@ -57,6 +80,9 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         await ctx.Channel.SendConfirmAsync($"Your birthday has been set to {dateTime:d}");
     }
 
+    /// <summary>
+    /// Toggles the user's opt-out status for command statistics collection.
+    /// </summary>
     [Cmd, Aliases]
     public async Task UserStatsOptOut()
     {
@@ -68,6 +94,9 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             await ctx.Channel.SendConfirmAsync("Succesfully disable command stats collection.");
     }
 
+    /// <summary>
+    /// Deletes the user's command statistics data.
+    /// </summary>
     [Cmd, Aliases, Ratelimit(3600)]
     public async Task DeleteUserStatsData()
     {
@@ -81,6 +110,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         }
     }
 
+    /// <summary>
+    /// Sets the birthday privacy mode in the user's profile.
+    /// </summary>
+    /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
     [Cmd, Aliases]
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
@@ -89,6 +122,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             $"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
     }
 
+    /// <summary>
+    /// Sets the profile image URL in the user's profile.
+    /// </summary>
+    /// <param name="url">The URL of the image to set as the profile image.</param>
     [Cmd, Aliases]
     public async Task SetProfileImage(string url)
     {
@@ -105,6 +142,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
+    /// <summary>
+    /// Sets the privacy level of the user's profile.
+    /// </summary>
+    /// <param name="privacyEnum">The privacy setting to apply.</param>
     [Cmd, Aliases]
     public async Task SetPrivacy(DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
@@ -112,6 +153,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         await ctx.Channel.SendConfirmAsync($"Privacy succesfully set to `{privacyEnum.ToString()}`");
     }
 
+    /// <summary>
+    /// Sets or clears the Nintendo Switch friend code in the user's profile.
+    /// </summary>
+    /// <param name="switchFc">The Nintendo Switch friend code. If blank, clears the existing code.</param>
     [Cmd, Aliases]
     public async Task SetSwitchFc(string switchFc = "")
     {
@@ -129,6 +174,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             await ctx.Channel.SendConfirmAsync($"Your Switch Friend Code has been set to {switchFc}.");
     }
 
+    /// <summary>
+    /// Displays the pronouns of the specified user or the command caller if no user is specified.
+    /// </summary>
+    /// <param name="user">Optional. The user whose pronouns are to be displayed.</param>
     [Cmd, Aliases]
     public async Task Pronouns(IUser? user = null)
     {
@@ -149,6 +198,10 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
                 pronouns.Pronouns), cb).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Sets or clears the pronouns for the user.
+    /// </summary>
+    /// <param name="pronouns">The pronouns to set. If null or empty, clears any existing pronouns.</param>
     [Cmd, Aliases]
     public async Task SetPronouns([Remainder] string? pronouns = null)
     {
@@ -183,7 +236,12 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         return true;
     }
 
-
+    /// <summary>
+    /// Force-clears the pronouns for a user, optionally marking them as disabled due to abuse.
+    /// </summary>
+    /// <param name="user">The user whose pronouns are to be cleared.</param>
+    /// <param name="pronounsDisabledAbuse">Whether the pronouns are being disabled due to abuse.</param>
+    /// <param name="reason">The reason for the action.</param>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
@@ -197,6 +255,12 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Force-clears the pronouns for a user by ID, optionally marking them as disabled due to abuse.
+    /// </summary>
+    /// <param name="user">The user ID of the user whose pronouns are to be cleared.</param>
+    /// <param name="pronounsDisabledAbuse">Whether the pronouns are being disabled due to abuse.</param>
+    /// <param name="reason">The reason for the action.</param>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {

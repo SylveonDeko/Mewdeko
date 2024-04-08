@@ -7,8 +7,19 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Commands for network utilities.
+    /// </summary>
     public class NetworkUtilities : MewdekoSubmodule
     {
+        /// <summary>
+        /// Pings an IP address. Maximum of 10 pings.
+        /// </summary>
+        /// <param name="ip">The IP address to ping.</param>
+        /// <param name="count">The number of pings to send. Default is 1.</param>
+        /// <remarks>
+        /// Has a ratelimit of 10 uses per 10 seconds.
+        /// </remarks>
         [Cmd, Aliases, Ratelimit(10)]
         public async Task PingIp(string ip, int count = 1)
         {
@@ -60,19 +71,22 @@ public partial class Utility
                 }
                 else if (pingReply.Status == IPStatus.NoResources)
                 {
-                    await ctx.Channel.SendErrorAsync("There is insufficent network resources to complete this request. (How the fuck did you stumble on this???)");
+                    await ctx.Channel.SendErrorAsync(
+                        "There is insufficent network resources to complete this request. (How the fuck did you stumble on this???)");
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.BadOption)
                 {
-                    await ctx.Channel.SendErrorAsync("Ping failed due to a bad option. (Again, how the fuck did you stumble on this???)");
+                    await ctx.Channel.SendErrorAsync(
+                        "Ping failed due to a bad option. (Again, how the fuck did you stumble on this???)");
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.HardwareError)
                 {
-                    await ctx.Channel.SendErrorAsync("Ping failed due to a hardware error. Please report this at https://discord.gg/mewdeko.");
+                    await ctx.Channel.SendErrorAsync(
+                        "Ping failed due to a hardware error. Please report this at https://discord.gg/mewdeko.");
                     typing.Dispose();
                     break;
                 }
@@ -102,6 +116,17 @@ public partial class Utility
         }
     }
 
+    /// <summary>
+    /// Executes a traceroute operation to the specified hostname, displaying the route that packets take to reach an IP address or domain.
+    /// </summary>
+    /// <param name="hostname">The IP address or domain name to trace the route to.</param>
+    /// <returns>A task that represents the asynchronous operation of sending the traceroute results as a message.</returns>
+    /// <remarks>
+    /// This command simulates the traceroute utility commonly found in Unix-based operating systems, tracing the path packets take to reach a network host.
+    /// It's useful for diagnosing network issues by identifying points of failure or delay in the route to the target host.
+    /// Due to the nature of ICMP protocol limitations and network configurations, some hops may not respond (e.g., due to firewalls),
+    /// resulting in incomplete paths. The operation might take a while depending on the number of hops and network conditions, hence the bot will show a typing indicator during execution.
+    /// </remarks>
     [Cmd, Aliases, Ratelimit(10)]
     public async Task Traceroute(string hostname)
     {
@@ -115,11 +140,23 @@ public partial class Utility
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
         else
-            await ctx.Channel.SendErrorAsync("Seems like traceroute was not successful. Please double check the hostname/ip and try again.");
+            await ctx.Channel.SendErrorAsync(
+                "Seems like traceroute was not successful. Please double check the hostname/ip and try again.");
 
         toDispose.Dispose();
     }
 
+    /// <summary>
+    /// Generates the sequence of IP addresses representing the path taken to the specified hostname using ICMP echo requests.
+    /// </summary>
+    /// <param name="hostname">The target hostname or IP address for the traceroute operation.</param>
+    /// <returns>An enumerable collection of IP addresses representing each hop in the route.</returns>
+    /// <remarks>
+    /// This method sends ICMP packets with incrementing Time-to-Live (TTL) values to trace the route to the specified target.
+    /// Each hop along the route decrements the TTL by one, and when it reaches zero, it responds with an ICMP "Time Exceeded" message,
+    /// allowing the traceroute operation to identify each router or hop along the path.
+    /// If the operation reaches the target or encounters an error before the maximum TTL, it terminates early.
+    /// </remarks>
     public static IEnumerable<IPAddress> GetTraceRoute(string hostname)
     {
         // following are similar to the defaults in the "traceroute" unix command.

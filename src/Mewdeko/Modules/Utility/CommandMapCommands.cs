@@ -9,9 +9,18 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Commands for managing command aliases.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="serv">The interactive service.</param>
     [Group]
     public class CommandMapCommands(DbService db, InteractiveService serv) : MewdekoSubmodule<CommandMapService>
     {
+        /// <summary>
+        /// Clears all command aliases for the guild.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AliasesClear()
@@ -20,6 +29,12 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Adds a new alias for a command, or removes an existing alias if no mapping is provided.
+        /// </summary>
+        /// <param name="trigger">The trigger word for the alias.</param>
+        /// <param name="mapping">The command to map to the alias. If null, the alias will be removed.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string? mapping = null)
         {
@@ -95,6 +110,10 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Lists all command aliases currently set for the guild.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList()
         {

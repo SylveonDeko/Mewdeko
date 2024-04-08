@@ -5,6 +5,9 @@ using VirusTotalNet.Results;
 
 namespace Mewdeko.Modules.Utility.Services;
 
+/// <summary>
+/// Provides various utility functionalities including message sniping, link previews, reaction management, and URL checking.
+/// </summary>
 public partial class UtilityService : INService
 {
     private readonly DbService db;
@@ -12,6 +15,14 @@ public partial class UtilityService : INService
     private readonly GuildSettingsService guildSettings;
     private readonly DiscordSocketClient client;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UtilityService"/> class.
+    /// </summary>
+    /// <param name="db">The database service.</param>
+    /// <param name="cache">The data cache service.</param>
+    /// <param name="guildSettings">The guild settings service.</param>
+    /// <param name="eventHandler">The event handler service.</param>
+    /// <param name="client">The Discord client.</param>
     public UtilityService(
         DbService db,
         IDataCache cache,
@@ -22,7 +33,6 @@ public partial class UtilityService : INService
         eventHandler.MessageDeleted += MsgStore;
         eventHandler.MessageUpdated += MsgStore2;
         eventHandler.MessageReceived += MsgReciev;
-        eventHandler.MessageReceived += MsgReciev2;
         eventHandler.MessagesBulkDeleted += BulkMsgStore;
         this.db = db;
         this.cache = cache;
@@ -30,22 +40,26 @@ public partial class UtilityService : INService
         this.client = client;
     }
 
+    /// <summary>
+    /// Retrieves sniped messages for a specific guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to retrieve sniped messages for.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a list of sniped messages.</returns>
     public Task<List<SnipeStore>> GetSnipes(ulong guildId) =>
         cache.GetSnipesForGuild(guildId);
 
+    /// <summary>
+    /// Checks whether link previewing is enabled for a specific guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild to check.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if link previewing is enabled.</returns>
     public async Task<int> GetPLinks(ulong id) => (await guildSettings.GetGuildConfig(id)).PreviewLinks;
 
-    public async Task<ulong> GetReactChans(ulong id) => (await guildSettings.GetGuildConfig(id)).ReactChannel;
-
-    public async Task SetReactChan(IGuild guild, ulong yesnt)
-    {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ReactChannel = yesnt;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
-    }
-
+    /// <summary>
+    /// Toggles link previewing for a specific guild.
+    /// </summary>
+    /// <param name="guild">The guild to toggle link previewing for.</param>
+    /// <param name="yesnt">A string indicating whether to enable or disable link previewing.</param>
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
@@ -69,19 +83,20 @@ public partial class UtilityService : INService
         }
     }
 
+    /// <summary>
+    /// Retrieves the snipe set status for a specific guild.
+    /// </summary>
+    /// <param name="id">The ID of the guild to check.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if snipe set is enabled.</returns>
     public async Task<bool> GetSnipeSet(ulong id) =>
         false.ParseBoth((await guildSettings.GetGuildConfig(id)).snipeset.ToString());
 
+    /// <summary>
+    /// Sets the snipe set status for a specific guild.
+    /// </summary>
+    /// <param name="guild">The guild to set the snipe set status for.</param>
+    /// <param name="enabled">A boolean indicating whether to enable or disable snipe set.</param>
     public async Task SnipeSet(IGuild guild, bool enabled)
-    {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
-    }
-
-    public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
@@ -203,30 +218,18 @@ public partial class UtilityService : INService
         await cache.AddSnipeToCache(channel.Guild.Id, snipes).ConfigureAwait(false);
     }
 
-    public async Task MsgReciev2(IMessage msg)
-    {
-        if (msg.Author.IsBot) return;
-        if (msg.Channel is SocketDMChannel) return;
-        var guild = ((SocketGuildChannel)msg.Channel).Guild.Id;
-        var id = await GetReactChans(guild);
-        if (msg.Channel.Id == id)
-        {
-            Emote.TryParse("<:upvote:863122283283742791>", out var emote);
-            Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
-            await Task.Delay(200).ConfigureAwait(false);
-            await msg.AddReactionAsync(emote).ConfigureAwait(false);
-            await Task.Delay(200).ConfigureAwait(false);
-            await msg.AddReactionAsync(emote2).ConfigureAwait(false);
-        }
-    }
-
+    /// <summary>
+    /// Checks a URL for malware and other security threats.
+    /// </summary>
+    /// <param name="url">The URL to check.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a report on the URL's security status.</returns>
     public static Task<UrlReport> UrlChecker(string url)
     {
         var vcheck = new VirusTotal("e49046afa41fdf4e8ca72ea58a5542d0b8fbf72189d54726eed300d2afe5d9a9");
         return vcheck.GetUrlReportAsync(url, true);
     }
 
-    public async Task MsgReciev(IMessage msg)
+    private async Task MsgReciev(IMessage msg)
     {
         if (msg.Channel is SocketTextChannel t)
         {
